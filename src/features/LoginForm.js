@@ -1,5 +1,9 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
+import './../adapters/index';
+import getPublicData from "./../adapters/index";
+
+
 
 const LoginForm = (props) => {
 
@@ -31,7 +35,19 @@ const LoginForm = (props) => {
 
     if (Error == false) {
       console.log("got inputs, username = " + usernameInput + ", pwd = " + pwdInput);
-      props.onLogin(usernameInput);
+      const  data = {username:usernameInput,password:pwdInput,service:'moodle_mobile_app'};
+      getPublicData(data).then((res)=>{
+      console.log(res);
+      if(res.status == 200 && res.data && res.data.token){
+        localStorage.setItem('token', res.data.token);
+        props.onLogin(usernameInput);
+      }
+      }).catch((err)=>{
+        console.log(err);
+      }).finally(()=>{
+console.log('Finally');
+      });
+     
     } else {
       console.log("error - not valid");
     }

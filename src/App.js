@@ -16,7 +16,8 @@ const App = () => {
      }
   }
 
-  if (userLogin != '') {
+ 
+  if (localStorage.getItem('token')) {
     return (
       <Dashboard />
     );
