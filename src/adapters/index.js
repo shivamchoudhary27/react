@@ -9,6 +9,21 @@ const getPublicData= (query)=>{
    return instance.get('/login/token.php', {params:query});
 }
 
+const getData= (query)=>{
+   return instance.get('/webservice/rest/server.php', {params:query});
+}
+
+const postData= (query)=>{
+   return instance.get('/webservice/rest/server.php', {params:query});
+}
+
+const putData= (query)=>{
+   return instance.get('/webservice/rest/server.php', {params:query});
+}
+
+const deleteData= (query)=>{
+   return instance.get('/webservice/rest/server.php', {params:query});
+}
 
 
-export default getPublicData;
+export {getPublicData,getData,postData};

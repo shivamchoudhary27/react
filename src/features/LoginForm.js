@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
 import './../adapters/index';
-import getPublicData from "./../adapters/index";
+import {getPublicData} from "./../adapters/index";
 
 
 
