@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Card from "./Card";
 import Footer from "./Footer";
-
+import  './../features/auth/login/index';
 const Dashboard = () => {
   const [show, setShow] = useState(true);
 
