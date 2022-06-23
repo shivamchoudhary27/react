@@ -5,6 +5,8 @@ import CardComp from "../components/CardComp";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import getMyCourses from "./services/getmycourses";
+import {getUserProfile} from "./auth/login/index";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);
@@ -12,6 +14,11 @@ const Dashboard = () => {
   const showSide = () => {
     setShow(!show);
   };
+  if (!localStorage.getItem("userid") || localStorage.getItem("userid") == undefined) {
+    getUserProfile();
+  }
+
+  getMyCourses();
 
   return (
     <>
@@ -21,7 +28,7 @@ const Dashboard = () => {
         <div className="container-fluid page-box">
           <div className="welcome-txt">
             <h5>
-              Welcome back, {localStorage.getItem("name")}{" "}
+              Welcome back, {localStorage.getItem("fullname")}{" "}
               <i class="bi bi-hand-thumbs-up-fill"></i>
             </h5>
           </div>

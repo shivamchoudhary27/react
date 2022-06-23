@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./LoginForm.css";
-import "./../adapters/index";
 import { getPublicData } from "./../adapters/index";
+import "./LoginForm.css";
 
 const LoginForm = (props) => {
   const navigate = useNavigate();
@@ -10,12 +9,15 @@ const LoginForm = (props) => {
   const [pwdInput, setpwdInput] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [pwdError, setpwdError] = useState("");
+  const [invalidLogin, setInvalidLogin] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("Something went wrong");
 
   function SubmitHandler(e) {
     e.preventDefault();
     let Error = false;
     setUsernameError("");
     setpwdError("");
+    setInvalidLogin(false);
 
     if (usernameInput == "") {
       setUsernameError("Username is required");
@@ -30,29 +32,34 @@ const LoginForm = (props) => {
       console.log(
         "got inputs, username = " + usernameInput + ", pwd = " + pwdInput
       );
+
       const data = {
         username: usernameInput,
         password: pwdInput,
         service: "moodle_mobile_app",
       };
+
       getPublicData(data)
         .then((res) => {
-          console.log(res);
-          if (res.status == 200 && res.data && res.data.token) {
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("name", usernameInput);
-            // props.onLogin(usernameInput);
-            navigate("/dashboard");
+          if (res.status == 200 && res.data) {
+            if (res.data.errorcode) {
+                setInvalidLogin(true);
+                setErrorMsg(res.data.error);
+            } else if(res.data.token) {
+                localStorage.setItem("token", res.data.token);
+                localStorage.setItem("name", usernameInput);            
+                navigate("/dashboard");
+            }
           }
         })
         .catch((err) => {
-          console.log(err);
+          setInvalidLogin(true);
         })
         .finally(() => {
           console.log("Finally");
         });
     } else {
-      console.log("error - not valid");
+      alert('Some error occurred, please try again');
     }
   }
 
@@ -72,6 +79,12 @@ const LoginForm = (props) => {
             <i>Login form</i>
           </h1>
           <form onSubmit={SubmitHandler}>
+            {invalidLogin == true && 
+              <div className="error-alert" role="alert">
+                Invalid login, please try again
+              </div>            
+            }
+
             <div className="form-outline mb-4">
               <label className="form-label" htmlFor="form2Example1">
                 Username
