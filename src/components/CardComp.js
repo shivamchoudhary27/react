@@ -12,7 +12,7 @@ const CardComp = (props) => {
             Some quick example text to build on the card title.
           </p>
         </div>
-      </div>
+      </div> 
     </>
   );
 }

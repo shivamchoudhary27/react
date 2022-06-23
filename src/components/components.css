@@ -32,6 +32,8 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   /* background-color: var(--white-color); */
   /* background: linear-gradient(
     106.37deg, 
@@ -39,8 +41,6 @@ main {
     #ffcfd1 51.55%,
     #f3c6f1 90.99%
   ); */
-  padding: 0 1rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 .header-toggle {
   font-size: 1.25rem;
@@ -48,6 +48,9 @@ main {
   background-color: var(--first-color);
   color: white;
   padding: 0 0.5rem;
+}
+.header-avatar{
+  float: right;
 }
 .header-avatar .bi-chat-fill {
   padding-right: 1rem;
@@ -78,14 +81,14 @@ main {
 }
 .sidebar {
   position: fixed;
-  top: 0;
+  top: 65px;
   left: -30%;
   height: 100vh;
   width: var(--nav-width);
   background-color: var(--first-color);
   padding-top: 1rem;
   overflow: hidden;
-  /* transition: .2s ease; */
+  /* transition: all .2s linear; */
 }
 .nav {
   display: flex;
@@ -138,14 +141,14 @@ main {
 .show {
   left: 0;
 }
-.space-toggle {
+/* .space-toggle {
   padding-left: calc(var(--nav-width) + 1rem);
-}
+} */
 
-.welcome-txt h5 {
+.welcome-txt h6 {
   font-weight: 700;
 }
-.welcome-txt h5 i {
+.welcome-txt h6 i {
   color: #f0a500;
 }
 
@@ -157,7 +160,7 @@ main {
 
   .header {
     height: calc(var(--header-height) + 1rem);
-    padding-left: calc(var(--nav-width) + 2rem);
+    /* padding-left: calc(var(--nav-width) + 2rem); */
   }
 
   .sidebar {

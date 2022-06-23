@@ -5,7 +5,7 @@ const Header = (props) => {
 
   return (
     <>
-      <header className={`header ${props.currentState ? "space-toggle" : null}`}>
+      <header className={`header ${props.currentState ?? null}`}>
         <div className="header-toggle" onClick={props.toggleFun}>
           <i className="bi bi-list"></i>
         </div>
