@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getPublicData } from "./../adapters/index";
 import "./LoginForm.css";
 
-const LoginForm = (props) => {
+const LoginForm = () => {
   const navigate = useNavigate();
   const [usernameInput, setUsernameInput] = useState("");
   const [pwdInput, setpwdInput] = useState("");
@@ -117,7 +117,7 @@ const LoginForm = (props) => {
 
             <div className="text-center">
               <p>
-                Not a member? <a href="#">Register</a>
+                Not a member? <Link to="#">Register</Link>
               </p>
             </div>
           </form>
