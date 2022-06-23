@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logout from "./Logout";
 
 const Sidebar = (props) => {
   return (
@@ -31,10 +32,7 @@ const Sidebar = (props) => {
               <i className="bi bi-gear-fill nav-link-icon"></i>
               <span className="nav-link-name">Setting</span>
             </Link>
-            <Link to="/" className="nav-link">
-              <i className="bi bi-power nav-link-icon"></i>
-              <span className="nav-link-name">Logout</span>
-            </Link>
+            <Logout />
           </div>
         </nav>
       </aside>

@@ -1,6 +1,8 @@
 import React from "react";
+import { getUserProfile } from '../features/auth/login/index';
 
 const Header = (props) => {
+
   return (
     <>
       <header className={`header ${props.currentState ? "space-toggle" : null}`}>

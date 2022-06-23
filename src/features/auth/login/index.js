@@ -1,5 +1,6 @@
 import { getData } from "./../../../adapters/index";
-const getUserProfile = () => {
+
+const getUserProfile = (props) => {
   const wstoken = localStorage.getItem("token");
   const query = {
     wsfunction: "core_webservice_get_site_info",
@@ -8,14 +9,16 @@ const getUserProfile = () => {
     moodlewsrestformat: "json",
   };
   getData(query)
-    .then((data) => {
-      console.log(data);
+    .then((res) => {
+      console.log(res); 
+      localStorage.setItem('userid', res.data.userid);   
+      localStorage.setItem('fullname', res.data.fullname);    
     })
     .catch((err) => {
       console.log(err);
     });
 };
-getUserProfile();
+// getUserProfile();
 //core_enrol_get_users_courses
 
 export { getUserProfile };
