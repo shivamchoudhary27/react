@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { getData } from "../adapters";
+import CourseView from "./CourseView";
 
 const Courses = () => {
   const userid = localStorage.getItem("userid");
@@ -34,10 +35,7 @@ const Courses = () => {
     console.log(course)
   return (
     <>
-      <div className="text-center">
-        <h1>Welcome to Course Page</h1>
-        <Link to="/dashboard">Go back to dashboard</Link>
-      </div>
+      <CourseView/>
     </>
   );
 };
