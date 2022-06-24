@@ -16,19 +16,19 @@ const Sidebar = (props) => {
               <i className="bi bi-speedometer2 nav-link-icon"></i>
               <span className="nav-link-name">Dashboard</span>
             </Link>
-            <Link to="/courses" className="nav-link">
+            <Link to="/mycourse" className="nav-link">
               <i className="bi bi-book nav-link-icon"></i>
-              <span className="nav-link-name">Course</span>
+              <span className="nav-link-name">MyCourse</span>
             </Link>
-            <Link to="/assignment" className="nav-link">
+            <Link to="" className="nav-link">
               <i className="bi bi-pen-fill nav-link-icon"></i>
               <span className="nav-link-name">Assignment</span>
             </Link>
-            <Link to="/quiz" className="nav-link">
+            <Link to="" className="nav-link">
               <i className="bi bi-award-fill nav-link-icon"></i>
               <span className="nav-link-name">Quiz</span>
             </Link>
-            <Link to="/setting" className="nav-link">
+            <Link to="" className="nav-link">
               <i className="bi bi-gear-fill nav-link-icon"></i>
               <span className="nav-link-name">Setting</span>
             </Link>

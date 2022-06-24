@@ -7,7 +7,7 @@ import { getUserProfile } from "./auth/login/index";
 import { useState } from "react";
 import Cards from "../components/CourseComp";
 
-const CourseView = (props) => {
+const CourseView = () => {
     const [show, setShow] = useState(true);
     const showSide = () => {
         setShow(!show);
@@ -26,9 +26,9 @@ const CourseView = (props) => {
                             <div className="card-title"><h2>PHP</h2>
                                 <nav aria-labels="breadcrumb">
                                     <ol className="breadcrumb">
-                                        <li className="breadcrumb-item"><Link to="/Dashboard">Home</Link></li>
-                                        <li className="breadcrumb-item"><Link to="/Dashboard">Courses</Link></li>
-                                        <li className="breadcrumb-item"><Link to="/courses">PHP</Link></li>
+                                        <li className="breadcrumb-item"><Link to="/dashboard">Home</Link></li>
+                                        <li className="breadcrumb-item"><Link to="/mycourse">Courses</Link></li>
+                                        <li className="breadcrumb-item">PHP</li>
                                     </ol>
                                 </nav>
                             </div>
