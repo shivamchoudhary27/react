@@ -1,24 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Row, Card } from "react-bootstrap";
-import CardComp from "../components/CardComp";
-import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
-// import getMyCourses from "./services/getmycourses";
-import {getUserProfile} from "./auth/login/index";
+import Footer from "../components/Footer";
+import { getUserProfile } from "./auth/login";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [show, setShow] = useState(true);
-
   const showSide = () => {
     setShow(!show);
   };
-  if (!localStorage.getItem("userid") || localStorage.getItem("userid") == undefined) {
+  if (
+    !localStorage.getItem("userid") ||
+    localStorage.getItem("userid") == undefined
+  ) {
     getUserProfile();
   }
-
-  // getMyCourses();
 
   return (
     <>
@@ -26,31 +23,27 @@ const Dashboard = (props) => {
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
         <div className="container-fluid page-box">
-          <div className="welcome-txt">
-            <h5>
-              Welcome back, {localStorage.getItem("name")}{" "}
-              <i class="bi bi-hand-thumbs-up-fill"></i>
-            </h5>
+          <div className="card" id="height1">
+            <div className="card-body">
+              <div className="card-title">
+                <h2>{localStorage.getItem("fullname")}</h2>
+                <nav aria-labels="breadcrumb">
+                  <ol className="breadcrumb">
+                    <li className="breadcrumb-item">
+                      <Link to="/dashboard">Home</Link>
+                    </li>
+                    <li className="breadcrumb-item">
+                      <Link to="/mycourse">Courses</Link>
+                    </li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
           </div>
+        </div>
 
-          <Card>
-            <Row className="px-4">
-              <div className="col-md-3">
-                <Link to="/courses">
-                  <CardComp title="Courses" />
-                </Link>
-              </div>
-              <div className="col-md-3">
-                <CardComp title="Assignment" />
-              </div>
-              <div className="col-md-3">
-                <CardComp title="Quiz" />
-              </div>
-              <div className="col-md-3">
-                <CardComp title="Quiz" />
-              </div>
-            </Row>
-          </Card>
+        <div>
+            <h3>Welcome to dashboard</h3>
         </div>
         <Footer />
       </main>

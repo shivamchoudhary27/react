@@ -81,7 +81,7 @@ const LoginForm = () => {
           <form onSubmit={SubmitHandler}>
             {invalidLogin == true && 
               <div className="error-alert" role="alert">
-                Invalid login, please try again
+                Invalid login, please try again!
               </div>            
             }
 
