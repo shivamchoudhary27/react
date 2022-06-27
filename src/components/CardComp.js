@@ -6,13 +6,10 @@ import { getData } from "../adapters";
 
 const CardComp = (props) => {
   const userid = localStorage.getItem("userid");
-  const wstoken = localStorage.getItem("token");
   const [myCourses, setMyCourses] = useState([]);
 
   useEffect(() => {
     const query = {
-      moodlewsrestformat: "json",
-      wstoken: wstoken,
       wsfunction: "core_enrol_get_users_courses",
       userid: userid,
     };
@@ -31,7 +28,7 @@ const CardComp = (props) => {
   return (
     <>
       {myCourses.map((course, index) => (
-        <Container>
+        <Container key={course.id}>
           <Row>
             <div className="col-xs-3 col-md-3 col-sm-12 col-12">
               <Link to={`/courseview/${course.id}/${course.fullname}`}>

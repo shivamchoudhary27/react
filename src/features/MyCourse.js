@@ -5,7 +5,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-const Dashboard = (props) => {
+const Dashboard = () => {
   const [show, setShow] = useState(true);
 
   const showSide = () => {
@@ -21,7 +21,7 @@ const Dashboard = (props) => {
           <div className="welcome-txt">
             <h5>
               Welcome back, {localStorage.getItem("name")}{" "}
-              <i class="bi bi-hand-thumbs-up-fill"></i>
+              <i className="bi bi-hand-thumbs-up-fill"></i>
             </h5>
           </div>
 

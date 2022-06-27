@@ -27,7 +27,7 @@ const Dashboard = () => {
             <div className="card-body">
               <div className="card-title">
                 <h2>{localStorage.getItem("fullname")}</h2>
-                <nav aria-labels="breadcrumb">
+                <nav aria-label="breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">
                       <Link to="/dashboard">Home</Link>

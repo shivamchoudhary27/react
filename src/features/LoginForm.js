@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getPublicData } from "./../adapters/index";
+import ErrorBox from "../components/ErrorBox";
 import "./LoginForm.css";
 import config from './../utils/config';
 
@@ -65,8 +66,6 @@ const LoginForm = () => {
         .finally(() => {
           console.log("Finally");
         });
-    } else {
-      alert('Some error occurred, please try again');
     }
   }
 
@@ -86,12 +85,7 @@ const LoginForm = () => {
             <i>Login form</i>
           </h1>
           <form onSubmit={SubmitHandler}>
-            {invalidLogin === true && 
-              <div className="error-alert" role="alert">
-                Invalid login, please try again!
-              </div>            
-            }
-
+            {invalidLogin === true && <ErrorBox msg={errorMsg}/>}
             <div className="form-outline mb-4">
               <label className="form-label" htmlFor="form2Example1">
                 Username
