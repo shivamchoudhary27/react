@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 import { getUserProfile } from "./auth/login";
 
 const Dashboard = () => {
