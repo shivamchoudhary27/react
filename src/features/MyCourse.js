@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Row, Card } from "react-bootstrap";
 import CardComp from "../components/CardComp";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+import Footer from "./Footer";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 
 const Dashboard = (props) => {
   const [show, setShow] = useState(true);

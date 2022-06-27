@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import Sidebar from "../components/Sidebar";
+import Footer from "./Footer";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
 import { getUserProfile } from "./auth/login/index";
 import { useState } from "react";
 import Cards from "../components/CourseComp";
