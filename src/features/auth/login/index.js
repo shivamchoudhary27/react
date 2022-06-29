@@ -7,6 +7,7 @@ const getUserProfile = (props) => {
     serviceshortnames: ["moodle_mobile_app"],
     wstoken: wstoken,
     moodlewsrestformat: "json",
+    
   };
   getData(query)
     .then((res) => {

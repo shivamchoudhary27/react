@@ -19,8 +19,8 @@ const CourseView = () => {
     const [show, setShow] = useState(true);
     useEffect(() => {
         const query = {
-            moodlewsrestformat: "json",
-            wstoken: wstoken,
+           // moodlewsrestformat: "json",
+            //wstoken: wstoken,
             wsfunction: "core_course_get_contents",
             courseid: courseid,
         };

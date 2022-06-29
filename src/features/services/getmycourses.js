@@ -13,8 +13,8 @@ const getMyCourses = (props) => {
 
   getData(query)
     .then((res) => {
-        // console.log('mycourses response')
-      // console.log(res);
+      
+       console.log(res);
     })
     .catch((err) => {
       console.log(err);

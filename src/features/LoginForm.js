@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getPublicData } from "./../adapters/index";
 import "./LoginForm.css";
+import config from './../utils/config';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -19,16 +20,16 @@ const LoginForm = () => {
     setpwdError("");
     setInvalidLogin(false);
 
-    if (usernameInput == "") {
+    if (usernameInput === "") {
       setUsernameError("Username is required");
       Error = true;
     }
-    if (pwdInput == "") {
+    if (pwdInput === "") {
       setpwdError("Password is required");
       Error = true;
     }
 
-    if (Error == false) {
+    if (Error === false) {
       console.log(
         "got inputs, username = " + usernameInput + ", pwd = " + pwdInput
       );
@@ -36,16 +37,22 @@ const LoginForm = () => {
       const data = {
         username: usernameInput,
         password: pwdInput,
-        service: "moodle_mobile_app",
+        loginrequest:true
+       // service: "moodle_mobile_app",
+
+        
       };
 
       getPublicData(data)
         .then((res) => {
-          if (res.status == 200 && res.data) {
+        
+          console.log(res);
+          if (res.status === 200 && res.data) {
             if (res.data.errorcode) {
                 setInvalidLogin(true);
                 setErrorMsg(res.data.error);
             } else if(res.data.token) {
+                config.WSTOKEN = res.data.token;  
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("name", usernameInput);            
                 navigate("/dashboard");
@@ -79,7 +86,7 @@ const LoginForm = () => {
             <i>Login form</i>
           </h1>
           <form onSubmit={SubmitHandler}>
-            {invalidLogin == true && 
+            {invalidLogin === true && 
               <div className="error-alert" role="alert">
                 Invalid login, please try again!
               </div>            

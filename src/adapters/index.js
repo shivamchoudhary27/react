@@ -6,10 +6,25 @@ const instance = axios.create({
 });
 
 const getPublicData = (query) => {
-  return instance.get("/login/token.php", { params: query });
+
+  if(query.loginrequest){
+    query.service=  "moodle_mobile_app";
+    return instance.get(config.TOKEN_ENDPOINT, { params: query });
+  }else{
+    console.log(config);
+    query.serviceshortnames =  ["moodle_mobile_app"];
+    query.wstoken= localStorage.getItem('token');
+    query.moodlewsrestformat= "json";
+    return instance.get(config.REST_ENDPOINT, { params: query });
+  }
+  
 };
 
 const getData = (query) => {
+ 
+  query.serviceshortnames =  ["moodle_mobile_app"];
+  query.wstoken= localStorage.getItem('token');
+  query.moodlewsrestformat= "json";
   return instance.get(config.REST_ENDPOINT, { params: query });
 };
 
