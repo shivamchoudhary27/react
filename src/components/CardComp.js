@@ -16,6 +16,7 @@ const CardComp = (props) => {
       wsfunction: "core_enrol_get_users_courses",
       userid: userid,
     };
+
     getData(query)
       .then((res) => {
         if (res.status == 200 && res.data) {
@@ -33,7 +34,7 @@ const CardComp = (props) => {
         <Container>
           <Row>
             <div className="col-xs-3 col-md-3 col-sm-12 col-12">
-              <Link to="/courseview">
+              <Link to={`/courseview/${course.id}/${course.fullname}`}>
                 <div className="card">
                   <img src={img} className="card-img-top" alt="images" />
                   <div className="card-body">
