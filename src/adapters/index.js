@@ -11,7 +11,7 @@ const getPublicData = (query) => {
     query.service=  "moodle_mobile_app";
     return instance.get(config.TOKEN_ENDPOINT, { params: query });
   }else{
-    console.log(config);
+   
     query.serviceshortnames =  ["moodle_mobile_app"];
     query.wstoken= localStorage.getItem('token');
     query.moodlewsrestformat= "json";
@@ -29,14 +29,23 @@ const getData = (query) => {
 };
 
 const postData = (query) => {
+  query.serviceshortnames =  ["moodle_mobile_app"];
+  query.wstoken= localStorage.getItem('token');
+  query.moodlewsrestformat= "json";
   return instance.post(config.REST_ENDPOINT, { params: query });
 };
 
 const putData = (query) => {
+  query.serviceshortnames =  ["moodle_mobile_app"];
+  query.wstoken= localStorage.getItem('token');
+  query.moodlewsrestformat= "json";
   return instance.put(config.REST_ENDPOINT, { params: query });
 };
 
 const deleteData = (query) => {
+  query.serviceshortnames =  ["moodle_mobile_app"];
+  query.wstoken= localStorage.getItem('token');
+  query.moodlewsrestformat= "json";
   return instance.delete(config.REST_ENDPOINT, { params: query });
 };
 
