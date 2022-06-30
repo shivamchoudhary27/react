@@ -19,8 +19,6 @@ const CourseView = () => {
     const [show, setShow] = useState(true);
     useEffect(() => {
         const query = {
-           // moodlewsrestformat: "json",
-            //wstoken: wstoken,
             wsfunction: "core_course_get_contents",
             courseid: courseid,
         };
@@ -37,12 +35,7 @@ const CourseView = () => {
     const showSide = () => {
         setShow(!show);
     };
-    if (
-        !localStorage.getItem("userid") ||
-        localStorage.getItem("userid") == undefined
-    ) {
-        getUserProfile();
-    }
+
     return (
         <>
             <main className={show ? "space-toggle" : null}>
@@ -65,10 +58,10 @@ const CourseView = () => {
                         </div>
                     </div>
                     {title.map((courses, index) => (
-                        <div>
+                        <div key={Math.random()+courses.id}>
                             {
                                 courses.modules.map((activity, i) => (
-                                    <div className="container-fluid page-box">
+                                    <div className="container-fluid page-box" key={activity.id+Math.random()}>
                                         <Link to={`${activity.id}`}><Cards title={activity.name} /></Link>
                                     </div>
                                 ))
