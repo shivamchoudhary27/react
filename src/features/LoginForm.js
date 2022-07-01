@@ -50,6 +50,7 @@ const LoginForm = () => {
           console.log(res);
           if (res.status === 200 && res.data) {
             if (res.data.errorcode) {
+
                 setInvalidLogin(true);
                 setErrorMsg(res.data.error);
             } else if(res.data.token) {
@@ -57,6 +58,7 @@ const LoginForm = () => {
                 localStorage.setItem("token", res.data.token);
                 localStorage.setItem("name", usernameInput);            
                 navigate("/dashboard");
+
             }
           }
         })
@@ -66,7 +68,7 @@ const LoginForm = () => {
         .finally(() => {
           console.log("Finally");
         });
-    }
+    } 
   }
 
   function usernameInputHandler(e) {
@@ -85,7 +87,9 @@ const LoginForm = () => {
             <i>Login form</i>
           </h1>
           <form onSubmit={SubmitHandler}>
+
             {invalidLogin === true && <ErrorBox msg={errorMsg}/>}
+
             <div className="form-outline mb-4">
               <label className="form-label" htmlFor="form2Example1">
                 Username
