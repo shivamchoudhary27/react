@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logout from "../components/Logout";
+import NavLinkItem from "../components/navitem";
+import Logout from "./auth/logout/logout";
 
 const Sidebar = (props) => {
   return (
@@ -9,20 +10,16 @@ const Sidebar = (props) => {
         <nav className="nav">
           <div className={` sidebar ${props.currentState ? "show" : null} `}>
             <Link to="/" className="nav-logo">
-              <i className="bi bi-house-fill nav-logo-icon"></i>
-              <span className="nav-logo-name">Homepage</span>
+              <NavLinkItem itemName="Homepage" iconClass="bi bi-house-fill nav-logo-icon" itemNameClass="nav-logo-name" />
             </Link>
             <Link to="/dashboard" className="nav-link active">
-              <i className="bi bi-speedometer2 nav-link-icon"></i>
-              <span className="nav-link-name">Dashboard</span>
+              <NavLinkItem itemName="Dashboard" iconClass="bi bi-speedometer2 nav-link-icon" itemNameClass="nav-link-name" />
             </Link>
             <Link to="/mycourse" className="nav-link">
-              <i className="bi bi-book nav-link-icon"></i>
-              <span className="nav-link-name">MyCourse</span>
+              <NavLinkItem itemName="MyCourse" iconClass="bi bi-book nav-link-icon" itemNameClass="nav-link-name" />
             </Link>
             <Link to="" className="nav-link">
-              <i className="bi bi-gear-fill nav-link-icon"></i>
-              <span className="nav-link-name">Setting</span>
+              <NavLinkItem itemName="Setting" iconClass="bi bi-gear-fill nav-link-icon" itemNameClass="nav-link-name" />
             </Link>
             <Logout />
           </div>

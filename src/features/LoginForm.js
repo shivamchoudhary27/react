@@ -5,6 +5,7 @@ import { getUserProfile } from "./auth/login";
 import ErrorBox from "../components/ErrorBox";
 import "./LoginForm.css";
 import config from './../utils/config';
+import Loader from "../components/loader/loader";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const LoginForm = () => {
   const [pwdError, setpwdError] = useState("");
   const [invalidLogin, setInvalidLogin] = useState(false);
   const [errorMsg, setErrorMsg] = useState("Something went wrong");
+  const [showLoader, setShowLoader] = useState(false);
 
   function SubmitHandler(e) {
     e.preventDefault();
@@ -23,6 +25,7 @@ const LoginForm = () => {
     setInvalidLogin(false);
 
     if (usernameInput === "") {
+      
       setUsernameError("Username is required");
       Error = true;
     }
@@ -32,9 +35,7 @@ const LoginForm = () => {
     }
 
     if (Error === false) {
-      console.log(
-        "got inputs, username = " + usernameInput + ", pwd = " + pwdInput
-      );
+      setShowLoader(true);
 
       const data = {
         username: usernameInput,
@@ -44,11 +45,9 @@ const LoginForm = () => {
 
       getPublicData(data)
         .then((res) => {
-        
-          // console.log(res);
           if (res.status === 200 && res.data) {
             if (res.data.errorcode) {
-
+                setShowLoader(false);
                 setInvalidLogin(true);
                 setErrorMsg(res.data.error);
             } else if(res.data.token) {
@@ -60,6 +59,7 @@ const LoginForm = () => {
           }
         })
         .catch((err) => {
+          setShowLoader(false);
           setInvalidLogin(true);
         })
         .finally(() => {
@@ -76,10 +76,12 @@ const LoginForm = () => {
     navigate("/dashboard");
   }
   function usernameInputHandler(e) {
+    setShowLoader(false);
     setUsernameInput(e.target.value);
   }
 
   function pwdInputHandler(e) {
+    setShowLoader(false);
     setpwdInput(e.target.value);
   }
 
@@ -90,6 +92,8 @@ const LoginForm = () => {
           <h1>
             <i>Login form</i>
           </h1>
+          
+          {showLoader === true && <Loader />}
 
           <form onSubmit={SubmitHandler}>
 
