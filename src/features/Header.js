@@ -1,5 +1,4 @@
 import React from "react";
-import { getUserProfile } from '../features/auth/login/index';
 
 const Header = (props) => {
 

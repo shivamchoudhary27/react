@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getPublicData } from "./../adapters/index";
+import { getUserProfile } from "./auth/login";
 import ErrorBox from "../components/ErrorBox";
 import "./LoginForm.css";
 import config from './../utils/config';
@@ -39,38 +40,41 @@ const LoginForm = () => {
         username: usernameInput,
         password: pwdInput,
         loginrequest:true
-       // service: "moodle_mobile_app",
-
-        
       };
 
       getPublicData(data)
         .then((res) => {
         
-          console.log(res);
+          // console.log(res);
           if (res.status === 200 && res.data) {
             if (res.data.errorcode) {
 
                 setInvalidLogin(true);
                 setErrorMsg(res.data.error);
             } else if(res.data.token) {
-                config.WSTOKEN = res.data.token;  
+                config.WSTOKEN = res.data.token;
                 localStorage.setItem("token", res.data.token);
-                localStorage.setItem("name", usernameInput);            
-                navigate("/dashboard");
-
-            }
+                localStorage.setItem("name", usernameInput);  
+                console.log('login succeed')
+            } 
           }
         })
         .catch((err) => {
           setInvalidLogin(true);
         })
         .finally(() => {
-          console.log("Finally");
+          console.log("Finally, getting user profileinfo");
+          if (config.WSTOKEN != null) {
+            getUserProfile();
+            setTimeout(routeDashboard, 3000);                   
+          }
         });
     } 
   }
 
+  function routeDashboard () {
+    navigate("/dashboard");
+  }
   function usernameInputHandler(e) {
     setUsernameInput(e.target.value);
   }
@@ -86,6 +90,7 @@ const LoginForm = () => {
           <h1>
             <i>Login form</i>
           </h1>
+
           <form onSubmit={SubmitHandler}>
 
             {invalidLogin === true && <ErrorBox msg={errorMsg}/>}

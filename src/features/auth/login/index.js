@@ -1,13 +1,8 @@
 import { getData } from "./../../../adapters/index";
 
-const getUserProfile = (props) => {
-  const wstoken = localStorage.getItem("token");
+const getUserProfile = () => {
   const query = {
-    wsfunction: "core_webservice_get_site_info",
-    serviceshortnames: ["moodle_mobile_app"],
-    wstoken: wstoken,
-    moodlewsrestformat: "json",
-    
+    wsfunction: "core_webservice_get_site_info",  
   };
   getData(query)
     .then((res) => {

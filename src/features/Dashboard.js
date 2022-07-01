@@ -3,19 +3,12 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import { getUserProfile } from "./auth/login";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);
   const showSide = () => {
     setShow(!show);
   };
-  if (
-    !localStorage.getItem("userid") ||
-    localStorage.getItem("userid") == undefined
-  ) {
-    getUserProfile();
-  }
 
   return (
     <>
