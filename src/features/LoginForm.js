@@ -3,11 +3,21 @@ import { useNavigate, Link } from "react-router-dom";
 import { getPublicData } from "./../adapters/index";
 import { getUserProfile } from "./auth/login";
 import ErrorBox from "../components/ErrorBox";
-import "./LoginForm.css";
-import config from './../utils/config';
+import config from "./../utils/config";
+import "./features_css/LoginForm.css";
 import Loader from "../components/loader/loader";
+import Img from "../assets/images/loginImg.jpg";
+// import Logo from "../assets/images/moodleLogo.png";
 
 const LoginForm = () => {
+  const myStyle = {
+    backgroundImage: `url(${Img})`,
+    height: "100vh",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    opacity: "0.7",
+  };
   const navigate = useNavigate();
   const [usernameInput, setUsernameInput] = useState("");
   const [pwdInput, setpwdInput] = useState("");
@@ -25,7 +35,6 @@ const LoginForm = () => {
     setInvalidLogin(false);
 
     if (usernameInput === "") {
-      
       setUsernameError("Username is required");
       Error = true;
     }
@@ -40,22 +49,22 @@ const LoginForm = () => {
       const data = {
         username: usernameInput,
         password: pwdInput,
-        loginrequest:true
+        loginrequest: true,
       };
 
       getPublicData(data)
         .then((res) => {
           if (res.status === 200 && res.data) {
             if (res.data.errorcode) {
-                setShowLoader(false);
-                setInvalidLogin(true);
-                setErrorMsg(res.data.error);
-            } else if(res.data.token) {
-                config.WSTOKEN = res.data.token;
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("name", usernameInput);  
-                console.log('login succeed')
-            } 
+              setShowLoader(false);
+              setInvalidLogin(true);
+              setErrorMsg(res.data.error);
+            } else if (res.data.token) {
+              config.WSTOKEN = res.data.token;
+              localStorage.setItem("token", res.data.token);
+              localStorage.setItem("name", usernameInput);
+              console.log("login succeed");
+            }
           }
         })
         .catch((err) => {
@@ -66,13 +75,13 @@ const LoginForm = () => {
           console.log("Finally, getting user profileinfo");
           if (config.WSTOKEN != null) {
             getUserProfile();
-            setTimeout(routeDashboard, 3000);                   
+            setTimeout(routeDashboard, 3000);
           }
         });
-    } 
+    }
   }
 
-  function routeDashboard () {
+  function routeDashboard() {
     navigate("/dashboard");
   }
   function usernameInputHandler(e) {
@@ -86,58 +95,79 @@ const LoginForm = () => {
   }
 
   return (
-    <div>
-      <div className="App">
-        <header className="App-header">
-          <h1>
-            <i>Login form</i>
-          </h1>
-          
-          {showLoader === true && <Loader />}
-
-          <form onSubmit={SubmitHandler}>
-
-            {invalidLogin === true && <ErrorBox msg={errorMsg}/>}
-
-            <div className="form-outline mb-4">
-              <label className="form-label" htmlFor="form2Example1">
-                Username
-              </label>
-              <input
-                type="text"
-                id="form2Example1"
-                className="form-control"
-                onChange={usernameInputHandler}
-              />
-              <div className="field-input-error">{usernameError}</div>
+    <>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-8 col-md-8 col-sm-12 col-12" style={myStyle}>
+            <div className="login-img">
+              {/* <div className="logo">
+                <img src={Logo} alt="Logo ..." style={{ width: "150px" }} />
+                <p>
+                  <span>We are Invite Only right now</span>
+                  <br />
+                  5 Millions people+ have joined our network.
+                  <br />
+                  We invite to join Ballistic Learning.
+                </p>
+              </div>   */}
             </div>
+          </div>
+          <div className="col-lg-4 col-md-4 col-sm-12 col-12">
+            <div className="App">
+              <header className="app-header">
+                <h3>Welcome Back!</h3>
+                {showLoader === true && <Loader />}
+                <form onSubmit={SubmitHandler}>
+                  <h4 style={{ textAlign: "left" }}>Sign In</h4>
+                  <p style={{ fontSize: "12px", textAlign: "left" }}>
+                    We invite to join Ballistic Learning..
+                  </p>
+                  {invalidLogin === true && <ErrorBox msg={errorMsg} />}
+                  <hr />
+                  <div className="form-outline mb-3">
+                    <label className="form-label" htmlFor="form2Example1">
+                      Username<sup>*</sup>
+                    </label>
+                    <input
+                      type="text"
+                      id="form2Example1"
+                      className="form-control"
+                      onChange={usernameInputHandler}
+                    />
+                    <div className="field-input-error">{usernameError}</div>
+                  </div>
 
-            <div className="form-outline mb-4">
-              <label className="form-label" htmlFor="form2Example2">
-                Password
-              </label>
-              <input
-                type="password"
-                id="form2Example2"
-                className="form-control"
-                onChange={pwdInputHandler}
-              />
-              <div className="field-input-error">{pwdError}</div>
+                  <div className="form-outline mb-3">
+                    <label className="form-label" htmlFor="form2Example2">
+                      Password<sup>*</sup>
+                    </label>
+                    <input
+                      type="password"
+                      id="form2Example2"
+                      className="form-control"
+                      onChange={pwdInputHandler}
+                    />
+                    <div className="field-input-error">{pwdError}</div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="btn btn-warning btn-block mt-3"
+                  >
+                    Sign in
+                  </button>
+                </form>
+                <div className="link">
+                  <p>
+                    Don't have an Account? <Link to="#">Sign Up</Link>
+                  </p>
+                </div>
+              </header>
             </div>
-
-            <button type="submit" className="btn btn-primary btn-block mb-4">
-              Sign in
-            </button>
-
-            <div className="text-center">
-              <p>
-                Not a member? <Link to="#">Register</Link>
-              </p>
-            </div>
-          </form>
-        </header>
+          </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
