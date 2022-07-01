@@ -21,14 +21,6 @@ const Sidebar = (props) => {
               <span className="nav-link-name">MyCourse</span>
             </Link>
             <Link to="" className="nav-link">
-              <i className="bi bi-pen-fill nav-link-icon"></i>
-              <span className="nav-link-name">Assignment</span>
-            </Link>
-            <Link to="" className="nav-link">
-              <i className="bi bi-award-fill nav-link-icon"></i>
-              <span className="nav-link-name">Quiz</span>
-            </Link>
-            <Link to="" className="nav-link">
               <i className="bi bi-gear-fill nav-link-icon"></i>
               <span className="nav-link-name">Setting</span>
             </Link>

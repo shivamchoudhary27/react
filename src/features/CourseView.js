@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { getUserProfile } from "./auth/login/index";
 import { useState, useEffect } from "react";
 import Cards from "../components/CourseComp";
 import { useParams } from "react-router-dom";
@@ -14,7 +13,6 @@ const CourseView = () => {
     const { id } = useParams();
     const { fullname } = useParams();
     const courseid = id;
-    const wstoken = localStorage.getItem("token");
     const [title, setTitle] = useState([]);
     const [show, setShow] = useState(true);
     useEffect(() => {

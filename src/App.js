@@ -15,7 +15,11 @@ const App = () => {
         <Route exact path="/" element={<LoginForm />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/mycourse" element={<MyCourse />} />
-        <Route exact path="/courseview/:id/:fullname" element={<CourseView />} />
+        <Route
+          exact
+          path="/courseview/:id/:fullname"
+          element={<CourseView />}
+        />
       </Routes>
     </BrowserRouter>
   );
