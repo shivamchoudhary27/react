@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import img from "../images/images.png";
+import img from "../assets/images/images.png";
 import { Link } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 import { getData } from "../adapters";
