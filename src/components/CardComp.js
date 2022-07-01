@@ -3,7 +3,6 @@ import img from "../assets/images/images.png";
 import { Link } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
 
-
 const CardComp = (props) => { 
   return (
     <>
@@ -17,7 +16,7 @@ const CardComp = (props) => {
                   <div className="card-body">
                     <h5 className="card-title">{course.fullname}</h5>
                     <p className="card-text">
-                      {course.summary.substr(0, 50)}
+                      {course.summary.substr(0, 50).replace(/(<([^>]+)>)/gi, "")}
                       Some quick example text to build on the card title.
                     </p>
                   </div>

@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Row, Card } from "react-bootstrap";
 import CardComp from "../components/CardComp";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import UserContext from "./context/user/user";
 import { getData } from "../adapters";
 
 const Mycourse = () => {
@@ -27,7 +28,6 @@ const Mycourse = () => {
         console.log(err);
       });
   }, []);
-
 
   const showSide = () => {
     setShow(!show);
