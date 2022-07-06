@@ -1,12 +1,33 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Row, Card } from "react-bootstrap";
 import CardComp from "../components/CardComp";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { getData } from "../adapters";
 
-const Dashboard = () => {
+const Mycourse = () => {
   const [show, setShow] = useState(true);
+  const userid = localStorage.getItem("userid");
+  const [myCourses, setMyCourses] = useState([]);
+
+  useEffect(() => {
+    const query = {
+      wsfunction: "core_enrol_get_users_courses",
+      userid: userid,
+    };
+
+    getData(query)
+      .then((res) => {
+        if (res.status == 200 && res.data) {
+          setMyCourses(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
 
   const showSide = () => {
     setShow(!show);
@@ -24,10 +45,9 @@ const Dashboard = () => {
               <i className="bi bi-hand-thumbs-up-fill"></i>
             </h5>
           </div>
-
           <Card>
             <Row className="px-4">
-              <CardComp title="" />
+              <CardComp title="" mycoursedata={myCourses}/>
             </Row>
           </Card>
         </div>
@@ -37,4 +57,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Mycourse;
