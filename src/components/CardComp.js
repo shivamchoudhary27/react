@@ -1,33 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import img from "../assets/images/images.png";
 import { Link } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
-import { getData } from "../adapters";
 
-const CardComp = (props) => {
-  const userid = localStorage.getItem("userid");
-  const [myCourses, setMyCourses] = useState([]);
 
-  useEffect(() => {
-    const query = {
-      wsfunction: "core_enrol_get_users_courses",
-      userid: userid,
-    };
-
-    getData(query)
-      .then((res) => {
-        if (res.status == 200 && res.data) {
-          setMyCourses(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
+const CardComp = (props) => { 
   return (
     <>
-      {myCourses.map((course, index) => (
+      {props.mycoursedata.map((course, index) => (
         <Container key={course.id}>
           <Row>
             <div className="col-xs-3 col-md-3 col-sm-12 col-12">
@@ -52,3 +32,4 @@ const CardComp = (props) => {
 };
 
 export default CardComp;
+

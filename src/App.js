@@ -7,6 +7,7 @@ import LoginForm from "./features/LoginForm";
 import Dashboard from "./features/Dashboard";
 import MyCourse from "./features/MyCourse";
 import CourseView from "./features/CourseView";
+import ActivityPage from "./features/ActivityPage";
 
 const App = () => {
   return (
@@ -15,11 +16,8 @@ const App = () => {
         <Route exact path="/" element={<LoginForm />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/mycourse" element={<MyCourse />} />
-        <Route
-          exact
-          path="/courseview/:id/:fullname"
-          element={<CourseView />}
-        />
+        <Route exact path="/courseview/:id/:fullname" element={<CourseView />} />
+        <Route exact path="/mod/:id" element={<ActivityPage />} />
       </Routes>
     </BrowserRouter>
   );
