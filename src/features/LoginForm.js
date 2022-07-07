@@ -4,10 +4,9 @@ import { getPublicData } from "./../adapters/index";
 import { getUserProfile } from "./auth/login";
 import ErrorBox from "../components/ErrorBox";
 import config from "./../utils/config";
-import "./features_css/LoginForm.css";
+import "./css/LoginForm.css";
 import Loader from "../components/loader/loader";
 import Img from "../assets/images/loginImg.jpg";
-// import Logo from "../assets/images/moodleLogo.png";
 
 const LoginForm = () => {
   const myStyle = {
@@ -63,6 +62,7 @@ const LoginForm = () => {
               config.WSTOKEN = res.data.token;
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("name", usernameInput);
+              localStorage.setItem("loggedIn", true);
               console.log("login succeed");
             }
           }
