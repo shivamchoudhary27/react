@@ -9,7 +9,7 @@ const Sidebar = (props) => {
       <aside className={` sidebar ${props.currentState ? "show" : null} `}>
         <nav className="nav">
           <div className={` sidebar ${props.currentState ? "show" : null} `}>
-            <Link to="/" className="nav-logo">
+            <Link to="" className="nav-logo">
               <NavLinkItem itemName="Homepage" iconClass="bi bi-house-fill nav-logo-icon" itemNameClass="nav-logo-name" />
             </Link>
             <Link to="/dashboard" className="nav-link active">

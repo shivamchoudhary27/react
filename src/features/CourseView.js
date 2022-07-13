@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Cards from "../components/CourseComp";
 import { useParams } from "react-router-dom";
 import { getData } from "../adapters";
@@ -16,6 +16,7 @@ const CourseView = () => {
     const courseid = id;
     const [title, setTitle] = useState([]);
     const [show, setShow] = useState(true);
+
     useEffect(() => {
         const query = {
             wsfunction: "core_course_get_contents",
@@ -31,6 +32,7 @@ const CourseView = () => {
                 console.log(err);
             });
     }, []);
+
     const showSide = () => {
         setShow(!show);
     };
@@ -60,8 +62,8 @@ const CourseView = () => {
                         <div key={Math.random() + courses.id}>
                             {
                                 courses.modules.map((activity, i) => (
-                                    <div className="container-fluid page-box">
-                                        <Link to={`/mod/${activity.id}`}><Cards title={activity.name} key={index} /></Link>
+                                    <div className="container-fluid page-box" key={index + activity.id}>
+                                        <Link to={`/mod/${activity.id}`}><Cards title={activity.name} /></Link>
                                     </div>
                                 ))
                             }

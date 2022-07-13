@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
+import useUserinfo from "./hooks/userinfo";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);
+
+  const res = useUserinfo();
+
   const showSide = () => {
     setShow(!show);
   };
@@ -20,6 +24,7 @@ const Dashboard = () => {
             <div className="card-body">
               <div className="card-title">
                 <h2>{localStorage.getItem("fullname")}</h2>
+                {/* <h2>{(userinfo.userInfo.customhook.sitename) ?? '--------'}</h2> */}
                 <nav aria-label="breadcrumb">
                   <ol className="breadcrumb">
                     <li className="breadcrumb-item">

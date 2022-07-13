@@ -1,10 +1,15 @@
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import NavLinkItem from "../../../components/navitem";
 import config from "../../../utils/config";
+import UserContext from "../../context/user/user";
 
 const Logout = () => {
+  const userctx = useContext(UserContext);
   const navigate = useNavigate();
+
   const logoutHandler = () => {
+    userctx.setUserOff();
     config.WSTOKEN = null;
     localStorage.clear();
     navigate("/");

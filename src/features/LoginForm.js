@@ -9,6 +9,7 @@ import Loader from "../components/loader/loader";
 import Img from "../assets/images/loginImg.jpg";
 
 const LoginForm = () => {
+
   const myStyle = {
     backgroundImage: `url(${Img})`,
     height: "100vh",
@@ -63,6 +64,7 @@ const LoginForm = () => {
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("name", usernameInput);
               localStorage.setItem("loggedIn", true);
+
               console.log("login succeed");
             }
           }
@@ -72,10 +74,13 @@ const LoginForm = () => {
           setInvalidLogin(true);
         })
         .finally(() => {
-          console.log("Finally, getting user profileinfo");
           if (config.WSTOKEN != null) {
+            console.log('called to hit context' + config.WSTOKEN);
             getUserProfile();
             setTimeout(routeDashboard, 3000);
+          } else {
+            setShowLoader(false);
+            setInvalidLogin(true);
           }
         });
     }

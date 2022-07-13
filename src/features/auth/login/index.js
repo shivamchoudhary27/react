@@ -6,7 +6,7 @@ const getUserProfile = () => {
   };
   getData(query)
     .then((res) => {
-      console.log(res); 
+      // console.log(res); 
       localStorage.setItem('userid', res.data.userid);   
       localStorage.setItem('fullname', res.data.fullname);  
       localStorage.setItem('profile', res.data.userpictureurl);  
