@@ -8,6 +8,7 @@ import Dashboard from "./features/Dashboard";
 import MyCourse from "./features/MyCourse";
 import CourseView from "./features/CourseView";
 import ProtectedRoutes from "./features/ProtectedRoutes";
+import ActivityPage from "./features/ActivityPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
             path="/courseview/:id/:fullname"
             element={<CourseView />}
           />
+          <Route exact path="/mod/:id" element={<ActivityPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
