@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { getData } from "../adapters";
 import { Container } from "react-bootstrap";
 
+
 const CourseView = () => {
     const { id } = useParams();
     const { fullname } = useParams();
@@ -33,7 +34,6 @@ const CourseView = () => {
     const showSide = () => {
         setShow(!show);
     };
-
     return (
         <>
             <main className={show ? "space-toggle" : null}>
@@ -43,6 +43,7 @@ const CourseView = () => {
                     <div className="container-fluid page-box">
                         <div className="card" id="height1">
                             <div className="card-body">
+
                                 <div className="card-title"><h2>{fullname}</h2>
                                     <nav aria-label="breadcrumb">
                                         <ol className="breadcrumb">
@@ -56,11 +57,11 @@ const CourseView = () => {
                         </div>
                     </div>
                     {title.map((courses, index) => (
-                        <div key={Math.random()+courses.id}>
+                        <div key={Math.random() + courses.id}>
                             {
                                 courses.modules.map((activity, i) => (
-                                    <div className="container-fluid page-box" key={activity.id+Math.random()}>
-                                        <Link to={`${activity.id}`}><Cards title={activity.name} /></Link>
+                                    <div className="container-fluid page-box">
+                                        <Link to={`/mod/${activity.id}`}><Cards title={activity.name} key={index} /></Link>
                                     </div>
                                 ))
                             }
