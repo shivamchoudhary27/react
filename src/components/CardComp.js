@@ -21,7 +21,7 @@ const CardComp = (props) => {
                     </p>
                   </div>
                 </div>
-              </Link>
+              </Link>   
             </div>
           </Row>
         </Container>

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Cards from "../components/CourseComp";
 import { useParams } from "react-router-dom";
 import { getData } from "../adapters";
@@ -69,6 +69,7 @@ const CourseView = () => {
                             }
                         </div>
                     ))}
+                    <Link to="/video" state={{ url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" }}>Video link</Link>
                 </Container>
                 <Footer />
             </main>
