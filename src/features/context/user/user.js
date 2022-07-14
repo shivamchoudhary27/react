@@ -4,24 +4,22 @@ const UserContext = React.createContext({});
 
 export default UserContext;
 
-
 export const UserContextProvider = (props) => {
-  const [userInfo, setUserInfo] = useState({testProp: 'React js'});
+  const [userInfo, setUserInfo] = useState({ userAuth: {}, userInfo: {} });
 
   const setUser = (data) => {
     setUserInfo(data);
   };
 
-  const unsetUser = () => {
-    setUserInfo({});
-  }
+  const unsetUser = (data) => {
+    setUserInfo(data);
+  };
 
   return (
     <UserContext.Provider
-    //   value={{ onLogin: onLogin, userInfo: userData, onLogout: onLogout}}
-    value={{userInfo:userInfo, setUserOn:setUser, setUserOff:unsetUser}}
+      value={{ userInfo: userInfo, setUserOn: setUser, setUserOff: unsetUser }}
     >
-      {props.children}  
+      {props.children}
     </UserContext.Provider>
   );
 };

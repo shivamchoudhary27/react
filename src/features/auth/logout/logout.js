@@ -9,10 +9,12 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    userctx.setUserOff();
-    config.WSTOKEN = null;
-    localStorage.clear();
-    navigate("/");
+    if (window.confirm("Are you sure you want to logout?")) {
+      userctx.setUserOff({ userAuth: {}, userInfo: {} });
+      config.WSTOKEN = null;
+      localStorage.clear();
+      navigate("/");
+    }
   };
 
   return (

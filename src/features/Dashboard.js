@@ -1,14 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import useUserinfo from "./hooks/userinfo";
+import PageLoader from "../components/loader/pageloader";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
-import useUserinfo from "./hooks/userinfo";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);
-
   const res = useUserinfo();
+
+  if (res === "loading") {
+    return <PageLoader />;
+  }
 
   const showSide = () => {
     setShow(!show);
@@ -39,9 +43,13 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
+       
         <div>
+          {res.userInfo.status === 400 ? (
+            <h3>{res.userInfo.userInfo.message}</h3>
+          ) : (
             <h3>Welcome to dashboard</h3>
+          )}
         </div>
         <Footer />
       </main>

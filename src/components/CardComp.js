@@ -1,4 +1,3 @@
-import React, { useState, useEffect} from "react";
 import img from "../assets/images/images.png";
 import { Link } from "react-router-dom";
 import { Container, Row } from "react-bootstrap";
