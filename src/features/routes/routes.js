@@ -5,8 +5,9 @@ import MyCourse from "../MyCourse";
 import CourseView from "../CourseView";
 import ProtectedRoutes from "./ProtectedRoutes";
 import ActivityPage from "../ActivityPage";
+import Video from "../mod/video/video";
 
-export default function CustomRoutes () {
+export default function CustomRoutes() {
   return (
     <BrowserRouter>
       <Routes>
@@ -20,8 +21,9 @@ export default function CustomRoutes () {
             element={<CourseView />}
           />
           <Route exact path="/mod/:id" element={<ActivityPage />} />
+          <Route path="/video" element={<Video />} />
         </Route>
       </Routes>
     </BrowserRouter>
   );
-};
+}
