@@ -21,7 +21,12 @@ const Mycourse = () => {
     getData(query)
       .then((res) => {
         if (res.status == 200 && res.data) {
-          setMyCourses(res.data);
+          if ((userid != query.userid) || (res.data.errorcode)) {
+            console.log("Something went wrong");
+          }
+          else {
+            setMyCourses(res.data);
+          }
         }
       })
       .catch((err) => {
@@ -47,7 +52,7 @@ const Mycourse = () => {
           </div>
           <Card>
             <Row className="px-4">
-              <CardComp title="" mycoursedata={myCourses}/>
+              <CardComp title="" mycoursedata={myCourses} />
             </Row>
           </Card>
         </div>

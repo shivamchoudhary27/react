@@ -11,9 +11,9 @@ const notification_List = () => {
 const Header = (props) => {
   const useridto = localStorage.getItem("userid");
   const [message, setMessage] = useState([]);
-  
+
   useEffect(() => {
-    let rotationInterval = setInterval(() => {
+    // let rotationInterval = setInterval(() => {
     const query = {
       wsfunction: "message_popup_get_popup_notifications",
       useridto: useridto,
@@ -22,17 +22,23 @@ const Header = (props) => {
     getData(query)
       .then((res) => {
         if (res.status == 200 && res.data) {
-          let data = [];
-          res.data.notifications.map(item => {
-            data.push(item.subject)
-          })
-          setMessage(data);
+          if (res.data.errorcode) {
+            console.log("Something went wrong");
+          }
+          else {
+            let data = [];
+            res.data.notifications.map(item => {
+              data.push(item.subject)
+            })
+            setMessage(data);
+          }
         }
       })
       .catch((err) => {
         console.log(err);
-      });
-    }, 5000)
+      })
+      
+    // }, 5000)
   }, []);
 
   const imgStyle = {
