@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginForm from "../LoginForm";
 import Dashboard from "../Dashboard";
 import MyCourse from "../MyCourse";
@@ -22,6 +22,7 @@ export default function CustomRoutes() {
           />
           <Route exact path="/mod/view/:id" element={<ActivityPage />} />
           <Route path="/mod/video/:id" element={<Video />} />
+          <Route path="*" element={localStorage.getItem("loggedIn") == false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
     </BrowserRouter>

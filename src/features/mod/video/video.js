@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Container } from "react-bootstrap";
 import Footer from "../../Footer";
 import Header from "../../Header";
 import Sidebar from "../../Sidebar";
 import { useLocation, Link } from "react-router-dom";
 import PageLoader from "../../../components/loader/pageloader";
+import BreadCrumb from "../../../components/BreadCrumb";
 
 function Video() {
   const location = useLocation();
@@ -29,18 +30,14 @@ function Video() {
             <div className="card" id="height1">
               <div className="card-body">
                 <div className="card-title">
-                  <h2>{vidname}</h2>
-                  <nav aria-label="breadcrumb">
-                    <ol className="breadcrumb">
-                      <li className="breadcrumb-item">
-                        <Link to="/dashboard">Home</Link>
-                      </li>
-                      <li className="breadcrumb-item">
-                        <Link to="/mycourse">Course</Link>
-                      </li>
-                      <li className="breadcrumb-item">Video</li>
-                    </ol>
-                  </nav>
+                  <h2>Resource Video</h2>
+                  <BreadCrumb
+                    breadcrumbItem={[
+                      ["Home", "/dashboard", true],
+                      ["Course", "/mycourse", true],
+                      ["Video", "/video", false],
+                    ]}
+                  />
                 </div>
               </div>
             </div>
