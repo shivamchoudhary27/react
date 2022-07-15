@@ -25,14 +25,20 @@ const CourseView = () => {
         getData(query)
             .then((res) => {
                 if (res.status === 200 && res.data) {
-                    setTitle(res.data);
+                    if (res.status == 200 && res.data) {
+                        if ((courseid != query.courseid) || (res.data.errorcode)) {
+                            console.log("Something went wrong");
+                        }
+                        else {
+                            setTitle(res.data);
+                        }
+                    }
                 }
-            })
+                })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
-
     const showSide = () => {
         setShow(!show);
     };
