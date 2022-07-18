@@ -5,6 +5,7 @@ import PageLoader from "../components/loader/pageloader";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
+import BreadCrumb from "../components/BreadCrumb";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);
@@ -29,16 +30,12 @@ const Dashboard = () => {
               <div className="card-title">
                 <h2>{localStorage.getItem("fullname")}</h2>
                 {/* <h2>{(userinfo.userInfo.customhook.sitename) ?? '--------'}</h2> */}
-                <nav aria-label="breadcrumb">
-                  <ol className="breadcrumb">
-                    <li className="breadcrumb-item">
-                      <Link to="/dashboard">Home</Link>
-                    </li>
-                    <li className="breadcrumb-item">
-                      <Link to="/mycourse">Courses</Link>
-                    </li>
-                  </ol>
-                </nav>
+                <BreadCrumb
+                  breadcrumbItem={[
+                    ["Home", "/dashboard", true],
+                    ["Dashboard", "/dashboard", false],
+                  ]}
+                />
               </div>
             </div>
           </div>
