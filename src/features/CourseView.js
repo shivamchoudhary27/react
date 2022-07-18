@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import { getData } from "../adapters";
 import { Container } from "react-bootstrap";
 
-
 const CourseView = () => {
     const { id } = useParams();
     const { fullname } = useParams();
@@ -68,14 +67,20 @@ const CourseView = () => {
                         <div key={Math.random() + courses.id}>
                             {
                                 courses.modules.map((activity, i) => (
-                                    <div className="container-fluid page-box" key={index + activity.id}>
-                                        <Link to={`/mod/${activity.id}`}><Cards title={activity.name} /></Link>
-                                    </div>
+                                    // {{ {console.log(activity)}}}
+                                        (activity.modname === "resource") ?
+                                        
+                                        <div className="container-fluid page-box" key={index + activity.id}>
+                                           <Link to={`/mod/video/${activity.modname}`} state={{ vidurl: `${activity.contents[0].fileurl}`, vidname: `${activity.name}`}}><Cards title={activity.name} /></Link>
+                                        </div>
+                                        :
+                                        <div className="container-fluid page-box" key={index + activity.id}>
+                                            <Link to={`/mod/view/${activity.name}`}><Cards title={activity.name} /></Link>
+                                        </div>
                                 ))
                             }
                         </div>
                     ))}
-                    <Link to="/video" state={{ url: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" }}>Video link</Link>
                 </Container>
                 <Footer />
             </main>

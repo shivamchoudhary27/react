@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import UserContext from "./context/user/user";
 import { Link } from "react-router-dom";
 import { getData } from "../adapters";
+import config from "../utils/config";
 
 const List = () => {
   document.getElementById("dropdown").classList.toggle("d-none");
@@ -11,6 +14,18 @@ const notification_List = () => {
 const Header = (props) => {
   const useridto = localStorage.getItem("userid");
   const [message, setMessage] = useState([]);
+  const userctx = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    if (window.confirm("Are you sure you want to logout?")) {
+      userctx.setUserOff({ userAuth: {}, userInfo: {} });
+      config.WSTOKEN = null;
+      localStorage.clear();
+      navigate("/");
+    }
+  };
 
   useEffect(() => {
     // let rotationInterval = setInterval(() => {
@@ -36,8 +51,9 @@ const Header = (props) => {
       })
       .catch((err) => {
         console.log(err);
-      })
+      });
       
+      // });
     // }, 5000)
   }, []);
 
@@ -77,9 +93,9 @@ const Header = (props) => {
           <i className="bi bi-caret-down-fill" onClick={List}></i>
           <div className="drop d-none " id="dropdown">
             <ul className="m-0 p-0">
-              <li className="drop-list"><Link to="/">Profile</Link></li>
-              <li className="drop-list"><Link to="/dashboard">Dashboard</Link></li>
-              <li className="drop-list"><Link to="/">Logout</Link></li>
+              <li className="drop-list">Profile</li>
+              <li className="drop-list">Dashboard</li>
+              <li className="drop-list" onClick={logoutHandler}><a href="#">Logout</a></li>
             </ul>
           </div>
         </div>

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import UserContext from "./context/user/user";
 import { getPublicData } from "./../adapters/index";
-import { getUserProfile } from "./auth/login";
 import ErrorBox from "../components/ErrorBox";
 import config from "./../utils/config";
 import "./css/LoginForm.css";
@@ -19,6 +19,7 @@ const LoginForm = () => {
     opacity: "0.7",
   };
   const navigate = useNavigate();
+  const userCtx = useContext(UserContext);
   const [usernameInput, setUsernameInput] = useState("");
   const [pwdInput, setpwdInput] = useState("");
   const [usernameError, setUsernameError] = useState("");
@@ -64,7 +65,6 @@ const LoginForm = () => {
               localStorage.setItem("token", res.data.token);
               localStorage.setItem("name", usernameInput);
               localStorage.setItem("loggedIn", true);
-
               console.log("login succeed");
             }
           }
@@ -75,9 +75,8 @@ const LoginForm = () => {
         })
         .finally(() => {
           if (config.WSTOKEN != null) {
-            console.log('called to hit context' + config.WSTOKEN);
-            getUserProfile();
-            setTimeout(routeDashboard, 3000);
+            userCtx.setUserOn({ userAuth: {login: true, token: config.WSTOKEN}, userInfo: {} });
+            setTimeout(routeDashboard, 0);
           } else {
             setShowLoader(false);
             setInvalidLogin(true);

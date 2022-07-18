@@ -4,11 +4,16 @@ import Footer from "../../Footer";
 import Header from "../../Header";
 import Sidebar from "../../Sidebar";
 import { useLocation, Link } from "react-router-dom";
+import PageLoader from "../../../components/loader/pageloader";
 
 function Video() {
   const location = useLocation();
-  const { url } = location.state;
+  var { vidurl, vidname } = location.state;
   const [show, setShow] = useState(true);
+  const [loader, setLoader] = useState(true);
+  vidurl += "&token=" + localStorage.getItem('token'); 
+  
+  setTimeout(() => {setLoader(false)}, 1000);
 
   const showSide = () => {
     setShow(!show);
@@ -24,7 +29,7 @@ function Video() {
             <div className="card" id="height1">
               <div className="card-body">
                 <div className="card-title">
-                  <h2>Resource Video</h2>
+                  <h2>{vidname}</h2>
                   <nav aria-label="breadcrumb">
                     <ol className="breadcrumb">
                       <li className="breadcrumb-item">
@@ -40,11 +45,16 @@ function Video() {
               </div>
             </div>
           </div>
-          <video width="320" height="240" controls>
-            <source src={url} type="video/mp4" />
-          </video>
+          {
+            loader === true ? <PageLoader /> 
+            :
+            <video autoPlay width="720" height="540" controls>
+              <source src={vidurl} type="video/mp4" />
+            </video>
+          }
+
         </Container>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     </>
   );
