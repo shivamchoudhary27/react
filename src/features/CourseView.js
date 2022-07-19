@@ -9,6 +9,7 @@ import Cards from "../components/CourseComp";
 import { useParams } from "react-router-dom";
 import { getData } from "../adapters";
 import { Container } from "react-bootstrap";
+import ErrorBox from "../components/ErrorBox";
 
 const CourseView = () => {
   const { id } = useParams();
@@ -16,6 +17,7 @@ const CourseView = () => {
   const courseid = id;
   const [title, setTitle] = useState([]);
   const [show, setShow] = useState(true);
+  const [error,setError] = useState("");
 
   useEffect(() => {
     const query = {
@@ -23,65 +25,71 @@ const CourseView = () => {
       courseid: courseid,
     };
     getData(query)
-        .then((res) => {
-          if (res.status === 200 && res.data) {
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          if ((courseid !== query.courseid) || (res.data.errorcode)) {
+            // console.log("Something went wrong");
+            setError("Something went wrong");
+          }
+          else {
             setTitle(res.data);
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }, []);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
 
-    const showSide = () => {
-      setShow(!show);
-    };
+  const showSide = () => {
+    setShow(!show);
+  };
 
-    return (
-        <>
-            <main className={show ? "space-toggle" : null}>
-                <Header toggleFun={showSide} currentState={show} />
-                <Sidebar currentState={show} />
-                <Container>
-                    <div className="container-fluid page-box">
-                        <div className="card" id="height1">
-                            <div className="card-body">
-                                <div className="card-title">
-                                  <h2>{fullname}</h2>
-                                    <BreadCrumb
-                                      breadcrumbItem={[
-                                        ["Home", "/dashboard", true],
-                                        ["Course", "/mycourse", true],
-                                        ["Courseview", "/courseview", false],
-                                      ]}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+  return (
+    <>
+      <main className={show ? "space-toggle" : null}>
+        <Header toggleFun={showSide} currentState={show} />
+        <Sidebar currentState={show} />
+        <Container>
+          
+          <div className="container-fluid page-box">
+          <h2> {<ErrorBox msg={error} />} </h2>
+            <div className="card" id="height1">
+              <div className="card-body">
+                <div className="card-title">
+                  <h2>{fullname}</h2>
+                  <BreadCrumb
+                    breadcrumbItem={[
+                      ["Home", "/dashboard", true],
+                      ["Course", "/mycourse", true],
+                      ["Courseview", "/courseview", false],
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          {title.map((courses, index) => (
+            <div key={Math.random() + courses.id}>
+              {
+                courses.modules.map((activity, i) => (
+                  (activity.modname === "resource") ?
+                    <div className="container-fluid page-box" key={index + activity.id}>
+                      <Link to={`/mod/video/${activity.modname}`} state={{ vidurl: `${activity.contents[0].fileurl}`, vidname: `${activity.name}` }}><Cards title={activity.name} /></Link>
                     </div>
-                    {title.map((courses, index) => (
-                        <div key={Math.random() + courses.id}>
-                            {
-                                courses.modules.map((activity, i) => (
-                                    // {{ {console.log(activity)}}}
-                                        (activity.modname === "resource") ?
-                                        
-                                        <div className="container-fluid page-box" key={index + activity.id}>
-                                           <Link to={`/mod/video/${activity.modname}`} state={{ vidurl: `${activity.contents[0].fileurl}`, vidname: `${activity.name}`}}><Cards title={activity.name} /></Link>
-                                        </div>
-                                        :
-                                        <div className="container-fluid page-box" key={index + activity.id}>
-                                            <Link to={`/mod/view/${activity.name}`}><Cards title={activity.name} /></Link>
-                                        </div>
-                                ))
-                            }
-                        </div>
-                    ))}
-                </Container>
-                <Footer />
-            </main>
-        </>
-    );
+                    :
+                    <div className="container-fluid page-box" key={index + activity.id}>
+                      <Link to={`/mod/view/${activity.name}`}><Cards title={activity.name} /></Link>
+                    </div>
+                ))
+              }
+            </div>
+          ))}
+        </Container>
+        <Footer />
+      </main>
+    </>
+  );
 }
 
 export default CourseView;
