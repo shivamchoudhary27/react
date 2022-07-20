@@ -22,7 +22,7 @@ export default function CustomRoutes() {
           />
           <Route exact path="/mod/view/:id" element={<ActivityPage />} />
           <Route path="/mod/video/:id" element={<Video />} />
-          <Route path="*" element={localStorage.getItem("loggedIn") == false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
+          <Route path="*" element={localStorage.getItem("loggedIn") === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import Footer from "../../Footer";
 import Header from "../../Header";
 import Sidebar from "../../Sidebar";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import PageLoader from "../../../components/loader/pageloader";
 import BreadCrumb from "../../../components/BreadCrumb";
 
 function Video() {
   const location = useLocation();
-  var { vidurl, vidname } = location.state;
+  var { vidurl } = location.state;
   const [show, setShow] = useState(true);
   const [loader, setLoader] = useState(true);
   vidurl += "&token=" + localStorage.getItem('token'); 

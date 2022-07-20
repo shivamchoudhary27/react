@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import UserContext from "./context/user/user";
-import { Link } from "react-router-dom";
 import { getData } from "../adapters";
 import config from "../utils/config";
 
@@ -10,6 +9,18 @@ const List = () => {
 }
 const notification_List = () => {
   document.getElementById("notification_dropdown").classList.toggle("d-none");
+}
+window.onclick = function(event) {
+  if (!event.target.matches('.d-btn')) {
+    var dropdowns = document.getElementsByClassName("d-css");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (!openDropdown.classList.contains('d-none')) {
+        openDropdown.classList.add('d-none');
+      }
+    }
+  }
 }
 const Header = (props) => {
   const useridto = localStorage.getItem("userid");
@@ -36,15 +47,15 @@ const Header = (props) => {
 
     getData(query)
       .then((res) => {
-        if (res.status == 200 && res.data) {
+        if (res.status === 200 && res.data) {
           if (res.data.errorcode) {
             console.log("Something went wrong");
           }
           else {
             let data = [];
-            res.data.notifications.map(item => {
+            res.data.notifications.map(item => (
               data.push(item.subject)
-            })
+            ))
             setMessage(data);
           }
         }
@@ -71,10 +82,10 @@ const Header = (props) => {
         <div className="header-avatar">
 
           {/* notification dropdown */}
-          <i className="bi bi-bell-fill" onClick={notification_List}>
+          <i className=" d-btn bi bi-bell-fill" onClick={notification_List}>
             <sup>{message.length}</sup>
           </i>
-          <div className="notification_drop d-none " id="notification_dropdown">
+          <div className="d-css notification_drop d-none " id="notification_dropdown">
             <ul className="m-0 p-0 drop-lists">
               {
                 message.map((item) => (
@@ -86,16 +97,16 @@ const Header = (props) => {
 
           {/* chat dropdown */}
           <i className="bi bi-chat-fill"></i>
-          <img src={localStorage.getItem("profile")} style={imgStyle} />
-          <span>{localStorage.getItem("name")}</span>
+          <img src={localStorage.getItem("profile")} style={imgStyle} alt=""></img> 
+          <span>{localStorage.getItem("fullname")}</span>
 
           {/* profile dropdown */}
-          <i className="bi bi-caret-down-fill" onClick={List}></i>
-          <div className="drop d-none " id="dropdown">
+          <i className=" d-btn bi bi-caret-down-fill" onClick={List}></i>
+          <div className=" d-css drop d-none " id="dropdown">
             <ul className="m-0 p-0">
               <li className="drop-list">Profile</li>
               <li className="drop-list">Dashboard</li>
-              <li className="drop-list" onClick={logoutHandler}><a href="#">Logout</a></li>
+              <li className="drop-list" onClick={logoutHandler}><Link to="#">Logout</Link></li>
             </ul>
           </div>
         </div>
