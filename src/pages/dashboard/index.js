@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import useUserinfo from "../../features/hooks/userinfo";
-import Header from "../../features/Header";
-import Sidebar from "../../features/Sidebar";
-import Footer from "../../features/Footer";
+import Header from "../header/";
+import Sidebar from "../sidebar/";
+import Footer from "../footer";
 import PageLoader from "../../widgets/loader/pageloader";
 import BreadCrumb from "../../widgets/BreadCrumb";
 
