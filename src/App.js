@@ -3,9 +3,9 @@ import { UserContextProvider } from "./features/context/user/user";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import "./components/components.css";
+import "./widgets/components.css";
 
-const App = () => { 
+const App = () => {
   return (
     <UserContextProvider>
       <CustomRoutes />

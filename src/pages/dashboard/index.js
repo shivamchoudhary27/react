@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import useUserinfo from "./hooks/userinfo";
-import PageLoader from "../components/loader/pageloader";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
-import BreadCrumb from "../components/BreadCrumb";
+import useUserinfo from "../../features/hooks/userinfo";
+import Header from "../../features/Header";
+import Sidebar from "../../features/Sidebar";
+import Footer from "../../features/Footer";
+import PageLoader from "../../widgets/loader/pageloader";
+import BreadCrumb from "../../widgets/BreadCrumb";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);

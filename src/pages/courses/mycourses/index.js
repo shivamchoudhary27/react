@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Row, Card } from "react-bootstrap";
-import CardComp from "../components/CardComp";
-import Footer from "./Footer";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import { getData } from "../adapters";
-import BreadCrumb from "../components/BreadCrumb";
-import { Container } from "react-bootstrap";
-import ErrorBox from "../components/ErrorBox";
+import { getData } from "../../../adapters";
+import { Row, Card, Container } from "react-bootstrap";
+import CardComp from "../../../widgets/CardComp";
+import Header from "../../../features/Header";
+import Sidebar from "../../../features/Sidebar";
+import Footer from "../../../features/Footer";
+import BreadCrumb from "../../../widgets/BreadCrumb";
+import ErrorBox from "../../../widgets/ErrorBox";
+
 const Mycourse = () => {
   const [show, setShow] = useState(true);
   const userid = localStorage.getItem("userid");

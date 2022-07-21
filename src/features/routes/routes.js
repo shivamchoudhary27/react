@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LoginForm from "../LoginForm";
-import Dashboard from "../Dashboard";
-import MyCourse from "../MyCourse";
-import CourseView from "../CourseView";
 import ProtectedRoutes from "./ProtectedRoutes";
-import ActivityPage from "../mod/index";
-import Video from "../mod/video/video";
+import LoginForm from "../../pages/login/";
+import Dashboard from "../../pages/dashboard/";
+import MyCourse from "../../pages/courses/mycourses";
+import CourseView from "../../pages/courses/courseview";
+import Video from "../../pages/courses/video";
+import ActivityPage from "../../pages/courses/activity";
 
 export default function CustomRoutes() {
   return (

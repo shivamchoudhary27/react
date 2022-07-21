@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import UserContext from "./context/user/user";
-import { getPublicData } from "./../adapters/index";
-import ErrorBox from "../components/ErrorBox";
-import config from "./../utils/config";
-import "./css/LoginForm.css";
-import Loader from "../components/loader/loader";
-import Img from "../assets/images/loginImg.jpg";
+import Img from "../../assets/images/loginImg.jpg";
+import UserContext from "../../features/context/user/user";
+import { getPublicData } from "../../adapters/";
+import ErrorBox from "../../widgets/ErrorBox";
+import config from "../../utils/config";
+import Loader from "../../widgets/loader/loader";
+import style from "./style.module.scss";
 
 const LoginForm = () => {
 
@@ -118,7 +118,7 @@ const LoginForm = () => {
           </div>
           <div className="col-lg-4 col-md-4 col-sm-12 col-12">
             <div className="App">
-              <header className="app-header">
+              <header className={style.appHeader}>
                 <h3>Welcome Back!</h3>
                 {showLoader === true && <Loader />}
                 <form onSubmit={SubmitHandler}>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import NavLinkItem from "../../../components/navitem";
+import NavLinkItem from "../../../widgets/navitem";
 import config from "../../../utils/config";
 import UserContext from "../../context/user/user";
 

@@ -1,15 +1,13 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Footer from "./Footer";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import BreadCrumb from "../components/BreadCrumb";
-import { useState, useEffect } from "react";
-import Cards from "../components/CourseComp";
-import { useParams } from "react-router-dom";
-import { getData } from "../adapters";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getData } from "../../../adapters";
 import { Container } from "react-bootstrap";
-import ErrorBox from "../components/ErrorBox";
+import Header from "../../../features/Header";
+import Sidebar from "../../../features/Sidebar";
+import Footer from "../../../features/Footer";
+import BreadCrumb from "../../../widgets/BreadCrumb";
+import Cards from "../../../widgets/CourseComp";
+import ErrorBox from "../../../widgets/ErrorBox";
 
 const CourseView = () => {
   const { id } = useParams();
@@ -38,7 +36,7 @@ const CourseView = () => {
       .catch((err) => {
         console.log(err);
       });
-  });
+  }, []);
 
   const showSide = () => {
     setShow(!show);
