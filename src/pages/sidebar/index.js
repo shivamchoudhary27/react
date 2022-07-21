@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import NavLinkItem from "../widgets/navitem";
-import Logout from "./auth/logout/logout";
+import NavLinkItem from "../../widgets/navitem";
+import Logout from "../../features/auth/logout/logout";
 
 const Sidebar = (props) => {
   const location = useLocation().pathname;

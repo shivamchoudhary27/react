@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate,Link } from "react-router-dom";
-import UserContext from "./context/user/user";
-import { getData } from "../adapters";
-import config from "../utils/config";
+import UserContext from "../../features/context/user/user";
+import { getData } from "../../adapters";
+import config from "../../utils/config";
 
 const List = () => {
   document.getElementById("dropdown").classList.toggle("d-none");

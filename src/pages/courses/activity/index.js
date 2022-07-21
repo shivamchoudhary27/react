@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import Header from "../../../features/Header";
-import Sidebar from "../../../features/Sidebar";
+import Header from "../../header/";
+import Sidebar from "../../sidebar/";
 
 const ActivityPage = () => {
   const [show, setShow] = useState(true);

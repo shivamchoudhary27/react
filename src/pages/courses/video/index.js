@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { getData } from "../../../adapters";
 import { useLocation, useParams } from "react-router-dom";
-import Header from "../../../features/Header";
-import Sidebar from "../../../features/Sidebar";
+import Header from "../../header/";
+import Sidebar from "../../sidebar/";
+import Footer from "../../footer/";
 import BreadCrumb from "../../../widgets/BreadCrumb";
 import PageLoader from "../../../widgets/loader/pageloader";
 
@@ -99,7 +100,7 @@ function Video() {
             </div>
           )}
         </Container>
-        {/* <Footer /> */}
+        <Footer />
       </main>
     </>
   );

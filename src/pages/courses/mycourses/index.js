@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { getData } from "../../../adapters";
 import { Row, Card, Container } from "react-bootstrap";
 import CardComp from "../../../widgets/CardComp";
-import Header from "../../../features/Header";
-import Sidebar from "../../../features/Sidebar";
-import Footer from "../../../features/Footer";
+import Header from "../../header/";
+import Sidebar from "../../sidebar/";
+import Footer from "../../footer/";
 import BreadCrumb from "../../../widgets/BreadCrumb";
 import ErrorBox from "../../../widgets/ErrorBox";
 
