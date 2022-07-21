@@ -17,7 +17,7 @@ const CourseView = () => {
   const courseid = id;
   const [title, setTitle] = useState([]);
   const [show, setShow] = useState(true);
-  const [error,setError] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const query = {
@@ -27,11 +27,10 @@ const CourseView = () => {
     getData(query)
       .then((res) => {
         if (res.status === 200 && res.data) {
-          if ((courseid !== query.courseid) || (res.data.errorcode)) {
+          if (courseid !== query.courseid || res.data.errorcode) {
             // console.log("Something went wrong");
             setError("Something went wrong");
-          }
-          else {
+          } else {
             setTitle(res.data);
           }
         }
@@ -51,9 +50,8 @@ const CourseView = () => {
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
         <Container>
-          
           <div className="container-fluid page-box">
-          <h2> {<ErrorBox msg={error} />} </h2>
+            <h2> {<ErrorBox msg={error} />} </h2>
             <div className="card" id="height1">
               <div className="card-body">
                 <div className="card-title">
@@ -69,20 +67,37 @@ const CourseView = () => {
               </div>
             </div>
           </div>
+
           {title.map((courses, index) => (
             <div key={Math.random() + courses.id}>
-              {
-                courses.modules.map((activity, i) => (
-                  (activity.modname === "resource") ?
-                    <div className="container-fluid page-box" key={index + activity.id}>
-                      <Link to={`/mod/video/${activity.modname}`} state={{ vidurl: `${activity.contents[0].fileurl}`, vidname: `${activity.name}` }}><Cards title={activity.name} /></Link>
-                    </div>
-                    :
-                    <div className="container-fluid page-box" key={index + activity.id}>
-                      <Link to={`/mod/view/${activity.name}`}><Cards title={activity.name} /></Link>
-                    </div>
-                ))
-              }
+              {courses.modules.map((activity, i) =>
+                // {{ {console.log(activity)}}}
+                activity.modname === "resource" ? (
+                  <div
+                    className="container-fluid page-box"
+                    key={index + activity.id}
+                  >
+                    <Link
+                      to={`/mod/video/${activity.id}/${courseid}`}
+                      state={{
+                        vidurl: `${activity.contents[0].fileurl}`,
+                        vidname: `${activity.name}`,
+                      }}
+                    >
+                      <Cards title={activity.name} />
+                    </Link>
+                  </div>
+                ) : (
+                  <div
+                    className="container-fluid page-box"
+                    key={index + activity.id}
+                  >
+                    <Link to={`/mod/view/${activity.name}`}>
+                      <Cards title={activity.name} />
+                    </Link>
+                  </div>
+                )
+              )}
             </div>
           ))}
         </Container>
@@ -90,6 +105,6 @@ const CourseView = () => {
       </main>
     </>
   );
-}
+};
 
 export default CourseView;
