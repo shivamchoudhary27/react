@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import Header from "../../Header";
-import Sidebar from "../../Sidebar";
-import { useLocation, useParams } from "react-router-dom";
-import PageLoader from "../../../components/loader/pageloader";
-import BreadCrumb from "../../../components/BreadCrumb";
 import { getData } from "../../../adapters";
+import { useLocation, useParams } from "react-router-dom";
+import Header from "../../../features/Header";
+import Sidebar from "../../../features/Sidebar";
+import BreadCrumb from "../../../widgets/BreadCrumb";
+import PageLoader from "../../../widgets/loader/pageloader";
 
 function Video() {
   const location = useLocation();
@@ -20,17 +20,14 @@ function Video() {
   };
 
   useEffect(() => {
-    // setTimeout(() => {
     setLoader(true);
-    // }, 1000);
+
     let initial = true;
     if (location.state === null) {
       initial = false;
     }
-    // var location = location.state ?? null;
     if (initial === false) {
       console.log("getting from api");
-      //api call
       const query = {
         wsfunction: "mod_resource_get_resources_by_courses",
         courseids: courseids,
@@ -40,7 +37,6 @@ function Video() {
           if (res.status === 200 && res.data) {
             if (courseids !== query.courseids || res.data.errorcode) {
               console.log("Something went wrong");
-              // setError("Something went wrong");
             } else {
               res.data.resources.map((item, index) => {
                 if (item.coursemodule == id) {

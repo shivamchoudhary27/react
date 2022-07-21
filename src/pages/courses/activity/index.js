@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Header from "../../../features/Header";
+import Sidebar from "../../../features/Sidebar";
 
 const ActivityPage = () => {
   const [show, setShow] = useState(true);
@@ -16,7 +16,7 @@ const ActivityPage = () => {
         <Sidebar currentState={show} />
         <Container>
           <div className="container-fluid page-box">
-            <h2>Welcome to activity page.</h2>
+            <h2>Welcome to activity page (in progress) !</h2>
           </div>
         </Container>
       </main>
