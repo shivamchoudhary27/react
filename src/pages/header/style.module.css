@@ -1,0 +1,87 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3rem;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0 1rem;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+          box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.header .headerToggle {
+  font-size: 1.25rem;
+  cursor: pointer;
+  background-color: #243a73;
+  color: white;
+  padding: 0 0.5rem;
+}
+
+.header .headerAvatar {
+  float: right;
+}
+
+.header .headerAvatar .notify {
+  padding: 0 10px;
+  color: #666;
+  cursor: pointer;
+}
+
+.header .headerAvatar .notify .sup {
+  font-weight: 700;
+  font-size: 10px;
+  color: #ffffff;
+  background-color: red;
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.header .headerAvatar .chat {
+  padding-right: 1rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.header .headerAvatar .span {
+  font-size: 16px;
+  padding: 0 0.5rem;
+  color: #243a73;
+}
+
+.header .headerAvatar .drop {
+  position: absolute;
+  top: 3rem;
+  right: 17px;
+  background-color: white;
+  width: 120px;
+  border: 1px solid black;
+}
+
+.header .headerAvatar .drop ul li {
+  line-height: 2;
+  border-bottom: 1px solid black;
+}
+
+.header .headerAvatar .notificationDrop {
+  position: absolute;
+  top: 3rem;
+  right: 220px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.header .headerAvatar .notificationDrop ul li {
+  line-height: 2;
+  border-bottom: 1px solid black;
+  width: 250px;
+}
+/*# sourceMappingURL=style.module.css.map */

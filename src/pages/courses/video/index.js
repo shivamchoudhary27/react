@@ -6,6 +6,7 @@ import Sidebar from "../../sidebar/";
 import Footer from "../../footer/";
 import BreadCrumb from "../../../widgets/BreadCrumb";
 import PageLoader from "../../../widgets/loader/pageloader";
+import Modal_Elem from "../../../widgets/Modal";
 
 function Video() {
   const location = useLocation();
@@ -79,11 +80,12 @@ function Video() {
             ["Video", "/video", false],
           ]}
         />
+        <Modal_Elem />
         {stateurl.status === false ? (
           <PageLoader />
         ) : (
           <div className="text-center">
-            <video autoPlay width="720px  " controls>
+            <video autoPlay width="720px" id="video_time" controls>
               <source src={stateurl.url} type="video/mp4" />
             </video>
           </div>

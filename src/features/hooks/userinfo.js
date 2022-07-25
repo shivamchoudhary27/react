@@ -24,7 +24,7 @@ const useUserinfo = () => {
               userInfo.status = 200;
               localStorage.setItem("userid", res.data.userid);
               localStorage.setItem("fullname", res.data.fullname);
-              localStorage.setItem("profile", res.data.userpictureurl);         
+              localStorage.setItem("profile", res.data.userpictureurl);       
             }
             userInfo.userInfo = res.data;
             userCtx.setUserOn(userInfo);

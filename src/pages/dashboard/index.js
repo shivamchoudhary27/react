@@ -5,6 +5,7 @@ import Sidebar from "../sidebar/";
 import Footer from "../footer";
 import PageLoader from "../../widgets/loader/pageloader";
 import BreadCrumb from "../../widgets/BreadCrumb";
+import style from "./style.module.scss";
 
 const Dashboard = () => {
   const [show, setShow] = useState(true);
@@ -20,7 +21,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <main className={show ? "space-toggle" : null}>
+      <main className={show ? style.spaceToggle : null}>
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
 

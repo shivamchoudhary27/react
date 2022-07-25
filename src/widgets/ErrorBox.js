@@ -1,6 +1,6 @@
 export default function ErrorBox(props) {
   return (
-    <div className="error-alert" role="alert">
+    <div className={props.style} role="alert">
       {props.msg}
     </div>
   );
