@@ -23,23 +23,14 @@ const Dashboard = () => {
       <main className={show ? "space-toggle" : null}>
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
-        <div className="container-fluid page-box">
-          <div className="card" id="height1">
-            <div className="card-body">
-              <div className="card-title">
-                <h2>{localStorage.getItem("fullname")}</h2>
-                {/* <h2>{(userinfo.userInfo.customhook.sitename) ?? '--------'}</h2> */}
-                <BreadCrumb
-                  breadcrumbItem={[
-                    ["Home", "/dashboard", true],
-                    ["Dashboard", "/dashboard", false],
-                  ]}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-       
+
+        <BreadCrumb title={localStorage.getItem("fullname")}
+          breadcrumbItem={[
+            ["Home", "/dashboard", true],
+            ["Dashboard", "/dashboard", false],
+          ]}
+        />
+
         <div>
           {res.userInfo.status === 400 ? (
             <h3>{res.userInfo.userInfo.message}</h3>
