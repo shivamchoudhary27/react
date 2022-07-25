@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getData } from "../../../adapters";
-import { Container } from "react-bootstrap";
 import Header from "../../header/";
 import Sidebar from "../../sidebar/";
 import Footer from "../../footer/";
@@ -26,7 +25,6 @@ const CourseView = () => {
       .then((res) => {
         if (res.status === 200 && res.data) {
           if (courseid !== query.courseid || res.data.errorcode) {
-            // console.log("Something went wrong");
             setError("Something went wrong");
           } else {
             setTitle(res.data);
@@ -47,29 +45,18 @@ const CourseView = () => {
       <main className={show ? "space-toggle" : null}>
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
-        <Container>
-          <div className="container-fluid page-box">
-            <h2> {<ErrorBox msg={error} />} </h2>
-            <div className="card" id="height1">
-              <div className="card-body">
-                <div className="card-title">
-                  <h2>{fullname}</h2>
-                  <BreadCrumb
-                    breadcrumbItem={[
-                      ["Home", "/dashboard", true],
-                      ["Course", "/mycourse", true],
-                      ["Courseview", "/courseview", false],
-                    ]}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <h2>{<ErrorBox msg={error}/>}</h2>
+          <BreadCrumb title={fullname}
+            breadcrumbItem={[
+              ["Home", "/dashboard", true],
+              ["Course", "/mycourse", true],
+              ["Courseview", "/courseview", false],
+            ]}
+          />
+         
           {title.map((courses, index) => (
             <div key={Math.random() + courses.id}>
               {courses.modules.map((activity, i) =>
-                // {{ {console.log(activity)}}}
                 activity.modname === "resource" ? (
                   <div
                     className="container-fluid page-box"
@@ -98,7 +85,6 @@ const CourseView = () => {
               )}
             </div>
           ))}
-        </Container>
         <Footer />
       </main>
     </>

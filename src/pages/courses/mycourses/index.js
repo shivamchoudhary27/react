@@ -12,7 +12,7 @@ const Mycourse = () => {
   const [show, setShow] = useState(true);
   const userid = localStorage.getItem("userid");
   const [myCourses, setMyCourses] = useState([]);
-  const [error,setError] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const query = {
@@ -24,10 +24,8 @@ const Mycourse = () => {
       .then((res) => {
         if (res.status === 200 && res.data) {
           if ((userid !== query.userid) || (res.data.errorcode)) {
-            // console.log("Something went wrong");
             setError("Something went wrong");
-          }
-          else {
+          }else{
             setMyCourses(res.data);
           }
         }
@@ -47,30 +45,18 @@ const Mycourse = () => {
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
         <Container>
-        <h2> {<ErrorBox msg={error} />} </h2>
-        <div className="container-fluid page-box">
-          <div className="card" id="height1">
-            <div className="welcome-txt">
-              <div className="card-title">
-                <h5>
-                  Welcome back, {localStorage.getItem("fullname")}{" "}
-                  <i className="bi bi-hand-thumbs-up-fill"></i>
-                </h5>
-                <BreadCrumb
-                  breadcrumbItem={[
-                    ["Home", "/dashboard", true],
-                    ["Course", "/mycourse", false],
-                  ]}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <Card>
-          <Row className="px-4">
-            <CardComp title="" mycoursedata={myCourses} />
-          </Row>
-        </Card>
+          <h2> {<ErrorBox msg={error} />} </h2>
+          <BreadCrumb title= "Enrolled Courses"
+            breadcrumbItem={[
+              ["Home", "/dashboard", true],
+              ["Course", "/mycourse", false],
+            ]}
+          />
+          <Card>
+            <Row className="px-4">
+              <CardComp title="" mycoursedata={myCourses} />
+            </Row>
+          </Card>
         </Container>
         <Footer />
       </main>

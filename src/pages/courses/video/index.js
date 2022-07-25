@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import { getData } from "../../../adapters";
 import { useLocation, useParams } from "react-router-dom";
 import Header from "../../header/";
@@ -73,33 +72,22 @@ function Video() {
       <main className={show ? "space-toggle" : null}>
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
-        <Container>
-          <div className="container-fluid page-box">
-            <div className="card" id="height1">
-              <div className="card-body">
-                <div className="card-title">
-                  <h2>Resource Video</h2>
-                  <BreadCrumb
-                    breadcrumbItem={[
-                      ["Home", "/dashboard", true],
-                      ["Course", "/mycourse", true],
-                      ["Video", "/video", false],
-                    ]}
-                  />
-                </div>
-              </div>
-            </div>
+        <BreadCrumb title="Resource Video"
+          breadcrumbItem={[
+            ["Home", "/dashboard", true],
+            ["Course", "/mycourse", true],
+            ["Video", "/video", false],
+          ]}
+        />
+        {stateurl.status === false ? (
+          <PageLoader />
+        ) : (
+          <div className="text-center">
+            <video autoPlay width="720px  " controls>
+              <source src={stateurl.url} type="video/mp4" />
+            </video>
           </div>
-          {stateurl.status === false ? (
-            <PageLoader />
-          ) : (
-            <div className="text-center">
-              <video autoPlay width="720px  " controls>
-                <source src={stateurl.url} type="video/mp4" />
-              </video>
-            </div>
-          )}
-        </Container>
+        )}
         <Footer />
       </main>
     </>
