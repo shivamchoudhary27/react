@@ -100,10 +100,10 @@ const LoginForm = () => {
 
   return (
     <>
-      <div className="container-fluid">
+      <div className={`container-fluid ${style.login}`}>
         <div className="row">
           <div className="col-lg-8 col-md-8 col-sm-12 col-12" style={myStyle}>
-            <div className="login-img">
+            <div className="loginImg">
               {/* <div className="logo">
                 <img src={Logo} alt="Logo ..." style={{ width: "150px" }} />
                 <p>
@@ -117,7 +117,7 @@ const LoginForm = () => {
             </div>
           </div>
           <div className="col-lg-4 col-md-4 col-sm-12 col-12">
-            <div className="App">
+            <div className={style.App}>
               <header className={style.appHeader}>
                 <h3>Welcome Back!</h3>
                 {showLoader === true && <Loader />}
@@ -126,7 +126,7 @@ const LoginForm = () => {
                   <p style={{ fontSize: "12px", textAlign: "left" }}>
                     We invite to join Ballistic Learning..
                   </p>
-                  {invalidLogin === true && <ErrorBox msg={errorMsg} />}
+                  {invalidLogin === true && <ErrorBox style={style.errorAlert} msg={errorMsg} />}
                   <hr />
                   <div className="form-outline mb-3">
                     <label className="form-label" htmlFor="form2Example1">
@@ -138,7 +138,7 @@ const LoginForm = () => {
                       className="form-control"
                       onChange={usernameInputHandler}
                     />
-                    <div className="field-input-error">{usernameError}</div>
+                    <div className={style.fieldInputError}>{usernameError}</div>
                   </div>
 
                   <div className="form-outline mb-3">
@@ -151,17 +151,17 @@ const LoginForm = () => {
                       className="form-control"
                       onChange={pwdInputHandler}
                     />
-                    <div className="field-input-error">{pwdError}</div>
+                    <div className={style.fieldInputError}>{pwdError}</div>
                   </div>
 
                   <button
                     type="submit"
-                    className="btn btn-warning btn-block mt-3"
+                    className={`${style.btn} btn-warning btn-block mt-3`}
                   >
                     Sign in
                   </button>
                 </form>
-                <div className="link">
+                <div className={style.link}>
                   <p>
                     Don't have an Account? <Link to="#">Sign Up</Link>
                   </p>

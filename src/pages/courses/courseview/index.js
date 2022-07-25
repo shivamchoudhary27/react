@@ -7,6 +7,7 @@ import Footer from "../../footer/";
 import BreadCrumb from "../../../widgets/BreadCrumb";
 import Cards from "../../../widgets/CourseComp";
 import ErrorBox from "../../../widgets/ErrorBox";
+import Modal_Elem from "../../../widgets/Modal";
 
 const CourseView = () => {
   const { id } = useParams();
@@ -35,6 +36,7 @@ const CourseView = () => {
         console.log(err);
       });
   }, []);
+  console.log(title);
 
   const showSide = () => {
     setShow(!show);
@@ -69,7 +71,7 @@ const CourseView = () => {
                         vidname: `${activity.name}`,
                       }}
                     >
-                      <Cards title={activity.name} />
+                      <Cards title={activity.name} icon={activity.modicon} />
                     </Link>
                   </div>
                 ) : (
@@ -78,7 +80,7 @@ const CourseView = () => {
                     key={index + activity.id}
                   >
                     <Link to={`/mod/view/${activity.name}`}>
-                      <Cards title={activity.name} />
+                      <Cards title={activity.name} icon={activity.modicon}/>
                     </Link>
                   </div>
                 )

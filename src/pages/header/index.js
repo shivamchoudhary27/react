@@ -1,27 +1,30 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import UserContext from "../../features/context/user/user";
 import { getData } from "../../adapters";
 import config from "../../utils/config";
+import style from "./style.module.scss";
 
 const List = () => {
   document.getElementById("dropdown").classList.toggle("d-none");
-}
+};
 const notification_List = () => {
   document.getElementById("notification_dropdown").classList.toggle("d-none");
-}
-window.onclick = function(event) {
-  if (!event.target.matches('.d-btn')) {
+};
+
+window.onclick = function (event) {
+  if (!event.target.matches(".d-btn")) {
     var dropdowns = document.getElementsByClassName("d-css");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
-      if (!openDropdown.classList.contains('d-none')) {
-        openDropdown.classList.add('d-none');
+      if (!openDropdown.classList.contains("d-none")) {
+        openDropdown.classList.add("d-none");
       }
     }
   }
-}
+};
+
 const Header = (props) => {
   const useridto = localStorage.getItem("userid");
   const [message, setMessage] = useState([]);
@@ -50,12 +53,9 @@ const Header = (props) => {
         if (res.status === 200 && res.data) {
           if (res.data.errorcode) {
             console.log("Something went wrong");
-          }
-          else {
+          } else {
             let data = [];
-            res.data.notifications.map(item => (
-              data.push(item.subject)
-            ))
+            res.data.notifications.map((item) => data.push(item.subject));
             setMessage(data);
           }
         }
@@ -63,8 +63,8 @@ const Header = (props) => {
       .catch((err) => {
         console.log(err);
       });
-      
-      // });
+
+    // });
     // }, 5000)
   }, []);
 
@@ -73,40 +73,50 @@ const Header = (props) => {
     height: "32px",
     borderRadius: "50%",
   };
+  
   return (
     <>
-      <header className={`header ${props.currentState ?? null}`}>
-        <div className="header-toggle" onClick={props.toggleFun}>
+      <header className={`${style.header} ${props.currentState ?? null}`}>
+        <div className={style.headerToggle} onClick={props.toggleFun}>
           <i className="bi bi-list"></i>
         </div>
-        <div className="header-avatar">
-
+        <div className={style.headerAvatar}>
           {/* notification dropdown */}
-          <i className=" d-btn bi bi-bell-fill" onClick={notification_List}>
-            <sup>{message.length}</sup>
+          <i
+            className={`${style.notify} d-btn bi bi-bell-fill`}
+            onClick={notification_List}
+          >
+            <sup className={`${style.sup} sup`}>{message.length}</sup>
           </i>
-          <div className="d-css notification_drop d-none " id="notification_dropdown">
+          <div
+            className={`d-css ${style.notificationDrop} d-none`}
+            id="notification_dropdown"
+          >
             <ul className="m-0 p-0 drop-lists">
-              {
-                message.map((item) => (
-                  <li key={Math.random()}>{item}</li>
-                ))
-              }
+              {message.map((item) => (
+                <li key={Math.random()}>{item}</li>
+              ))}
             </ul>
           </div>
 
           {/* chat dropdown */}
-          <i className="bi bi-chat-fill"></i>
-          <img src={localStorage.getItem("profile")} style={imgStyle} alt=""></img> 
-          <span>{localStorage.getItem("fullname")}</span>
+          <i className={`${style.chat} bi bi-chat-fill`}></i>
+          <img
+            src={localStorage.getItem("profile")}
+            style={imgStyle}
+            alt=""
+          ></img>
+          <span className={style.span}>{localStorage.getItem("fullname")}</span>
 
           {/* profile dropdown */}
           <i className=" d-btn bi bi-caret-down-fill" onClick={List}></i>
-          <div className=" d-css drop d-none " id="dropdown">
+          <div className={`d-css ${style.drop} d-none`} id="dropdown">
             <ul className="m-0 p-0">
               <li className="drop-list">Profile</li>
               <li className="drop-list">Dashboard</li>
-              <li className="drop-list" onClick={logoutHandler}><Link to="#">Logout</Link></li>
+              <li className="drop-list" onClick={logoutHandler}>
+                <Link to="#">Logout</Link>
+              </li>
             </ul>
           </div>
         </div>

@@ -1,0 +1,73 @@
+$header-height: 3rem;
+$nav-width: 68px;
+$first-color: #243a73;
+$first-color-alt: #dbdffd;
+$white-color: #ffddee;
+
+.sidebar {
+  position: fixed;
+  top: 3rem;
+  left: -30%;
+  height: 100vh;
+  width: $nav-width;
+  background-color: $first-color;
+  padding-top: 1rem;
+  overflow: hidden;
+  .nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    .navLogo,
+    .navLink {
+      display: grid;
+      grid-template-columns: max-content max-content;
+      column-gap: 2rem;
+      padding: 0.5rem 0 0.5rem 1.5rem;
+    }
+    .navLogo {
+      margin-bottom: 2rem;
+      .navLogoIcon {
+        font-size: 1.25rem;
+        color: #ffffff;
+        cursor: pointer;
+      }
+      .navLogoName {
+        font-weight: 700;
+        color: $white-color;
+      }
+    }
+    .navLink {
+      position: relative;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+      &:hover {
+        color: $white-color;
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+    .active {
+      color: $white-color;
+      background-color: rgba(0, 0, 0, 0.1);
+      ::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 40px;
+        width: 3px;
+        background-color: $white-color;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .sidebar {
+    left: 0;
+    padding: 1rem 0 0 0;
+  }
+  .show {
+    width: calc($header-height + 156px);
+  }
+}

@@ -1,12 +1,6 @@
-$header-height: 3rem;
-$nav-width: 68px;
-$first-color: #243a73;
-$first-color-alt: #dbdffd;
-$white-color: #ffddee;
-
 main {
   position: relative;
-  margin: $header-height 0 0 0;
+  margin: 3rem 0 0 0;
   padding: 0 1rem;
   font-size: 1rem;
   font-family: "Nunito sans", sans-serif;
@@ -17,8 +11,8 @@ main {
     margin: calc($header-height) 0 0 0;
     padding: 0 1rem 0 calc($nav-width + 2rem);
   }
-
   .spaceToggle {
     padding-left: calc($nav-width + 150px);
   }
 }
+/*# sourceMappingURL=style.module.css.map */

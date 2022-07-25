@@ -1,0 +1,75 @@
+$header-height: 3rem;
+$nav-width: 68px;
+$first-color: #243a73;
+$first-color-alt: #dbdffd;
+$white-color: #ffddee;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: $header-height;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  .headerToggle {
+    font-size: 1.25rem;
+    cursor: pointer;
+    background-color: $first-color;
+    color: white;
+    padding: 0 0.5rem;
+  }
+  .headerAvatar {
+    float: right;
+    .notify {
+      padding: 0 10px;
+      color: #666;
+      cursor: pointer;
+      .sup {
+        font-weight: 700;
+        font-size: 10px;
+        color: #ffffff;
+        background-color: red;
+        padding: 2px;
+        border-radius: 50%;
+      }
+    }
+    .chat {
+      padding-right: 1rem;
+      color: #666;
+      cursor: pointer;
+    }
+    .span {
+      font-size: 16px;
+      padding: 0 0.5rem;
+      color: $first-color;
+    }
+    .drop{
+      position: absolute;
+      top: 3rem;
+      right: 17px;
+      background-color: white;
+      width:120px;
+      border: 1px solid black;
+      ul li{
+        line-height: 2;
+        border-bottom: 1px solid black;
+      }
+    }
+    .notificationDrop{
+      position: absolute;
+      top: 3rem;
+      right: 220px;
+      background-color: white;
+      border: 1px solid black;
+      ul li{
+        line-height: 2;
+        border-bottom: 1px solid black;
+        width:250px;
+      }
+    }
+  }
+}

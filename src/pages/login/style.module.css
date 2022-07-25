@@ -1,0 +1,136 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* .App {
+    text-align: center;
+  } */
+.login .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.login .row .loginImg .logo {
+  padding: 2rem;
+}
+
+.login .row .loginImg .logo span {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.App .appHeader {
+  background-color: #253cbb;
+  min-height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: calc(5px + 2vmin);
+  color: white;
+}
+
+.App .appHeader h3 {
+  margin-top: 1rem;
+}
+
+.App .appHeader .link {
+  text-align: center;
+  font-size: 14px;
+}
+
+.App .appHeader .fieldInputError {
+  color: red;
+  font-size: 15px;
+  text-align: center;
+}
+
+.App form label {
+  text-align: left;
+  font-size: calc(2px + 2vmin);
+}
+
+.App form input {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #666;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 50px;
+  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+}
+
+.App form .btn {
+  width: 100%;
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: #222;
+  /* padding: 0.5em 1em; */
+  outline: none;
+  border: none;
+  /* background-color: hsl(236, 32%, 26%); */
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.App form .btn:after {
+  content: "";
+  z-index: -1;
+  background-color: rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: -50%;
+  bottom: -50%;
+  width: 1.25em;
+  -webkit-transform: translate3d(-525%, 0, 0) rotate(35deg);
+          transform: translate3d(-525%, 0, 0) rotate(35deg);
+}
+
+.App form .btn:hover:after {
+  -webkit-transition: -webkit-transform 0.45s ease-in-out;
+  transition: -webkit-transform 0.45s ease-in-out;
+  transition: transform 0.45s ease-in-out;
+  transition: transform 0.45s ease-in-out, -webkit-transform 0.45s ease-in-out;
+  -webkit-transform: translate3d(200%, 0, 0) rotate(35deg);
+          transform: translate3d(200%, 0, 0) rotate(35deg);
+}
+
+.App form .errorAlert {
+  text-align: center;
+  font-size: 14px;
+  color: crimson;
+  background-color: #ffffff;
+  padding: 0.3rem 0;
+}
+/*# sourceMappingURL=style.module.css.map */
