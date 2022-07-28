@@ -1,79 +1,95 @@
 
 import Sidebar from "../sidebar";
-import React,{ useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../header";
-import { useParams,Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { getData } from "../../adapters";
 
+
 const Startattempt = () => {
-    const { name,instance } = useParams();
-    const [show, setShow] = useState(true);
-    const[attemptid,setAttemptid] = useState({});
-    const[button,setButton] = useState(false);
-    const[a,setA] = useState(false);
-    
-    
-    // quizid = 23;
+  const userid = localStorage.getItem("userid");
+  const { name, instance } = useParams();
+  const [show, setShow] = useState(true);
+  const [attemptid, setAttemptid] = useState({});
+  const [button, setButton] = useState(false);
+  const [startquiz, setStartquiz] = useState(false);
+  
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const query = {
-          wsfunction: "mod_quiz_get_user_attempts",
-          quizid: instance,
-          userid:159,
-          status: "unfinished"
-          
-          
-        };
-        // console.log(query.quizid);
-        getData(query)
-          .then((res) => {
-            if (res.status === 200 && res.data) {
-                // console.log((res.data.attempts).length);
-                
-                if(((res.data.attempts).length) === 0){
-                    console.log("hello");   
-                    setButton(true);
-                    console.log(button);
-                    // console.log(res.data.attempts[0].state);
-                }
-                else{
-                    setAttemptid(res.data);
-                    console.log(attemptid);
-                }
-                
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }, []);
+  const start_attempt = () => {
+    setStartquiz(true);
+  }
 
-    const showSide = () => {
-        setShow(!show);
+  useEffect(() => {
+    const query = {
+      wsfunction: "mod_quiz_get_user_attempts",
+      quizid: instance,
+      userid: userid,
+      status: "unfinished"
+    };
+
+    getData(query)
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          if (((res.data.attempts).length) === 0) {
+            // alert('yuy')
+            setButton(true);
+            
+          }
+          else {
+            setAttemptid(res.data.attempts[0].id);
+          }
+        
+
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (startquiz === true) {
+      const query = {
+        wsfunction: "mod_quiz_start_attempt",
+        quizid: instance,
       };
-    //  console.log(button);
-    return (
-        <>
-        <main className={show ? "space-toggle" : null}>
+      getData(query)
+        .then((res) => {
+          if (res.status === 200 && res.data) {
+            if (res.data.attempt.id !== undefined) {
+              navigate(`/mod/view/quiz/${res.data.attempt.id}`);
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [startquiz]);
+
+  const showSide = () => {
+    setShow(!show);
+  };
+
+  return (
+    <>
+      <main className={show ? "space-toggle" : null}>
         <Header toggleFun={showSide} currentState={show} />
         <Sidebar currentState={show} />
-        {/* <h1>hello</h1> */}
-        
         <div className="card">
-            <div className="card-body">
-                <h3>{name}</h3>
-                {
-                button===false ? (<Link to={`/mod/view/quiz/`}><button className="btn btn-warning" >Continue your attempt</button></Link>):
-                (<Link to={`/mod/view/quiz/`}><button className="btn btn-warning" >Attempt quiz</button></Link>)
-                }
-           
-            </div>
-
+          <div className="card-body">
+            <h3>{name}</h3>
+            {
+              button === false ? (<Link to={`/mod/view/quiz/${attemptid}`}><button className="btn btn-warning" >Continue the last attempt</button></Link>) :
+                (<button className="btn btn-warning" onClick={start_attempt}>Attempt quiz</button>)
+            }
+          </div>
         </div>
-        </main>
+      </main>
 
-        </>
-    );
+    </>
+  );
 
 }
 export default Startattempt;

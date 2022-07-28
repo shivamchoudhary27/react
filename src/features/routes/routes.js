@@ -24,7 +24,7 @@ export default function CustomRoutes() {
           />
           <Route path="/mod/view/:name/:instance" element={<Startattempt />} />
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
-          <Route path="/mod/view/quiz" element={<Dummy />} />
+          <Route path="/mod/view/quiz/:id" element={<Dummy />} />
           <Route path="*" element={localStorage.getItem("loggedIn") == false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
