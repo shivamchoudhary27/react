@@ -1,9 +1,9 @@
 
-import Sidebar from "../sidebar";
+import Sidebar from "../../sidebar";
 import React, { useState, useEffect } from "react";
-import Header from "../header";
+import Header from "../../header";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { getData } from "../../adapters";
+import { getData } from "../../../adapters";
 
 
 const Startattempt = () => {
@@ -58,7 +58,7 @@ const Startattempt = () => {
         .then((res) => {
           if (res.status === 200 && res.data) {
             if (res.data.attempt.id !== undefined) {
-              navigate(`/mod/view/quiz/${res.data.attempt.id}`);
+              navigate(`/mod/attempt/quiz/${res.data.attempt.id}`);
             }
           }
         })
@@ -81,7 +81,7 @@ const Startattempt = () => {
           <div className="card-body">
             <h3>{name}</h3>
             {
-              button === false ? (<Link to={`/mod/view/quiz/${attemptid}`}><button className="btn btn-warning" >Continue the last attempt</button></Link>) :
+              button === false ? (<Link to={`/mod/attempt/quiz/${attemptid}`}><button className="btn btn-warning" >Continue the last attempt</button></Link>) :
                 (<button className="btn btn-warning" onClick={start_attempt}>Attempt quiz</button>)
             }
           </div>

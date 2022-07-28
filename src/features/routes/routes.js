@@ -5,9 +5,8 @@ import Dashboard from "../../pages/dashboard/";
 import MyCourse from "../../pages/courses/mycourses";
 import CourseView from "../../pages/courses/courseview";
 import Video from "../../pages/courses/video";
-import ActivityPage from "../../pages/courses/activity";
-import Startattempt from "../../pages/startattempt";
-import Dummy from "../../pages/dummy";
+import Startattempt from "../../pages/courses/quiz";
+import Attempt from "../../pages/courses/quiz/attempt";
 
 export default function CustomRoutes() {
   return (
@@ -24,7 +23,7 @@ export default function CustomRoutes() {
           />
           <Route path="/mod/view/:name/:instance" element={<Startattempt />} />
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
-          <Route path="/mod/view/quiz/:id" element={<Dummy />} />
+          <Route path="/mod/attempt/quiz/:attemptid" element={<Attempt />} />
           <Route path="*" element={localStorage.getItem("loggedIn") == false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
