@@ -7,28 +7,31 @@ import Footer from "../../footer/";
 import BreadCrumb from "../../../widgets/BreadCrumb";
 import PageLoader from "../../../widgets/loader/pageloader";
 import Modal_Elem from "../../../widgets/Modal";
+import ReactPlayer from 'react-player';
+import { useBeforeunload } from 'react-beforeunload';
 
 function Video() {
   const location = useLocation();
   const [stateurl, setStateUrl] = useState({ status: false });
   const [show, setShow] = useState(true);
-  const [loader, setLoader] = useState(false);
   const { id, courseid } = useParams();
   const courseids = [courseid];
+  
+  const [resumed, setResumed] = useState(false);
+  const vidKey = 'video-' + id + '-' + localStorage.getItem('userid');
+  const lastVidStatus = localStorage.getItem(vidKey);
 
   const showSide = () => {
     setShow(!show);
   };
 
   useEffect(() => {
-    setLoader(true);
-
     let initial = true;
+
     if (location.state === null) {
       initial = false;
     }
     if (initial === false) {
-      console.log("getting from api");
       const query = {
         wsfunction: "mod_resource_get_resources_by_courses",
         courseids: courseids,
@@ -59,7 +62,6 @@ function Video() {
           console.log(err);
         });
     } else {
-      console.log("getting from state location");
       var { vidurl, vidname } = location.state;
       setStateUrl({
         status: true,
@@ -67,6 +69,41 @@ function Video() {
       });
     }
   }, []);
+
+  useBeforeunload((event) => {
+    // event.preventDefault();
+    alert('ddddddd');
+    // if (value !== '') {
+    //   event.preventDefault();
+    // }
+  });
+
+  const videoReady = (e) => {
+    console.log('ready');
+    const currentVideoTime = e.getCurrentTime();
+    if (currentVideoTime > 0) {
+      localStorage.setItem(vidKey, currentVideoTime);
+    }
+  }
+
+  const videoEnded = () => {
+    localStorage.removeItem(vidKey);
+  }
+
+  const getResponse = (e) => {
+     if (e === true) {
+       getVideoCurrentTime();
+       setResumed(true);
+     } else {
+       setResumed(false);
+       localStorage.removeItem(vidKey);
+     }
+  }
+
+  const getVideoCurrentTime = (e) => {
+    const videoElement = document.querySelector(".resource-video video");
+    videoElement.currentTime = localStorage.getItem(vidKey);
+  }
 
   return (
     <>
@@ -80,15 +117,23 @@ function Video() {
             ["Video", "/video", false],
           ]}
         />
-        <Modal_Elem />
         {stateurl.status === false ? (
           <PageLoader />
         ) : (
-          <div className="text-center">
-            <video autoPlay width="720px" id="video_time" controls>
-              <source src={stateurl.url} type="video/mp4" />
-            </video>
-          </div>
+          <>
+            {
+              (lastVidStatus !== null && resumed === false ) && <Modal_Elem openModal={true} getResponse={getResponse}/>
+            }
+            <div className="text-center">
+              <ReactPlayer
+                  className="resource-video" 
+                  url={stateurl.url} 
+                  onReady={videoReady}
+                  onEnded={videoEnded}
+                  controls
+              />
+            </div>
+          </>
         )}
         <Footer />
       </main>

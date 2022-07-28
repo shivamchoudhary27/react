@@ -38,8 +38,6 @@ const CourseView = () => {
       });
   }, []);
 
-  // console.log(title.modules);
-
   const showSide = () => {
     setShow(!show);
   };
