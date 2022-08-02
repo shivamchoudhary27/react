@@ -7,6 +7,7 @@ import CourseView from "../../pages/courses/courseview";
 import Video from "../../pages/courses/video";
 import Startattempt from "../../pages/courses/quiz";
 import Attempt from "../../pages/courses/quiz/attempt";
+import ActivityPage from "../../pages/courses/activity";
 
 export default function CustomRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function CustomRoutes() {
             path="/courseview/:id/:fullname"
             element={<CourseView />}
           />
+          <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
           <Route path="/mod/view/:name/:instance" element={<Startattempt />} />
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
           <Route path="/mod/attempt/quiz/:attemptid" element={<Attempt />} />

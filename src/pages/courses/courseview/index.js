@@ -29,7 +29,6 @@ const CourseView = () => {
             setError("Something went wrong");
           } else {
             setTitle(res.data);
-            // console.log(localStorage.setItem('instanceid', res.data[0].modules.instance)); 
           }
         }
       })
@@ -37,8 +36,6 @@ const CourseView = () => {
         console.log(err);
       });
   }, []);
-
-  // console.log(title.modules);
 
   const showSide = () => {
     setShow(!show);
@@ -61,8 +58,6 @@ const CourseView = () => {
           {title.map((courses, index) => (
             <div key={Math.random() + courses.id}>
               {courses.modules.map((activity, i) =>
-              // {window.console.log(activity)}
-
                 activity.modname === "resource" ? (
                   <div
                     className="container-fluid page-box"
@@ -78,7 +73,7 @@ const CourseView = () => {
                       <Cards title={activity.name} icon={activity.modicon} />
                     </Link>
                   </div>
-                ) : (
+                ) : (activity.modname === "quiz") ? (
                   <div
                     className="container-fluid page-box"
                     key={index + activity.id}
@@ -88,6 +83,16 @@ const CourseView = () => {
                       <Cards title={activity.name} icon={activity.modicon}/>
                     </Link>
                   </div>
+                ) : (
+                  <div
+                    className="container-fluid page-box"
+                    key={index + activity.id}
+                  >
+
+                    <Link to={`/mod/activity/${activity.name}/${activity.instance}`}>
+                      <Cards title={activity.name} icon={activity.modicon}/>
+                    </Link>
+                  </div>                  
                 )
               )}
             </div>

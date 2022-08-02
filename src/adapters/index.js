@@ -15,7 +15,7 @@ const getPublicData = (query) => {
     // query.serviceshortnames =  ["moodle_mobile_app"];
     query.wstoken= config.WSTOKEN ?? localStorage.getItem('token');
     query.moodlewsrestformat= "json";
-    return instance.get(config.REST_ENDPOINT, { params: query });
+    return instance.get(config.REST_ENDPOINT, { params: query }); 
   }
   
 };
@@ -49,4 +49,17 @@ const deleteData = (query) => {
   return instance.delete(config.REST_ENDPOINT, { params: query });
 };
 
-export { getPublicData, getData, postData, putData, deleteData };
+const processQuizData = (query) => {
+  let paramString = '';
+  let wstoken= config.WSTOKEN ?? localStorage.getItem('token');
+  paramString += "wsfunction=" + query.wsfunction;
+  paramString += "&wstoken=" + wstoken;
+  paramString += "&moodlewsrestformat=json";
+  paramString += "&attemptid=" + query.attemptid;
+  paramString += "&finishattempt=" + query.finishattempt;
+  paramString += "&" + query.quizdata;
+console.log(paramString);
+  return instance.get(config.REST_ENDPOINT + "?" + paramString);
+}
+
+export { getPublicData, getData, postData, putData, deleteData, processQuizData };

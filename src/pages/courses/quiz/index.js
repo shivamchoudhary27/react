@@ -39,8 +39,6 @@ const Startattempt = () => {
           else {
             setAttemptid(res.data.attempts[0].id);
           }
-        
-
         }
       })
       .catch((err) => {

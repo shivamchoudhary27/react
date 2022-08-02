@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getData } from "../../../adapters";
+import { getData, processQuizData } from "../../../adapters";
 import "./style.css";
 import PageLoader from "../../../widgets/loader/pageloader";
 import Header from "../../header";
@@ -12,21 +12,20 @@ import BreadCrumb from "../../../widgets/BreadCrumb";
 function Attempt() {
   const { attemptid } = useParams();
   const [quizData, setQuizData] = useState([]);
-//   const [quizProcess, setQuizProcess] = useState([]);
-  const [process, setProcess] = useState();
   const [showLoader, setLoader] = useState(true);
   const [next, setNext] = useState(0);
   const [show, setShow] = useState(true);
   const [error, setError] = useState("");
-
+  const [jet, setJet] = useState([]);
+  
+  // this effect to get questions data with requested page
   useEffect(() => {
     const query = {
       wsfunction: "mod_quiz_get_attempt_data",
       attemptid: attemptid,
       page: next,
     };
-    console.log("the request");
-    console.log();
+
     getData(query)
       .then((res) => {
         setQuizData(res.data);
@@ -37,47 +36,60 @@ function Attempt() {
       });
   }, [next]);
 
-  console.log(quizData);
-
-  // useEffect(() => {
-  //   var data = [];
-  //   var keyName = "name", keyVal = "value";
-  //   data[0][keyName] = "q343:3_answer";
-  //   data[0][keyVal] = 0;
-  //   const query = {
-  //     wsfunction: "mod_quiz_process_attempt",
-  //     attid: 406,
-  //     data: data
-  //   };
-  //   getData(query)
-  //     .then((res) => {
-  //       setQuizProcess(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
-  // console.log(nextpage);
-
   const processAttempt = () => {
-    setProcess(alert("Finish Attempt"));
+    alert('Finish attempt in progress ... !');
   };
 
   const nextPage = () => {
-    console.log("value of next state" + next);
-    if (quizData.nextpage == -1) {
-      alert("invalid page");
-    } else {
-      setNext(quizData.nextpage);
+    if (quizData.nextpage === -1) {
+      alert("There's no next page");
+      return;
     }
-  };
+    let userdata = getUserAnswers(quizData);
 
+    let setThispage = [];
+    setThispage['name'] = 'thispage'; //"q9:1_answer"; //   
+    setThispage['value'] = quizData.attempt.currentpage; //"the dummy answer";// 
+    userdata.push(setThispage);
+
+    let setNextpage = [];
+    setNextpage['name'] = 'nextpage'; //"q9:1_answer"; //   
+    setNextpage['value'] = quizData.nextpage; //"the dummy answer";//
+    userdata.push(setNextpage);
+
+    var dataParam = '';
+    Object.keys(userdata).map((item,index) => {
+      dataParam += `data[${item}][name]` + "=" + userdata[index].name + "&"
+      dataParam += `data[${item}][value]` + "=" + userdata[index].value + "&"
+    })
+
+    const saveResponse = {
+      wsfunction: "mod_quiz_process_attempt",
+      attemptid: attemptid,
+      quizdata: dataParam,
+      finishattempt: 0,
+    };
+
+    processQuizData(saveResponse)
+      .then( (response) => {
+          console.log(response.data);
+          if (response.data.state !== undefined) {
+             if (response.data.state === "inprogress") {
+                setNext(quizData.nextpage);
+             } else if (response.data.state === "finished") {
+                alert('This attempt is finished');
+             }
+          }
+      })
+      .catch((error) => {
+          console.log(error);
+          // return error;
+      });
+  };
+  
   const previousPage = () => {
-    console.log("value of next state" + next);
-    let x = quizData.attempt.currentpage - 1;
-    alert(x);
-    setNext(x);
+    alert('Previous in progress');
+    return;
   };
 
   if (showLoader === true) {
@@ -131,3 +143,49 @@ function Attempt() {
 }
 
 export default Attempt;
+
+
+function getUserAnswers (quizData) {
+  let data = [];
+  quizData.questions.map((index) => {
+    let userAnswer = [];
+    if (index.type === "shortanswer") {
+      userAnswer = qtype_shortanswer_process(quizData.attempt.uniqueid, index.slot);
+      data.push(userAnswer);
+    } else if (index.type === "multichoice") {
+      userAnswer = qtype_multichoice_process(quizData.attempt.uniqueid, index.slot);
+      data.push(userAnswer);
+    }
+    data.push(dummy_sequence_flagged(index.sequencecheck , 'q' + quizData.attempt.uniqueid + ':' + index.slot));
+  });
+  return data;
+}
+
+function qtype_shortanswer_process (uniqueId, slot) {
+  var element =  'q' + uniqueId + ':' + slot;
+  var answer = document.getElementsByName(element + '_answer');
+  const data = []; 
+  data['name'] = element + '_answer'; //"q9:1_answer"; //   
+  data['value'] = answer[0].value; //"the dummy answer";// 
+  return data; 
+}
+
+function qtype_multichoice_process (uniqueId, slot) {
+  let element =  'q' + uniqueId + ':' + slot;
+  let answer = document.getElementsByName(element + '_answer');
+  let data = []; 
+  data['name'] = element + '_answer';
+  answer.forEach((index) => {
+    if (index.checked === true) {
+      data['value'] = index.value;
+    }    
+  });
+  return data;
+}
+
+function dummy_sequence_flagged (sequenceValue, element) {
+  let sequence = [];
+  sequence['name'] = element + "_:sequencecheck";
+  sequence['value'] = sequenceValue
+  return sequence;
+}
