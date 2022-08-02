@@ -10,6 +10,7 @@ import style from "./style.module.scss";
 const Dashboard = () => {
   const [show, setShow] = useState(true);
   const res = useUserinfo();
+  const [x, setX] = useState({i: 1, j: 'put some values'});
 
   if (res === "loading") {
     return <PageLoader />;
