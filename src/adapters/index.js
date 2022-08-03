@@ -58,7 +58,7 @@ const processQuizData = (query) => {
   paramString += "&attemptid=" + query.attemptid;
   paramString += "&finishattempt=" + query.finishattempt;
   paramString += "&" + query.quizdata;
-console.log(paramString);
+
   return instance.get(config.REST_ENDPOINT + "?" + paramString);
 }
 

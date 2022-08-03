@@ -36,7 +36,7 @@ function Attempt() {
   }, [next]);
 
   const finishAttempt = () => {
-    if (window.confirm("Click yes to submit and finish!")) {
+    if (window.confirm("Click ok to submit and finish!")) {
       processAttempt(0, 1);
     }   
   };
@@ -49,9 +49,18 @@ function Attempt() {
     processAttempt(quizData.nextpage);
   };
   
+  const previousPage = () => {
+    if (quizData.nextpage === -1) {
+      let totalpages = quizData.attempt.layout.split(",0,").length - 1;
+      (totalpages > 1) && processAttempt(totalpages - 1); 
+    } else {
+      let prevPage = quizData.nextpage - 2; 
+      (prevPage > -1) ? processAttempt(prevPage) : window.alert('This is the first page');
+    }
+  };
+
   const processAttempt = (nextpage, finish = 0) => {
     let userdata = getUserAnswers(quizData);
-
     var dataParam = '';
     Object.keys(userdata).map((item,index) => {
       dataParam += `data[${item}][name]` + "=" + userdata[index].name + "&"
@@ -83,18 +92,6 @@ function Attempt() {
           console.log(error);
       });
   }
-  const previousPage = () => {
-    if (quizData.nextpage === -1) {
-      let totalpages = quizData.attempt.layout.split(",0,").length - 1;
-      if (totalpages > 1) {
-        processAttempt(totalpages - 1);
-      }
-    } else {
-      processAttempt(quizData.nextpage - 2);
-    }
-
-    return;
-  };
 
   if (showLoader === true) {
     return <PageLoader />;
@@ -148,20 +145,24 @@ function Attempt() {
 
 export default Attempt;
 
-
+// collecting user's answers to the questions on the page
 function getUserAnswers (quizData) {
   let data = [];
+
   quizData.questions.map((index) => {
     let userAnswer = [];
-    if (index.type === "shortanswer") {
-      userAnswer = qtype_shortanswer_process(quizData.attempt.uniqueid, index.slot);
+    let qtypeMethod = 'qtype_' + index.type + '_process';
+    
+    try {
+      qtypeMethod = eval(qtypeMethod);
+      userAnswer = qtypeMethod(quizData.attempt.uniqueid, index.slot);
       data.push(userAnswer);
-    } else if (index.type === "multichoice") {
-      userAnswer = qtype_multichoice_process(quizData.attempt.uniqueid, index.slot);
-      data.push(userAnswer);
+      data.push(dummy_sequence_flagged(index.sequencecheck , 'q' + quizData.attempt.uniqueid + ':' + index.slot));
+    } catch (err) {
+      answer_fetch_error(index.type, quizData.attempt.uniqueid, index.slot);
     }
-    data.push(dummy_sequence_flagged(index.sequencecheck , 'q' + quizData.attempt.uniqueid + ':' + index.slot));
   });
+
   return data;
 }
 
@@ -169,12 +170,20 @@ function qtype_shortanswer_process (uniqueId, slot) {
   var element =  'q' + uniqueId + ':' + slot;
   var answer = document.getElementsByName(element + '_answer');
   const data = []; 
-  data['name'] = element + '_answer'; //"q9:1_answer"; //   
-  data['value'] = answer[0].value; //"the dummy answer";// 
-  return data; 
+  data['name'] = element + '_answer';  
+  data['value'] = answer[0].value;
+  return data;
 }
 
 function qtype_multichoice_process (uniqueId, slot) {
+  return get_radio_options_answer (uniqueId, slot);
+}
+
+function qtype_truefalse_process (uniqueId, slot) {
+  return get_radio_options_answer (uniqueId, slot);
+}
+
+function get_radio_options_answer (uniqueId, slot) {
   let element =  'q' + uniqueId + ':' + slot;
   let answer = document.getElementsByName(element + '_answer');
   let data = []; 
@@ -182,7 +191,7 @@ function qtype_multichoice_process (uniqueId, slot) {
   answer.forEach((index) => {
     if (index.checked === true) {
       data['value'] = index.value;
-    }    
+    }
   });
   return data;
 }
@@ -193,3 +202,16 @@ function dummy_sequence_flagged (sequenceValue, element) {
   sequence['value'] = sequenceValue
   return sequence;
 }
+
+function answer_fetch_error (qtype, uniqueId, slot) {
+  let element =  'q' + uniqueId + ':' + slot + '_answer';
+  console.log('Some error occurred while getting answers to ' + qtype + ' type question with element ' + element);
+}
+
+function construct_answer_element_name () {
+  // in progress
+}
+function construct_flagged_element_name () {
+  // in progress
+}
+

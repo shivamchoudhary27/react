@@ -25,7 +25,8 @@ const Startattempt = () => {
       wsfunction: "mod_quiz_get_user_attempts",
       quizid: instance,
       userid: userid,
-      status: "unfinished"
+      status: "unfinished",
+      includepreviews: 1
     };
 
     getData(query)
