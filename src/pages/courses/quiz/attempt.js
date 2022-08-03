@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getData, processQuizData } from "../../../adapters";
 import "./style.css";
 import PageLoader from "../../../widgets/loader/pageloader";
@@ -16,9 +16,8 @@ function Attempt() {
   const [next, setNext] = useState(0);
   const [show, setShow] = useState(true);
   const [error, setError] = useState("");
-  const [jet, setJet] = useState([]);
-  
-  // this effect to get questions data with requested page
+  const navigate = useNavigate();
+
   useEffect(() => {
     const query = {
       wsfunction: "mod_quiz_get_attempt_data",
@@ -36,8 +35,10 @@ function Attempt() {
       });
   }, [next]);
 
-  const processAttempt = () => {
-    alert('Finish attempt in progress ... !');
+  const finishAttempt = () => {
+    if (window.confirm("Click yes to submit and finish!")) {
+      processAttempt(0, 1);
+    }   
   };
 
   const nextPage = () => {
@@ -45,17 +46,11 @@ function Attempt() {
       alert("There's no next page");
       return;
     }
+    processAttempt(quizData.nextpage);
+  };
+  
+  const processAttempt = (nextpage, finish = 0) => {
     let userdata = getUserAnswers(quizData);
-
-    let setThispage = [];
-    setThispage['name'] = 'thispage'; //"q9:1_answer"; //   
-    setThispage['value'] = quizData.attempt.currentpage; //"the dummy answer";// 
-    userdata.push(setThispage);
-
-    let setNextpage = [];
-    setNextpage['name'] = 'nextpage'; //"q9:1_answer"; //   
-    setNextpage['value'] = quizData.nextpage; //"the dummy answer";//
-    userdata.push(setNextpage);
 
     var dataParam = '';
     Object.keys(userdata).map((item,index) => {
@@ -67,7 +62,7 @@ function Attempt() {
       wsfunction: "mod_quiz_process_attempt",
       attemptid: attemptid,
       quizdata: dataParam,
-      finishattempt: 0,
+      finishattempt: finish,
     };
 
     processQuizData(saveResponse)
@@ -75,20 +70,29 @@ function Attempt() {
           console.log(response.data);
           if (response.data.state !== undefined) {
              if (response.data.state === "inprogress") {
-                setNext(quizData.nextpage);
+                setNext(nextpage);
              } else if (response.data.state === "finished") {
                 alert('This attempt is finished');
+                navigate('/mycourse');
+             } else if (response.data.errorcode !== undefined) {
+                alert(response.data.message);
              }
           }
       })
       .catch((error) => {
           console.log(error);
-          // return error;
       });
-  };
-  
+  }
   const previousPage = () => {
-    alert('Previous in progress');
+    if (quizData.nextpage === -1) {
+      let totalpages = quizData.attempt.layout.split(",0,").length - 1;
+      if (totalpages > 1) {
+        processAttempt(totalpages - 1);
+      }
+    } else {
+      processAttempt(quizData.nextpage - 2);
+    }
+
     return;
   };
 
@@ -132,7 +136,7 @@ function Attempt() {
           </button>
         </div>
         <div className="text-center mb-5">
-          <button className="btn btn-warning" onClick={processAttempt}>
+          <button className="btn btn-warning" onClick={finishAttempt}>
             Finish Attempt
           </button>
         </div>
