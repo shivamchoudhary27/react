@@ -2,6 +2,10 @@ import "./pageloader.css";
 
 export default function PageLoader() {
   return (
+    // <div>
+    //   <section class="bg"></section>
+    //   <div class="loading-text">0%</div>
+    // </div>
     <div className="preloader">
       <svg
         width="200"

@@ -57,7 +57,7 @@ const Startattempt = () => {
         .then((res) => {
           if (res.status === 200 && res.data) {
             if (res.data.attempt.id !== undefined) {
-              navigate(`/mod/attempt/quiz/${res.data.attempt.id}`);
+              navigate(`/mod/attempt/quiz/${res.data.attempt.id}`); 
             }
           }
         })
