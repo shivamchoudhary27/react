@@ -1,0 +1,131 @@
+$sidebar-width:270px;
+.header-slider{
+    padding-left: calc($sidebar-width + 30px) !important;
+}
+.dashboard-header{
+    padding-left: 117px;
+    transition: 0.5s;
+    padding-right: 24px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 99;
+    background-color: #F8EDE3;
+    .dashboard-header-row{
+        margin-left: unset;
+        margin-right: unset;
+        align-items: baseline;
+        // border-bottom: 1px solid #EAE6E5;
+        .col-sm-6{
+            .goodbye-icon{
+                width:27px;
+                margin-left: 15px;
+            }
+            .dashboard-header-heading{
+                font-size: 25px;
+                margin-top: -5px;
+                margin-bottom: 0;
+            }
+            // .course-status{
+            //     display:flex;
+            //     list-style-type: none;
+            //     padding-inline-start: 0px;
+            //     margin-bottom: 0px;
+            //     .course-progress{
+            //         color:#F57F17;
+            //     }
+            // }
+            .course-status li{
+                padding-right: 20px;
+                color:#A2A1A1;
+                font-weight: 500;
+            }
+        }
+        .col-sm-6{
+            .text-right{
+                text-align: end;
+                .dashboard-items{
+                    display:inline-flex;
+                    list-style-type: none;
+                    padding-inline-start: 0px;
+                    margin-bottom: 0px;
+                    margin-right: 2px;
+                    .user-image-logo{
+                        width: 35px;
+                        margin-top: -7px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                    }
+                    .btn-success {
+                        color: black;
+                        background-color: transparent;
+                        border-color: transparent;
+                    }
+                    .dropdown{
+                        .btn{
+                            padding:unset;
+                        }
+                    }
+                }
+                .dashboard-items li{
+                    padding-right: 20px;
+                }
+                .dashboard-items li:last-child{
+                    padding-right: 0px;
+                }
+                .dashboard-items li .user-name{
+                    list-style-type: none;
+                    padding-inline-start: 0px;
+                    text-align: left;
+                    .user-name-content{
+                        font-weight: 600;
+                        padding-right: 0px;
+                    }
+                    .username-id{
+                        font-size: 12px;
+                        padding-right: 0px;
+                    }
+                }
+            }
+            .search-icon{
+                color:#767FA1;
+                font-size: 20px;
+            }
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+.header-slider {
+    padding-left: 287px !important;
+}
+.dashboard-header {
+    padding-left: 130px !important;
+    font-size: 14px;
+    padding-right: 0px;
+    .dashboard-header-row{
+        .welcome-heading{
+            display:none;
+        }
+        .col-sm-6{
+            .text-right{
+                text-align: left;
+                .dashboard-items li{
+                    padding-right: 10px;
+                }
+                .dashboard-items{
+                    margin-left: 45px;
+                    .search-icon{
+                        font-size: 14px;
+                    }
+                    .user-image-logo{
+                        width:25px;
+                    }
+                }
+            }
+        }
+    }
+}      
+}

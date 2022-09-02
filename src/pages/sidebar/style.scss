@@ -1,0 +1,174 @@
+$fontfamily:Roboto;
+$color:white;
+$sidebar-width:270px;
+body{
+    font-family: $fontfamily;
+}
+.hamburger-icon{
+    float: left !important;
+    margin-right: 35px !important;
+    margin-top: 14px !important;
+    position: fixed;
+    top: 0;
+    // right: 0;
+    z-index: 9999;
+    cursor: pointer;
+    color: white;
+    font-size: 25px;
+    color: darkorange;
+}
+.pro-sidebar.collapsed {
+    width: 102px !important;
+    min-width: 102px !important;
+}
+.pro-sidebar {
+    color:$color !important;
+    position: fixed !important;
+    width:$sidebar-width !important;
+    top: 0px;
+    .pro-sidebar-inner {
+        background: #192430 !important;
+    }
+    .pro-menu {
+        padding-top: 40px !important;
+        .catalogue-icon{
+            color:#80828A !important;
+        }
+        .pro-menu-item {
+            font-size: 20px !important;
+            font-weight: 400;
+            margin-bottom: 16px;
+            .bl-text{
+                display:none;
+                .bl-logo-text{
+                    display:block;
+                    width: 130px;
+                    height: 130px;
+                    left: 60px;
+                    top: 60px;
+                    padding: 40px 17px;
+                    border-radius: 50%;
+                    background: #FFFFFF;
+                    margin-left: 30px;
+                }
+            }
+            .bl-logo-text{
+                display:block;
+                width: 50px;
+                height: 50px;
+                left: 60px;
+                top: 60px;
+                padding: 11px 8px;
+                border-radius: 50%;
+                background: #FFFFFF;
+                color:black;
+                margin-left: 0px;
+                .bl-logo-text-content{
+                    margin-top: -1px;
+                    text-align: center;
+                    margin-bottom: 0px;
+                    color: #F57F17;
+                    font-weight: 500;
+                }
+            }
+            .pro-inner-item{
+                padding: 8px 24px 9px 27px !important;
+            }
+            .degree-icon{
+                width:30px;
+                margin-right: 20px;
+                margin-left: 8px;
+            }
+            .dashboard-icon{
+                width:30px;
+                margin-right: 20px;
+                margin-left: 8px;
+            }
+            .bl-logo {
+                width: 99px;
+                height: 60px;
+                margin-top: -8px;
+            }
+            .logowhite{
+                display:block;
+            }
+            .logo-bg {
+                display:block;
+                width: 130px;
+                height: 130px;
+                left: 60px;
+                top: 60px;
+                padding: 40px 17px;
+                border-radius: 50%;
+                background: #FFFFFF;
+                margin-left: 30px;
+            }
+        }
+    }
+}
+
+
+@media (max-width: 575.98px) {
+    .hamburger-icon{
+        margin-top: 2px !important;
+        left: 10px;
+    }
+    .pro-sidebar.collapsed {
+        width: 0px !important;
+        min-width: 0px !important;
+    }
+    .pro-sidebar{
+        width: 55% !important;
+        min-width: 55% !important;
+        .pro-menu{
+            .pro-menu-item{
+                .pro-item-content{
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                }
+                .dashboard-icon{
+                    width: 20px;
+                    margin-bottom: 3px;
+                }
+                .degree-icon{
+                    width:20px;
+                    margin-bottom: 3px;
+                }
+                .logo-bg{
+                    width: 60px;
+                    height: 60px;
+                    padding: 15px 10px;
+                    .bl-logo{
+                        width: 40px;
+                        height: 32px;
+                    }
+                }
+            }
+        }
+    }
+//     .pro-sidebar.mobile-sidebar {
+//         width: 102px !important;
+//         min-width: 102px !important;
+//         .pro-menu{
+//             .pro-menu-item{
+//                 .logo-bg{
+//                     display:none;
+//                 }
+//                 .bl-text{
+//                     display:block;
+//                     .bl-logo-text{
+//                         display: block;
+//                         width: 50px;
+//                         height: 50px;
+//                         padding: 11px 8px;
+//                         border-radius: 50%;
+//                         background: #FFFFFF;
+//                         color: black;
+//                         margin-left: 0px;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+}
