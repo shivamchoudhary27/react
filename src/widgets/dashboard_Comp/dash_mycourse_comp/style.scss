@@ -1,6 +1,10 @@
+.course-content-slider{
+    padding-left: 300px !important;
+}
 .course-content{
-    padding-left: 300px;
-    padding-top: 50px;
+    padding-left: 117px;
+    transition: 0.5s;
+    padding-top: 60px;
     padding-right: 24px;
     padding-bottom: 40px;
     .course-row{
@@ -20,6 +24,14 @@
             .ai-course{
                 border: 1px solid #EAE6E5;
                 margin-bottom: 25px;
+                .course-heading-google{
+                    height: 57px;
+                    width: 269px;
+                }
+                .google-course-text{
+                    height: 80px;
+                    width: 269px;
+                }
                 .progress-percentage{
                     font-size: 30px;
                     color:#F57F17;
@@ -85,6 +97,8 @@
                             padding-left: 0px;
                             .course-image{
                                 width:50px;
+                                height: 50px;
+                                border-radius: 50%;
                             }
                         }
                         .col-sm-2{
@@ -105,5 +119,58 @@
         color: #F57F17;
         font-size: 14px;
         margin-top: 15px;
+    }
+}
+
+
+
+@media (max-width: 575.98px) {
+    .course-content-slider {
+        padding-left: 300px !important;
+    }
+    .course-content{
+        padding-left: 10px !important;
+        padding-right: 10px;
+        .course-row{
+            .col-sm-4{
+                .ai-course{
+                    .course-duration-content{
+                        .course-duration{
+                            display:unset;
+                            .third-child{
+                                margin-top: 10px;
+                                position: unset;
+                            }
+                        }
+                    }
+                    .ai-border{
+                        .row{
+                            .card-left-column{
+                                width: 63%;
+                            }
+                            .col-sm-10{
+                                .course-heading-google{
+                                    width:unset;
+                                    height: 80px;
+                                    .card-title{
+                                        font-size: 17px;
+                                    }
+                                }
+                                .google-course-text{
+                                    width:unset;
+                                    font-size: 13px;
+                                }
+                            }
+                            .card-right-column{
+                                width: 33%;
+                                .card-right-column-image{
+                                    text-align: end;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

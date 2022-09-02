@@ -1,0 +1,54 @@
+.course-status-slider{
+  padding-left: 314px !important;
+}
+.course-status-content {
+  padding-left: 130px;
+  transition: 0.5s;
+  position: fixed;
+  top: 50px;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  background: white;
+  .course-status {
+    display: inline-flex;
+    padding-top: 10px;
+    border-bottom: 1px solid #eae6e5;
+    width: 96%;
+    padding-inline-start: 0px;
+    li {
+      padding-right: 30px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      &:hover{
+        color: #f1b580;
+      }
+    }
+  }
+  .course-status {
+    display: flex;
+    list-style-type: none;
+    padding-inline-start: 0px;
+    margin-bottom: 0px;
+    .course-progress {
+      color: #f57f17;
+    }
+    li{
+        padding-right: 20px;
+        color:#A2A1A1;
+        font-weight: 500;
+    }
+  }
+}
+
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .course-status-slider {
+    padding-left: 314px !important;
+}
+.course-status-content {
+  padding-left: 20px !important;
+  top: 46px;
+}
+}

@@ -1,0 +1,155 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.attempt-container {
+  padding-left: 285px;
+  position: relative;
+  top: 50px;
+  .attempt-row{
+   margin-left: unset;
+   margin-right: unset; 
+  }
+  .breadcrumb {
+    color: #f57f17;
+  }
+  .attempt-btn {
+    background-color: white;
+    border: 1px solid #f57f17;
+    border-radius: 50px;
+    padding: 8px 30px 8px 30px;
+    color: #f57f17;
+    font-size: 14px;
+    margin-top: 15px;
+    transition: 0.5s ease;
+    &:hover {
+      background-color: #f57f17;
+      color: #fff;
+    }
+  }
+  .col-sm-3{
+    .quiz-right-sidebar{
+      position: fixed;
+      width: 19%;
+    }
+  }
+}
+
+
+
+// Quiz renderer questions
+
+.quiz-container {
+  padding-left: 285px;
+  position: relative;
+  top: 50px;
+
+  .quiz-row{
+    margin-left: unset;
+   margin-right: unset; 
+  }
+
+  #parent .info {
+    background-color: #bdc5da;
+    padding: 0.8rem 2rem;
+    border: 1px solid #ffe6e6;
+  }
+
+  .info .state,
+  .info .grade {
+    margin-bottom: 0.5rem;
+  }
+
+  #parent .content {
+    background-color: #f9f9f9;
+    padding: 2rem;
+    color: black;
+  }
+
+  .ablock a {
+    text-decoration: none;
+    color: rgb(80, 113, 221);
+  }
+  .page-btn {
+    display: flex;
+    justify-content: space-between;
+    .pre-btn,
+    .next-btn {
+      background-color: white;
+      border: 1px solid #f57f17;
+      border-radius: 50px;
+      padding: 5px 20px;
+      color: #f57f17;
+      font-size: 14px;
+      margin-top: 15px;
+      transition: 0.2s ease;
+      &:active{
+        background-color: #f3b076;
+        color: #666;
+      }
+    }
+  }
+  .finish-attempt-btn{
+    .finish-btn {
+        background-color: #f57f17;
+        border: 1px solid #f57f17;
+        border-radius: 50px;
+        padding: 8px 30px 8px 30px;
+        color: white;
+        font-size: 14px;
+        margin-top: 15px;
+      }
+  }
+  .col-sm-3{
+    .quiz-right-sidebar{
+      position: fixed;
+      width: 19%;
+    }
+  }
+}
+
+// Right side nav
+.quiz-right-sidebar{
+  position: fixed;
+  width:19%;
+}
+.right-side-nav-bg{
+  // background-color: #F8F9FA;
+  .quiz-right-sidebar{
+    position: fixed;
+  width: 19%;
+  }
+  .quiz-navigation-content{
+    padding: 15px;
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+    margin-top: 8px;
+
+    .quiz-navigation-btn{
+      background-color: transparent;
+      width: 30px;
+      height: 39px;
+      border-radius: 5px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    .active{
+      background-color: #f57f17;
+    }
+    .finish-attempt-btn{
+      color:#0d6efd;
+    }
+    .quiz-preview-btn{
+      background-color: #CED4DA;
+      border-color: #CED4DA;
+      border-width: 0px;
+      border-radius: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+}

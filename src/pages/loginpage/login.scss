@@ -1,0 +1,374 @@
+$fontfamily:Roboto;
+$h1fontsize:48px;
+$pfontsize:24px;
+$pfontweight:400;
+$color:#FFFFFF;
+
+.bl-logo{
+    width:115.5px;
+    height:70px;
+}
+    .bg-opacity{
+        // .row{
+        //     margin-right: unset;
+        //     margin-left: unset;
+        // }
+        // .banner{
+        //     // background: url("../../assets/images/login_banner.png") no-repeat left, #192430;
+        //     // background-size: cover;
+        //     // min-height: 100vh;
+        //     // background: rgba(0,0,0,0.5);
+        // }
+        .left-column{
+            background: linear-gradient( rgba(0, 0, 0, 0.5) 100%, rgba(0, 0, 0, 0.5)100%), url("../../assets/images/login_banner.png") no-repeat left;
+            background-size: cover;
+            min-height: 100vh;
+        }
+        .col-sm-8{
+            // padding-left: 0px;
+            // padding-right: 0px;
+            .banner-opacity{
+                padding-top: 60px;
+                // padding-left: 60px;
+                // background: rgba(0,0,0,0.5);
+                min-height: 100vh;
+                // padding-right: 60px;
+            }
+            .logo-bg{
+                width: 150px;
+                height: 150px;
+                left: 60px;
+                top: 60px;
+                padding: 40px 17px;
+                border-radius: 50%;
+                background: #FFFFFF;
+            }
+            h1{
+                font-family: $fontfamily;
+                font-size: $h1fontsize;
+                color: $color;
+                margin-top: 20px;
+            }
+            p{
+                font-family: $fontfamily;
+                font-size: $pfontsize;
+                font-weight: $pfontweight;
+                margin-top: 20px;
+                color: $color;
+                min-height: 52vh;
+            }
+            .cpy-right{
+                font-size: 16px;
+                color:white;
+                padding-right: 20px;
+            }
+            .privacy{
+                float: right;
+            }
+        }
+        .col-sm-4{
+            background-color: #192430;
+            .logo-bg{
+                display:none;
+            }              
+        .right-col{
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .errorAlert {
+                text-align: center;
+                font-size: 14px;
+                color: #F57F17 !important;
+                background-color: #ffffff;
+                padding: 0.3rem 0;
+              }
+              .login-loader{
+                margin: 0 auto;
+                display: table;
+                margin-bottom: 10px;
+              }
+            .bar{
+                height: 2px;
+                width: 136px;
+                background-color: #F57F17;
+                position: relative;
+                border-radius: 5px;
+                overflow: hidden;
+                margin-bottom: 12px;
+            }
+            .welcome-heading{
+                font-size: 32px;
+                font-weight: 400;
+                font-family: $fontfamily;
+                color:$color;
+                margin-bottom: 0px;
+            }
+            .login-info{
+                font-size: 18px;
+                font-family: $fontfamily;
+                color:$color;
+            }
+            .username-input{
+                background-color: transparent;
+                border-color: white;
+                border-width: 1px;
+                border-radius: 50px;
+                height: 38px;
+                width: 100%;
+                padding-left: 41px;
+                color:$color;
+            }
+            .input-icons i {
+                position: absolute;
+            }
+            .input-icons {
+                width: 100%;
+                margin-bottom: 10px;
+                .fieldInputError {
+                    color: #F57F17;
+                    font-size: 15px;
+                    text-align: center;
+                }
+            }
+            .icon {
+                padding: 10px;
+                color: white;
+                min-width: 50px;
+                text-align: center;
+                margin-top: 1px;
+            }
+            .eye-icon{
+                padding: 10px;
+                color: white;
+                min-width: 50px;
+                text-align: center;
+                margin-top: 1px;
+                margin-left: -50px;
+            }
+            .forgot-pass{
+                font-family: $fontfamily;
+                color:$color;
+                text-align: end;
+                text-decoration: underline;
+            }
+            .form-check{
+                .form-check-input{
+                    background-color: transparent;
+                    border-color: #B9B9B9;
+                }
+            .form-check-label{
+                font-family: $fontfamily;
+                color:$color;
+            }
+            }
+            .login-btn, .signup-btn{
+                background-color: #F57F17;
+                border-color: #F57F17;
+                border-width: 1px;
+                width: 100%;
+                padding: 11px;
+                border-radius: 25px;
+                color: white;
+            }
+            ::placeholder{
+                color:white;
+            }
+        }
+        }
+    }
+
+    .input-block p {
+        color: #F57F17 !important;
+        font-size: 15px;
+        text-align: center;
+    }
+
+
+
+// Media Queries Start
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+    .col-sm-8{
+        display:none;
+    }
+    .bg-opacity{
+        .col-sm-4{
+            padding-bottom: 40px;
+            .right-col{
+                padding-top: 45px;
+            }
+            .logo-bg{
+                width: 150px;
+                height: 150px;
+                left: 60px;
+                top: 60px;
+                padding: 40px 17px;
+                border-radius: 50%;
+                background: #FFFFFF;
+                display:block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 40px;
+            }
+        }
+    }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .bg-opacity{
+        .left-column{
+            width: 55%;
+        }
+        .col-sm-8{
+            .logo-bg{
+                width: 100px;
+                height: 100px;
+                padding: 27px 14px;
+                .bl-logo{
+                    width: 70.5px;
+                    height: 45px;
+                }
+            }
+            .banner{
+                // min-height: 174vh;
+                .banner-opacity{
+                    padding-left: 20px;
+                    padding-right: 20px;
+                    .cpy-content{
+                        display:flex;
+                        .cpy-right{
+                            font-size: 14px;
+                        }
+                    }
+                }
+            }
+            h1{
+                font-size: 24px;
+            }
+            p{
+                font-size: 16px;
+            }
+        }
+    }
+    .bg-opacity{
+        .right-column{
+            width: 45%;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .col-sm-4{
+            .logo-bg{
+                display:none !important;
+            }
+            .right-col{
+                padding-top: 45px;
+                .welcome-heading{
+                    font-size: 24px;
+                }
+                .login-info{
+                    font-size: 15px;
+                }
+            }
+            .logo-bg{
+                width: 150px;
+                height: 150px;
+                left: 60px;
+                top: 60px;
+                padding: 40px 17px;
+                border-radius: 50%;
+                background: #FFFFFF;
+                display:block;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 40px;
+            }
+        }
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .container-fluid{
+        .row{
+            .left-column{
+                    width:50%;
+                .banner-opacity{
+                    .logo-bg{
+                        width: 120px;
+                        height: 120px;
+                        padding: 31px 20px;
+                        .bl-logo{
+                            width: 80.5px;
+                            height: 59px;
+                        }
+                    }
+                    h1{
+                        font-size: 36px;
+                    }
+                    p{
+                        font-size: 19px;
+                        min-height: 68vh;
+                    }
+                    .cpy-content{
+                        display:flex;
+                    }
+                }
+            }
+            .right-column{
+                width:50%;
+                .logo-bg{
+                    display:none;
+                }
+            }
+        }
+    }
+}
+
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .container-fluid{
+        .row{
+            .left-column{
+                width:50%;
+                .banner{
+                    .banner-opacity{
+                        p{
+                            min-height: 68vh;
+                        }
+                        .cpy-content{
+                            display:flex;
+                        }
+                    }
+                }
+            }
+            .right-column{
+                width:50%;
+            }
+        }
+    }
+}
+
+
+// Extra large devices (large desktops, 1200px and up)
+// @media (min-width: 1200px) {
+//     .container-fluid{
+//         .row{
+//             .left-column{
+//                 width:50%;
+//                 .banner{
+//                     .banner-opacity{
+//                         p{
+//                             min-height: 73vh;
+//                         }
+//                     }
+//                 }
+//             }
+//             .right-column{
+//                 width:50%;
+//             }
+//         }
+//     }
+// }
