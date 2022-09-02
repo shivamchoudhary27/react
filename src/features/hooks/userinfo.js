@@ -4,13 +4,12 @@ import UserContext from '../context/user/user';
 
 const useUserinfo = () => {
   const userCtx = useContext(UserContext);
-  const { userInfo } = userCtx;
   const [isLoading, setLoading] = useState(
-    userInfo.status === 200 ? 'loaded' : 'loading',
+    userCtx.status === 200 ? 'loaded' : 'loading',
   );
 
   useEffect(() => {
-    if (userInfo.status !== 200) {
+    if (userCtx.status !== 200) {
       const query = {
         wsfunction: 'core_webservice_get_site_info',
       };
@@ -19,15 +18,11 @@ const useUserinfo = () => {
         .then((res) => {
           if (res.status === 200) {
             if (Object.prototype.hasOwnProperty.call(res.data, 'errorcode')) {
-              userInfo.status = 400;
+              userCtx.setUserStatus(400);
             } else {
-              userInfo.status = 200;
-              localStorage.setItem('userid', res.data.userid);
-              localStorage.setItem('fullname', res.data.fullname);
-              localStorage.setItem('profile', res.data.userpictureurl);
+              userCtx.setUserStatus(200);
             }
-            userInfo.userInfo = res.data;
-            userCtx.setUserOn(userInfo);
+            userCtx.setUserInfo(res.data);
           }
           setLoading('loaded');
         })
@@ -37,7 +32,7 @@ const useUserinfo = () => {
     }
   }, []);
 
-  return isLoading === 'loading' ? 'loading' : userCtx;
+  return isLoading === "loading" ? "loading" : userCtx;
 };
 
 export default useUserinfo;

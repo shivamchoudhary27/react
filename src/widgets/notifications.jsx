@@ -3,8 +3,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { getData } from '../adapters';
 
-function NotificationOverlay() {
-  const useridto = localStorage.getItem('userid');
+function NotificationOverlay(props) {
+  const useridto = props.userid;
   const [message, setMessage] = useState({ totalcount: 0, list: [] });
 
   useEffect(() => {

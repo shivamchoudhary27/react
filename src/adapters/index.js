@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../utils/config';
+import config from '../utils/config'; 
 
 const instance = axios.create({
   baseURL: config.MOODLE_BASE_URL,

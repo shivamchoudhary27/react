@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './style.scss';
 import { Row } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { Link } from 'react-router-dom';
 import imgLogo from '../../../assets/images/jslogo.png';
+import UserContext from '../../../features/context/user/user';
 
 function MyCourseCard(props) {
   let toComplete = '';
@@ -15,8 +16,8 @@ function MyCourseCard(props) {
     const finishDate = date.toLocaleDateString('en-IN');
     toComplete = `Finish date ${finishDate}`;
   }
-
-  const userToken = localStorage.getItem('token');
+  const userCtx = useContext(UserContext);
+  const userToken = userCtx.token;
   return (
     <>
       <div className="ai-course">

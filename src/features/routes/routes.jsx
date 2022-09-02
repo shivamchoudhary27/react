@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter, Routes, Route, Navigate,
 } from 'react-router-dom';
@@ -11,8 +11,11 @@ import Dashboard from '../../pages/dashboard';
 import LoginForm from '../../pages/loginpage';
 import CourseView from '../../pages/courses/courseview';
 import Catalogue from '../../pages/catalogue';
+import UserContext from '../context/user/user';
 
 export default function CustomRoutes() {
+  const userCtx = useContext(UserContext);
+  const isLoggedIn = userCtx.isLoggedIn;
   return (
     <BrowserRouter>
       <Routes>
@@ -29,7 +32,7 @@ export default function CustomRoutes() {
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
           <Route path="/mod/attempt/quiz/:attemptid/:courseid" element={<Attempt />} />
           <Route path="/catalogue" element={<Catalogue />} />
-          <Route path="*" element={localStorage.getItem('loggedIn') === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
+          <Route path="*" element={isLoggedIn === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
     </BrowserRouter>
