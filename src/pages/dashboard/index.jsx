@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Sidebar from '../sidebar';
 import Header from '../header';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
-// import Course from "../../component/Course";
 import useUserinfo from '../../features/hooks/userinfo';
 import PageLoader from '../../widgets/loader/pageloader';
 import DashCatalog from '../../widgets/dashboard_Comp/dash_catalog_comp';

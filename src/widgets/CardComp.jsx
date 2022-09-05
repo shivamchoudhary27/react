@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import img from '../assets/images/images.png';
+import UserContext from '../context/user/user';
 
 function CardComp(props) {
-  const userToken = localStorage.getItem('token');
+  const userCtx = useContext(UserContext)
+  const userToken = userCtx.token;
   return (
     <>
       {props.mycoursedata.map((course, index) => (

@@ -66,10 +66,8 @@ function LoginForm() {
               setErrorMsg(res.data.error);
             } else if (res.data.token) {
               config.WSTOKEN = res.data.token;
-              localStorage.setItem('token', res.data.token);
-              localStorage.setItem('name', usernameInput);
-              localStorage.setItem('loggedIn', true);
-              console.log('login succeed');
+              userCtx.setUserToken(config.WSTOKEN)
+              setTimeout(routeDashboard, 0);
             }
           }
         })
@@ -78,18 +76,6 @@ function LoginForm() {
           setShowLoader(false);
           setInvalidLogin(true);
         })
-        .finally(() => {
-          if (config.WSTOKEN != null) {
-            userCtx.setUserOn({
-              userAuth: { login: true, token: config.WSTOKEN },
-              userInfo: {},
-            });
-            setTimeout(routeDashboard, 0);
-          } else {
-            setShowLoader(false);
-            setInvalidLogin(true);
-          }
-        });
     }
   }
 

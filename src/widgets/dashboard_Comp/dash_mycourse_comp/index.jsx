@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Row } from "react-bootstrap";
 import MyCourseCard from "./Cards";
 import { getData } from "../../../adapters";
 import SkeletonMimic from "./Skeleton";
 import ErrorBox from "../../ErrorBox";
 import "./style.scss";
+import UserContext from '../../../features/context/user/user';
 
 function DashMyCourse(props) {
-  const userid = localStorage.getItem("userid");
+  const userCtx = useContext(UserContext);
+  const userid = userCtx.userInfo.userid;
   const [myCourses, setMyCourses] = useState([]);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState([]);

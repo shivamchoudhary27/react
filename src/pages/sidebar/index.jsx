@@ -13,7 +13,6 @@ import page from '../../assets/images/page.png';
 import settings from '../../assets/images/settings.png';
 import signout from '../../assets/images/signout.png';
 import UserContext from '../../features/context/user/user';
-import config from '../../utils/config';
 import logo from '../../assets/images/logo.png';
 
 const Menuitem = styled(MenuItem)`
@@ -66,14 +65,7 @@ function Sidebar() {
 
   const logout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
-      userctx.setUserOff({ userAuth: {}, userInfo: {} });
-      config.WSTOKEN = null;
-      localStorage.removeItem('token');
-      localStorage.removeItem('loggedIn');
-      localStorage.removeItem('fullname');
-      localStorage.removeItem('userid');
-      localStorage.removeItem('name');
-      localStorage.removeItem('profile');
+      userctx.logout();
       navigate('/');
     }
   };

@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { Row } from 'react-bootstrap';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import ReactPlayer from 'react-player';
-import { getData } from '../../../adapters';
-import Sidebar from '../../sidebar';
-import Header from '../../header';
-import './coursedetails.scss';
-import ModalElem from '../../../widgets/Modal';
-import ModuleAccordion from '../../../widgets/accordian';
-import { SkeletonMimic, Col3 } from './Skeleton';
+import React, { useEffect, useState, useContext } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { Row } from "react-bootstrap";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import ReactPlayer from "react-player";
+import { getData } from "../../../adapters";
+import Sidebar from "../../sidebar";
+import Header from "../../header";
+import ModalElem from "../../../widgets/Modal";
+import ModuleAccordion from "../../../widgets/accordian";
+import UserContext from "../../../features/context/user/user";
+import { SkeletonMimic, Col3 } from "./Skeleton";
+import "./coursedetails.scss";
 
 function Video() {
   const location = useLocation();
-  const userId = localStorage.getItem('userid');
+  const userCtx = useContext(UserContext);
+  const userId = userCtx.userInfo.userid;
   const [stateurl, setStateUrl] = useState({ status: false });
   const { id, courseid } = useParams();
   const courseids = [courseid];
   const [modules, setModules] = useState({ status: false });
   const [resumed, setResumed] = useState(false);
-  const [vidKey, setVidkey] = useState('');
+  const [vidKey, setVidkey] = useState("");
   const [lastVidStatus, setLastVidStatus] = useState(null);
 
   useEffect(() => {
@@ -40,23 +42,20 @@ function Video() {
     }
     if (initial === false) {
       const query = {
-        wsfunction: 'mod_resource_get_resources_by_courses',
+        wsfunction: "mod_resource_get_resources_by_courses",
         courseids,
       };
       getData(query)
         .then((res) => {
           if (res.status === 200 && res.data) {
             if (courseids !== query.courseids || res.data.errorcode) {
-              console.log('Something went wrong');
+              console.log("Something went wrong");
             } else {
               res.data.resources.map((item) => {
                 if (item.coursemodule === id) {
                   setStateUrl({
                     status: true,
-                    url:
-                      `${item.contentfiles[0].fileurl
-                      }?token=${
-                        localStorage.getItem('token')}`,
+                    url: `${item.contentfiles[0].fileurl}?token=${userCtx.token}`,
                     vidname: item.name,
                   });
                 }
@@ -71,7 +70,7 @@ function Video() {
       const { vidurl, vidname } = location.state;
       setStateUrl({
         status: true,
-        url: `${vidurl}&token=${localStorage.getItem('token')}`,
+        url: `${vidurl}&token=${userCtx.token}`,
         vidname,
       });
     }
@@ -79,7 +78,7 @@ function Video() {
 
   useEffect(() => {
     const query = {
-      wsfunction: 'core_course_get_contents',
+      wsfunction: "core_course_get_contents",
       courseid,
     };
     getData(query)
@@ -88,7 +87,7 @@ function Video() {
           if (res.data.errorcode !== undefined) {
             setModules({
               status: false,
-              data: 'Error while fetching modules',
+              data: "Error while fetching modules",
             });
           } else {
             setModules({
@@ -115,7 +114,7 @@ function Video() {
   };
 
   const getVideoCurrentTime = () => {
-    const videoElement = document.querySelector('.resource-video video');
+    const videoElement = document.querySelector(".resource-video video");
     videoElement.currentTime = localStorage.getItem(vidKey);
   };
 
@@ -142,7 +141,7 @@ function Video() {
               ) : (
                 <>
                   {lastVidStatus !== null && resumed === false && (
-                  <ModalElem openModal getResponse={getResponse} />
+                    <ModalElem openModal getResponse={getResponse} />
                   )}
                   <div className="text-center">
                     <ReactPlayer
@@ -166,42 +165,42 @@ function Video() {
                   <p>
                     Your love and pity doth the impression fill, Which vulgar
                     scandal stamp upon my brow; For what care I who calls me
-                    well or ill, So you er-green my bad, my good allow? You
-                    are my all-the-world, and I must strive To know my shames
-                    and praises from your tongue; None else to me, nor I to
-                    none alive, That my steel sense or changes right or
-                    wrong. In so profound abysm I throw all care Of others
-                    voices, that my adder sense That my steel sense or
-                    changes right or wrong. In so profound abysm I throw all
-                    care Of others voices, that my adder sense
+                    well or ill, So you er-green my bad, my good allow? You are
+                    my all-the-world, and I must strive To know my shames and
+                    praises from your tongue; None else to me, nor I to none
+                    alive, That my steel sense or changes right or wrong. In so
+                    profound abysm I throw all care Of others voices, that my
+                    adder sense That my steel sense or changes right or wrong.
+                    In so profound abysm I throw all care Of others voices, that
+                    my adder sense
                   </p>
                 </Tab>
                 <Tab eventKey="profile" title="Profile">
                   <p>
                     Your love and pity doth the impression fill, Which vulgar
                     scandal stamp upon my brow; For what care I who calls me
-                    well or ill, So you er-green my bad, my good allow? You
-                    are my all-the-world, and I must strive To know my shames
-                    and praises from your tongue; None else to me, nor I to
-                    none alive, That my steel sense or changes right or
-                    wrong. In so profound abysm I throw all care Of others
-                    voices, that my adder sense That my steel sense or
-                    changes right or wrong. In so profound abysm I throw all
-                    care Of others voices, that my adder sense
+                    well or ill, So you er-green my bad, my good allow? You are
+                    my all-the-world, and I must strive To know my shames and
+                    praises from your tongue; None else to me, nor I to none
+                    alive, That my steel sense or changes right or wrong. In so
+                    profound abysm I throw all care Of others voices, that my
+                    adder sense That my steel sense or changes right or wrong.
+                    In so profound abysm I throw all care Of others voices, that
+                    my adder sense
                   </p>
                 </Tab>
                 <Tab eventKey="contact" title="Contact">
                   <p>
                     Your love and pity doth the impression fill, Which vulgar
                     scandal stamp upon my brow; For what care I who calls me
-                    well or ill, So you er-green my bad, my good allow? You
-                    are my all-the-world, and I must strive To know my shames
-                    and praises from your tongue; None else to me, nor I to
-                    none alive, That my steel sense or changes right or
-                    wrong. In so profound abysm I throw all care Of others
-                    voices, that my adder sense That my steel sense or
-                    changes right or wrong. In so profound abysm I throw all
-                    care Of others voices, that my adder sense
+                    well or ill, So you er-green my bad, my good allow? You are
+                    my all-the-world, and I must strive To know my shames and
+                    praises from your tongue; None else to me, nor I to none
+                    alive, That my steel sense or changes right or wrong. In so
+                    profound abysm I throw all care Of others voices, that my
+                    adder sense That my steel sense or changes right or wrong.
+                    In so profound abysm I throw all care Of others voices, that
+                    my adder sense
                   </p>
                 </Tab>
               </Tabs>

@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import UserContext from '../context/user/user';
 
 const useAuth = () => {
-  const user = { loggedIn: localStorage.getItem('loggedIn') };
+  const userCtx = useContext(UserContext);
+  const isLoggedIn = userCtx.isLoggedIn;
+  const user = { loggedIn: isLoggedIn };
   return user && user.loggedIn;
 };
 

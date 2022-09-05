@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Row } from 'react-bootstrap';
 import Sidebar from '../../sidebar';
 import Header from '../../header';
 import { getData } from '../../../adapters';
 import ModuleAccordion from '../../../widgets/accordian';
+import UserContext from '../../../features/context/user/user';
 import './style.scss';
 
 function Startattempt() {
-  const userid = localStorage.getItem('userid');
+  const userCtx = useContext(UserContext);
+  const userid = userCtx.userInfo.userid;
   const { name, instance, courseid } = useParams();
   const [button, setButton] = useState(false);
   const [startquiz, setStartquiz] = useState(false);
