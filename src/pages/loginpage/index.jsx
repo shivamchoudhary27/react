@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Signup from "../signuppage";
 import ForgotPassword from "../forgotpassword/index";
-import { Formik, useField, Form } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row } from "react-bootstrap";
 import logo from "../../assets/images/logo.png";
@@ -66,19 +66,6 @@ const LoginForm = () => {
   function routeDashboard() {
     navigate("/dashboard");
   }
-
-  const TextFieldInput = ({ label, ...props }) => {
-    const [field, meta] = useField(props);
-    return (
-      <>
-        <label htmlFor={props.id || props.name}>{label}</label>
-        <input className="text-input" {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <div className="error">{meta.error}</div>
-        ) : null}
-      </>
-    );
-  };
 
   const handleToggleSignup = () => {
     navigate("/?form=signup");
@@ -179,20 +166,23 @@ const LoginForm = () => {
                         <div className="input-icons mb-4">
                           {/* <i className="fa fa-user-circle-o icon"></i> */}
                           <i className="fa fa-circle-user icon" />
-                          <TextFieldInput
+                          <Field
                             type="text"
-                            id="user"
                             name="username"
+                            id="user"
                             placeholder="Username"
                             className="username-input"
                           />
+                          <ErrorMessage name="username">
+                            {(msg) => <div className="error">{msg}</div>}
+                          </ErrorMessage>
                         </div>
                         <div className="input-icons">
                           <i className="fa fa-lock icon" />
-                          <TextFieldInput
+                          <Field
                             type={showPassword.type}
-                            id="pass"
                             name="password"
+                            id="pass"
                             placeholder="Password"
                             className="username-input"
                           />
@@ -201,6 +191,9 @@ const LoginForm = () => {
                             id="eye-icon"
                             onClick={toggleShowPassword}
                           ></i>
+                          <ErrorMessage name="password">
+                            {(msg) => <div className="error">{msg}</div>}
+                          </ErrorMessage>
                         </div>
                         <div>
                           <p
