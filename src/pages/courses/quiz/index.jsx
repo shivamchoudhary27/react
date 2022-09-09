@@ -42,6 +42,7 @@ function Startattempt() {
       });
   }, [instance]);
 
+
   useEffect(() => {
     if (summary !== null) {
       const latestState = {};
@@ -72,6 +73,7 @@ function Startattempt() {
         });
     }
   }, [startquiz]);
+  
 
   useEffect(() => {
     const query = {
@@ -98,6 +100,7 @@ function Startattempt() {
         console.log(err);
       });
   }, []);
+  console.log(modules);
 
   return (
     <>
@@ -126,31 +129,58 @@ function Startattempt() {
                     {summary !== null && summary.attempts.length}
                   </p>
                 </Link>
+                {summary !== null && summary.attempts.length == 0 && "No attempts"}
+                {summary !== null && summary.attempts.length == 1 ?
+                  <div>
+                    <h4><b>Summary of your previous attempts</b></h4>
 
-                <h4><b>Summary of your previous attempts</b></h4>
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Attempt</th>
-                      <th scope="col">State</th>
-                      <th scope="col">Marks / 12.00</th>
-                      <th scope="col">Grade / 10.00</th>
-                      <th scope="col">Review</th>
-                    </tr>
-                  </thead>
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Attempt</th>
+                          <th scope="col">State</th>
+                          <th scope="col">Review</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {summary !== null && summary.attempts.map((summarydata, i) => (
+                          <tr key={i}>
+                            <td>Preview</td>
+                            <td>{summarydata.state}</td>
+                            <td>--</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table> </div> : <div><table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Attempt</th>
+                          <th scope="col">State</th>
+                          <th scope="col">Marks / 12.00</th>
+                          <th scope="col">Grade / 10.00</th>
+                          <th scope="col">Review</th>
+                        </tr>
+                      </thead>
 
-                  <tbody>
-                    {summary !== null && summary.attempts.map((a, i) => (
-                      <tr key={i}>
-                        <td>Preview</td>
-                        <td>{a.state}</td>
-                        <td>{a.sumgrades}</td>
-                        <td>8</td>
-                        <td>--</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                      <tbody>
+                        {summary !== null && summary.attempts.map((summarydata, i) => (
+                          <tr key={i}>
+                            <td>{i + 1}</td>
+                            <td>{summarydata.state}</td>
+                            <td>{summarydata.sumgrades}</td>
+                            {summarydata.state==="finished" && <>
+                             <td>8</td>
+                  
+                           
+                           <td><Link to = {`/review/${summarydata.id}`} style={{textDecoration:"none" }}>Review</Link></td></>}
+                            
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                }
               </div>
             </div>
           </div>

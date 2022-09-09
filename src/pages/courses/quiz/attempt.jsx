@@ -77,11 +77,11 @@ function getUserAnswers(quizData) {
 
     try {
       if (index.type === 'shortanswer') {
-        data.push(qtype_shortanswer_process(`${elementname}_answer`));  
+        data.push(qtype_shortanswer_process(`${elementname}_answer`));
       } else if (index.type === 'multichoice') {
-        data.push(qtype_multichoice_process(`${elementname}_answer`));  
+        data.push(qtype_multichoice_process(`${elementname}_answer`));
       } else if (index.type === 'truefalse') {
-        data.push(qtype_truefalse_process(`${elementname}_answer`));  
+        data.push(qtype_truefalse_process(`${elementname}_answer`));
       }
       data.push(qtypeFlaggedValue(`${elementname}_:flagged`));
       data.push(
@@ -104,15 +104,20 @@ function fetchPageQuestions(attemptid, next, setQuizData, setLoader) {
     attemptid,
     page: next,
   };
+  try {
+    getData(query)
+      .then((res) => {
+        setQuizData(res.data);
+        console.log(res.data)
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } catch (error) {
+    console.log(error.message);
+  }
 
-  getData(query)
-    .then((res) => {
-      setQuizData(res.data);
-      setLoader(false);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
 }
 
 const processAttempt = (
@@ -157,7 +162,7 @@ const processAttempt = (
 
 function Attempt() {
   const { attemptid } = useParams();
-  const {courseid} = useParams();
+  const { courseid } = useParams();
   const [quizData, setQuizData] = useState([]);
   const [showLoader, setLoader] = useState(true);
   const [next, setNext] = useState(0);
@@ -177,7 +182,7 @@ function Attempt() {
       .then((res) => {
         if (res.status === 200 && res.data) {
           res.data.quizzes.map((navdata) => {
-          setNav(navdata);
+            setNav(navdata);
           })
         }
       })
@@ -185,7 +190,7 @@ function Attempt() {
         console.log(err);
       });
   }, [next]);
-  
+
   useEffect(() => {
     fetchPageQuestions(attemptid, next, setQuizData, setLoader);
   }, [next]);
@@ -239,7 +244,7 @@ function Attempt() {
           <div className="col-sm-9">
             <div>
               <h2><ErrorBox msg={error} /></h2>
-              {quizData.questions.map((item) => (
+              {quizData.questions !== undefined && quizData.questions.map((item) => (
                 <div
                   key={Math.random()}
                   className="content mb-4"
@@ -252,8 +257,8 @@ function Attempt() {
                   {
                     next > 0
                     && (
-                      quizData.attempt.quiz === nav.id && nav.navmethod==="free" ? <button type="button" className="pre-btn" onClick={previousPage}>
-                         Previous </button> : null
+                      nav !== undefined && quizData.attempt.quiz === nav.id && nav.navmethod === "free" ? <button type="button" className="pre-btn" onClick={previousPage}>
+                        Previous </button> : null
                     )
                   }
 
@@ -278,16 +283,16 @@ function Attempt() {
           <div className="col-sm-3 right-side-nav-bg">
 
             <div className="quiz-right-sidebar">
-              {quizData.attempt.quiz === nav.id && nav.navmethod==="free" ? <QuestionsPageNav
-                      quizPages={quizPages}
-                      finisAttempt={finishAttempt}
-                      changePage={changePage}
-                    /> :<QuestionsPageNav
-                    quizPages={quizPages}
-                    finisAttempt={finishAttempt}
-                    changePage={changePage}
-                    btnNav
-                  />}
+              {quizData.attempt.quiz === nav.id && nav.navmethod === "free" ? <QuestionsPageNav
+                quizPages={quizPages}
+                finisAttempt={finishAttempt}
+                changePage={changePage}
+              /> : <QuestionsPageNav
+                quizPages={quizPages}
+                finisAttempt={finishAttempt}
+                changePage={changePage}
+                btnNav
+              />}
               { }
 
             </div>
