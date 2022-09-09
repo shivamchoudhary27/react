@@ -73,7 +73,7 @@ export const UserContextProvider = (props) => {
     localStorage.removeItem("fullname");
     localStorage.removeItem("userid");
     localStorage.removeItem("name");
-    localStorage.removeItem("profile");
+    localStorage.removeItem("userpictureurl");
   };
 
   // Initializing token
