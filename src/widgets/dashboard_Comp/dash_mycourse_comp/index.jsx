@@ -5,7 +5,7 @@ import { getData } from "../../../adapters";
 import SkeletonMimic from "./Skeleton";
 import ErrorBox from "../../ErrorBox";
 import "./style.scss";
-import UserContext from '../../../features/context/user/user';
+import UserContext from "../../../features/context/user/user";
 
 function DashMyCourse(props) {
   const userCtx = useContext(UserContext);
@@ -61,8 +61,10 @@ function DashMyCourse(props) {
       id="coursecontentslider"
     >
       {/* <BlockLoader /> */}
-      { error !== '' && <ErrorBox msg={error} style={'warning'} />}
-      {loadSkeleton === true ? <SkeletonMimic/> :
+      {error !== "" && <ErrorBox msg={error} style={"warning"} />}
+      {loadSkeleton === true ? (
+        <SkeletonMimic />
+      ) : (
         <Row className="course-row">
           {filter.map((element) => (
             <div className="col-sm-4" key={element.id}>
@@ -72,12 +74,14 @@ function DashMyCourse(props) {
             </div>
           ))}
         </Row>
-      }
-      <div className="text-center">
-        <button type="button" className="more-course-btn">
-          Load More
-        </button>
-      </div>
+      )}
+      {loadSkeleton === true ? null : (
+        <div className="text-center">
+          <button type="button" className="more-course-btn">
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 }

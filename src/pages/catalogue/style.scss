@@ -153,4 +153,25 @@
     //     color: #fff;
     //   }
     // }
+    
+    // pagination
+    .pagination{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .page-link{
+        color: #F57F17;
+        &:hover{
+          background-color: #F57F17;
+          color: #ffffff;
+        }
+        &:active{
+          transform: scale(0.99);
+        }
+        &:focus {
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
   }
