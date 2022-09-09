@@ -19,7 +19,7 @@ export default function CustomRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<LoginForm />} />
+        <Route exact path="/" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
