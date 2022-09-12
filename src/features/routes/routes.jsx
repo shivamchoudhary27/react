@@ -12,6 +12,7 @@ import LoginForm from '../../pages/loginpage';
 import CourseView from '../../pages/courses/courseview';
 import Catalogue from '../../pages/catalogue';
 import UserContext from '../context/user/user';
+import Review from '../../pages/courses/quiz/review';
 
 export default function CustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -32,7 +33,8 @@ export default function CustomRoutes() {
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
           <Route path="/mod/attempt/quiz/:attemptid/:courseid" element={<Attempt />} />
           <Route path="/catalogue" element={<Catalogue />} />
-          <Route path="*" element={isLoggedIn === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
+          <Route path="/review/:attemptid" element ={<Review />} />
+          <Route path="*" element={localStorage.getItem('loggedIn') === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
     </BrowserRouter>
