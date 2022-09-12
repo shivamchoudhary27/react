@@ -186,6 +186,7 @@ const LoginForm = () => {
                             placeholder="Password"
                             className="username-input"
                           />
+                          {/* <i className="fa fa-eye-slash" style={{color: "#fff"}}></i> */}
                           <i
                             className={`${showPassword.class} eye-icon`}
                             id="eye-icon"

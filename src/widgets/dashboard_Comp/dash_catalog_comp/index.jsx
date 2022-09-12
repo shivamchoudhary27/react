@@ -54,11 +54,17 @@ function DashCatalog() {
           </Row>
         )}
       </div>
-      <div className="text-center mt-3">
-        <Link to="/catalogue">
-          <input type="button" className="more-course-btn" value="Load More" />
-        </Link>
-      </div>
+      {loadSkeleton === true ? null : (
+        <div className="text-center mt-3">
+          <Link to="/catalogue">
+            <input
+              type="button"
+              className="more-course-btn"
+              value="Load More"
+            />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
