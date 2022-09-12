@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from "../../../sidebar";
 import Header from "../../../header";
-import { useParams } from "react-router-dom";
+import { useParams,Link } from "react-router-dom";
 import { getData } from '../../../../adapters';
 import { Row } from 'react-bootstrap';
 
 const Review = () => {
     const [ques, setQues] = useState();
-    const { attemptid } = useParams();
+    const { attemptid,name,quizid,courseid } = useParams();
 
     useEffect(() => {
         const query = {
@@ -43,6 +43,7 @@ const Review = () => {
                                 />
                             ))}
                     </div>
+                    {ques !== undefined && <Link to={`/mod/quiz/${name}/${quizid}/${courseid}`}><h5>Finish Review</h5></Link>}
                     <div />
                 </Row>
             </div>

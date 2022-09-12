@@ -73,7 +73,7 @@ function Startattempt() {
         });
     }
   }, [startquiz]);
-  
+
 
   useEffect(() => {
     const query = {
@@ -100,7 +100,7 @@ function Startattempt() {
         console.log(err);
       });
   }, []);
-  console.log(modules);
+  // console.log(modules);
 
   return (
     <>
@@ -168,12 +168,9 @@ function Startattempt() {
                             <td>{i + 1}</td>
                             <td>{summarydata.state}</td>
                             <td>{summarydata.sumgrades}</td>
-                            {summarydata.state==="finished" && <>
-                             <td>8</td>
-                  
-                           
-                           <td><Link to = {`/review/${summarydata.id}`} style={{textDecoration:"none" }}>Review</Link></td></>}
-                            
+                            {summarydata.state === "finished" && <>
+                              <td>8</td>
+                              <td><Link to={`/review/${name}/${summarydata.id}/${summarydata.quiz}/${courseid}`} style={{ textDecoration: "none" }}>Review</Link></td></>}
                           </tr>
                         ))}
                       </tbody>

@@ -33,7 +33,7 @@ export default function CustomRoutes() {
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
           <Route path="/mod/attempt/quiz/:attemptid/:courseid" element={<Attempt />} />
           <Route path="/catalogue" element={<Catalogue />} />
-          <Route path="/review/:attemptid" element ={<Review />} />
+          <Route path="/review/:name/:attemptid/:quizid/:courseid" element ={<Review />} />
           <Route path="*" element={localStorage.getItem('loggedIn') === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
