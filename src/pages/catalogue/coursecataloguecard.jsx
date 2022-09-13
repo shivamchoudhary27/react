@@ -8,9 +8,6 @@ const Coursecataloguecard = (props) => {
 
   return (
     <>
-    {
-
-    }
       <Row className="ai-course-shadow mb-4">
         <div className="col-sm-3">
           <img

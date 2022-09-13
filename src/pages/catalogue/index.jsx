@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Header from "../header";
 import Sidebar from "../sidebar";
 import "./style.scss";
@@ -9,9 +9,12 @@ import Pagination from "./Pagination";
 import SkeletonMimic from "./Skeleton";
 
 const Catalogue = () => {
+  const showPerPage = 2;
+  const inputElem = useRef("");
   const [categories, setCategories] = useState();
-  const [loadSkeleton, sertLoadSkeleton] = useState(true);
-  const [showPerPage, setShowPerPage] = useState(2);
+  const [searchData, setSearchData] = useState();
+  const [filterVal, setFilterVal] = useState("");
+  const [loadSkeleton, setLoadSkeleton] = useState(true);
   const [pagination, setPagination] = useState({
     start: 0,
     end: showPerPage,
@@ -30,13 +33,29 @@ const Catalogue = () => {
       .then((res) => {
         if (res.status === 200 && res.data) {
           setCategories(res.data);
-          sertLoadSkeleton(false);
+          setSearchData(res.data);
+          setLoadSkeleton(false);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  const handleFilter = () => {
+    if (inputElem.current.value !== "") {
+      const filterResult = searchData.filter((item) => {
+        return item.name
+          .toLowerCase()
+          .includes(inputElem.current.value.toLowerCase());
+      });
+      setCategories(filterResult);
+      console.log(categories);
+    } else {
+      setCategories(searchData);
+    }
+    setFilterVal(inputElem.current.value);
+  };
 
   return (
     <>
@@ -50,9 +69,14 @@ const Catalogue = () => {
               <p className="catalogue-banner-name">Course Search</p>
               <div className="seacrh-input-icon">
                 <input
+                  ref={inputElem}
                   className="search-course-input"
                   type="text"
                   placeholder="Search courses"
+                  onChange={(e) => {
+                    handleFilter(e);
+                  }}
+                  value={filterVal}
                 />
                 <i className="fa fa-search search-icon"></i>
               </div>
@@ -152,34 +176,38 @@ const Catalogue = () => {
                     </Accordion>
                   </div>
                 </div>
-                <div className="col-sm-9">
-                  {loadSkeleton === true ? (
-                    <SkeletonMimic />
-                  ) : (
-                    categories != undefined &&
-                    categories
-                      .slice(pagination.start, pagination.end)
-                      .map((item) => {
-                        return (
-                          <div key={item.id}>
-                            <Coursecataloguecard
-                              categoryName={item.name}
-                              categoryId={item.id}
-                              categoryTime={item.timemodified}
-                              categoryDescription={item.description}
-                            />
-                          </div>
-                        );
-                      })
-                  )}
-                  {loadSkeleton === true ? null : (
-                    <Pagination
-                      showPerPage={showPerPage}
-                      onPaginationChange={onPaginationChange}
-                      totalData={categories != undefined && categories.length}
-                    />
-                  )}
-                </div>
+                {categories !== undefined && categories.length === 0 ? (
+                  "No Records Found!"
+                ) : (
+                  <div className="col-sm-9">
+                    {loadSkeleton === true ? (
+                      <SkeletonMimic />
+                    ) : (
+                      categories != undefined &&
+                      categories
+                        .slice(pagination.start, pagination.end)
+                        .map((item) => {
+                          return (
+                            <div key={item.id}>
+                              <Coursecataloguecard
+                                categoryName={item.name}
+                                categoryId={item.id}
+                                categoryTime={item.timemodified}
+                                categoryDescription={item.description}
+                              />
+                            </div>
+                          );
+                        })
+                    )}
+                    {loadSkeleton === true ? null : (
+                      <Pagination
+                        showPerPage={showPerPage}
+                        onPaginationChange={onPaginationChange}
+                        totalData={categories != undefined && categories.length}
+                      />
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
