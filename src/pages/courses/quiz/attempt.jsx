@@ -11,7 +11,6 @@ import QuestionsPageNav from './quizPageNave';
 
 function qtype_shortanswer_process(elementname) {
   const answer = document.getElementsByName(elementname);
-
   const data = [];
   data.name = elementname;
   data.value = answer[0].value;
@@ -108,7 +107,6 @@ function fetchPageQuestions(attemptid, next, setQuizData, setLoader) {
     getData(query)
       .then((res) => {
         setQuizData(res.data);
-        console.log(res.data)
         setLoader(false);
       })
       .catch((err) => {
@@ -166,30 +164,11 @@ function Attempt() {
   const [quizData, setQuizData] = useState([]);
   const [showLoader, setLoader] = useState(true);
   const [next, setNext] = useState(0);
-  const [nav, setNav] = useState();
+  const [nav, setNav] = useState(false);
   const error = '';
   const navigate = useNavigate();
-
+  const quizList = [];
   const [quizPages, setQuizPages] = useState({ currentPage: 0, totalPages: 0 });
-
-  useEffect(() => {
-    const courseids = [courseid];
-    const query = {
-      wsfunction: 'mod_quiz_get_quizzes_by_courses ',
-      courseids,
-    };
-    getData(query)
-      .then((res) => {
-        if (res.status === 200 && res.data) {
-          res.data.quizzes.map((navdata) => {
-            setNav(navdata);
-          })
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [next]);
 
   useEffect(() => {
     fetchPageQuestions(attemptid, next, setQuizData, setLoader);
@@ -228,8 +207,33 @@ function Attempt() {
         && processAttempt(prevPage, attemptid, quizData, 0, setNext, navigate);
     }
   };
+  useEffect(() => {
 
-
+    const courseids = [courseid];
+    const query = {
+      wsfunction: 'mod_quiz_get_quizzes_by_courses ',
+      courseids,
+    };
+    getData(query)
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          res.data.quizzes.map((navdata) => {
+            quizList.push(navdata)
+            for (let quizListData of quizList) {
+              if (quizData.attempt.quiz !== undefined && quizData.attempt.quiz === quizListData.id && quizListData.navmethod === "free") {
+                setNav(true);
+              }
+              if (quizData.attempt.quiz !== undefined && quizData.attempt.quiz === quizListData.id && quizListData.navmethod === "sequential") {
+                setNav(false);
+              }
+            }
+          })
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [next, quizData]);
   if (showLoader === true) {
     return <PageLoader />;
   }
@@ -239,7 +243,6 @@ function Attempt() {
       <Sidebar />
       <Header />
       <div className="quiz-container pt-4">
-
         <Row className="quiz-row">
           <div className="col-sm-9">
             <div>
@@ -257,7 +260,7 @@ function Attempt() {
                   {
                     next > 0
                     && (
-                      nav !== undefined && quizData.attempt.quiz === nav.id && nav.navmethod === "free" ? <button type="button" className="pre-btn" onClick={previousPage}>
+                      nav == true ? <button type="button" className="pre-btn" onClick={previousPage}>
                         Previous </button> : null
                     )
                   }
@@ -281,20 +284,22 @@ function Attempt() {
           </div>
 
           <div className="col-sm-3 right-side-nav-bg">
-
             <div className="quiz-right-sidebar">
-              {quizData.attempt.quiz === nav.id && nav.navmethod === "free" ? <QuestionsPageNav
-                quizPages={quizPages}
-                finisAttempt={finishAttempt}
-                changePage={changePage}
-              /> : <QuestionsPageNav
-                quizPages={quizPages}
-                finisAttempt={finishAttempt}
-                changePage={changePage}
-                btnNav
-              />}
-              { }
-
+              {quizData.attempt === undefined && navigate("/")}
+              {nav == true ?
+                <QuestionsPageNav
+                  quizPages={quizPages}
+                  finisAttempt={finishAttempt}
+                  changePage={changePage}
+                />
+                :
+                <QuestionsPageNav
+                  quizPages={quizPages}
+                  finisAttempt={finishAttempt}
+                  changePage={changePage}
+                  btnNav
+                />
+              }
             </div>
           </div>
         </Row>
