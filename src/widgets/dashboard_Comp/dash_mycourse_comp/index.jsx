@@ -7,12 +7,13 @@ import ErrorBox from "../../ErrorBox";
 import "./style.scss";
 import UserContext from "../../../features/context/user/user";
 
-function DashMyCourse(props) {
+function DashMyCourse({linkToggle}) {
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
   const [myCourses, setMyCourses] = useState([]);
   const [error, setError] = useState("");
   const [filter, setFilter] = useState([]);
+  const [filterDataMsg, setFilterDataMsg] = useState(false);
   const [loadSkeleton, setLoadSkeleton] = useState(true);
 
   useEffect(() => {
@@ -40,26 +41,45 @@ function DashMyCourse(props) {
   useEffect(() => {
     const dateFormat = Math.floor(Date.now() / 1000);
 
-    if (props.funData === 1) {
-      setFilter(
-        myCourses.filter(
-          (items) => dateFormat > items.startdate && dateFormat < items.enddate
-        )
-      );
-    } else if (props.funData === 2) {
-      setFilter(myCourses.filter((items) => dateFormat > items.enddate));
-    } else if (props.funData === 3) {
-      setFilter(myCourses.filter((items) => dateFormat < items.startdate));
+    if (linkToggle === 1) {
+      const inprogress = myCourses.filter(
+        (el) => dateFormat > el.startdate && dateFormat < el.enddate && el !== "");
+        if (inprogress.length !== 0) {
+          setFilter(inprogress);
+          setFilterDataMsg(false)
+      } else {
+          setFilterDataMsg(true);
+      }
+    } else if (linkToggle === 2) {
+      const completed = myCourses.filter((el) => dateFormat > el.enddate);
+      console.log(completed)
+      if (completed.length !== 0) {
+        setFilter(completed);
+        setFilterDataMsg(false)
+      } else {
+        setFilterDataMsg(true);
+      }
+    } else if (linkToggle === 3) {
+      const notStarted = myCourses.filter((el) => dateFormat < el.startdate);
+      if (notStarted.length !== 0) {
+        setFilter(notStarted);
+        setFilterDataMsg(false)
+      } else {
+        setFilterDataMsg(true);
+      }
     } else {
       setFilter(myCourses);
     }
-  }, [props.funData, myCourses]);
+  }, [linkToggle, myCourses]);
 
   return (
+    <>
     <div
       className="course-content course-content-slider"
       id="coursecontentslider"
-    >
+      >
+      {filterDataMsg === true ? <p className="text-center">No records found!</p> :
+      <div>
       {/* <BlockLoader /> */}
       {error !== "" && <ErrorBox msg={error} style={"warning"} />}
       {loadSkeleton === true ? (
@@ -82,7 +102,10 @@ function DashMyCourse(props) {
           </button>
         </div>
       )}
+      </div>
+} 
     </div>
+    </>
   );
 }
 
