@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import Sidebar from '../sidebar';
 import Header from '../header';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
@@ -10,22 +10,32 @@ import './style.scss';
 
 function Dashboard() {
   const res = useUserinfo();
-  const [inprog, setInprog] = useState(1);
+  const [linkToggle, setLinkToggle] = useState(1);
 
   if (res === 'loading') {
     return <PageLoader />;
   }
 
   const handleInprogressData = () => {
-    setInprog(1);
+    setLinkToggle(1);
+    document.getElementById('inprogressColor').style.color = '#f57f17';
+    document.getElementById('completedColor').style.color = '';
+    document.getElementById('notStartedColor').style.color = '';
   };
 
   const handleCompletedData = () => {
-    setInprog(2);
+    setLinkToggle(2);
+    document.getElementById('completedColor').style.color = '#f57f17';
+    document.getElementById('inprogressColor').style.color = '';
+    document.getElementById('notStartedColor').style.color = '';
+    document.getElementById('inprogressColor').classList.remove('active-link');
   };
 
   const handleNotStartedData = () => {
-    setInprog(3);
+    setLinkToggle(3);
+    document.getElementById('notStartedColor').style.color = '#f57f17';
+    document.getElementById('inprogressColor').style.color = '';
+    document.getElementById('completedColor').style.color = '';
   };
 
   return (
@@ -35,14 +45,14 @@ function Dashboard() {
       <div className="pt-5">
         <div className="course-status-content course-status-slider" id="coursestatusslider">
           <ul className="course-status">
-            <li role="presentation" className="course-progress" onClick={handleInprogressData}>
+            <li role="presentation" className="course-progress active-link" id="inprogressColor" onClick={handleInprogressData}>
               Inprogress
             </li>
-            <li role="presentation" onClick={handleCompletedData}>Completed</li>
-            <li role="presentation" onClick={handleNotStartedData}>Not Started</li>
+            <li role="presentation" id="completedColor" onClick={handleCompletedData}>Completed</li>
+            <li role="presentation" id="notStartedColor" onClick={handleNotStartedData}>Not Started</li>
           </ul>
         </div>
-        <DashMyCourse funData={inprog} />
+        <DashMyCourse linkToggle={linkToggle} />
         <DashRecCourse />
         <DashCatalog />
       </div>

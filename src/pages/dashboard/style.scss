@@ -4,7 +4,7 @@
 .course-status-content {
   padding-left: 130px;
   transition: 0.5s;
-  position: fixed;
+  position: absolute;
   top: 50px;
   z-index: 1;
   width: 100%;
@@ -20,9 +20,9 @@
       padding-right: 30px;
       transition: 0.2s ease;
       cursor: pointer;
-      &:hover{
-        color: #f1b580;
-      }
+      // &:hover{
+      //   // color: #f1b580;
+      // }
     }
   }
   .course-status {
@@ -30,7 +30,7 @@
     list-style-type: none;
     padding-inline-start: 0px;
     margin-bottom: 0px;
-    .course-progress {
+    .active-link{
       color: #f57f17;
     }
     li{
