@@ -10,6 +10,8 @@ import UserContext from "../../features/context/user/user";
 import { getPublicData } from "../../adapters";
 import config from "../../utils/config";
 import Loader from "../../widgets/loader/loader";
+import { GoogleLogin } from "react-google-login";
+import { gapi } from "gapi-script";
 import "./login.scss";
 
 const LoginForm = () => {
@@ -31,6 +33,32 @@ const LoginForm = () => {
     const urlParams = new URLSearchParams(location);
     setformtoggle(urlParams.get("form"));
   }, [location]);
+
+  const clientId =
+    "897619838590-sgj2betoqug9iv00g76tj9ijd9gccsel.apps.googleusercontent.com";
+  useEffect(() => {
+    const initClient = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope: "",
+      });
+    };
+    gapi.load("client:auth2", initClient);
+  });
+
+  const onSuccess = (res) => {
+    const details =
+      "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
+    alert(
+      "Google Authentication Successful \n" +
+        details +
+        "\nLogin with moodle in progress..."
+    );
+    console.log("success:", res);
+  };
+  const onFailure = (err) => {
+    console.log("failed:", err);
+  };
 
   function SubmitHandler(values) {
     setInvalidLogin(false);
@@ -227,6 +255,17 @@ const LoginForm = () => {
                           <button className="login-btn" type="submit">
                             Login
                           </button>
+                        </div>
+                        <div className="mt-4">
+                          <GoogleLogin
+                            className="login-btn"
+                            clientId={clientId}
+                            buttonText="Sign in with Google"
+                            onSuccess={onSuccess}
+                            onFailure={onFailure}
+                            cookiePolicy={"single_host_origin"}
+                            isSignedIn={true}
+                          />
                         </div>
                       </div>
                     </Form>
