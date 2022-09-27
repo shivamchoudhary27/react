@@ -25,13 +25,13 @@ export default function CustomRoutes() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
             exact
-            path="/courseview/:id/:fullname"
+            path="/courseview/:id/"
             element={<CourseView />}
           />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
-          <Route path="/mod/quiz/:name/:instance/:courseid" element={<Startattempt />} />
+          <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
-          <Route path="/mod/attempt/quiz/:attemptid/:courseid" element={<Attempt />} />
+          <Route path="/mod/attempt/quiz/:instance/:attemptid/:courseid" element={<Attempt />} />
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/review/:name/:attemptid/:quizid/:courseid" element ={<Review />} />
           <Route path="*" element={localStorage.getItem('loggedIn') === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />

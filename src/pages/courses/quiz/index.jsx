@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { Row } from 'react-bootstrap';
 import Sidebar from '../../sidebar';
 import Header from '../../header';
@@ -7,8 +7,10 @@ import { getData } from '../../../adapters';
 import ModuleAccordion from '../../../widgets/accordian';
 import UserContext from '../../../features/context/user/user';
 import './style.scss';
+import Errordiv from '../../../widgets/alert/errordiv';
 
 function Startattempt() {
+  const location = useLocation();
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
   const { name, instance, courseid } = useParams();
@@ -16,7 +18,11 @@ function Startattempt() {
   const [startquiz, setStartquiz] = useState(false);
   const [modules, setModules] = useState({ status: false, data: [] });
   const [summary, setSummary] = useState(null);
+  const [show, setShow] = useState(false);
+  const [nav, setNav] = useState({ status: false, data: [] });
   const navigate = useNavigate();
+  let initial = true;
+
 
   const startAttemptProcess = () => {
     setStartquiz(true);
@@ -33,7 +39,12 @@ function Startattempt() {
 
     getData(query)
       .then((res) => {
-        if (res.status === 200 && res.data) {
+        if (res.data.errorcode) {
+          setShow(true);
+        }
+
+        else {
+          setShow(false);
           setSummary(res.data);
         }
       })
@@ -44,7 +55,7 @@ function Startattempt() {
 
 
   useEffect(() => {
-    if (summary !== null) {
+    if (summary !== null && show === false) {
       const latestState = {};
       summary.attempts.map((i) => {
         latestState.attempt = i.id;
@@ -52,6 +63,7 @@ function Startattempt() {
       });
       setButton(latestState);
     }
+
   }, [summary]);
 
   useEffect(() => {
@@ -64,7 +76,7 @@ function Startattempt() {
         .then((res) => {
           if (res.status === 200 && res.data) {
             if (res.data.attempt.id !== undefined) {
-              navigate(`/mod/attempt/quiz/${res.data.attempt.id}/${courseid}`);
+              navigate(`/mod/attempt/quiz/${instance}/${res.data.attempt.id}/${courseid}`);
             }
           }
         })
@@ -78,7 +90,7 @@ function Startattempt() {
   useEffect(() => {
     const query = {
       wsfunction: 'core_course_get_contents',
-      courseid,
+      courseid
     };
     getData(query)
       .then((res) => {
@@ -88,11 +100,28 @@ function Startattempt() {
               status: false,
               data: 'Error while fetching modules',
             });
-          } else {
+          } if (location.state == null || initial == true) {
+            var list = []
+            res.data.map((courses) => {
+              list.push(courses);
+              console.log('location is null')
+              console.log(res.data);
+              courses.modules.map((activity) => {
+                setNav({
+                  status: true,
+                  data: list,
+                  modname: activity.name,
+                })
+              });
+            });
+          } if (location.state != null) {
+            console.log("hello");
+            const { modname } = location.state;
+            console.log(modname);
             setModules({
               status: true,
-              data: res.data,
-            });
+              modname,
+            })
           }
         }
       })
@@ -100,106 +129,109 @@ function Startattempt() {
         console.log(err);
       });
   }, []);
-  // console.log(modules);
 
   return (
     <>
       <Sidebar />
-      <Header quizHeading={name} />
+      <Header quizHeading={location.state != null ? modules.modname : nav.modname} />
       <div className="attempt-container pt-4">
-        <Row className="attempt-row">
-          <div className="col-sm-9">
-            <div>
-              <div className="text-center">
-                {button.state === 'inprogress' ? (
-                  <Link to={`/mod/attempt/quiz/${button.attempt}/${courseid}`}>
-                    <button type="button" className="attempt-btn">
-                      Continue the last attempt
+        {show === true ? <Errordiv cstate={show} msg="Somethimg went wrong" /> :
+          <Row className="attempt-row">
+            <div className="col-sm-9">
+              <div>
+                <div className="text-center">
+                  {button.state === 'inprogress' ? (
+                    <Link to={`/mod/attempt/quiz/${instance}/${button.attempt}/${courseid}`}>
+                      <button type="button" className="attempt-btn">
+                        Continue the last attempt
+                      </button>
+                    </Link>
+                  ) : (
+                    <button type="button" className="attempt-btn" onClick={startAttemptProcess}>
+                      Attempt quiz
                     </button>
+                  )}
+
+                  <Link to="#">
+                    <p>
+                      Attempts:
+                      {summary !== null && summary.attempts.length}
+                    </p>
                   </Link>
-                ) : (
-                  <button type="button" className="attempt-btn" onClick={startAttemptProcess}>
-                    Attempt quiz
-                  </button>
-                )}
+                  {summary !== null && summary.attempts.length == 0 && "No attempts"}
+                  {summary !== null && summary.attempts.length == 1 ?
+                    <div>
+                      <h4><b>Summary of your previous attempts</b></h4>
 
-                <Link to="#">
-                  <p>
-                    Attempts:
-                    {summary !== null && summary.attempts.length}
-                  </p>
-                </Link>
-                {summary !== null && summary.attempts.length == 0 && "No attempts"}
-                {summary !== null && summary.attempts.length == 1 ?
-                  <div>
-                    <h4><b>Summary of your previous attempts</b></h4>
-
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Attempt</th>
-                          <th scope="col">State</th>
-                          <th scope="col">Review</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {summary !== null && summary.attempts.map((summarydata, i) => (
-                          <tr key={i}>
-                            <td>Preview</td>
-                            <td>{summarydata.state}</td>
-                            <td>--</td>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Attempt</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Review</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table> </div> : <div><table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Attempt</th>
-                          <th scope="col">State</th>
-                          <th scope="col">Marks / 12.00</th>
-                          <th scope="col">Grade / 10.00</th>
-                          <th scope="col">Review</th>
-                        </tr>
-                      </thead>
-
-                      <tbody>
-                        {summary !== null && summary.attempts.map((summarydata, i) => (
-                          <tr key={i}>
-                            <td>{i + 1}</td>
-                            <td>{summarydata.state}</td>
-                            <td>{summarydata.sumgrades}</td>
-                            {summarydata.state === "finished" && <>
-                              <td>8</td>
-                              <td><Link to={`/review/${name}/${summarydata.id}/${summarydata.quiz}/${courseid}`} style={{ textDecoration: "none" }}>Review</Link></td></>}
+                        </thead>
+                        <tbody>
+                          {summary !== null && summary.attempts.map((summarydata, i) => (
+                            <tr key={i}>
+                              <td>Preview</td>
+                              <td>{summarydata.state}</td>
+                              <td>--</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table> </div> : <div><table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Attempt</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Marks / 12.00</th>
+                            <th scope="col">Grade / 10.00</th>
+                            <th scope="col">Review</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        </thead>
 
-                }
+                        <tbody>
+                          {summary !== null && summary.attempts.map((summarydata, i) => (
+                            <tr key={i}>
+                              <td>{i + 1}</td>
+                              <td>{summarydata.state}</td>
+                              <td>{summarydata.sumgrades}</td>
+                              {summarydata.state === "finished" && <>
+                                <td>8</td>
+                                <td><Link to={`/review/${name}/${summarydata.id}/${summarydata.quiz}/${courseid}`} style={{ textDecoration: "none" }}>Review</Link></td></>}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                  }
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="col-sm-3">
-            <div className="quiz-right-sidebar">
-              {modules.status === false ? (
-                <ModuleAccordion modules={false} header="Modules" items={[]} />
-              ) : (
-                modules.data.map((section, i) => (
-                  <ModuleAccordion
-                    header={section.name}
-                    items={section.modules}
-                    key={i}
-                    courseid={courseid}
-                  />
-                ))
-              )}
+            <div className="col-sm-3">
+              <div className="quiz-right-sidebar">
+                {nav.status === false ? (
+                  <ModuleAccordion modules={false} header="Modules" items={[]} />
+                ) : (
+                  nav.data.map((section, i) => (
+
+                    <ModuleAccordion
+                      header={section.name}
+                      items={section.modules}
+                      key={i}
+                      courseid={courseid}
+                    />
+                  ))
+                )}
+              </div>
             </div>
-          </div>
-        </Row>
+          </Row>
+        }
       </div>
+
     </>
   );
 }

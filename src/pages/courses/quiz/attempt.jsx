@@ -118,6 +118,7 @@ function fetchPageQuestions(attemptid, next, setQuizData, setLoader) {
 
 }
 
+
 const processAttempt = (
   nextpage,
   attemptid,
@@ -125,7 +126,11 @@ const processAttempt = (
   finish = 0,
   setNext,
   navigate,
-) => {
+) => 
+{
+  const {courseid,instance} = useParams();
+
+  
   const userdata = getUserAnswers(quizData);
   let dataParam = '';
   Object.keys(userdata).map((item, index) => {
@@ -134,6 +139,7 @@ const processAttempt = (
   });
 
   const saveResponse = {
+    
     wsfunction: 'mod_quiz_process_attempt',
     attemptid,
     quizdata: dataParam,
@@ -141,13 +147,17 @@ const processAttempt = (
   };
 
   processQuizData(saveResponse)
+  
     .then((response) => {
       if (response.data.state !== undefined) {
         if (response.data.state === 'inprogress') {
           setNext(nextpage);
         } else if (response.data.state === 'finished') {
+          // const {courseid,instance} = useParams();
           alert('This attempt is finished');
-          navigate('/dashboard');
+          navigate('/mod/quiz/:courseid/:instance');
+          // navigate('/dashboard');
+          
         } else if (response.data.errorcode !== undefined) {
           alert(response.data.message);
         }
@@ -160,7 +170,7 @@ const processAttempt = (
 
 function Attempt() {
   const { attemptid } = useParams();
-  const { courseid } = useParams();
+  const { courseid} = useParams();
   const [quizData, setQuizData] = useState([]);
   const [showLoader, setLoader] = useState(true);
   const [next, setNext] = useState(0);
@@ -169,7 +179,7 @@ function Attempt() {
   const navigate = useNavigate();
   const quizList = [];
   const [quizPages, setQuizPages] = useState({ currentPage: 0, totalPages: 0 });
-
+  console.log(quizData);
   useEffect(() => {
     fetchPageQuestions(attemptid, next, setQuizData, setLoader);
   }, [next]);

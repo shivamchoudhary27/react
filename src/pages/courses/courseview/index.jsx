@@ -7,15 +7,15 @@ import quizIcon from '../../../assets/activity-icon/quiz-icon.png';
 import vidIcon from '../../../assets/activity-icon/video-icon.png';
 import Sidebar from '../../sidebar';
 import Header from '../../header';
-import ErrorBox from '../../../widgets/ErrorBox';
 import './style.scss';
+import Errordiv from '../../../widgets/alert/errordiv';
 
 function CourseView() {
   const { id } = useParams();
   const { fullname } = useParams();
   const courseid = id;
   const [title, setTitle] = useState([]);
-  const [error, setError] = useState('');
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const query = {
@@ -26,9 +26,10 @@ function CourseView() {
       .then((res) => {
         if (res.status === 200 && res.data) {
           if (courseid !== query.courseid || res.data.errorcode) {
-            setError('Something went wrong');
+            setShow(true);
           } else {
             setTitle(res.data);
+            setShow(false);
           }
         }
       })
@@ -51,12 +52,12 @@ function CourseView() {
               ['Courseview', '/courseview', false],
             ]}
           />
-          {error !== '' && <ErrorBox msg={error} style='' />}
+          {show === true && <Errordiv cstate={show} msg="Something went wrong" />}
 
           {title.map((courses) => (
             <div key={Math.random() + courses.id}>
               {courses?.modules.map((activity) => (activity.modname === 'resource' ? (
-                
+
                 <div
                   className="container-fluid page-box"
                   key={activity.id}
@@ -72,16 +73,20 @@ function CourseView() {
                   </Link>
                 </div>
               ) : activity.modname === 'quiz' && (
-              <div
-                className="container-fluid page-box"
-                key={activity.id}
-              >
-                <Link
-                  to={`/mod/quiz/${activity.name}/${activity.instance}/${courseid}`}
+                <div
+                  className="container-fluid page-box"
+
+                  key={activity.id}
                 >
-                  <Cards title={activity.name} icon={quizIcon} />
-                </Link>
-              </div>
+                  <Link
+                    to={`/mod/quiz/${courseid}/${activity.instance}`}
+                    state={{
+                      modname: `${activity.name}`,
+                    }}
+                  >
+                    <Cards title={activity.name} icon={quizIcon} />
+                  </Link>
+                </div>
               )))}
             </div>
           ))}

@@ -64,7 +64,7 @@ function MyCourseCard(props) {
               {/* <b>10 Days</b> left to finish */}
             </li>
             <li className="third-child">
-              <Link style={{textDecoration: "none"}} to={`/courseview/${props.mycoursedata.id}/${props.mycoursedata.fullname}`}>
+              <Link style={{textDecoration: "none"}} to={`/courseview/${props.mycoursedata.id}`}>
                 <button className="course-btn">
                   Continue &nbsp;<i className="fa fa-angles-right"></i>
                 </button>
