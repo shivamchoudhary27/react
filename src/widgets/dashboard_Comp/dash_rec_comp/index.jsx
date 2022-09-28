@@ -4,9 +4,11 @@ import RecCard from "./Cards";
 import "./style.scss";
 import { getData } from "../../../adapters";
 import SkeletonMimic from "./Skeleton";
+import Errordiv from "../../alert/errordiv";
 
 function DashRecCourse() {
   const [course, setCourse] = useState();
+  const [show, setShow] = useState(false);
   const [recommendedCourses, setRecommandedCourses] = useState({
     status: 404,
     data: [],
@@ -19,23 +21,29 @@ function DashRecCourse() {
     };
     getData(query)
       .then((res) => {
-        if (res.status === 200 && res.data) {
+        if (res.data.errorcode) {
+          // console.log(res.data.errorcode);
+          setShow(true);
+        }
+        if (show === false ){
           setCourse(res.data);
           setLoadSkeleton(false);
         }
       })
       .catch((err) => {
+        
         console.log(err);
       });
   }, []);
+
 
   const randomProperty = function (obj) {
     const keys = Object.keys(obj);
     return obj[keys[(keys.length * Math.random()) << 0]];
   };
-
-  if (course !== undefined && recommendedCourses.status !== 200) {
+  if (course !== undefined && recommendedCourses.status !== 200 && show=== false) {
     const totalcourses = Object.keys(course).length;
+    // console.log(totalcourses);
     const recommendedLength = totalcourses < 4 ? totalcourses : 4;
     let recommended = [];
 
@@ -51,27 +59,32 @@ function DashRecCourse() {
 
     setRecommandedCourses({ status: 200, data: recommended });
   }
-
   return (
-    <div
-      className="Recommended-course recommended-course-slider"
-      id="recommendedcourseslider"
-    >
-      <div className="text-center mb-5">
-        <h1 className="recommended-course-heading">Recommended Course</h1>
+    <>
+      <div
+        className="Recommended-course recommended-course-slider"
+        id="recommendedcourseslider"
+      >
+        <div className="text-center mb-5">
+          <h1 className="recommended-course-heading">Recommended Course</h1>
+        </div>
+        {loadSkeleton === true ? (
+          <SkeletonMimic />
+        ) : (
+          <Row>
+            {recommendedCourses.status === 200 &&
+              recommendedCourses.data.length > 0 && show == false ?
+              recommendedCourses.data.map((c) => (
+                <RecCard key={c.id} recourse={c} />
+              )): <Errordiv cstate={show} msg="Course or activity not accessible.(Not enrolled)" />
+            }
+          </Row>
+
+        )}
+        
       </div>
-      {loadSkeleton === true ? (
-        <SkeletonMimic />
-      ) : (
-        <Row>
-          {recommendedCourses.status === 200 &&
-            recommendedCourses.data.length > 0 &&
-            recommendedCourses.data.map((c) => (
-              <RecCard key={c.id} recourse={c} />
-            ))}
-        </Row>
-      )}
-    </div>
+    </>
+
   );
 }
 

@@ -13,6 +13,7 @@ const Review = () => {
         const query = {
             wsfunction: 'mod_quiz_get_attempt_review',
             attemptid: attemptid,
+            
         };
 
         getData(query)

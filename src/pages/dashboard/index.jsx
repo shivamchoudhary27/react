@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../sidebar';
 import Header from '../header';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
