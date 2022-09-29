@@ -38,6 +38,39 @@ function CourseView() {
       });
   }, []);
 
+  function videoLink (videoId, videoUrl, videoName) {
+    return (
+      <div className="container-fluid page-box" key={videoId}>
+        <Link
+          to={`/mod/video/${videoId}/${courseid}`}
+          state={{
+            vidurl: `${videoUrl}`,
+            vidname: `${videoName}`,
+          }}
+        >
+          <Cards title={videoName} icon={vidIcon} />
+        </Link>
+      </div>
+    )
+  }
+
+  function quizLink (quizId, quizName, quizInstance) {
+    return (
+      <div className="container-fluid page-box" key={quizId}>
+        <Link to={`/mod/quiz/${quizName}/${quizInstance}/${courseid}`}>
+          <Cards title={quizName} icon={quizIcon} />
+        </Link>
+      </div>
+    );
+  }
+  
+  function certificateLink () {
+    return (
+      <div className="container-fluid page-box" key={Math.random()}>
+        <p>certificate (in progress...)</p>
+      </div>
+    )
+  }
   return (
     <>
       <Sidebar />
@@ -56,38 +89,16 @@ function CourseView() {
 
           {title.map((courses) => (
             <div key={Math.random() + courses.id}>
-              {courses?.modules.map((activity) => (activity.modname === 'resource' ? (
 
-                <div
-                  className="container-fluid page-box"
-                  key={activity.id}
-                >
-                  <Link
-                    to={`/mod/video/${activity.id}/${courseid}`}
-                    state={{
-                      vidurl: `${activity.contents[0].fileurl}`,
-                      vidname: `${activity.name}`,
-                    }}
-                  >
-                    <Cards title={activity.name} icon={vidIcon} />
-                  </Link>
-                </div>
-              ) : activity.modname === 'quiz' && (
-                <div
-                  className="container-fluid page-box"
-
-                  key={activity.id}
-                >
-                  <Link
-                    to={`/mod/quiz/${courseid}/${activity.instance}`}
-                    state={{
-                      modname: `${activity.name}`,
-                    }}
-                  >
-                    <Cards title={activity.name} icon={quizIcon} />
-                  </Link>
-                </div>
-              )))}
+              {courses?.modules.map(
+                (activity) => 
+                ((activity.modname === 'resource') 
+                ? videoLink (activity.id, activity.contents[0].fileurl, activity.name)
+                : (activity.modname === 'quiz') 
+                ? quizLink(activity.id, activity.name, activity.instance)
+                : (activity.modname === 'customcert') 
+                && certificateLink()
+              ))}
             </div>
           ))}
           <div className="text-center">
