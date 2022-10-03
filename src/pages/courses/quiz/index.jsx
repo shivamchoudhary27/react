@@ -13,7 +13,7 @@ function Startattempt() {
   const location = useLocation();
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
-  const { name, instance, courseid } = useParams();
+  const { instance, courseid } = useParams();
   const [button, setButton] = useState(false);
   const [startquiz, setStartquiz] = useState(false);
   const [modules, setModules] = useState({ status: false, data: [] });
@@ -100,12 +100,11 @@ function Startattempt() {
               status: false,
               data: 'Error while fetching modules',
             });
-          } if (location.state == null || initial == true) {
+          }
+          if (location.state == null || initial == true) {
             var list = []
             res.data.map((courses) => {
               list.push(courses);
-              console.log('location is null')
-              console.log(res.data);
               courses.modules.map((activity) => {
                 setNav({
                   status: true,
@@ -114,10 +113,9 @@ function Startattempt() {
                 })
               });
             });
-          } if (location.state != null) {
-            console.log("hello");
+          }
+          if (location.state != null) {
             const { modname } = location.state;
-            console.log(modname);
             setModules({
               status: true,
               modname,
@@ -133,7 +131,7 @@ function Startattempt() {
   return (
     <>
       <Sidebar />
-      <Header quizHeading={location.state != null ? modules.modname : nav.modname} />
+      <Header quizHeading={location.state !== null ? modules.modname : nav.modname} />
       <div className="attempt-container pt-4">
         {show === true ? <Errordiv cstate={show} msg="Somethimg went wrong" /> :
           <Row className="attempt-row">
@@ -141,7 +139,8 @@ function Startattempt() {
               <div>
                 <div className="text-center">
                   {button.state === 'inprogress' ? (
-                    <Link to={`/mod/attempt/quiz/${instance}/${button.attempt}/${courseid}`}>
+                    <Link to={`/mod/attempt/quiz/${instance}/${button.attempt}/${courseid}`}
+                    state={{modnames:location.state !== null ? modules.modname : nav.modname}}>
                       <button type="button" className="attempt-btn">
                         Continue the last attempt
                       </button>
@@ -199,7 +198,9 @@ function Startattempt() {
                               <td>{summarydata.sumgrades}</td>
                               {summarydata.state === "finished" && <>
                                 <td>8</td>
-                                <td><Link to={`/review/${name}/${summarydata.id}/${summarydata.quiz}/${courseid}`} style={{ textDecoration: "none" }}>Review</Link></td></>}
+                                <td><Link to={`/mod/quiz/review/${summarydata.id}/${summarydata.quiz}/${courseid}`}
+                                  state={{ modnames:location.state != null ? modules.modname : nav.modname }}
+                                  style={{ textDecoration: "none" }}>Review</Link></td></>}
                             </tr>
                           ))}
                         </tbody>

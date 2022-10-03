@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Row } from 'react-bootstrap';
 import { getData, processQuizData } from '../../../adapters';
 import './style.scss';
@@ -126,11 +126,9 @@ const processAttempt = (
   finish = 0,
   setNext,
   navigate,
-) => 
-{
-  const {courseid,instance} = useParams();
-
-  
+  courseid,
+  instance
+) => {
   const userdata = getUserAnswers(quizData);
   let dataParam = '';
   Object.keys(userdata).map((item, index) => {
@@ -139,7 +137,7 @@ const processAttempt = (
   });
 
   const saveResponse = {
-    
+
     wsfunction: 'mod_quiz_process_attempt',
     attemptid,
     quizdata: dataParam,
@@ -147,17 +145,15 @@ const processAttempt = (
   };
 
   processQuizData(saveResponse)
-  
+
     .then((response) => {
       if (response.data.state !== undefined) {
         if (response.data.state === 'inprogress') {
           setNext(nextpage);
         } else if (response.data.state === 'finished') {
-          // const {courseid,instance} = useParams();
+
           alert('This attempt is finished');
-          navigate('/mod/quiz/:courseid/:instance');
-          // navigate('/dashboard');
-          
+          navigate(`/mod/quiz/${courseid}/${instance}`);
         } else if (response.data.errorcode !== undefined) {
           alert(response.data.message);
         }
@@ -169,17 +165,17 @@ const processAttempt = (
 };
 
 function Attempt() {
-  const { attemptid } = useParams();
-  const { courseid} = useParams();
+  const { attemptid, courseid, instance } = useParams();
   const [quizData, setQuizData] = useState([]);
   const [showLoader, setLoader] = useState(true);
   const [next, setNext] = useState(0);
   const [nav, setNav] = useState(false);
+  const [modname, setModname] = useState();
+  const location = useLocation();
   const error = '';
   const navigate = useNavigate();
   const quizList = [];
   const [quizPages, setQuizPages] = useState({ currentPage: 0, totalPages: 0 });
-  console.log(quizData);
   useEffect(() => {
     fetchPageQuestions(attemptid, next, setQuizData, setLoader);
   }, [next]);
@@ -195,7 +191,7 @@ function Attempt() {
 
   const finishAttempt = () => {
     if (window.confirm('Click ok to submit and finish!')) {
-      processAttempt(0, attemptid, quizData, 1, setNext, navigate);
+      processAttempt(0, attemptid, quizData, 1, setNext, navigate, courseid, instance);
     }
   };
 
@@ -218,7 +214,6 @@ function Attempt() {
     }
   };
   useEffect(() => {
-
     const courseids = [courseid];
     const query = {
       wsfunction: 'mod_quiz_get_quizzes_by_courses ',
@@ -230,6 +225,13 @@ function Attempt() {
           res.data.quizzes.map((navdata) => {
             quizList.push(navdata)
             for (let quizListData of quizList) {
+              if (location.state === null && quizData.attempt.quiz !== undefined && quizData.attempt.quiz === quizListData.id) {
+                setModname(quizListData.name);
+              }
+              if (location.state !== null) {
+                var { modnames } = location.state;
+                setModname(modnames);
+              }
               if (quizData.attempt.quiz !== undefined && quizData.attempt.quiz === quizListData.id && quizListData.navmethod === "free") {
                 setNav(true);
               }
@@ -247,11 +249,11 @@ function Attempt() {
   if (showLoader === true) {
     return <PageLoader />;
   }
-
+ 
   return (
     <>
       <Sidebar />
-      <Header />
+      <Header quizHeading={modname} />
       <div className="quiz-container pt-4">
         <Row className="quiz-row">
           <div className="col-sm-9">
