@@ -22,8 +22,7 @@ function Startattempt() {
   const [nav, setNav] = useState({ status: false, data: [] });
   const navigate = useNavigate();
   let initial = true;
-
-
+  
   const startAttemptProcess = () => {
     setStartquiz(true);
   };
@@ -101,46 +100,58 @@ function Startattempt() {
               data: 'Error while fetching modules',
             });
           }
-          if (location.state == null || initial == true) {
+          if (initial === true) {
             var list = []
             res.data.map((courses) => {
               list.push(courses);
-              courses.modules.map((activity) => {
-                setNav({
-                  status: true,
-                  data: list,
-                  modname: activity.name,
-                })
-              });
+              setNav({
+                status: true,
+                data: list,
+              })
             });
           }
-          if (location.state != null) {
-            const { modname } = location.state;
-            setModules({
-              status: true,
-              modname,
-            })
-          }
+
         }
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
-
+  }, [instance, courseid]);
+  useEffect(() => {
+    if (location.state === null) {
+      nav.data.map((mod) => (
+        mod.modules.map((activity) => {
+          if (activity.instance == instance && activity.modname == 'quiz') {
+            setModules({
+              status: true,
+              modname: activity.name
+            })
+          }
+        })
+      ));
+    }
+    else {
+      const { modname } = location.state;
+      setModules({
+        status: true,
+        modname,
+      })
+    }
+  }, [nav])
+  
   return (
     <>
       <Sidebar />
-      <Header quizHeading={location.state !== null ? modules.modname : nav.modname} />
+      <Header quizHeading={modules.modname} />
       <div className="attempt-container pt-4">
-        {show === true ? <Errordiv cstate={show} msg="Somethimg went wrong" /> :
+        {show === true ? <Errordiv cstate={show} msg="Something went wrong" /> :
           <Row className="attempt-row">
             <div className="col-sm-9">
               <div>
                 <div className="text-center">
                   {button.state === 'inprogress' ? (
                     <Link to={`/mod/attempt/quiz/${instance}/${button.attempt}/${courseid}`}
-                    state={{modnames:location.state !== null ? modules.modname : nav.modname}}>
+                      state={{ modnames: location.state !== null ? modules.modname : nav.modname }}>
                       <button type="button" className="attempt-btn">
                         Continue the last attempt
                       </button>
@@ -161,7 +172,6 @@ function Startattempt() {
                   {summary !== null && summary.attempts.length == 1 ?
                     <div>
                       <h4><b>Summary of your previous attempts</b></h4>
-
                       <table className="table">
                         <thead>
                           <tr>
@@ -199,7 +209,7 @@ function Startattempt() {
                               {summarydata.state === "finished" && <>
                                 <td>8</td>
                                 <td><Link to={`/mod/quiz/review/${summarydata.id}/${summarydata.quiz}/${courseid}`}
-                                  state={{ modnames:location.state != null ? modules.modname : nav.modname }}
+                                  state={{ modnames: location.state != null ? modules.modname : nav.modname }}
                                   style={{ textDecoration: "none" }}>Review</Link></td></>}
                             </tr>
                           ))}
