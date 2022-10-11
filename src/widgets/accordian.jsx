@@ -18,7 +18,7 @@ function ModuleAccordion(props) {
     props.items.map((i, j) => {
       if (i.modname === 'quiz') {
         hasItems = true;
-        props.items[j].reactLink = `/mod/quiz/${i.name}/${i.instance}/${props.courseid}`;
+        props.items[j].reactLink = `/mod/quiz/${props.courseid}/${i.instance}`;
         props.items[j].reactFileurl = null;
       } else if (i.modname === 'resource') {
         hasItems = true;
@@ -59,8 +59,8 @@ function ModuleAccordion(props) {
                       // style={item.reactActive === true ? {pointerEvents:'none'} : null}
                       to={item.reactLink}
                       state={{
-                        vidurl: `${item.reactFileurl}`,
-                        vidname: `${item.name}`,
+                        modurl: `${item.reactFileurl}`,
+                        modname: `${item.name}`,
                       }}
                     >
                       <p key={item.id} className="video-item">

@@ -57,7 +57,11 @@ function CourseView() {
   function quizLink (quizId, quizName, quizInstance) {
     return (
       <div className="container-fluid page-box" key={quizId}>
-        <Link to={`/mod/quiz/${quizName}/${quizInstance}/${courseid}`}>
+        <Link to={`/mod/quiz/${courseid}/${quizInstance}`}
+        state={{
+          modname: quizName
+        }}
+        >
           <Cards title={quizName} icon={quizIcon} />
         </Link>
       </div>

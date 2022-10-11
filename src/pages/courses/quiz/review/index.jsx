@@ -41,7 +41,7 @@ const Review = () => {
             .then((res) => {
                 if (res.status === 200 && res.data) {
                     const activitylist = [];
-                    res.data.quizzes.map((courseList, i) => {
+                    res.data.quizzes.map((courseList) => {
                         activitylist.push(courseList);
                         for (let activitylistData of activitylist) {
                             if (quizid == activitylistData.id) {
