@@ -4,11 +4,13 @@ import './style.scss';
 const Pagination = ({ showPerPage, onPaginationChange, totalData }) => {
   const [counter, setCounter] = useState(1);
 
+  //  Pagination === >>
   useEffect(() => {
     const value = showPerPage * counter;
     onPaginationChange(value - showPerPage, value);
   }, [counter]);
 
+  // Handle Pagination next-previous button === >>
   const handlePaginationNullPage = (type) => {
     if (type === "previous") {
       if (counter === 1) {
