@@ -1,4 +1,4 @@
-import React, { useState,useContext,useEffect } from 'react';
+import React, { useState } from 'react';
 import Sidebar from '../sidebar';
 import Header from '../header';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
@@ -6,21 +6,12 @@ import useUserinfo from '../../features/hooks/userinfo';
 import PageLoader from '../../widgets/loader/pageloader';
 import DashCatalog from '../../widgets/dashboard_Comp/dash_catalog_comp';
 import DashRecCourse from '../../widgets/dashboard_Comp/dash_rec_comp';
-import UserContext from '../../features/context/user/user';
 import './style.scss';
 
 function Dashboard() {
-  const [courseKey, setCourseKey] = useState("");
-  const userCtx = useContext(UserContext);
-  const userId = userCtx.userInfo.userid;
   const res = useUserinfo();
   const [linkToggle, setLinkToggle] = useState(1);
 
-  useEffect(() => {
-    setCourseKey(`course-${userId}`);
-
-  }, [userId]);
-  console.log(courseKey);
   if (res === 'loading') {
     return <PageLoader />;
   }

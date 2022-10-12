@@ -52,7 +52,6 @@ function DashMyCourse({linkToggle}) {
       }
     } else if (linkToggle === 2) {
       const completed = myCourses.filter((el) => dateFormat > el.enddate);
-      console.log(completed)
       if (completed.length !== 0) {
         setFilter(completed);
         setFilterDataMsg(false)
@@ -89,7 +88,7 @@ function DashMyCourse({linkToggle}) {
           {filter.map((element) => (
             <div className="col-sm-4" key={element.id}>
               <div className="">
-                <MyCourseCard mycoursedata={element} />
+                <MyCourseCard mycoursedata={element} currentTab={linkToggle}/>
               </div>
             </div>
           ))}

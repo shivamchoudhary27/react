@@ -5,6 +5,7 @@ import BreadCrumb from '../../../widgets/BreadCrumb';
 import Cards from '../../../widgets/CourseComp';
 import quizIcon from '../../../assets/activity-icon/quiz-icon.png';
 import vidIcon from '../../../assets/activity-icon/video-icon.png';
+import certificateIcon from '../../../assets/activity-icon/certificate-icon.png';
 import Sidebar from '../../sidebar';
 import Header from '../../header';
 import './style.scss';
@@ -68,13 +69,14 @@ function CourseView() {
     );
   }
   
-  function certificateLink () {
+  function certificateLink (certificateId, certificateName) {
     return (
-      <div className="container-fluid page-box" key={Math.random()}>
-        <p>certificate (in progress...)</p>
+      <div className="container-fluid page-box" key={certificateId}>
+        <Cards title={certificateName} icon={certificateIcon} />
       </div>
     )
   }
+
   return (
     <>
       <Sidebar />
@@ -90,10 +92,8 @@ function CourseView() {
             ]}
           />
           {show === true && <Errordiv cstate={show} msg="Something went wrong" />}
-
           {title.map((courses) => (
             <div key={Math.random() + courses.id}>
-
               {courses?.modules.map(
                 (activity) => 
                 ((activity.modname === 'resource') 
@@ -101,7 +101,7 @@ function CourseView() {
                 : (activity.modname === 'quiz') 
                 ? quizLink(activity.id, activity.name, activity.instance)
                 : (activity.modname === 'customcert') 
-                && certificateLink()
+                && certificateLink(activity.id, activity.name)
               ))}
             </div>
           ))}

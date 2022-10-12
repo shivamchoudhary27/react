@@ -7,17 +7,31 @@ import imgLogo from '../../../assets/images/jslogo.png';
 import UserContext from '../../../features/context/user/user';
 
 function MyCourseCard(props) {
-  let toComplete = '';
-  if (props.mycoursedata.completed === true) {
-    toComplete = 'Completed';
-  } else {
-    const unixTime = props.mycoursedata.enddate;
-    const date = new Date(unixTime * 1000);
-    const finishDate = date.toLocaleDateString('en-IN');
-    toComplete = `Finish date ${finishDate}`;
-  }
+  let accessBtn, courseDate = '';
+  const currentTab = props.currentTab;
   const userCtx = useContext(UserContext);
   const userToken = userCtx.token;
+  
+  if (currentTab === 1) {
+    accessBtn = 'Resume';
+    if (props.mycoursedata.enddate === 0) courseDate = '';
+    else {
+      const finishDate = new Date(props.mycoursedata.enddate * 1000).toLocaleDateString('en-IN');    
+      courseDate = `End date ${finishDate}`;  
+    }
+  } else if (currentTab === 2) {
+    accessBtn = 'View';
+    if (props.mycoursedata.enddate === 0) courseDate = '';
+    else {
+      const startDate = new Date(props.mycoursedata.enddate * 1000)
+      courseDate = `End date: ${startDate.toLocaleDateString('en-IN')}`;
+    }
+  } else {
+    accessBtn = 'Yet to start';
+    const startDate = new Date(props.mycoursedata.startdate * 1000)
+    courseDate = `Start date: ${startDate.toLocaleDateString('en-IN')}`;
+  }
+  
   return (
     <>
       <div className="ai-course">
@@ -60,13 +74,12 @@ function MyCourseCard(props) {
               <i className="fa fa-clock-o"></i>
             </li>
             <li>
-              {toComplete}
-              {/* <b>10 Days</b> left to finish */}
+              {courseDate}
             </li>
             <li className="third-child">
               <Link style={{textDecoration: "none"}} to={`/courseview/${props.mycoursedata.id}`}>
                 <button className="course-btn">
-                  Continue &nbsp;<i className="fa fa-angles-right"></i>
+                  {accessBtn} &nbsp;<i className="fa fa-angles-right"></i>
                 </button>
               </Link>
             </li>
