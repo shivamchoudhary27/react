@@ -10,29 +10,38 @@ import SkeletonMimic from "./Skeleton";
 
 const Catalogue = () => {
   const showPerPage = 2;
+  const categoryList = [];
   const inputElem = useRef("");
   const [categories, setCategories] = useState();
+  const [courseList, setCourseList] = useState();
+  const [isChecked, setIsChecked] = useState([]);
   const [searchData, setSearchData] = useState();
+  const [filterdCourses, setFilteredCourses] = useState([]);
   const [filterVal, setFilterVal] = useState("");
   const [loadSkeleton, setLoadSkeleton] = useState(true);
+  const [filterToggle, setFilterToggle] = useState(true);
   const [pagination, setPagination] = useState({
     start: 0,
     end: showPerPage,
   });
+  const [counter, setCounter] = useState(0);
+  const [courseIdStore, setCourseIdStore] = useState([]);
 
+  // Pagination === >>
   const onPaginationChange = (start, end) => {
     setPagination({ start: start, end: end });
   };
 
+  // Hit get-courses API === >>
   useEffect(() => {
     const query = {
-      wsfunction: "core_course_get_categories",
-      // addsubcategories: 0
+      wsfunction: "core_course_get_courses",
+      ids: [],
     };
     getData(query)
       .then((res) => {
         if (res.status === 200 && res.data) {
-          setCategories(res.data);
+          setCourseList(res.data);
           setSearchData(res.data);
           setLoadSkeleton(false);
         }
@@ -42,19 +51,84 @@ const Catalogue = () => {
       });
   }, []);
 
+  // Hit get-categories API === >>
+  useEffect(() => {
+    const query = {
+      wsfunction: "core_course_get_categories",
+    };
+    getData(query)
+      .then((res) => {
+        if (res.status === 200 && res.data) {
+          for (let i = 0; i < res.data.length; i++) {
+            categoryList.push(res.data[i]);
+            setCategories(categoryList);
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Select Category from Accordian === >>
+  useEffect(() => {
+    if (isChecked.length === 0) {
+      setFilteredCourses(courseList);
+    } else {
+      setFilteredCourses(
+        courseList.filter((element) => {
+          return isChecked.includes(element.categoryid);
+        })
+      );
+    }
+  }, [courseList, isChecked]);
+
+  // Search courses from search box === >>
   const handleFilter = () => {
     if (inputElem.current.value !== "") {
       const filterResult = searchData.filter((item) => {
-        return item.name
+        return item.fullname
           .toLowerCase()
           .includes(inputElem.current.value.toLowerCase());
       });
-      setCategories(filterResult);
-      console.log(categories);
+      setCourseList(filterResult);
+      console.log(courseList);
     } else {
-      setCategories(searchData);
+      setCourseList(searchData);
     }
     setFilterVal(inputElem.current.value);
+  };
+
+
+  const handleChecked = (e) => {
+    const getCategoryId = parseInt(e.target.getAttribute("dataid"));
+    if (e.target.checked === true) {
+      setIsChecked((current) => [...current, getCategoryId]);
+    } else {
+      setIsChecked((current) =>
+        current.filter((element) => {
+          return element !== getCategoryId;
+        })
+      );
+    }
+  };
+
+  // Handle cart counter === >>
+  const cartCounter = (e) => {
+    if (e === true) {
+      setCounter((counter) => counter + 1);
+    } else setCounter((counter) => counter - 1);
+  };
+
+  const counterCourseId = (element) => {
+    if (element.status === true) {
+      setCourseIdStore((current) => [...current, element.data]);
+      
+    } else {
+      let courseIdSet = courseIdStore;
+      const x = courseIdSet.indexOf(element.data);
+      courseIdSet.splice(x, 1);
+    }
   };
 
   return (
@@ -83,117 +157,131 @@ const Catalogue = () => {
             </div>
           </div>
           <div className="pt-4">
-            <div className="pb-3">
-              <ul className="filter-items">
-                <li>
-                  <p className="filter-text">
-                    <i className="fa fa-filter filter-icon"></i> Filter
-                  </p>
-                </li>
-                <li>
-                  <p className="filter-text">
-                    {" "}
-                    <span className="sort-by-filter">
-                      Sort By:
-                    </span> Recommended{" "}
-                    <i className="fa fa-angle-down angle-down-icon"></i>
-                  </p>
-                </li>
-              </ul>
+            <div className="ai-feature-dropdown">
+              <div>
+                <ul className="filter-items">
+                  <li>
+                    <p
+                      className="filter-text"
+                      onClick={() => setFilterToggle(!filterToggle)}
+                    >
+                      <i className="fa fa-filter filter-icon"></i> Filter
+                    </p>
+                  </li>
+                  <li>
+                    <p className="filter-text">
+                      {" "}
+                      <span className="sort-by-filter">Sort By:</span>{" "}
+                      Recommended{" "}
+                      <i className="fa fa-angle-down angle-down-icon"></i>
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <span className="cart-txt">Cart Added</span>
+                <span className="fa-solid fa-cart-plus">
+                  <sup>{counter}</sup>
+                </span>
+              </div>
             </div>
             <div className="container">
-              <div className="row">
-                <div className="col-sm-3">
-                  <div>
-                    <Accordion defaultActiveKey="0">
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>Topic</Accordion.Header>
-                        <Accordion.Body>
-                          <p className="photoshop-item">
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              Photoshop (15)
-                            </label>
-                          </p>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              Graphic Design (20)
-                            </label>
-                          </p>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              Image Editing (33)
-                            </label>
-                          </p>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              After Effects (25)
-                            </label>
-                          </p>
-                          <p className="catalogue-show-more-btn">Show More</p>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                      <Accordion.Item eventKey="1">
-                        <Accordion.Header>Level</Accordion.Header>
-                        <Accordion.Body>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              All Level (805)
-                            </label>
-                          </p>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              Beginner (205)
-                            </label>
-                          </p>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              Intermediate (375)
-                            </label>
-                          </p>
-                          <p>
-                            <input type="checkbox" />
-                            <label className="photoshop-checkbox">
-                              {" "}
-                              Expert (225)
-                            </label>
-                          </p>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
+              <div className="row ">
+                {filterToggle && (
+                  <div className="col-sm-3 ai-left-column">
+                    <div className="ai-accordian-sticky">
+                      <Accordion defaultActiveKey="0">
+                        <Accordion.Item eventKey="0">
+                          <Accordion.Header>Categories List</Accordion.Header>
+                          <Accordion.Body>
+                            {categories !== undefined && categories.length === 0
+                              ? "No record found"
+                              : categories !== undefined &&
+                                categories.map(
+                                  (el, i) =>
+                                    el.coursecount !== 0 && (
+                                      <p className="photoshop-item" key={i}>
+                                        <input
+                                          type="checkbox"
+                                          onChange={(e) => {
+                                            handleChecked(e);
+                                          }}
+                                          dataid={el.id}
+                                        />
+                                        <label className="photoshop-checkbox">
+                                          {" "}
+                                          {el.name}
+                                        </label>{" "}
+                                        <span>{`(${el.coursecount})`}</span>
+                                      </p>
+                                    )
+                                )}
+                            <p className="catalogue-show-more-btn">Show More</p>
+                          </Accordion.Body>
+                        </Accordion.Item>
+
+                        <Accordion.Item eventKey="1">
+                          <Accordion.Header>Level</Accordion.Header>
+                          <Accordion.Body>
+                            <p>
+                              <input type="checkbox" />
+                              <label className="photoshop-checkbox">
+                                {" "}
+                                All Level (805)
+                              </label>
+                            </p>
+                            <p>
+                              <input type="checkbox" />
+                              <label className="photoshop-checkbox">
+                                {" "}
+                                Beginner (205)
+                              </label>
+                            </p>
+                            <p>
+                              <input type="checkbox" />
+                              <label className="photoshop-checkbox">
+                                {" "}
+                                Intermediate (375)
+                              </label>
+                            </p>
+                            <p>
+                              <input type="checkbox" />
+                              <label className="photoshop-checkbox">
+                                {" "}
+                                Expert (225)
+                              </label>
+                            </p>
+                          </Accordion.Body>
+                        </Accordion.Item>
+                      </Accordion>
+                    </div>
                   </div>
-                </div>
-                {categories !== undefined && categories.length === 0 ? (
+                )}
+                {filterdCourses !== undefined && filterdCourses.length === 0 ? (
                   "No Records Found!"
                 ) : (
-                  <div className="col-sm-9">
+                  <div
+                    className={`col-sm-9 ${
+                      filterToggle === false && "col-sm-12"
+                    }`}
+                  >
                     {loadSkeleton === true ? (
                       <SkeletonMimic />
                     ) : (
-                      categories != undefined &&
-                      categories
+                      filterdCourses !== undefined &&
+                      filterdCourses
                         .slice(pagination.start, pagination.end)
                         .map((item) => {
                           return (
-                            <div key={item.id}>
+                            <div key={item.id} courseid={item.courseid}>
                               <Coursecataloguecard
-                                categoryName={item.name}
-                                categoryId={item.id}
-                                categoryTime={item.timemodified}
-                                categoryDescription={item.description}
+                                courseName={item.fullname}
+                                courseId={item.id}
+                                courseTime={item.timemodified}
+                                courseSummary={item.summary}
+                                cartCounter={cartCounter}
+                                counterCourseId={counterCourseId}
+                                courseIdStore={courseIdStore}
                               />
                             </div>
                           );
@@ -203,7 +291,8 @@ const Catalogue = () => {
                       <Pagination
                         showPerPage={showPerPage}
                         onPaginationChange={onPaginationChange}
-                        totalData={categories != undefined && categories.length}
+                        totalData={courseList != undefined && courseList.length}
+                        courseIdStore={courseIdStore}
                       />
                     )}
                   </div>

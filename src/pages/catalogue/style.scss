@@ -38,28 +38,60 @@
           }
         }
       }
-      .filter-items{
-        list-style-type: none;
-        padding-inline-start: 0px;
-        display:inline-flex;
-        .filter-text{
-          font-size: 17px;
-          margin-bottom: 0px;
-          border: 1px solid #C3C3C3;
-          padding: 5px 15px;
-          .filter-icon{
-            margin-right: 10px;
-          }
-          .angle-down-icon{
-            margin-left: 8px;
-          }
-          .sort-by-filter{
-            color:#767676;
+      .ai-feature-dropdown{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 53px;
+        background-color: white;
+        z-index: 999;
+        .filter-items{
+          margin-top: 10px;
+          list-style-type: none;
+          padding-inline-start: 0px;
+          display:inline-flex;
+          .filter-text{
+            cursor: pointer;
+            font-size: 17px;
+            margin-bottom: 0px;
+            border: 1px solid #C3C3C3;
+            padding: 5px 15px;
+            .filter-icon{
+              margin-right: 10px;
+            }
+            .angle-down-icon{
+              margin-left: 8px;
+            }
+            .sort-by-filter{
+              color:#767676;
+            }
           }
         }
-      }
-      .filter-items li{
-        padding-right: 15px;
+        .filter-items li{
+          padding-right: 15px;
+        }
+        .cart-txt{
+          padding-right: 5px;
+          font-weight: 700;
+          font-size: 18px;
+          color: #C3C3C3;
+        }
+        .fa-cart-plus{
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: #2F2F2F;
+          padding: 10px;
+          background-color: #F8EDE3;
+          border-radius: 5px;
+          sup{
+            font-size: 12px;
+            background-color: #F57F17;
+            color: #fff;
+            padding: 2px;
+            border-radius: 5px;
+          }
+        }
       }
       .photoshop-checkbox{
         margin-left: 10px;
@@ -74,11 +106,19 @@
       .catalogue-show-more-btn{
         color:#F57F17;
       }
+      .ai-left-column{
+        padding-left: 0px !important;
+        .ai-accordian-sticky{
+          position: sticky;
+          top: 130px;
+        }
+      }
       .container{
         .row{
           .col-sm-9{
             .ai-course-shadow{
-              box-shadow: -4px 0px 4px rgb(0 0 0 / 6%), 4px 4px 11px rgb(0 0 0 / 5%);
+              // box-shadow: -4px 0px 4px rgb(0 0 0 / 6%), 4px 4px 11px rgb(0 0 0 / 5%);
+              box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
               .ai-course-image{
                 height:144px;
               }
@@ -90,7 +130,7 @@
                 align-items: center;
               }
               .col-sm-9{
-
+                
                 .row{
                   .col-sm-9{
                     .ai-course-heading{
@@ -110,8 +150,27 @@
                     }
                     .ai-course-review{
                       font-size: 14px;
-                      color:#F57F17;
                       margin-bottom: 5px;
+                      .review-txt{
+                        color: #F57F17;
+                      }
+                      .fa-star{
+                        color:#f2f2f2;
+                      }
+                      .checked{
+                        color: orange;
+                      }
+                    }
+                    .ai-course-price{
+                      margin-bottom: 0px;
+                      .price{
+                        color: #2F2F2F;
+                        font-weight: 700;
+                      }
+                      .old-price{
+                        color: #777777;
+                        text-decoration: line-through;
+                      }
                     }
                   }
                   .ai-course-get-started-btn{
@@ -119,7 +178,23 @@
                     justify-content: center;
                     align-items: center;
                   }
+                  
                   .col-sm-3{
+                    .added-update-txt{
+                      color: #777777;
+                      font-weight: 700;
+                      background-color: #F8EDE3;
+                      padding: 8px;
+                      font-size: 14px;
+                      border-radius: 5px;
+                      margin-left: 5px;
+                    }
+                    .fa-check{
+                      color: green;
+                    }
+                    .fa-xmark{
+                      color: red;
+                    }
                     .ai-course-button{
                       background-color: #F57F17;
                       border-radius: 20px;
@@ -139,6 +214,7 @@
         }
       }
     }
+  
     // .more-course-btn {
     //   background-color: white;
     //   border: 1px solid #f57f17;
