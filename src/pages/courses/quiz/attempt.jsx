@@ -115,9 +115,7 @@ function fetchPageQuestions(attemptid, next, setQuizData, setLoader) {
   } catch (error) {
     console.log(error.message);
   }
-
 }
-
 
 const processAttempt = (
   nextpage,
@@ -128,7 +126,9 @@ const processAttempt = (
   navigate,
   courseid,
   instance
+
 ) => {
+
   const userdata = getUserAnswers(quizData);
   let dataParam = '';
   Object.keys(userdata).map((item, index) => {
@@ -151,8 +151,6 @@ const processAttempt = (
         if (response.data.state === 'inprogress') {
           setNext(nextpage);
         } else if (response.data.state === 'finished') {
-
-          alert('This attempt is finished');
           navigate(`/mod/quiz/${courseid}/${instance}`);
         } else if (response.data.errorcode !== undefined) {
           alert(response.data.message);
@@ -196,21 +194,21 @@ function Attempt() {
   };
 
   const changePage = (page) => {
-    processAttempt(page, attemptid, quizData, 0, setNext, navigate);
+    processAttempt(page, attemptid, quizData, 0, setNext, navigate, courseid, instance);
   };
 
   const nextPage = () => {
-    processAttempt(quizData.nextpage, attemptid, quizData, 0, setNext, navigate);
+    processAttempt(quizData.nextpage, attemptid, quizData, 0, setNext, navigate, courseid, instance);
   };
 
   const previousPage = () => {
     if (quizData.nextpage === -1) {
       (quizPages.totalPages > 1)
-        && processAttempt(quizPages.totalPages - 2, attemptid, quizData, 0, setNext, navigate);
+        && processAttempt(quizPages.totalPages - 2, attemptid, quizData, 0, setNext, navigate, courseid, instance);
     } else {
       const prevPage = quizData.nextpage - 2;
       prevPage > -1
-        && processAttempt(prevPage, attemptid, quizData, 0, setNext, navigate);
+        && processAttempt(prevPage, attemptid, quizData, 0, setNext, navigate, courseid, instance);
     }
   };
   useEffect(() => {

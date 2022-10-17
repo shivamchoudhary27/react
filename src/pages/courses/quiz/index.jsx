@@ -22,7 +22,7 @@ function Startattempt() {
   const [nav, setNav] = useState({ status: false, data: [] });
   const navigate = useNavigate();
   let initial = true;
-  
+
   const startAttemptProcess = () => {
     setStartquiz(true);
   };
@@ -51,7 +51,6 @@ function Startattempt() {
         console.log(err);
       });
   }, [instance]);
-
 
   useEffect(() => {
     if (summary !== null && show === false) {
@@ -84,7 +83,6 @@ function Startattempt() {
         });
     }
   }, [startquiz]);
-
 
   useEffect(() => {
     const query = {
