@@ -15,7 +15,7 @@ function Header(props) {
   return (
     <header className="dashboard-header header-slider" id="headerslide">
       <Row className="dashboard-header-row">
-        <div className="col-sm-6">
+        <div className="col-sm-6 welcome-content">
           <div>
             <h2 className="dashboard-header-heading">
               {props.pageHeading !== undefined && props.pageHeading}
@@ -26,14 +26,14 @@ function Header(props) {
             </h2>
           </div>
         </div>
-        <div className="col-sm-6">
+        <div className="col-sm-6 username-content">
           <div className="text-right">
             <ul className="dashboard-items">
               <li>
                 <i className="fa fa-search search-icon" />
               </li>
               <NotificationOverlay userid={userid} />
-              <li>
+              <li className="username-details">
                 <ul className="user-name">
                   <li className="user-name-content">{fullname}</li>
                 </ul>
@@ -50,9 +50,9 @@ function Header(props) {
                     {/* <i class="fa fa-angle-down"></i> */}
                     <Dropdown.Toggle variant="success" id="dropdown-basic"></Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                      <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                      <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                      <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
+                      {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
                     </Dropdown.Menu>
                   </Dropdown>
                 </li>

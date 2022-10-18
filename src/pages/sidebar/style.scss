@@ -4,18 +4,29 @@ $sidebar-width:270px;
 body{
     font-family: $fontfamily;
 }
+.burger-icon{
+    margin-left: 14% !important;
+}
+.left-arrow{
+    display:none;
+}
+.left-arrow-icon{
+    display:block;
+}
 .hamburger-icon{
     float: left !important;
     margin-right: 35px !important;
-    margin-top: 14px !important;
+    margin-top: 5px !important;
     position: fixed;
     top: 0;
+    margin-left: 38px;
     // right: 0;
     z-index: 9999;
     cursor: pointer;
     color: white;
     font-size: 25px;
     color: darkorange;
+    transition: .4s;
 }
 .pro-sidebar.collapsed {
     width: 102px !important;
@@ -30,7 +41,7 @@ body{
         background: #192430 !important;
     }
     .pro-menu {
-        padding-top: 40px !important;
+        padding-top: 71px !important;
         .catalogue-icon{
             color:#80828A !important;
         }

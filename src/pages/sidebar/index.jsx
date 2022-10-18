@@ -3,7 +3,7 @@ import {
   Menu, MenuItem, ProSidebar, SidebarHeader,
 } from 'react-pro-sidebar';
 import './style.scss';
-import { AiOutlineMenu } from 'react-icons/ai';
+// import { AiOutlineMenu } from 'react-icons/ai';
 import 'react-pro-sidebar/dist/css/styles.css';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
@@ -28,6 +28,7 @@ function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const userctx = useContext(UserContext);
   const navigate = useNavigate();
+  const [icon, setIcon] = useState(false);
   // const [headerslide, setHeaderslide] = useState(false);
 
   const styles = {
@@ -37,6 +38,7 @@ function Sidebar() {
     menuIcon: {
       float: 'right',
       margin: '10px',
+      marginLeft:"38px",
     },
   };
 
@@ -46,9 +48,6 @@ function Sidebar() {
     sample.classList.toggle('bl-text');
     const logo = document.getElementById('logowhite');
     logo.classList.toggle('d-none');
-    // const addtodo = useCallback(() =>{
-    //   setHeaderslide(current => !current);
-    // },[headerslide]);
     const headerslide = document.getElementById('headerslide');
     headerslide.classList.toggle('header-slider');
     const coursestatusslide = document.getElementById('coursestatusslider');
@@ -59,9 +58,13 @@ function Sidebar() {
     recommendcourseslide.classList.toggle('recommended-course-slider');
     const cataloguecourseslide = document.getElementById('cataloguecourseslider');
     cataloguecourseslide.classList.toggle('catalogue-course-slider');
-    // const mobilesidebar = document.getElementById("mobile-toggle");
-    // mobilesidebar.classList.toggle("mobile-sidebar");
+    const sidebaricon = document.getElementById('sidebaricon');
+    sidebaricon.classList.toggle('burger-icon');
+
+    setIcon(true);
   };
+
+  console.log(icon);
 
   const logout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
@@ -69,21 +72,28 @@ function Sidebar() {
       navigate('/');
     }
   };
+  
   return (
     <>
+      
+      <ProSidebar style={styles.sideBarHeight} collapsed={collapsed} id="mobile-toggle" className="mobile-sidebar">
       <SidebarHeader>
         <div
           role="presentation"
           style={styles.menuIcon}
           onClick={onClickMenuIcon}
-          className="hamburger-icon"
+          className="hamburger-icon burger-icon"
+          id="sidebaricon"
           // className="hamburger-icon  ${headerslide ? 'header-slider' : ''}"
           // className={headerslide ? 'hamburger-icon header-slider addtodo' : 'hamburger-icon'}
         >
-          <AiOutlineMenu />
+          {/* <AiOutlineMenu /> */}
+          {
+            icon === true ? <i className='fas fa-long-arrow-alt-right'></i> : <i className='fas fa-long-arrow-alt-left'></i>
+          }
+          
         </div>
       </SidebarHeader>
-      <ProSidebar style={styles.sideBarHeight} collapsed={collapsed} id="mobile-toggle" className="mobile-sidebar">
         <Menu iconShape="square">
           <Menuitem>
             <div className="logo-bg" id="logowhite">
