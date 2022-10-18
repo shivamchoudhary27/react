@@ -2,6 +2,15 @@ $sidebar-width:270px;
 .header-slider{
     padding-left: calc($sidebar-width + 30px) !important;
 }
+.dropdown-menu.show{
+    margin-top: 8px;
+}
+.dropdown-item{
+    border-bottom: 1px solid black !important;
+}
+.dropdown-item:last-of-type{
+    border-bottom: unset !important;
+}
 .dashboard-header{
     padding-left: 117px;
     transition: 0.5s;
@@ -102,12 +111,21 @@ $sidebar-width:270px;
     padding-left: 287px !important;
 }
 .dashboard-header {
-    padding-left: 130px !important;
+    padding-left: 70px !important;
     font-size: 14px;
     padding-right: 0px;
     .dashboard-header-row{
+        .dashboard-header-heading{
+            font-size: 15px !important;
+        }
+        .welcome-content{
+            width:50%;
+        }
         .welcome-heading{
             display:none;
+        }
+        .username-content{
+            width:50%;
         }
         .col-sm-6{
             .text-right{
@@ -116,9 +134,12 @@ $sidebar-width:270px;
                     padding-right: 10px;
                 }
                 .dashboard-items{
-                    margin-left: 45px;
+                    margin-left:30px;
                     .search-icon{
                         font-size: 14px;
+                    }
+                    .username-details{
+                        display:none;
                     }
                     .user-image-logo{
                         width:25px;
