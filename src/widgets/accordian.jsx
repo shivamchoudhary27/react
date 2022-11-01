@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import videoIcon from '../assets/activity-icon/video-icon.png';
 import quizIcon from '../assets/activity-icon/quiz-icon.png';
+import UserContext from '../features/context/user/user';
 
 const style = {
   borderRadius: '0px',
 };
 function ModuleAccordion(props) {
+  const userCtx = useContext(UserContext);
+  const userId = userCtx.userInfo.userid;
+  const resumeCourseKey = 'crs-' + props.courseid + '-' + userId;
   const currentUrl = window.location.pathname;
 
   const [modules, setModules] = useState({ status: false, header: '1', data: [] });
@@ -27,7 +31,13 @@ function ModuleAccordion(props) {
       }
 
       if (props.items[j].reactLink === currentUrl) {
+        console.log(' in thte current')
         props.items[j].reactActive = true;
+        if (props.items[j].modname === 'quiz') {
+          localStorage.setItem(resumeCourseKey, props.items[j].instance + '-' + props.items[j].modname);
+        } else {
+          localStorage.setItem(resumeCourseKey, props.items[j].id + '-' + props.items[j].modname);
+        }
         accordianHeader = '0';
       }
     });

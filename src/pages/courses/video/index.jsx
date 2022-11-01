@@ -52,11 +52,12 @@ function Video() {
               console.log("Something went wrong");
             } else {
               res.data.resources.map((item) => {
-                if (item.coursemodule === id) {
+                console.log(item.coursemodule);
+                if (item.coursemodule == id) {
                   setStateUrl({
                     status: true,
                     url: `${item.contentfiles[0].fileurl}?token=${userCtx.token}`,
-                    vidname: item.name,
+                    modname: item.name,
                   });
                 }
               });
@@ -66,12 +67,16 @@ function Video() {
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      const { vidurl, vidname } = location.state;
+
+    }
+
+
+    else {
+      const { modurl, modname } = location.state;
       setStateUrl({
         status: true,
-        url: `${vidurl}&token=${userCtx.token}`,
-        vidname,
+        url: `${modurl}&token=${userCtx.token}`,
+        modname,
       });
     }
   }, [id]);
@@ -131,7 +136,7 @@ function Video() {
   return (
     <div>
       <Sidebar />
-      <Header pageHeading={stateurl.vidname} />
+      <Header pageHeading={stateurl.modname} />
       <div className="video-content pt-4 video-slider" id="videoslider">
         <Row className="video-row">
           <div className="col-sm-9">
