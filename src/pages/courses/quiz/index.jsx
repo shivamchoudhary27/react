@@ -117,6 +117,7 @@ function Startattempt() {
   }, [instance, courseid]);
   useEffect(() => {
     if (location.state === null) {
+      console.log("location is null");
       nav.data.map((mod) => (
         mod.modules.map((activity) => {
           if (activity.instance == instance && activity.modname == 'quiz') {
@@ -129,6 +130,7 @@ function Startattempt() {
       ));
     }
     else {
+      console.log("location is not null");
       const { modname } = location.state;
       setModules({
         status: true,
