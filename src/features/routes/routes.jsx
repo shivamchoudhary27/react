@@ -12,7 +12,7 @@ import LoginForm from '../../pages/loginpage';
 import Catalogue from '../../pages/catalogue';
 import UserContext from '../context/user/user';
 import Review from '../../pages/courses/quiz/review';
-
+import Report from '../../pages/courses/video/report';
 export default function CustomRoutes() {
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
@@ -22,12 +22,8 @@ export default function CustomRoutes() {
         <Route exact path="/" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route
-            exact
-            path="/courseview/:id/"
-            element={<CourseView />}
-          /> */}
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
+          <Route path="/mod/video/report" element={<Report />} />
           <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
           <Route path="/mod/attempt/quiz/:instance/:attemptid/:courseid" element={<Attempt />} />
