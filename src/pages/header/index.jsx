@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Row } from "react-bootstrap";
 import goodbye from "../../assets/images/goodbye.png";
 import NotificationOverlay from "../../widgets/notifications";
+// import Cart from "../cartlist/Cart";
 import UserContext from "../../features/context/user/user";
 import Dropdown from 'react-bootstrap/Dropdown';
 import "./style.scss";
@@ -33,6 +34,7 @@ function Header(props) {
                 <i className="fa fa-search search-icon" />
               </li>
               <NotificationOverlay userid={userid} />
+              {/* <Cart /> */}
               <li className="username-details">
                 <ul className="user-name">
                   <li className="user-name-content">{fullname}</li>

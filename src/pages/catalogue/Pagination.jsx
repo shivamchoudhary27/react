@@ -13,7 +13,7 @@ const Pagination = ({ showPerPage, onPaginationChange, totalData }) => {
   // Handle Pagination next-previous button === >>
   const handlePaginationNullPage = (type) => {
     if (type === "previous") {
-      if (counter === 1) {
+      if (counter === 1) { 
         document.getElementById('pre-btn').style.display = 'none';
         setCounter(1);
       } else {

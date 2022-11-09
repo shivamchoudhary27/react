@@ -10,6 +10,7 @@ import ActivityPage from '../../pages/courses/activity';
 import Dashboard from '../../pages/dashboard';
 import LoginForm from '../../pages/loginpage';
 import Catalogue from '../../pages/catalogue';
+import Cart from '../../pages/cartlist';
 import UserContext from '../context/user/user';
 import Review from '../../pages/courses/quiz/review';
 import Report from '../../pages/courses/video/report';
@@ -28,6 +29,7 @@ export default function CustomRoutes() {
           <Route path="/mod/video/:id/:courseid" element={<Video />} />
           <Route path="/mod/attempt/quiz/:instance/:attemptid/:courseid" element={<Attempt />} />
           <Route path="/catalogue" element={<Catalogue />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element ={<Review />} />
           <Route path="*" element={localStorage.getItem('loggedIn') === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
