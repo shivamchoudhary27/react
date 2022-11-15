@@ -251,3 +251,146 @@
       }
     }
   }
+
+
+  @media (max-width: 575.98px) {
+    .main-container {
+      padding-left: 30px;
+      .contents{
+        .ai-feature-dropdown{
+          .filter-items{
+            .filter-text{
+              font-size: 14px;
+            }
+          }
+        }
+        .course-level{
+          margin-bottom: 30px;
+        }
+        .container{
+          .row{
+            .col-sm-9{
+              .ai-course-shadow{
+                padding: 10px 0px 10px 0px;
+              }
+              .row{
+                .col-sm-9{
+                  .row{
+                    .col-sm-3{
+                      .ai-course-button{
+                        margin-top: 10px;
+                      }
+                    }
+                    .ai-course-get-started-btn{
+                      display:block;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .catalogue-heading-content{
+          .catalogur-banner-text-content{
+            position: absolute;
+            top: 41px;
+            left:unset;
+            right: 24%;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    .main-container {
+      padding-left: 30px;
+      .contents{
+        .container{
+          .row{
+            .ai-left-column{
+              flex: 0 0 auto;
+              width: 100%;
+            }
+            .ai-right-column{
+              flex: 0 0 auto;
+              width: 100%;
+              .ai-course-shadow{
+                padding: 10px 0px 10px 0px;
+                .ai-course-details{
+                  .row{
+                    .ai-course-get-started-btn{
+                      .ai-course-button{
+                        font-size: 12px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .accordion{
+          padding-bottom: 30px;
+        }
+        .catalogue-heading-content{
+          .catalogur-banner-text-content{
+            position: absolute;
+            top: 41px;
+            left:unset;
+            right: 35%;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .main-container {
+      padding-left: 30px;
+      .contents{
+        .container{
+          .row{
+            .ai-right-column{
+              .ai-course-shadow{
+                padding: 10px 0px 10px 0px;
+                .ai-course-details{
+                  .row{
+                    .ai-course-get-started-btn{
+                      .ai-course-button{
+                        font-size: 12px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    .main-container {
+      padding-left: 30px;
+      .contents{
+        .container{
+          .row{
+            .ai-right-column{
+              .ai-course-shadow{
+                padding: 10px 0px 10px 0px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }

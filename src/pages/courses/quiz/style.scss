@@ -153,3 +153,123 @@
     }
   }
 }
+
+
+
+
+@media (max-width: 575.98px) {
+  .attempt-container{
+    padding-left: 0px;
+    .attempt-row{
+      .col-sm-3{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+  .quiz-container{
+    padding-left: 0px;
+    .quiz-row{
+      .right-side-nav-bg{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+}
+
+
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .attempt-container{
+    padding-left: 0px;
+    .attempt-row{
+      .quiz-left-column{
+        flex: 0 0 auto;
+        width: 100%;
+      }
+      .quiz-right-column{
+        flex: 0 0 auto;
+        width:100%;
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+  .quiz-container{
+    padding-left: 0px;
+    .quiz-row{
+      .right-side-nav-bg{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+          .quiz-navigation-content{
+            .quiz-page-heading{
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .attempt-container{
+    padding-left: 0px;
+    .attempt-row{
+      .col-sm-3{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+  .quiz-container{
+    padding-left: 0px;
+    .quiz-row{
+      .right-side-nav-bg{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+}
+
+
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .attempt-container{
+    padding-left: 0px;
+    .attempt-row{
+      .col-sm-3{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+  .quiz-container{
+    padding-left: 0px;
+    .quiz-row{
+      .right-side-nav-bg{
+        .quiz-right-sidebar{
+          position:static;
+          width:unset;
+        }
+      }
+    }
+  }
+}

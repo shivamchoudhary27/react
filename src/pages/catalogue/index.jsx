@@ -244,7 +244,7 @@ const Catalogue = () => {
                           </Accordion.Body>
                         </Accordion.Item>
 
-                        <Accordion.Item eventKey="1">
+                        <Accordion.Item eventKey="1" className="course-level">
                           <Accordion.Header>Level</Accordion.Header>
                           <Accordion.Body>
                             <p>
@@ -285,7 +285,7 @@ const Catalogue = () => {
                   "No Records Found!"
                 ) : (
                   <div
-                    className={`col-sm-9 ${
+                    className={`col-sm-9 ai-right-column ${
                       filterToggle === false && "col-sm-12"
                     }`}
                   >

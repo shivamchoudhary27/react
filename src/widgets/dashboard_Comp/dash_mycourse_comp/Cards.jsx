@@ -126,7 +126,7 @@ function MyCourseCard(props) {
       <div className="ai-course">
         <div className="ai-border">
           <Row>
-            <div className="col-sm-10 card-left-column">
+            <div className="col-sm-12 col-md-10 card-left-column">
               {/* <Link to={`/courseview/${props.mycoursedata.id}/${props.mycoursedata.fullname}`}> */}
               <div className="course-heading-google">
                 <h5 className="card-title">{props.mycoursedata.fullname.substr(0, 30)}</h5>
@@ -138,7 +138,7 @@ function MyCourseCard(props) {
                 </p>
               </div>
             </div>
-            <div className="col-sm-2 card-right-column">
+            <div className="col-sm-12 col-md-2 image-order card-right-column">
               <div className="card-right-column-image">
                 <Link to={`/courseview/${props.mycoursedata.id}/${props.mycoursedata.fullname}`}>
                   {

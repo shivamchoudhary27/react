@@ -139,7 +139,7 @@ function Video() {
       <Header pageHeading={stateurl.modname} />
       <div className="video-content pt-4 video-slider" id="videoslider">
         <Row className="video-row">
-          <div className="col-sm-9">
+          <div className="col-sm-9 video-left-column">
             <div>
               {stateurl.status === false ? (
                 <SkeletonMimic />
@@ -211,7 +211,7 @@ function Video() {
               </Tabs>
             </div>
           </div>
-          <div className="col-sm-3">
+          <div className="col-sm-3 video-right-column">
             <div className="right-side-nav">
               {modules.status === false ? (
                 <Col3 />
