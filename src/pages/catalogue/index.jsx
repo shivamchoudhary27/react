@@ -7,10 +7,12 @@ import Coursecataloguecard from "./coursecataloguecard";
 import { getData } from "../../adapters";
 import Pagination from "./Pagination";
 import SkeletonMimic from "./Skeleton";
+import { useNavigate } from "react-router-dom";
 
 const Catalogue = () => {
   const showPerPage = 2;
   const categoryList = [];
+  const navigate = useNavigate();
   const inputElem = useRef("");
   const [categories, setCategories] = useState();
   const [courseList, setCourseList] = useState();
@@ -24,8 +26,11 @@ const Catalogue = () => {
     start: 0,
     end: showPerPage,
   });
-  const [counter, setCounter] = useState(0);
-  const [courseIdStore, setCourseIdStore] = useState([]);
+
+  const localCart = localStorage.getItem('courseCartId');
+  const storedCart =  localCart !== null ? JSON.parse(localCart) : null;
+  const [counter, setCounter] = useState(storedCart !== null ? storedCart.length : 0);
+  const [courseIdStore, setCourseIdStore] = useState(storedCart !== null ? storedCart : []);
 
   // Pagination === >>
   const onPaginationChange = (start, end) => {
@@ -41,6 +46,7 @@ const Catalogue = () => {
     getData(query)
       .then((res) => {
         if (res.status === 200 && res.data) {
+          res.data.shift();
           setCourseList(res.data);
           setSearchData(res.data);
           setLoadSkeleton(false);
@@ -83,6 +89,11 @@ const Catalogue = () => {
     }
   }, [courseList, isChecked]);
 
+  // remove item from cart === >>
+  useEffect(() => {
+    remove();
+  }, [courseIdStore]);
+
   // Search courses from search box === >>
   const handleFilter = () => {
     if (inputElem.current.value !== "") {
@@ -123,13 +134,26 @@ const Catalogue = () => {
   const counterCourseId = (element) => {
     if (element.status === true) {
       setCourseIdStore((current) => [...current, element.data]);
-      
+      console.log(JSON.stringify(courseIdStore));
+      localStorage.setItem("courseCartId", JSON.stringify(courseIdStore));
     } else {
       let courseIdSet = courseIdStore;
       const x = courseIdSet.indexOf(element.data);
-      courseIdSet.splice(x, 1);
+      let removeItem = courseIdSet.splice(x, 1);
+      courseIdSet = courseIdSet.filter(item => item !== removeItem);
+      setCourseIdStore(courseIdSet);
     }
   };
+
+  // remove items from cart === >>
+  function remove() {
+    localStorage.setItem("courseCartId", JSON.stringify(courseIdStore));
+   }
+
+  // Navigate to cart page === >>
+  const handleCartNavigate = () => {
+    navigate("/cart");
+  }
 
   return (
     <>
@@ -178,7 +202,7 @@ const Catalogue = () => {
                   </li>
                 </ul>
               </div>
-              <div>
+              <div onClick={handleCartNavigate}>
                 <span className="cart-txt">Cart Added</span>
                 <span className="fa-solid fa-cart-plus">
                   <sup>{counter}</sup>

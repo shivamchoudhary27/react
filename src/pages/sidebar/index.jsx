@@ -64,8 +64,6 @@ function Sidebar() {
     setIcon(true);
   };
 
-  console.log(icon);
-
   const logout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
       userctx.logout();
