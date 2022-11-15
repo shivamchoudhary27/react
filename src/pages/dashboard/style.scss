@@ -52,3 +52,33 @@
   top: 46px;
 }
 }
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .course-status-slider {
+    padding-left: 30px !important;
+}
+}
+
+
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .course-status-slider {
+    padding-left: 63px !important;
+}
+}
+
+
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .course-status-slider {
+    padding-left: 63px !important;
+}
+}
+
+
+
+// @media (min-width: 1200px) {
+//   .course-status-slider {
+//     padding-left: 130px !important;
+// }
+// }

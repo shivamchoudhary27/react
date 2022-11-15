@@ -9,7 +9,7 @@ function RecCard(props) {
 
   return (
     <>
-      <div className="col-sm-3 mb-4">
+      <div className="col-sm-3 mb-4 mobile-recommend-course">
         {
           // (props.recourse.overviewfiles.length !== 0) ?
           // <img src={`${props.recourse.overviewfiles[0].fileurl}?token=${userToken}`} className="course-image" alt="courseimage" />

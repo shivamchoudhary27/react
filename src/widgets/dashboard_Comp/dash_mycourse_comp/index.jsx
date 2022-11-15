@@ -86,7 +86,7 @@ function DashMyCourse({linkToggle}) {
       ) : (
         <Row className="course-row">
           {filter.map((element) => (
-            <div className="col-sm-4" key={element.id}>
+            <div className="col-sm-4 mobile-course-view" key={element.id}>
               <div className="">
                 <MyCourseCard mycoursedata={element} currentTab={linkToggle}/>
               </div>

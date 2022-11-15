@@ -48,7 +48,7 @@ function QuestionsPageNav(prop) {
 
   return (
     <div className="quiz-navigation-content">
-      <h4 className="mb-3">Quiz navigation</h4>
+      <h4 className="mb-3 quiz-page-heading">Quiz navigation</h4>
       {generateButtons(
         props.quizPages.totalPages,
         props.quizPages.currentPage,

@@ -7,11 +7,11 @@ import './style.scss';
 import 'react-pro-sidebar/dist/css/styles.css';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
-import dashboards from '../../assets/images/dashboards.png';
-import mortarboard from '../../assets/images/mortarboard.png';
-import page from '../../assets/images/page.png';
-import settings from '../../assets/images/settings.png';
-import signout from '../../assets/images/signout.png';
+// import dashboards from '../../assets/images/dashboards.png';
+// import mortarboard from '../../assets/images/mortarboard.png';
+// import page from '../../assets/images/page.png';
+// import settings from '../../assets/images/settings.png';
+// import signout from '../../assets/images/signout.png';
 import UserContext from '../../features/context/user/user';
 import logo from '../../assets/images/logo.png';
 
@@ -28,7 +28,7 @@ function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const userctx = useContext(UserContext);
   const navigate = useNavigate();
-  const [icon, setIcon] = useState(false);
+  const [sidebararrow, setSidebarArrow] = useState(false);
   // const [headerslide, setHeaderslide] = useState(false);
 
   const styles = {
@@ -61,7 +61,7 @@ function Sidebar() {
     const sidebaricon = document.getElementById('sidebaricon');
     sidebaricon.classList.toggle('burger-icon');
 
-    setIcon(true);
+    setSidebarArrow(!sidebararrow);
   };
 
   const logout = () => {
@@ -70,6 +70,20 @@ function Sidebar() {
       navigate('/');
     }
   };
+
+  const handleInprogressData = () => {
+    document.getElementById('dashboard').style.color = '#ffffff';
+    document.getElementById('catalogue').style.color = '';
+    document.getElementById('gradebook').style.color = '';
+    document.getElementById('setting').style.color = '';
+  }
+  const handleCatalogueData = () => {
+    document.getElementById('catalogue').style.color = '#ffffff';
+    document.getElementById('dashboard').style.color = '';
+    document.getElementById('gradebook').style.color = '';
+    document.getElementById('setting').style.color = '';
+    document.getElementById('dashboard').classList.remove('active-link');
+  }
   
   return (
     <>
@@ -87,7 +101,7 @@ function Sidebar() {
         >
           {/* <AiOutlineMenu /> */}
           {
-            icon === true ? <i className='fas fa-long-arrow-alt-right'></i> : <i className='fas fa-long-arrow-alt-left'></i>
+            sidebararrow === true ? <i className='fas fa-long-arrow-alt-right'></i> : <i className='fas fa-long-arrow-alt-left'></i>
           }
           
         </div>
@@ -106,34 +120,38 @@ function Sidebar() {
             </div>
           </Menuitem>
           <Menuitem>
-            <Link to="/dashboard">
-              <img
+            <Link onClick={handleInprogressData} className="active-link" id="dashboard" to="/dashboard">
+              {/* <img
                 className="dashboard-icon"
                 src={dashboards}
                 alt="dashboard.png"
-              />
+              /> */}
+              <i className="fa fa-dashboard dashboard-icon"></i>
               Dashboard
             </Link>
           </Menuitem>
           <Menuitem>
-            <Link to="/catalogue">
-              <img
+            <Link onClick={handleCatalogueData} id="catalogue" to="/catalogue">
+              {/* <img
                 className="degree-icon"
                 src={mortarboard}
                 alt="mortarboard.png"
-              />
+              /> */}
+              <i className='fas fa-graduation-cap degree-icon'></i>
               Catalogue
             </Link>
           </Menuitem>
           <Menuitem>
-            <Link to="">
-              <img className="degree-icon" src={page} alt="page.png" />
+            <Link id="gradebook" to="">
+              {/* <img className="degree-icon" src={page} alt="page.png" /> */}
+              <i className="fa fa-file degree-icon" aria-hidden="true"></i>
               Gradebook
             </Link>
           </Menuitem>
           <Menuitem>
-            <Link to="">
-              <img className="degree-icon" src={settings} alt="settings.png" />
+            <Link id="setting" to="">
+              {/* <img className="degree-icon" src={settings} alt="settings.png" /> */}
+              <i className="fa fa-gear degree-icon"></i>
               Gradebook
             </Link>
           </Menuitem>
@@ -142,7 +160,8 @@ function Sidebar() {
             href="/employees"
             onClick={logout}
           >
-            <img className="degree-icon" src={signout} alt="signout.png" />
+            {/* <img className="degree-icon" src={signout} alt="signout.png" /> */}
+            <i className="fa fa-sign-out degree-icon"></i>
             logout
           </Menuitem>
         </Menu>

@@ -146,7 +146,7 @@ function Startattempt() {
       <div className="attempt-container pt-4">
         {show === true ? <Errordiv cstate={show} msg="Something went wrong" /> :
           <Row className="attempt-row">
-            <div className="col-sm-9">
+            <div className="col-sm-9 quiz-left-column">
               <div>
                 <div className="text-center">
                   {button.state === 'inprogress' ? (
@@ -222,7 +222,7 @@ function Startattempt() {
               </div>
             </div>
 
-            <div className="col-sm-3">
+            <div className="col-sm-3 quiz-right-column">
               <div className="quiz-right-sidebar">
                 {nav.status === false ? (
                   <ModuleAccordion modules={false} header="Modules" items={[]} />
