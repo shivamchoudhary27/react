@@ -142,10 +142,9 @@ function Sidebar() {
             </Link>
           </Menuitem>
           <Menuitem>
-            <Link id="gradebook" to="">
-              {/* <img className="degree-icon" src={page} alt="page.png" /> */}
+            <Link to="/mod/video/report" id="gradebook">
               <i className="fa fa-file degree-icon" aria-hidden="true"></i>
-              Gradebook
+              Video Report
             </Link>
           </Menuitem>
           <Menuitem>
