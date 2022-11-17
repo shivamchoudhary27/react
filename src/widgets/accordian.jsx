@@ -26,12 +26,11 @@ function ModuleAccordion(props) {
         props.items[j].reactFileurl = null;
       } else if (i.modname === 'resource') {
         hasItems = true;
-        props.items[j].reactLink = `/mod/video/${i.id}/${props.courseid}`;
-        props.items[j].reactFileurl = i.contents[0].fileurl;
+        props.items[j].reactLink = `/mod/video/${i.instance}/${props.courseid}`;
+        props.items[j].reactFileurl = i.contents[0].fileurl.replace("?forcedownload=1", "");
       }
 
       if (props.items[j].reactLink === currentUrl) {
-        console.log(' in thte current')
         props.items[j].reactActive = true;
         if (props.items[j].modname === 'quiz') {
           localStorage.setItem(resumeCourseKey, props.items[j].instance + '-' + props.items[j].modname);

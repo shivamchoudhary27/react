@@ -19,16 +19,17 @@ function MyCourseCard(props) {
   const [title, setTitle] = useState();
   const courseid = props.mycoursedata.id;
   const resumeCourseKey = 'crs-' + courseid + '-' + userId;
-  let toComplete = '';
+  // let toComplete = '';
 
-  if (props.mycoursedata.completed === true) {
-    toComplete = 'Completed';
-  } else {
-    const unixTime = props.mycoursedata.enddate;
-    const date = new Date(unixTime * 1000);
-    const finishDate = date.toLocaleDateString('en-IN');
-    toComplete = `Finish date ${finishDate}`;
-  }
+  // if (props.mycoursedata.completed === true) {
+  //   toComplete = 'Completed';
+  // } else {
+  //   const unixTime = props.mycoursedata.enddate;
+  //   const date = new Date(unixTime * 1000);
+  //   const finishDate = date.toLocaleDateString('en-IN');
+  //   toComplete = `Finish date ${finishDate}`;
+  // }
+
   if (currentTab === 1) {
     accessBtn = 'Resume';
     if (props.mycoursedata.enddate === 0) courseDate = '';
@@ -61,7 +62,6 @@ function MyCourseCard(props) {
             let breakLoop = false;
             for (let data of res.data) {
               for (let val of data.modules) {
-                // let latestKey = userId + '-' + courseid + '-' + val.instance;
                 if (val.modname == "quiz") {
                   localStorage.setItem(resumeCourseKey, val.instance + '-' + val.modname);
                   navigate(`/mod/quiz/${courseid}/${val.instance}`,{ state:{ modname: val.name }});
@@ -71,7 +71,7 @@ function MyCourseCard(props) {
                 else if (val.modname === "resource") {
                   console.log(`/mod/video/${val.id}/${courseid}`);
                   localStorage.setItem(resumeCourseKey, val.id + '-' + val.modname);
-                  navigate(`/mod/video/${val.id}/${courseid}`);
+                  navigate(`/mod/video/${val.instance}/${courseid}`);
                   breakLoop = true;
                   break;
                 }
@@ -97,6 +97,7 @@ function MyCourseCard(props) {
   }, [newstate]);
 
   function handleClick() {
+    
     let lastCourseStatus = localStorage.getItem(resumeCourseKey);
     if (lastCourseStatus === null) {
       setNewstate(true);
@@ -105,17 +106,15 @@ function MyCourseCard(props) {
       lastCourseStatus = lastCourseStatus.split('-');
       for (let data of title) {
         if (lastCourseStatus[1] === "quiz" && data.modname === "quiz") {
-          console.log("****");
           if (lastCourseStatus[0] == data.instance) {
             navigate(`/mod/quiz/${courseid}/${lastCourseStatus[0]}`, { state: { modname: data.name } });
           }
         } else if (lastCourseStatus[1] === "resource" && data.modname === "resource") {
-          console.log("resource");
           if (lastCourseStatus[0] == data.id) {
+            let videoUrl = data.contents[0].fileurl.replace("?forcedownload=1", "");
             data.contents !== undefined &&
-              navigate(`/mod/video/${lastCourseStatus[0]}/${courseid}`, { state: { modurl: data.contents[0].fileurl, modname: data.name } });
+              navigate(`/mod/video/${lastCourseStatus[0]}/${courseid}`, { state: { modurl: videoUrl, modname: data.name } });
           }
-
         }
       }
     }

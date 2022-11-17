@@ -52,8 +52,7 @@ function Video() {
               console.log("Something went wrong");
             } else {
               res.data.resources.map((item) => {
-                console.log(item.coursemodule);
-                if (item.coursemodule == id) {
+                if (item.id == id) {
                   setStateUrl({
                     status: true,
                     url: `${item.contentfiles[0].fileurl}?token=${userCtx.token}`,
@@ -68,14 +67,11 @@ function Video() {
           console.log(err);
         });
 
-    }
-
-
-    else {
+    } else {
       const { modurl, modname } = location.state;
       setStateUrl({
         status: true,
-        url: `${modurl}&token=${userCtx.token}`,
+        url: `${modurl}?token=${userCtx.token}`,
         modname,
       });
     }
