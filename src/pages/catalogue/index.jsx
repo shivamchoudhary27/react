@@ -111,8 +111,8 @@ const Catalogue = () => {
   };
 
 
-  const handleChecked = (e) => {
-    const getCategoryId = parseInt(e.target.getAttribute("data-id"));
+  const handleChecked = (e, elementId) => {
+    const getCategoryId = parseInt(elementId);
     if (e.target.checked === true) {
       setIsChecked((current) => [...current, getCategoryId]);
     } else {
@@ -228,9 +228,8 @@ const Catalogue = () => {
                                         <input
                                           type="checkbox"
                                           onChange={(e) => {
-                                            handleChecked(e)
+                                            handleChecked(e, el.id)
                                           }} 
-                                          data-id={el.id}
                                         />
                                         <label className="photoshop-checkbox">
                                           {" "}
