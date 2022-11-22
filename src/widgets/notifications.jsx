@@ -58,7 +58,7 @@ function NotificationOverlay(props) {
         </Popover>
       )}
     >
-      <li variant="success">
+      <li>
         <i className="fa fa-bell search-icon" />
         { message.totalcount > 0 && <sup>{message.totalcount}</sup> }
       </li>

@@ -18,7 +18,7 @@ const useUserinfo = () => {
         .then((res) => {
           if (res.status === 200) {
             if (Object.prototype.hasOwnProperty.call(res.data, 'errorcode')) {
-              userCtx.setUserStatus(400);
+              userCtx.logout();
             } else {
               userCtx.setUserStatus(200);
             }

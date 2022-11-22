@@ -112,7 +112,7 @@ const Catalogue = () => {
 
 
   const handleChecked = (e) => {
-    const getCategoryId = parseInt(e.target.getAttribute("dataid"));
+    const getCategoryId = parseInt(e.target.getAttribute("data-id"));
     if (e.target.checked === true) {
       setIsChecked((current) => [...current, getCategoryId]);
     } else {
@@ -228,9 +228,9 @@ const Catalogue = () => {
                                         <input
                                           type="checkbox"
                                           onChange={(e) => {
-                                            handleChecked(e);
-                                          }}
-                                          dataid={el.id}
+                                            handleChecked(e)
+                                          }} 
+                                          data-id={el.id}
                                         />
                                         <label className="photoshop-checkbox">
                                           {" "}
@@ -297,7 +297,7 @@ const Catalogue = () => {
                         .slice(pagination.start, pagination.end)
                         .map((item) => {
                           return (
-                            <div key={item.id} courseid={item.courseid}>
+                            <div key={item.id}>
                               <Coursecataloguecard
                                 courseName={item.fullname}
                                 courseId={item.id}
