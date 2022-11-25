@@ -12,8 +12,8 @@ import { useNavigate } from "react-router-dom";
 const Catalogue = () => {
   const showPerPage = 2;
   const categoryList = [];
-  const navigate = useNavigate();
   const inputElem = useRef("");
+  const navigate = useNavigate();
   const [categories, setCategories] = useState();
   const [courseList, setCourseList] = useState();
   const [isChecked, setIsChecked] = useState([]);
@@ -134,12 +134,11 @@ const Catalogue = () => {
   const counterCourseId = (element) => {
     if (element.status === true) {
       setCourseIdStore((current) => [...current, element.data]);
-      console.log(JSON.stringify(courseIdStore));
       localStorage.setItem("courseCartId", JSON.stringify(courseIdStore));
     } else {
       let courseIdSet = courseIdStore;
-      const x = courseIdSet.indexOf(element.data);
-      let removeItem = courseIdSet.splice(x, 1);
+      const courseSelectId = courseIdSet.indexOf(element.data);
+      let removeItem = courseIdSet.splice(courseSelectId, 1);
       courseIdSet = courseIdSet.filter(item => item !== removeItem);
       setCourseIdStore(courseIdSet);
     }

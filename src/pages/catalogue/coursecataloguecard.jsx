@@ -24,14 +24,14 @@ const Coursecataloguecard = ({
   }, []);
 
   // Handle add-to-cart button === >>
-  const handleAddToCart = () => {
+  const handleAddToCart = () => { 
     setUpdateBtn(true);
     cartCounter(true);
     counterCourseId({ status: true, data: courseId });
   };
 
   // Handle remove-from-cart button === >>
-  const handleRemoveToCart = () => {
+  const handleRemoveToCart = () => { 
     setUpdateBtn(false);
     cartCounter(false);
     counterCourseId({ status: false, data: courseId });
