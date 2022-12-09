@@ -5,7 +5,7 @@ const instance = axios.create({
   baseURL: config.MOODLE_BASE_URL,
 });
 
-const getPublicData = (requestData) => {
+const getPublicData = (requestData : any) => {
   const query = requestData;
   if (query.loginrequest) {
     query.service = 'moodle_mobile_app';
@@ -17,34 +17,34 @@ const getPublicData = (requestData) => {
   return instance.get(config.REST_ENDPOINT, { params: query });
 };
 
-const getData = (requestData) => {
+const getData = (requestData : any) => {
   const query = requestData;
   query.wstoken = config.WSTOKEN ?? localStorage.getItem('token');
   query.moodlewsrestformat = 'json';
   return instance.get(config.REST_ENDPOINT, { params: query });
 };
 
-const postData = (requestData) => {
+const postData = (requestData : any) => {
   const query = requestData;
   query.wstoken = config.WSTOKEN ?? localStorage.getItem('token');
   query.moodlewsrestformat = 'json';
   return instance.post(config.REST_ENDPOINT, { params: query });
 };
-const signupData = (requestData) => {
+const signupData = (requestData : any) => {
   const query = requestData;
   query.wstoken = config.SIGNUP_TOKEN
   query.moodlewsrestformat = 'json';
   return instance.get(config.REST_ENDPOINT, { params: query });
 };
 
-const putData = (requestData) => {
+const putData = (requestData : any) => {
   const query = requestData;
   query.wstoken = config.WSTOKEN ?? localStorage.getItem('token');
   query.moodlewsrestformat = 'json';
   return instance.put(config.REST_ENDPOINT, { params: query });
 };
 
-const deleteData = (requestData) => {
+const deleteData = (requestData : any) => {
   const query = requestData;
   query.wstoken = config.WSTOKEN ?? localStorage.getItem('token');
   query.moodlewsrestformat = 'json';
@@ -52,7 +52,7 @@ const deleteData = (requestData) => {
 };
 
 
-const processQuizData = (requestData) => {
+const processQuizData = (requestData : any) => {
   const query = requestData;
   let paramString = '';
   const wstoken = config.WSTOKEN ?? localStorage.getItem('token');
