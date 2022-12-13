@@ -1,6 +1,6 @@
 import React from "react";
 // import { propTypes } from 'react-bootstrap/esm/Image';
-function CourseCat(props) {
+function CourseCat(props: { title: string; count: number; }) {
   return (
     <div className="card">
       <div className="card-body">

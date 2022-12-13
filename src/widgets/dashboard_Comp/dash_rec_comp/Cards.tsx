@@ -1,7 +1,9 @@
 import React from "react";
 import "./style.scss";
 import img from "../../../assets/images/images.png";
-function RecCard(props) {
+import {RecCardType} from "../../../type/index";
+
+function RecCard(props: any) {
   const unixTime = props.recourse.startdate;
   const date = new Date(unixTime * 1000);
   const startDate = date.toLocaleDateString("en-IN");

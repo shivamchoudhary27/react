@@ -7,7 +7,9 @@ import imgLogo from "../../../assets/images/jslogo.png";
 import UserContext from "../../../features/context/user/user";
 import { getData } from "../../../adapters";
 import { useEffect } from "react";
-function MyCourseCard(props) {
+import {MyCourseCardType} from "../../../type/index";
+
+function MyCourseCard(props: MyCourseCardType) {
   let accessBtn,
     courseDate = "";
   const currentTab = props.currentTab;
@@ -16,18 +18,10 @@ function MyCourseCard(props) {
   const navigate = useNavigate();
   const userId = userCtx.userInfo.userid;
   const [newstate, setNewstate] = useState(false);
-  const [title, setTitle] = useState();
+  const [title, setTitle] = useState<any>();
   const courseid = props.mycoursedata.id;
   const resumeCourseKey = "crs-" + courseid + "-" + userId;
-  // let toComplete = '';
-  // if (props.mycoursedata.completed === true) {
-  //   toComplete = 'Completed';
-  // } else {
-  //   const unixTime = props.mycoursedata.enddate;
-  //   const date = new Date(unixTime * 1000);
-  //   const finishDate = date.toLocaleDateString('en-IN');
-  //   toComplete = `Finish date ${finishDate}`;
-  // }
+
   if (currentTab === 1) {
     accessBtn = "Resume";
     if (props.mycoursedata.enddate === 0) courseDate = "";
@@ -76,8 +70,8 @@ function MyCourseCard(props) {
                 if (breakLoop === true) break;
               }
             } else {
-              let arr = [];
-              res.data.map(val => {
+              let arr: any[] = [];
+              res.data.map((val: { modules: any[]; }) => {
                 val.modules.map(modname => {
                   arr.push(modname);
                 });
@@ -93,7 +87,7 @@ function MyCourseCard(props) {
     [newstate]
   );
   function handleClick() {
-    let lastCourseStatus = localStorage.getItem(resumeCourseKey);
+    let lastCourseStatus: any = localStorage.getItem(resumeCourseKey);
     if (lastCourseStatus === null) {
       setNewstate(true);
     } else {

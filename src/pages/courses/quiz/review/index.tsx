@@ -5,7 +5,7 @@ import { useParams, Link, useLocation } from "react-router-dom";
 import { getData } from "../../../../adapters";
 import { Row } from "react-bootstrap";
 const Review = () => {
-    const [ques, setQues] = useState();
+    const [ques, setQues] = useState<any>();
     const { attemptid, quizid, courseid } = useParams();
     const [activityname, setActivityName] = useState();
     const location = useLocation();
@@ -35,8 +35,8 @@ const Review = () => {
         getData(query)
             .then(res => {
                 if (res.status === 200 && res.data) {
-                    const activitylist = [];
-                    res.data.quizzes.map(courseList => {
+                    const activitylist: any[] = [];
+                    res.data.quizzes.map((courseList: any) => {
                         activitylist.push(courseList);
                         for (let activitylistData of activitylist) {
                             if (quizid == activitylistData.id) {
@@ -53,12 +53,12 @@ const Review = () => {
     return (
         <>
             <Sidebar />
-            <Header quizHeading={location.state != null ? modnames : activityname} />
+            <Header pageHeading={location.state != null ? modnames : activityname}  welcomeIcon={false}/>
             <div className="quiz-container pt-4">
                 <Row className="quiz-row">
                     <div>
                         {ques != undefined &&
-                            ques.questions.map(question => (
+                            ques.questions.map((question: { html: any; }) => (
                                 <div
                                     key={Math.random()}
                                     className="content mb-4"

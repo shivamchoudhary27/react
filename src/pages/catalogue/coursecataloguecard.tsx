@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
 import course_catalogue_ai_image from "../../assets/images/course_catalogue_ai_image.jpg";
+import {CoursecataloguecardType} from "../../type/index"
+
 const Coursecataloguecard = ({
   courseName,
   courseId,
   courseTime,
-  cartCounter,
+  cartCounter ,
   counterCourseId,
   courseIdStore
-}) => {
+}: CoursecataloguecardType) => {
   let modifyDate = new Date(courseTime * 1000);
   let courseDate = modifyDate.toLocaleDateString();
-  const [updateBtn, setUpdateBtn] = useState(false);
+  const [updateBtn, setUpdateBtn] = useState<boolean>(false);
   // Remembering Added Cart Value === >>
   useEffect(() => {
     if (courseIdStore.length > 0) {
@@ -79,8 +81,8 @@ const Coursecataloguecard = ({
                   <p
                     className="added-update-txt"
                     title="remove"
-                    onClick={e => {
-                      handleRemoveToCart(e);
+                    onClick={() => {
+                      handleRemoveToCart();
                     }}
                     style={{ cursor: "pointer" }}
                   >
@@ -90,9 +92,9 @@ const Coursecataloguecard = ({
               ) : (
                 <div>
                   <button
-                    className="ai-course-button"
-                    onClick={e => {
-                      handleAddToCart(e);
+                    className="ai-course-button" 
+                    onClick={() => {
+                      handleAddToCart();
                     }}
                   >
                     Add to cart

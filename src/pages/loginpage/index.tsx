@@ -17,7 +17,7 @@ const LoginForm = () => {
   const location = useLocation().search;
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
-  const [formToggle, setformtoggle] = useState("");
+  const [formToggle, setformtoggle] = useState<string | null>(null);
   const [invalidLogin, setInvalidLogin] = useState(false);
   const [errorMsg, setErrorMsg] = useState("Something went wrong");
   const [showLoader, setShowLoader] = useState(false);
@@ -43,17 +43,17 @@ const LoginForm = () => {
     };
     gapi.load("client:auth2", initClient);
   });
-  const onSuccess = res => {
+  const onSuccess = (res: { profileObj: { name: string; email: string; }; }) => {
     const details = "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
     alert(
       "Google Authentication Successful \n" + details + "\nLogin with moodle in progress..."
     );
     console.log("success:", res);
   };
-  const onFailure = err => {
+  const onFailure = (err: any) => {
     console.log("failed:", err);
   };
-  function SubmitHandler(values) {
+  function SubmitHandler(values: { username: any; password: any; }) {
     setInvalidLogin(false);
     setShowLoader(true);
     const data = {
@@ -101,7 +101,7 @@ const LoginForm = () => {
       });
     }
   };
-  const setCurrentForm = request => {
+  const setCurrentForm = (request: string) => {
     if (request === "signup") {
       return <Signup />;
     } else if (request === "forgotpassword") {

@@ -39,7 +39,7 @@ function CourseView() {
       });
   }, []);
 
-  function videoLink (videoId, videoUrl, videoName) {
+  function videoLink (videoId: number, videoUrl: string, videoName: string) {
     return (
       <div className="container-fluid page-box" key={videoId}>
         <Link
@@ -55,7 +55,7 @@ function CourseView() {
     )
   }
 
-  function quizLink (quizId, quizName, quizInstance) {
+  function quizLink (quizId: number, quizName: string, quizInstance: number) {
     return (
       <div className="container-fluid page-box" key={quizId}>
         <Link to={`/mod/quiz/${courseid}/${quizInstance}`}
@@ -69,7 +69,7 @@ function CourseView() {
     );
   }
   
-  function certificateLink (certificateId, certificateName) {
+  function certificateLink (certificateId: number, certificateName: string) {
     return (
       <div className="container-fluid page-box" key={certificateId}>
         <Cards title={certificateName} icon={certificateIcon} />
@@ -80,7 +80,7 @@ function CourseView() {
   return (
     <>
       <Sidebar />
-      <Header pageHeading={fullname} />
+      <Header pageHeading={fullname ?? ""} welcomeIcon={false} />
       <div className="main-container pt-4 course-view-slider" id="courseviewslider">
         <div className="contents">
           <BreadCrumb
@@ -92,10 +92,10 @@ function CourseView() {
             ]}
           />
           {show === true && <Errordiv cstate={show} msg="Something went wrong" />}
-          {title.map((courses) => (
+          {title.map((courses: any) => (
             <div key={Math.random() + courses.id}>
               {courses?.modules.map(
-                (activity) => 
+                (activity: { modname: string; id: number; contents: { fileurl: string; }[]; name: string; instance: number; }) => 
                 ((activity.modname === 'resource') 
                 ? videoLink (activity.id, activity.contents[0].fileurl, activity.name)
                 : (activity.modname === 'quiz') 

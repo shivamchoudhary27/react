@@ -8,44 +8,48 @@ import { getData } from "../../adapters";
 import Pagination from "./Pagination";
 import SkeletonMimic from "./Skeleton";
 import { useNavigate } from "react-router-dom";
+import { CategoriesType, FilterdCoursesType, CounterValueType, CataloguePaginationType } from "../../type/index";
 
 interface categoryType {
-  status: number,
-  data: [Data]
+  status: number;
+  data: [Data];
 }
 
 interface Data {
-  id: number,
-  fullname: string
+  id: number;
+  fullname: string;
 }
 
 const Catalogue: React.FunctionComponent = () => {
   const showPerPage = 2;
-  let categoryList:Array<number> = [];
-  const inputElem = useRef("");
+  let categoryList:any = [];
+  const inputElem = useRef<HTMLInputElement | any>();
   const navigate = useNavigate();
-  const [categories, setCategories] = useState();
-  const [courseList, setCourseList] = useState();
-  const [isChecked, setIsChecked] = useState([]);
-  const [searchData, setSearchData] = useState();
-  const [filterdCourses, setFilteredCourses] = useState([]);
-  const [filterVal, setFilterVal] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [courseList, setCourseList] = useState<any>();
+  const [isChecked, setIsChecked] = useState<any>([]);
+  const [searchData, setSearchData] = useState<any>();
+  const [filterdCourses, setFilteredCourses] = useState<any[]>();
+  const [filterVal, setFilterVal] = useState<string>('');
   const [loadSkeleton, setLoadSkeleton] = useState(true);
   const [filterToggle, setFilterToggle] = useState(true);
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<CataloguePaginationType>({
     start: 0,
     end: showPerPage,
   });
   const localCart = localStorage.getItem("courseCartId");
   const storedCart = localCart !== null ? JSON.parse(localCart) : null;
-  const [counter, setCounter] = useState(
+  const [counter, setCounter] = useState<any>(
     storedCart !== null ? storedCart.length : 0
   );
-  const [courseIdStore, setCourseIdStore] = useState(
+  const [courseIdStore, setCourseIdStore] = useState<any>(
     storedCart !== null ? storedCart : []
   );
+
+  // console.log(categories)
+
   // Pagination === >>
-  const onPaginationChange = (start, end) => {
+  const onPaginationChange = (start:number, end: number) => {
     setPagination({ start: start, end: end });
   };
   // Hit get-courses API === >>
@@ -56,7 +60,7 @@ const Catalogue: React.FunctionComponent = () => {
     };
     getData(query)
       .then((res: any) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 200 && res.data) {
           res.data.shift();
           setCourseList(res.data);
@@ -74,7 +78,7 @@ const Catalogue: React.FunctionComponent = () => {
       wsfunction: "core_course_get_categories",
     };
     getData(query)
-      .then((res: categoryType) => {
+      .then((res) => {
         if (res.status === 200 && res.data) {
           for (let i = 0; i < res.data.length; i++) {
             categoryList.push(res.data[i]);
@@ -86,14 +90,14 @@ const Catalogue: React.FunctionComponent = () => {
         console.log(err);
       });
   }, []);
-  console.log(categoryList);
+
   // Select Category from Accordian === >>
   useEffect(() => {
     if (isChecked.length === 0) {
       setFilteredCourses(courseList);
     } else {
       setFilteredCourses(
-        courseList.filter((element) => {
+        courseList.filter((element: { categoryid: any; }) => {
           return isChecked.includes(element.categoryid);
         })
       );
@@ -106,24 +110,24 @@ const Catalogue: React.FunctionComponent = () => {
   // Search courses from search box === >>
   const handleFilter = () => {
     if (inputElem.current.value !== "") {
-      const filterResult = searchData.filter((item) => {
+      const filterResult = searchData.filter((item: { fullname: string; }) => {
         return item.fullname
           .toLowerCase()
           .includes(inputElem.current.value.toLowerCase());
       });
       setCourseList(filterResult);
-      console.log(courseList);
+      // console.log(courseList);
     } else {
       setCourseList(searchData);
     }
     setFilterVal(inputElem.current.value);
   };
-  const handleChecked = (e, elementId) => {
+  const handleChecked = (e: React.ChangeEvent<HTMLInputElement>, elementId: any) => {
     const getCategoryId = parseInt(elementId);
     if (e.target.checked === true) {
-      setIsChecked((current) => [...current, getCategoryId]);
+      setIsChecked((current: any) => [...current, getCategoryId]);
     } else {
-      setIsChecked((current) =>
+      setIsChecked((current: any[]) =>
         current.filter((element) => {
           return element !== getCategoryId;
         })
@@ -131,20 +135,20 @@ const Catalogue: React.FunctionComponent = () => {
     }
   };
   // Handle cart counter === >>
-  const cartCounter = (e) => {
+  const cartCounter = (e: boolean) => {
     if (e === true) {
-      setCounter((counter) => counter + 1);
-    } else setCounter((counter) => counter - 1);
+      setCounter((counter: number) => counter + 1);
+    } else setCounter((counter: number) => counter - 1);
   };
-  const counterCourseId = (element) => {
+  const counterCourseId = (element: CounterValueType["counterCourseId"]) => {
     if (element.status === true) {
-      setCourseIdStore((current) => [...current, element.data]);
+      setCourseIdStore((current: any) => [...current, element.data]);
       localStorage.setItem("courseCartId", JSON.stringify(courseIdStore));
     } else {
       let courseIdSet = courseIdStore;
       const courseSelectId = courseIdSet.indexOf(element.data);
       let removeItem = courseIdSet.splice(courseSelectId, 1);
-      courseIdSet = courseIdSet.filter((item) => item !== removeItem);
+      courseIdSet = courseIdSet.filter((item: any) => item !== removeItem);
       setCourseIdStore(courseIdSet);
     }
   };
@@ -159,7 +163,7 @@ const Catalogue: React.FunctionComponent = () => {
   return (
     <>
       <Sidebar />
-      <Header />
+      <Header pageHeading="Catalogue" welcomeIcon={false} />
       <div className="main-container">
         <div className="contents">
           <div className="catalogue-heading-content">
@@ -172,8 +176,8 @@ const Catalogue: React.FunctionComponent = () => {
                   className="search-course-input"
                   type="text"
                   placeholder="Search courses"
-                  onChange={(e) => {
-                    handleFilter(e);
+                  onChange={() => {
+                    handleFilter();
                   }}
                   value={filterVal}
                 />
@@ -219,11 +223,8 @@ const Catalogue: React.FunctionComponent = () => {
                         <Accordion.Item eventKey="0">
                           <Accordion.Header>Categories List</Accordion.Header>
                           <Accordion.Body>
-                            {categories !== undefined && categories.length === 0
-                              ? "No record found"
-                              : categories !== undefined &&
-                                categories.map(
-                                  (el, i) =>
+                            {categories.map(
+                                  (el: CategoriesType, i: number) =>
                                     el.coursecount !== 0 && (
                                       <p className="photoshop-item" key={i}>
                                         <input
@@ -281,7 +282,7 @@ const Catalogue: React.FunctionComponent = () => {
                     </div>
                   </div>
                 )}
-                {filterdCourses !== undefined && filterdCourses.length === 0 ? (
+                {filterdCourses !== undefined && filterdCourses.length == 0 ? (
                   "No Records Found!"
                 ) : (
                   <div
@@ -302,7 +303,6 @@ const Catalogue: React.FunctionComponent = () => {
                                 courseName={item.fullname}
                                 courseId={item.id}
                                 courseTime={item.timemodified}
-                                courseSummary={item.summary}
                                 cartCounter={cartCounter}
                                 counterCourseId={counterCourseId}
                                 courseIdStore={courseIdStore}

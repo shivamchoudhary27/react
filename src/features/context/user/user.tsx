@@ -1,5 +1,8 @@
 import React from "react";
 import config from "../../../utils/config";
+import { ContextType } from '../../../type/index';
+import { string } from "yup";
+
 /**
  * Initializing ContextApi with requried fields.
  * @field userAuth
@@ -11,11 +14,11 @@ const UserContext = React.createContext({
   status: "",
   token: "",
   isLoggedIn: false,
-  userInfo: {},
-  setUserStatus: () => {},
+  userInfo: {fullname: string, userid: string, userpictureurl: string},
+  setUserStatus: (status: number) => {},
   logout: () => {},
-  setUserToken: () => {},
-  setUserInfo: () => {}
+  setUserToken: (token: any) => {},
+  setUserInfo: (data: any) => {}
 });
 const UserInfoData = {
   userid: localStorage.getItem("userid")
@@ -32,24 +35,25 @@ const UserInfoData = {
  * UserContextProvide: Arrow function for UserContext
  * @param props
  */
-export const UserContextProvider = props => {
-  const [token, setToken] = React.useState(
+export const UserContextProvider = (props: { children: any}) => {
+  const [token, setToken] = React.useState<any>(
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
-  const [userInfo, setUserInfo] = React.useState(
+  const [userInfo, setUserInfo] = React.useState<any>(
     UserInfoData.userid && UserInfoData.fullname && UserInfoData.userpictureurl
       ? UserInfoData
       : null
   );
-  const [status, setStatus] = React.useState(null);
+  const [status, setStatus] = React.useState<number>(0);
   // set User logged in detail (boolean)
   const userLoggedIn = !!token;
-  // set User status
-  const setUserStatus = data => {
+
+  const setUserStatus = (data : number) => {
     setStatus(data);
   };
+
   // set User info
-  const setPersonalInfo = data => {
+  const setPersonalInfo = (data: any) => {
     setUserInfo(data);
     localStorage.setItem("userid", data.userid);
     localStorage.setItem("fullname", data.fullname);
@@ -58,7 +62,7 @@ export const UserContextProvider = props => {
   // logout handler
   const logoutHandler = () => {
     setToken(null);
-    setStatus(null);
+    setStatus(0);
     setUserInfo(null);
     config.WSTOKEN = null;
     localStorage.removeItem("token");
@@ -69,9 +73,10 @@ export const UserContextProvider = props => {
     localStorage.removeItem("userpictureurl");
   };
   // Initializing token
-  const setUserToken = token => {
+  const setUserToken = (token: any) => {
+    let loggedInStatus = (!!token === true) ? 'true' : 'false';
     localStorage.setItem("token", token);
-    localStorage.setItem("loggedIn", !!token);
+    localStorage.setItem("loggedIn", loggedInStatus);
     setToken(token);
   };
   // context values

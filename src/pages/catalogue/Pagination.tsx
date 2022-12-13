@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./style.scss";
-const Pagination = ({ showPerPage, onPaginationChange, totalData }) => {
-  const [counter, setCounter] = useState(1);
+import {PaginationType} from "../../type/index";
+
+const Pagination = ({ showPerPage, onPaginationChange, totalData }: PaginationType) => {
+  const [counter, setCounter] = useState<number>(1);
   //  Pagination === >>
   useEffect(
     () => {
@@ -11,7 +13,7 @@ const Pagination = ({ showPerPage, onPaginationChange, totalData }) => {
     [counter]
   );
   // Handle Pagination next-previous button === >>
-  const handlePaginationNullPage = type => {
+  const handlePaginationNullPage = (type: string) => {
     if (type === "previous") {
       if (counter === 1) {
         document.getElementById("pre-btn").style.display = "none";

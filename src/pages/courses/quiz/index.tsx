@@ -12,13 +12,13 @@ function Startattempt() {
   const location = useLocation();
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
-  const { instance, courseid } = useParams();
-  const [button, setButton] = useState(false);
+  const { instance, courseid } = useParams<any>();
+  const [button, setButton] = useState<any>(false);
   const [startquiz, setStartquiz] = useState(false);
-  const [modules, setModules] = useState({ status: false, data: [] });
-  const [summary, setSummary] = useState(null);
+  const [modules, setModules] = useState<any>({ status: false, data: [] });
+  const [summary, setSummary] = useState<any>(null);
   const [show, setShow] = useState(false);
-  const [nav, setNav] = useState({ status: false, data: [] });
+  const [nav, setNav] = useState<any>({ status: false, data: [] });
   const navigate = useNavigate();
   let initial = true;
   const startAttemptProcess = () => {
@@ -51,8 +51,11 @@ function Startattempt() {
   useEffect(
     () => {
       if (summary !== null && show === false) {
-        const latestState = {};
-        summary.attempts.map(i => {
+        const latestState = {
+          attempt: undefined,
+          state: undefined
+        };
+        summary.attempts.map((i: { id: any; state: any; }) => {
           latestState.attempt = i.id;
           latestState.state = i.state;
         });
@@ -99,8 +102,8 @@ function Startattempt() {
               });
             }
             if (initial === true) {
-              var list = [];
-              res.data.map(courses => {
+              var list: any[] = [];
+              res.data.map((courses: any) => {
                 list.push(courses);
                 setNav({
                   status: true,
@@ -120,8 +123,8 @@ function Startattempt() {
     () => {
       if (location.state === null) {
         console.log("location is null");
-        nav.data.map(mod =>
-          mod.modules.map(activity => {
+        nav.data.map((mod: { modules: { instance: string | undefined; modname: string; name: any; }[]; }) =>
+          mod.modules.map((activity: { instance: string | undefined; modname: string; name: any; }) => {
             if (activity.instance == instance && activity.modname == "quiz") {
               setModules({
                 status: true,
@@ -144,7 +147,7 @@ function Startattempt() {
   return (
     <>
       <Sidebar />
-      <Header quizHeading={modules.modname} />
+      <Header pageHeading={modules.modname} welcomeIcon={false} />
       <div className="attempt-container pt-4">
         {show === true ? (
           <Errordiv cstate={show} msg="Something went wrong" />
@@ -190,7 +193,7 @@ function Startattempt() {
                         </thead>
                         <tbody>
                           {summary !== null &&
-                            summary.attempts.map((summarydata, i) => (
+                            summary.attempts.map((summarydata: { state: any; }, i: React.Key | null | undefined) => (
                               <tr key={i}>
                                 <td>Preview</td>
                                 <td>{summarydata.state}</td>
@@ -215,7 +218,7 @@ function Startattempt() {
 
                         <tbody>
                           {summary !== null &&
-                            summary.attempts.map((summarydata, i) => (
+                            summary.attempts.map((summarydata: { state: any; sumgrades: any; id: any; quiz: any; }, i: any) => (
                               <tr key={i}>
                                 <td>{i + 1}</td>
                                 <td>{summarydata.state}</td>
@@ -251,7 +254,7 @@ function Startattempt() {
                 {nav.status === false ? (
                   <ModuleAccordion modules={false} header="Modules" items={[]} />
                 ) : (
-                  nav.data.map((section, i) => (
+                  nav.data.map((section: { name: string; modules: any[]; }, i: React.Key | null | undefined) => (
                     <ModuleAccordion header={section.name} items={section.modules} key={i} courseid={courseid} />
                   ))
                 )}

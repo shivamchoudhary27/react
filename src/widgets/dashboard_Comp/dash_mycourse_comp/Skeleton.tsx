@@ -1,4 +1,3 @@
-import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { Container, Row, Card } from "react-bootstrap";
 import "./style.scss";

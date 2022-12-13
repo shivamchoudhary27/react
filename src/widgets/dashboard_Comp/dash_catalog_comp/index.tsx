@@ -5,8 +5,10 @@ import "./style.scss";
 import { getData } from "../../../adapters";
 import { Link } from "react-router-dom";
 import SkeletonMimic from "./Skeleton";
+import {DashCatalogType} from "../../../type/index";
+
 function DashCatalog() {
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState<[DashCatalogType]>();
   const [loadSkeleton, setLoadSkeleton] = useState(true);
   useEffect(() => {
     const query = {

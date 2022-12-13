@@ -1,8 +1,8 @@
 import React from "react";
 import BlockLoader from "../../../widgets/loader/blockloader";
-function QuestionsPageNav(prop) {
+function QuestionsPageNav(prop: any) {
   const props = prop;
-  const changePage = e => {
+  const changePage = (e: { target: { value: number; }; }) => {
     props.changePage(e.target.value - 1);
   };
   if (props.quizPages.totalPages === 0) {
@@ -12,7 +12,7 @@ function QuestionsPageNav(prop) {
       </div>
     );
   }
-  function generateButtons(totalPages, currentPage, changePage) {
+  function generateButtons(totalPages: number, currentPage: number, changePage: React.MouseEventHandler<HTMLButtonElement> | undefined) {
     const buttons = [];
     for (let i = 1; i <= totalPages; i += 1) {
       if (props.btnNav) {

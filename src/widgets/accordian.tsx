@@ -7,16 +7,18 @@ import UserContext from '../features/context/user/user';
 const style = {
   borderRadius: '0px'
 };
-function ModuleAccordion(props) {
+function ModuleAccordion(props: { courseid: any; items: any[]; header: string; key: any; modules: any;}) {
+  
   const userCtx = useContext(UserContext);
   const userId = userCtx.userInfo.userid;
   const resumeCourseKey = 'crs-' + props.courseid + '-' + userId;
   const currentUrl = window.location.pathname;
-  const [modules, setModules] = useState({ status: false, header: '1', data: [] });
+  const [modules, setModules] = useState<{status: boolean, header: string, data: any[]}>({ status: false, header: '1', data: [] });
+
   if (props.items.length > 0 && modules.status === false) {
     let accordianHeader = '1';
     let hasItems = false;
-    props.items.map((i, j) => {
+    props.items.map((i: { modname: string; instance: any; contents: { fileurl: string; }[]; }, j: any | number) => {
       if (i.modname === 'quiz') {
         hasItems = true;
         props.items[j].reactLink = `/mod/quiz/${props.courseid}/${i.instance}`;
@@ -36,7 +38,7 @@ function ModuleAccordion(props) {
         accordianHeader = '0';
       }
     });
-    hasItems === true && setModules({ status: true, header: accordianHeader, data: props.items });
+    hasItems !== false && setModules({ status: true, header: accordianHeader, data: props.items });
   }
   if (modules.status === false) {
     return '';
@@ -48,9 +50,9 @@ function ModuleAccordion(props) {
         {props.items.length > 0 && (
           <Accordion.Body>
             {modules.data.map(
-              item =>
+              (item : {modname: string; id: string; reactActive: boolean; reactLink: string; reactFileurl: string; name: string}) =>
                 (item.modname === 'quiz' || item.modname === 'resource') && (
-                  <div key={item.id} style={item.reactActive === true ? { backgroundColor: 'rgb(226 223 223)' } : null}>
+                  <div key={item.id} style={item.reactActive === true ? { backgroundColor: 'rgb(226 223 223)' } : { backgroundColor: '' }}>
                     <Link
                       key={item.id}
                       // style={item.reactActive === true ? {pointerEvents:'none'} : null}

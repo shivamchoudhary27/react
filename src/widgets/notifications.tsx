@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { getData } from '../adapters';
-function NotificationOverlay(props) {
+
+function NotificationOverlay(props: { userid: number; }) {
   const useridto = props.userid;
-  const [message, setMessage] = useState({ totalcount: 0, list: [] });
+  const [message, setMessage] = useState<{totalcount: number, list: any[]}>({ totalcount: 0, list: [] });
   useEffect(() => {
     const query = {
       wsfunction: 'message_popup_get_popup_notifications',
@@ -16,8 +17,8 @@ function NotificationOverlay(props) {
           if (res.data.errorcode) {
             console.log('Something went wrong');
           } else {
-            const data = [];
-            res.data.notifications.map(item => data.push(item.subject));
+            const data: any[] = [];
+            res.data.notifications.map((item: { subject: any; }) => data.push(item.subject));
             const count = Object.keys(data).length;
             setMessage({
               totalcount: count,

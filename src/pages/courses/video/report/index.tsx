@@ -7,11 +7,11 @@ import "./style.scss";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import UserContext from "../../../../features/context/user/user";
 const Report = () => {
-    const [course, setCourse] = useState();
+    const [course, setCourse] = useState<any>();
     const [resource, setResource] = useState([]);
     const [show, setShow] = useState(false);
     const [videos, setVideos] = useState([]);
-    const [videoLogs, setVideoLogs] = useState([]);
+    const [videoLogs, setVideoLogs] = useState<any>([]);
     const userCtx = useContext(UserContext);
     const userid = userCtx.userInfo.userid;
     useEffect(() => {
@@ -51,7 +51,7 @@ const Report = () => {
             });
     }, []);
     useEffect(() => {
-        let storedLogs = {};
+        let storedLogs: any = {};
         for (let [key, value] of Object.entries(localStorage)) {
             if (key.includes("video-")) {
                 storedLogs[key] = value;
@@ -59,7 +59,7 @@ const Report = () => {
         }
         setVideoLogs(storedLogs);
     }, []);
-    function handleChange(e) {
+    function handleChange(e: { target: { selectedIndex: any; childNodes: { [x: string]: any; }; }; }) {
         let index = e.target.selectedIndex;
         let optionElement = e.target.childNodes[index];
         let selectedCourse = parseInt(optionElement.getAttribute("value"));
@@ -67,13 +67,13 @@ const Report = () => {
             setVideos(resource);
             return true;
         }
-        let courseVideos = resource.filter(i => {
+        let courseVideos = resource.filter((i: any) => {
             return i.course === selectedCourse;
         });
         console.log(courseVideos);
         setVideos(courseVideos);
     }
-    function videoLinkBtn(videoId, videoUrl, videoName, courseid, vidKey) {
+    function videoLinkBtn(videoId: React.Key | null | undefined, videoUrl: any, videoName: any, courseid: any, vidKey: string) {
         let linkName = videoLogs[vidKey] !== undefined ? "Resume video" : "Start video";
         return (
             <div className="container-fluid page-box" key={videoId}>
@@ -89,10 +89,10 @@ const Report = () => {
             </div>
         );
     }
-    function videoWatchedInfo(videoId, vidKey) {
+    function videoWatchedInfo(videoId: React.Key | null | undefined, vidKey: string) {
         return videoLogs[vidKey] !== undefined ? <>{Math.floor(videoLogs[vidKey])} sec</> : <>Not started</>;
     }
-    function videoStatusColumns(videoId, videoUrl, videoName, courseid) {
+    function videoStatusColumns(videoId: any, videoUrl: string, videoName: string, courseid: any) {
         let vidKey = "video-" + videoId + "-" + userid;
         let videoWatched = videoWatchedInfo(videoId, vidKey);
         let videoLink = videoLinkBtn(videoId, videoUrl, videoName, courseid, vidKey);
@@ -100,14 +100,14 @@ const Report = () => {
             <>
                 <td>{videoName}</td>
                 <td>--</td>
-                <td>{videoWatched}</td>
+                <td>{videoWatched}</td> 
                 <td>{videoLink}</td>
             </>
         );
     }
     return (
         <>
-            <Header pageHeading="Video's Report" />
+            <Header pageHeading="Video's Report" welcomeIcon={false} />
             <Sidebar />
             <div className="main-container">
                 <div className="contents">
@@ -118,7 +118,7 @@ const Report = () => {
                             <select onChange={handleChange} id="selct_item">
                                 <option value="0">All</option>
                                 {course != undefined &&
-                                    course.map(item => (
+                                    course.map((item: { id: any; fullname: string; }) => (
                                         <option value={item.id} key={item.id}>
                                             {item.fullname}
                                         </option>
@@ -139,7 +139,7 @@ const Report = () => {
                                         </thead>
                                         <tbody>
                                             {videos.length > 0 &&
-                                                videos.map(modname => (
+                                                videos.map((modname: any) => (
                                                     <tr key={modname.id}>
                                                         {videoStatusColumns(
                                                             modname.id,

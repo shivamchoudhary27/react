@@ -1,5 +1,5 @@
 import React from "react";
-function Allcoursecomp(props) {
+function Allcoursecomp(props: { title: string; }) {
   return (
     <div className="card">
       <div className="card-body">

@@ -1,6 +1,8 @@
 import React from "react";
 import "./style.scss";
-function CatalogCard(props) {
+import {CatalogCardType} from "../../../type/index";
+
+function CatalogCard(props: CatalogCardType) {
   return (
     <div className="col-sm-3 gy-3">
       <div className="course-inner-block">

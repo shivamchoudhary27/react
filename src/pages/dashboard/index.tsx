@@ -13,11 +13,18 @@ function Dashboard() {
   if (res === 'loading') {
     return <PageLoader />;
   }
+  
   const handleInprogressData = () => {
     setLinkToggle(1);
-    document.getElementById('inprogressColor').style.color = '#f57f17';
-    document.getElementById('completedColor').style.color = '';
-    document.getElementById('notStartedColor').style.color = '';
+    let inprogressColor = (document.getElementById("inprogressColor") as HTMLInputElement | null)?.style.color;
+    inprogressColor = '#f57f17';
+    let completedColor = (document.getElementById("completedColor") as HTMLInputElement | null)?.style.color;
+    completedColor = '';
+    let notStartedColor = (document.getElementById("notStartedColor") as HTMLInputElement | null)?.style.color;
+    notStartedColor = '';
+    // document.getElementById('inprogressColor').style.color = '#f57f17';
+    // document.getElementById('completedColor').style.color = '';
+    // document.getElementById('notStartedColor').style.color = '';
   };
   const handleCompletedData = () => {
     setLinkToggle(2);
@@ -35,7 +42,7 @@ function Dashboard() {
   return (
     <>
       <Sidebar />
-      <Header pageHeading="Welcome Back !" />
+      <Header pageHeading="Welcome Back !" welcomeIcon={false} />
       <div className="pt-5">
         <div className="course-status-content course-status-slider" id="coursestatusslider">
           <ul className="course-status">

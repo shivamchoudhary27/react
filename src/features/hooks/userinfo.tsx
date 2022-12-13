@@ -4,10 +4,10 @@ import UserContext from '../context/user/user';
 const useUserinfo = () => {
   const userCtx = useContext(UserContext);
   const [isLoading, setLoading] = useState(
-    userCtx.status === 200 ? 'loaded' : 'loading'
+    userCtx.status === '200' ? 'loaded' : 'loading'
   );
   useEffect(() => {
-    if (userCtx.status !== 200) {
+    if (userCtx.status !== '200') {
       const query = {
         wsfunction: 'core_webservice_get_site_info'
       };

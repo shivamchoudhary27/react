@@ -6,7 +6,7 @@ function ActivityPage() {
   return (
     <>
       <Sidebar />
-      <Header />
+      <Header pageHeading='' welcomeIcon={false} />
       <Container>
         <div className="container-fluid page-box">
           <h2>Welcome to activity page (in progress) !</h2>

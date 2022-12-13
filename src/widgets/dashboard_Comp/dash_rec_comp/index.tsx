@@ -5,10 +5,12 @@ import "./style.scss";
 import { getData } from "../../../adapters";
 import SkeletonMimic from "./Skeleton";
 import Errordiv from "../../alert/errordiv";
+import {DashRecCourseType} from "../../../type/index";
+
 function DashRecCourse() {
   const [course, setCourse] = useState();
   const [show, setShow] = useState(false);
-  const [recommendedCourses, setRecommandedCourses] = useState({
+  const [recommendedCourses, setRecommandedCourses] = useState<DashRecCourseType>({
     status: 404,
     data: []
   });
@@ -32,7 +34,7 @@ function DashRecCourse() {
         console.log(err);
       });
   }, []);
-  const randomProperty = function(obj) {
+  const randomProperty = function(obj: never) {
     const keys = Object.keys(obj);
     return obj[keys[(keys.length * Math.random()) << 0]];
   };
@@ -40,9 +42,9 @@ function DashRecCourse() {
     const totalcourses = Object.keys(course).length;
     // console.log(totalcourses);
     const recommendedLength = totalcourses < 4 ? totalcourses : 4;
-    let recommended = [];
-    for (let i, j = 0; j < recommendedLength; i += 1) {
-      const random = randomProperty(course);
+    let recommended: any[] = [];
+    for (let i = 0, j = 0; j < recommendedLength; i += 1) {
+      const random: any = randomProperty(course);
       if (!recommended[random.id]) {
         recommended[random.id] = random;
         j += 1;

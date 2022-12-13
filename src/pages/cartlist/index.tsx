@@ -9,14 +9,16 @@ import emptyCartImg from "../../assets/images/empty-cart.jpg";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
+// import {CartType} from "../../type/index";
+
 const Cart = () => {
   let priceCount = 0;
   let discount = 0;
-  const coursesList = [];
+  const coursesList: any = [];
   const navigate = useNavigate();
   const [courseStatus, setCourseStatus] = useState(false);
-  const [filteredCourses, setFilteredCourses] = useState([]);
-  const getLocalCouseId = localStorage.getItem("courseCartId");
+  const [filteredCourses, setFilteredCourses] = useState<any[]>([]);
+  const getLocalCouseId:any = localStorage.getItem("courseCartId");
   const localCoursesId = JSON.parse(getLocalCouseId);
   function Course_Get_Courses() {
     const query = {
@@ -52,7 +54,7 @@ const Cart = () => {
     [getLocalCouseId]
   );
   // Remove from cart list === >>
-  const removeItemFromCart = cartItemID => {
+  const removeItemFromCart = (cartItemID: number) => {
     Swal.fire({
       position: "center",
       icon: "success",
@@ -62,7 +64,7 @@ const Cart = () => {
     });
     const x = localCoursesId.indexOf(cartItemID);
     let removeItem = localCoursesId.splice(x, 1);
-    let cartRemoveItem = localCoursesId.filter(item => removeItem !== item);
+    let cartRemoveItem = localCoursesId.filter((item: any) => removeItem !== item);
     localStorage.setItem("courseCartId", JSON.stringify(cartRemoveItem));
     Course_Get_Courses();
   };
@@ -73,10 +75,10 @@ const Cart = () => {
   return (
     <>
       <Sidebar />
-      <Header />
+      <Header welcomeIcon={false} pageHeading="Shopping Cart" />
       <div className="main-container ui_cartlist">
         <div className="container contents">
-          <h3 className="pt-2 heading">Shopping Cart</h3>
+          {/* <h3 className="pt-2 heading">Shopping Cart</h3> */}
           <div className="row">
             {courseStatus === false ? (
               <>

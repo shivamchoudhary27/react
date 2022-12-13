@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-function Modal_Elem(props) {
+
+function Modal_Elem(props: { openModal: any; getResponse: (arg0: boolean) => void; }) {
   const [show, setShow] = useState(props.openModal);
   const handleYes = () => {
     setShow(false);

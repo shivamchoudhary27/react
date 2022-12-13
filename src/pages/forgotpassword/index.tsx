@@ -6,11 +6,13 @@ import Loader from "../../widgets/loader/loader";
 import SuccessModal from "../../widgets/errorhandling/successModal";
 import "../loginpage/login.scss";
 import * as Yup from "yup";
+import {ForgotPasswordType} from "../../type/index";
+
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [showLoader, setShowLoader] = useState(false);
-  const [response, setResponse] = useState({ status: false, success: "failed" });
-  const processRequest = email => {
+  const [response, setResponse] = useState<ForgotPasswordType>({ status: false, success: "failed" });
+  const processRequest = (email: any) => {
     const query = {
       wsfunction: "core_auth_request_password_reset",
       email: email

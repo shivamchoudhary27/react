@@ -7,7 +7,7 @@ import UserContext from "../../features/context/user/user";
 import Dropdown from 'react-bootstrap/Dropdown';
 import "./style.scss";
 
-function Header(props){
+function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid ?? 0;
   const fullname = userCtx.userInfo.fullname ?? '';
@@ -19,8 +19,7 @@ function Header(props){
         <div className="col-sm-6 welcome-content">
           <div>
             <h2 className="dashboard-header-heading">
-              {props.pageHeading !== undefined && props.pageHeading}
-              {props.quizHeading !== undefined && props.quizHeading}
+              {props.pageHeading}
               {props.welcomeIcon === true && (
                 <img className="goodbye-icon" src={goodbye} alt="goodbye.png" />
               )}

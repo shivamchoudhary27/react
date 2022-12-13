@@ -1,5 +1,13 @@
 import React from "react";
-function Cards(props) {
+
+function Cards(props: {
+  icon: string | undefined;
+  title:
+    | string
+    | number
+    | null
+    | undefined;
+}) {
   return (
     <div className="card">
       <div className="card-body">

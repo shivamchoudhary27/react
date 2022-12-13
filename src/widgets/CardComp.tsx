@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import img from "../assets/images/images.png";
-import UserContext from "../context/user/user";
-function CardComp(props) {
+import UserContext from "../features/context/user/user";
+
+function CardComp(props: { mycoursedata: any[]; }) {
   const userCtx = useContext(UserContext);
   const userToken = userCtx.token;
   return (

@@ -12,13 +12,15 @@ import Cart from '../../pages/cartlist';
 import UserContext from '../context/user/user';
 import Review from '../../pages/courses/quiz/review';
 import Report from '../../pages/courses/video/report';
+
 export default function CustomRoutes() {
+  console.log(localStorage.getItem('loggedIn'));
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
+        <Route path="/" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
@@ -29,7 +31,7 @@ export default function CustomRoutes() {
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element={<Review />} />
-          <Route path="*" element={localStorage.getItem('loggedIn') === false ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
+          <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>
       </Routes>
     </BrowserRouter>

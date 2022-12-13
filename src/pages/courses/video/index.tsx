@@ -12,17 +12,19 @@ import ModuleAccordion from "../../../widgets/accordian";
 import UserContext from "../../../features/context/user/user";
 import { SkeletonMimic, Col3 } from "./Skeleton";
 import "./coursedetails.scss";
+
 function Video() {
   const location = useLocation();
   const userCtx = useContext(UserContext);
   const userId = userCtx.userInfo.userid;
-  const [stateurl, setStateUrl] = useState({ status: false });
-  const { id, courseid } = useParams();
+  const [stateurl, setStateUrl] = useState<any>({ status: false, modname: '', url: ''});
+  const { id, courseid } = useParams<string>();
   const courseids = [courseid];
-  const [modules, setModules] = useState({ status: false });
+  const [modules, setModules] = useState<any>({ status: false});
   const [resumed, setResumed] = useState(false);
   const [vidKey, setVidkey] = useState("");
-  const [lastVidStatus, setLastVidStatus] = useState(null);
+  const [lastVidStatus, setLastVidStatus] = useState<any>(null);
+
   useEffect(
     () => {
       setVidkey(`video-${id}-${userId}`);
@@ -53,7 +55,7 @@ function Video() {
               if (courseids !== query.courseids || res.data.errorcode) {
                 console.log("Something went wrong");
               } else {
-                res.data.resources.map(item => {
+                res.data.resources.map((item: { id: string | undefined; contentfiles: { fileurl: any; }[]; name: any; }) => {
                   if (item.id == id) {
                     setStateUrl({
                       status: true,
@@ -106,7 +108,7 @@ function Video() {
         console.log(err);
       });
   }, []);
-  const videoReady = e => {
+  const videoReady = (e: { getCurrentTime: () => any; }) => {
     const currentVideoTime = e.getCurrentTime();
     if (currentVideoTime > 0) {
       localStorage.setItem(vidKey, currentVideoTime);
@@ -116,10 +118,10 @@ function Video() {
     localStorage.removeItem(vidKey);
   };
   const getVideoCurrentTime = () => {
-    const videoElement = document.querySelector(".resource-video video");
-    videoElement.currentTime = localStorage.getItem(vidKey);
+    var videoElement = (document.querySelector(".resource-video video") as HTMLInputElement | null)?.currentTime;
+    videoElement = localStorage.getItem(vidKey);
   };
-  const getResponse = e => {
+  const getResponse = (e: boolean) => {
     if (e === true) {
       getVideoCurrentTime();
       setResumed(true);
@@ -131,7 +133,7 @@ function Video() {
   return (
     <div>
       <Sidebar />
-      <Header pageHeading={stateurl.modname} />
+      <Header pageHeading={stateurl.modname} welcomeIcon={false} />
       <div className="video-content pt-4 video-slider" id="videoslider">
         <Row className="video-row">
           <div className="col-sm-9 video-left-column">
@@ -209,7 +211,7 @@ function Video() {
               {modules.status === false ? (
                 <Col3 />
               ) : (
-                modules.data.map(section => (
+                modules.data.map((section: { name: string; modules: any[]; id: string | number; }) => (
                   <ModuleAccordion
                     header={section.name}
                     items={section.modules}
