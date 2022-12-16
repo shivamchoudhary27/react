@@ -1,0 +1,49 @@
+.ui_cartlist{
+    .contents{
+        .heading{
+            color: rgb(153, 153, 153);
+        }
+        .cart_item_table{
+            tbody{
+                tr{
+                    td{
+                        .rating_content{
+                            margin-bottom: 0px;
+                        }
+                        .remove_item_link{
+                            margin-bottom: 0px;
+                            color: #999;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+        .subtotal{
+            .subtotal_price{
+                h5{
+                   .fa-indian-rupee-sign{
+                    font-size: 14px;
+                    margin: 0px 3px;
+                   } 
+                }
+            }
+        }
+        .cart_price_details{
+            position: relative;
+            .price_card{
+                border: 1px solid #f2f2f2;
+                position: fixed;
+                padding: 1rem;
+                h5{
+                    color: #999;
+                }
+                .price_card_content{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+            }
+        }
+    }
+}
