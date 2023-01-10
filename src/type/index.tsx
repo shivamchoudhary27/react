@@ -87,9 +87,8 @@ export interface CataloguePaginationType{
 
 export interface PaginationType{
   showPerPage: number,
-  totalData: number,
   onPaginationChange: any,
-  courseIdStore: any
+  filterdLength: number
 }
 
 // ===============================================

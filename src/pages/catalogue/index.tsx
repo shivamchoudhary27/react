@@ -10,16 +10,6 @@ import SkeletonMimic from "./Skeleton";
 import { useNavigate } from "react-router-dom";
 import { CategoriesType, FilterdCoursesType, CounterValueType, CataloguePaginationType } from "../../type/index";
 
-interface categoryType {
-  status: number;
-  data: [Data];
-}
-
-interface Data {
-  id: number;
-  fullname: string;
-}
-
 const Catalogue: React.FunctionComponent = () => {
   const showPerPage = 2;
   let categoryList:any = [];
@@ -46,8 +36,6 @@ const Catalogue: React.FunctionComponent = () => {
     storedCart !== null ? storedCart : []
   );
 
-  // console.log(categories)
-
   // Pagination === >>
   const onPaginationChange = (start:number, end: number) => {
     setPagination({ start: start, end: end });
@@ -60,7 +48,6 @@ const Catalogue: React.FunctionComponent = () => {
     };
     getData(query)
       .then((res: any) => {
-        // console.log(res);
         if (res.status === 200 && res.data) {
           res.data.shift();
           setCourseList(res.data);
@@ -116,7 +103,6 @@ const Catalogue: React.FunctionComponent = () => {
           .includes(inputElem.current.value.toLowerCase());
       });
       setCourseList(filterResult);
-      // console.log(courseList);
     } else {
       setCourseList(searchData);
     }
@@ -315,8 +301,7 @@ const Catalogue: React.FunctionComponent = () => {
                       <Pagination
                         showPerPage={showPerPage}
                         onPaginationChange={onPaginationChange}
-                        totalData={courseList != undefined && courseList.length}
-                        courseIdStore={courseIdStore}
+                        filterdLength={filterdCourses !== undefined ? filterdCourses.length : 0}
                       />
                     )}
                   </div>
