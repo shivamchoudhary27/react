@@ -11,7 +11,7 @@ import {ForgotPasswordType} from "../../type/index";
 const ForgotPassword = () => {
   const navigate = useNavigate();
   const [showLoader, setShowLoader] = useState(false);
-  const [response, setResponse] = useState<ForgotPasswordType>({ status: false, success: "failed" });
+  const [response, setResponse] = useState<ForgotPasswordType>({ status: false, success: false, msg: '' });
   const processRequest = (email: any) => {
     const query = {
       wsfunction: "core_auth_request_password_reset",

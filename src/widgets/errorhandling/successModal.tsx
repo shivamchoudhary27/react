@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-function SuccessModal(props: { cstate: any; successmssg: string; }) {
+
+function SuccessModal(props: { cstate: boolean; successmssg: string; }) {
   const [show, setShow] = useState(props.cstate);
   const handleClose = () => {
     setShow(false);

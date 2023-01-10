@@ -1,6 +1,6 @@
 import React from "react";
 import config from "../../../utils/config";
-import { ContextType } from '../../../type/index';
+// import { ContextType } from '../../../type/index';
 import { string } from "yup";
 
 /**

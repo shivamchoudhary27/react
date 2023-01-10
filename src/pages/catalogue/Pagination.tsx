@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./style.scss";
 import {PaginationType} from "../../type/index";
 
-const Pagination = ({ showPerPage, onPaginationChange, totalData }: PaginationType) => {
+const Pagination = ({ showPerPage, onPaginationChange, filterdLength }: PaginationType) => {
+
   const [counter, setCounter] = useState<number>(1);
   //  Pagination === >>
   useEffect(
@@ -12,44 +13,33 @@ const Pagination = ({ showPerPage, onPaginationChange, totalData }: PaginationTy
     },
     [counter]
   );
+
   // Handle Pagination next-previous button === >>
   const handlePaginationNullPage = (type: string) => {
-    if (type === "previous") {
-      if (counter === 1) {
-        document.getElementById("pre-btn").style.display = "none";
-        setCounter(1);
-      } else {
-        document.getElementById("next-btn").style.display = "block";
-        setCounter(counter - 1);
-      }
-    } else if (type === "next") {
-      if (Math.ceil(totalData / showPerPage) === counter) {
-        document.getElementById("next-btn").style.display = "none";
-        setCounter(counter);
-      } else {
-        document.getElementById("pre-btn").style.display = "block";
-        setCounter(counter + 1);
-      }
-    }
+    if (type === "previous" && counter !== 1) setCounter(counter - 1);
+    else if (type === "next" && (Math.ceil(filterdLength / showPerPage) !== counter)) setCounter(counter + 1);
   };
+
   return (
     <>
       <div className="">
         <nav aria-label="Page navigation example">
           <ul className="pagination">
             <li className="page-item">
-              <button
+            {counter > 1 &&  <button
                 className="page-link"
                 id="pre-btn"
                 onClick={() => handlePaginationNullPage("previous")}
               >
                 Previous
               </button>
+            }
             </li>
             <li>
-              {counter}/{Math.ceil(totalData / showPerPage)}
+              {counter}/{Math.ceil(filterdLength / showPerPage)}
             </li>
             <li className="page-item">
+            { counter < (Math.ceil(filterdLength / showPerPage)) &&
               <button
                 className="page-link"
                 id="next-btn"
@@ -57,6 +47,7 @@ const Pagination = ({ showPerPage, onPaginationChange, totalData }: PaginationTy
               >
                 Next
               </button>
+            }
             </li>
           </ul>
         </nav>
