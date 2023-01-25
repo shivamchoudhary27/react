@@ -98,13 +98,13 @@ function DashMyCourse({ linkToggle }: LinkToggleType) {
                 ))}
               </Row>
             )}
-            {loadSkeleton === true ? null : (
+            {/* {loadSkeleton === true ? null : (
               <div className="text-center">
                 <button type="button" className="more-course-btn">
                   Load More
                 </button>
               </div>
-            )}
+            )} */}
           </div>
         )}
       </div>

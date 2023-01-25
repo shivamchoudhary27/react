@@ -5,8 +5,8 @@ import Header from '../header';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
 import useUserinfo from '../../features/hooks/userinfo';
 import PageLoader from '../../widgets/loader/pageloader';
-import DashCatalog from '../../widgets/dashboard_Comp/dash_catalog_comp';
-import DashRecCourse from '../../widgets/dashboard_Comp/dash_rec_comp';
+// import DashCatalog from '../../widgets/dashboard_Comp/dash_catalog_comp';
+// import DashRecCourse from '../../widgets/dashboard_Comp/dash_rec_comp';
 import './style.scss';
 
 function Dashboard() {
@@ -52,8 +52,8 @@ function Dashboard() {
           </ul>
         </div>
         <DashMyCourse linkToggle={linkToggle} />
-        <DashRecCourse />
-        <DashCatalog />
+        {/* <DashRecCourse />
+        <DashCatalog /> */}
       </div>
     </>
   );
