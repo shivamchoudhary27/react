@@ -18,15 +18,19 @@ import Discipline from '../../pages/site-adminstration/discipline';
 import ManageProgram from '../../pages/site-adminstration/manage-program';
 import AddProgram from '../../pages/site-adminstration/addProgram';
 import ManageUsers from '../../pages/site-adminstration/manage-users';
+import Home from '../../pages/home/Home';
+import AuthLogin from '../../pages/authlogin/AuthLogin';
 
 export default function CustomRoutes() {
-  console.log(localStorage.getItem('loggedIn'));
+  // console.log(localStorage.getItem('loggedIn'));
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
+        <Route path='/authlogin' element={<AuthLogin />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/department" element={<Departments />} />

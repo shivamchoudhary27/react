@@ -35,6 +35,8 @@ const Catalogue: React.FunctionComponent = () => {
   const [courseIdStore, setCourseIdStore] = useState<any>(
     storedCart !== null ? storedCart : []
   );
+  // const [categoriesListing, setCategoriesListing] = useState(5);
+  // const [showToggle, setShowToggle] = useState(true);
 
   // Pagination === >>
   const onPaginationChange = (start:number, end: number) => {
@@ -146,6 +148,12 @@ const Catalogue: React.FunctionComponent = () => {
   const handleCartNavigate = () => {
     navigate("/cart");
   };
+
+  // const handleHideShow = () => {
+  //   setShowToggle(!showToggle);
+  //   setCategoriesListing(categories.length)
+  // }
+
   return (
     <>
       <Sidebar />
@@ -215,7 +223,7 @@ const Catalogue: React.FunctionComponent = () => {
                                       <p className="photoshop-item" key={i}>
                                         <input
                                           type="checkbox"
-                                          onChange={(e) => {
+                                          onChange={(e) => {  
                                             handleChecked(e, el.id);
                                           }}
                                         />
