@@ -1,0 +1,50 @@
+.ai-home-wrapper {
+  background-image: linear-gradient(
+      45deg,
+      rgba(245, 70, 66, 0.75),
+      rgba(8, 83, 156, 0.75)
+    ),
+    url("../../assets/images/homeBg.jpg");
+  width: 100vw;
+  height: 100vh;
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-align: center;
+  background-position: center;
+  color: #fff;
+  position: relative;
+  .ai-home-container {
+    .ai-logo-wrapper {
+      width: 125px;
+      height: 125px;
+      background: #eee;
+      text-align: center;
+      line-height: 123px;
+      border-radius: 50%;
+      margin: 0 auto;
+      margin-bottom: 1rem;
+      box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+      .ai-logo {
+        vertical-align: middle;
+        width: 95px;
+      }
+    }
+
+    h1 {
+      text-shadow: 0.1em 0.1em 0 hsl(200 50% 30%);
+      font-size: 60px;
+      font-weight: 700;
+      margin-bottom: 0px;
+      span {
+        color: #eca160;
+      }
+    }
+    p{
+        margin-top: -5px;
+        font-size: 14px;
+    }
+    .button-link{
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    }
+  }
+}

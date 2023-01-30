@@ -52,7 +52,7 @@ const ForgotPassword = () => {
     }
   });
   const handleCancle = () => {
-    navigate("/");
+    navigate("/login");
   };
   return (
     <div>

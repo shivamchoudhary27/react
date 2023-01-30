@@ -24,45 +24,46 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState({
     status: false,
     type: "password",
-    class: "fa fa-eye-slash"
+    class: "fa fa-eye-slash",
   });
-  useEffect(
-    () => {
-      const urlParams = new URLSearchParams(location);
-      setformtoggle(urlParams.get("form"));
-    },
-    [location]
-  );
-  const clientId = "897619838590-sgj2betoqug9iv00g76tj9ijd9gccsel.apps.googleusercontent.com";
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location);
+    setformtoggle(urlParams.get("form"));
+  }, [location]);
+  const clientId =
+    "897619838590-sgj2betoqug9iv00g76tj9ijd9gccsel.apps.googleusercontent.com";
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
         clientId: clientId,
-        scope: ""
+        scope: "",
       });
     };
     gapi.load("client:auth2", initClient);
   });
-  const onSuccess = (res: { profileObj: { name: string; email: string; }; }) => {
-    const details = "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
+  const onSuccess = (res: { profileObj: { name: string; email: string } }) => {
+    const details =
+      "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
     alert(
-      "Google Authentication Successful \n" + details + "\nLogin with moodle in progress..."
+      "Google Authentication Successful \n" +
+        details +
+        "\nLogin with moodle in progress..."
     );
     console.log("success:", res);
   };
   const onFailure = (err: any) => {
     console.log("failed:", err);
   };
-  function SubmitHandler(values: { username: any; password: any; }) {
+  function SubmitHandler(values: { username: any; password: any }) {
     setInvalidLogin(false);
     setShowLoader(true);
     const data = {
       username: values.username,
       password: values.password,
-      loginrequest: true
+      loginrequest: true,
     };
     getPublicData(data)
-      .then(res => {
+      .then((res) => {
         if (res.status === 200 && res.data) {
           if (res.data.errorcode) {
             setShowLoader(false);
@@ -75,7 +76,7 @@ const LoginForm = () => {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setShowLoader(false);
         setInvalidLogin(true);
@@ -85,10 +86,10 @@ const LoginForm = () => {
     navigate("/dashboard");
   }
   const handleToggleSignup = () => {
-    navigate("/?form=signup");
+    navigate("/login/?form=signup");
   };
   const handleToggleForgotPassword = () => {
-    navigate("/?form=forgotpassword");
+    navigate("/login/?form=forgotpassword");
   };
   const toggleShowPassword = () => {
     if (showPassword.type === "password") {
@@ -97,7 +98,7 @@ const LoginForm = () => {
       setShowPassword({
         status: false,
         type: "password",
-        class: "fa fa-eye-slash"
+        class: "fa fa-eye-slash",
       });
     }
   };
@@ -110,18 +111,21 @@ const LoginForm = () => {
   };
   const validation = Yup.object({
     username: Yup.string().required("Please enter your username"),
-    password: Yup.string()
-      .min(6)
-      .required("Please enter your password")
+    password: Yup.string().min(6).required("Please enter your password"),
   });
+
+  const goToHome = () => {
+    navigate('/');
+  }
+
   return (
     <Formik
       initialValues={{
         username: "",
-        password: ""
+        password: "",
       }}
       validationSchema={validation}
-      onSubmit={values => {
+      onSubmit={(values) => {
         SubmitHandler(values);
       }}
     >
@@ -131,24 +135,27 @@ const LoginForm = () => {
             <div className="col-sm-8 left-column">
               <div className="banner">
                 <div className="banner-opacity">
-                  <div className="logo-bg">
+                  <div className="logo-bg" onClick={goToHome} style={{cursor: 'pointer'}}>
                     <img className="bl-logo" src={logo} alt="logo.png" />
                   </div>
                   <div>
                     <h1>Ballistic Academy</h1>
                     <p>
-                      Ballistic Academy is a hybrid learning platform that uses FLIP
-                      classroom, and social learning (P2P), combined with virtual sessions by
-                      Ballistic subject matter experts to deliver experiential learning.
+                      Ballistic Academy is a hybrid learning platform that uses
+                      FLIP classroom, and social learning (P2P), combined with
+                      virtual sessions by Ballistic subject matter experts to
+                      deliver experiential learning.
                     </p>
                   </div>
                   <div className="cpy-content">
                     <span className="cpy-right">
-                      © Copyright Ballistic Learning Pvt Ltd. All Rights Reserved.
+                      © Copyright Ballistic Learning Pvt Ltd. All Rights
+                      Reserved.
                     </span>
                     <span className="cpy-right privacy">Privacy Policy</span>
                   </div>
                 </div>
+                authlogin
               </div>
             </div>
             <div className="col-sm-4 right-column">
@@ -162,13 +169,17 @@ const LoginForm = () => {
                   <div>
                     <p className="welcome-heading">Welcome back</p>
                     <div className="bar" />
-                    <p className="login-info mb-5">Please login to your account.</p>
+                    <p className="login-info mb-5">
+                      Please login to your account.
+                    </p>
 
                     {invalidLogin === true && (
                       <p className="login-info errorAlert">{errorMsg}</p>
                     )}
 
-                    <div className="login-loader">{showLoader === true && <Loader />}</div>
+                    <div className="login-loader">
+                      {showLoader === true && <Loader />}
+                    </div>
                     <Form>
                       <div className="input-icons mb-4">
                         <div className="input-icons mb-4">
@@ -181,7 +192,7 @@ const LoginForm = () => {
                             className="username-input"
                           />
                           <ErrorMessage name="username">
-                            {msg => <div className="error">{msg}</div>}
+                            {(msg) => <div className="error">{msg}</div>}
                           </ErrorMessage>
                         </div>
                         <div className="input-icons">
@@ -200,7 +211,7 @@ const LoginForm = () => {
                             onClick={toggleShowPassword}
                           />
                           <ErrorMessage name="password">
-                            {msg => <div className="error">{msg}</div>}
+                            {(msg) => <div className="error">{msg}</div>}
                           </ErrorMessage>
                         </div>
                         <div>
@@ -210,7 +221,7 @@ const LoginForm = () => {
                             onClick={handleToggleForgotPassword}
                             style={{
                               cursor: "pointer",
-                              textDecoration: "underline"
+                              textDecoration: "underline",
                             }}
                           >
                             Forgot Password?
@@ -223,7 +234,10 @@ const LoginForm = () => {
                             value=""
                             id="flexCheckDefault"
                           />
-                          <label className="form-check-label" htmlFor="flexCheckDefault">
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault"
+                          >
                             Remember Username
                           </label>
                         </div>
@@ -252,11 +266,16 @@ const LoginForm = () => {
                         onClick={handleToggleSignup}
                         style={{
                           cursor: "pointer",
-                          textDecoration: "underline"
+                          textDecoration: "underline",
                         }}
                       >
                         Signup
                       </p>
+                    </div>
+                    <div className="text-start mt-2">
+                      <a href="http://40.114.33.183:8080/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=http://127.0.0.1:3000/authlogin&scope=openid">
+                        Login with Auth
+                      </a>
                     </div>
                   </div>
                 )}

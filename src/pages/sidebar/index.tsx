@@ -119,10 +119,16 @@ function Sidebar() {
               Video Report
             </Link>
           </Menuitem>
-          <Menuitem>
+          {/* <Menuitem>
             <Link id="setting" to="">
               <i className="fa fa-gear degree-icon" />
               Gradebook
+            </Link>
+          </Menuitem> */}
+          <Menuitem>
+            <Link id="" to="/department">
+              <i className="fa fa-gear degree-icon" />
+              Site Admin 
             </Link>
           </Menuitem>
           <Menuitem className="catalogue-icon" href="/employees" onClick={logout}>

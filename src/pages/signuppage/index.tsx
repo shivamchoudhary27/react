@@ -51,7 +51,7 @@ const Signup = () => {
     }
   });
   const login = () => {
-    navigate("/");
+    navigate("/login");
   };
   const toggleShowPassword = () => {
     if (showPassword.type === "password") {
