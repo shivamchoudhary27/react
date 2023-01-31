@@ -13,7 +13,7 @@ const Discipline = () => {
       <Header pageHeading="" welcomeIcon={false} />
       <Sidebar /> 
       <Container fluid>
-        <div className="contents" style={{paddingLeft: '290px', paddingRight: '2%'}}>
+        <div className="contents" style={{paddingLeft: '270px', marginTop: '70px'}}>
           <div className="container-wrapper">
             <div className="site-heading">
               <h3>Discipline</h3>

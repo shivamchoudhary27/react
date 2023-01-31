@@ -126,7 +126,7 @@ function Sidebar() {
             </Link>
           </Menuitem> */}
           <Menuitem>
-            <Link id="" to="/department">
+            <Link id="" to="/siteadmin">
               <i className="fa fa-gear degree-icon" />
               Site Admin 
             </Link>

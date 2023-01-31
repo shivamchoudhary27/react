@@ -36,6 +36,7 @@ const UserFilter = () => {
         </div>
         <div>
           <div className="site-button-group">
+            <Button variant="primary">Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
             <Button variant="primary">Add Users</Button>
           </div>
