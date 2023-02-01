@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Table } from "react-bootstrap";
 import { ManageRawData } from "./rawData";
 import { useTable } from "react-table";
+import { Link } from "react-router-dom";
 
 const tableColumn = [
   {
@@ -19,20 +20,46 @@ const tableColumn = [
   {
     Header: "Manage Categories",
     accessor: "categories",
+    Cell: ({ row }: any) => (
+      <Link to="/managecategory">
+        <i className={row.values.categories}></i>
+      </Link>
+    ),
   },
   {
     Header: "Manage Courses",
     accessor: "manage_courses",
-    Cell: ({ row }: any) => <i className={row.values.manage_courses}></i>,
+    Cell: ({ row }: any) => (
+      <Link to="/managecourses">
+        <i className={row.values.manage_courses}></i>
+      </Link>
+    ),
   },
   {
     Header: "Manage Users",
     accessor: "manage_users",
-    Cell: ({ row }: any) => <i className={row.values.manage_users}></i>,
+    Cell: ({ row }: any) => (
+      <Link to="/manageusers">
+        <i className={row.values.manage_users}></i>
+      </Link>
+    ),
   },
   {
     Header: "Actions",
-    accessor: "",
+    accessor: "actions",
+    Cell: ({ row }: any) => (
+      <span>
+        <Link to="">
+          <i className={row.values.actions.edit}></i>
+        </Link>{" "}
+        <Link to="">
+          <i className={row.values.actions.delete}></i>
+        </Link>{" "}
+        <Link to="">
+          <i className={row.values.actions.hide}></i>
+        </Link>
+      </span>
+    ),
   },
 ];
 
