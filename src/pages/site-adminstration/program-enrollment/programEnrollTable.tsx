@@ -1,42 +1,32 @@
 import React, { useMemo } from "react";
-import { usersRawData } from "./data";
-import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
+import { ProgramEnrollRawData } from './rawData';
+import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 
 const tableColumn = [
   {
-    Header: "Full Name",
-    accessor: "fullname",
+    Header: "Name",
+    accessor: "name",
   },
   {
-    Header: "Email",
-    accessor: "email",
+    Header: "Batch Year",
+    accessor: "year",
   },
   {
-    Header: "Role No",
-    accessor: "roleNo",
+    Header: "Program Code",
+    accessor: "code",
   },
   {
-    Header: "Role",
-    accessor: "role",
-  },
-  {
-    Header: "Actions",
-    accessor: "actions",
-    Cell: ({ row }: any) => (
-      <span>
-        <Link to=""><i className={row.values.actions.edit}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.delete}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.hide}></i></Link>
-      </span>
-    ),
+    Header: "Manage Users",
+    accessor: "manage_users",
+    Cell: ({ row }: any) => <Link to="/manageusers"><i className={row.values.manage_users}></i></Link>,
   },
 ];
 
-const UsersTable = () => {
+const ProgramEnrollTable = () => {
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => usersRawData, []);
+  const data = useMemo(() => ProgramEnrollRawData, []);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -75,4 +65,4 @@ const UsersTable = () => {
   );
 };
 
-export default UsersTable;
+export default ProgramEnrollTable;

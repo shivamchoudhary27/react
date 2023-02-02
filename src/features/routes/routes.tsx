@@ -20,6 +20,10 @@ import AddProgram from '../../pages/site-adminstration/addProgram';
 import ManageUsers from '../../pages/site-adminstration/manage-users';
 import Home from '../../pages/home/Home';
 import AuthLogin from '../../pages/authlogin/AuthLogin';
+import SiteAdminHome from '../../pages/site-adminstration/siteAdmin';
+import ProgramEnrollment from '../../pages/site-adminstration/program-enrollment';
+import ManageCategory from '../../pages/site-adminstration/manage-category';
+import ManageCourses from '../../pages/site-adminstration/manage-courses';
 
 export default function CustomRoutes() {
   // console.log(localStorage.getItem('loggedIn'));
@@ -33,6 +37,10 @@ export default function CustomRoutes() {
         <Route path='/authlogin' element={<AuthLogin />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/siteadmin" element={<SiteAdminHome />} />
+          <Route path="/programenrollment" element={<ProgramEnrollment />} />
+          <Route path="/managecategory" element={<ManageCategory />} />
+          <Route path="/managecourses" element={<ManageCourses />} />
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />

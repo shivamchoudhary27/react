@@ -1,42 +1,26 @@
 import React, { useMemo } from "react";
-import { usersRawData } from "./data";
-import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { useTable } from "react-table";
+import { CoursesRawData } from "./rawData";
 
 const tableColumn = [
   {
-    Header: "Full Name",
-    accessor: "fullname",
+    Header: "Categories",   
+    accessor: "categories",
   },
   {
-    Header: "Email",
-    accessor: "email",
-  },
-  {
-    Header: "Role No",
-    accessor: "roleNo",
-  },
-  {
-    Header: "Role",
-    accessor: "role",
+    Header: "Courses",
+    accessor: "courses",
   },
   {
     Header: "Actions",
-    accessor: "actions",
-    Cell: ({ row }: any) => (
-      <span>
-        <Link to=""><i className={row.values.actions.edit}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.delete}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.hide}></i></Link>
-      </span>
-    ),
+    accessor: "",
   },
 ];
 
-const UsersTable = () => {
+const CoursesTable = () => {
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => usersRawData, []);
+  const data = useMemo(() => CoursesRawData, []);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -75,4 +59,4 @@ const UsersTable = () => {
   );
 };
 
-export default UsersTable;
+export default CoursesTable;
