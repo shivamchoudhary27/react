@@ -1,7 +1,31 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
-const AddProgramModal = (props) => {
+const programTypeSchema = Yup.object({
+  name: Yup.string().min(3).max(25).required("Please Enter Name"),
+  description: Yup.string().max(100).required("Please Enter Address"),
+  check: Yup.bool().required("Please Check"), //oneOf([true], "Please Check the required field")
+});
+
+const initialValues = {
+  name: "",
+  description: "",
+  check: "",
+};
+
+const AddProgramModal = (props: any) => {
+  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: programTypeSchema,
+      onSubmit: (values, action) => {
+        console.log(values);
+        action.resetForm();
+      },
+    });
+
   return (
     <Modal
       {...props}
@@ -15,18 +39,45 @@ const AddProgramModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form>
-          <input type="text" className="form-control mb-3" placeholder="Name" />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="form-control mb-3"
+            name="name"
+            autoComplete="off"
+            placeholder="Name"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.name}
+          />
+          {errors.name && touched.name ? <p>{errors.name}</p> : null}
           <textarea
             className="form-control mb-3"
+            name="description"
             placeholder="Description"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.description}
           ></textarea>
-          <input type="checkbox" /> <span style={{color: '#666'}}>Batch Year Required?</span>
+          {errors.description && touched.description ? (
+            <p>{errors.description}</p>
+          ) : null}
+          <input
+            name="check"
+            type="checkbox"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.check}
+          />{" "}
+          <span style={{ color: "#666" }}>Batch Year Required?</span>
+          {errors.check && touched.check ? <p>{errors.check}</p> : null}
           <div className="mt-4 text-center">
-            <Button variant="primary">Save</Button>{" "}
+            <Button variant="primary" type="submit">
+              Save
+            </Button>{" "}
             <Button variant="outline-secondary">Reset</Button>
           </div>
-          <p className="mt-4" style={{color: '#666'}}>
+          <p className="mt-4" style={{ color: "#666" }}>
             <span style={{ fontWeight: "600" }}>Note: </span>If batch year
             checked it's available on add program form.
           </p>
