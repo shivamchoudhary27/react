@@ -14,7 +14,8 @@ const UserContext = React.createContext({
   status: "",
   token: "",
   isLoggedIn: false,
-  userInfo: {fullname: string, userid: string, userpictureurl: string},
+  userInfo: {fullname: string, userid: string, userpictureurl: string, userissiteadmin: false},
+  role: "",
   setUserStatus: (status: number) => {},
   logout: () => {},
   setUserToken: (token: any) => {},
@@ -26,6 +27,9 @@ const UserInfoData = {
     : null,
   fullname: localStorage.getItem("fullname")
     ? localStorage.getItem("fullname")
+    : null,
+  userrole: localStorage.getItem("userrole")
+    ? localStorage.getItem("userrole")
     : null,
   userpictureurl: localStorage.getItem("userpictureurl")
     ? localStorage.getItem("userpictureurl")
@@ -40,7 +44,7 @@ export const UserContextProvider = (props: { children: any}) => {
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
   const [userInfo, setUserInfo] = React.useState<any>(
-    UserInfoData.userid && UserInfoData.fullname && UserInfoData.userpictureurl
+    UserInfoData.userid && UserInfoData.fullname && UserInfoData.userpictureurl && UserInfoData.userrole
       ? UserInfoData
       : null
   );
@@ -58,6 +62,7 @@ export const UserContextProvider = (props: { children: any}) => {
     localStorage.setItem("userid", data.userid);
     localStorage.setItem("fullname", data.fullname);
     localStorage.setItem("userpictureurl", data.userpictureurl);
+    localStorage.setItem("userrole", data.userissiteadmin);
   };
   // logout handler
   const logoutHandler = () => {
@@ -71,6 +76,7 @@ export const UserContextProvider = (props: { children: any}) => {
     localStorage.removeItem("userid");
     localStorage.removeItem("name");
     localStorage.removeItem("userpictureurl");
+    localStorage.removeItem("userrole");
   };
   // Initializing token
   const setUserToken = (token: any) => {

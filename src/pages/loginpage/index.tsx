@@ -44,12 +44,12 @@ const LoginForm = () => {
   const onSuccess = (res: { profileObj: { name: string; email: string } }) => {
     const details =
       "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
-    alert(
-      "Google Authentication Successful \n" +
+      console.log(
+        "Google Authentication Successful \n" +
         details +
         "\nLogin with moodle in progress..."
-    );
-    console.log("success:", res);
+      );
+      console.log("success:", res);
   };
   const onFailure = (err: any) => {
     console.log("failed:", err);

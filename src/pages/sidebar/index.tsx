@@ -22,6 +22,7 @@ const Menuitem = styled(MenuItem)`
 function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const userctx = useContext(UserContext);
+  const userSiteAdmin = userctx.userInfo.userissiteadmin ?? false;
   const navigate = useNavigate();
   const [sidebararrow, setSidebarArrow] = useState(false);
   // const [headerslide, setHeaderslide] = useState(false);
@@ -119,16 +120,18 @@ function Sidebar() {
               Video Report
             </Link>
           </Menuitem>
-          {/* <Menuitem>
-            <Link id="setting" to="">
-              <i className="fa fa-gear degree-icon" />
-              Gradebook
-            </Link>
-          </Menuitem> */}
+          {userSiteAdmin === true &&
+            <Menuitem>
+              <Link id="" to="/siteadmin">
+                <i className="fa fa-gear degree-icon" />
+                Site Admin 
+              </Link>
+            </Menuitem>          
+          }
           <Menuitem>
-            <Link id="" to="/siteadmin">
-              <i className="fa fa-gear degree-icon" />
-              Site Admin 
+            <Link id="" to="/calender">
+              <i className="fa-solid fa-calendar-days degree-icon" />
+              Calendar 
             </Link>
           </Menuitem>
           <Menuitem className="catalogue-icon" href="/employees" onClick={logout}>
