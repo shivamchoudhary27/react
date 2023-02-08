@@ -273,7 +273,7 @@ const LoginForm = () => {
                       </p>
                     </div>
                     <div className="text-start mt-2">
-                      <a href="http://40.114.33.183:8080/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=http://127.0.0.1:3000/authlogin&scope=openid">
+                      <a href="http://40.114.33.183:8080/oauth2-service/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=http://127.0.0.1:3000/authlogin&scope=openid">
                         Login with Auth
                       </a>
                     </div>

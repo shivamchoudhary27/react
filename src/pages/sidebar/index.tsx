@@ -1,17 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { Menu, MenuItem, ProSidebar, SidebarHeader } from 'react-pro-sidebar';
 import './style.scss';
-// import { AiOutlineMenu } from 'react-icons/ai';
 import 'react-pro-sidebar/dist/css/styles.css';
 import styled from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
-// import dashboards from '../../assets/images/dashboards.png';
-// import mortarboard from '../../assets/images/mortarboard.png';
-// import page from '../../assets/images/page.png';
-// import settings from '../../assets/images/settings.png';
-// import signout from '../../assets/images/signout.png';
 import UserContext from '../../features/context/user/user';
 import logo from '../../assets/images/logo.png';
+
 const Menuitem = styled(MenuItem)`
   :hover {
     background-color: transparent;
@@ -62,19 +57,7 @@ function Sidebar() {
       navigate('/');
     }
   };
-  const handleInprogressData = () => {
-    document.getElementById('dashboard').style.color = '#ffffff';
-    document.getElementById('catalogue').style.color = '';
-    document.getElementById('gradebook').style.color = '';
-    document.getElementById('setting').style.color = '';
-  };
-  const handleCatalogueData = () => {
-    document.getElementById('catalogue').style.color = '#ffffff';
-    document.getElementById('dashboard').style.color = '';
-    document.getElementById('gradebook').style.color = '';
-    document.getElementById('setting').style.color = '';
-    document.getElementById('dashboard').classList.remove('active-link');
-  };
+
   return (
     <>
       <ProSidebar style={styles.sideBarHeight} collapsed={collapsed} id="mobile-toggle" className="mobile-sidebar">
@@ -90,6 +73,7 @@ function Sidebar() {
           </div>
         </SidebarHeader>
         <Menu iconShape="square">
+
           <Menuitem>
             <div className="logo-bg" id="logowhite">
               <Link to="/dashboard">
@@ -101,15 +85,15 @@ function Sidebar() {
                 <p className="bl-logo-text-content">BL</p>
               </div>
             </div>
-          </Menuitem>
+          </Menuitem>   
           <Menuitem>
-            <Link onClick={handleInprogressData} className="active-link" id="dashboard" to="/dashboard">
+            <Link className="active-link" id="dashboard" to="/dashboard">
               <i className="fa fa-dashboard dashboard-icon" />
               Dashboard
             </Link>
           </Menuitem>
           <Menuitem>
-            <Link onClick={handleCatalogueData} id="catalogue" to="/catalogue">
+            <Link id="catalogue" to="/catalogue">
               <i className="fas fa-graduation-cap degree-icon" />
               Catalogue
             </Link>

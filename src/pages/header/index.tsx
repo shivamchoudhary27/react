@@ -11,7 +11,7 @@ function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
   const userCtx = useContext(UserContext);
   console.log(userCtx.userInfo.userissiteadmin);
   const userid = userCtx.userInfo.userid ?? 0;
-  const fullname = userCtx.userInfo.fullname ?? ''; 
+  const fullname = userCtx.userInfo.fullname ?? '';
   const userpictureurl = userCtx.userInfo.userpictureurl ?? '';
 
   return (
