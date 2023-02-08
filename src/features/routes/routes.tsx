@@ -24,6 +24,7 @@ import SiteAdminHome from '../../pages/site-adminstration/siteAdmin';
 import ProgramEnrollment from '../../pages/site-adminstration/program-enrollment';
 import ManageCategory from '../../pages/site-adminstration/manage-category';
 import ManageCourses from '../../pages/site-adminstration/manage-courses';
+import ReactBigCalendar from '../../pages/calender';
 
 export default function CustomRoutes() {
   // console.log(localStorage.getItem('loggedIn'));
@@ -54,6 +55,7 @@ export default function CustomRoutes() {
           <Route path="/mod/attempt/quiz/:instance/:attemptid/:courseid" element={<Attempt />} />
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/calender" element={<ReactBigCalendar />} />
           <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element={<Review />} />
           <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
         </Route>

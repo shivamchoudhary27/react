@@ -23,11 +23,8 @@ const AuthLogin = () => {
   useEffect(() => {
     if (stateUrl != "") {
       setTimeout(() => {
-        let URL =
-          "http://40.114.33.183:8080/oauth2/code/verify?code=" +
-          stateUrl +
-          "&redirect_url=" +
-          redirectUrl;
+        // let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/token?code=${stateUrl}&redirect_uri=${redirectUrl}&grant_type=authorization_code`;
+        let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/api/verifycode?code=${stateUrl}&redirect_uri=${redirectUrl}`;
 
         fetch(URL, {
           method: "GET",

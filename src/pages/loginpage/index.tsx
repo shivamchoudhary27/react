@@ -44,12 +44,12 @@ const LoginForm = () => {
   const onSuccess = (res: { profileObj: { name: string; email: string } }) => {
     const details =
       "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
-    alert(
-      "Google Authentication Successful \n" +
+      console.log(
+        "Google Authentication Successful \n" +
         details +
         "\nLogin with moodle in progress..."
-    );
-    console.log("success:", res);
+      );
+      console.log("success:", res);
   };
   const onFailure = (err: any) => {
     console.log("failed:", err);
@@ -273,7 +273,7 @@ const LoginForm = () => {
                       </p>
                     </div>
                     <div className="text-start mt-2">
-                      <a href="http://40.114.33.183:8080/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=http://127.0.0.1:3000/authlogin&scope=openid">
+                      <a href="http://40.114.33.183:8080/oauth2-service/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=http://127.0.0.1:3000/authlogin&scope=openid">
                         Login with Auth
                       </a>
                     </div>
