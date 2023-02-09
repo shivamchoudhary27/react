@@ -10,8 +10,6 @@ import UserContext from "../../features/context/user/user";
 import { getPublicData } from "../../adapters";
 import config from "../../utils/config";
 import Loader from "../../widgets/loader/loader";
-import { GoogleLogin } from "react-google-login";
-import { gapi } from "gapi-script";
 import "./login.scss";
 const LoginForm = () => {
   const location = useLocation().search;
@@ -30,30 +28,7 @@ const LoginForm = () => {
     const urlParams = new URLSearchParams(location);
     setformtoggle(urlParams.get("form"));
   }, [location]);
-  const clientId =
-    "897619838590-sgj2betoqug9iv00g76tj9ijd9gccsel.apps.googleusercontent.com";
-  useEffect(() => {
-    const initClient = () => {
-      gapi.client.init({
-        clientId: clientId,
-        scope: "",
-      });
-    };
-    gapi.load("client:auth2", initClient);
-  });
-  const onSuccess = (res: { profileObj: { name: string; email: string } }) => {
-    const details =
-      "Name : " + res.profileObj.name + "\nEmail : " + res.profileObj.email;
-      console.log(
-        "Google Authentication Successful \n" +
-        details +
-        "\nLogin with moodle in progress..."
-      );
-      console.log("success:", res);
-  };
-  const onFailure = (err: any) => {
-    console.log("failed:", err);
-  };
+  
   function SubmitHandler(values: { username: any; password: any }) {
     setInvalidLogin(false);
     setShowLoader(true);
@@ -247,15 +222,7 @@ const LoginForm = () => {
                           </button>
                         </div>
                         <div className="mt-4">
-                          <GoogleLogin
-                            className="login-btn"
-                            clientId={clientId}
-                            buttonText="Sign in with Google"
-                            onSuccess={onSuccess}
-                            onFailure={onFailure}
-                            cookiePolicy={"single_host_origin"}
-                            isSignedIn={true}
-                          />
+                          
                         </div>
                       </div>
                     </Form>
