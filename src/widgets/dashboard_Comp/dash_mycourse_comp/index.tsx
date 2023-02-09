@@ -36,7 +36,7 @@ function DashMyCourse({ linkToggle }: LinkToggleType) {
         console.log(err);
       });
   }, []);
-  // console.log(myCourses);
+
   useEffect(
     () => {
       const dateFormat = Math.floor(Date.now() / 1000);

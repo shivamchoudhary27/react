@@ -20,23 +20,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <Navbar bg="light" expand="lg">
-        <Container fluid>
-          <Navbar.Brand>Ballistic Academy</Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll">
-            <Button
-              className="d-flex"
-              variant="warning"
-              onClick={handleNavigate}
-              size="sm"
-            >
-              click here to login
-            </Button>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar> */}
-
       <section className="ai-home-wrapper">
         <Container style={dashStyle} className="ai-home-container">
           <div>
@@ -45,21 +28,23 @@ const Home = () => {
             </div>
             <div>
               <h1>
-                Welcome to <span>Ballistic Academy</span>
+                Welcome to <span>Ballistic Learning Pvt. Ltd</span>
               </h1>
               <p>
                 Ballistic Academy is a hybrid learning platform that uses FLIP
                 classroom, and social learning (P2P).
               </p>
             </div>
-            <Button
-              variant="warning"
-              size="md"
-              className="button-link"
-              onClick={handleNavigate}
-            >
-              click here to login
-            </Button>
+            <a href="http://40.114.33.183:8080/oauth2-service/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=http://127.0.0.1:3000/authlogin&scope=openid">
+              <Button
+                variant="warning"
+                size="md"
+                className="button-link"
+              >
+                click here to login
+              </Button>
+            </a>
+
           </div>
         </Container>
         <div>

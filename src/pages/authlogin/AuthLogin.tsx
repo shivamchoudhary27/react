@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Loader from "../../widgets/loader/loader";
 import { Container } from "react-bootstrap";
 // import logo from "../../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
+import UserContext from "../../features/context/user/user";
+import config from "../../utils/config";
 
 const AuthLogin = () => {
   const navigate = useNavigate();
+  const userCtx = useContext(UserContext);
   const [stateUrl, setStateUrl] = useState("");
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,7 +26,6 @@ const AuthLogin = () => {
   useEffect(() => {
     if (stateUrl != "") {
       setTimeout(() => {
-        // let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/token?code=${stateUrl}&redirect_uri=${redirectUrl}&grant_type=authorization_code`;
         let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/api/verifycode?code=${stateUrl}&redirect_uri=${redirectUrl}`;
 
         fetch(URL, {
@@ -34,13 +36,24 @@ const AuthLogin = () => {
             (result) => {
               setIsLoaded(true);
               setItems(result);
+
+              if (result !== "") {
+                Object.entries(result).map(([el, value]: any) => {
+                  let tostring = value.toString();
+                  sessionStorage.setItem(el, tostring);
+                });
+              }
+
               Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Authentication Successful",
+                title: "Login Successful",
                 showConfirmButton: false,
                 timer: 1500,
               });
+              config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
+              userCtx.setUserToken(config.WSTOKEN);
+              navigate("/dashboard");
             },
             (error) => {
               setIsLoaded(true);
@@ -50,14 +63,6 @@ const AuthLogin = () => {
       }, 3000);
     }
   }, [stateUrl]);
-
-  if (items !== "") {
-    Object.entries(items).map(([el, value]: any) => {
-      let tostring = value.toString();
-      sessionStorage.setItem(el, tostring);
-      navigate("/login");
-    });
-  }
 
   const loaderStyle = {
     display: "flex",

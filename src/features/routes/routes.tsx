@@ -27,13 +27,13 @@ import ManageCourses from '../../pages/site-adminstration/manage-courses';
 import ReactBigCalendar from '../../pages/calender';
 
 export default function CustomRoutes() {
-  // console.log(localStorage.getItem('loggedIn'));
+
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/dashboard" />} />
         <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
         <Route path='/authlogin' element={<AuthLogin />} />
         <Route element={<ProtectedRoutes />}>
