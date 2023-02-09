@@ -51,8 +51,6 @@ function Dashboard() {
           </ul>
         </div>
         <DashMyCourse linkToggle={linkToggle} />
-        {/* <DashRecCourse />
-        <DashCatalog /> */}
       </div>
       {/* <Footer /> */}
     </>
