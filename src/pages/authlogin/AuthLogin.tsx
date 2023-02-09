@@ -15,7 +15,10 @@ const AuthLogin = () => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState<any>({});
-  const redirectUrl = "http://127.0.0.1:3000/authlogin";
+  const currentMethod = window.location.protocol;
+  const returnUri = (currentMethod == "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
+  const redirectUri = `${currentMethod}//${returnUri}`;
+  console.log(redirectUri);
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -26,8 +29,8 @@ const AuthLogin = () => {
   useEffect(() => {
     if (stateUrl != "") {
       setTimeout(() => {
-        let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/api/verifycode?code=${stateUrl}&redirect_uri=${redirectUrl}`;
-
+        let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/api/verifycode?code=${stateUrl}&redirect_uri=${redirectUri}`;
+        console.log(URL);
         fetch(URL, {
           method: "GET",
         })
