@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CourseTabToggle } from "../../type/dashboard";
 import Sidebar from '../sidebar';
 import Header from '../header';
+// import Footer from '../footer';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
 import useUserinfo from '../../features/hooks/userinfo';
-import PageLoader from '../../widgets/loader/pageloader';
-// import DashCatalog from '../../widgets/dashboard_Comp/dash_catalog_comp';
-// import DashRecCourse from '../../widgets/dashboard_Comp/dash_rec_comp';
+import Loader from '../../widgets/loader/pageloader';
 import './style.scss';
 
 function Dashboard() {
@@ -15,9 +14,9 @@ function Dashboard() {
   const [toggleColor, setToggleColor] = useState<CourseTabToggle>({ inprogColor: '#f57f17', compltColor: '', notcompleteColor: '' });
 
   if (res === 'loading') {
-    return <PageLoader />;
+    return <Loader />;
   }
-  
+
   const handleInprogressData = () => {
     setLinkToggle(1);
     setToggleColor({inprogColor: '#f57f17', compltColor: '', notcompleteColor: ''});
@@ -55,6 +54,7 @@ function Dashboard() {
         {/* <DashRecCourse />
         <DashCatalog /> */}
       </div>
+      {/* <Footer /> */}
     </>
   );
 }
