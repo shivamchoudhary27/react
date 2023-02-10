@@ -1,14 +1,13 @@
 import React from "react";
-import './style.scss';
+import "./style.scss";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const Filter = ({setModalShow }: any) => {
+const Filter = ({ setModalShow }: any) => {
   const navigate = useNavigate();
-
   const handleInput = (e: any) => {
-    console.log(e.target.value)
-  }
+    console.log(e.target.value);
+  };
 
   return (
     <>
@@ -20,11 +19,11 @@ const Filter = ({setModalShow }: any) => {
                 type="text"
                 className="form-control"
                 placeholder="Name"
-                onChange={(e)=>handleInput(e)}
+                onChange={(e) => handleInput(e)}
               />
             </div>
             <div className="col-auto">
-              <Button variant="outline-secondary">Filter</Button>{' '}
+              <Button variant="outline-secondary">Filter</Button>{" "}
               <Button variant="outline-secondary">Reset</Button>
             </div>
           </div>

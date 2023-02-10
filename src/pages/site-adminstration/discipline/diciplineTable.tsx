@@ -1,29 +1,19 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { rawData } from "./data";
 
+const DiciplineTable = ({ diciplineData }: any) => {
+  const editHandler = (id: number) => {
+    console.log(id);
+  };
 
-const dynamicTableRow = rawData.map((item, index) => (
-    <tr key={index}>
-      <td>{item.name}</td>
-      <td>{item.description}</td>
-      <td>{item.program}</td>
-      <td>
-        <span>
-          <i className={item.actions.edit}></i>
-        </span>{" "}
-        <span>
-          <i className={item.actions.delete}></i>
-        </span>{" "}
-        <span>
-          <i className={item.actions.hide}></i>
-        </span>
-      </td>
-    </tr>
-  ));
+  const deleteHandler = (id: number) => {
+    console.log(id);
+  };
 
+  const showToggleHandler = (id: number) => {
+    console.log(id);
+  };
 
-const DiciplineTable = () => {
   return (
     <>
       <div className="table-wrapper mt-3">
@@ -37,7 +27,33 @@ const DiciplineTable = () => {
             </tr>
           </thead>
           <tbody>
-            {dynamicTableRow}
+            {diciplineData.map((item: any, index: number) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.description}</td>
+                <td>{2}</td>
+                <td>
+                  <span>
+                    <i
+                      className="fa-solid fa-pen"
+                      onClick={() => editHandler(item.id)}
+                    ></i>
+                  </span>{" "}
+                  <span>
+                    <i
+                      className="fa-solid fa-trash"
+                      onClick={() => deleteHandler(item.id)}
+                    ></i>
+                  </span>{" "}
+                  <span>
+                    <i
+                      className="fa-solid fa-eye"
+                      onClick={() => showToggleHandler(item.id)}
+                    ></i>
+                  </span>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
