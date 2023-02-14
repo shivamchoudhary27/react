@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { CourseTabToggle } from "../../type/dashboard";
 import Sidebar from '../sidebar';
 import Header from '../header';
@@ -10,6 +10,11 @@ import './style.scss';
 
 function Dashboard() {
   const res = useUserinfo();
+  // const userCtx = useContext(UserContext);
+  // const [isLoading, setLoading] = useState(
+  //   userCtx.status === '200' ? 'loaded' : 'loading'
+  // );
+
   const [linkToggle, setLinkToggle] = useState<number>(1);
   const [toggleColor, setToggleColor] = useState<CourseTabToggle>({ inprogColor: '#f57f17', compltColor: '', notcompleteColor: '' });
 
@@ -52,7 +57,6 @@ function Dashboard() {
         </div>
         <DashMyCourse linkToggle={linkToggle} />
       </div>
-      {/* <Footer /> */}
     </>
   );
 }

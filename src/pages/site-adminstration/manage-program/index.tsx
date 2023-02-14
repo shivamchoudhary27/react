@@ -22,6 +22,7 @@ const ManageProgram = () => {
               <Button variant="primary" onClick={()=>navigate('/department')}>Department</Button>{' '}
               <Button variant="primary" onClick={()=>navigate('/programtype')}>Program Type</Button>{' '}
               <Button variant="primary" onClick={()=>navigate('/discipline')}>Disciplines</Button>
+              
             </div>
           </div>
           <hr />

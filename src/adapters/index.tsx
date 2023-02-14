@@ -51,7 +51,6 @@ const deleteData = (requestData : any) => {
   return instance.delete(config.REST_ENDPOINT, { params: query });
 };
 
-
 const processQuizData = (requestData : any) => {
   const query = requestData;
   let paramString = '';
