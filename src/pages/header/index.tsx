@@ -4,12 +4,14 @@ import goodbye from "../../assets/images/goodbye.png";
 import NotificationOverlay from "../../widgets/notifications";
 // import Cart from "../cartlist/Cart";
 import UserContext from "../../features/context/user/user";
+// import useUserinfo from "../../features/hooks/userinfo";
 import Dropdown from 'react-bootstrap/Dropdown';
 import "./style.scss";
 
 function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
+  // const res = useUserinfo();
   const userCtx = useContext(UserContext);
-  console.log(userCtx.userInfo.userissiteadmin);
+  // console.log(userCtx);
   const userid = userCtx.userInfo.userid ?? 0;
   const fullname = userCtx.userInfo.fullname ?? '';
   const userpictureurl = userCtx.userInfo.userpictureurl ?? '';

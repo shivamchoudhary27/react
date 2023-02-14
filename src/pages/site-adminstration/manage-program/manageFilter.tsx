@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./style.scss";
 import { Button } from "react-bootstrap";
 import ManageDropdown from "./manageDropdown";
-import { useNavigate } from "react-router-dom";
 import { ManageRawData } from "./rawData";
+import { useNavigate } from "react-router-dom";
 
 const ManageFilter = () => {
   const [inputName, setInputName] = useState("");
@@ -66,6 +66,8 @@ const ManageFilter = () => {
           <Button variant="primary" onClick={handleAddProgram}>
             Add Program
           </Button>
+          {" "}
+          <Button variant="outline-secondary" onClick={() => navigate("/siteadmin")}>Go back</Button>
         </div>
       </div>
     </>

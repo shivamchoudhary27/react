@@ -1,10 +1,12 @@
-import React from 'react'
+import React from 'react';
 import Header from '../../header'
 import Sidebar from '../../sidebar'
-import { Container } from 'react-bootstrap'
+import { Container, Button } from 'react-bootstrap'
 import AddProgramForm from './form'
+import { useNavigate } from "react-router-dom";
 
 const AddProgram = () => {
+  const navigate = useNavigate();
   return (
     <>
         <Header pageHeading="" welcomeIcon={false} />
@@ -16,6 +18,8 @@ const AddProgram = () => {
               <h3>Add Program</h3>
             </div>
           </div>
+          {" "}
+          <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
           <hr />
           <AddProgramForm />
         </div>

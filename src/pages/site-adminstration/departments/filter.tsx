@@ -1,8 +1,10 @@
 import React from "react";
 import './style.scss';
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
-const Filter = () => {
+const Filter = ({setModalShow }: any) => {
+  const navigate = useNavigate();
 
   const handleInput = (e: any) => {
     console.log(e.target.value)
@@ -28,7 +30,9 @@ const Filter = () => {
           </div>
         </div>
         <div>
-            <Button variant="primary">Add Department</Button>
+            <Button variant="primary" onClick={() => setModalShow(true)}>Add Department</Button>
+            {" "}
+            <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
         </div>
       </div>
     </>

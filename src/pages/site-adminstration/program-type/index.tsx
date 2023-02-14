@@ -4,8 +4,10 @@ import Header from "../../header";
 import Sidebar from "../../sidebar";
 import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
+import { useNavigate } from "react-router-dom";
 
 const ProgramType = () => {
+  const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   return (
     <>
@@ -22,6 +24,8 @@ const ProgramType = () => {
           <Button variant="primary" onClick={() => setModalShow(true)}>
             Add Program Type
           </Button>
+          {" "}
+          <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
           <AddProgramModal
             show={modalShow}
             onHide={() => setModalShow(false)}

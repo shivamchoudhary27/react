@@ -2,8 +2,10 @@ import React from "react";
 import "./style.scss";
 import { Button } from "react-bootstrap";
 import ProgramEnrollDropdown from "./programEnrollDropdown";
+import { useNavigate } from "react-router-dom";
 
 const ProgramEnrollFilter = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="filter-wrapper">
@@ -30,6 +32,8 @@ const ProgramEnrollFilter = () => {
               <div className="col-auto">
                 <Button variant="outline-secondary">Filter</Button>{" "}
                 <Button variant="outline-secondary">Reset</Button>
+                {" "}
+              <Button variant="outline-secondary" onClick={() => navigate("/siteadmin")}>Go back</Button>
               </div>
             </div>
           </form>

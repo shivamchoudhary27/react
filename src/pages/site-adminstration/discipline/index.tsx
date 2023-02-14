@@ -5,8 +5,10 @@ import Header from "../../header";
 import Sidebar from "../../sidebar";
 import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
+import { useNavigate } from "react-router-dom";
 
 const Discipline = () => {
+  const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   return (
     <>
@@ -23,6 +25,8 @@ const Discipline = () => {
           <Button variant="primary" onClick={() => setModalShow(true)}>
             Add Discipline
           </Button>
+          {" "}
+          <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
         </div>
         <DiciplineTable />
         <DiciplineModal show={modalShow} onHide={() => setModalShow(false)} />

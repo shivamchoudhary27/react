@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from 'axios';
 import Loader from "../../widgets/loader/loader";
 import { Container } from "react-bootstrap";
 // import logo from "../../assets/images/logo.png";
@@ -11,61 +12,59 @@ import config from "../../utils/config";
 const AuthLogin = () => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
-  const [stateUrl, setStateUrl] = useState("");
+  const [authCode, setAuthCode] = useState("");
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [items, setItems] = useState<any>({});
   const currentMethod = window.location.protocol;
   const returnUri = (currentMethod == "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
   const redirectUri = `${currentMethod}//${returnUri}`;
-  console.log(redirectUri);
 
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
-    setStateUrl(params.code);
+    setAuthCode(params.code);
   }, []);
 
   useEffect(() => {
-    if (stateUrl != "") {
+    if (authCode != "") {
+
       setTimeout(() => {
-        let URL = `http://40.114.33.183:8080/oauth2-service/oauth2/api/verifycode?code=${stateUrl}&redirect_uri=${redirectUri}`;
-        console.log(URL);
-        fetch(URL, {
-          method: "GET",
-        })
-          .then((res) => res.json())
-          .then(
-            (result) => {
-              setIsLoaded(true);
-              setItems(result);
+        const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
+        console.log(VERIFY_URL);
+        // verifyCode(VERIFY_URL);
 
-              if (result !== "") {
-                Object.entries(result).map(([el, value]: any) => {
-                  let tostring = value.toString();
-                  sessionStorage.setItem(el, tostring);
+        var requestOptions = {
+          method: 'GET',
+          redirect: 'follow'
+        };
+      
+        fetch(VERIFY_URL, requestOptions)
+          .then(response => response.json())
+          .then((result) => {
+              setIsLoaded(true);
+
+              if ('access_token' in result) {
+                Object.entries(result).map(([key, value]: any) => {
+                  value = value.toString();
+                  // console.log(value)
+                  sessionStorage.setItem(key, value);
                 });
+                config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
+                config.OAUTH2_ACCESS_TOKEN = result.access_token;
+                userCtx.setUserToken(config.WSTOKEN);
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Login Successful",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/dashboard");         
               }
-
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Login Successful",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
-              userCtx.setUserToken(config.WSTOKEN);
-              navigate("/dashboard");
-            },
-            (error) => {
-              setIsLoaded(true);
-              setError(error);
-            }
-          );
-      }, 3000);
+          }).catch(error => console.log('error', error));
+      }, 2000);
     }
-  }, [stateUrl]);
+  }, [authCode]);
 
   const loaderStyle = {
     display: "flex",
@@ -92,3 +91,20 @@ const AuthLogin = () => {
 };
 
 export default AuthLogin;
+
+const verifyCode = (verifyUrl : string) => {
+  const config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: verifyUrl,
+    headers: {}
+  };
+
+  axios(config)
+    .then(response => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

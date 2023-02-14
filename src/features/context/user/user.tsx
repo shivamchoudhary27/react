@@ -14,11 +14,12 @@ const UserContext = React.createContext({
   status: "",
   token: "",
   isLoggedIn: false,
-  userInfo: {fullname: string, userid: string, userpictureurl: string, userissiteadmin: false},
+  userInfo: {fullname: string, userid: string, userpictureurl: string, userrole: false},
   role: "",
   setUserStatus: (status: number) => {},
   logout: () => {},
   setUserToken: (token: any) => {},
+  // setAuthAcessToekn: (token: string) => {},
   setUserInfo: (data: any) => {}
 });
 const UserInfoData = {
@@ -46,7 +47,7 @@ export const UserContextProvider = (props: { children: any}) => {
   const [userInfo, setUserInfo] = React.useState<any>(
     UserInfoData.userid && UserInfoData.fullname && UserInfoData.userpictureurl && UserInfoData.userrole
       ? UserInfoData
-      : null
+      : UserInfoData
   );
   const [status, setStatus] = React.useState<number>(0);
   // set User logged in detail (boolean)
@@ -69,7 +70,7 @@ export const UserContextProvider = (props: { children: any}) => {
     setToken(null);
     setStatus(0);
     setUserInfo(null);
-    config.WSTOKEN = null;
+    config.WSTOKEN = '';
     localStorage.removeItem("token");
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("fullname");

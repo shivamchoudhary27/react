@@ -1,8 +1,10 @@
 import React from "react";
 import "./style.scss";
 import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const UserFilter = () => {
+  const navigate = useNavigate();
   const handleInput = (e: any) => {
     console.log(e.target.value);
   };
@@ -38,7 +40,9 @@ const UserFilter = () => {
           <div className="site-button-group">
             <Button variant="primary">Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
-            <Button variant="primary">Add Users</Button>
+            <Button variant="primary">Add Users</Button>{" "}
+            <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
+
           </div>
         </div>
       </div>

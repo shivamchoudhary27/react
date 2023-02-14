@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar, Container, Button } from "react-bootstrap";
+import config from "../../utils/config";
 import logo from "../../assets/images/logo.png";
 import "./home.scss";
 
@@ -9,7 +10,7 @@ const Home = () => {
   const currentMethod = window.location.protocol;
   const returnUri = (currentMethod == "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
   const redirectUri = `${currentMethod}//${returnUri}`;
-  const oAuthUrl = `http://40.114.33.183:8080/oauth2-service/oauth2/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
+  const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   console.log(oAuthUrl);
   
   const dashStyle = {
@@ -34,7 +35,7 @@ const Home = () => {
             </div>
             <div>
               <h1>
-                Welcome to <span>Ballistic Learning Pvt. Ltd</span>
+                Welcome to <span>Ballistic University Premium</span>
               </h1>
               <p>
                 Ballistic Academy is a hybrid learning platform that uses FLIP
