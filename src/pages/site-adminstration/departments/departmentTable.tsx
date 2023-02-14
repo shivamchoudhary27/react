@@ -1,83 +1,107 @@
 import React, { useState, useMemo } from "react";
+import { deleteData as deleteDepartmentData } from "../../../adapters/microservices";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 
-const data = [
-  {
-    name: "Computer Department",
-    program: 2,
+// Actions btns styling === >>>
+const actionsStyle = {
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+};
 
-  },
-  {
-    name: "Science Department",
-    program: 3,
+const DepartmentTable = ({
+  departmentData,
+  editHandlerById,
+  toggleModalShow,
+  refreshDepartmentData,
+}: any) => {
+  // custom react table Column === >>>
+  const tableColumn = [
+    {
+      Header: "Department",
+      accessor: "name",
+    },
+    {
+      Header: "No of Programs",
+      Cell: () => {
+        <span>{2}</span>;
+      },
+    },
+    {
+      Header: "Manage Programs",
+      Cell: ({ row }: any) => {
+        <Link to="">
+          <i
+            className="fa-solid fa-pen"
+            onClick={() =>
+              console.log(`Navigate to setting page. Id - ${row.id}`)
+            }
+          ></i>
+        </Link>;
+      },
+    },
+    {
+      Header: "Actions",
+      Cell: ({ row }: any) => (
+        <span style={actionsStyle}>
+          <Link to="">
+            <i
+              className="fa-solid fa-pen"
+              onClick={() =>
+                editHandler({ id: row.original.id, name: row.original.name })
+              }
+            ></i>
+          </Link>
+          <Link to="">
+            <i
+              className="fa-solid fa-trash"
+              onClick={() => deleteHandler(row.original.id)}
+            ></i>
+          </Link>
+          <Link to="">
+            <i
+              className="fa-solid fa-eye"
+              onClick={() => showToggleHandler(row.original.id)}
+            ></i>
+          </Link>
+        </span>
+      ),
+    },
+  ];
 
-  },
-  {
-    name: "Physics Department",
-    program: 5,
+  // react table custom variable decleration === >>>
+  const columns = useMemo(() => tableColumn, []);
+  const data = useMemo(() => departmentData, [departmentData]);
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    });
 
-  },
-];
-
-// const tableColumn = [
-//   {
-//     Header: "Department",
-//     accessor: "name",
-//   },
-//   {
-//     Header: "No of Programs",
-//     accessor: "",
-//   },
-//   {
-//     Header: "Manage Programs",
-//     accessor: "",
-//   },
-//   {
-//     Header: "Actions",
-//     Cell: ({ row }: any) => (
-//       <span>
-//         <Link to="">
-//           <i
-//             className="fa-solid fa-pen"
-//             onClick={() => editHandler(row.id)}
-//           ></i>
-//         </Link>{" "}
-//         <Link to="">
-//           <i
-//             className="fa-solid fa-trash"
-//             onClick={() => deleteHandler(row.id)}
-//           ></i>
-//         </Link>{" "}
-//         <Link to="">
-//           <i
-//             className="fa-solid fa-eye"
-//             onClick={() => showToggleHandler(row.id)}
-//           ></i>
-//         </Link>
-//       </span>
-//     ),
-//   },
-// ];
-
-const DepartmentTable = ({ departmentData }: any) => {
-  // const columns = useMemo(() => tableColumn, []);
-  // const data = useMemo(() => departmentData, [departmentData]);
-  // const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-  //   useTable({
-  //     columns,
-  //     data,
-  //   });
-
-  const editHandler = (id: number) => {
-    console.log(id);
+  // edit event handler === >>>
+  const editHandler = ({ id, name }: any) => {
+    toggleModalShow(true);
+    editHandlerById({ id, name });
+    refreshDepartmentData(false);
   };
-  
+
+  // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    console.log(id);
+    const confirmBox = confirm("You want to delete");
+    if (confirmBox === true) {
+      let endPoint = `/departments/${id}`;
+      refreshDepartmentData(false);
+      deleteDepartmentData(endPoint).then((res) => {
+        if (res.data !== "" && res.status === 200) {
+          refreshDepartmentData(true);
+        }
+      });
+    }
   };
-  
+
+  // hide show toggle event handler === >>>
   const showToggleHandler = (id: number) => {
     console.log(id);
   };
@@ -85,9 +109,9 @@ const DepartmentTable = ({ departmentData }: any) => {
   return (
     <>
       <div className="table-wrapper mt-5">
-        <Table bordered hover>
+        <Table bordered hover {...getTableProps}>
           <thead>
-            {/* {headerGroups.map((headerGroup) => (
+            {headerGroups.map((headerGroup) => (
               <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <th {...column.getHeaderProps()}>
@@ -95,17 +119,11 @@ const DepartmentTable = ({ departmentData }: any) => {
                   </th>
                 ))}
               </tr>
-            ))} */}
-            <tr>
-              <th>Department</th>
-              <th>No of Programs</th>
-              <th>Manage Programs</th>
-              <th>Actions</th>
-            </tr>
+            ))}
           </thead>
 
-          <tbody>
-            {/* {rows.map((row, index) => {
+          <tbody {...getTableBodyProps}>
+            {rows.map((row, index) => {
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>
@@ -114,41 +132,7 @@ const DepartmentTable = ({ departmentData }: any) => {
                   ))}
                 </tr>
               );
-            })} */}
-
-            {data.map((item: any, index: number) => (
-              <tr key={index}>
-                <td>
-                  <i className="fa-solid fa-cubes"></i> {item.name}
-                </td>
-                <td>{2}</td>
-                <td>
-                  <Link to="/manageprogram">
-                    <i className="fa-solid fa-gear"></i>
-                  </Link>
-                </td>
-                <td>
-                  <span>
-                    <i
-                      className="fa-solid fa-pen"
-                      onClick={() => editHandler(item.id)}
-                    ></i>
-                  </span>{" "}
-                  <span>
-                    <i
-                      className="fa-solid fa-trash"
-                      onClick={() => deleteHandler(item.id)}
-                    ></i>
-                  </span>{" "}
-                  <span>
-                    <i
-                      className="fa-solid fa-eye"
-                      onClick={() => showToggleHandler(item.id)}
-                    ></i>
-                  </span>
-                </td>
-              </tr>
-            ))}
+            })}
           </tbody>
         </Table>
       </div>

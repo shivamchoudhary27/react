@@ -20,15 +20,9 @@ const AddProgram = () => {
             <div className="site-heading">
               <h3>Add Program</h3>
             </div>
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate("/manageprogram")}
-            >
-              Go back
-            </Button>
+            <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
           </div>
           {" "}
-          <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
           <hr />
           <AddProgramForm />
         </div>

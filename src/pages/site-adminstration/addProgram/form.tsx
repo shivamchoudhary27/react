@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Formik, Field, Form } from "formik";
 import { Button } from "react-bootstrap";
 import { Schemas } from "./schemas";
+import { getData as getName } from "../../../adapters/microservices";
 
 const initialValues = {
   department: "",
   programName: "",
   programCode: "",
-  radio: "",
-  select: "",
+  programtype: "",
+  discipline: "",
   batchYear: "",
   mode: "",
   duration: "",
@@ -19,36 +20,89 @@ const initialValues = {
   learn: "",
   metatitle: "",
   metadescription: "",
-  programinclude: [],
+  // programinclude: [],
 };
 
+const addInputField = [
+  [
+    {
+      type: "text",
+      id: 1,
+      value: "",
+    },
+    {
+      type: "textarea",
+      id: 2,
+      value: "",
+    },
+  ],
+];
+
 const AddProgramForm = () => {
+  const [inputFieldArr, setinputFieldArr] = useState(addInputField);
+  const [departmentName, setDepartmentName] = useState<any>([]);
+  const [disciplineName, setDisciplineName] = useState<any>([]);
+
+  const addFieldHandler = () => {
+    setinputFieldArr((el: any) => {
+      return [...el, inputFieldArr];
+    });
+  };
+
+  useEffect(() => {
+    const endPoint = "/departments";
+    const endPoint2 = "/disciplines";
+    getName(endPoint).then((res) => {
+      if (res.data != "" && res.status === 200) {
+        setDepartmentName(res.data);
+      }
+    });
+    getName(endPoint2).then((res) => {
+      if (res.data != "" && res.status === 200) {
+        setDisciplineName(res.data);
+      }
+    });
+  }, []);
+
+  const removeBlockHandler = () => {
+    if(inputFieldArr.length > 1){
+      inputFieldArr.pop();
+    }
+  }
+
   return (
     <>
       <div>
         <Formik
           initialValues={initialValues}
           validationSchema={Schemas}
-          onSubmit={(values, action) => {
+          onSubmit={(values, { setSubmitting, resetForm }) => {
             console.log(values);
-            action.resetForm();
+            setSubmitting(false);
+            resetForm();
           }}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
-                <label htmlFor="department">Department</label>
+                <label htmlFor="programCode">Department</label>
                 <Field
-                  id="department"
+                  as="select"
                   name="department"
-                  placeholder="Department"
+                  placeholder="Select Options"
                   className="form-control"
-                />
+                >
+                  <option defaultValue="selectoption">Select option</option>
+                  {departmentName.map((el: any, index: number) => (
+                    <option value={el.name} key={index}>
+                      {el.name}
+                    </option>
+                  ))}
+                </Field>
                 {errors.department && touched.department ? (
-                  <p className="error-message">Please Enter Department</p>
+                  <p className="error-message">Please department Option</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
                 <label htmlFor="programName">Program Name</label>
                 <Field
@@ -61,7 +115,6 @@ const AddProgramForm = () => {
                   <p className="error-message">Please Enter Program Name</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
                 <label htmlFor="programCode">Program Code</label>
                 <Field
@@ -76,12 +129,23 @@ const AddProgramForm = () => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="programType">ProgramType</label>
-                <Field type="radio" name="radio" value="certificate"></Field>
-                <Field type="radio" name="radio" value="ugrad"></Field>
-                <Field type="radio" name="radio" value="pgrad"></Field>
-                {errors.programCode && touched.programCode ? (
-                  <p className="error-message">Please Enter Program Type</p>
+                <label htmlFor="programType" className="d-block">
+                  ProgramType
+                </label>
+                <label className="mx-2">
+                  <Field type="radio" name="programtype" value="certificate" />{" "}
+                  Certificate
+                </label>
+                <label className="mx-2">
+                  <Field type="radio" name="programtype" value="ugrad" /> Under
+                  Graduate
+                </label>
+                <label className="mx-2">
+                  <Field type="radio" name="programtype" value="pgrad" /> Post
+                  Graduate
+                </label>
+                {errors.programtype && touched.programtype ? (
+                  <p className="error-message">Please select Program Type</p>
                 ) : null}
               </div>
 
@@ -97,33 +161,33 @@ const AddProgramForm = () => {
                   <p className="error-message">Batch Year must in Number</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
-                <label htmlFor="programCode">Discipline</label>
-                <Field
-                  component="select"
-                  name="select"
-                  placeholder="Select Options"
-                  className="form-control"
-                >
+                <label htmlFor="discipline">Discipline</label>
+                <Field as="select" name="discipline" className="form-control">
                   <option defaultValue="selectoption">Select option</option>
-                  <option value="opt1">Option 1</option>
-                  <option value="opt2">Option 2</option>
-                  <option value="opt3">Option 3</option>
-                  <option value="opt4">Option 4</option>
-                  <option value="opt5">Option 5</option>
+                  {disciplineName.map((el: any, index: number) => (
+                    <option value={el.name} key={index}>
+                      {el.name}
+                    </option>
+                  ))}
                 </Field>
-                {errors.select && touched.select ? (
-                  <p className="error-message">Please Select Option</p>
+                {errors.discipline && touched.discipline ? (
+                  <p className="error-message">Please discipline Option</p>
                 ) : null}
               </div>
 
               <div className="mb-3">
-                <label htmlFor="mode">Mode Of Stydy</label>
-                <Field type="radio" name="mode" value="full_time"></Field>
-                <Field type="radio" name="mode" value="part_time"></Field>
+                <label htmlFor="mode" className="d-block">
+                  Mode Of Stydy
+                </label>
+                <label className="mx-2">
+                  <Field type="radio" name="mode" value="full_time" /> Full Time
+                </label>
+                <label className="mx-2">
+                  <Field type="radio" name="mode" value="part_time" /> Part Time
+                </label>
                 {errors.mode && touched.mode ? (
-                  <p className="error-message">Please Enter Program Type</p>
+                  <p className="error-message">Please select Program mode</p>
                 ) : null}
               </div>
 
@@ -139,7 +203,6 @@ const AddProgramForm = () => {
                   <p className="error-message">Duration must in Number</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
                 <label htmlFor="requirement">Requirement</label>
                 <Field
@@ -153,7 +216,6 @@ const AddProgramForm = () => {
                   <p className="error-message">Please enter requirement</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
                 <label htmlFor="description">Description</label>
                 <Field
@@ -167,7 +229,6 @@ const AddProgramForm = () => {
                   <p className="error-message">Please enter description</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
                 <label htmlFor="programcontent">Program Content</label>
                 <Field
@@ -181,7 +242,6 @@ const AddProgramForm = () => {
                   <p className="error-message">Please enter programcontent</p>
                 ) : null}
               </div>
-
               <div className="mb-3">
                 <label htmlFor="learn">What you will learn</label>
                 <Field
@@ -198,34 +258,43 @@ const AddProgramForm = () => {
 
               <label htmlFor="metatitle">Program meta Fields</label>
               <div className="card p-3 mb-3">
-                <div className="mb-3">
-                  <Field
-                    id="metatitle"
-                    name="metatitle"
-                    placeholder="Title"
-                    className="form-control"
-                  />
-                  {errors.metatitle && touched.metatitle ? (
-                    <p className="error-message">Please enter Title</p>
-                  ) : null}
-                </div>
+                {inputFieldArr.map((item) => {
+                  return (
+                    <>
+                      <div className="mb-3">
+                        <Field
+                          name="metatitle"
+                          placeholder="Title"
+                          className="form-control"
+                        />
+                        {errors.metatitle && touched.metatitle ? (
+                          <p className="error-message">Please enter Title</p>
+                        ) : null}
+                      </div>
 
-                <div className="mb-3">
-                  <Field
-                    id="metadescription"
-                    name="metadescription"
-                    component="textarea"
-                    placeholder="Description"
-                    className="form-control"
-                  />
-                  {errors.metadescription && touched.metadescription ? (
-                    <p className="error-message">Please enter Description</p>
-                  ) : null}
-                </div>
+                      <div className="mb-3">
+                        <Field
+                          name="metadescription"
+                          as={"textarea"}
+                          placeholder="Description"
+                          className="form-control"
+                        />
+                        {errors.metadescription && touched.metadescription ? (
+                          <p className="error-message">
+                            Please enter Description
+                          </p>
+                        ) : null}
+                      </div>
+                    </>
+                  );
+                })}
 
-                <Button className="primary" style={{ width: "120px" }}>
-                  + Add more
-                </Button>
+                <div>
+                  <Button className="primary" onClick={addFieldHandler}>
+                    + Add more
+                  </Button>{" "}
+                  <Button variant="outline-secondary" onClick={removeBlockHandler}>Remove</Button>
+                </div>
               </div>
 
               <label htmlFor="programinclude">This program include</label>
@@ -272,8 +341,11 @@ const AddProgramForm = () => {
                 ) : null}
               </div>
 
-              <Button type="submit" className="primary">
+              <Button type="submit" className="primary" disabled={isSubmitting}>
                 Submit
+              </Button>{" "}
+              <Button variant="outline-secondary" type="reset">
+                Reset
               </Button>
             </Form>
           )}

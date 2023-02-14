@@ -1,48 +1,92 @@
 import React, { useState, useEffect } from "react";
-import "./style.scss";
+import { getData as getDiciplinesData } from "../../../adapters/microservices";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
 import { useNavigate } from "react-router-dom";
+import "./style.scss";
 
 const Discipline = () => {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [diciplineData, setDiciplineData] = useState<any>([]);
+  const [disciplineObj, setDisciplineObj] = useState({});
+  const [refreshData, setRefreshData] = useState(true);
 
-  const token =
-    "eyJraWQiOiJmNzczNzliNS0zZTY3LTQyM2ItYTQwZS1mNTIwN2I4ZDNhNDMiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJhbG9rIiwiaXNzIjoiaHR0cDovLzEyNy4wLjAuMTo4MDgwL29hdXRoMi1zZXJ2aWNlIiwibGFzdF9uYW1lIjoiS3VtYXIiLCJsb2NhbGUiOiJlbiIsImF1ZCI6Im1vb2RsZSIsIm5iZiI6MTY3NTk0MDcwOSwic2NvcGUiOlsib3BlbmlkIl0sIm5hbWUiOiJhbG9rIiwiZXhwIjoxNjc4OTQwNzA5LCJpYXQiOjE2NzU5NDA3MDksImZpcnN0X25hbWUiOiJBbG9rIiwiZW1haWwiOiJhbG9rQGdtYWlsLmNvbSJ9.QEuWM3yznkXPkgMSnxhBjJDP0tnhH7dQoAln6YBNi-sq8JshPTS976TZzwDEWGk6u2du4-FOS__cN5paYuGGGyc3oOz0zQ518NQfsdMuAWfyzym3nfH65IjjuClygoKD-J4hZ6Zzdw-0NkI7dopXquIjXRUm38PL7Ik7EOQiaZ0JneNo5jbq9HqfigfDXFHb6qqC8Xvzyr_6zs6Dlg_x5EZ3f9AbIuA9MIclQTGOvBS95Eqy6dgnJ9Fu5VtX6O7UDxEZ4ISthLKEmH5nfXXa97P6WywHhV4Hszha8H4-IU2cA6rOD3xdqJvGHM8K-te566IMlEi6dCe-mSXWgZPtxA";
-
-  const myHeaders = new Headers({
-    Accept: "*/*",
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  });
-
+  // discipline API call === >>>
   useEffect(() => {
-    apiCall();
-  }, []);
+    if (refreshData === true) {
+      const endPoint = "/disciplines";
+      getDiciplinesData(endPoint)
+        .then((result) => {
+          if (result.data !== "" && result.status === 200) {
+            setDiciplineData(result.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [refreshData]);
 
-  const apiCall = async () => {
-    const res = await fetch(
-      "http://40.114.33.183:8081/learning-service/api/v1/disciplines",
-      {
-        headers: myHeaders,
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setDiciplineData(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return res;
+  // get id, name from discipline table === >>>
+  const editHandlerById = ({ id, name, description }: any) => {
+    setDisciplineObj({ id: id, name: name, description: description });
   };
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
+
+  // handle refresh react table after SAVE data  === >>>
+  const refreshDisciplineData = (status: boolean) => {
+    setRefreshData(status);
+  };
+
+  // handle to open Add Discipline modal === >>>
+  const openAddDiscipline = () => {
+    toggleModalShow(true);
+    setDisciplineObj({ id: 0, name: "", description: "" });
+    setRefreshData(false);
+  };
+
+  // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
+  const DISCIPLINE_TABLE_COMPONENT = (
+    <DiciplineTable
+      diciplineData={diciplineData}
+      editHandlerById={editHandlerById}
+      toggleModalShow={toggleModalShow}
+      refreshDisciplineData={refreshDisciplineData}
+    />
+  );
+
+  const DISCIPLINE_MODAL_COMPONENT = (
+    <DiciplineModal
+      show={modalShow}
+      onHide={() => setModalShow(false)}
+      togglemodalshow={toggleModalShow}
+      disciplineobj={disciplineObj}
+      refreshDisciplineData={refreshDisciplineData}
+    />
+  );
+
+  const DISCIPLINE_BUTTONS = (
+    <div>
+      <Button variant="primary" onClick={openAddDiscipline}>
+        Add Discipline
+      </Button>{" "}
+      <Button
+        variant="outline-secondary"
+        onClick={() => navigate("/manageprogram")}
+      >
+        Go back
+      </Button>
+    </div>
+  );
+  // <<< ==== END COMPONENTS ==== >>>
 
   return (
     <>
@@ -59,20 +103,10 @@ const Discipline = () => {
             </div>
           </div>
           <hr />
-          <Button variant="primary" onClick={() => setModalShow(true)}>
-            Add Discipline
-          </Button>{" "}
-          <Button
-            variant="outline-secondary"
-            onClick={() => navigate("/manageprogram")}
-          >
-            Go back
-          </Button>
-          {" "}
-          <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
+          {DISCIPLINE_BUTTONS}
         </div>
-        <DiciplineTable diciplineData={diciplineData} />
-        <DiciplineModal show={modalShow} onHide={() => setModalShow(false)} />
+        {DISCIPLINE_TABLE_COMPONENT}
+        {DISCIPLINE_MODAL_COMPONENT}
       </Container>
     </>
   );

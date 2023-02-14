@@ -26,17 +26,27 @@ const tableColumn = [
     accessor: "actions",
     Cell: ({ row }: any) => (
       <span>
-        <Link to=""><i className={row.values.actions.edit}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.delete}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.hide}></i></Link>
+        <Link to=""><i className={row.values.actions.edit} onClick={()=>editHandler(row.id)}></i></Link>{" "}
+        <Link to=""><i className={row.values.actions.delete} onClick={()=>deleteHandler(row.id)}></i></Link>{" "}
+        <Link to=""><i className={row.values.actions.hide} onClick={()=>showToggleHandler(row.id)}></i></Link>
       </span>
     ),
   },
 ];
 
+const editHandler = (id: number) => {
+  console.log(id)
+}
+const deleteHandler = (id: number) => {
+  console.log(id)
+}
+const showToggleHandler = (id: number) => {
+  console.log(id)
+}
+
 const UsersTable = () => {
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => usersRawData, []);
+  const data = useMemo(() => usersRawData, [usersRawData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -59,6 +69,7 @@ const UsersTable = () => {
           </thead>
           <tbody {...getTableBodyProps()}>
             {rows.map((row, index) => {
+              console.log(row)
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()}>

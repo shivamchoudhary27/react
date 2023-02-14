@@ -1,46 +1,89 @@
 import React, { useState, useEffect } from "react";
-import "./style.scss";
+import { getData as getDepartmentsData } from "../../../adapters/microservices";
 import { Container } from "react-bootstrap";
-import config from "../../../utils/config";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentPagination from "./pagination";
 import DepartmentModal from "./departmentModal";
+import "./style.scss";
 
 const Departments = () => {
   const [departmentData, setDepartmentData] = useState<any>([]);
   const [modalShow, setModalShow] = useState(false);
+  const [departmentObj, setDepartmentObj] = useState({});
+  const [refreshData, setRefreshData] = useState(true);
 
-  const myHeaders = new Headers({
-    Accept: "*/*",
-    Authorization: `Bearer ${config.OAUTH2_ACCESS_TOKEN}`,
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  });
+  // department API call === >>>
+  useEffect(() => {
+    if (refreshData === true) {
+      const endPoint = "/departments";
+      getDepartmentsData(endPoint)
+        .then((result) => {
+          if (result.data !== "" && result.status === 200) {
+            setDepartmentData(result.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [refreshData]);
 
-  const apiCall = async () => {
-    const res = await fetch(
-      "http://40.114.33.183:8081/learning-service/api/v1/departments",
-      {
-        headers: myHeaders,
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        setDepartmentData(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    return res;
+  // get id, name from the department table === >>>
+  const editHandlerById = ({ id, name }: any) => {
+    setDepartmentObj({ id: id, name: name });
   };
 
-  useEffect(() => {
-    apiCall();
-  }, []);
+  // handle reset Form after SAVE data === >>>
+  const resetDepartmentForm = () => {
+    setDepartmentObj({id: 0, name: ''});
+    setRefreshData(false);
+  };
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
+
+  // handle refresh react table after SAVE data  === >>>
+  const refreshDepartmentData = (status: boolean) => {
+    setRefreshData(status);
+  };
+
+  // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
+  const DEPARTMENT_FILTER_COMPONENT = (
+    <Filter
+      departmentData={departmentData}
+      toggleModalShow={toggleModalShow}
+      resetDepartmentForm={resetDepartmentForm}
+      setDepartmentData={setDepartmentData}
+      refreshDepartmentData={refreshDepartmentData}
+    />
+  );
+
+  const DEPARTMENT_TABLE_COMPONENT = (
+    <DepartmentTable
+      departmentData={departmentData}
+      editHandlerById={editHandlerById}
+      toggleModalShow={toggleModalShow}
+      refreshDepartmentData={refreshDepartmentData}
+    />
+  );
+
+  const DEPARTMENT_PAGINATION_COMPONENT = <DepartmentPagination />;
+
+  const DEPARTMENT_MODAL_COMPONENT = (
+    <DepartmentModal
+      show={modalShow}
+      onHide={() => toggleModalShow(false)}
+      departmentobj={departmentObj}
+      togglemodalshow={toggleModalShow}
+      refreshdepartmentdata={refreshDepartmentData}
+    />
+  );
+  // <<< ==== END COMPONENTS ==== >>>
 
   return (
     <>
@@ -57,10 +100,10 @@ const Departments = () => {
             </div>
           </div>
           <hr />
-          <Filter setModalShow={setModalShow} />
-          <DepartmentTable departmentData={departmentData} />
-          <DepartmentPagination />
-          <DepartmentModal show={modalShow} onHide={() => setModalShow(false)} />
+          {DEPARTMENT_FILTER_COMPONENT}
+          {DEPARTMENT_TABLE_COMPONENT}
+          {DEPARTMENT_PAGINATION_COMPONENT}
+          {DEPARTMENT_MODAL_COMPONENT}
         </div>
       </Container>
     </>

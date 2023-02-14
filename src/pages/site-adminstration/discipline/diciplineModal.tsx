@@ -1,29 +1,96 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Field, Form } from "formik";
+import {
+  postData as addDisciplineData,
+  putData as putDesciplineData,
+} from "../../../adapters/microservices";
 import * as Yup from "yup";
 
+// Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
   name: Yup.string().min(3).max(25).required("Please Enter Name"),
   description: Yup.string().max(100).required("Please Enter Address"),
 });
 
+const DiciplineModal = ({
+  disciplineobj,
+  togglemodalshow,
+  refreshDisciplineData,
+  show,
+  onHide,
+}: any) => {
+
+  // Initial values of react table === >>>
 const initialValues = {
-  name: "",
-  description: "",
+  name: disciplineobj.name,
+  description: disciplineobj.description,
 };
 
-const DiciplineModal = (props: any) => {
+console.log(disciplineobj.name)
+
+  // custom Obj & handle form data === >>>
+  let formTitles = {
+    btnTitle: "",
+    titleHeading: "",
+  };
+  if (disciplineobj.id === 0) {
+    formTitles = {
+      btnTitle: "Save",
+      titleHeading: "Add Discipline",
+    };
+  } else {
+    formTitles = {
+      btnTitle: "Update",
+      titleHeading: "Update Discipline",
+    };
+  }
+
+  // handle Form CRUD operations === >>>
+  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    let endPoint = "/disciplines";
+    setSubmitting(true);
+    if (disciplineobj.id === 0) {
+      addDisciplineData(endPoint, values)
+        .then((res) => {
+          if(res.data !== ""){
+            togglemodalshow(false);
+            refreshDisciplineData(true);
+            setSubmitting(false);
+            resetForm();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      endPoint += `/${disciplineobj.id}`;
+      putDesciplineData(endPoint, values)
+        .then((res) => {
+          console.log(values, res)
+          if(res.data !== "" && res.status === 200){
+            togglemodalshow(false);
+            refreshDisciplineData(true);
+            setSubmitting(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   return (
     <Modal
-      {...props}
+      show={show}
+      onHide={onHide}
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add Dicipline
+          {formTitles.titleHeading}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -31,11 +98,11 @@ const DiciplineModal = (props: any) => {
           initialValues={initialValues}
           validationSchema={diciplineSchema}
           onSubmit={(values, action) => {
-            console.log(values);
+            handleFormData(values, action);
             action.resetForm();
           }}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
                 <Field
@@ -62,10 +129,12 @@ const DiciplineModal = (props: any) => {
                 ) : null}
               </div>
               <div className="text-center">
-                <Button variant="primary" type="submit">
-                  Save
+                <Button variant="primary" type="submit" disabled={isSubmitting}>
+                  {formTitles.btnTitle}
                 </Button>{" "}
-                <Button variant="outline-secondary">Reset</Button>
+                {formTitles.btnTitle === "Save" && (
+                  <Button variant="outline-secondary">Reset</Button>
+                )}
               </div>
             </Form>
           )}

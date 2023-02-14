@@ -20,12 +20,12 @@ export const getData = (endPoint: string) => {
 
 export const postData = (endPoint: string, requestData: any) => {
     const data = requestData;
-    return instance.post(endPoint, { data });
+    return instance.post(endPoint, data);
 };
 
 export const putData = (endPoint: string, requestData: any) => {
     const data = requestData;
-    return instance.put(endPoint, { data });
+    return instance.put(endPoint, data);
 };
 
 export const deleteData = (endPoint: string) => {
