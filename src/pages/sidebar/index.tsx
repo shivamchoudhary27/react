@@ -114,6 +114,12 @@ function Sidebar() {
             </Menuitem>          
           {/* } */}
           <Menuitem>
+              <Link id="" to="/studentdashboard">
+                <i className="fa fa-gear degree-icon" />
+                Student Dashboard 
+              </Link>
+            </Menuitem> 
+          <Menuitem>
             <Link id="" to="/calender">
               <i className="fa-solid fa-calendar-days degree-icon" />
               Calendar 
