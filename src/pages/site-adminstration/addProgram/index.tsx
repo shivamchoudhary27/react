@@ -9,23 +9,26 @@ const AddProgram = () => {
   const navigate = useNavigate();
   return (
     <>
-        <Header pageHeading="" welcomeIcon={false} />
-        <Sidebar />
-        <Container fluid>
-        <div className="contents" style={{paddingLeft: '270px', marginTop: '70px'}}>
+      <Header pageHeading="" welcomeIcon={false} />
+      <Sidebar />
+      <Container fluid>
+        <div
+          className="contents"
+          style={{ paddingLeft: "270px", marginTop: "70px" }}
+        >
           <div className="container-wrapper">
             <div className="site-heading">
               <h3>Add Program</h3>
             </div>
+            <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
           </div>
           {" "}
-          <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
           <hr />
           <AddProgramForm />
         </div>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default AddProgram
+export default AddProgram;

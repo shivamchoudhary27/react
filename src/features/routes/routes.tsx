@@ -25,6 +25,7 @@ import ProgramEnrollment from '../../pages/site-adminstration/program-enrollment
 import ManageCategory from '../../pages/site-adminstration/manage-category';
 import ManageCourses from '../../pages/site-adminstration/manage-courses';
 import ReactBigCalendar from '../../pages/calender';
+import Preview from '../../pages/site-adminstration/manage-program/preview';
 
 export default function CustomRoutes() {
 
@@ -39,6 +40,7 @@ export default function CustomRoutes() {
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/siteadmin" element={<SiteAdminHome />} />
+          <Route path='/preview' element={<Preview />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
           <Route path="/managecategory" element={<ManageCategory />} />
           <Route path="/managecourses" element={<ManageCourses />} />

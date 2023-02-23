@@ -19,18 +19,28 @@ const tableColumn = [
     Cell: ({ row }: any) => (
       <span>
         <Link to="">
-          <i className="fa-solid fa-pen"></i>
+          <i className="fa-solid fa-pen" onClick={() => editHandler(row.id)}></i>
         </Link>{" "}
         <Link to="">
-          <i className="fa-solid fa-trash"></i>
+          <i className="fa-solid fa-trash" onClick={() => deleteHandler(row.id)}></i>
         </Link>{" "}
         <Link to="">
-          <i className="fa-solid fa-eye"></i>
+          <i className="fa-solid fa-eye" onClick={() => showToggleHandler(row.id)}></i>
         </Link>
       </span>
     ),
   },
 ];
+
+const editHandler = (id: number) => {
+  console.log(id)
+}
+const deleteHandler = (id: number) => {
+  console.log(id)
+}
+const showToggleHandler = (id: number) => {
+  console.log(id)
+}
 
 const CoursesTable = () => {
   const [selectedCourses, setSelectedCourses] = useState<any>(CoursesRawData);
@@ -74,6 +84,7 @@ const CoursesTable = () => {
                   {...getTableBodyProps()}
                 >
                   {rows.map((row, index) => {
+                    console.log(row)
                     prepareRow(row);
                     return (
                       <Draggable

@@ -14,6 +14,22 @@ const tableColumn = [
   {
     Header: "Categories",
     accessor: "categories",
+    Cell: ({ row }: any) => {
+      return (
+        <p
+          style={{
+            paddingLeft:
+              row.values.categories === "Semester 1"
+                ? "30px"
+                : "0px" && row.values.categories === "Semester 2"
+                ? "30px"
+                : "0px",
+          }}
+        >
+          {row.values.categories}
+        </p>
+      );
+    },
   },
   {
     Header: "Add Sub category",
@@ -34,18 +50,37 @@ const tableColumn = [
     Cell: ({ row }: any) => (
       <span>
         <Link to="">
-          <i className={row.values.actions.edit}></i>
+          <i
+            className={row.values.actions.edit}
+            onClick={() => editHandler(row.id)}
+          ></i>
         </Link>{" "}
         <Link to="">
-          <i className={row.values.actions.delete}></i>
+          <i
+            className={row.values.actions.delete}
+            onClick={() => deleteHandler(row.id)}
+          ></i>
         </Link>{" "}
         <Link to="">
-          <i className={row.values.actions.hide}></i>
+          <i
+            className={row.values.actions.hide}
+            onClick={() => showToggleHandler(row.id)}
+          ></i>
         </Link>
       </span>
     ),
   },
 ];
+
+const editHandler = (id: number) => {
+  console.log(id);
+};
+const deleteHandler = (id: number) => {
+  console.log(id);
+};
+const showToggleHandler = (id: number) => {
+  console.log(id);
+};
 
 const CategoryTable = () => {
   const [selectedData, setSelectedData] = useState<any>(CategoryRawData);
@@ -58,7 +93,7 @@ const CategoryTable = () => {
     });
 
   const handleDragEnd = (results: any) => {
-    if(!results.destination) return;
+    if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
@@ -89,6 +124,7 @@ const CategoryTable = () => {
                   {...getTableBodyProps()}
                 >
                   {rows.map((row, index) => {
+                    console.log(row);
                     prepareRow(row);
                     return (
                       <Draggable

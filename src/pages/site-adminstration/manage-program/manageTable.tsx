@@ -58,6 +58,9 @@ const tableColumn = [
         <Link to="">
           <i className={row.values.actions.hide}></i>
         </Link>
+        <Link to="/preview">
+          <i>View</i>
+        </Link>
       </span>
     ),
   },
