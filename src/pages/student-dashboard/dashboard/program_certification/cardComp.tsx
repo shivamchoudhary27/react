@@ -17,7 +17,7 @@ const Card_Component = () => {
                 </Card.Title>
                 <Card.Text>
                   <Row>
-                    <Col sm={6}>
+                    <Col sm={6} className="program-innerleft-column">
                       <i className="fa-solid fa-trophy"></i>{" "}
                       <span>Grade : </span>
                       <span>{item.grade}</span>
