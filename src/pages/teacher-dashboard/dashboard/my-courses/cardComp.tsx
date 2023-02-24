@@ -1,9 +1,9 @@
 import React from "react";
-import { Card, Row, Col, Container, ProgressBar } from "react-bootstrap";
+import { Card, Row, Col, Container } from "react-bootstrap";
 import "./style.scss";
 import Image from "../../../../assets/images/course_catalogue_ai_image.jpg";
 
-const Certification = () => {
+const Card_Component = () => {
   return (
     <>
       <Container>
@@ -17,30 +17,22 @@ const Certification = () => {
                 </Card.Title>
                 <Card.Text>
                   <Row>
-                    <Col sm={6} className="certificate-innerleft-column">
-                      <i className="fa-solid fa-trophy"></i>{" "}
-                      <span>Grade : </span>
+                    <Col sm={4}>
+                      <i className="fa-solid fa-trophy d-block"></i>{" "}
+                      <span className="d-block">Grade</span>
                       <span>{item.grade}</span>
                     </Col>
-                    <Col sm={6}>
-                      <i className="fa-solid fa-certificate"></i>{" "}
-                      <span>Badges : </span>
+                    <Col sm={4}>
+                      <i className="fa-solid fa-certificate d-block"></i>{" "}
+                      <span className="d-block">Sessions</span>
+                      <span>{item.badges}</span>
+                    </Col>
+                    <Col sm={4}>
+                      <i className="fa-solid fa-certificate d-block"></i>{" "}
+                      <span className="d-block">Attendance</span>
                       <span>{item.badges}</span>
                     </Col>
                   </Row>
-
-                  <ProgressBar
-                    now={item.progress}
-                    label={`${item.progress}%`}
-                    variant={
-                      item.progress < 50
-                        ? "danger"
-                        : item.progress >= 50 && item.progress < 70
-                        ? "warning"
-                        : "success"
-                    }
-                    className="mt-2"
-                  />
                 </Card.Text>
               </Card>
             </Col>
@@ -51,43 +43,43 @@ const Certification = () => {
   );
 };
 
-export default Certification;
+export default Card_Component;
 
 const card_Data = [
   {
     title: "Discrete Mathematical Structures",
     grade: "35%",
-    badges: "0",
+    badges: "36/2/60",
     progress: 50,
   },
   {
     title: "Data Structures and Algorithm",
     grade: "50%",
-    badges: "1",
+    badges: "10/2/60",
     progress: 55,
   },
   {
     title: "Database Management System",
     grade: "58%",
-    badges: "1",
+    badges: "41/2/60",
     progress: 70,
   },
   {
     title: "Data Structures and Algorithm Lab",
     grade: "45%",
-    badges: "0",
+    badges: "10/2/60",
     progress: 30,
   },
   {
     title: "Database Application Lab",
     grade: "15%",
-    badges: "0",
+    badges: "10/2/60",
     progress: 20,
   },
   {
     title: "Computer Organization and Architech",
     grade: "80%",
-    badges: "1",
+    badges: "10/2/60",
     progress: 90,
   },
 ];

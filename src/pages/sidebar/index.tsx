@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { Menu, MenuItem, ProSidebar, SidebarHeader } from 'react-pro-sidebar';
-import './style.scss';
-import 'react-pro-sidebar/dist/css/styles.css';
-import styled from 'styled-components';
-import { useNavigate, Link } from 'react-router-dom';
-import UserContext from '../../features/context/user/user';
-import logo from '../../assets/images/logo.png';
+import React, { useState, useContext } from "react";
+import { Menu, MenuItem, ProSidebar, SidebarHeader } from "react-pro-sidebar";
+import "./style.scss";
+import "react-pro-sidebar/dist/css/styles.css";
+import styled from "styled-components";
+import { useNavigate, Link } from "react-router-dom";
+import UserContext from "../../features/context/user/user";
+import logo from "../../assets/images/logo.png";
 
 const Menuitem = styled(MenuItem)`
   :hover {
@@ -27,41 +27,50 @@ function Sidebar() {
     //   height: "145vh",
     // },
     menuIcon: {
-      float: 'right',
-      margin: '10px',
-      marginLeft: '38px'
-    }
+      float: "right",
+      margin: "10px",
+      marginLeft: "38px",
+    },
   };
   const onClickMenuIcon = () => {
     setCollapsed(!collapsed);
-    const sample = document.getElementById('high');
-    sample.classList.toggle('bl-text');
-    const logo = document.getElementById('logowhite');
-    logo.classList.toggle('d-none');
-    const headerslide = document.getElementById('headerslide');
-    headerslide.classList.toggle('header-slider');
-    const coursestatusslide = document.getElementById('coursestatusslider');
-    coursestatusslide.classList.toggle('course-status-slider');
-    const coursecontentslide = document.getElementById('coursecontentslider');
-    coursecontentslide.classList.toggle('course-content-slider');
-    const recommendcourseslide = document.getElementById('recommendedcourseslider');
-    recommendcourseslide.classList.toggle('recommended-course-slider');
-    const cataloguecourseslide = document.getElementById('cataloguecourseslider');
-    cataloguecourseslide.classList.toggle('catalogue-course-slider');
-    const sidebaricon = document.getElementById('sidebaricon');
-    sidebaricon.classList.toggle('burger-icon');
+    const sample = document.getElementById("high");
+    sample.classList.toggle("bl-text");
+    const logo = document.getElementById("logowhite");
+    logo.classList.toggle("d-none");
+    const headerslide = document.getElementById("headerslide");
+    headerslide.classList.toggle("header-slider");
+    const coursestatusslide = document.getElementById("coursestatusslider");
+    coursestatusslide.classList.toggle("course-status-slider");
+    const coursecontentslide = document.getElementById("coursecontentslider");
+    coursecontentslide.classList.toggle("course-content-slider");
+    const recommendcourseslide = document.getElementById(
+      "recommendedcourseslider"
+    );
+    recommendcourseslide.classList.toggle("recommended-course-slider");
+    const cataloguecourseslide = document.getElementById(
+      "cataloguecourseslider"
+    );
+    cataloguecourseslide.classList.toggle("catalogue-course-slider");
+    const sidebaricon = document.getElementById("sidebaricon");
+    sidebaricon.classList.toggle("burger-icon");
     setSidebarArrow(!sidebararrow);
   };
   const logout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
+    if (window.confirm("Are you sure you want to logout?")) {
       userctx.logout();
-      navigate('/');
+      navigate("/");
     }
   };
 
   return (
     <>
-      <ProSidebar style={styles.sideBarHeight} collapsed={collapsed} id="mobile-toggle" className="mobile-sidebar">
+      <ProSidebar
+        style={styles.sideBarHeight}
+        collapsed={collapsed}
+        id="mobile-toggle"
+        className="mobile-sidebar"
+      >
         <SidebarHeader>
           <div
             role="presentation"
@@ -70,11 +79,14 @@ function Sidebar() {
             className="hamburger-icon burger-icon"
             id="sidebaricon"
           >
-            {sidebararrow === true ? <i className="fas fa-long-arrow-alt-right" /> : <i className="fas fa-long-arrow-alt-left" />}
+            {sidebararrow === true ? (
+              <i className="fas fa-long-arrow-alt-right" />
+            ) : (
+              <i className="fas fa-long-arrow-alt-left" />
+            )}
           </div>
         </SidebarHeader>
         <Menu iconShape="square">
-
           <Menuitem>
             <div className="logo-bg" id="logowhite">
               <Link to="/dashboard">
@@ -86,7 +98,7 @@ function Sidebar() {
                 <p className="bl-logo-text-content">BL</p>
               </div>
             </div>
-          </Menuitem>   
+          </Menuitem>
           <Menuitem>
             <Link className="active-link" id="dashboard" to="/dashboard">
               <i className="fa fa-dashboard dashboard-icon" />
@@ -95,7 +107,7 @@ function Sidebar() {
           </Menuitem>
           <Menuitem>
             <Link id="catalogue" to="/catalogue">
-              <i className="fas fa-graduation-cap degree-icon" />
+              <i className="fa-solid fa-list degree-icon"></i>
               Catalogue
             </Link>
           </Menuitem>
@@ -106,26 +118,36 @@ function Sidebar() {
             </Link>
           </Menuitem>
           {/* {userSiteAdmin ==  true && */}
-            <Menuitem>
-              <Link id="" to="/siteadmin">
-                <i className="fa fa-gear degree-icon" />
-                Site Admin 
-              </Link>
-            </Menuitem>          
+          <Menuitem>
+            <Link id="" to="/siteadmin">
+              <i className="fa-solid fa-user degree-icon"></i>
+              Site Admin
+            </Link>
+          </Menuitem>
           {/* } */}
           <Menuitem>
-              <Link id="" to="/studentdashboard">
-                <i className="fa fa-gear degree-icon" />
-                Student Dashboard 
-              </Link>
-            </Menuitem> 
+            <Link id="" to="/teacherdashboard">
+              <i className="fa-solid fa-chalkboard-user degree-icon"></i>
+              Teacher Dashboard
+            </Link>
+          </Menuitem>
+          <Menuitem>
+            <Link id="" to="/studentdashboard">
+              <i className="fas fa-graduation-cap degree-icon" />
+              Student Dashboard
+            </Link>
+          </Menuitem>
           <Menuitem>
             <Link id="" to="/calender">
               <i className="fa-solid fa-calendar-days degree-icon" />
-              Calendar 
+              Calendar
             </Link>
           </Menuitem>
-          <Menuitem className="catalogue-icon" href="/employees" onClick={logout}>
+          <Menuitem
+            className="catalogue-icon"
+            href="/employees"
+            onClick={logout}
+          >
             <i className="fa fa-sign-out degree-icon" />
             logout
           </Menuitem>
