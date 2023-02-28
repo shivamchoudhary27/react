@@ -20,14 +20,13 @@ const DiciplineModal = ({
   show,
   onHide,
 }: any) => {
-
   // Initial values of react table === >>>
-const initialValues = {
-  name: disciplineobj.name,
-  description: disciplineobj.description,
-};
+  const initialValues = {
+    name: disciplineobj.name,
+    description: disciplineobj.description,
+  };
 
-console.log(disciplineobj.name)
+  console.log(disciplineobj.name);
 
   // custom Obj & handle form data === >>>
   let formTitles = {
@@ -53,7 +52,7 @@ console.log(disciplineobj.name)
     if (disciplineobj.id === 0) {
       addDisciplineData(endPoint, values)
         .then((res) => {
-          if(res.data !== ""){
+          if (res.data !== "") {
             togglemodalshow(false);
             refreshDisciplineData(true);
             setSubmitting(false);
@@ -67,8 +66,8 @@ console.log(disciplineobj.name)
       endPoint += `/${disciplineobj.id}`;
       putDesciplineData(endPoint, values)
         .then((res) => {
-          console.log(values, res)
-          if(res.data !== "" && res.status === 200){
+          console.log(values, res);
+          if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             refreshDisciplineData(true);
             setSubmitting(false);
@@ -80,7 +79,28 @@ console.log(disciplineobj.name)
     }
   };
 
-  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+  // Comp for show custom ERROR_Messages ===== >>>
+  const Error_Message = ({ val }: any) => {
+    return (
+      <p className="error-message">
+        <i className="fa fa-circle-exclamation"></i> {val}
+      </p>
+    );
+  };
+
+  // Form submit & reset buttons ===== >>>
+  const FORM_BUTTONS = ({ isSubmitting }: any) => {
+    return (
+      <div className="text-center">
+        <Button variant="primary" type="submit" disabled={isSubmitting}>
+          {formTitles.btnTitle}
+        </Button>{" "}
+        {formTitles.btnTitle === "Save" && (
+          <Button variant="outline-secondary">Reset</Button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Modal
@@ -114,7 +134,7 @@ console.log(disciplineobj.name)
                   className="form-control"
                 />
                 {errors.name && touched.name ? (
-                  <p className="error-message">{errorMsgIcon} Please Enter name</p>
+                  <Error_Message val={"Please Enter name"} />
                 ) : null}
               </div>
 
@@ -127,17 +147,10 @@ console.log(disciplineobj.name)
                   className="form-control"
                 />
                 {errors.description && touched.description ? (
-                  <p className="error-message">{errorMsgIcon} Please enter description</p>
+                  <Error_Message val={"Please Enter description"} />
                 ) : null}
               </div>
-              <div className="text-center">
-                <Button variant="primary" type="submit" disabled={isSubmitting}>
-                  {formTitles.btnTitle}
-                </Button>{" "}
-                {formTitles.btnTitle === "Save" && (
-                  <Button variant="outline-secondary">Reset</Button>
-                )}
-              </div>
+              <FORM_BUTTONS isSubmitting={isSubmitting} />
             </Form>
           )}
         </Formik>

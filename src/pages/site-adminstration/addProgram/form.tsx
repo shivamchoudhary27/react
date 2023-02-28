@@ -44,34 +44,72 @@ const AddProgramForm = () => {
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
 
-  const addFieldHandler = () => {
-    setinputFieldArr((el: any) => {
-      return [...el, inputFieldArr];
-    });
-  };
-
+  // fetch Department & Discipline list ===== >>>
   useEffect(() => {
-    const endPoint = "/departments";
-    const endPoint2 = "/disciplines";
-    getName(endPoint).then((res) => {
+    const departmentEndPoint = "/departments";
+    const disciplineEndPoint = "/disciplines";
+    getName(departmentEndPoint).then((res) => {
       if (res.data != "" && res.status === 200) {
         setDepartmentName(res.data);
       }
     });
-    getName(endPoint2).then((res) => {
+    getName(disciplineEndPoint).then((res) => {
       if (res.data != "" && res.status === 200) {
         setDisciplineName(res.data);
       }
     });
   }, []);
 
+  // iterate to get Department list ===== >>>
+  const DEPARTMENT_LIST = departmentName.map((el: any, index: number) => (
+    <option value={el.name} key={index}>
+      {el.name}
+    </option>
+  ));
+
+  // iterate to get Discipline list ===== >>>
+  const DISCIPLINE_LIST = disciplineName.map((el: any, index: number) => (
+    <option value={el.name} key={index}>
+      {el.name}
+    </option>
+  ));
+
+  // add extra meta field ===== >>>
+  const addFieldHandler = () => {
+    setinputFieldArr((el: any) => {
+      return [...el, inputFieldArr];
+    });
+  };
+
+  // remove meta field ===== >>>
   const removeBlockHandler = () => {
     if (inputFieldArr.length > 1) {
       inputFieldArr.pop();
     }
   };
 
-  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+  // Comp for show custom ERROR_Messages ===== >>>
+  const Error_Message = ({ val }: any) => {
+    return (
+      <p className="error-message">
+        <i className="fa fa-circle-exclamation"></i> {val}
+      </p>
+    );
+  };
+
+  // Form submit & reset buttons ===== >>>
+  const PROGRAM_FORM_BUTTONS = ({ isSubmitting }: any) => {
+    return (
+      <>
+        <Button type="submit" className="primary" disabled={isSubmitting}>
+          Submit
+        </Button>{" "}
+        <Button variant="outline-secondary" type="reset">
+          Reset
+        </Button>
+      </>
+    );
+  };
 
   return (
     <>
@@ -88,26 +126,20 @@ const AddProgramForm = () => {
           {({ errors, touched, isSubmitting, handleChange }) => (
             <Form>
               <div className="mb-3">
-                <label htmlFor="programCode">Department <sup className="required">*</sup></label>
-                <Field
-                  as="select"
-                  name="department"
-                  placeholder="Select Options"
-                  className="form-control"
-                >
-                  <option defaultValue={'Select'}>Select option</option>
-                  {departmentName.map((el: any, index: number) => (
-                    <option value={el.name} key={index} >
-                      {el.name}
-                    </option>
-                  ))}
+                <label htmlFor="programCode">
+                  Department <sup className="required">*</sup>
+                </label>
+                <Field as="select" name="department" className="form-control">
+                  {DEPARTMENT_LIST}
                 </Field>
                 {errors.department && touched.department ? (
-                  <p className="error-message">{errorMsgIcon} Please department Option</p>
+                  <Error_Message val={"Please Enter Department"} />
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="programName">Program Name <sup className="required">*</sup></label>
+                <label htmlFor="programName">
+                  Program Name <sup className="required">*</sup>
+                </label>
                 <Field
                   id="programName"
                   name="programName"
@@ -115,11 +147,13 @@ const AddProgramForm = () => {
                   className="form-control"
                 />
                 {errors.programName && touched.programName ? (
-                  <p className="error-message">{errorMsgIcon} Please Enter Program Name</p>
+                  <Error_Message val={"Please Enter Program Name"} />
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="programCode">Program Code <sup className="required">*</sup></label>
+                <label htmlFor="programCode">
+                  Program Code <sup className="required">*</sup>
+                </label>
                 <Field
                   id="programCode"
                   name="programCode"
@@ -127,7 +161,7 @@ const AddProgramForm = () => {
                   className="form-control"
                 />
                 {errors.programCode && touched.programCode ? (
-                  <p className="error-message">{errorMsgIcon} Please Enter Program Code</p>
+                  <Error_Message val={"Please Enter Program Code"} />
                 ) : null}
               </div>
               <div className="mb-3">
@@ -147,11 +181,13 @@ const AddProgramForm = () => {
                   Graduate
                 </label>
                 {errors.programtype && touched.programtype ? (
-                  <p className="error-message">{errorMsgIcon} Please select Program Type</p>
+                  <Error_Message val={"Please Enter Program Type"} />
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="batchYear">Batch Year <sup className="required">*</sup></label>
+                <label htmlFor="batchYear">
+                  Batch Year <sup className="required">*</sup>
+                </label>
                 <Field
                   id="batchYear"
                   name="batchYear"
@@ -159,21 +195,18 @@ const AddProgramForm = () => {
                   className="form-control"
                 />
                 {errors.batchYear && touched.batchYear ? (
-                  <p className="error-message">{errorMsgIcon} Batch Year must in Number</p>
+                  <Error_Message val={"Batch Year must in number"} />
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="discipline">Discipline <sup className="required">*</sup></label>
+                <label htmlFor="discipline">
+                  Discipline <sup className="required">*</sup>
+                </label>
                 <Field as="select" name="discipline" className="form-control">
-                  <option defaultValue="selectoption">Select option</option>
-                  {disciplineName.map((el: any, index: number) => (
-                    <option value={el.name} key={index}>
-                      {el.name}
-                    </option>
-                  ))}
+                  {DISCIPLINE_LIST}
                 </Field>
                 {errors.discipline && touched.discipline ? (
-                  <p className="error-message">{errorMsgIcon} Please discipline Option</p>
+                  <Error_Message val={"Select Discipline"} />
                 ) : null}
               </div>
               <div className="mb-3">
@@ -187,11 +220,13 @@ const AddProgramForm = () => {
                   <Field type="radio" name="mode" value="part_time" /> Part Time
                 </label>
                 {errors.mode && touched.mode ? (
-                  <p className="error-message">{errorMsgIcon} Please select Program mode</p>
+                  <Error_Message val={"Please select Program Mode"} />
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="duration">Duration <sup className="required">*</sup></label>
+                <label htmlFor="duration">
+                  Duration <sup className="required">*</sup>
+                </label>
                 <Field
                   id="duration"
                   name="duration"
@@ -199,7 +234,7 @@ const AddProgramForm = () => {
                   className="form-control"
                 />
                 {errors.duration && touched.duration ? (
-                  <p className="error-message">{errorMsgIcon} Duration must in Number</p>
+                  <Error_Message val={"Duration must in number"} />
                 ) : null}
               </div>
               <div className="mb-3">
@@ -334,12 +369,7 @@ const AddProgramForm = () => {
                   </label>
                 </div>
               </div>
-              <Button type="submit" className="primary" disabled={isSubmitting}>
-                Submit
-              </Button>{" "}
-              <Button variant="outline-secondary" type="reset">
-                Reset
-              </Button>
+              {<PROGRAM_FORM_BUTTONS isSubmitting={isSubmitting} />}
             </Form>
           )}
         </Formik>

@@ -20,7 +20,6 @@ const DepartmentModal = ({
   show,
   onHide,
 }: any) => {
-  
   // Initial values of react table === >>>
   const initialValues = {
     name: departmentobj.name,
@@ -55,7 +54,7 @@ const DepartmentModal = ({
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)
         .then((res) => {
-          if(res.data !== ""){
+          if (res.data !== "") {
             togglemodalshow(false);
             refreshdepartmentdata(true);
             setSubmitting(false);
@@ -69,7 +68,7 @@ const DepartmentModal = ({
       endPoint += `/${departmentobj.id}`;
       putDepartmentData(endPoint, values)
         .then((res) => {
-          if(res.data !== "" && res.status === 200){
+          if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             refreshdepartmentdata(true);
             setSubmitting(false);
@@ -82,7 +81,30 @@ const DepartmentModal = ({
     }
   };
 
-  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+  // Comp for show custom ERROR_Messages ===== >>>
+  const Error_Message = ({ val }: any) => {
+    return (
+      <p className="error-message">
+        <i className="fa fa-circle-exclamation"></i> {val}
+      </p>
+    );
+  };
+
+  // Form submit & reset buttons ===== >>>
+  const FORM_BUTTTONS = ({isSubmitting}: any) => {
+    return (
+      <div className="text-center">
+        <Button variant="primary" type="submit" disabled={isSubmitting}>
+          {formTitles.btnTitle}
+        </Button>{" "}
+        {formTitles.btnTitle === "Save" && (
+          <Button variant="outline-secondary" type="reset">
+            Reset
+          </Button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Modal
@@ -105,18 +127,17 @@ const DepartmentModal = ({
             handleFormData(values, action);
           }}
         >
-          {({ errors, touched, isSubmitting, values }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
-                <Field 
+                <Field
                   id="name"
                   name="name"
                   placeholder="Name"
                   className="form-control"
-                  // value={values.name}
                 />
                 {errors.name && touched.name ? (
-                  <p className="error-message">{errorMsgIcon} Please Enter name</p>
+                  <Error_Message val={"Please Enter name"} />
                 ) : null}
               </div>
 
@@ -127,22 +148,12 @@ const DepartmentModal = ({
                   component="textarea"
                   placeholder="Description"
                   className="form-control"
-                  // value={}
                 />
                 {errors.description && touched.description ? (
-                  <p className="error-message">{errorMsgIcon} Please enter description</p>
+                  <Error_Message val={"Please Enter description"} />
                 ) : null}
               </div>
-              <div className="text-center">
-                <Button variant="primary" type="submit" disabled={isSubmitting}>
-                  {formTitles.btnTitle}
-                </Button>{" "}
-                {formTitles.btnTitle === "Save" && (
-                  <Button variant="outline-secondary" type="reset">
-                    Reset
-                  </Button>
-                )}
-              </div>
+              {<FORM_BUTTTONS isSubmitting={isSubmitting} />}
             </Form>
           )}
         </Formik>
