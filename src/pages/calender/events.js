@@ -10,7 +10,7 @@ export default [
     id: 1,
     title: "Future Event",
     start: new Date(2023, 1, 1),
-    end: new Date(2023, 1, 1)
+    end: new Date(2023, 1, 1),
   },
   {
     id: 2,

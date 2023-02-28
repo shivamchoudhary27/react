@@ -82,6 +82,8 @@ const AddProgramModal = ({
     }
   };
 
+  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+
   return (
     <Modal
       show={show}
@@ -114,7 +116,7 @@ const AddProgramModal = ({
                   className="form-control"
                 />
                 {errors.name && touched.name ? (
-                  <p className="error-message">Please Enter name</p>
+                  <p className="error-message">{errorMsgIcon} Please Enter name</p>
                 ) : null}
               </div>
               <div className="mb-3">
@@ -126,7 +128,7 @@ const AddProgramModal = ({
                   className="form-control"
                 />
                 {errors.description && touched.description ? (
-                  <p className="error-message">Please enter description</p>
+                  <p className="error-message">{errorMsgIcon} Please enter description</p>
                 ) : null}
               </div>
               <div className="mb-3">
@@ -134,7 +136,7 @@ const AddProgramModal = ({
                 <span style={{ color: "#666" }}>Batch Year Required?</span>
                 {errors.description && touched.description ? (
                   <p className="error-message">
-                    Please check the required field
+                    {errorMsgIcon} Please check the required field
                   </p>
                 ) : null}
               </div>
