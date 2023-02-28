@@ -82,6 +82,8 @@ const DepartmentModal = ({
     }
   };
 
+  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+
   return (
     <Modal
       show={show}
@@ -114,7 +116,7 @@ const DepartmentModal = ({
                   // value={values.name}
                 />
                 {errors.name && touched.name ? (
-                  <p className="error-message">Please Enter name</p>
+                  <p className="error-message">{errorMsgIcon} Please Enter name</p>
                 ) : null}
               </div>
 
@@ -128,7 +130,7 @@ const DepartmentModal = ({
                   // value={}
                 />
                 {errors.description && touched.description ? (
-                  <p className="error-message">Please enter description</p>
+                  <p className="error-message">{errorMsgIcon} Please enter description</p>
                 ) : null}
               </div>
               <div className="text-center">

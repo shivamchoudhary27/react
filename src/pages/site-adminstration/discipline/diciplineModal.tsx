@@ -80,6 +80,8 @@ console.log(disciplineobj.name)
     }
   };
 
+  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+
   return (
     <Modal
       show={show}
@@ -112,7 +114,7 @@ console.log(disciplineobj.name)
                   className="form-control"
                 />
                 {errors.name && touched.name ? (
-                  <p className="error-message">Please Enter name</p>
+                  <p className="error-message">{errorMsgIcon} Please Enter name</p>
                 ) : null}
               </div>
 
@@ -125,7 +127,7 @@ console.log(disciplineobj.name)
                   className="form-control"
                 />
                 {errors.description && touched.description ? (
-                  <p className="error-message">Please enter description</p>
+                  <p className="error-message">{errorMsgIcon} Please enter description</p>
                 ) : null}
               </div>
               <div className="text-center">
