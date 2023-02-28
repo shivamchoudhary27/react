@@ -82,7 +82,30 @@ const AddProgramModal = ({
     }
   };
 
-  const errorMsgIcon = <i className="fa fa-circle-exclamation"></i>
+  // Comp for show custom ERROR_Messages ===== >>>
+  const Error_Message = ({ val }: any) => {
+    return (
+      <p className="error-message">
+        <i className="fa fa-circle-exclamation"></i> {val}
+      </p>
+    );
+  };
+
+  // Form submit & reset buttons ===== >>>
+  const FORM_BUTTTONS = ({isSubmitting}: any) => {
+    return (
+      <div className="text-center">
+        <Button variant="primary" type="submit" disabled={isSubmitting}>
+          {formTitles.btnTitle}
+        </Button>{" "}
+        {formTitles.btnTitle === "Save" && (
+          <Button variant="outline-secondary" type="reset">
+            Reset
+          </Button>
+        )}
+      </div>
+    );
+  };
 
   return (
     <Modal
@@ -106,7 +129,7 @@ const AddProgramModal = ({
             console.log(values)
           }}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
                 <Field
@@ -116,7 +139,7 @@ const AddProgramModal = ({
                   className="form-control"
                 />
                 {errors.name && touched.name ? (
-                  <p className="error-message">{errorMsgIcon} Please Enter name</p>
+                  <Error_Message val={"Please Enter name"} />
                 ) : null}
               </div>
               <div className="mb-3">
@@ -128,28 +151,17 @@ const AddProgramModal = ({
                   className="form-control"
                 />
                 {errors.description && touched.description ? (
-                  <p className="error-message">{errorMsgIcon} Please enter description</p>
+                  <Error_Message val={"Please Enter description"} />
                 ) : null}
               </div>
               <div className="mb-3">
                 <Field name="isBatchYearRequired" type="checkbox" />{" "}
                 <span style={{ color: "#666" }}>Batch Year Required?</span>
-                {errors.description && touched.description ? (
-                  <p className="error-message">
-                    {errorMsgIcon} Please check the required field
-                  </p>
+                {errors.isBatchYearRequired && touched.isBatchYearRequired ? (
+                  <Error_Message val={"Please Check required field"} />
                 ) : null}
               </div>
-              <div className="text-center">
-                <Button variant="primary" type="submit">
-                  {formTitles.btnTitle}
-                </Button>{" "}
-                {formTitles.btnTitle === "Save" && (
-                  <Button variant="outline-secondary" type="reset">
-                    Reset
-                  </Button>
-                )}
-              </div>
+              {<FORM_BUTTTONS isSubmitting={isSubmitting} />}
               <div className="mt-4" style={{ color: "#666" }}>
                 <span style={{ fontWeight: "600" }}>Note: </span>If batch year
                 checked it's available on add program form.
