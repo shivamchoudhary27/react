@@ -7,7 +7,7 @@ const initialValues = {
   user: "red",
   course: "blue",
   site: "green",
-  categories: "pink",
+  category: "pink",
   forum: "red",
   quiz: "yellow",
   workshop: "blue",
@@ -17,11 +17,15 @@ const initialValues = {
 };
 
 const Module_List = () => {
-
+  const initialColors =
+    (localStorage.getItem("event-colors") !== null)
+      ? JSON.parse(localStorage.getItem("event-colors"))
+      : initialValues;
+  
   return (
     <>
       <Formik
-        initialValues={initialValues}
+        initialValues={initialColors}
         onSubmit={(values) => {
           console.log(values);
           const moduleColorsList = JSON.stringify(values)
