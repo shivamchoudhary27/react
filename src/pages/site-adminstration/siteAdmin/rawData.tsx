@@ -29,4 +29,9 @@ export const AdminRawData = [
     icon: "fa-solid fa-file card-icon",
     link: "#",
   },
+  {
+    title: "Calendar Config",
+    icon: "fa-solid fa-calendar card-icon",
+    link: "/calenderconfig",
+  },
 ];

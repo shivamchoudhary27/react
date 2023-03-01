@@ -110,7 +110,6 @@ const DepartmentModal = ({
     <Modal
       show={show}
       onHide={onHide}
-      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
