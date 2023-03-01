@@ -65,6 +65,18 @@ const processQuizData = (requestData : any) => {
   return instance.get(`${config.REST_ENDPOINT}?${paramString}`);
 };
 
+const getCalendarEvents = (requestData : any) => {
+  const query = requestData;
+  let paramString = '';
+  const wstoken = config.WSTOKEN ?? localStorage.getItem('token');
+  paramString += `wsfunction=${query.wsfunction}`;
+  paramString += `&wstoken=${wstoken}`;
+  paramString += '&moodlewsrestformat=json';
+  paramString += `&${query.dataParam}`;
+
+  return instance.get(`${config.REST_ENDPOINT}?${paramString}`);
+}
+
 export {
-  getPublicData, getData, postData, putData, deleteData, processQuizData,signupData
+  getPublicData, getData, postData, putData, deleteData, processQuizData,signupData, getCalendarEvents
 };

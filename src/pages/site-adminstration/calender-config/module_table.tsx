@@ -58,7 +58,7 @@ const event_type = [
     icon: "fa-solid fa-file",
   },
   {
-    label: "categories",
+    label: "category",
     icon: "fa-solid fa-sitemap",
   },
 ];

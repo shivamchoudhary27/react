@@ -29,6 +29,7 @@ function DashMyCourse({ linkToggle }: LinkToggleType) {
           } else {
             setMyCourses(res.data);
             setLoadSkeleton(false);
+            localStorage.setItem("enroled_courses", JSON.stringify(res.data));
           }
         }
       })
