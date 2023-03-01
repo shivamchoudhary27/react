@@ -28,6 +28,7 @@ import ReactBigCalendar from '../../pages/calender';
 import Preview from '../../pages/site-adminstration/manage-program/preview';
 import StudentDashboard from '../../pages/student-dashboard/dashboard';
 import TeacherDashboard from '../../pages/teacher-dashboard/dashboard';
+import CalenderConfig from '../../pages/site-adminstration/calender-config';
 
 export default function CustomRoutes() {
 
@@ -44,6 +45,7 @@ export default function CustomRoutes() {
           <Route path="/siteadmin" element={<SiteAdminHome />} />
           <Route path="/studentdashboard" element={<StudentDashboard />} />
           <Route path="/teacherdashboard" element={<TeacherDashboard />} />
+          <Route path="/calenderconfig" element={<CalenderConfig />} />
           <Route path='/preview' element={<Preview />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
           <Route path="/managecategory" element={<ManageCategory />} />
