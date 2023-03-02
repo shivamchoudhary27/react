@@ -6,7 +6,7 @@ import "./home.scss";
 
 const Home = () => {
   const currentMethod = window.location.protocol;
-  const returnUri = (currentMethod == "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
+  const returnUri = (currentMethod === "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
   const redirectUri = `${currentMethod}//${returnUri}`;
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   console.log(oAuthUrl);

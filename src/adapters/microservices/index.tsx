@@ -1,33 +1,27 @@
-import axios from "axios";
-import config from "../../utils/config";
+import { axiosConfig, createAxiosInstance } from "./utils";
 
-const ACCESS_TOKEN =
-    config.OAUTH2_ACCESS_TOKEN !== ""
-        ? config.OAUTH2_ACCESS_TOKEN
-        : sessionStorage.getItem("access_token");
+const ACCESS_TOKEN = sessionStorage.getItem("access_token") ?? localStorage.getItem("access_token"); 
 
-const instance = axios.create({
-    baseURL: config.JAVA_API_URL,
-    headers: {
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-    },
-});
+createAxiosInstance(ACCESS_TOKEN); // to reset the instance if app is refreshed
 
 export const getData = (endPoint: string) => {
+    const instance = axiosConfig.axiosInstance;
     return instance.get(endPoint);
 };
 
 export const postData = (endPoint: string, requestData: any) => {
+    const instance = axiosConfig.axiosInstance;
     const data = requestData;
     return instance.post(endPoint, data);
 };
 
 export const putData = (endPoint: string, requestData: any) => {
+    const instance = axiosConfig.axiosInstance;
     const data = requestData;
     return instance.put(endPoint, data);
 };
 
 export const deleteData = (endPoint: string) => {
+    const instance = axiosConfig.axiosInstance;
     return instance.delete(endPoint);
 };

@@ -125,7 +125,7 @@ function Startattempt() {
         console.log("location is null");
         nav.data.map((mod: { modules: { instance: string | undefined; modname: string; name: any; }[]; }) =>
           mod.modules.map((activity: { instance: string | undefined; modname: string; name: any; }) => {
-            if (activity.instance == instance && activity.modname == "quiz") {
+            if (activity.instance === instance && activity.modname === "quiz") {
               setModules({
                 status: true,
                 modname: activity.name
@@ -177,8 +177,8 @@ function Startattempt() {
                       {summary !== null && summary.attempts.length}
                     </p>
                   </Link>
-                  {summary !== null && summary.attempts.length == 0 && "No attempts"}
-                  {summary !== null && summary.attempts.length == 1 ? (
+                  {summary !== null && summary.attempts.length === 0 && "No attempts"}
+                  {summary !== null && summary.attempts.length === 1 ? (
                     <div>
                       <h4>
                         <b>Summary of your previous attempts</b>

@@ -276,7 +276,7 @@ const Catalogue: React.FunctionComponent = () => {
                     </div>
                   </div>
                 )}
-                {filterdCourses !== undefined && filterdCourses.length == 0 ? (
+                {filterdCourses !== undefined && filterdCourses.length === 0 ? (
                   "No Records Found!"
                 ) : (
                   <div

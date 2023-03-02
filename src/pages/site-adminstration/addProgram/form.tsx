@@ -49,12 +49,12 @@ const AddProgramForm = () => {
     const departmentEndPoint = "/departments";
     const disciplineEndPoint = "/disciplines";
     getName(departmentEndPoint).then((res) => {
-      if (res.data != "" && res.status === 200) {
+      if (res.data !== "" && res.status === 200) {
         setDepartmentName(res.data);
       }
     });
     getName(disciplineEndPoint).then((res) => {
-      if (res.data != "" && res.status === 200) {
+      if (res.data !== "" && res.status === 200) {
         setDisciplineName(res.data);
       }
     });

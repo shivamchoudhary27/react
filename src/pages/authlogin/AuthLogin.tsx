@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import UserContext from "../../features/context/user/user";
 import config from "../../utils/config";
+import { createAxiosInstance } from "../../adapters/microservices/utils";
 
 const AuthLogin = () => {
   const error = null;
@@ -14,7 +15,7 @@ const AuthLogin = () => {
   const [authCode, setAuthCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const currentMethod = window.location.protocol;
-  const returnUri = (currentMethod == "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
+  const returnUri = (currentMethod === "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
   const redirectUri = `${currentMethod}//${returnUri}`;
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const AuthLogin = () => {
   }, []);
 
   useEffect(() => {
-    if (authCode != "") {
+    if (authCode !== "") {
 
       setTimeout(() => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
@@ -44,9 +45,13 @@ const AuthLogin = () => {
                 Object.entries(result).map(([key, value]: any) => {
                   value = value.toString();
                   sessionStorage.setItem(key, value);
+                  localStorage.setItem(key, value);  // added if app if reloaded for some url
                 });
+
+                createAxiosInstance(result.access_token);
                 config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
-                config.OAUTH2_ACCESS_TOKEN = result.access_token;
+                config.OAUTH2_ACCESS_TOKEN = result.access_token;               
+                
                 userCtx.setUserToken(config.WSTOKEN);
                 Swal.fire({
                   position: "center",
@@ -56,6 +61,8 @@ const AuthLogin = () => {
                   timer: 1500,
                 });
                 navigate("/dashboard");         
+              } else {
+                window.alert('Failed to get auth token');
               }
           }).catch(error => console.log('error', error));
       }, 2000);

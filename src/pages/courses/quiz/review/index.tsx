@@ -39,7 +39,7 @@ const Review = () => {
                     res.data.quizzes.map((courseList: any) => {
                         activitylist.push(courseList);
                         for (let activitylistData of activitylist) {
-                            if (quizid == activitylistData.id) {
+                            if (quizid === activitylistData.id) {
                                 setActivityName(activitylistData.name);
                             }
                         }
@@ -57,7 +57,7 @@ const Review = () => {
             <div className="quiz-container pt-4">
                 <Row className="quiz-row">
                     <div>
-                        {ques != undefined &&
+                        {ques !== undefined &&
                             ques.questions.map((question: { html: any; }) => (
                                 <div
                                     key={Math.random()}
