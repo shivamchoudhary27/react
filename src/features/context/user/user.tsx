@@ -1,6 +1,5 @@
 import React from "react";
 import config from "../../../utils/config";
-// import { ContextType } from '../../../type/index';
 import { string } from "yup";
 
 /**
@@ -14,12 +13,10 @@ const UserContext = React.createContext({
   status: "",
   token: "",
   isLoggedIn: false,
-  userInfo: {fullname: string, userid: string, userpictureurl: string, userrole: false},
-  role: "",
+  userInfo: {fullname: string, userid: string, userpictureurl: string, userissiteadmin: string},
   setUserStatus: (status: number) => {},
   logout: () => {},
   setUserToken: (token: any) => {},
-  // setAuthAcessToekn: (token: string) => {},
   setUserInfo: (data: any) => {}
 });
 const UserInfoData = {
@@ -29,9 +26,9 @@ const UserInfoData = {
   fullname: localStorage.getItem("fullname")
     ? localStorage.getItem("fullname")
     : null,
-  userrole: localStorage.getItem("userrole")
-    ? localStorage.getItem("userrole")
-    : null,
+  userissiteadmin: localStorage.getItem("userissiteadmin")
+    ? localStorage.getItem("userissiteadmin")
+    : 'false',
   userpictureurl: localStorage.getItem("userpictureurl")
     ? localStorage.getItem("userpictureurl")
     : null
@@ -45,7 +42,7 @@ export const UserContextProvider = (props: { children: any}) => {
     localStorage.getItem("token") ? localStorage.getItem("token") : null
   );
   const [userInfo, setUserInfo] = React.useState<any>(
-    UserInfoData.userid && UserInfoData.fullname && UserInfoData.userpictureurl && UserInfoData.userrole
+    UserInfoData.userid && UserInfoData.fullname && UserInfoData.userpictureurl && UserInfoData.userissiteadmin
       ? UserInfoData
       : UserInfoData
   );
@@ -63,7 +60,7 @@ export const UserContextProvider = (props: { children: any}) => {
     localStorage.setItem("userid", data.userid);
     localStorage.setItem("fullname", data.fullname);
     localStorage.setItem("userpictureurl", data.userpictureurl);
-    localStorage.setItem("userrole", data.userissiteadmin);
+    localStorage.setItem("userissiteadmin", data.userissiteadmin);
   };
   // logout handler
   const logoutHandler = () => {
@@ -77,7 +74,8 @@ export const UserContextProvider = (props: { children: any}) => {
     localStorage.removeItem("userid");
     localStorage.removeItem("name");
     localStorage.removeItem("userpictureurl");
-    localStorage.removeItem("userrole");
+    localStorage.removeItem("userissiteadmin");
+    localStorage.removeItem("enroled_courses");
   };
   // Initializing token
   const setUserToken = (token: any) => {

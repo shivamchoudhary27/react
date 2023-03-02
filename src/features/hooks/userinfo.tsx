@@ -19,6 +19,7 @@ const useUserinfo = () => {
             } else {
               userCtx.setUserStatus(200);
             }
+            res.data.userissiteadmin = res.data.userissiteadmin.toString();
             userCtx.setUserInfo(res.data);
           }
           setLoading('loaded');

@@ -10,10 +10,6 @@ import './style.scss';
 
 function Dashboard() {
   const res = useUserinfo();
-  // const userCtx = useContext(UserContext);
-  // const [isLoading, setLoading] = useState(
-  //   userCtx.status === '200' ? 'loaded' : 'loading'
-  // );
 
   const [linkToggle, setLinkToggle] = useState<number>(1);
   const [toggleColor, setToggleColor] = useState<CourseTabToggle>({ inprogColor: '#f57f17', compltColor: '', notcompleteColor: '' });
