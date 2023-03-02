@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { CourseTabToggle } from "../../type/dashboard";
 import Sidebar from '../sidebar';
 import Header from '../header';

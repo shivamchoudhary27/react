@@ -66,10 +66,10 @@ const CoursesTable = () => {
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
           <Table bordered hover {...getTableProps()}>
             <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th {...column.getHeaderProps()}>
+              {headerGroups.map((headerGroup, index) => (
+                <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                  {headerGroup.headers.map((column, index) => (
+                    <th {...column.getHeaderProps()} key={index}>
                       {column.render("Header")}
                     </th>
                   ))}
@@ -98,10 +98,10 @@ const CoursesTable = () => {
                             {...provided.draggableProps}
                             {...row.getRowProps()}
                           >
-                            {row.cells.map((cell) => (
+                            {row.cells.map((cell, index) => (
                               <td
                                 {...provided.dragHandleProps}
-                                {...cell.getCellProps()}
+                                {...cell.getCellProps()} key={index}
                               >
                                 {cell.render("Cell")}
                               </td>

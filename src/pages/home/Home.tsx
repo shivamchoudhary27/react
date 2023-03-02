@@ -1,12 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Navbar, Container, Button } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import config from "../../utils/config";
 import logo from "../../assets/images/logo.png";
 import "./home.scss";
 
 const Home = () => {
-  const navigate = useNavigate();
   const currentMethod = window.location.protocol;
   const returnUri = (currentMethod == "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
   const redirectUri = `${currentMethod}//${returnUri}`;
@@ -19,10 +17,6 @@ const Home = () => {
     alignItems: "center",
     height: "90vh",
     textAlign: "center",
-  };
-
-  const handleNavigate = () => {
-    navigate("/login");
   };
 
   return (

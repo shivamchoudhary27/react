@@ -9,8 +9,8 @@ const PerformanceOverview = () => {
           <h6>PERFORMANCE OVERVIEW</h6>
         </div>
         <Row>
-          {data.map((item) => (
-            <Col md={6}>
+          {data.map((item, index) => (
+            <Col md={6} key={index}>
               <i className={item.icon}></i>
               <p>{item.title}</p>
             </Col>

@@ -105,10 +105,10 @@ const ProgramTable = ({
       <div className="table-wrapper mt-3">
         <Table bordered hover {...getTableProps}>
           <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th {...column.getHeaderProps()}>
+            {headerGroups.map((headerGroup, index) => (
+              <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                {headerGroup.headers.map((column, index) => (
+                  <th {...column.getHeaderProps()} key={index}>
                     {column.render("Header")}
                   </th>
                 ))}
@@ -119,9 +119,9 @@ const ProgramTable = ({
             {rows.map((row, index) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                <tr {...row.getRowProps()} key={index}>
+                  {row.cells.map((cell, index) => (
+                    <td {...cell.getCellProps()} key={index}>{cell.render("Cell")}</td>
                   ))}
                 </tr>
               );
