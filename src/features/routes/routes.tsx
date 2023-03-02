@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthenticationRoutes from "./authentication_routes";
-import ProtectedRoutes from "./ProtectedRoutes";
+import {ProtectedRoutes, ProtectedAdminRoutes} from "./ProtectedRoutes";
 import UserContext from "../context/user/user";
 import SiteAdminRoute from "./site_admin_route";
 import StudentDashRoutes from "./student_dash_routes";
@@ -17,11 +17,13 @@ export default function CustomRoutes() {
       <Routes>
         {AuthenticationRoutes(isLoggedIn)}
         <Route element={<ProtectedRoutes />}>
-          {SiteAdminRoute()}
           {StudentDashRoutes()}
           {TeacherDashRoutes()}
           {CoursesRoutes()}
           {CommonRoutes()}
+        </Route>
+        <Route element={<ProtectedAdminRoutes />}>
+          {SiteAdminRoute()}
         </Route>
       </Routes>
     </BrowserRouter>
