@@ -102,7 +102,7 @@ const Departments = () => {
           <hr />
           {DEPARTMENT_FILTER_COMPONENT}
           {DEPARTMENT_TABLE_COMPONENT}
-          {DEPARTMENT_PAGINATION_COMPONENT}
+          {/* {DEPARTMENT_PAGINATION_COMPONENT} */}
           {DEPARTMENT_MODAL_COMPONENT}
         </div>
       </Container>

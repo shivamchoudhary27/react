@@ -129,6 +129,9 @@ const DepartmentModal = ({
           {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
+                <label htmlFor="name">
+                  Name <sup className="required">*</sup>
+                </label>
                 <Field
                   id="name"
                   name="name"
@@ -141,6 +144,9 @@ const DepartmentModal = ({
               </div>
 
               <div className="mb-3">
+                <label htmlFor="description">
+                  Description <sup className="required">*</sup>
+                </label>
                 <Field
                   id="description"
                   name="description"

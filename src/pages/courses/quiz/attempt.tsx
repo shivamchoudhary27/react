@@ -234,7 +234,7 @@ function Attempt() {
               <div className="text-center page-btn mb-3">
                 <div>
                   {next > 0 &&
-                    (nav == true ? (
+                    (nav === true ? (
                       <button type="button" className="pre-btn" onClick={previousPage}>
                         Previous{' '}
                       </button>
@@ -260,7 +260,7 @@ function Attempt() {
             <div className="quiz-right-sidebar">
               <>
               {quizData.attempt === undefined && navigate('/')}
-              {nav == true ? (
+              {nav === true ? (
                 <QuestionsPageNav quizPages={quizPages} finisAttempt={finishAttempt} changePage={changePage} />
               ) : (
                 <QuestionsPageNav quizPages={quizPages} finisAttempt={finishAttempt} changePage={changePage} btnNav />

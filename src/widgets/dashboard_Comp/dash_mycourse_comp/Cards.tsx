@@ -54,7 +54,7 @@ function MyCourseCard(props: MyCourseCardType) {
               let breakLoop = false;
               for (let data of res.data) {
                 for (let val of data.modules) {
-                  if (val.modname == "quiz") {
+                  if (val.modname === "quiz") {
                     localStorage.setItem(resumeCourseKey, val.instance + "-" + val.modname);
                     navigate(`/mod/quiz/${courseid}/${val.instance}`, { state: { modname: val.name } });
                     breakLoop = true;
@@ -94,11 +94,11 @@ function MyCourseCard(props: MyCourseCardType) {
       lastCourseStatus = lastCourseStatus.split("-");
       for (let data of title) {
         if (lastCourseStatus[1] === "quiz" && data.modname === "quiz") {
-          if (lastCourseStatus[0] == data.instance) {
+          if (lastCourseStatus[0] === data.instance) {
             navigate(`/mod/quiz/${courseid}/${lastCourseStatus[0]}`, { state: { modname: data.name } });
           }
         } else if (lastCourseStatus[1] === "resource" && data.modname === "resource") {
-          if (lastCourseStatus[0] == data.id) {
+          if (lastCourseStatus[0] === data.id) {
             let videoUrl = data.contents[0].fileurl.replace("?forcedownload=1", "");
             data.contents !== undefined &&
               navigate(`/mod/video/${lastCourseStatus[0]}/${courseid}`, { state: { modurl: videoUrl, modname: data.name } });

@@ -82,7 +82,7 @@ const DiciplineTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    const confirmBox = confirm("You want to delete");
+    const confirmBox = window.confirm("Are you sure to delete?");
     if (confirmBox === true) {
       let endpoint = `/disciplines/${id}`;
       refreshDisciplineData(false);

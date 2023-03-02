@@ -117,7 +117,7 @@ const Report = () => {
                         <div className="pt-5">
                             <select onChange={handleChange} id="selct_item">
                                 <option value="0">All</option>
-                                {course != undefined &&
+                                {course !== undefined &&
                                     course.map((item: { id: any; fullname: string; }) => (
                                         <option value={item.id} key={item.id}>
                                             {item.fullname}

@@ -56,7 +56,7 @@ function Video() {
                 console.log("Something went wrong");
               } else {
                 res.data.resources.map((item: { id: string | undefined; contentfiles: { fileurl: any; }[]; name: any; }) => {
-                  if (item.id == id) {
+                  if (item.id === id) {
                     setStateUrl({
                       status: true,
                       url: `${item.contentfiles[0].fileurl}?token=${
