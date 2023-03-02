@@ -6,9 +6,8 @@ import SkeletonMimic from "./Skeleton";
 import ErrorBox from "../../ErrorBox";
 import "./style.scss";
 import UserContext from "../../../features/context/user/user";
-import {LinkToggleType, MyCoursesType, FilterType} from "../../../type/index";
 
-function DashMyCourse({ linkToggle }: LinkToggleType) {
+function DashMyCourse({ linkToggle }: any) {
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
   const [myCourses, setMyCourses] = useState<any[]>([]);
@@ -19,10 +18,10 @@ function DashMyCourse({ linkToggle }: LinkToggleType) {
   useEffect(() => {
     const query = {
       wsfunction: "core_enrol_get_users_courses",
-      userid
+      userid,
     };
     getData(query)
-      .then(res => {
+      .then((res) => {
         if (res.status === 200 && res.data) {
           if (userid !== query.userid || res.data.errorcode) {
             setError("Something went wrong");
@@ -33,46 +32,47 @@ function DashMyCourse({ linkToggle }: LinkToggleType) {
           }
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  useEffect(
-    () => {
-      const dateFormat = Math.floor(Date.now() / 1000);
-      if (linkToggle === 1) {
-        const inprogress = myCourses.filter(
-          (el: any) => dateFormat > el.startdate && dateFormat < el.enddate
-        );
-        if (inprogress.length !== 0) {
-          setFilter(inprogress);
-          setFilterDataMsg(false);
-        } else {
-          setFilterDataMsg(true);
-        }
-      } else if (linkToggle === 2) {
-        const completed = myCourses.filter((el: { enddate: number; }) => dateFormat > el.enddate);
-        if (completed.length !== 0) {
-          setFilter(completed);
-          setFilterDataMsg(false);
-        } else {
-          setFilterDataMsg(true);
-        }
-      } else if (linkToggle === 3) {
-        const notStarted = myCourses.filter((el: { startdate: number; }) => dateFormat < el.startdate);
-        if (notStarted.length !== 0) {
-          setFilter(notStarted);
-          setFilterDataMsg(false);
-        } else {
-          setFilterDataMsg(true);
-        }
+  useEffect(() => {
+    const dateFormat = Math.floor(Date.now() / 1000);
+    if (linkToggle === 1) {
+      const inprogress = myCourses.filter(
+        (el: any) => dateFormat > el.startdate && dateFormat < el.enddate
+      );
+      if (inprogress.length !== 0) {
+        setFilter(inprogress);
+        setFilterDataMsg(false);
       } else {
-        setFilter(myCourses);
+        setFilterDataMsg(true);
       }
-    },
-    [linkToggle, myCourses]
-  );
+    } else if (linkToggle === 2) {
+      const completed = myCourses.filter(
+        (el: { enddate: number }) => dateFormat > el.enddate
+      );
+      if (completed.length !== 0) {
+        setFilter(completed);
+        setFilterDataMsg(false);
+      } else {
+        setFilterDataMsg(true);
+      }
+    } else if (linkToggle === 3) {
+      const notStarted = myCourses.filter(
+        (el: { startdate: number }) => dateFormat < el.startdate
+      );
+      if (notStarted.length !== 0) {
+        setFilter(notStarted);
+        setFilterDataMsg(false);
+      } else {
+        setFilterDataMsg(true);
+      }
+    } else {
+      setFilter(myCourses);
+    }
+  }, [linkToggle, myCourses]);
   return (
     <>
       <div
@@ -93,7 +93,9 @@ function DashMyCourse({ linkToggle }: LinkToggleType) {
                     <div className="">
                       <MyCourseCard
                         mycoursedata={element}
-                        currentTab={linkToggle} element={[]} />
+                        currentTab={linkToggle}
+                        element={[]}
+                      />
                     </div>
                   </div>
                 ))}

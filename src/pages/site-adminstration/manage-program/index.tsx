@@ -9,8 +9,6 @@ import ManageTable from "./manageTable";
 const ManageProgram = () => {
   const navigate = useNavigate();
 
-  const getDepartmentTitleList = () => {};
-
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />

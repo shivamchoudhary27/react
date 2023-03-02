@@ -63,19 +63,19 @@ export default function ReactBigCalendar() {
       });
   }, []);
 
-  const handleSelect = ({ start, end }) => {
-    const title = window.prompt("New Event name");
+  // const handleSelect = ({ start, end }) => {
+  //   const title = window.prompt("New Event name");
 
-    if (title)
-      setEventsData([
-        ...eventsData,
-        {
-          start,
-          end,
-          title
-        }
-      ]);
-  };
+  //   if (title)
+  //     setEventsData([
+  //       ...eventsData,
+  //       {
+  //         start,
+  //         end,
+  //         title
+  //       }
+  //     ]);
+  // };
 
   return (
     <>
@@ -98,7 +98,7 @@ export default function ReactBigCalendar() {
                 eventPropGetter={(myEventsList) => {
                   const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
                   const color = myEventsList.color ? myEventsList.color : 'white';
-                  return { style: { backgroundColor ,color}}
+                  return { style: { backgroundColor, color}}
                 }}
               />
             </div>

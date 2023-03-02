@@ -287,7 +287,7 @@ const AddProgramForm = () => {
               </div>
               <label htmlFor="metatitle">Program meta Fields</label>
               <div className="card p-3 mb-3">
-                {inputFieldArr.map((item) => {
+                {inputFieldArr.map(() => {
                   return (
                     <>
                       <div className="mb-3">

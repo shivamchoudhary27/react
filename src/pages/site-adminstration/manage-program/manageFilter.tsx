@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./style.scss";
 import { Button } from "react-bootstrap";
 import ManageDropdown from "./manageDropdown";
-import { ManageRawData } from "./rawData";
 import { useNavigate } from "react-router-dom";
 
 const ManageFilter = () => {

@@ -1,13 +1,8 @@
 import React, { useRef } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 
-export default function TinymceEditor({ handleChange, field, meta }: any) {
+export default function TinymceEditor({ handleChange, field }: any) {
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
   return (
     <>
       <div>
