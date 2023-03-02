@@ -15,17 +15,12 @@ const Menuitem = styled(MenuItem)`
   }
 `;
 function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const userctx = useContext(UserContext);
-  // const userSiteAdmin = userctx.userInfo.userrole ?? userctx.userInfo.userissiteadmin ??false;
-  console.log(userctx);
   const navigate = useNavigate();
+  const userctx = useContext(UserContext);
+  const userSiteAdmin = userctx.userInfo.userissiteadmin ?? 'false';
   const [sidebararrow, setSidebarArrow] = useState(false);
-  // const [headerslide, setHeaderslide] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const styles = {
-    // sideBarHeight: {
-    //   height: "145vh",
-    // },
     menuIcon: {
       float: "right",
       margin: "10px",
@@ -117,14 +112,15 @@ function Sidebar() {
               Video Report
             </Link>
           </Menuitem>
-          {/* {userSiteAdmin ==  true && */}
+          {
+          userSiteAdmin ===  'true' &&
           <Menuitem>
             <Link id="" to="/siteadmin">
               <i className="fa-solid fa-user degree-icon"></i>
               Site Admin
             </Link>
           </Menuitem>
-          {/* } */}
+          }
           <Menuitem>
             <Link id="" to="/teacherdashboard">
               <i className="fa-solid fa-chalkboard-user degree-icon"></i>

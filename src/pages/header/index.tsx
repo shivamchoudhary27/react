@@ -2,11 +2,16 @@ import React, { useContext } from "react";
 import { Row } from "react-bootstrap";
 import goodbye from "../../assets/images/goodbye.png";
 import NotificationOverlay from "../../widgets/notifications";
+import config from "../../utils/config";
 // import Cart from "../cartlist/Cart";
 import UserContext from "../../features/context/user/user";
 // import useUserinfo from "../../features/hooks/userinfo";
 import Dropdown from 'react-bootstrap/Dropdown';
 import "./style.scss";
+
+if (config.WSTOKEN === '') {
+  config.WSTOKEN = localStorage.getItem('token');
+}
 
 function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
   // const res = useUserinfo();
