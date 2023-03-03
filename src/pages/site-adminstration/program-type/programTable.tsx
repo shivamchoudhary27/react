@@ -3,6 +3,8 @@ import { deleteData as deleteProgramData } from "../../../adapters/microservices
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -43,7 +45,7 @@ const ProgramTable = ({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
-                  batchYearRequired: row.original.batchYearRequired
+                  batchYearRequired: row.original.batchYearRequired,
                 })
               }
             ></i>
@@ -83,16 +85,47 @@ const ProgramTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    const confirmBox = window.confirm("Are you sure to delete?");
-    if (confirmBox === true) {
-      let endpoint = `/program-types/${id}`;
-      refreshProgramData(false);
-      deleteProgramData(endpoint).then((res) => {
-        if (res.data !== "" && res.status === 200) {
-          refreshProgramData(true);
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: true,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure to delete?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: "success",
+            title: "Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          let endpoint = `/program-types/${id}`;
+          refreshProgramData(false);
+          deleteProgramData(endpoint).then((res: any) => {
+            if (res.data !== "" && res.status === 200) {
+              refreshProgramData(true);
+            }
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            icon: "error",
+            title: "Cancelled",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
-    }
   };
 
   // hide show toggle event handler === >>>
@@ -121,7 +154,9 @@ const ProgramTable = ({
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render("Cell")}
+                    </td>
                   ))}
                 </tr>
               );
