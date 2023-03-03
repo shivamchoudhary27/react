@@ -9,6 +9,7 @@ const config = {
   SIGNUP_TOKEN: '8d03740114d7a608cd93b89bb2b726f9',  //dummy token of admin to signup user moodle api
   ADMIN_MOODLE_TOKEN: 'bf6d98415a7b551c4ee9b6e20167dac3',  //dummy token of moodle admin
   OAUTH2_ACCESS_TOKEN: '',
-  REDIRECT_URI : `${window.location.protocol}'//'${window.location.host}/authlogin`
+  REDIRECT_URI : `${window.location.protocol}//${window.location.host}/authlogin`
 };
+
 export default config;
