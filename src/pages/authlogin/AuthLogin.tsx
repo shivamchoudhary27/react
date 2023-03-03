@@ -14,10 +14,9 @@ const AuthLogin = () => {
   const userCtx = useContext(UserContext);
   const [authCode, setAuthCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-  const currentMethod = window.location.protocol;
-  const returnUri = (currentMethod === "https:") ? `${window.location.host}/authlogin` : '127.0.0.1:3000/authlogin';
-  const redirectUri = `${currentMethod}//${returnUri}`;
-
+  const redirectUri = config.REDIRECT_URI;
+  console.log('redirect uri ' + redirectUri);
+  
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
@@ -26,8 +25,8 @@ const AuthLogin = () => {
 
   useEffect(() => {
     if (authCode !== "") {
-
-      setTimeout(() => {
+      
+        setTimeout(() => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
         console.log(VERIFY_URL);
 
