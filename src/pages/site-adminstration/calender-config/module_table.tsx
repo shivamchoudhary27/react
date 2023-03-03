@@ -65,6 +65,10 @@ const event_type = [
 
 const module_data = [
   {
+    label: "attendance",
+    icon: "fa-solid fa-file",
+  },  
+  {
     label: "forum",
     icon: "fa-solid fa-file",
   },
