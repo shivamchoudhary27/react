@@ -3,6 +3,8 @@ import { deleteData as deleteDepartmentData } from "../../../adapters/microservi
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -89,16 +91,47 @@ const DepartmentTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    const confirmBox = window.confirm("Are you sure to delete?");
-    if (confirmBox === true) {
-      let endPoint = `/departments/${id}`;
-      refreshDepartmentData(false);
-      deleteDepartmentData(endPoint).then((res) => {
-        if (res.data !== "" && res.status === 200) {
-          refreshDepartmentData(true);
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: true,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure to delete?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: "success",
+            title: "Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          let endPoint = `/departments/${id}`;
+          refreshDepartmentData(false);
+          deleteDepartmentData(endPoint).then((res: any) => {
+            if (res.data !== "" && res.status === 200) {
+              refreshDepartmentData(true);
+            }
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            icon: "error",
+            title: "Cancelled",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
-    }
   };
 
   // hide show toggle event handler === >>>
@@ -128,7 +161,9 @@ const DepartmentTable = ({
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render("Cell")}
+                    </td>
                   ))}
                 </tr>
               );

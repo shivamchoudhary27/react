@@ -3,6 +3,8 @@ import { deleteData as deleteDisciplineData } from "../../../adapters/microservi
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -82,16 +84,49 @@ const DiciplineTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    const confirmBox = window.confirm("Are you sure to delete?");
-    if (confirmBox === true) {
-      let endpoint = `/disciplines/${id}`;
-      refreshDisciplineData(false);
-      deleteDisciplineData(endpoint).then((res) => {
-        if (res.data !== "" && res.status === 200) {
-          refreshDisciplineData(true);
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: true,
+    });
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure to delete?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then((result) => {
+        console.log(result);
+        if (result.isConfirmed) {
+          Swal.fire({
+            icon: "success",
+            title: "Deleted Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          let endpoint = `/disciplines/${id}`;
+          refreshDisciplineData(false);
+          deleteDisciplineData(endpoint).then((res: any) => {
+            if (res.data !== "" && res.status === 200) {
+              refreshDisciplineData(true);
+            }
+          });
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          Swal.fire({
+            icon: "error",
+            title: "Cancelled",
+            showConfirmButton: false,
+            timer: 1500,
+          });
         }
       });
-    }
   };
 
   // hide show toggle event handler === >>>
@@ -120,7 +155,9 @@ const DiciplineTable = ({
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render("Cell")}
+                    </td>
                   ))}
                 </tr>
               );

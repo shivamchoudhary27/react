@@ -1,16 +1,17 @@
 const enroled_courses = JSON.parse(localStorage.getItem("enroled_courses"));
 
 const initialColors = JSON.stringify({
-  user: "red",
-  course: "blue",
-  site: "green",
-  category: "pink",
-  forum: "red",
-  quiz: "yellow",
-  workshop: "blue",
-  assignment: "green",
-  page: "gray",
-  book: "black",
+  user: "#395B64",
+  course: "#95BDFF",
+  site: "#698269",
+  category: "#AA5656",
+  attendance: "#81B214",
+  forum: "#E4C988",
+  quiz: "#820000",
+  workshop: "#4E6C50",
+  assignment: "#CB1C8D",
+  page: "#460C68",
+  book: "#C27664",
 });
 
 const getEventColor = (event, colorConfig) => {
