@@ -4,17 +4,17 @@ import Module_Table from "./module_table";
 import { Button } from "react-bootstrap";
 
 const initialValues = {
-  user: "red",
-  course: "blue",
-  site: "green",
-  category: "pink",
-  attendance: "lightgrey",
-  forum: "red",
-  quiz: "darkyellow",
-  workshop: "blue",
-  assignment: "green",
-  page: "gray",
-  book: "black",
+  user: "#395B64",
+  course: "#95BDFF",
+  site: "#698269",
+  category: "#AA5656",
+  attendance: "#81B214",
+  forum: "#E4C988",
+  quiz: "#820000",
+  workshop: "#4E6C50",
+  assignment: "#CB1C8D",
+  page: "#460C68",
+  book: "#C27664",
 };
 
 const Module_List = () => {
