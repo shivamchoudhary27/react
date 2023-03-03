@@ -108,7 +108,6 @@ const DepartmentTable = ({
         reverseButtons: true,
       })
       .then((result) => {
-        console.log(result);
         if (result.isConfirmed) {
           Swal.fire({
             icon: "success",
