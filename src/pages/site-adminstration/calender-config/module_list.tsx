@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import Module_Table from "./module_table";
 import { Button } from "react-bootstrap";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 const initialValues = {
   user: "#395B64",
@@ -29,14 +31,21 @@ const Module_List = () => {
         initialValues={initialColors}
         onSubmit={(values) => {
           console.log(values);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Color Added Successfully!",
+            showConfirmButton: false,
+            timer: 1500
+          });
           const moduleColorsList = JSON.stringify(values)
           localStorage.setItem('event-colors' , moduleColorsList)
         }}
       >
-        {({ isSubmitting }) => (
+        {() => (
           <Form>
             <Module_Table Field={Field} />
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit">
               Save
             </Button>
           </Form>
