@@ -14,8 +14,16 @@
       that should be loaded over insecure HTTP.
       Add this Content-Security-Policy code in <head>
       The important thing to remember is that CSP is there to restrict Web site content, not to loosen browser restrictions.
+      <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 
     -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    <script>      
+      if (window.location.protocol === 'https:') {
+        var metaTag = document.createElement('meta');
+        metaTag.setAttribute('http-equiv', 'Content-Security-Policy');
+        metaTag.setAttribute('content', 'upgrade-insecure-requests');
+        document.head.appendChild(metaTag);
+      }
+    </script>
     
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
