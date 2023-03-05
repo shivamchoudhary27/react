@@ -7,9 +7,6 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './widgets/components.css';
 function App() {
-
-  console.log("staticwebapp.config.json file test");
-  
   return (
     <UserContextProvider>
       <CustomRoutes />
