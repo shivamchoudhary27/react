@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import axios from 'axios';
 import Loader from "../../widgets/loader/loader";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -29,41 +30,42 @@ const AuthLogin = () => {
         setTimeout(() => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
         console.log(VERIFY_URL);
+        
+        axios.get(VERIFY_URL)
+        .then(result => {
+          console.log('verify_url result');
+          console.log(result);
+          // Handle success response here
+          setIsLoaded(true);
 
-        var requestOptions: any = {
-          method: 'GET',
-          redirect: 'follow'
-        };
-      
-        fetch(VERIFY_URL, requestOptions)
-          .then(response => response.json())
-          .then((result) => {
-              setIsLoaded(true);
+            if (result.data !== '' && 'access_token' in result.data) {
+              Object.entries(result.data).map(([key, value]: any) => {
+                value = value.toString();
+                sessionStorage.setItem(key, value);
+                localStorage.setItem(key, value);  // added if app if reloaded for some url
+              });
 
-              if ('access_token' in result) {
-                Object.entries(result).map(([key, value]: any) => {
-                  value = value.toString();
-                  sessionStorage.setItem(key, value);
-                  localStorage.setItem(key, value);  // added if app if reloaded for some url
-                });
-
-                createAxiosInstance(result.access_token);
-                config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
-                config.OAUTH2_ACCESS_TOKEN = result.access_token;               
-                
-                userCtx.setUserToken(config.WSTOKEN);
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: "Login Successful",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                navigate("/dashboard");         
-              } else {
-                window.alert('Failed to get auth token');
-              }
-          }).catch(error => console.log('error', error));
+              createAxiosInstance(result.data.access_token);
+              config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
+              config.OAUTH2_ACCESS_TOKEN = result.data.access_token;               
+              
+              userCtx.setUserToken(config.WSTOKEN);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Login Successful",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/dashboard");         
+            } else {
+              window.alert('Failed to get auth token');
+            }
+        })
+        .catch(error => {
+          console.log(error);
+          // Handle error response here
+        });
       }, 2000);
     }
   }, [authCode]);
