@@ -5,6 +5,7 @@ import { Button } from "react-bootstrap";
 import { Schemas } from "./schemas";
 import { getData as getName } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   department: "",
@@ -40,6 +41,7 @@ const addInputField = [
 ];
 
 const AddProgramForm = () => {
+  const navigate = useNavigate()
   const [inputFieldArr, setinputFieldArr] = useState(addInputField);
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
@@ -118,7 +120,7 @@ const AddProgramForm = () => {
           initialValues={initialValues}
           validationSchema={Schemas}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            console.log(values);
+            navigate('/preview', {state: values});
             setSubmitting(false);
             resetForm();
           }}
