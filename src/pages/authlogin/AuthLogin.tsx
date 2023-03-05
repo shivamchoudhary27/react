@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from 'axios';
-// import https from 'https';
 import Loader from "../../widgets/loader/loader";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +15,7 @@ const AuthLogin = () => {
   const [authCode, setAuthCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const redirectUri = config.REDIRECT_URI;
+  console.log('testing my final approach {mode : cors} or i will go to sleep');
   
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -27,55 +26,47 @@ const AuthLogin = () => {
   useEffect(() => {
     if (authCode !== "") {
       
-        setTimeout(() => {
+      setTimeout(() => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
         console.log(VERIFY_URL);
-        
-        axios.defaults.baseURL = `${config.OAUTH2_URL}`;
-        console.log('axios default baseurl ' + axios.defaults.baseURL);
-        
-        // const httpsAgent = new https.Agent({
-        //   rejectUnauthorized: false
-        // });
 
-        // axios.get(VERIFY_URL, {
-        //   // httpsAgent
-        // })
-        axios({
-          method: 'get',
-          baseURL: VERIFY_URL,
-        })
-        .then(result => {
-          setIsLoaded(true);
+        var requestOptions: any = {
+          method: 'GET',
+          mode: 'cors',
+          redirect: 'follow'
+        };
+      
+        fetch(VERIFY_URL, requestOptions)
+          .then(response => response.json())
+          .then((result) => {
+              setIsLoaded(true);
 
-            if (result.data !== '' && 'access_token' in result.data) {
-              Object.entries(result.data).map(([key, value]: any) => {
-                value = value.toString();
-                sessionStorage.setItem(key, value);
-                localStorage.setItem(key, value);  // added if app if reloaded for some url
-              });
+              if ('access_token' in result) {
+                Object.entries(result).map(([key, value]: any) => {
+                  value = value.toString();
+                  sessionStorage.setItem(key, value);
+                  localStorage.setItem(key, value);  // added if app if reloaded for some url
+                });
 
-              createAxiosInstance(result.data.access_token);
-              config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
-              config.OAUTH2_ACCESS_TOKEN = result.data.access_token;               
-              
-              userCtx.setUserToken(config.WSTOKEN);
-              Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Login Successful",
-                showConfirmButton: false,
-                timer: 1500,
-              });
-              navigate("/dashboard");         
-            } else {
-              window.alert('Failed to get auth token');
-            }
-        })
-        .catch(error => {
-          console.log(error);
-          // Handle error response here
-        });
+                createAxiosInstance(result.access_token);
+                config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
+                config.OAUTH2_ACCESS_TOKEN = result.access_token;               
+                
+                userCtx.setUserToken(config.WSTOKEN);
+                Swal.fire({
+                  position: "center",
+                  icon: "success",
+                  title: "Login Successful",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                navigate("/dashboard");         
+              } else {
+                window.alert('Failed to get auth token');
+              }
+          }).catch((error) => {
+            console.error(error);
+          });
       }, 2000);
     }
   }, [authCode]);
