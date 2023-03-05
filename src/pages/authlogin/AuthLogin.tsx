@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from 'axios';
+// import https from 'https';
 import Loader from "../../widgets/loader/loader";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -32,8 +33,18 @@ const AuthLogin = () => {
         
         axios.defaults.baseURL = `${config.OAUTH2_URL}`;
         console.log('axios default baseurl ' + axios.defaults.baseURL);
+        
+        // const httpsAgent = new https.Agent({
+        //   rejectUnauthorized: false
+        // });
 
-        axios.get(VERIFY_URL)
+        // axios.get(VERIFY_URL, {
+        //   // httpsAgent
+        // })
+        axios({
+          method: 'get',
+          baseURL: VERIFY_URL,
+        })
         .then(result => {
           setIsLoaded(true);
 
