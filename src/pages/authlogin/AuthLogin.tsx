@@ -15,7 +15,6 @@ const AuthLogin = () => {
   const [authCode, setAuthCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const redirectUri = config.REDIRECT_URI;
-  console.log('testing my final approach {mode : no-cors} or i will go to sleep');
   
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -32,7 +31,6 @@ const AuthLogin = () => {
 
         var requestOptions: any = {
           method: 'GET',
-          mode: 'no-cors',
           redirect: 'follow'
         };
       
