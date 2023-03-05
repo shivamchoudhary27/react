@@ -17,7 +17,7 @@
       <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> 
     -->
     <script>
-    console.log('added axios for verify url , testing ssl network error on demo server');      
+    console.log('added default http url to axios , so that it dont get convert to https by axios');      
       if (window.location.protocol === 'https:') {
         var metaTag = document.createElement('meta');
         metaTag.setAttribute('http-equiv', 'Content-Security-Policy');

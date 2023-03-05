@@ -16,7 +16,6 @@ const AuthLogin = () => {
   const [authCode, setAuthCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const redirectUri = config.REDIRECT_URI;
-  console.log('redirect uri ' + redirectUri);
   
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -31,11 +30,11 @@ const AuthLogin = () => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
         console.log(VERIFY_URL);
         
+        axios.defaults.baseURL = `${config.OAUTH2_URL}`;
+        console.log('axios default baseurl ' + axios.defaults.baseURL);
+
         axios.get(VERIFY_URL)
         .then(result => {
-          console.log('verify_url result');
-          console.log(result);
-          // Handle success response here
           setIsLoaded(true);
 
             if (result.data !== '' && 'access_token' in result.data) {
