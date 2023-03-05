@@ -9,6 +9,14 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <!--
+      A “mixed content” error occurs when a page communicating over secure HTTPS contains resources 
+      that should be loaded over insecure HTTP.
+      Add this Content-Security-Policy code in <head>
+      The important thing to remember is that CSP is there to restrict Web site content, not to loosen browser restrictions.
+    -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+    
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
 
     <link
