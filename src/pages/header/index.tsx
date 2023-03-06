@@ -8,6 +8,7 @@ import UserContext from "../../features/context/user/user";
 // import useUserinfo from "../../features/hooks/userinfo";
 import Dropdown from 'react-bootstrap/Dropdown';
 import "./style.scss";
+import { useNavigate } from "react-router-dom";
 
 if (config.WSTOKEN === '') {
   config.WSTOKEN = localStorage.getItem('token');
@@ -16,10 +17,18 @@ if (config.WSTOKEN === '') {
 function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
   // const res = useUserinfo();
   const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
   // console.log(userCtx);
   const userid = userCtx.userInfo.userid ?? 0;
   const fullname = userCtx.userInfo.fullname ?? '';
   const userpictureurl = userCtx.userInfo.userpictureurl ?? '';
+
+  const logout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      userCtx.logout();
+      navigate("/");
+    }
+  };
 
   return (
     <header className="dashboard-header header-slider" id="headerslide">
@@ -59,8 +68,8 @@ function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
                     {/* <i class="fa fa-angle-down"></i> */}
                     <Dropdown.Toggle variant="success" id="dropdown-basic"></Dropdown.Toggle>
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                      <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
+                      {/* <Dropdown.Item href="#/action-1">Profile</Dropdown.Item> */}
+                      <Dropdown.Item href="#/action-2" onClick={logout}>Logout</Dropdown.Item>
                       {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
                     </Dropdown.Menu>
                   </Dropdown>
