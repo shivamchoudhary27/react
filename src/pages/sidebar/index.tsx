@@ -1,5 +1,11 @@
 import React, { useState, useContext } from "react";
-import { Menu, MenuItem, ProSidebar, SidebarHeader } from "react-pro-sidebar";
+import {
+  ProSidebar,
+  Menu,
+  MenuItem,
+  SidebarHeader,
+  SidebarContent,
+} from "react-pro-sidebar";
 import "./style.scss";
 import "react-pro-sidebar/dist/css/styles.css";
 import styled from "styled-components";
@@ -18,39 +24,16 @@ function Sidebar() {
   const navigate = useNavigate();
   const userctx = useContext(UserContext);
   const userSiteAdmin = userctx.userInfo.userissiteadmin ?? 'false';
-  const [sidebararrow, setSidebarArrow] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const styles = {
-    menuIcon: {
-      float: "right",
-      margin: "10px",
-      marginLeft: "38px",
-    },
-  };
-  const onClickMenuIcon = () => {
-    setCollapsed(!collapsed);
-    const sample = document.getElementById("high");
-    sample.classList.toggle("bl-text");
-    const logo = document.getElementById("logowhite");
-    logo.classList.toggle("d-none");
-    const headerslide = document.getElementById("headerslide");
-    headerslide.classList.toggle("header-slider");
-    const coursestatusslide = document.getElementById("coursestatusslider");
-    coursestatusslide.classList.toggle("course-status-slider");
-    const coursecontentslide = document.getElementById("coursecontentslider");
-    coursecontentslide.classList.toggle("course-content-slider");
-    const recommendcourseslide = document.getElementById(
-      "recommendedcourseslider"
-    );
-    recommendcourseslide.classList.toggle("recommended-course-slider");
-    const cataloguecourseslide = document.getElementById(
-      "cataloguecourseslider"
-    );
-    cataloguecourseslide.classList.toggle("catalogue-course-slider");
-    const sidebaricon = document.getElementById("sidebaricon");
-    sidebaricon.classList.toggle("burger-icon");
-    setSidebarArrow(!sidebararrow);
-  };
+
+  const closemenu = {
+    display: "flex",
+    justifyContent: "end",
+    color: "darkorange",
+    fontSize: "20px",
+    paddingRight: "10px",
+}
+
   const logout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       userctx.logout();
@@ -58,41 +41,38 @@ function Sidebar() {
     }
   };
 
+  const menuIconClick = () => {
+    //condition checking to change state from true to false and vice versa
+    collapsed ? setCollapsed(false) : setCollapsed(true);
+  };
+
   return (
     <>
       <ProSidebar
-        style={styles.sideBarHeight}
         collapsed={collapsed}
         id="mobile-toggle"
         className="mobile-sidebar"
       >
         <SidebarHeader>
-          <div
-            role="presentation"
-            style={styles.menuIcon}
-            onClick={onClickMenuIcon}
-            className="hamburger-icon burger-icon"
-            id="sidebaricon"
-          >
-            {sidebararrow === true ? (
-              <i className="fas fa-long-arrow-alt-right" />
-            ) : (
-              <i className="fas fa-long-arrow-alt-left" />
-            )}
-          </div>
+            <div style={closemenu} onClick={menuIconClick}>
+              {/* changing menu collapse icon on click */}
+              {collapsed ? <i className="fas fa-long-arrow-alt-right" /> : <i className="fas fa-long-arrow-alt-left" />}
+            </div>
         </SidebarHeader>
+        <SidebarContent>
         <Menu iconShape="square">
           <Menuitem>
+          {collapsed ? <div className="bl-text" id="high">
+              <div className="bl-logo-text">
+                <p className="bl-logo-text-content">BL</p>
+              </div>
+            </div> :
             <div className="logo-bg" id="logowhite">
               <Link to="/dashboard">
                 <img className="bl-logo" src={logo} alt="logo.png" />
               </Link>
             </div>
-            <div className="bl-text" id="high">
-              <div className="bl-logo-text">
-                <p className="bl-logo-text-content">BL</p>
-              </div>
-            </div>
+            }
           </Menuitem>
           <Menuitem>
             <Link className="active-link" id="dashboard" to="/dashboard">
@@ -148,6 +128,8 @@ function Sidebar() {
             logout
           </Menuitem>
         </Menu>
+        </SidebarContent>
+        
       </ProSidebar>
     </>
   );
