@@ -34,25 +34,27 @@ function Dashboard() {
   };
 
   return (
-    <>
-      <Sidebar />
+    <>      
       <Header pageHeading="Welcome Back !" welcomeIcon={false} />
-      <div className="pt-5">
-        <div className="course-status-content course-status-slider" id="coursestatusslider">
-          <ul className="course-status">
-            <li role="presentation" style={{color: toggleColor.inprogColor}} className="course-progress" id="inprogressColor" onClick={handleInprogressData}>
-              Inprogress
-            </li>
-            <li role="presentation" style={{color: toggleColor.compltColor}} id="completedColor" onClick={handleCompletedData}>
-              Completed
-            </li>
-            <li role="presentation" style={{color: toggleColor.notcompleteColor}} id="notStartedColor" onClick={handleNotStartedData}>
-              Not Started
-            </li>
-          </ul>
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+          <div className="course-status-content">
+            <ul className="course-status">
+              <li role="presentation" style={{color: toggleColor.inprogColor}} className="course-progress" id="inprogressColor" onClick={handleInprogressData}>
+                Inprogress
+              </li>
+              <li role="presentation" style={{color: toggleColor.compltColor}} id="completedColor" onClick={handleCompletedData}>
+                Completed
+              </li>
+              <li role="presentation" style={{color: toggleColor.notcompleteColor}} id="notStartedColor" onClick={handleNotStartedData}>
+                Not Started
+              </li>
+            </ul>
+          </div>
+          <DashMyCourse linkToggle={linkToggle} />
         </div>
-        <DashMyCourse linkToggle={linkToggle} />
-      </div>
+      </div>      
     </>
   );
 }

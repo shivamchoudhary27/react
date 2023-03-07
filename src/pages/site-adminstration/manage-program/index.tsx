@@ -12,13 +12,10 @@ const ManageProgram = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <Container fluid>
-        <div
-          className="contents"
-          style={{ paddingLeft: "270px", marginTop: "70px" }}
-        >
-          <div className="container-wrapper">
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+          <Container fluid className="administration-wrapper">        
             <div className="site-heading">
               <h3>Manage Programs</h3>
             </div>
@@ -39,12 +36,12 @@ const ManageProgram = () => {
                 Disciplines
               </Button>
             </div>
-          </div>
-          <hr />
-          <ManageFilter />
-          <ManageTable />
+            <hr />
+            <ManageFilter />
+            <ManageTable />
+          </Container>
         </div>
-      </Container>
+      </div>
     </>
   );
 };

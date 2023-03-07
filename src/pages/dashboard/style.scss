@@ -1,84 +1,34 @@
-.course-status-slider{
-  padding-left: 314px !important;
-}
 .course-status-content {
-  padding-left: 130px;
-  transition: 0.5s;
-  position: absolute;
-  top: 50px;
-  z-index: 1;
-  width: 100%;
-  height: auto;
-  background: white;
-  .course-status {
-    display: inline-flex;
-    padding-top: 10px;
-    border-bottom: 1px solid #eae6e5;
-    width: 96%;
-    padding-inline-start: 0px;
-    li {
-      padding-right: 30px;
-      transition: 0.2s ease;
-      cursor: pointer;
-      // &:hover{
-      //   // color: #f1b580;
-      // }
-    }
-  }
+  background: #fff;
   .course-status {
     display: flex;
-    list-style-type: none;
-    padding-inline-start: 0px;
-    margin-bottom: 0px;
-    .active-link{
-      color: #f57f17;
-    }
-    li{
-        padding-right: 20px;
-        color:#A2A1A1;
-        font-weight: 500;
+    border-bottom: 1px solid #eae6e5;
+    padding: 0;
+    li {
+      margin:5px 15px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      color:#A2A1A1;
+      font-size: 18px;
+      font-weight: 500;
     }
   }
 }
-
 
 // Extra small devices (portrait phones, less than 576px)
 @media (max-width: 575.98px) {
-  .course-status-slider {
-    padding-left: 314px !important;
-}
-.course-status-content {
-  padding-left: 20px !important;
-  top: 46px;
-}
+
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-  .course-status-slider {
-    padding-left: 30px !important;
-}
-}
 
-
+}
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .course-status-slider {
-    padding-left: 63px !important;
-}
-}
 
-
+}
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .course-status-slider {
-    padding-left: 63px !important;
-}
+
 }
 
-
-
-// @media (min-width: 1200px) {
-//   .course-status-slider {
-//     padding-left: 130px !important;
-// }
-// }

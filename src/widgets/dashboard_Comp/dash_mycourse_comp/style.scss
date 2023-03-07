@@ -1,356 +1,84 @@
-.course-content-slider{
-    padding-left: 300px !important;
-}
-.course-content{
-    padding-left: 117px;
-    transition: 0.5s;
-    padding-top: 60px;
-    padding-right: 24px;
-    padding-bottom: 40px;
-    .course-row{
-        margin-left: unset;
-        margin-right: unset;
-        .col-sm-4{
-            .course-items{
-                list-style-type: none;
-                padding-inline-start: 0px;
-                display:inline-flex;
-                margin-bottom: 0px;
-                align-items:center;
-            }
-            .course-items li{
-                padding-right: 10px;
-            }
-            .ai-course{
-                border: 1px solid #EAE6E5;
-                margin-bottom: 25px;
-                .course-heading-google{
-                    height: 57px;
-                    width: 269px;
-                }
-                .google-course-text{
-                    height: 80px;
-                    width: 269px;
-                }
-                .progress-percentage{
-                    font-size: 30px;
-                    color:#F57F17;
-                    margin-right: 10px;
-                    font-weight: 500;
-                    padding-left: 20px;
-                }
-                .percentage-status{
-                    color:#767676;
-                    font-size: 14px;
-                    font-weight: 400;
-                }
-                .progress{
-                        border-radius: unset;
-                        height: 7px;
-                    .progress-bar{
-                        background-color: #F57F17 !important;
-                    }
-                }
-                .course-duration-content{
-                    padding:20px;
-                    background:rgba(249, 128, 18, 0.1);
-                    color:black;
-                    position: relative;
-                    transition: 0.5s;
-                    .course-duration{
-                        list-style-type: none;
-                        padding-inline-start: 0px;
-                        display:inline-flex;
-                        margin-bottom: 0px;
-                        align-items:center;
-                        .third-child{
-                            position: absolute;
-                            right: 6px;
-                        }
-                        .fa-long-arrow-right{
-                            margin-left: 10px;
-                        }
-                        .course-btn{
-                            background-color: #F57F17;
-                            border-color: #F57F17;
-                            border-width: 0px;
-                            padding: 10px 30px 10px 30px;
-                            border-radius: 50px;
-                            color: white;
-                            display: flex;
-                            align-items: center;
-                        }
-                    }
-                    .course-duration li{
-                        padding-right: 10px;
-                    }
-                }
-                .course-duration-content:hover{
-                    background-color: #192430;
-                    color:white;
-                    cursor:pointer;
-                }
-                .ai-border{
-                    padding: 20px;
-                    .row{
-                        .col-sm-12{
-                            padding-left: 0px;
-                            .course-image{
-                                width:50px;
-                                height: 50px;
-                                border-radius: 50%;
-                            }
-                        }
-                        .col-sm-12{
-                            .course-image{
-                                width:50px;
-                            }
-                        }
-                    }
-                }
+.course-widgets{
+    .ai-course {
+        border: 1px solid #EAE6E5;
+        > .row {
+            margin: 10px 0;
+        }
+        .card-title {
+            height: 60px;
+        }
+        .progress-percentage{
+            font-size: 30px;
+            color:#F57F17;
+            margin-right: 10px;
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        .percentage-status{
+            color:#767676;
+            font-size: 14px;
+        }
+        .progress{
+            border-radius: unset;
+            height: 7px;
+            .progress-bar{
+                background-color: #F57F17;
             }
         }
-    }
-    .more-course-btn{
-        background-color: white;
-        border: 1px solid #F57F17;
-        border-radius: 50px;
-        padding:8px 30px 8px 30px;
-        color: #F57F17;
-        font-size: 14px;
-        margin-top: 15px;
+        .course-duration {
+            padding:15px;
+            background:rgba(249, 128, 18, 0.1);
+            transition: 0.5s;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            .course-btn {
+                background-color: #F57F17;
+                border-color: #F57F17;
+                border-width: 0px;
+                padding: 8px 30px;
+                border-radius: 50px;
+                color: #fff;
+                margin-left: auto;
+            }
+            &:hover{
+                background-color: #192430;
+                color:white;
+                cursor:pointer;
+            }
+            > i {
+                margin-right: 5px;
+            }
+        }
+        .course-image{
+            width:50px;
+            height: 50px;
+            border-radius: 50%;
+        }
     }
 }
-
-
+.more-course-btn{
+    background-color: white;
+    border: 1px solid #F57F17;
+    border-radius: 50px;
+    padding:8px 30px 8px 30px;
+    color: #F57F17;
+    font-size: 14px;
+    margin-top: 15px;
+}
 
 @media (max-width: 575.98px) {
-    .course-content-slider {
-        padding-left: 300px !important;
-    }
-    .course-content{
-        padding-left: 10px !important;
-        padding-right: 10px;
-        .course-row{
-            .col-sm-4{
-                .ai-course{
-                    .course-duration-content{
-                        .course-duration{
-                            display:unset;
-                            .third-child{
-                                margin-top: 10px;
-                                position: unset;
-                            }
-                        }
-                    }
-                    .ai-border{
-                        .row{
-                            // .card-left-column{
-                            //     width: 63%;
-                            // }
-                            .col-sm-12{
-                                .course-image{
-                                    width:100%;
-                                    height:unset;
-                                    border-radius: unset;
-                                }
-                                .course-heading-google{
-                                    width:unset;
-                                    // height: 80px;
-                                    .card-title{
-                                        font-size: 17px;
-                                    }
-                                }
-                                .google-course-text{
-                                    width:unset;
-                                    height:unset;
-                                    font-size: 13px;
-                                }
-                            }
-                            .col-sm-12{
-                                // width: 33%;
-                                .card-right-column-image{
-                                    text-align: end;
-                                }
-                            }
-                            .image-order{
-                                order:-1;
-                                margin-bottom: .8rem;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-    .course-content-slider {
-        padding-left: 17px !important;
-    }
+    
 }
-
-
-@media (min-width: 576px) and (max-width: 767.98px) {
-    .course-content{
-        .course-row{
-            .mobile-course-view{
-                flex: 0 0 auto;
-                width: 50%;
-                .ai-course{
-                    .ai-border{
-                        .col-sm-12{
-                            // flex: 0 0 auto;
-                            // width: 70%;
-                            .course-heading-google{
-                                width:unset;
-                                height:unset;
-                            }
-                            .google-course-text{
-                                width:unset;
-                                height:unset;
-                            }
-                        }
-                        // .card-right-column{
-                        //     flex: 0 0 auto;
-                        //     width: 30%;
-                        // }
-                    }
-                    .course-duration-content{
-                        .course-duration{
-                            display:block;
-                            .third-child{
-                                position: relative;
-                                right:0px;
-                                margin-top: 10px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
-
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .course-content-slider {
-        padding-left: 40px !important;
-    }
-    .course-content{
-        .course-row{
-            .mobile-course-view{
-                flex: 0 0 auto;
-                width: 50%;
-                .ai-course{
-                    .ai-border{
-                        .col-sm-12{
-                            // flex: 0 0 auto;
-                            // width: 70%;
-                            .course-heading-google{
-                                width:unset;
-                                height:unset;
-                            }
-                            .google-course-text{
-                                width:unset;
-                                height:unset;
-                            }
-                        }
-                        // .card-right-column{
-                        //     flex: 0 0 auto;
-                        //     width: 30%;
-                        // }
-                    }
-                    .course-duration-content{
-                        .course-duration{
-                            display:block;
-                            .third-child{
-                                position: relative;
-                                right:0px;
-                                margin-top: 10px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
 }
-
-
-
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .course-content-slider {
-        padding-left: 40px !important;
-    }
-    .course-content{
-        .course-row{
-            .mobile-course-view{
-                // flex: 0 0 auto;
-                // width: 50%;
-                .ai-course{
-                    .ai-border{
-                        .col-sm-12{
-                            // flex: 0 0 auto;
-                            // width: 80%;
-                            .course-heading-google{
-                                width:unset;
-                                height:unset;
-                            }
-                            .google-course-text{
-                                width:unset;
-                                height:unset;
-                            }
-                        }
-                        // .card-right-column{
-                        //     flex: 0 0 auto;
-                        //     width: 20%;
-                        // }
-                    }
-                    .course-duration-content{
-                        .course-duration{
-                            display:block;
-                            .third-child{
-                                position: relative;
-                                right:0px;
-                                margin-top: 10px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
 }
-
-
-
-
-// @media (min-width: 1200px) {
-//     .course-content-slider {
-//         padding-left: 117px !important;
-//     }
-//     .course-content{
-//         .course-row{
-//             .mobile-course-view{
-//                 .ai-course{
-//                     .course-duration-content{
-//                         .course-duration{
-//                             display:block;
-//                             .third-child{
-//                                 position: relative;
-//                                 right:0px;
-//                                 margin-top: 10px;
-//                             }
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }

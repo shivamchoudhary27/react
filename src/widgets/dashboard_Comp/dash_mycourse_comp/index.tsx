@@ -75,39 +75,27 @@ function DashMyCourse({ linkToggle }: any) {
   }, [linkToggle, myCourses]);
   return (
     <>
-      <div
-        className="course-content course-content-slider"
-        id="coursecontentslider"
-      >
+      <div className="container-fluid p-0">
         {filterDataMsg === true ? (
-          <p className="text-center">No records found!</p>
+          <p className="alert alert-info text-center">No records found!</p>
         ) : (
           <div>
             {error !== "" && <ErrorBox msg={error} style={"warning"} />}
             {loadSkeleton === true ? (
               <SkeletonMimic />
             ) : (
-              <Row className="course-row">
+              <Row className="course-widgets">
                 {filter.map((element: any) => (
-                  <div className="col-sm-4 mobile-course-view" key={element.id}>
-                    <div className="">
+                  <div className="col-sm-4 mobile-course-view mb-4" key={element.id}>
                       <MyCourseCard
                         mycoursedata={element}
                         currentTab={linkToggle}
                         element={[]}
                       />
-                    </div>
                   </div>
                 ))}
               </Row>
             )}
-            {/* {loadSkeleton === true ? null : (
-              <div className="text-center">
-                <button type="button" className="more-course-btn">
-                  Load More
-                </button>
-              </div>
-            )} */}
           </div>
         )}
       </div>

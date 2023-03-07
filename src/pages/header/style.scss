@@ -1,305 +1,113 @@
 $sidebar-width: 270px;
 
-.header-slider {
-    padding-left: calc($sidebar-width + 30px) !important;
-}
-
-.dropdown-menu.show {
-    margin-top: 8px;
-}
-
 .dashboard-header {
-    padding-left: 117px;
     transition: 0.5s;
-    padding-right: 24px;
-    padding-top: 15px;
-    padding-bottom: 10px;
+    padding:15px;
     position: fixed;
-    width: 100%;
+    width: calc(100% - 80px);
     top: 0;
+    right: 0;
     z-index: 99;
     background-color: #F8EDE3;
-
-    .dashboard-header-row {
-        margin-left: unset;
-        margin-right: unset;
-        align-items: baseline;
-
-        // border-bottom: 1px solid #EAE6E5;
-        .col-sm-6 {
-            .goodbye-icon {
-                width: 27px;
-                margin-left: 15px;
-            }
-
-            .dashboard-header-heading {
-                font-size: 25px;
-                margin-top: -5px;
-                margin-bottom: 0;
-            }
-
-            // .course-status{
-            //     display:flex;
-            //     list-style-type: none;
-            //     padding-inline-start: 0px;
-            //     margin-bottom: 0px;
-            //     .course-progress{
-            //         color:#F57F17;
-            //     }
-            // }
-            .course-status li {
-                padding-right: 20px;
-                color: #A2A1A1;
-                font-weight: 500;
-            }
+    .dashboard-header-heading {
+        font-size: 24px;
+        margin-bottom: 0;
+    }
+    .dashboard-items {
+        display: flex;
+        align-items: center;
+        justify-content: right;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        li {
+            margin-left: 15px;
         }
+    }
+    .search-icon {
+        color: #767fa1;
+        font-size: 20px;
+    }
+    .user-image-logo {
+        border-radius: 50%;
+        width: 36px;
+    }
+    .btn-link {
+        padding: 0;
+        color: #000;
+    }
+    &.header-slider {
+        width: calc(100% - 270px);
+    }
+}
 
-        .col-sm-6 {
-            .text-right {
-                text-align: end;
-
-                .dashboard-items {
-                    display: inline-flex;
-                    list-style-type: none;
-                    padding-inline-start: 0px;
-                    margin-bottom: 0px;
-                    margin-right: 2px;
-
-                    .dropdown {
-                        .dropdown-item {
-                            border-bottom: 1px solid #000;
-                        }
-
-                        .dropdown-item:last-of-type {
-                            border-bottom: unset;
-                        }
-                    }
-
-                    .user-image-logo {
-                        width: 35px;
-                        margin-top: -7px;
-                        border-radius: 50%;
-                        cursor: pointer;
-                    }
-
-                    .btn-success {
-                        color: black;
-                        background-color: transparent;
-                        border-color: transparent;
-                    }
-
-                    .dropdown {
-                        .btn {
-                            padding: unset;
-                        }
-                    }
-                }
-
-                .dashboard-items li {
-                    padding-right: 20px;
-                }
-
-                .dashboard-items li:last-child {
-                    padding-right: 0px;
-                }
-
-                .dashboard-items li .user-name {
-                    list-style-type: none;
-                    padding-inline-start: 0px;
-                    text-align: left;
-
-                    .user-name-content {
-                        font-weight: 600;
-                        padding-right: 0px;
-                    }
-
-                    .username-id {
-                        font-size: 12px;
-                        padding-right: 0px;
-                    }
-                }
-            }
-
-            .search-icon {
-                color: #767FA1;
-                font-size: 20px;
-            }
+.main-content-container {
+    /* display: flex; height: 100%; */ padding-top: 80px;
+    .content-area {
+        transition: 0.5s;
+        margin-left: 90px;
+        padding-left: 10px;
+        padding-right: 10px;
+        &.content-area-slider {
+            margin-left: 280px;
         }
+    }
+}
+.pro-sidebar {
+    height: calc(100vh - 80px); 
+    margin-top: -80px; 
+    position: fixed;
+    .logo-bg {
+        margin: auto;
+    }
+    .bl-text {
+        background-color: #F57F17;
+        text-align: center;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        color: #fff;
+        margin: 0 auto;
+    }
+    > .pro-sidebar-inner {
+        height: 100vh;
+    }
+    .pro-menu .pro-menu-item {
+        font-size: 18px;        
+        .fa, .fa-solid, .fas {
+            margin-right: 15px;
+        }
+        > .pro-inner-item {
+            padding: 10px 35px 10px 20px;            
+        }
+    }
+    &.collapsed .pro-menu .pro-menu-item > .pro-inner-item {
+        padding: 10px 20px;
+        .fa, .fa-solid, .fas {
+            margin-left: 10px;
+        }
+    }
+    > .pro-sidebar-inner > .pro-sidebar-layout .pro-sidebar-header {
+        padding: 0 10px;
+        text-align: right;
+        cursor: pointer;
+        border: none;
+        font-size: 20px;
     }
 }
 
 @media (max-width: 575.98px) {
-    .header-slider {
-        padding-left: 287px !important;
-    }
-
-    .dashboard-header {
-        padding-left: 70px !important;
-        font-size: 14px;
-        padding-right: 0px;
-
-        .dashboard-header-row {
-            .dashboard-header-heading {
-                font-size: 15px !important;
-            }
-
-            .welcome-content {
-                width: 50%;
-            }
-
-            .welcome-heading {
-                display: none;
-            }
-
-            .username-content {
-                width: 50%;
-            }
-
-            .col-sm-6 {
-                .text-right {
-                    text-align: left;
-
-                    .dashboard-items li {
-                        padding-right: 10px;
-                    }
-
-                    .dashboard-items {
-                        margin-left: 30px;
-
-                        .search-icon {
-                            font-size: 14px;
-                        }
-
-                        .username-details {
-                            display: none;
-                        }
-
-                        .user-image-logo {
-                            width: 25px;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
 }
-
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-    .header-slider {
-        padding-left: 287px !important;
-    }
-
-    .dashboard-header {
-        padding-left: 70px !important;
-        font-size: 14px;
-        padding-right: 0px;
-
-        .dashboard-header-row {
-            .dashboard-header-heading {
-                font-size: 15px !important;
-            }
-
-            .welcome-content {
-                width: 50%;
-            }
-
-            .welcome-heading {
-                display: none;
-            }
-
-            .username-content {
-                width: 50%;
-            }
-
-            .col-sm-6 {
-                .text-right {
-                    text-align: end;
-
-                    .dashboard-items li {
-                        padding-right: 10px;
-                    }
-
-                    .dashboard-items {
-                        margin-left: 30px;
-
-                        .search-icon {
-                            font-size: 14px;
-                        }
-
-                        .username-details {
-                            display: none;
-                        }
-
-                        .user-image-logo {
-                            width: 25px;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .course-status-content{
-        padding-left: 30px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
-    .course-content{
-        padding-left: 17px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
+    
 }
-
-
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .dashboard-header {
-        padding-left: 50px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
-    .course-status-content{
-        padding-left: 63px !important;
-        padding-right: 0px;
-    }
-    .course-content{
-        padding-left: 40px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
+
 }
-
-
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .dashboard-header {
-        padding-left: 50px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
-    .course-status-content{
-        padding-left: 63px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
-    .course-content{
-        padding-left: 40px !important;
-        font-size: 14px;
-        padding-right: 0px;
-    }
+
 }
-
-
-
-
-// @media (min-width: 1200px) {
-//     .dashboard-header {
-//         padding-left: 117px !important;
-//         padding-right: 0px;
-//     }
-//     .course-status-content{
-//         padding-left: 130px !important;
-//         padding-right: 0px;
-//     }
-// }

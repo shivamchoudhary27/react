@@ -7,6 +7,7 @@ import SuccessModal from "../../widgets/errorhandling/successModal";
 import "../loginpage/login.scss";
 import * as Yup from "yup";
 import {ForgotPasswordType} from "../../type/index";
+import logo from "../../assets/images/logo.png";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -57,7 +58,10 @@ const ForgotPassword = () => {
   return (
     <div>
       {response.status === true && response.success === true && <SuccessModal cstate={response.status} successmssg={response.msg.replace(/(<([^>]+)>)/gi, "")} />}
-      <p className="welcome-heading">Forgot password</p>
+      <div className="logo-bg m-auto mb-5 d-md-none">
+        <img className="bl-logo" src={logo} alt="logo.png" />
+      </div>
+      <h3 className="welcome-heading">Forgot password</h3>
       <div className="bar" />
       <p className="login-info mb-4">Please enter your email id.</p>
 
@@ -65,7 +69,7 @@ const ForgotPassword = () => {
       {response.status === true && response.success === false && <p className="login-info errorAlert">{response.msg}</p>}
 
       <form onSubmit={values.handleSubmit}>
-        <div className="input-icons input-block mb-3">
+        <div className="input-icons mb-3">
           <i className="fa-solid fa-envelope icon" />
           <input
             type="email"
@@ -78,13 +82,11 @@ const ForgotPassword = () => {
             onChange={values.handleChange}
             onBlur={values.handleBlur}
           />
-          {values.touched.email && values.errors.email ? <p className="form-error text-white">{values.errors.email}</p> : null}
+          {values.touched.email && values.errors.email ? <p className="form-error">{values.errors.email}</p> : null}
         </div>
-        <div className="mt-4">
-          <button className="signup-btn" type="submit" value="request">
-            Request Password Reset
-          </button>
-        </div>
+        <button className="signup-btn" type="submit" value="request">
+          Request Password Reset
+        </button>
       </form>
       <div className="text-end mt-2">
         <p className="sign-up text-white" onClick={handleCancle} style={{ cursor: "pointer", textDecoration: "underline" }}>

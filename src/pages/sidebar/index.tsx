@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
 import UserContext from "../../features/context/user/user";
 import logo from "../../assets/images/logo.png";
+import "./style.scss";
 
 const Menuitem = styled(MenuItem)`
   :hover {
@@ -26,24 +27,18 @@ function Sidebar() {
   const userSiteAdmin = userctx.userInfo.userissiteadmin ?? 'false';
   const [collapsed, setCollapsed] = useState(false);
 
-  const closemenu = {
-    display: "flex",
-    justifyContent: "end",
-    color: "darkorange",
-    fontSize: "20px",
-    paddingRight: "10px",
-}
-
   const logout = () => {
-    if (window.confirm("Are you sure you want to logout?")) {
       userctx.logout();
       navigate("/");
-    }
   };
 
   const menuIconClick = () => {
     //condition checking to change state from true to false and vice versa
     collapsed ? setCollapsed(false) : setCollapsed(true);
+    const headerslide = document.getElementById("headerslide");
+    headerslide.classList.toggle("header-slider");
+    const coursecontentslide = document.getElementById("contentareaslider");
+    coursecontentslide.classList.toggle("content-area-slider");
   };
 
   return (
@@ -54,7 +49,7 @@ function Sidebar() {
         className="mobile-sidebar"
       >
         <SidebarHeader>
-            <div style={closemenu} onClick={menuIconClick}>
+            <div onClick={menuIconClick}>
               {/* changing menu collapse icon on click */}
               {collapsed ? <i className="fas fa-long-arrow-alt-right" /> : <i className="fas fa-long-arrow-alt-left" />}
             </div>
@@ -63,9 +58,7 @@ function Sidebar() {
         <Menu iconShape="square">
           <Menuitem>
           {collapsed ? <div className="bl-text" id="high">
-              <div className="bl-logo-text">
-                <p className="bl-logo-text-content">BL</p>
-              </div>
+              BL
             </div> :
             <div className="logo-bg" id="logowhite">
               <Link to="/dashboard">

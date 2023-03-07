@@ -16,18 +16,20 @@ const AddProgram = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
+      <div className='main-content-container'>
       <Sidebar />
-      <Container>
-        <div className="contents" style={style}>
-          <div className="container-wrapper">
+      <div className="content-area content-area-slider" id="contentareaslider">
+      <Container fluid className="administration-wrapper">
+          <div className="contents" style={style}>
             <Program_Form_Header navigate={navigate} />{" "}
+            <hr />
+            <div className="form-container-wrapper">
+              <AddProgramForm />
+            </div>
           </div>
-          <hr />
-          <div className="form-container-wrapper">
-            <AddProgramForm />
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
+      </div>
     </>
   );
 };

@@ -104,49 +104,40 @@ const LoginForm = () => {
         SubmitHandler(values);
       }}
     >
-      <div>
-        <div className="bg-opacity container-fluid">
-          <Row>
-            <div className="col-sm-8 left-column">
-              <div className="banner">
-                <div className="banner-opacity">
+      <div className="login-container">
+          <div className="row g-0">
+            <div className="col-md-7 col-lg-8">
+              <div className="left-column d-none d-md-block">
                   <div className="logo-bg" onClick={goToHome} style={{cursor: 'pointer'}}>
                     <img className="bl-logo" src={logo} alt="logo.png" />
                   </div>
-                  <div>
-                    <h1>Ballistic Academy</h1>
-                    <p>
-                      Ballistic Academy is a hybrid learning platform that uses
-                      FLIP classroom, and social learning (P2P), combined with
-                      virtual sessions by Ballistic subject matter experts to
-                      deliver experiential learning.
-                    </p>
-                  </div>
+                  <h1 className="login-title">Ballistic Academy Premium</h1>
+                  <p className="login-description">
+                    Ballistic Academy is a hybrid learning platform that uses
+                    FLIP classroom, and social learning (P2P), combined with
+                    virtual sessions by Ballistic subject matter experts to
+                    deliver experiential learning.
+                  </p>
                   <div className="cpy-content">
-                    <span className="cpy-right">
-                      © Copyright Ballistic Learning Pvt Ltd. All Rights
-                      Reserved.
-                    </span>
-                    <span className="cpy-right privacy">Privacy Policy</span>
+                    <Row>
+                      <div className="col-md-8">© Copyright Ballistic Learning Pvt Ltd. All Rights Reserved.</div>
+                      <div className="col-md-4">Privacy Policy</div>
+                    </Row>
                   </div>
-                </div>
-                authlogin
               </div>
             </div>
-            <div className="col-sm-4 right-column">
-              <div className="right-col col-md-8 mx-auto">
-                <div className="logo-bg">
-                  <img className="bl-logo" src={logo} alt="logo.png" />
-                </div>
+            <div className="col-md-5 col-lg-4">
+              <div className="right-column">
                 {formToggle !== null ? (
                   setCurrentForm(formToggle)
                 ) : (
                   <div>
-                    <p className="welcome-heading">Welcome back</p>
+                    <div className="logo-bg m-auto mb-5 d-md-none">
+                      <img className="bl-logo" src={logo} alt="logo.png" />
+                    </div>
+                    <h3 className="welcome-heading">Welcome back</h3>
                     <div className="bar" />
-                    <p className="login-info mb-5">
-                      Please login to your account.
-                    </p>
+                    <p className="login-info mb-5"> Please login to your account.</p>
 
                     {invalidLogin === true && (
                       <p className="login-info errorAlert">{errorMsg}</p>
@@ -156,7 +147,6 @@ const LoginForm = () => {
                       {showLoader === true && <Loader />}
                     </div>
                     <Form>
-                      <div className="input-icons mb-4">
                         <div className="input-icons mb-4">
                           <i className="fa fa-circle-user icon" />
                           <Field
@@ -170,7 +160,8 @@ const LoginForm = () => {
                             {(msg) => <div className="error">{msg}</div>}
                           </ErrorMessage>
                         </div>
-                        <div className="input-icons">
+
+                        <div className="input-icons mb-3">
                           <i className="fa fa-lock icon" />
                           <Field
                             type={showPassword.type}
@@ -179,7 +170,6 @@ const LoginForm = () => {
                             placeholder="Password"
                             className="username-input"
                           />
-
                           <i
                             className={`${showPassword.class} eye-icon`}
                             id="eye-icon"
@@ -189,20 +179,16 @@ const LoginForm = () => {
                             {(msg) => <div className="error">{msg}</div>}
                           </ErrorMessage>
                         </div>
-                        <div>
-                          <p
-                            role="presentation"
-                            className="forgot-pass"
-                            onClick={handleToggleForgotPassword}
-                            style={{
-                              cursor: "pointer",
-                              textDecoration: "underline",
-                            }}
-                          >
-                            Forgot Password?
-                          </p>
+
+                        <div
+                          role="presentation"
+                          className="forgot-pass mb-3"
+                          onClick={handleToggleForgotPassword}
+                        >
+                          Forgot Password?
                         </div>
-                        <div className="form-check mt-2">
+
+                        <div className="form-check mb-3">
                           <input
                             className="form-check-input"
                             type="checkbox"
@@ -216,15 +202,8 @@ const LoginForm = () => {
                             Remember Username
                           </label>
                         </div>
-                        <div className="mt-4">
-                          <button className="login-btn" type="submit">
-                            Login
-                          </button>
-                        </div>
-                        <div className="mt-4">
-                          
-                        </div>
-                      </div>
+
+                        <button className="login-btn" type="submit">Login</button>
                     </Form>
                     <div className="text-end mt-2">
                       <p
@@ -248,8 +227,7 @@ const LoginForm = () => {
                 )}
               </div>
             </div>
-          </Row>
-        </div>
+          </div>
       </div>
     </Formik>
   );

@@ -108,13 +108,13 @@ const Report = () => {
     return (
         <>
             <Header pageHeading="Video's Report" welcomeIcon={false} />
-            <Sidebar />
-            <div className="main-container">
-                <div className="contents">
+            <div className='main-content-container'>
+                <Sidebar />
+                <div className="content-area content-area-slider" id="contentareaslider">
                     {show === true ? (
                         <Errordiv cstate={show} msg="Something went wrong" />
                     ) : (
-                        <div className="pt-5">
+                        <div>
                             <select onChange={handleChange} id="selct_item">
                                 <option value="0">All</option>
                                 {course !== undefined &&

@@ -32,29 +32,24 @@ function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
 
   return (
     <header className="dashboard-header header-slider" id="headerslide">
-      <Row className="dashboard-header-row">
-        <div className="col-sm-6 welcome-content">
-          <div>
+      <Row>
+        <div className="col-sm-6">
             <h2 className="dashboard-header-heading">
               {props.pageHeading}
               {props.welcomeIcon === true && (
                 <img className="goodbye-icon" src={goodbye} alt="goodbye.png" />
               )}
             </h2>
-          </div>
         </div>
-        <div className="col-sm-6 username-content">
-          <div className="text-right">
-            <ul className="dashboard-items">
+        <div className="col-sm-6">
+            <ul className="dashboard-items text-right">
               <li>
                 <i className="fa fa-search search-icon" />
               </li>
               <NotificationOverlay userid={userid} />
               {/* <Cart /> */}
-              <li className="username-details">
-                <ul className="user-name">
-                  <li className="user-name-content">{fullname}</li>
-                </ul>
+              <li>
+                <b>{fullname}</b>
               </li>
               <li>
                 <img
@@ -65,17 +60,13 @@ function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
               </li>
               <li>
                   <Dropdown>
-                    {/* <i class="fa fa-angle-down"></i> */}
-                    <Dropdown.Toggle variant="success" id="dropdown-basic"></Dropdown.Toggle>
+                    <Dropdown.Toggle variant="link" id="dropdown-basic"></Dropdown.Toggle>
                     <Dropdown.Menu>
-                      {/* <Dropdown.Item href="#/action-1">Profile</Dropdown.Item> */}
                       <Dropdown.Item href="#/action-2" onClick={logout}>Logout</Dropdown.Item>
-                      {/* <Dropdown.Item href="#/action-3">Something else</Dropdown.Item> */}
                     </Dropdown.Menu>
                   </Dropdown>
                 </li>
             </ul>
-          </div>
         </div>
       </Row>
     </header>

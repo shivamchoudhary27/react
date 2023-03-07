@@ -7,6 +7,7 @@ import "../loginpage/login.scss";
 import { signupData } from "../../adapters";
 import SuccessModal from "../../widgets/errorhandling/successModal";
 import Loader from "../../widgets/loader/loader";
+import logo from "../../assets/images/logo.png";
 const Signup = () => {
   const navigate = useNavigate();
   const [signup, setSignup] = useState(false);
@@ -64,12 +65,15 @@ const Signup = () => {
     <>
       <div>
         {signup === true && <SuccessModal cstate={signup} successmssg="You have successfully registered" />}
-        <p className="welcome-heading">Signup</p>
+        <div className="logo-bg m-auto mb-5 d-md-none">
+          <img className="bl-logo" src={logo} alt="logo.png" />
+        </div>
+        <h3 className="welcome-heading">Signup</h3>
         <div className="bar" />
         <p className="login-info mb-4">Please create your account.</p>
         <div className="login-loader">{showLoader === true && <Loader />}</div>
         <form onSubmit={handleSubmit}>
-          <div className="input-icons input-block mb-3">
+          <div className="input-icons mb-3">
             <i className="fa fa-circle-user icon" />
             <input
               type="text"
@@ -82,9 +86,9 @@ const Signup = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {touched.fname && errors.fname ? <p className="form-error text-white">{errors.fname}</p> : null}
+            {touched.fname && errors.fname ? <p className="form-error">{errors.fname}</p> : null}
           </div>
-          <div className="input-icons input-block mb-3">
+          <div className="input-icons mb-3">
             <i className="fa fa-circle-user icon" />
             <input
               type="text"
@@ -97,9 +101,9 @@ const Signup = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {touched.lname && errors.lname ? <p className="form-error text-white">{errors.lname}</p> : null}
+            {touched.lname && errors.lname ? <p className="form-error">{errors.lname}</p> : null}
           </div>
-          <div className="input-icons input-block mb-3">
+          <div className="input-icons mb-3">
             <i className="fa-solid fa-envelope icon" />
             <input
               type="email"
@@ -112,9 +116,9 @@ const Signup = () => {
               onChange={handleChange}
               onBlur={handleBlur}
             />
-            {touched.email && errors.email ? <p className="form-error text-white">{errors.email}</p> : null}
+            {touched.email && errors.email ? <p className="form-error">{errors.email}</p> : null}
           </div>
-          <div className="input-icons input-block">
+          <div className="input-icons mb-3">
             <i className="fa fa-lock icon" />
             <input
               type={showPassword.type}
@@ -128,13 +132,11 @@ const Signup = () => {
               onBlur={handleBlur}
             />
             <i className={`${showPassword.class} eye-icon`} id="eye-icon" onClick={toggleShowPassword} />
-            {touched.pass && errors.pass ? <p className="form-error text-white">{errors.pass}</p> : null}
+            {touched.pass && errors.pass ? <p className="form-error">{errors.pass}</p> : null}
           </div>
-          <div className="mt-4">
-            <button className="signup-btn" type="submit" value="Submit">
-              Signup
-            </button>
-          </div>
+          <button className="signup-btn" type="submit" value="Submit">
+            Signup
+          </button>
         </form>
         <div className="text-end mt-2">
           <p className="sign-up text-white" onClick={login} style={{ cursor: "pointer", textDecoration: "underline" }}>

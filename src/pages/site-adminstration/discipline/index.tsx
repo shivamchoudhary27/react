@@ -91,23 +91,20 @@ const Discipline = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <Container fluid>
-        <div
-          className="contents"
-          style={{ paddingLeft: "270px", marginTop: "70px" }}
-        >
-          <div className="container-wrapper">
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+          <Container fluid className="administration-wrapper">
             <div className="site-heading">
               <h3>Discipline</h3>
             </div>
-          </div>
-          <hr />
-          {DISCIPLINE_BUTTONS}
-        </div>
-        {DISCIPLINE_TABLE_COMPONENT}
-        {DISCIPLINE_MODAL_COMPONENT}
-      </Container>
+            <hr />
+            {DISCIPLINE_BUTTONS}
+            {DISCIPLINE_TABLE_COMPONENT}
+            {DISCIPLINE_MODAL_COMPONENT}
+          </Container>
+        </div>      
+      </div>      
     </>
   );
 };

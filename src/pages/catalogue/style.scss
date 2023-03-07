@@ -1,392 +1,262 @@
-.main-container {
-  padding-left: 285px;
-  position: relative;
-  top: 50px;
-  .contents {
-    margin-top: 50px;
-    .catalogue-heading-content {
-      position: relative;
-      text-align: center;
-      .catalogue-banner-image {
-        background: linear-gradient(
-            rgba(0, 0, 0, 0.6) 100%,
-            rgba(0, 0, 0, 0.6) 100%
-          ),
-          url("../../assets/images/catalogue_banner_image.jpg") no-repeat center;
-        height: 200px;
-      }
-      .catalogur-banner-text-content {
-        position: absolute;
-        top: 41px;
-        left: 37%;
-        right: 33%;
-        .catalogue-banner-name {
-          font-size: 32px;
-          font-family: "Source Serif 4";
-          font-weight: 400;
-          color: white;
-        }
-        .seacrh-input-icon {
-          .search-course-input {
-            width: 100%;
-            border-radius: 10px;
-            border-width: 0px;
-            height: 37px;
-            padding-left: 10px;
-          }
-          .search-icon {
-            position: absolute;
-            top: 74px;
-            right: 10px;
-          }
-        }
-      }
-    }
-    .ai-feature-dropdown {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 53px;
-      background-color: white;
-      z-index: 999;
-      .filter-items {
-        margin-top: 10px;
-        list-style-type: none;
-        padding-inline-start: 0px;
-        display: inline-flex;
-        .filter-text {
-          cursor: pointer;
-          font-size: 17px;
-          margin-bottom: 0px;
-          border: 1px solid #c3c3c3;
-          padding: 5px 15px;
-          .filter-icon {
-            margin-right: 10px;
-          }
-          .angle-down-icon {
-            margin-left: 8px;
-          }
-          .sort-by-filter {
-            color: #767676;
-          }
-        }
-      }
-      .filter-items li {
-        padding-right: 15px;
-      }
-      .cart-txt {
-        padding-right: 5px;
-        font-weight: 700;
-        font-size: 18px;
-        color: #c3c3c3;
-      }
-      .fa-cart-plus {
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #2f2f2f;
-        padding: 10px;
-        background-color: #f8ede3;
-        border-radius: 5px;
-        sup {
-          font-size: 12px;
-          background-color: #f57f17;
-          color: #fff;
-          padding: 2px;
-          border-radius: 5px;
-        }
-      }
-    }
-    .photoshop-checkbox {
-      margin-left: 10px;
-    }
-    .photoshop-item {
-      margin-bottom: 8px;
-    }
-    .accordion-button {
-      font-size: 18px;
-      font-weight: 700;
-    }
-    .catalogue-show-more-btn {
-      color: #f57f17;
-    }
-    .ai-left-column {
-      padding-left: 0px !important;
-      .ai-accordian-sticky {
-        position: sticky;
-        top: 130px;
-      }
-    }
-    .container {
-      .row {
-        .col-sm-9 {
-          .ai-course-shadow {
-            // box-shadow: -4px 0px 4px rgb(0 0 0 / 6%), 4px 4px 11px rgb(0 0 0 / 5%);
-            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
-              rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-            .ai-course-image {
-              height: 144px;
-            }
-          }
-          .row {
-            .ai-course-details {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            }
-            .col-sm-9 {
-              .row {
-                .col-sm-9 {
-                  .ai-course-heading {
-                    font-weight: 600;
-                    color: #2f2f2f;
-                    margin-bottom: 5px;
-                  }
-                  .ai-course-text {
-                    font-size: 14px;
-                    color: #777777;
-                    margin-bottom: 5px;
-                  }
-                  .ai-course-date {
-                    font-size: 12px;
-                    color: #767676;
-                    margin-bottom: 5px;
-                  }
-                  .ai-course-review {
-                    font-size: 14px;
-                    margin-bottom: 5px;
-                    .review-txt {
-                      color: #f57f17;
-                    }
-                    .fa-star {
-                      color: #f2f2f2;
-                    }
-                    .checked {
-                      color: orange;
-                    }
-                  }
-                  .ai-course-price {
-                    margin-bottom: 0px;
-                    .price {
-                      color: #2f2f2f;
-                      font-weight: 700;
-                    }
-                    .old-price {
-                      color: #777777;
-                      text-decoration: line-through;
-                    }
-                  }
-                }
-                .ai-course-get-started-btn {
-                  display: flex;
-                  justify-content: center;
-                  align-items: center;
-                }
 
-                .col-sm-3 {
-                  .added-update-txt {
-                    color: #777777;
-                    font-weight: 700;
-                    background-color: #f8ede3;
-                    padding: 8px;
-                    font-size: 14px;
-                    border-radius: 5px;
-                    margin-left: 5px;
-                  }
-                  .fa-check {
-                    color: green;
-                  }
-                  .fa-xmark {
-                    color: red;
-                  }
-                  .ai-course-button {
-                    background-color: #f57f17;
-                    border-radius: 20px;
-                    border-color: #f57f17;
-                    border-width: 0px;
-                    padding-top: 8px;
-                    padding-bottom: 8px;
-                    padding-left: 20px;
-                    padding-right: 20px;
-                    color: white;
-                  }
-                }
-              }
-            }
-          }
-        }
+.catalogue-heading-content {
+  position: relative;
+  text-align: center;
+  .catalogue-banner-image {
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.6) 100%,
+        rgba(0, 0, 0, 0.6) 100%
+      ),
+      url("../../assets/images/catalogue_banner_image.jpg") no-repeat center;
+    height: 200px;
+  }
+  .catalogur-banner-text-content {
+    position: absolute;
+    top: 41px;
+    left: 37%;
+    right: 33%;
+    .catalogue-banner-name {
+      font-size: 32px;
+      font-family: "Source Serif 4";
+      font-weight: 400;
+      color: white;
+    }
+    .seacrh-input-icon {
+      .search-course-input {
+        width: 100%;
+        border-radius: 10px;
+        border-width: 0px;
+        height: 37px;
+        padding-left: 10px;
+      }
+      .search-icon {
+        position: absolute;
+        top: 74px;
+        right: 10px;
       }
     }
   }
-
-  // .more-course-btn {
-  //   background-color: white;
-  //   border: 1px solid #f57f17;
-  //   border-radius: 50px;
-  //   padding: 8px 30px 8px 30px;
-  //   color: #f57f17;
-  //   font-size: 14px;
-  //   margin-top: 15px;
-  //   transition: 0.5s ease;
-  //   &:hover {
-  //     background-color: #f57f17;
-  //     color: #fff;
-  //   }
-  // }
-
-  // pagination
-  .pagination {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .page-link {
-      color: #f57f17;
-      &:hover {
-        background-color: #f57f17;
-        color: #ffffff;
+}
+.ai-feature-dropdown {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 53px;
+  background-color: white;
+  z-index: 999;
+  .filter-items {
+    margin-top: 10px;
+    list-style-type: none;
+    padding-inline-start: 0px;
+    display: inline-flex;
+    .filter-text {
+      cursor: pointer;
+      font-size: 17px;
+      margin-bottom: 0px;
+      border: 1px solid #c3c3c3;
+      padding: 5px 15px;
+      .filter-icon {
+        margin-right: 10px;
       }
-      &:active {
-        transform: scale(0.99);
+      .angle-down-icon {
+        margin-left: 8px;
       }
-      &:focus {
-        outline: none;
-        box-shadow: none;
+      .sort-by-filter {
+        color: #767676;
       }
+    }
+  }
+  .filter-items li {
+    padding-right: 15px;
+  }
+  .cart-txt {
+    padding-right: 5px;
+    font-weight: 700;
+    font-size: 18px;
+    color: #c3c3c3;
+  }
+  .fa-cart-plus {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #2f2f2f;
+    padding: 10px;
+    background-color: #f8ede3;
+    border-radius: 5px;
+    sup {
+      font-size: 12px;
+      background-color: #f57f17;
+      color: #fff;
+      padding: 2px;
+      border-radius: 5px;
+    }
+  }
+}
+.photoshop-checkbox {
+  margin-left: 10px;
+}
+.photoshop-item {
+  margin-bottom: 8px;
+}
+.accordion-button {
+  font-size: 18px;
+  font-weight: 700;
+}
+.catalogue-show-more-btn {
+  color: #f57f17;
+}
+.ai-left-column {
+  padding-left: 0px !important;
+  .ai-accordian-sticky {
+    position: sticky;
+    top: 130px;
+  }
+}
+.ai-course-shadow {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+    rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  .ai-course-image {
+    height: 144px;
+  }
+}
+.ai-course-details {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ai-course-heading {
+  font-weight: 600;
+  color: #2f2f2f;
+  margin-bottom: 5px;
+}
+.ai-course-text {
+  font-size: 14px;
+  color: #777777;
+  margin-bottom: 5px;
+}
+.ai-course-date {
+  font-size: 12px;
+  color: #767676;
+  margin-bottom: 5px;
+}
+.ai-course-review {
+  font-size: 14px;
+  margin-bottom: 5px;
+  .review-txt {
+    color: #f57f17;
+  }
+  .fa-star {
+    color: #f2f2f2;
+  }
+  .checked {
+    color: orange;
+  }
+}
+.ai-course-price {
+  margin-bottom: 0px;
+  .price {
+    color: #2f2f2f;
+    font-weight: 700;
+  }
+  .old-price {
+    color: #777777;
+    text-decoration: line-through;
+  }
+}
+.ai-course-get-started-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ai-course-get-started-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.added-update-txt {
+  color: #777777;
+  font-weight: 700;
+  background-color: #f8ede3;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+.fa-check {
+  color: green;
+}
+.fa-xmark {
+  color: red;
+}
+.ai-course-button {
+  background-color: #f57f17;
+  border-radius: 20px;
+  border-color: #f57f17;
+  border-width: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+}
+.added-update-txt {
+  color: #777777;
+  font-weight: 700;
+  background-color: #f8ede3;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+.fa-check {
+  color: green;
+}
+.fa-xmark {
+  color: red;
+}
+.ai-course-button {
+  background-color: #f57f17;
+  border-radius: 20px;
+  border-color: #f57f17;
+  border-width: 0px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+}
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .page-link {
+    color: #f57f17;
+    &:hover {
+      background-color: #f57f17;
+      color: #ffffff;
+    }
+    &:active {
+      transform: scale(0.99);
+    }
+    &:focus {
+      outline: none;
+      box-shadow: none;
     }
   }
 }
 
 @media (max-width: 575.98px) {
-  .main-container {
-    padding-left: 30px;
-    .contents {
-      .ai-feature-dropdown {
-        .filter-items {
-          .filter-text {
-            font-size: 14px;
-          }
-        }
-      }
-      .course-level {
-        margin-bottom: 30px;
-      }
-      .container {
-        .row {
-          .col-sm-9 {
-            .ai-course-shadow {
-              padding: 10px 0px 10px 0px;
-            }
-            .row {
-              .col-sm-9 {
-                .row {
-                  .col-sm-3 {
-                    .ai-course-button {
-                      margin-top: 10px;
-                    }
-                  }
-                  .ai-course-get-started-btn {
-                    display: block;
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      .catalogue-heading-content {
-        .catalogur-banner-text-content {
-          position: absolute;
-          top: 41px;
-          left: unset;
-          right: 24%;
-        }
-      }
-    }
-  }
+  
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-  .main-container {
-    padding-left: 30px;
-    .contents {
-      .container {
-        .row {
-          .ai-left-column {
-            flex: 0 0 auto;
-            width: 100%;
-          }
-          .ai-right-column {
-            flex: 0 0 auto;
-            width: 100%;
-            .ai-course-shadow {
-              padding: 10px 0px 10px 0px;
-              .ai-course-details {
-                .row {
-                  .ai-course-get-started-btn {
-                    .ai-course-button {
-                      font-size: 12px;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      .accordion {
-        padding-bottom: 30px;
-      }
-      .catalogue-heading-content {
-        .catalogur-banner-text-content {
-          position: absolute;
-          top: 41px;
-          left: unset;
-          right: 35%;
-        }
-      }
-    }
-  }
+  
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) {
-  .main-container {
-    padding-left: 30px;
-    .contents {
-      .container {
-        .row {
-          .ai-right-column {
-            .ai-course-shadow {
-              padding: 10px 0px 10px 0px;
-              .ai-course-details {
-                .row {
-                  .ai-course-get-started-btn {
-                    .ai-course-button {
-                      font-size: 12px;
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .main-container {
-    padding-left: 30px;
-    .contents {
-      .container {
-        .row {
-          .ai-right-column {
-            .ai-course-shadow {
-              padding: 10px 0px 10px 0px;
-            }
-          }
-        }
-      }
-    }
-  }
+
 }

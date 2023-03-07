@@ -36,15 +36,19 @@ const CalenderConfig = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <Container>
-        <div style={{ paddingLeft: "270px", marginTop: "70px" }}>
-          <div className="container-wrapper"></div>
-          {SITE_HEADING}
-          <hr />
-          <div className="form-container-wrapper">{<Module_List />}</div>
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+          <Container fluid className="administration-wrapper">
+            <div className="container-wrapper"></div>
+            {SITE_HEADING}
+            <hr />
+            <div className="form-container-wrapper">{<Module_List />}</div>
+          </Container>
         </div>
-      </Container>
+      </div>
+      
+      
     </>
   );
 };
