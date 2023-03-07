@@ -81,39 +81,30 @@ export default function ReactBigCalendar() {
   }
 
   return (
-    <>
-      <Sidebar />
+    <>      
       <Header pageHeading="Calendar" welcomeIcon={false} />
-      <Container fluid>
-          <div style={{paddingLeft: '270px', marginTop: '70px'}}>
-            <Row>
-              <Col md={10}>
-                <div>
-                  <Calendar
-                    views={["day", "agenda", "work_week", "month"]}
-                    selectable
-                    localizer={localizer}
-                    defaultDate={new Date()}
-                    defaultView="month"
-                    events={filteredEvents}
-                    style={{ height: "100vh" }}
-                    BackgroundWrapper = "red"
-                    onSelectEvent={(event) => console.log(event)}
-                    // onSelectSlot={handleSelect}
-                    eventPropGetter={(myEventsList) => {
-                      const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
-                      const color = myEventsList.color ? myEventsList.color : 'white';
-                      return { style: { backgroundColor, color}}
-                    }}
-                  />
-                </div>
-              </Col>
-              <Col md={2}>
-                <CalendarFilters events={colorConfig} filters={filterEvents}/>
-              </Col>
-            </Row>
-          </div>
-      </Container>
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+          <Calendar
+          views={["day", "agenda", "work_week", "month"]}
+          selectable
+          localizer={localizer}
+          defaultDate={new Date()}
+          defaultView="month"
+          events={eventsData}
+          style={{ height: "100vh" }}
+          BackgroundWrapper = "red"
+          onSelectEvent={(event) => console.log(event)}
+          // onSelectSlot={handleSelect}
+          eventPropGetter={(myEventsList) => {
+            const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
+            const color = myEventsList.color ? myEventsList.color : 'white';
+            return { style: { backgroundColor, color}}
+          }}
+          />
+        </div>
+      </div>
     </>
   );
 }

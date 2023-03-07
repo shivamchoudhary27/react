@@ -149,175 +149,170 @@ const Catalogue: React.FunctionComponent = () => {
     navigate("/cart");
   };
 
-  // const handleHideShow = () => {
-  //   setShowToggle(!showToggle);
-  //   setCategoriesListing(categories.length)
-  // }
-
   return (
     <>
-      <Sidebar />
       <Header pageHeading="Catalogue" welcomeIcon={false} />
-      <div className="main-container">
-        <div className="contents">
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
           <div className="catalogue-heading-content">
-            <div className="catalogue-banner-image" />
-            <div className="catalogur-banner-text-content">
-              <p className="catalogue-banner-name">Course Search</p>
-              <div className="seacrh-input-icon">
-                <input
-                  ref={inputElem}
-                  className="search-course-input"
-                  type="text"
-                  placeholder="Search courses"
-                  onChange={() => {
-                    handleFilter();
-                  }}
-                  value={filterVal}
-                />
-                <i className="fa fa-search search-icon" />
+              <div className="catalogue-banner-image" />
+              <div className="catalogur-banner-text-content">
+                <p className="catalogue-banner-name">Course Search</p>
+                <div className="seacrh-input-icon">
+                  <input
+                    ref={inputElem}
+                    className="search-course-input"
+                    type="text"
+                    placeholder="Search courses"
+                    onChange={() => {
+                      handleFilter();
+                    }}
+                    value={filterVal}
+                  />
+                  <i className="fa fa-search search-icon" />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="pt-4">
-            <div className="ai-feature-dropdown">
-              <div>
-                <ul className="filter-items">
-                  <li>
-                    <p
-                      className="filter-text"
-                      onClick={() => setFilterToggle(!filterToggle)}
-                    >
-                      <i className="fa fa-filter filter-icon" /> Filter
-                    </p>
-                  </li>
-                  <li>
-                    <p className="filter-text">
-                      {" "}
-                      <span className="sort-by-filter">Sort By:</span>{" "}
-                      Recommended{" "}
-                      <i className="fa fa-angle-down angle-down-icon" />
-                    </p>
-                  </li>
-                </ul>
+            <div className="pt-4">
+              <div className="ai-feature-dropdown">
+                <div>
+                  <ul className="filter-items">
+                    <li>
+                      <p
+                        className="filter-text"
+                        onClick={() => setFilterToggle(!filterToggle)}
+                      >
+                        <i className="fa fa-filter filter-icon" /> Filter
+                      </p>
+                    </li>
+                    <li>
+                      <p className="filter-text">
+                        {" "}
+                        <span className="sort-by-filter">Sort By:</span>{" "}
+                        Recommended{" "}
+                        <i className="fa fa-angle-down angle-down-icon" />
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+                <div onClick={handleCartNavigate}>
+                  <span className="cart-txt">Cart Added</span>
+                  <span className="fa-solid fa-cart-plus">
+                    <sup>{counter}</sup>
+                  </span>
+                </div>
               </div>
-              <div onClick={handleCartNavigate}>
-                <span className="cart-txt">Cart Added</span>
-                <span className="fa-solid fa-cart-plus">
-                  <sup>{counter}</sup>
-                </span>
-              </div>
-            </div>
-            <div className="container">
-              <div className="row ">
-                {filterToggle && (
-                  <div className="col-sm-3 ai-left-column">
-                    <div className="ai-accordian-sticky">
-                      <Accordion defaultActiveKey="0">
-                        <Accordion.Item eventKey="0">
-                          <Accordion.Header>Categories List</Accordion.Header>
-                          <Accordion.Body>
-                            {categories.map(
-                                  (el: CategoriesType, i: number) =>
-                                    el.coursecount !== 0 && (
-                                      <p className="photoshop-item" key={i}>
-                                        <input
-                                          type="checkbox"
-                                          onChange={(e) => {  
-                                            handleChecked(e, el.id);
-                                          }}
-                                        />
-                                        <label className="photoshop-checkbox">
-                                          {" "}
-                                          {el.name}
-                                        </label>{" "}
-                                        <span>{`(${el.coursecount})`}</span>
-                                      </p>
-                                    )
-                                )}
-                            <p className="catalogue-show-more-btn">Show More</p>
-                          </Accordion.Body>
-                        </Accordion.Item>
+              <div className="container-fluid">
+                <div className="row ">
+                  {filterToggle && (
+                    <div className="col-sm-3 ai-left-column">
+                      <div className="ai-accordian-sticky">
+                        <Accordion defaultActiveKey="0">
+                          <Accordion.Item eventKey="0">
+                            <Accordion.Header>Categories List</Accordion.Header>
+                            <Accordion.Body>
+                              {categories.map(
+                                    (el: CategoriesType, i: number) =>
+                                      el.coursecount !== 0 && (
+                                        <p className="photoshop-item" key={i}>
+                                          <input
+                                            type="checkbox"
+                                            onChange={(e) => {  
+                                              handleChecked(e, el.id);
+                                            }}
+                                          />
+                                          <label className="photoshop-checkbox">
+                                            {" "}
+                                            {el.name}
+                                          </label>{" "}
+                                          <span>{`(${el.coursecount})`}</span>
+                                        </p>
+                                      )
+                                  )}
+                              <p className="catalogue-show-more-btn">Show More</p>
+                            </Accordion.Body>
+                          </Accordion.Item>
 
-                        <Accordion.Item eventKey="1" className="course-level">
-                          <Accordion.Header>Level</Accordion.Header>
-                          <Accordion.Body>
-                            <p>
-                              <input type="checkbox" />
-                              <label className="photoshop-checkbox">
-                                {" "}
-                                All Level (805)
-                              </label>
-                            </p>
-                            <p>
-                              <input type="checkbox" />
-                              <label className="photoshop-checkbox">
-                                {" "}
-                                Beginner (205)
-                              </label>
-                            </p>
-                            <p>
-                              <input type="checkbox" />
-                              <label className="photoshop-checkbox">
-                                {" "}
-                                Intermediate (375)
-                              </label>
-                            </p>
-                            <p>
-                              <input type="checkbox" />
-                              <label className="photoshop-checkbox">
-                                {" "}
-                                Expert (225)
-                              </label>
-                            </p>
-                          </Accordion.Body>
-                        </Accordion.Item>
-                      </Accordion>
+                          <Accordion.Item eventKey="1" className="course-level">
+                            <Accordion.Header>Level</Accordion.Header>
+                            <Accordion.Body>
+                              <p>
+                                <input type="checkbox" />
+                                <label className="photoshop-checkbox">
+                                  {" "}
+                                  All Level (805)
+                                </label>
+                              </p>
+                              <p>
+                                <input type="checkbox" />
+                                <label className="photoshop-checkbox">
+                                  {" "}
+                                  Beginner (205)
+                                </label>
+                              </p>
+                              <p>
+                                <input type="checkbox" />
+                                <label className="photoshop-checkbox">
+                                  {" "}
+                                  Intermediate (375)
+                                </label>
+                              </p>
+                              <p>
+                                <input type="checkbox" />
+                                <label className="photoshop-checkbox">
+                                  {" "}
+                                  Expert (225)
+                                </label>
+                              </p>
+                            </Accordion.Body>
+                          </Accordion.Item>
+                        </Accordion>
+                      </div>
                     </div>
-                  </div>
-                )}
-                {filterdCourses !== undefined && filterdCourses.length === 0 ? (
-                  "No Records Found!"
-                ) : (
-                  <div
-                    className={`col-sm-9 ai-right-column ${
-                      filterToggle === false && "col-sm-12"
-                    }`}
-                  >
-                    {loadSkeleton === true ? (
-                      <SkeletonMimic />
-                    ) : (
-                      filterdCourses !== undefined &&
-                      filterdCourses
-                        .slice(pagination.start, pagination.end)
-                        .map((item) => {
-                          return (
-                            <div key={item.id}>
-                              <Coursecataloguecard
-                                courseName={item.fullname}
-                                courseId={item.id}
-                                courseTime={item.timemodified}
-                                cartCounter={cartCounter}
-                                counterCourseId={counterCourseId}
-                                courseIdStore={courseIdStore}
-                              />
-                            </div>
-                          );
-                        })
-                    )}
-                    {loadSkeleton === true ? null : (
-                      <Pagination
-                        showPerPage={showPerPage}
-                        onPaginationChange={onPaginationChange}
-                        filterdLength={filterdCourses !== undefined ? filterdCourses.length : 0}
-                      />
-                    )}
-                  </div>
-                )}
+                  )}
+                  {filterdCourses !== undefined && filterdCourses.length === 0 ? (
+                    "No Records Found!"
+                  ) : (
+                    <div
+                      className={`col-sm-9 ai-right-column ${
+                        filterToggle === false && "col-sm-12"
+                      }`}
+                    >
+                      {loadSkeleton === true ? (
+                        <SkeletonMimic />
+                      ) : (
+                        filterdCourses !== undefined &&
+                        filterdCourses
+                          .slice(pagination.start, pagination.end)
+                          .map((item) => {
+                            return (
+                              <div key={item.id}>
+                                <Coursecataloguecard
+                                  courseName={item.fullname}
+                                  courseId={item.id}
+                                  courseTime={item.timemodified}
+                                  cartCounter={cartCounter}
+                                  counterCourseId={counterCourseId}
+                                  courseIdStore={courseIdStore}
+                                />
+                              </div>
+                            );
+                          })
+                      )}
+                      {loadSkeleton === true ? null : (
+                        <Pagination
+                          showPerPage={showPerPage}
+                          onPaginationChange={onPaginationChange}
+                          filterdLength={filterdCourses !== undefined ? filterdCourses.length : 0}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
       </div>
     </>
   );

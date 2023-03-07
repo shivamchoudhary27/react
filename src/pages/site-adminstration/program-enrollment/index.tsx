@@ -10,9 +10,10 @@ const ProgramEnrollment = () => {
   return (
     <>
     <Header pageHeading="" welcomeIcon={false} />
+    <div className='main-content-container'>
       <Sidebar />
-      <div className="container-wrapper" style={{paddingLeft: '270px', marginTop: '70px'}}>
-        <Container fluid>
+      <div className="content-area content-area-slider" id="contentareaslider">
+        <Container fluid className="administration-wrapper">
           <div className="site-heading">
             <h3>Program Enrollment</h3>
           </div>
@@ -21,6 +22,7 @@ const ProgramEnrollment = () => {
           <ProgramEnrollTable />
         </Container>
       </div>
+    </div>
     </>
   );
 };

@@ -88,24 +88,21 @@ const Departments = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
+      <div className='main-content-container'>
       <Sidebar />
-      <Container fluid>
-        <div
-          className="contents"
-          style={{ paddingLeft: "270px", marginTop: "70px" }}
-        >
-          <div className="container-wrapper">
-            <div className="site-heading">
-              <h3>Departments</h3>
-            </div>
-          </div>
-          <hr />
-          {DEPARTMENT_FILTER_COMPONENT}
-          {DEPARTMENT_TABLE_COMPONENT}
-          {/* {DEPARTMENT_PAGINATION_COMPONENT} */}
-          {DEPARTMENT_MODAL_COMPONENT}
+      <div className="content-area content-area-slider" id="contentareaslider">
+      <Container fluid className="administration-wrapper">
+        <div className="site-heading">
+          <h3>Departments</h3>
         </div>
+        <hr />
+        {DEPARTMENT_FILTER_COMPONENT}
+        {DEPARTMENT_TABLE_COMPONENT}
+        {/* {DEPARTMENT_PAGINATION_COMPONENT} */}
+        {DEPARTMENT_MODAL_COMPONENT}
       </Container>
+      </div>
+      </div> 
     </>
   );
 };

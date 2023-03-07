@@ -11,17 +11,13 @@ const Preview = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <Container fluid>
-        <div
-          className="contents"
-          style={{ paddingLeft: "270px", marginTop: "70px" }}
-        >
-          <div className="container-wrapper">
-            <div className="site-heading">
-              <h3>Preview Page</h3>{" "}
-              <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Back</Button>
-            </div>
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+        <Container fluid className="administration-wrapper">
+          <div className="site-heading">
+            <h3>Preview Page</h3>{" "}
+            <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Back</Button>
           </div>
           <hr />
           <div>
@@ -33,8 +29,9 @@ const Preview = () => {
               }
             </ul>
           </div>
-        </div>
-      </Container>
+        </Container>
+        </div>        
+      </div>      
     </>
   );
 };

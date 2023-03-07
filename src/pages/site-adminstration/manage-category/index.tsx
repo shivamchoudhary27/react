@@ -9,19 +9,19 @@ const ManageCategory = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <Container fluid>
-        <div className="contents" style={{paddingLeft: '270px', marginTop: '70px'}}>
-          <div className="container-wrapper">
-            <div className="site-heading">
-              <h3>Manage Categories: <strong>Master of Computer Applications</strong></h3>
-            </div>
+      <div className='main-content-container'>
+        <Sidebar />
+        <div className="content-area content-area-slider" id="contentareaslider">
+        <Container fluid className="administration-wrapper">
+          <div className="site-heading">
+            <h3>Manage Categories: <strong>Master of Computer Applications</strong></h3>
           </div>
           <hr />
           <CategoryTable />
           <Addcategory />
-        </div>
-      </Container>
+        </Container>
+        </div>        
+      </div>      
     </>
   );
 };

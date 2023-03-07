@@ -27,7 +27,7 @@ function MyCourseCard(props: MyCourseCardType) {
     if (props.mycoursedata.enddate === 0) courseDate = "";
     else {
       const finishDate = new Date(props.mycoursedata.enddate * 1000).toLocaleDateString("en-IN");
-      courseDate = `End date ${finishDate}`;
+      courseDate = `End date: ${finishDate}`;
     }
   } else if (currentTab === 2) {
     accessBtn = "View";
@@ -110,47 +110,34 @@ function MyCourseCard(props: MyCourseCardType) {
   return (
     <>
       <div className="ai-course">
-        <div className="ai-border">
-          <Row>
-            <div className="col-sm-12 col-md-10 card-left-column">
-              <div className="course-heading-google">
-                <h5 className="card-title">{props.mycoursedata.fullname.substr(0, 30)}</h5>
-              </div>
-
-              <div className="google-course-text">
-                <p>{props.mycoursedata.summary.replace(/(<([^>]+)>)/gi, "").substr(0, 70)}.....</p>
-              </div>
+        <Row>
+          <div className="col-9">
+            <h5 className="card-title">{props.mycoursedata.fullname.substr(0, 30)}</h5>
+            <div className="card-desc mb-4">
+              {props.mycoursedata.summary.replace(/(<([^>]+)>)/gi, "").substr(0, 70)}.....
             </div>
-            <div className="col-sm-12 col-md-2 image-order card-right-column">
-              <div className="card-right-column-image">
-                <Link to={`/courseview/${props.mycoursedata.id}/${props.mycoursedata.fullname}`}>
-                  {props.mycoursedata.overviewfiles.length !== 0 ? (
-                    <img src={`${props.mycoursedata.overviewfiles[0].fileurl}?token=${userToken}`} className="course-image" alt="bannerimage" />
-                  ) : (
-                    <img src={imgLogo} className="course-image" alt="bannerimage" />
-                  )}
-                </Link>
-              </div>
-            </div>
-          </Row>
-        </div>
-        <div>
-          <span className="progress-percentage">{props.mycoursedata.progress === null ? `0` : Math.round(props.mycoursedata.progress)}%</span>
-          <span className="percentage-status">{props.mycoursedata.completed === false ? "Not completed" : "Completed"}</span>
-          <ProgressBar now={props.mycoursedata.progress} />
-        </div>
-        <div className="course-duration-content">
-          <ul className="course-duration">
-            <li>
-              <i className="fa fa-clock-o" />
-            </li>
-            <li>{courseDate}</li>
-            <li className="third-child">
-              <button className="course-btn" onClick={handleClick}>
-                {accessBtn} &nbsp;<i className="fa fa-angles-right" />
-              </button>
-            </li>
-          </ul>
+          </div>
+          <div className="col-3">
+              <Link to={`/courseview/${props.mycoursedata.id}/${props.mycoursedata.fullname}`}>
+                {props.mycoursedata.overviewfiles.length !== 0 ? (
+                  <img src={`${props.mycoursedata.overviewfiles[0].fileurl}?token=${userToken}`} className="course-image" alt={props.mycoursedata.fullname} />
+                ) : (
+                  <img src={imgLogo} className="course-image" alt={props.mycoursedata.fullname} />
+                )}
+              </Link>
+          </div>
+        </Row>
+        
+        <span className="progress-percentage">{props.mycoursedata.progress === null ? `0` : Math.round(props.mycoursedata.progress)}%</span>
+        <span className="percentage-status">{props.mycoursedata.completed === false ? "Not completed" : "Completed"}</span>
+        <ProgressBar now={props.mycoursedata.progress} />
+        
+        <div className="course-duration">
+          <i className="fa-solid fa-clock"></i>
+          <span>{courseDate}</span>
+          <button className="course-btn" onClick={handleClick}>
+            {accessBtn} &nbsp;<i className="fa-solid fa-angles-right"></i>
+          </button>
         </div>
       </div>
     </>
