@@ -6,19 +6,27 @@ import events from "./events.js";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../header/";
 import Sidebar from "../sidebar/";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { getEventColor, initialColors} from "./utils";
+import CalendarFilters from "./calendar_filter";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
 export default function ReactBigCalendar() {
   const [eventsData, setEventsData] = useState(events);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+  const enroled_courses = JSON.parse(localStorage.getItem("enroled_courses"));
+  const colorConfig =
+  (localStorage.getItem("event-colors") !== null)
+    ? JSON.parse(localStorage.getItem("event-colors"))
+    : JSON.parse(initialColors);
+
+  useEffect(()=> {
+    setFilteredEvents(eventsData);
+  }, [eventsData]);
 
   useEffect(() => {
-    //get all the enroled courses ids from localstorage
-    const enroled_courses = JSON.parse(localStorage.getItem("enroled_courses"));
-    
     let dataParam = '';
     Object.keys(enroled_courses).map((item, index) => {
       dataParam += `events[courseids][${item}]=${enroled_courses[index].id}&`;
@@ -35,11 +43,6 @@ export default function ReactBigCalendar() {
             console.log('Something went wrong');
           } else {
             let calEvents = res.data.events;
-
-            const colorConfig =
-              (localStorage.getItem("event-colors") !== null)
-                ? JSON.parse(localStorage.getItem("event-colors"))
-                : JSON.parse(initialColors);
 
             calEvents.map((i, index) => {
               calEvents[index].title = calEvents[index].name;
@@ -63,19 +66,19 @@ export default function ReactBigCalendar() {
       });
   }, []);
 
-  // const handleSelect = ({ start, end }) => {
-  //   const title = window.prompt("New Event name");
-
-  //   if (title)
-  //     setEventsData([
-  //       ...eventsData,
-  //       {
-  //         start,
-  //         end,
-  //         title
-  //       }
-  //     ]);
-  // };
+  const filterEvents = (eventChecked) => {
+    let newEvents = [];
+    if (eventChecked.length === 0) {
+      newEvents = eventsData;
+    } else {
+      newEvents = eventsData.filter((el) => {
+        if (eventChecked.includes(el.modulename) || eventChecked.includes(el.eventtype)) {
+          return true;
+        }
+      });
+    }
+    setFilteredEvents(newEvents);
+  }
 
   return (
     <>
@@ -83,25 +86,32 @@ export default function ReactBigCalendar() {
       <Header pageHeading="Calendar" welcomeIcon={false} />
       <Container fluid>
           <div style={{paddingLeft: '270px', marginTop: '70px'}}>
-            <div>
-              <Calendar
-                views={["day", "agenda", "work_week", "month"]}
-                selectable
-                localizer={localizer}
-                defaultDate={new Date()}
-                defaultView="month"
-                events={eventsData}
-                style={{ height: "100vh" }}
-                BackgroundWrapper = "red"
-                onSelectEvent={(event) => console.log(event)}
-                // onSelectSlot={handleSelect}
-                eventPropGetter={(myEventsList) => {
-                  const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
-                  const color = myEventsList.color ? myEventsList.color : 'white';
-                  return { style: { backgroundColor, color}}
-                }}
-              />
-            </div>
+            <Row>
+              <Col md={10}>
+                <div>
+                  <Calendar
+                    views={["day", "agenda", "work_week", "month"]}
+                    selectable
+                    localizer={localizer}
+                    defaultDate={new Date()}
+                    defaultView="month"
+                    events={filteredEvents}
+                    style={{ height: "100vh" }}
+                    BackgroundWrapper = "red"
+                    onSelectEvent={(event) => console.log(event)}
+                    // onSelectSlot={handleSelect}
+                    eventPropGetter={(myEventsList) => {
+                      const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
+                      const color = myEventsList.color ? myEventsList.color : 'white';
+                      return { style: { backgroundColor, color}}
+                    }}
+                  />
+                </div>
+              </Col>
+              <Col md={2}>
+                <CalendarFilters events={colorConfig} filters={filterEvents}/>
+              </Col>
+            </Row>
           </div>
       </Container>
     </>
