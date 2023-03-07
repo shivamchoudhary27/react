@@ -3,8 +3,8 @@ const config = {
   MOODLE_BASE_URL: 'https://demo.learn.ballisticlearning.com',
   REST_ENDPOINT: '/webservice/rest/server.php',
   TOKEN_ENDPOINT: '/login/token.php',
-  OAUTH2_URL: 'http://40.114.33.183:8080/oauth2-service/oauth2',
-  JAVA_API_URL: 'http://40.114.33.183:8081/learning-service/api/v1',
+  OAUTH2_URL: 'https://api.microlearning.ballisticlearning.com:8443/oauth2-service/oauth2',
+  JAVA_API_URL: 'https://api.microlearning.ballisticlearning.com/learning-service/api/v1',
   WSTOKEN: '',
   SIGNUP_TOKEN: '8d03740114d7a608cd93b89bb2b726f9',  //dummy token of admin to signup user moodle api
   ADMIN_MOODLE_TOKEN: 'bf6d98415a7b551c4ee9b6e20167dac3',  //dummy token of moodle admin
