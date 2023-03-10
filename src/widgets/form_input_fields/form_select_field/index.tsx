@@ -1,0 +1,25 @@
+import React from "react";
+import { Field } from "formik";
+
+const FieldTypeSelect = ({
+    name,
+    options,
+    as="select",
+    className="form-control"
+}: any) => {
+  return (
+    <>
+      <Field as={as} name={name} className={className}>
+        {
+            options.map((el: any, index: number)=>(
+                <option value={el.name} key={index}>
+                    {el.name}
+                </option>
+            ))
+        }
+      </Field>
+    </>
+  );
+};
+
+export default FieldTypeSelect;
