@@ -7,8 +7,10 @@ const StudentDashboard = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <DashboardStudent />
+      <div className='main-content-container'>
+        <Sidebar />
+        <DashboardStudent />
+      </div>
     </>
   );
 };

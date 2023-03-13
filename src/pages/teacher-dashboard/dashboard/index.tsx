@@ -7,8 +7,10 @@ const TeacherDashboard = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <Sidebar />
-      <DashboardTeacher />
+      <div className='main-content-container'>
+        <Sidebar />
+        <DashboardTeacher />
+      </div>
     </>
   );
 };
