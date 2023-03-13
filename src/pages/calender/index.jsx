@@ -86,23 +86,32 @@ export default function ReactBigCalendar() {
       <div className='main-content-container'>
         <Sidebar />
         <div className="content-area content-area-slider" id="contentareaslider">
-          <Calendar
-          views={["day", "agenda", "work_week", "month"]}
-          selectable
-          localizer={localizer}
-          defaultDate={new Date()}
-          defaultView="month"
-          events={eventsData}
-          style={{ height: "100vh" }}
-          BackgroundWrapper = "red"
-          onSelectEvent={(event) => console.log(event)}
-          // onSelectSlot={handleSelect}
-          eventPropGetter={(myEventsList) => {
-            const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
-            const color = myEventsList.color ? myEventsList.color : 'white';
-            return { style: { backgroundColor, color}}
-          }}
-          />
+          <Container fluid>
+            <Row>
+              <Col md={10}>
+                <Calendar
+                views={["day", "agenda", "work_week", "month"]}
+                selectable
+                localizer={localizer}
+                defaultDate={new Date()}
+                defaultView="month"
+                events={eventsData}
+                style={{ height: "100vh" }}
+                BackgroundWrapper = "red"
+                onSelectEvent={(event) => console.log(event)}
+                // onSelectSlot={handleSelect}
+                eventPropGetter={(myEventsList) => {
+                  const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
+                  const color = myEventsList.color ? myEventsList.color : 'white';
+                  return { style: { backgroundColor, color}}
+                }}
+                />
+              </Col>
+              <Col md={2}>
+                <CalendarFilters events={colorConfig} filters={filterEvents}/>
+              </Col>
+            </Row>
+          </Container>
         </div>
       </div>
     </>

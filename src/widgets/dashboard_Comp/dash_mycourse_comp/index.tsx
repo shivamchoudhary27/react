@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import MyCourseCard from "./Cards";
 import { getData } from "../../../adapters";
 import SkeletonMimic from "./Skeleton";
@@ -74,31 +74,29 @@ function DashMyCourse({ linkToggle }: any) {
     }
   }, [linkToggle, myCourses]);
   return (
-    <>
-      <div className="container-fluid p-0">
-        {filterDataMsg === true ? (
-          <p className="alert alert-info text-center">No records found!</p>
-        ) : (
-          <div>
-            {error !== "" && <ErrorBox msg={error} style={"warning"} />}
-            {loadSkeleton === true ? (
-              <SkeletonMimic />
-            ) : (
-              <Row className="course-widgets">
-                {filter.map((element: any) => (
-                  <div className="col-sm-4 mobile-course-view mb-4" key={element.id}>
-                      <MyCourseCard
-                        mycoursedata={element}
-                        currentTab={linkToggle}
-                        element={[]}
-                      />
-                  </div>
-                ))}
-              </Row>
-            )}
-          </div>
-        )}
-      </div>
+    <>        
+      {filterDataMsg === true ? (
+        <p className="alert alert-info text-center">No records found!</p>
+      ) : (
+        <Container fluid>
+          {error !== "" && <ErrorBox msg={error} style={"warning"} />}
+          {loadSkeleton === true ? (
+            <SkeletonMimic />
+          ) : (
+            <Row className="course-widgets">
+              {filter.map((element: any) => (
+                <div className="col-sm-4 mobile-course-view mb-4" key={element.id}>
+                    <MyCourseCard
+                      mycoursedata={element}
+                      currentTab={linkToggle}
+                      element={[]}
+                    />
+                </div>
+              ))}
+            </Row>              
+          )} 
+          </Container>         
+        )}        
     </>
   );
 }
