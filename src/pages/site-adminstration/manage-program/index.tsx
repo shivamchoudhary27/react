@@ -12,29 +12,37 @@ const ManageProgram = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <div className='main-content-container'>
+      <div className="main-content-container">
         <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
-          <Container fluid className="administration-wrapper">        
-            <div className="site-heading">
-              <h3>Manage Programs</h3>
-            </div>
-            <div className="site-button-group">
-              <Button
-                variant="primary"
-                onClick={() => navigate("/department")}
-              >
-                Department
-              </Button>{" "}
-              <Button
-                variant="primary"
-                onClick={() => navigate("/programtype")}
-              >
-                Program Type
-              </Button>{" "}
-              <Button variant="primary" onClick={() => navigate("/discipline")}>
-                Disciplines
-              </Button>
+        <div
+          className="content-area content-area-slider"
+          id="contentareaslider"
+        >
+          <Container fluid className="administration-wrapper">
+            <div className="container-wrapper">
+              <div className="site-heading">
+                <h3>Manage Programs</h3>
+              </div>
+              <div className="site-button-group">
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/department")}
+                >
+                  Department
+                </Button>{" "}
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/programtype")}
+                >
+                  Program Type
+                </Button>{" "}
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/discipline")}
+                >
+                  Disciplines
+                </Button>
+              </div>
             </div>
             <hr />
             <ManageFilter />

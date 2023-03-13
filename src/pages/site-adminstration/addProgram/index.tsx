@@ -6,11 +6,6 @@ import AddProgramForm from "./form";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
-const style = {
-  paddingLeft: "270px",
-  marginTop: "70px",
-};
-
 const AddProgram = () => {
   const navigate = useNavigate();
   return (
@@ -20,7 +15,7 @@ const AddProgram = () => {
       <Sidebar />
       <div className="content-area content-area-slider" id="contentareaslider">
       <Container fluid className="administration-wrapper">
-          <div className="contents" style={style}>
+          <div className="contents">
             <Program_Form_Header navigate={navigate} />{" "}
             <hr />
             <div className="form-container-wrapper">
