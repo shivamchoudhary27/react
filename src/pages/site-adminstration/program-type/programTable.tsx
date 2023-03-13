@@ -45,7 +45,7 @@ const ProgramTable = ({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
-                  batchYearRequired: row.original.batchYearRequired,
+                  batchYearRequired: row.original.isBatchYearRequired,
                 })
               }
             ></i>

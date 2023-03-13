@@ -3,9 +3,14 @@ import "./style.scss";
 import { Formik, Field, Form } from "formik";
 import { Button } from "react-bootstrap";
 import { Schemas } from "./schemas";
-import { getData as getName } from "../../../adapters/microservices";
+import {
+  getData as getName,
+  postData as postProgramData,
+} from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
 import { useNavigate } from "react-router-dom";
+import { log } from "console";
+import { generateProgramDataObject } from "./utils";
 
 const initialValues = {
   department: "",
@@ -41,15 +46,17 @@ const addInputField = [
 ];
 
 const AddProgramForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [inputFieldArr, setinputFieldArr] = useState(addInputField);
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
+  const [programTypeId, setProgramTypeId] = useState<any>([]);
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
     const departmentEndPoint = "/departments";
     const disciplineEndPoint = "/disciplines";
+    const programTypeEndPoint = "/program-types";
     getName(departmentEndPoint).then((res) => {
       if (res.data !== "" && res.status === 200) {
         setDepartmentName(res.data);
@@ -60,18 +67,23 @@ const AddProgramForm = () => {
         setDisciplineName(res.data);
       }
     });
+    getName(programTypeEndPoint).then((res) => {
+      if (res.data !== "" && res.status === 200) {
+        setProgramTypeId(res.data);
+      }
+    });
   }, []);
 
   // iterate to get Department list ===== >>>
   const DEPARTMENT_LIST = departmentName.map((el: any, index: number) => (
-    <option value={el.name} key={index}>
+    <option value={el.id} key={index}>
       {el.name}
     </option>
   ));
 
   // iterate to get Discipline list ===== >>>
   const DISCIPLINE_LIST = disciplineName.map((el: any, index: number) => (
-    <option value={el.name} key={index}>
+    <option value={el.id} key={index}>
       {el.name}
     </option>
   ));
@@ -103,7 +115,7 @@ const AddProgramForm = () => {
   const PROGRAM_FORM_BUTTONS = ({ isSubmitting }: any) => {
     return (
       <>
-        <Button type="submit" className="primary" disabled={isSubmitting}>
+        <Button type="submit" className="primary">
           Submit
         </Button>{" "}
         <Button variant="outline-secondary" type="reset">
@@ -113,16 +125,39 @@ const AddProgramForm = () => {
     );
   };
 
+  const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
+    let endPoint = "/programs";
+    // setSubmitting(true);
+    console.log(values);
+
+    let programValues = generateProgramDataObject(values);
+    // const programData = JSON.stringify(values)
+    // if (departmentobj.id === 0) {
+    postProgramData(endPoint, programValues)
+      .then((res) => {
+        if (res.data !== "") {
+          console.log(res);
+          // togglemodalshow(false);
+          // refreshdepartmentdata(true);
+          setSubmitting(false);
+          resetForm();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    // }
+    // navigate('/preview', {state: values});
+  };
+
   return (
     <>
       <div>
         <Formik
           initialValues={initialValues}
           validationSchema={Schemas}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            navigate('/preview', {state: values});
-            setSubmitting(false);
-            resetForm();
+          onSubmit={(values, action) => {
+            handlerFormSubmit(values, action);
           }}
         >
           {({ errors, touched, isSubmitting, handleChange }) => (
@@ -170,7 +205,7 @@ const AddProgramForm = () => {
                 <label htmlFor="programType" className="d-block">
                   ProgramType <sup className="required">*</sup>
                 </label>
-                <label className="mx-2">
+                {/* <label className="mx-2">
                   <Field type="radio" name="programtype" value="certificate" />{" "}
                   Certificate
                 </label>
@@ -181,7 +216,19 @@ const AddProgramForm = () => {
                 <label className="mx-2">
                   <Field type="radio" name="programtype" value="pgrad" /> Post
                   Graduate
-                </label>
+                </label> */}
+                {programTypeId.map((el: any) => (
+                  <label className="mx-2">
+                    <Field
+                      type="radio"
+                      name="programtype"
+                      value={el.id}
+                      // checked={isChecked}
+                      className="form-check-input"
+                    />{" "}
+                    {el.name}
+                  </label>
+                ))}
                 {errors.programtype && touched.programtype ? (
                   <Error_Message val={"Please Enter Program Type"} />
                 ) : null}

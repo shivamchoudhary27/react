@@ -135,7 +135,7 @@ const DiciplineTable = ({
 
   return (
     <>
-      <div className="table-wrapper mt-3" style={{ paddingLeft: "270px" }}>
+      <div className="table-wrapper mt-3">
         <Table bordered hover {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (

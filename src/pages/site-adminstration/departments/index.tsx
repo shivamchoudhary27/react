@@ -31,6 +31,8 @@ const Departments = () => {
     }
   }, [refreshData]);
 
+  console.log(departmentData)
+
   // get id, name from the department table === >>>
   const editHandlerById = ({ id, name }: any) => {
     setDepartmentObj({ id: id, name: name });

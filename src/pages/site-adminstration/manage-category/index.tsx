@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import CategoryTable from "./categoryTable";
 import Addcategory from "./addcategory";
+import { useNavigate } from "react-router-dom";
 
 const ManageCategory = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
@@ -16,6 +18,12 @@ const ManageCategory = () => {
           <div className="site-heading">
             <h3>Manage Categories: <strong>Master of Computer Applications</strong></h3>
           </div>
+          <Button
+            variant="outline-secondary"
+            onClick={() => navigate("/manageprogram")}
+          >
+            Go back
+          </Button>
           <hr />
           <CategoryTable />
           <Addcategory />
