@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import AddProgramForm from "./form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./style.scss";
 
 const AddProgram = () => {
+  // const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // const urlParams = new URL(location.search);
+    // const programId = urlParams.get('id');
+    // console.log(programId + ' - id');
+  }, []);
+
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />

@@ -1,8 +1,13 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Table } from "react-bootstrap";
 import { ManageRawData } from "./rawData";
 import { useTable } from "react-table";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
+// edit event handler === >>>
+const createEditLink = (id : number) => {
+  return `/addprogram?id=${id}`;
+};
 
 const tableColumn = [
   {
@@ -11,18 +16,18 @@ const tableColumn = [
   },
   {
     Header: "Batch Year",
-    accessor: "year",
+    accessor: "batchYear",
   },
   {
     Header: "Program Code",
-    accessor: "code",
+    accessor: "programCode",
   },
   {
     Header: "Manage Categories",
-    accessor: "categories",
+    // accessor: "categories",
     Cell: ({ row }: any) => (
       <Link to="/managecategory">
-        <i className={row.values.categories}></i>
+        <i className="fa-solid fa-code-branch"></i>
       </Link>
     ),
   },
@@ -31,7 +36,7 @@ const tableColumn = [
     accessor: "manage_courses",
     Cell: ({ row }: any) => (
       <Link to="/managecourses">
-        <i className={row.values.manage_courses}></i>
+        <i className="fa-solid fa-copy"></i>
       </Link>
     ),
   },
@@ -40,40 +45,46 @@ const tableColumn = [
     accessor: "manage_users",
     Cell: ({ row }: any) => (
       <Link to="/manageusers">
-        <i className={row.values.manage_users}></i>
+        <i className="fa fa-users"></i>
       </Link>
     ),
   },
   {
     Header: "Actions",
-    accessor: "actions",
     Cell: ({ row }: any) => (
       <span>
-        <Link to="">
-          <i className={row.values.actions.edit}></i>
-        </Link>{" "}
-        <Link to="">
-          <i className={row.values.actions.delete}></i>
-        </Link>{" "}
-        <Link to="">
-          <i className={row.values.actions.hide}></i>
+        <Link to={createEditLink(row.original.id)}>
+          <i
+            className="fa-solid fa-pen"
+          ></i>
         </Link>
-        <Link to="/preview">
-          <i>View</i>
+        <Link to="">
+          <i
+            className="fa-solid fa-trash"
+            // onClick={() => deleteHandler(row.original.id)}
+          ></i>
+        </Link>
+        <Link to="">
+          <i
+            className="fa-solid fa-eye"
+            // onClick={() => showToggleHandler(row.original.id)}
+          ></i>
         </Link>
       </span>
     ),
   },
 ];
 
-const ManageTable = () => {
+const ManageTable = ({programData} : any) => {
+  const navigate = useNavigate();
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => ManageRawData, []);
+  const data = useMemo(() => programData, [programData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
+
   return (
     <>
       <div className="table-wrapper mt-3">
