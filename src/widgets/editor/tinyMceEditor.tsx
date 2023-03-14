@@ -18,7 +18,7 @@ export default function TinymceEditor({ handleChange, name }: any) {
                 height: 300,
                 menubar: false, //"tools"
                 plugins: [
-                  "advlist advcode autolink lists link image charmap print preview anchor",
+                  "advlist autolink lists link image charmap print preview anchor",
                   "searchreplace visualblocks code fullscreen",
                   "insertdatetime media table paste code help wordcount code",
                 ],

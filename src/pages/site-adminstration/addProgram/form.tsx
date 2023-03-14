@@ -6,7 +6,7 @@ import { Schemas } from "./schemas";
 import {
   getData as getName,
   postData as postProgramData,
-  putData as updateProgramData
+  putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
 import { addMetaInputField, generateProgramDataObject } from "./utils";
@@ -18,29 +18,30 @@ import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field"
 import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 
-const AddProgramForm = ({initialformvalues, programid} : any) => {
+const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
   const [inputFieldArr, setinputFieldArr] = useState(addMetaInputField);
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
-  
+  const [radioValue, setRadioValue] = useState("");
+
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
     const departmentEndPoint = "/departments";
     const disciplineEndPoint = "/disciplines";
     const programTypeEndPoint = "/program-types";
-    getName(departmentEndPoint).then((res : any) => {
+    getName(departmentEndPoint).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setDepartmentName(res.data);
       }
     });
-    getName(disciplineEndPoint).then((res : any) => {
+    getName(disciplineEndPoint).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setDisciplineName(res.data);
       }
     });
-    getName(programTypeEndPoint).then((res : any) => {
+    getName(programTypeEndPoint).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setProgramTypeId(res.data);
       }
@@ -61,9 +62,9 @@ const AddProgramForm = ({initialformvalues, programid} : any) => {
     }
   };
 
-  const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {    
+  const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
     let programValues = generateProgramDataObject(values);
-    
+
     if (programid == 0) {
       let endPoint = "/programs";
       postProgramData(endPoint, programValues)
@@ -76,10 +77,10 @@ const AddProgramForm = ({initialformvalues, programid} : any) => {
         .catch((err) => {
           console.log(err);
         });
-    } else { 
+    } else {
       let endPoint = `/programs/${programid}`;
       updateProgramData(endPoint, programValues)
-        .then((res : any) => {
+        .then((res: any) => {
           if (res.data !== "") {
             setSubmitting(false);
             resetForm();
@@ -89,7 +90,7 @@ const AddProgramForm = ({initialformvalues, programid} : any) => {
           console.log(err);
         });
     }
-    navigate('/manageprogram', {state: values});
+    navigate("/manageprogram", { state: values });
   };
 
   return (
@@ -153,21 +154,15 @@ const AddProgramForm = ({initialformvalues, programid} : any) => {
                   required="required"
                   star="*"
                 />
-                <FieldTypeRadio
-                  value="certificate"
-                  name="programtype"
-                  radioText="Certificate"
-                />
-                <FieldTypeRadio
-                  value="ugrad"
-                  name="programtype"
-                  radioText="Under Graduate"
-                />
-                <FieldTypeRadio
-                  value="pgrad"
-                  name="programtype"
-                  radioText="Post Graduate"
-                />
+                {programTypeId.map((el: any) => (
+                  <FieldTypeRadio
+                    value={el.id}
+                    name="programtype"
+                    radioText={el.name}
+                    checked={radioValue == el.id}
+                    onChange={(e: any)=>setRadioValue(e.target.value)}
+                  />
+                ))}
                 <FieldErrorMessage
                   errors={errors.programtype}
                   touched={touched.programtype}
@@ -240,27 +235,15 @@ const AddProgramForm = ({initialformvalues, programid} : any) => {
                 />
               </div>
               <div className="mb-3">
-                <FieldLabel htmlfor="requirement" labelText="Requirement" />
+                <FieldLabel htmlfor="requirement" labelText="Objective" />
                 <TinymceEditor name="requirement" handleChange={handleChange} />
               </div>
               <div className="mb-3">
-                <FieldLabel htmlfor="description" labelText="Description" />
-                <TinymceEditor name="description" handleChange={handleChange} />
-              </div>
-              <div className="mb-3">
                 <FieldLabel
-                  htmlfor="programcontent"
-                  labelText="Program Content"
+                  htmlfor="description"
+                  labelText="Learning outcomes"
                 />
-                <TinymceEditor
-                  name="programcontent"
-                  handleChange={handleChange}
-                />
-              </div>
-
-              <div className="mb-3">
-                <FieldLabel htmlfor="learn" labelText="What you will learn" />
-                <TinymceEditor name="learn" handleChange={handleChange} />
+                <TinymceEditor name="description" handleChange={handleChange} />
               </div>
 
               <FieldLabel htmlfor="metatitle" labelText="Program meta Fields" />
