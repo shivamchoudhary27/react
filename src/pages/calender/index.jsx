@@ -95,7 +95,7 @@ export default function ReactBigCalendar() {
                 localizer={localizer}
                 defaultDate={new Date()}
                 defaultView="month"
-                events={eventsData}
+                events={filteredEvents}
                 style={{ height: "100vh" }}
                 BackgroundWrapper = "red"
                 onSelectEvent={(event) => console.log(event)}

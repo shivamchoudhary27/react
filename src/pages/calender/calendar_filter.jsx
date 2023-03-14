@@ -32,7 +32,7 @@ const CalendarFilters = ({events, filters}) => {
                 onChange={
                   (e) => {
                     handleChecked(e);
-                }} 
+                }}
               />
               {" " + key.charAt(0).toUpperCase() + key.slice(1)}
             </div>

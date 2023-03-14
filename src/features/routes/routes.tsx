@@ -54,7 +54,7 @@ export default function CustomRoutes() {
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />
           <Route path="/manageprogram" element={<ManageProgram />} />
-          <Route path="/addprogram" element={<AddProgram />} />
+          <Route path="/addprogram/:id" element={<AddProgram />} />
           <Route path="/manageusers" element={<ManageUsers />} />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
           <Route path="/mod/video/report" element={<Report />} />
