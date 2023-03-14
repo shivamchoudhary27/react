@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 // edit event handler === >>>
 const createEditLink = (id : number) => {
-  return `/addprogram?id=${id}`;
+  return `/addprogram/${id}`;
 };
 
 const tableColumn = [

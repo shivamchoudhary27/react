@@ -1,3 +1,36 @@
+export const initialValues = {
+    department: 132,
+    programName: 'initialvalues',
+    programCode: "initialvalues",
+    programtype: 83,
+    discipline: "",
+    batchYear: "initialvalues",
+    mode: "part_time",
+    duration: "initialvalues",
+    requirement: "",
+    description: "initialvalues",
+    programcontent: "",
+    learn: "",
+    metatitle: "",
+    metadescription: "",
+    checked: [],
+};
+
+export const addMetaInputField = [
+    [
+        {
+            type: "text",
+            id: 1,
+            value: "",
+        },
+        {
+            type: "textarea",
+            id: 2,
+            value: "",
+        },
+    ],
+];
+
 const programData = {
     name: "",
     programCode: "",
@@ -27,29 +60,25 @@ export const generateProgramDataObject = (formData) => {
     programData.department = {id : formData.department},
     programData.discipline = {id : formData.discipline}
 
-    console.log(programData);
     return programData;
 };
 
-
-
-// {
-//     "name": "Basic Computer 2345",
-//     "programCode": "basic2345",
-//     "modeOfStudy": "online",
-//     "duration": "4 hours",
-//     "batchYear": 2023,
-//     "desscription": "loresm dsfsadfasdf",
-//     "objective": "loresm dsfsadfasdf",
-//     "fullLifeTimeAccess": true,
-//     "published": true,
-//     "programType": {
-//         "id": 50
-//     },
-//     "department": {
-//         "id": 131
-//     },
-//     "discipline": {
-//         "id": 34
-//     }
-// }
+export const generateIinitialValues = (apiData) => {
+    if (Object.keys(apiData).length > 0) {
+        let setInitialValues = {
+            department: apiData.department.id,
+            programName: apiData.name,
+            programCode: apiData.programCode,
+            programtype: apiData.programType.id,
+            discipline: apiData.discipline.id,
+            batchYear: apiData.batchYear,
+            mode: apiData.modeOfStudy,
+            duration: apiData.duration,
+            requirement: apiData.requirement ?? '',
+            description: apiData.description,
+        }
+       return setInitialValues;
+    }  else {
+        return initialValues;
+    }
+}

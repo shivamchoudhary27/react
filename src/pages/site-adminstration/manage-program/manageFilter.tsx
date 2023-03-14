@@ -10,7 +10,7 @@ const ManageFilter = () => {
 
   const navigate = useNavigate();
   const handleAddProgram = () => {
-    navigate("/addprogram");
+    navigate("/addprogram/0");
   };
 
   const handleSearch = (e: any) => {

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import { Formik, Field, Form } from "formik";
 import { Button } from "react-bootstrap";
@@ -6,68 +7,34 @@ import { Schemas } from "./schemas";
 import {
   getData as getName,
   postData as postProgramData,
+  putData as updateProgramData
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { useNavigate } from "react-router-dom";
-import { log } from "console";
-import { generateProgramDataObject } from "./utils";
+import { addMetaInputField, generateProgramDataObject } from "./utils";
 
-const initialValues = {
-  department: "",
-  programName: "",
-  programCode: "",
-  programtype: "",
-  discipline: "",
-  batchYear: "",
-  mode: "",
-  duration: "",
-  requirement: "",
-  description: "",
-  programcontent: "",
-  learn: "",
-  metatitle: "",
-  metadescription: "",
-  checked: [],
-};
-
-const addInputField = [
-  [
-    {
-      type: "text",
-      id: 1,
-      value: "",
-    },
-    {
-      type: "textarea",
-      id: 2,
-      value: "",
-    },
-  ],
-];
-
-const AddProgramForm = () => {
+const AddProgramForm = ({initialformvalues, programid} : any) => {
   const navigate = useNavigate();
-  const [inputFieldArr, setinputFieldArr] = useState(addInputField);
+  const [inputFieldArr, setinputFieldArr] = useState(addMetaInputField);
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
-
+  
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
     const departmentEndPoint = "/departments";
     const disciplineEndPoint = "/disciplines";
     const programTypeEndPoint = "/program-types";
-    getName(departmentEndPoint).then((res) => {
+    getName(departmentEndPoint).then((res : any) => {
       if (res.data !== "" && res.status === 200) {
         setDepartmentName(res.data);
       }
     });
-    getName(disciplineEndPoint).then((res) => {
+    getName(disciplineEndPoint).then((res : any) => {
       if (res.data !== "" && res.status === 200) {
         setDisciplineName(res.data);
       }
     });
-    getName(programTypeEndPoint).then((res) => {
+    getName(programTypeEndPoint).then((res : any) => {
       if (res.data !== "" && res.status === 200) {
         setProgramTypeId(res.data);
       }
@@ -125,36 +92,42 @@ const AddProgramForm = () => {
     );
   };
 
-  const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
-    let endPoint = "/programs";
-    // setSubmitting(true);
-    console.log(values);
-
+  const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {    
     let programValues = generateProgramDataObject(values);
-    // const programData = JSON.stringify(values)
-    // if (departmentobj.id === 0) {
-    postProgramData(endPoint, programValues)
-      .then((res) => {
-        if (res.data !== "") {
-          console.log(res);
-          // togglemodalshow(false);
-          // refreshdepartmentdata(true);
-          setSubmitting(false);
-          resetForm();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // }
-    // navigate('/preview', {state: values});
+    
+    if (programid == 0) {
+      let endPoint = "/programs";
+      postProgramData(endPoint, programValues)
+        .then((res) => {
+          if (res.data !== "") {
+            setSubmitting(false);
+            resetForm();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else { 
+      let endPoint = `/programs/${programid}`;
+      updateProgramData(endPoint, programValues)
+        .then((res : any) => {
+          if (res.data !== "") {
+            setSubmitting(false);
+            resetForm();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    navigate('/manageprogram', {state: values});
   };
 
   return (
     <>
       <div>
         <Formik
-          initialValues={initialValues}
+          initialValues={initialformvalues}
           validationSchema={Schemas}
           onSubmit={(values, action) => {
             handlerFormSubmit(values, action);
@@ -205,21 +178,10 @@ const AddProgramForm = () => {
                 <label htmlFor="programType" className="d-block">
                   ProgramType <sup className="required">*</sup>
                 </label>
-                {/* <label className="mx-2">
-                  <Field type="radio" name="programtype" value="certificate" />{" "}
-                  Certificate
-                </label>
-                <label className="mx-2">
-                  <Field type="radio" name="programtype" value="ugrad" /> Under
-                  Graduate
-                </label>
-                <label className="mx-2">
-                  <Field type="radio" name="programtype" value="pgrad" /> Post
-                  Graduate
-                </label> */}
                 {programTypeId.map((el: any) => (
                   <label className="mx-2">
-                    <Field
+                    <Field 
+                      // as="radio"
                       type="radio"
                       name="programtype"
                       value={el.id}
@@ -287,7 +249,7 @@ const AddProgramForm = () => {
                 ) : null}
               </div>
               <div className="mb-3">
-                <label htmlFor="requirement">Requirement</label>
+                <label htmlFor="requirement">Objectives</label>
                 <Field name="requirement">
                   {({ field, meta }: any) => (
                     <TinymceEditor
@@ -299,7 +261,7 @@ const AddProgramForm = () => {
                 </Field>
               </div>
               <div className="mb-3">
-                <label htmlFor="description">Description</label>
+                <label htmlFor="description">Learning outcomes</label>
                 <Field name="description">
                   {({ field, meta }: any) => (
                     <TinymceEditor
@@ -310,7 +272,7 @@ const AddProgramForm = () => {
                   )}
                 </Field>
               </div>
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <label htmlFor="programcontent">Program Content</label>
                 <Field name="programcontent">
                   {({ field, meta }: any) => (
@@ -321,8 +283,8 @@ const AddProgramForm = () => {
                     />
                   )}
                 </Field>
-              </div>
-              <div className="mb-3">
+              </div> */}
+              {/* <div className="mb-3">
                 <label htmlFor="learn">What you will learn</label>
                 <Field name="learn">
                   {({ field, meta }: any) => (
@@ -333,7 +295,7 @@ const AddProgramForm = () => {
                     />
                   )}
                 </Field>
-              </div>
+              </div> */}
               <label htmlFor="metatitle">Program meta Fields</label>
               <div className="card p-3 mb-3">
                 {inputFieldArr.map(() => {

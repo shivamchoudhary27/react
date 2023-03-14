@@ -1,19 +1,33 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getData as getProgramData } from "../../../adapters/microservices";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import AddProgramForm from "./form";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { initialValues, generateIinitialValues } from './utils';
 import "./style.scss";
 
 const AddProgram = () => {
-  // const location = useLocation();
+  const { id } = useParams();
   const navigate = useNavigate();
+  const [currentProgram, setCurrentProgram] = useState<any>({data : {}, status: false, id: id});
 
   useEffect(() => {
-    // const urlParams = new URL(location.search);
-    // const programId = urlParams.get('id');
-    // console.log(programId + ' - id');
+    if (id > 0) {
+      let programsEndPoint = "/programs";
+      getProgramData(programsEndPoint).then((res : any) => {
+        if (res.data !== "" && res.status === 200) {
+          let programData = res.data.find((obj : any) => obj.id == id);          
+          if (programData !== undefined) {
+            let newSet = generateIinitialValues(programData);
+            setCurrentProgram({ data : newSet, status : true, id : id })
+          } else {
+            setCurrentProgram({ data : initialValues, status : true, id : id })
+          }
+        }
+      });
+    }
   }, []);
 
   return (
@@ -24,10 +38,13 @@ const AddProgram = () => {
       <div className="content-area content-area-slider" id="contentareaslider">
       <Container fluid className="administration-wrapper">
           <div className="contents">
-            <Program_Form_Header navigate={navigate} />{" "}
+            <ProgramFormHeader navigate={navigate} />{" "}
             <hr />
             <div className="form-container-wrapper">
-              <AddProgramForm />
+            { 
+              currentProgram.status === true &&
+              <AddProgramForm initialformvalues={currentProgram.data} programid={currentProgram.id}/>
+            }
             </div>
           </div>
         </Container>
@@ -39,7 +56,7 @@ const AddProgram = () => {
 
 export default AddProgram;
 
-const Program_Form_Header = ({ navigate }: any) => {
+const ProgramFormHeader = ({ navigate }: any) => {
   return (
     <>
       <div className="site-heading">
