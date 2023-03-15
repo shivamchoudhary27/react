@@ -48,19 +48,19 @@ const programData = {
 
 export const generateProgramDataObject = (formData) => {
     programData.name = formData.programName;
-    programData.programCode = formData.programCode,
-    programData.modeOfStudy = formData.mode,
-    programData.duration = formData.duration,
-    programData.batchYear = parseInt(formData.batchYear),
-    programData.desscription = formData.description,
-    programData.objective = formData.requirement,
-    programData.fullLifeTimeAccess = true,
-    programData.published = true,
-    programData.programType = { id  : 50},
-    programData.department = {id : formData.department},
-    programData.discipline = {id : formData.discipline}
-console.log(programData);
-    // return programData;
+    programData.programCode = formData.programCode;
+    programData.modeOfStudy = formData.mode;
+    programData.duration = formData.duration;
+    programData.batchYear = parseInt(formData.batchYear);
+    programData.description = formData.description;
+    programData.objective = formData.requirement;
+    programData.fullLifeTimeAccess = true;
+    programData.published = true;
+    programData.programType = { id  : 50};
+    programData.department = {id : formData.department};
+    programData.discipline = {id : formData.discipline};
+
+    return programData;
 };
 
 export const generateIinitialValues = (apiData) => {

@@ -6,11 +6,6 @@ import { deleteData as deleteProgramData } from "../../../adapters/microservices
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 
-import { deleteData as deleteProgramData } from "../../../adapters/microservices";
-
-import Swal from "sweetalert2";
-import "sweetalert2/src/sweetalert2.scss";
-
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
