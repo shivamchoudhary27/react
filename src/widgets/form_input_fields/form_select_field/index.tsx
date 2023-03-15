@@ -4,14 +4,14 @@ const FieldTypeSelect = ({
     name,
     options,
     as="select",
-    className="form-control"
+    className="form-control",
 }: any) => {
   return (
     <>
       <Field as={as} name={name} className={className}>
         {
           options.map((el: any, index: number)=>(
-              <option value={el.id} key={index}>
+              <option defaultValue="hello" value={el.id} key={index}>
                   {el.name}
               </option>
           ))
