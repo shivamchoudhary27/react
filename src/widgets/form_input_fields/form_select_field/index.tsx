@@ -1,4 +1,3 @@
-import React from "react";
 import { Field } from "formik";
 
 const FieldTypeSelect = ({
@@ -11,11 +10,11 @@ const FieldTypeSelect = ({
     <>
       <Field as={as} name={name} className={className}>
         {
-            options.map((el: any, index: number)=>(
-                <option value={el.id} key={index}>
-                    {el.name}
-                </option>
-            ))
+          options.map((el: any, index: number)=>(
+              <option value={el.id} key={index}>
+                  {el.name}
+              </option>
+          ))
         }
       </Field>
     </>

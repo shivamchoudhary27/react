@@ -12,6 +12,7 @@ const AddProgram = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [currentProgram, setCurrentProgram] = useState<any>({data : {}, status: false, id: id});
+  const pagetitle = (id > 0) ? 'Update program' : 'Add program';
 
   useEffect(() => {
     if (id > 0) {
@@ -36,7 +37,7 @@ console.log(currentProgram);
 
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
+      <Header pageHeading={pagetitle} welcomeIcon={false} />
       <div className='main-content-container'>
       <Sidebar />
       <div className="content-area content-area-slider" id="contentareaslider">
@@ -63,9 +64,6 @@ export default AddProgram;
 const ProgramFormHeader = ({ navigate }: any) => {
   return (
     <>
-      <div className="site-heading">
-        <h3>Add Program</h3>
-      </div>
       <Button
         variant="outline-secondary"
         onClick={() => navigate("/manageprogram")}

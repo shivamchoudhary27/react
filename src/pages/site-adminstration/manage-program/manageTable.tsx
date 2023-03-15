@@ -1,19 +1,29 @@
 import { useMemo } from "react";
 import { Table } from "react-bootstrap";
-// import { ManageRawData } from "./rawData";
 import { useTable } from "react-table";
 import { useNavigate, Link } from "react-router-dom";
 import { deleteData as deleteProgramData } from "../../../adapters/microservices";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 
+import { deleteData as deleteProgramData } from "../../../adapters/microservices";
+
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
+
+// Actions btns styling === >>>
+const actionsStyle = {
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+};
+
 // edit event handler === >>>
 const createEditLink = (id: number) => {
   return `/addprogram/${id}`;
 };
 
-const ManageTable = ({ programData, refreshDepartmentData }: any) => {
-  const navigate = useNavigate();
+const ManageTable = ({programData, refreshDepartmentData} : any) => {
 
   const tableColumn = [
     {
@@ -58,9 +68,11 @@ const ManageTable = ({ programData, refreshDepartmentData }: any) => {
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span>
+        <span  style={actionsStyle}>
           <Link to={createEditLink(row.original.id)}>
-            <i className="fa-solid fa-pen"></i>
+            <i
+              className="fa-solid fa-pen"
+            ></i>
           </Link>
           <Link to="">
             <i
@@ -79,6 +91,7 @@ const ManageTable = ({ programData, refreshDepartmentData }: any) => {
     },
   ];
 
+  const navigate = useNavigate();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => programData, [programData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =

@@ -103,7 +103,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
             handlerFormSubmit(values, action);
           }}
         >
-          {({ errors, touched, isSubmitting, handleChange }) => (
+          {({ errors, touched, handleChange }) => (
             <Form>
               <div className="mb-3">
                 <FieldLabel
@@ -235,17 +235,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 />
               </div>
               <div className="mb-3">
-                <FieldLabel htmlfor="requirement" labelText="Objective" />
-                <TinymceEditor name="requirement" handleChange={handleChange} />
+                <FieldLabel htmlfor="objective" labelText="Objective" />
+                <TinymceEditor name="objective" handleChange={handleChange} />
               </div>
               <div className="mb-3">
-                <FieldLabel
-                  htmlfor="description"
-                  labelText="Learning outcomes"
-                />
+                <FieldLabel htmlfor="description" labelText="Learning outcome" />
                 <TinymceEditor name="description" handleChange={handleChange} />
               </div>
-
               <FieldLabel htmlfor="metatitle" labelText="Program meta Fields" />
               <div className="card p-3 mb-3">
                 {inputFieldArr.map(() => {
@@ -315,7 +311,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   type="submit"
                   btnText="Submit"
                   variant="primary"
-                  isSubmitting={isSubmitting}
+                  // isSubmitting={isSubmitting}
                 />{" "}
                 <Custom_Button
                   type="reset"

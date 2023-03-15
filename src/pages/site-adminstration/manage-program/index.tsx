@@ -14,7 +14,7 @@ const ManageProgram = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    if(refreshData === true){
+    if (refreshData === true) {
       const endPoint = "/programs";
       getProgramData(endPoint)
         .then((result : any) => {
@@ -26,10 +26,10 @@ const ManageProgram = () => {
           console.log(err);
         });
     }
-  }, []);
+  }, [refreshData]);
 
-   // handle refresh react table after SAVE data  === >>>
-   const refreshDepartmentData = (status: boolean) => {
+  // handle refresh react table after SAVE data  === >>>
+  const refreshDepartmentData = (status: boolean) => {
     setRefreshData(status);
   };
 
