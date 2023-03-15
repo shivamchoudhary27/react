@@ -15,8 +15,7 @@ export default function TinymceEditor({ handleChange, name}: any) {
               apiKey="eduvpvjt0i9rpp9mcga47jkt3vkewafkksw18t3eh5osmhkr"
               cloudChannel="5-dev"
               onInit={(evt, editor: any) => (editorRef.current = editor)}
-              initialValue= {`${field.value}`}
-              // initialValue="<p>Write Here ....</p>"
+              initialValue="<p>Write Here ....</p>"
               init={{
                 height: 300,
                 placeholder: "Type here..",
