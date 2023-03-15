@@ -17,6 +17,8 @@ import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_
 import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
 import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
@@ -58,40 +60,73 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   // remove meta field ===== >>>
   const removeBlockHandler = () => {
     if (inputFieldArr.length > 1) {
-      let removeItem = (inputFieldArr.pop());
-      setinputFieldArr(removeItem)
+      let removeItem = inputFieldArr.pop();
+      setinputFieldArr(removeItem);
     }
   };
 
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
     let programValues = generateProgramDataObject(values);
+    let error_Msg = "";
 
     if (programid == 0) {
       let endPoint = "/programs";
       postProgramData(endPoint, programValues)
         .then((res: any) => {
-          if (res.data !== "") {
+          if (res.data !== "" && res.status === 201) {
+            Swal.fire({
+              icon: "success",
+              title: "Added Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             setSubmitting(false);
             resetForm();
+            navigate("/manageprogram", { state: values });
           }
         })
         .catch((err: any) => {
           console.log(err);
+          if (err.response.status === 400) {
+            Object.entries(err.response.data).map(([key, value])=>(
+              error_Msg += `${key}: ${value} \n`
+            ))
+            alert(error_Msg)
+          } else if (err.response.status === 500) {
+            alert(`${err.response.data.error}, 500!`);
+            navigate("/manageprogram", { state: values });
+          }
         });
     } else {
       let endPoint = `/programs/${programid}`;
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
-          if (res.data !== "") {
+          if (res.data !== "" && res.status === 200) {
+            Swal.fire({
+              icon: "success",
+              title: "Update Successfully",
+              showConfirmButton: false,
+              timer: 1500,
+            });
             setSubmitting(false);
             resetForm();
+            navigate("/manageprogram", { state: values });
           }
         })
         .catch((err: any) => {
           console.log(err);
+          if (err.response.status === 400) {
+            Object.entries(err.response.data).map(([key, value])=>(
+              error_Msg += `${key}: ${value} \n`
+            ))
+            alert(error_Msg)
+          }else if (err.response.status === 500) {
+            alert(`${err.response.data.error}, 500!`);
+            navigate("/manageprogram", { state: values });
+          }
         });
     }
-    navigate("/manageprogram", { state: values });
+    // navigate("/manageprogram", { state: values });
   };
 
   return (
@@ -250,7 +285,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <FieldLabel htmlfor="metatitle" labelText="Program meta Fields" />
               <div className="card p-3 mb-3">
-                {inputFieldArr.map((el , index: number) => {
+                {inputFieldArr.map((el, index: number) => {
                   return (
                     <div key={index}>
                       <div className="mb-3">
