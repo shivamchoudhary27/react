@@ -53,7 +53,7 @@ export const generateProgramDataObject = (formData) => {
     programData.duration = formData.duration;
     programData.batchYear = parseInt(formData.batchYear);
     programData.description = formData.description;
-    programData.objective = formData.requirement;
+    programData.objective = formData.objective;
     programData.fullLifeTimeAccess = true;
     programData.published = true;
     programData.programType = { id  : 50};

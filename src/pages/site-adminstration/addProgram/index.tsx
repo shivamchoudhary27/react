@@ -46,10 +46,10 @@ console.log(currentProgram);
             <ProgramFormHeader navigate={navigate} />{" "}
             <hr />
             <div className="form-container-wrapper">
-            { 
-              currentProgram.status === true &&
+            {/* { 
+              currentProgram.status === true && */}
               <AddProgramForm initialformvalues={currentProgram.data} programid={currentProgram.id}/>
-            }
+            {/* } */}
             </div>
           </div>
         </Container>

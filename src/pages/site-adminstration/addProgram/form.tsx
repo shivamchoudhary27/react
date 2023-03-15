@@ -20,7 +20,7 @@ import FieldErrorMessage from "../../../widgets/form_input_fields/error_message"
 
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
-  const [inputFieldArr, setinputFieldArr] = useState(addMetaInputField);
+  const [inputFieldArr, setinputFieldArr] = useState<any>(addMetaInputField);
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
@@ -58,7 +58,8 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   // remove meta field ===== >>>
   const removeBlockHandler = () => {
     if (inputFieldArr.length > 1) {
-      inputFieldArr.pop();
+      let removeItem = (inputFieldArr.pop());
+      setinputFieldArr(removeItem)
     }
   };
 
@@ -68,13 +69,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     if (programid == 0) {
       let endPoint = "/programs";
       postProgramData(endPoint, programValues)
-        .then((res) => {
+        .then((res: any) => {
           if (res.data !== "") {
             setSubmitting(false);
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     } else {
@@ -86,7 +87,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     }
@@ -97,6 +98,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     <>
       <div>
         <Formik
+          enableReinitialize={true}
           initialValues={initialformvalues}
           validationSchema={Schemas}
           onSubmit={(values, action) => {
@@ -154,13 +156,14 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                {programTypeId.map((el: any) => (
+                {programTypeId.map((el: any, index: number) => (
                   <FieldTypeRadio
+                    key={index}
                     value={el.id}
                     name="programtype"
                     radioText={el.name}
                     checked={radioValue == el.id}
-                    onChange={(e: any)=>setRadioValue(e.target.value)}
+                    onChange={(e: any) => setRadioValue(e.target.value)}
                   />
                 ))}
                 <FieldErrorMessage
@@ -239,14 +242,17 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 <TinymceEditor name="objective" handleChange={handleChange} />
               </div>
               <div className="mb-3">
-                <FieldLabel htmlfor="description" labelText="Learning outcome" />
+                <FieldLabel
+                  htmlfor="description"
+                  labelText="Learning outcome"
+                />
                 <TinymceEditor name="description" handleChange={handleChange} />
               </div>
               <FieldLabel htmlfor="metatitle" labelText="Program meta Fields" />
               <div className="card p-3 mb-3">
-                {inputFieldArr.map(() => {
+                {inputFieldArr.map((el , index: number) => {
                   return (
-                    <>
+                    <div key={index}>
                       <div className="mb-3">
                         <FieldLabel htmlfor="metatitle" labelText="Title" />
                         <FieldTypeText name="metatitle" placeholder="Title" />
@@ -262,16 +268,18 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                           handleChange={handleChange}
                         />
                       </div>
-                    </>
+                    </div>
                   );
                 })}
                 <div>
                   <Custom_Button
+                    type="button"
                     variant="primary"
                     onClick={addFieldHandler}
                     btnText="+ Add more"
                   />{" "}
                   <Custom_Button
+                    type="button"
                     variant="outline-secondary"
                     onClick={removeBlockHandler}
                     btnText="Remove"
