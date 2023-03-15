@@ -14,7 +14,7 @@ import FieldErrorMessage from "../../../widgets/form_input_fields/error_message"
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
   name: Yup.string().min(3).max(25).required(),
-  description: Yup.string().max(100).required(),
+  // description: Yup.string().max(100).required(),
 });
 
 const DepartmentModal = ({
@@ -126,8 +126,8 @@ const DepartmentModal = ({
                 <FieldLabel
                   htmlfor="description"
                   labelText="Description"
-                  required="required"
-                  star="*"
+                  // required="required"
+                  // star="*"
                 />
                 <FieldTypeTextarea
                   name="description"

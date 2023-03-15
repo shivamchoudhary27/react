@@ -10,9 +10,11 @@ import ManageTable from "./manageTable";
 const ManageProgram = () => {
   const navigate = useNavigate();
   const [programData, setProgramData] = useState<any>([]);
+  const [refreshData, setRefreshData] = useState(true);
 
   // get programs API call === >>>
   useEffect(() => {
+    if(refreshData === true){
       const endPoint = "/programs";
       getProgramData(endPoint)
         .then((result : any) => {
@@ -23,7 +25,13 @@ const ManageProgram = () => {
         .catch((err : any) => {
           console.log(err);
         });
+    }
   }, []);
+
+   // handle refresh react table after SAVE data  === >>>
+   const refreshDepartmentData = (status: boolean) => {
+    setRefreshData(status);
+  };
 
   return (
     <>
@@ -51,7 +59,7 @@ const ManageProgram = () => {
             </div>
             <hr />
             <ManageFilter />
-            <ManageTable programData={programData}/>
+            <ManageTable programData={programData} refreshDepartmentData={refreshDepartmentData}/>
           </Container>
         </div>
       </div>

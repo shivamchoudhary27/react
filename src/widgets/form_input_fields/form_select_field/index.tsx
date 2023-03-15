@@ -12,7 +12,7 @@ const FieldTypeSelect = ({
       <Field as={as} name={name} className={className}>
         {
             options.map((el: any, index: number)=>(
-                <option value={el.name} key={index}>
+                <option value={el.id} key={index}>
                     {el.name}
                 </option>
             ))

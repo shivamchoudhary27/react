@@ -59,8 +59,8 @@ export const generateProgramDataObject = (formData) => {
     programData.programType = { id  : 50},
     programData.department = {id : formData.department},
     programData.discipline = {id : formData.discipline}
-
-    return programData;
+console.log(programData);
+    // return programData;
 };
 
 export const generateIinitialValues = (apiData) => {
