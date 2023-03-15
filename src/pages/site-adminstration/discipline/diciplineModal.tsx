@@ -1,11 +1,15 @@
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import {
   postData as addDisciplineData,
   putData as putDesciplineData,
 } from "../../../adapters/microservices";
 import * as Yup from "yup";
+import FieldLabel from "../../../widgets/form_input_fields/labels";
+import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
+import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
+import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -51,7 +55,7 @@ const DiciplineModal = ({
     setSubmitting(true);
     if (disciplineobj.id === 0) {
       addDisciplineData(endPoint, values)
-        .then((res) => {
+        .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
             refreshDisciplineData(true);
@@ -59,13 +63,13 @@ const DiciplineModal = ({
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     } else {
       endPoint += `/${disciplineobj.id}`;
       putDesciplineData(endPoint, values)
-        .then((res) => {
+        .then((res: any) => {
           console.log(values, res);
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
@@ -73,40 +77,16 @@ const DiciplineModal = ({
             setSubmitting(false);
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     }
-  };
-
-  // Comp for show custom ERROR_Messages ===== >>>
-  const Error_Message = ({ val }: any) => {
-    return (
-      <p className="error-message">
-        <i className="fa fa-circle-exclamation"></i> {val}
-      </p>
-    );
-  };
-
-  // Form submit & reset buttons ===== >>>
-  const FORM_BUTTONS = ({ isSubmitting }: any) => {
-    return (
-      <div className="text-center">
-        <Button variant="primary" type="submit" disabled={isSubmitting}>
-          {formTitles.btnTitle}
-        </Button>{" "}
-        {formTitles.btnTitle === "Save" && (
-          <Button variant="outline-secondary">Reset</Button>
-        )}
-      </div>
-    );
   };
 
   return (
     <Modal
       show={show}
       onHide={onHide}
-      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -127,30 +107,54 @@ const DiciplineModal = ({
           {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
-                <Field
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                  className="form-control"
+                <FieldLabel
+                  htmlfor="name"
+                  labelText="Name"
+                  required="required"
+                  star="*"
                 />
-                {errors.name && touched.name ? (
-                  <Error_Message val={"Please Enter name"} />
-                ) : null}
+                <FieldTypeText name="name" placeholder="Name" />
+                <FieldErrorMessage
+                  errors={errors.name}
+                  touched={touched.name}
+                  msgText="Please Enter name"
+                />
               </div>
 
               <div className="mb-3">
-                <Field
-                  id="description"
+                <FieldLabel
+                  htmlfor="description"
+                  labelText="Description"
+                  required="required"
+                  star="*"
+                />
+                <FieldTypeTextarea
                   name="description"
                   component="textarea"
                   placeholder="Description"
-                  className="form-control"
                 />
-                {errors.description && touched.description ? (
-                  <Error_Message val={"Please Enter description"} />
-                ) : null}
+                <FieldErrorMessage
+                  errors={errors.description}
+                  touched={touched.description}
+                  msgText="Please Enter description"
+                />
               </div>
-              <FORM_BUTTONS isSubmitting={isSubmitting} />
+              
+              <div className="text-center">
+                <Custom_Button
+                  type="submit"
+                  variant="primary"
+                  isSubmitting={isSubmitting}
+                  btnText={formTitles.btnTitle}
+                />{" "}
+                {formTitles.btnTitle === "Save" && (
+                  <Custom_Button
+                    type="reset"
+                    btnText="Reset"
+                    variant="outline-secondary"
+                  />
+                )}
+              </div>
             </Form>
           )}
         </Formik>

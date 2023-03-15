@@ -1,11 +1,16 @@
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import {
   postData as addProgramData,
   putData as putProgramData,
 } from "../../../adapters/microservices";
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import FieldLabel from "../../../widgets/form_input_fields/labels";
+import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
+import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
+import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_field";
+import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
+import Custom_Button from "../../../widgets/form_input_fields/buttons";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({
@@ -23,7 +28,6 @@ const AddProgramModal = ({
   show,
   onHide,
 }: any) => {
-
   // Initial values of react table === >>>
   const initialValues = {
     name: programtypeobj.name,
@@ -54,7 +58,7 @@ const AddProgramModal = ({
     setSubmitting(true);
     if (programtypeobj.id === 0) {
       addProgramData(endPoint, values)
-      .then((res) => {
+        .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
             refreshprogramdata(true);
@@ -62,13 +66,13 @@ const AddProgramModal = ({
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     } else {
       endPoint += `/${programtypeobj.id}`;
       putProgramData(endPoint, values)
-      .then((res) => {
+        .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             refreshprogramdata(true);
@@ -76,42 +80,16 @@ const AddProgramModal = ({
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     }
-  };
-
-  // Comp for show custom ERROR_Messages ===== >>>
-  const Error_Message = ({ val }: any) => {
-    return (
-      <p className="error-message">
-        <i className="fa fa-circle-exclamation"></i> {val}
-      </p>
-    );
-  };
-
-  // Form submit & reset buttons ===== >>>
-  const FORM_BUTTTONS = ({isSubmitting}: any) => {
-    return (
-      <div className="text-center">
-        <Button variant="primary" type="submit" disabled={isSubmitting}>
-          {formTitles.btnTitle}
-        </Button>{" "}
-        {formTitles.btnTitle === "Save" && (
-          <Button variant="outline-secondary" type="reset">
-            Reset
-          </Button>
-        )}
-      </div>
-    );
   };
 
   return (
     <Modal
       show={show}
       onHide={onHide}
-      size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -126,45 +104,75 @@ const AddProgramModal = ({
           validationSchema={programTypeSchema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
-            console.log(values)
+            console.log(values);
           }}
         >
           {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
-                <Field
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                  className="form-control"
+                <FieldLabel
+                  htmlfor="name"
+                  labelText="Name"
+                  required="required"
+                  star="*"
                 />
-                {errors.name && touched.name ? (
-                  <Error_Message val={"Please Enter name"} />
-                ) : null}
+                <FieldTypeText name="name" placeholder="Name" />
+                <FieldErrorMessage
+                  errors={errors.name}
+                  touched={touched.name}
+                  msgText="Please Enter name"
+                />
               </div>
+
               <div className="mb-3">
-                <Field
-                  id="description"
+                <FieldLabel
+                  htmlfor="description"
+                  labelText="Description"
+                  required="required"
+                  star="*"
+                />
+                <FieldTypeTextarea
                   name="description"
                   component="textarea"
                   placeholder="Description"
-                  className="form-control"
                 />
-                {errors.description && touched.description ? (
-                  <Error_Message val={"Please Enter description"} />
-                ) : null}
+                <FieldErrorMessage
+                  errors={errors.description}
+                  touched={touched.description}
+                  msgText="Please Enter description"
+                />
               </div>
+
               <div className="mb-3">
-                <Field name="isBatchYearRequired" type="checkbox" />{" "}
-                <span style={{ color: "#666" }}>Batch Year Required?</span>
-                {errors.isBatchYearRequired && touched.isBatchYearRequired ? (
-                  <Error_Message val={"Please Check required field"} />
-                ) : null}
+                <FieldTypeCheckbox
+                  name="isBatchYearRequired"
+                  checkboxLabel="Batch Year Required?"
+                />{" "}
+                <FieldErrorMessage
+                  errors={errors.isBatchYearRequired}
+                  touched={touched.isBatchYearRequired}
+                  msgText="Please Check required field"
+                />
               </div>
-              {<FORM_BUTTTONS isSubmitting={isSubmitting} />}
+
+              <div className="text-center">
+                <Custom_Button
+                  type="submit"
+                  variant="primary"
+                  isSubmitting={isSubmitting}
+                  btnText={formTitles.btnTitle}
+                />{" "}
+                {formTitles.btnTitle === "Save" && (
+                  <Custom_Button
+                    type="reset"
+                    btnText="Reset"
+                    variant="outline-secondary"
+                  />
+                )}
+              </div>
               <div className="mt-4" style={{ color: "#666" }}>
-                <span style={{ fontWeight: "600" }}>Note: </span>If batch year is
-                checked then it is available on add program form.
+                <span style={{ fontWeight: "600" }}>Note: </span>If batch year
+                is checked then it is available on add program form.
               </div>
             </Form>
           )}

@@ -1,11 +1,15 @@
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import {
   postData as addDepartmentData,
   putData as putDepartmentData,
 } from "../../../adapters/microservices";
-import { Formik, Field, Form } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import FieldLabel from "../../../widgets/form_input_fields/labels";
+import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
+import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
+import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
@@ -53,7 +57,7 @@ const DepartmentModal = ({
     setSubmitting(true);
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)
-        .then((res) => {
+        .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
             refreshdepartmentdata(true);
@@ -61,13 +65,13 @@ const DepartmentModal = ({
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     } else {
       endPoint += `/${departmentobj.id}`;
       putDepartmentData(endPoint, values)
-        .then((res) => {
+        .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             refreshdepartmentdata(true);
@@ -75,35 +79,10 @@ const DepartmentModal = ({
             resetForm();
           }
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
         });
     }
-  };
-
-  // Comp for show custom ERROR_Messages ===== >>>
-  const Error_Message = ({ val }: any) => {
-    return (
-      <p className="error-message">
-        <i className="fa fa-circle-exclamation"></i> {val}
-      </p>
-    );
-  };
-
-  // Form submit & reset buttons ===== >>>
-  const FORM_BUTTTONS = ({isSubmitting}: any) => {
-    return (
-      <div className="text-center">
-        <Button variant="primary" type="submit" disabled={isSubmitting}>
-          {formTitles.btnTitle}
-        </Button>{" "}
-        {formTitles.btnTitle === "Save" && (
-          <Button variant="outline-secondary" type="reset">
-            Reset
-          </Button>
-        )}
-      </div>
-    );
   };
 
   return (
@@ -129,36 +108,53 @@ const DepartmentModal = ({
           {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
-                <label htmlFor="name">
-                  Name <sup className="required">*</sup>
-                </label>
-                <Field
-                  id="name"
-                  name="name"
-                  placeholder="Name"
-                  className="form-control"
+                <FieldLabel
+                  htmlfor="name"
+                  labelText="Name"
+                  required="required"
+                  star="*"
                 />
-                {errors.name && touched.name ? (
-                  <Error_Message val={"Please Enter name"} />
-                ) : null}
+                <FieldTypeText name="name" placeholder="Name" />
+                <FieldErrorMessage
+                  errors={errors.name}
+                  touched={touched.name}
+                  msgText="Please Enter name"
+                />
               </div>
 
               <div className="mb-3">
-                <label htmlFor="description">
-                  Description <sup className="required">*</sup>
-                </label>
-                <Field
-                  id="description"
+                <FieldLabel
+                  htmlfor="description"
+                  labelText="Description"
+                  required="required"
+                  star="*"
+                />
+                <FieldTypeTextarea
                   name="description"
                   component="textarea"
                   placeholder="Description"
-                  className="form-control"
                 />
-                {errors.description && touched.description ? (
-                  <Error_Message val={"Please Enter description"} />
-                ) : null}
+                <FieldErrorMessage
+                  errors={errors.description}
+                  touched={touched.description}
+                  msgText="Please Enter description"
+                />
               </div>
-              {<FORM_BUTTTONS isSubmitting={isSubmitting} />}
+              <div className="text-center">
+                <Custom_Button
+                  type="submit"
+                  variant="primary"
+                  isSubmitting={isSubmitting}
+                  btnText={formTitles.btnTitle}
+                />{" "}
+                {formTitles.btnTitle === "Save" && (
+                  <Custom_Button
+                    type="reset"
+                    btnText="Reset"
+                    variant="outline-secondary"
+                  />
+                )}
+              </div>
             </Form>
           )}
         </Formik>
