@@ -7,7 +7,7 @@ export const initialValues = {
     batchYear: "",
     mode: "",
     duration: "",
-    requirement: "",
+    objective: "",
     description: "",
     programcontent: "",
     learn: "",
@@ -74,7 +74,7 @@ export const generateIinitialValues = (apiData) => {
             batchYear: apiData.batchYear,
             mode: apiData.modeOfStudy,
             duration: apiData.duration,
-            requirement: apiData.requirement ?? '',
+            objective: apiData.objective ?? '',
             description: apiData.description,
         }
        return setInitialValues;
