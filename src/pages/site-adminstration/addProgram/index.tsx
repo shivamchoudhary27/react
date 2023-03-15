@@ -27,6 +27,8 @@ const AddProgram = () => {
           }
         }
       });
+    } else {
+      setCurrentProgram({ data : initialValues, status : true, id : id })
     }
   }, []);
 
