@@ -9,9 +9,10 @@ const FieldTypeSelect = ({
   return (
     <>
       <Field as={as} name={name} className={className}>
+        <option defaultValue="Select">Select {name}</option>
         {
           options.map((el: any, index: number)=>(
-              <option defaultValue="hello" value={el.id} key={index}>
+              <option value={el.id} key={index}>
                   {el.name}
               </option>
           ))
