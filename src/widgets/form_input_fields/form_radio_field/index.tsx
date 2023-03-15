@@ -1,22 +1,31 @@
-import React from "react";
+import {useState} from "react";
 import { Field } from "formik";
 
 const FieldTypeRadio = ({
+  setcurrentvalue,
+  currentfieldvalue,
   type = "radio",
   name,
   value,
   radioText,
-  checked,
-  onChange,
 }: any) => {
+
+  const [checkedBtn, setCheckedBtn] = useState(false);
+
+  const test = (e : any) => {
+    currentfieldvalue[name] = e.target.value
+    setcurrentvalue(currentfieldvalue);
+    setCheckedBtn(true);
+  }
+  
   return (
     <label className="mx-2">
       <Field
         type={type}
         name={name}
         value={value}
-        checked={checked}
-        onChange={onChange}
+        checked={checkedBtn}
+        onChange={test}
       />{" "}
       {radioText}
     </label>

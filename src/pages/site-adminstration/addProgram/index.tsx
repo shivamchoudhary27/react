@@ -33,8 +33,6 @@ const AddProgram = () => {
     }
   }, []);
 
-console.log(currentProgram);
-
   return (
     <>
       <Header pageHeading={pagetitle} welcomeIcon={false} />

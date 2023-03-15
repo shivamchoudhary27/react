@@ -9,10 +9,10 @@ import {
   putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { addMetaInputField, generateProgramDataObject } from "./utils";
+import { addMetaInputField, generateProgramDataObject, modeStudy } from "./utils";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
-import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import CustomButton from "../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
 import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
@@ -26,7 +26,6 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
-  const [radioValue, setRadioValue] = useState("");
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
@@ -140,7 +139,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
             handlerFormSubmit(values, action);
           }}
         >
-          {({ errors, touched, handleChange }) => (
+          {({ values, errors, touched, setValues, handleChange }) => (
             <Form>
               <div className="mb-3">
                 <FieldLabel
@@ -192,15 +191,18 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   star="*"
                 />
                 {programTypeId.map((el: any, index: number) => (
-                  <FieldTypeRadio
-                    key={index}
-                    value={el.id}
-                    name="programtype"
-                    radioText={el.name}
-                    checked={radioValue == el.id}
-                    onChange={(e: any) => setRadioValue(e.target.value)}
-                  />
+                  <div key={index}>
+                    <FieldTypeRadio
+                      setcurrentvalue={setValues}
+                      currentfieldvalue={values}
+                      type='radio'
+                      name="programtype"
+                      value={el.id}
+                      radioText={el.name}
+                    />
+                  </div>
                 ))}
+                
                 <FieldErrorMessage
                   errors={errors.programtype}
                   touched={touched.programtype}
@@ -237,21 +239,23 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <div className="mb-3">
                 <FieldLabel
-                  htmlfor="mode"
+                  htmlfor="modeOfStudy"
                   labelText="Mode Of Stydy"
                   required="required"
                   star="*"
                 />
-                <FieldTypeRadio
-                  value="full_time"
-                  name="mode"
-                  radioText="Full Time"
-                />
-                <FieldTypeRadio
-                  value="part_time"
-                  name="mode"
-                  radioText="Part Time"
-                />
+                {modeStudy.map((el: any, index: number) => (
+                  <div key={index}>
+                    <FieldTypeRadio
+                      setcurrentvalue={setValues}
+                      currentfieldvalue={values}
+                      type='radio'
+                      name="modeOfStudy"
+                      value={el.value}
+                      radioText={el.name}
+                    />
+                  </div>
+                ))}
                 <FieldErrorMessage
                   errors={errors.mode}
                   touched={touched.mode}
@@ -307,13 +311,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   );
                 })}
                 <div>
-                  <Custom_Button
+                  <CustomButton
                     type="button"
                     variant="primary"
                     onClick={addFieldHandler}
                     btnText="+ Add more"
                   />{" "}
-                  <Custom_Button
+                  <CustomButton
                     type="button"
                     variant="outline-secondary"
                     onClick={removeBlockHandler}
@@ -350,13 +354,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
 
               <div className="text-center">
-                <Custom_Button
+                <CustomButton
                   type="submit"
                   btnText="Submit"
                   variant="primary"
                   // isSubmitting={isSubmitting}
                 />{" "}
-                <Custom_Button
+                <CustomButton
                   type="reset"
                   btnText="Reset"
                   variant="outline-secondary"

@@ -5,7 +5,7 @@ export const initialValues = {
     programtype: "",
     discipline: "",
     batchYear: "",
-    mode: "",
+    modeOfStudy: "",
     duration: "",
     objective: "",
     description: "",
@@ -31,6 +31,11 @@ export const addMetaInputField = [
     ],
 ];
 
+export const modeStudy = [
+   { name: "Full Time", value : "fulltime"},
+   { name: "Part Time", value : "parttime"},
+];
+
 const programData = {
     name: "",
     programCode: "",
@@ -49,7 +54,7 @@ const programData = {
 export const generateProgramDataObject = (formData) => {
     programData.name = formData.programName;
     programData.programCode = formData.programCode;
-    programData.modeOfStudy = formData.mode;
+    programData.modeOfStudy = formData.modeOfStudy;
     programData.duration = formData.duration;
     programData.batchYear = parseInt(formData.batchYear);
     programData.description = formData.description;
