@@ -300,7 +300,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <div className="mb-3">
                 <FieldLabel htmlfor="objective" labelText="Objective" />
-                <TinymceEditor name="objective" handleChange={handleChange} />
+                <TinymceEditor name="objective" handleChange={handleChange}/>
               </div>
               <div className="mb-3">
                 <FieldLabel

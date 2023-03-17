@@ -47,7 +47,7 @@ const programData = {
     modeOfStudy: "",
     duration: "",
     batchYear: 0,
-    desscription: "",
+    description: "",
     objective: "",
     fullLifeTimeAccess: false,
     published: false,
