@@ -16,9 +16,9 @@ import Custom_Button from "../../../widgets/form_input_fields/buttons";
 const programTypeSchema = Yup.object({
   name: Yup.string().min(3).max(25).required("Please Enter Name"),
   description: Yup.string().max(100).required("Please Enter Address"),
-  isBatchYearRequired: Yup.bool()
-    .required("Please Check")
-    .oneOf([true], "Please Check the required field"),
+  // isBatchYearRequired: Yup.bool()
+  //   .required("Please Check")
+  //   .oneOf([true], "Please Check the required field"),
 });
 
 const AddProgramModal = ({

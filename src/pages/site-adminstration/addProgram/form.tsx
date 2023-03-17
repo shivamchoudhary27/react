@@ -9,10 +9,10 @@ import {
   putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { addMetaInputField, generateProgramDataObject } from "./utils";
+import { addMetaInputField, generateProgramDataObject, modeStudy, addExtraMetaDataToInitialValues } from "./utils";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
-import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import CustomButton from "../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
 import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
@@ -26,7 +26,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
-  const [radioValue, setRadioValue] = useState("");
+  const [initValues, setInitValues] = useState<any>(initialformvalues);
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
@@ -50,6 +50,11 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     });
   }, []);
 
+  useEffect(() => {
+    let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId, 'programtypeList');
+    setInitValues(addedValues);
+  }, [programTypeId]);
+
   // add extra meta field ===== >>>
   const addFieldHandler = () => {
     setinputFieldArr((el: any) => {
@@ -68,7 +73,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
-
+    
     if (programid == 0) {
       let endPoint = "/programs";
       postProgramData(endPoint, programValues)
@@ -134,13 +139,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
       <div>
         <Formik
           enableReinitialize={true}
-          initialValues={initialformvalues}
+          initialValues={initValues}
           validationSchema={Schemas}
           onSubmit={(values, action) => {
             handlerFormSubmit(values, action);
           }}
         >
-          {({ errors, touched, handleChange }) => (
+          {({ values, errors, touched, setValues, handleChange }) => (
             <Form>
               <div className="mb-3">
                 <FieldLabel
@@ -186,41 +191,46 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <div className="mb-3">
                 <FieldLabel
-                  htmlfor="programType"
+                  htmlfor="programtype"
                   labelText="Program Type "
                   required="required"
                   star="*"
                 />
                 {programTypeId.map((el: any, index: number) => (
-                  <FieldTypeRadio
-                    key={index}
-                    value={el.id}
-                    name="programtype"
-                    radioText={el.name}
-                    checked={radioValue == el.id}
-                    onChange={(e: any) => setRadioValue(e.target.value)}
-                  />
+                  <div key={index}>
+                    <FieldTypeRadio
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                      type='radio'
+                      name="programtype"
+                      value={el.id}
+                      radioText={el.name}
+                    />
+                  </div>
                 ))}
+                
                 <FieldErrorMessage
                   errors={errors.programtype}
                   touched={touched.programtype}
                   msgText="Please Enter Program Type"
                 />
               </div>
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="batchYear"
-                  labelText="Batch Year"
-                  required="required"
-                  star="*"
-                />
-                <FieldTypeText name="batchYear" placeholder="#Year" />
-                <FieldErrorMessage
-                  errors={errors.batchYear}
-                  touched={touched.batchYear}
-                  msgText="Batch Year must in number"
-                />
-              </div>
+              {values.isBatchYearRequired === true && 
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="batchYear"
+                    labelText="Batch Year"
+                    required="required"
+                    star="*"
+                  />
+                  <FieldTypeText name="batchYear" placeholder="#Year" />
+                  <FieldErrorMessage
+                    errors={errors.batchYear}
+                    touched={touched.batchYear}
+                    msgText="Batch Year must in number"
+                  />
+                </div>
+              }
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="discipline"
@@ -237,21 +247,23 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <div className="mb-3">
                 <FieldLabel
-                  htmlfor="mode"
+                  htmlfor="modeOfStudy"
                   labelText="Mode Of Stydy"
                   required="required"
                   star="*"
                 />
-                <FieldTypeRadio
-                  value="full_time"
-                  name="mode"
-                  radioText="Full Time"
-                />
-                <FieldTypeRadio
-                  value="part_time"
-                  name="mode"
-                  radioText="Part Time"
-                />
+                {modeStudy.map((el: any, index: number) => (
+                  <div key={index}>
+                    <FieldTypeRadio
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                      type='radio'
+                      name="modeOfStudy"
+                      value={el.value}
+                      radioText={el.name}
+                    />
+                  </div>
+                ))}
                 <FieldErrorMessage
                   errors={errors.mode}
                   touched={touched.mode}
@@ -307,13 +319,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   );
                 })}
                 <div>
-                  <Custom_Button
+                  <CustomButton
                     type="button"
                     variant="primary"
                     onClick={addFieldHandler}
                     btnText="+ Add more"
                   />{" "}
-                  <Custom_Button
+                  <CustomButton
                     type="button"
                     variant="outline-secondary"
                     onClick={removeBlockHandler}
@@ -328,21 +340,21 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               >
                 <div>
                   <FieldTypeCheckbox
-                    name="checked"
+                    name="programaccessinfo"
                     value="fullaccess"
                     checkboxLabel="Full life time access"
                   />
                 </div>
                 <div>
                   <FieldTypeCheckbox
-                    name="checked"
+                    name="programaccessinfo"
                     value="certificate"
                     checkboxLabel="Certificate of completion"
                   />
                 </div>
                 <div>
                   <FieldTypeCheckbox
-                    name="checked"
+                    name="programaccessinfo"
                     value="published"
                     checkboxLabel="Published"
                   />
@@ -350,13 +362,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
 
               <div className="text-center">
-                <Custom_Button
+                <CustomButton
                   type="submit"
                   btnText="Submit"
                   variant="primary"
                   // isSubmitting={isSubmitting}
                 />{" "}
-                <Custom_Button
+                <CustomButton
                   type="reset"
                   btnText="Reset"
                   variant="outline-secondary"

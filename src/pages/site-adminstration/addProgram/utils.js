@@ -1,3 +1,4 @@
+// initial form values required by the program formik form
 export const initialValues = {
     department: "",
     programName: '',
@@ -5,7 +6,7 @@ export const initialValues = {
     programtype: "",
     discipline: "",
     batchYear: "",
-    mode: "",
+    modeOfStudy: "fulltime",
     duration: "",
     objective: "",
     description: "",
@@ -13,9 +14,11 @@ export const initialValues = {
     learn: "",
     metatitle: "",
     metadescription: "",
-    checked: [],
+    programaccessinfo: [],
+    isBatchYearRequired: false
 };
 
+// a set of fields to be added or removed within the program form
 export const addMetaInputField = [
     [
         {
@@ -31,6 +34,13 @@ export const addMetaInputField = [
     ],
 ];
 
+//provided fields for modeofstudy in program 
+export const modeStudy = [
+   { name: "Full Time", value : "fulltime"},
+   { name: "Part Time", value : "parttime"},
+];
+
+// the api required structure for program which will later be updated in generateProgramDataObject()
 const programData = {
     name: "",
     programCode: "",
@@ -41,30 +51,37 @@ const programData = {
     objective: "",
     fullLifeTimeAccess: false,
     published: false,
-    programType: {},
-    department: {},
-    discipline: {}
+    programType: {id: ''},
+    department: {id: '' },
+    discipline: {id: ''}
 }
 
+// to convert program formdata to api required structure after the form submission
 export const generateProgramDataObject = (formData) => {
     programData.name = formData.programName;
     programData.programCode = formData.programCode;
-    programData.modeOfStudy = formData.mode;
+    programData.modeOfStudy = formData.modeOfStudy;
     programData.duration = formData.duration;
     programData.batchYear = parseInt(formData.batchYear);
     programData.description = formData.description;
     programData.objective = formData.objective;
-    programData.fullLifeTimeAccess = true;
-    programData.published = true;
-    programData.programType = { id  : 50};
+    programData.fullLifeTimeAccess = formData.programaccessinfo.includes("fullaccess");
+    programData.published = formData.programaccessinfo.includes("published");
+    programData.programType = {id : formData.programtype} ;
     programData.department = {id : formData.department};
     programData.discipline = {id : formData.discipline};
-
+    
     return programData;
 };
 
+//method to provide the final initialvalues to be filled in the program form
 export const generateIinitialValues = (apiData) => {
     if (Object.keys(apiData).length > 0) {
+        
+        let pgInfo = [];
+        if (programData.fullLifeTimeAccess === true) pgInfo.push("fullaccess")
+        if (programData.published === true) pgInfo.push("published")
+
         let setInitialValues = {
             department: apiData.department.id,
             programName: apiData.name,
@@ -72,13 +89,21 @@ export const generateIinitialValues = (apiData) => {
             programtype: apiData.programType.id,
             discipline: apiData.discipline.id,
             batchYear: apiData.batchYear,
-            mode: apiData.modeOfStudy,
+            modeOfStudy: apiData.modeOfStudy,
             duration: apiData.duration,
             objective: apiData.objective ?? '',
             description: apiData.description,
+            programaccessinfo: pgInfo,
+            isBatchYearRequired: false,
         }
        return setInitialValues;
     }  else {
         return initialValues;
     }
+}
+
+//add extra information to initialvalues for the form
+export const addExtraMetaDataToInitialValues = (initialvalues, metadata, property) => {
+   initialvalues[property] = metadata;
+   return initialvalues;
 }

@@ -15,7 +15,7 @@ const AddProgram = () => {
   const pagetitle = (id > 0) ? 'Update program' : 'Add program';
 
   useEffect(() => {
-    if (id > 0) {
+    if (id !== undefined &&  id > 0) {
       let programsEndPoint = "/programs";
       getProgramData(programsEndPoint).then((res : any) => {
         if (res.data !== "" && res.status === 200) {
@@ -33,8 +33,6 @@ const AddProgram = () => {
     }
   }, []);
 
-console.log(currentProgram);
-
   return (
     <>
       <Header pageHeading={pagetitle} welcomeIcon={false} />
@@ -46,10 +44,10 @@ console.log(currentProgram);
             <ProgramFormHeader navigate={navigate} />{" "}
             <hr />
             <div className="form-container-wrapper">
-            {/* { 
-              currentProgram.status === true && */}
+            { 
+              currentProgram.status === true &&
               <AddProgramForm initialformvalues={currentProgram.data} programid={currentProgram.id}/>
-            {/* } */}
+            }
             </div>
           </div>
         </Container>

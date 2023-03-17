@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const Custom_Button = ({
+const CustomButton = ({
   variant,
   type,
   isSubmitting,
@@ -20,4 +20,4 @@ const Custom_Button = ({
   );
 };
 
-export default Custom_Button;
+export default CustomButton;
