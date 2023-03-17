@@ -37,7 +37,7 @@ const Preview = () => {
         <Container fluid className="administration-wrapper">
           <div className="site-heading">
             {/* <h3>Program Preview</h3>{" "} */}
-            <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Back</Button>
+            <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Go back</Button>
           </div>
           <hr />
           <div>
@@ -51,11 +51,11 @@ const Preview = () => {
                      <li key={Math.random()}><strong>Programtype</strong> : {el.programType.name} </li>
                      <li key={Math.random()}><strong>Batch year</strong> : {el.batchYear} </li>
                      <li key={Math.random()}><strong>Mode of study</strong> : {el.modeOfStudy} </li>
-                     <li key={Math.random()}><strong>Description</strong> : {el.description} </li>
-                     <li key={Math.random()}><strong>Learning outcome</strong> : {el.objective} </li>
+                     <li key={Math.random()}><strong>Description</strong> : <div dangerouslySetInnerHTML={{ __html: el.description }}/> </li>
+                     <li key={Math.random()}><strong>Learning outcome</strong> : <div dangerouslySetInnerHTML={{ __html: el.objective }}/> </li>
                      <li key={Math.random()}><strong>Duration</strong> : {el.duration} </li>
-                     <li key={Math.random()}><strong>full lifetime access</strong> : {el.fullLifeTimeAccess} </li>
-                     <li key={Math.random()}><strong>Published</strong> : {el.published} </li>
+                     <li key={Math.random()}><strong>full lifetime access</strong> : {el.fullLifeTimeAccess ? 'Yes' : 'No'} </li>
+                     <li key={Math.random()}><strong>Published</strong> : {el.published ? 'Yes' : 'No'} </li>
                     </ul>
                 </div>
             ))}

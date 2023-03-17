@@ -9,13 +9,12 @@ export default function TinymceEditor({ handleChange, name}: any) {
     <>
       <Field name={name}>
         {({ field, meta }: any) => (
-          // console.log(field.value)
           <div>
             <Editor
               apiKey="eduvpvjt0i9rpp9mcga47jkt3vkewafkksw18t3eh5osmhkr"
               cloudChannel="5-dev"
               onInit={(evt, editor: any) => (editorRef.current = editor)}
-              initialValue="<p>Write Here ....</p>"
+              value={field.value}
               init={{
                 height: 300,
                 placeholder: "Type here..",
@@ -31,7 +30,7 @@ export default function TinymceEditor({ handleChange, name}: any) {
                   "alignright alignjustify | bullist numlist outdent indent | image |" +
                   "removeformat | code | help",
                 content_style:
-                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
               }}
               onEditorChange={(e) => {
                 handleChange({ target: { name: field.name, value: e } });
