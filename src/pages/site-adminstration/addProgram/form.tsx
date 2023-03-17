@@ -9,7 +9,7 @@ import {
   putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { addMetaInputField, generateProgramDataObject, modeStudy } from "./utils";
+import { addMetaInputField, generateProgramDataObject, modeStudy, addExtraMetaDataToInitialValues } from "./utils";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import CustomButton from "../../../widgets/form_input_fields/buttons";
@@ -26,6 +26,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
+  const [initValues, setInitValues] = useState<any>(initialformvalues);
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
@@ -49,6 +50,11 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     });
   }, []);
 
+  useEffect(() => {
+    let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId, 'programtypeList');
+    setInitValues(addedValues);
+  }, [programTypeId]);
+
   // add extra meta field ===== >>>
   const addFieldHandler = () => {
     setinputFieldArr((el: any) => {
@@ -67,7 +73,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
-
+    
     if (programid == 0) {
       let endPoint = "/programs";
       postProgramData(endPoint, programValues)
@@ -133,7 +139,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
       <div>
         <Formik
           enableReinitialize={true}
-          initialValues={initialformvalues}
+          initialValues={initValues}
           validationSchema={Schemas}
           onSubmit={(values, action) => {
             handlerFormSubmit(values, action);
@@ -185,7 +191,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <div className="mb-3">
                 <FieldLabel
-                  htmlfor="programType"
+                  htmlfor="programtype"
                   labelText="Program Type "
                   required="required"
                   star="*"
@@ -194,7 +200,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   <div key={index}>
                     <FieldTypeRadio
                       setcurrentvalue={setValues}
-                      currentfieldvalue={values}
+                      currentformvalue={values}
                       type='radio'
                       name="programtype"
                       value={el.id}
@@ -209,20 +215,22 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   msgText="Please Enter Program Type"
                 />
               </div>
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="batchYear"
-                  labelText="Batch Year"
-                  required="required"
-                  star="*"
-                />
-                <FieldTypeText name="batchYear" placeholder="#Year" />
-                <FieldErrorMessage
-                  errors={errors.batchYear}
-                  touched={touched.batchYear}
-                  msgText="Batch Year must in number"
-                />
-              </div>
+              {values.isBatchYearRequired === true && 
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="batchYear"
+                    labelText="Batch Year"
+                    required="required"
+                    star="*"
+                  />
+                  <FieldTypeText name="batchYear" placeholder="#Year" />
+                  <FieldErrorMessage
+                    errors={errors.batchYear}
+                    touched={touched.batchYear}
+                    msgText="Batch Year must in number"
+                  />
+                </div>
+              }
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="discipline"
@@ -248,7 +256,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   <div key={index}>
                     <FieldTypeRadio
                       setcurrentvalue={setValues}
-                      currentfieldvalue={values}
+                      currentformvalue={values}
                       type='radio'
                       name="modeOfStudy"
                       value={el.value}
@@ -332,21 +340,21 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               >
                 <div>
                   <FieldTypeCheckbox
-                    name="checked"
+                    name="programaccessinfo"
                     value="fullaccess"
                     checkboxLabel="Full life time access"
                   />
                 </div>
                 <div>
                   <FieldTypeCheckbox
-                    name="checked"
+                    name="programaccessinfo"
                     value="certificate"
                     checkboxLabel="Certificate of completion"
                   />
                 </div>
                 <div>
                   <FieldTypeCheckbox
-                    name="checked"
+                    name="programaccessinfo"
                     value="published"
                     checkboxLabel="Published"
                   />
