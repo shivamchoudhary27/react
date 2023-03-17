@@ -18,6 +18,10 @@ const createEditLink = (id: number) => {
   return `/addprogram/${id}`;
 };
 
+const createPreviewLink = (id: number) => {
+  return `/programpreview/${id}`;
+}
+
 const ManageTable = ({programData, refreshDepartmentData} : any) => {
 
   const tableColumn = [
@@ -75,7 +79,7 @@ const ManageTable = ({programData, refreshDepartmentData} : any) => {
               onClick={() => deleteHandler(row.original.id)}
             ></i>
           </Link>
-          <Link to="">
+          <Link to={createPreviewLink(row.original.id)}>
             <i
               className="fa-solid fa-eye"
               // onClick={() => showToggleHandler(row.original.id)}

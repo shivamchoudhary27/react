@@ -154,7 +154,11 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                <FieldTypeSelect name="department" options={departmentName} />
+                <FieldTypeSelect 
+                  name="department" 
+                  options={departmentName} 
+                  setcurrentvalue={setValues}
+                  currentformvalue={values} />
                 <FieldErrorMessage
                   errors={errors.department}
                   touched={touched.department}
@@ -196,7 +200,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                {programTypeId.map((el: any, index: number) => (
+                <FieldTypeSelect 
+                  name="programtype" 
+                  options={programTypeId}
+                  setcurrentvalue={setValues}
+                  currentformvalue={values}
+                />
+                {/* {programTypeId.map((el: any, index: number) => (
                   <div key={index}>
                     <FieldTypeRadio
                       setcurrentvalue={setValues}
@@ -207,8 +217,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                       radioText={el.name}
                     />
                   </div>
-                ))}
-                
+                ))} */}
                 <FieldErrorMessage
                   errors={errors.programtype}
                   touched={touched.programtype}
@@ -238,7 +247,12 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                <FieldTypeSelect name="discipline" options={disciplineName} />
+                <FieldTypeSelect 
+                  name="discipline" 
+                  options={disciplineName}
+                  setcurrentvalue={setValues}
+                  currentformvalue={values}
+                />
                 <FieldErrorMessage
                   errors={errors.discipline}
                   touched={touched.discipline}
@@ -345,13 +359,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                     checkboxLabel="Full life time access"
                   />
                 </div>
-                <div>
+                {/* <div>
                   <FieldTypeCheckbox
                     name="programaccessinfo"
                     value="certificate"
                     checkboxLabel="Certificate of completion"
                   />
-                </div>
+                </div> */}
                 <div>
                   <FieldTypeCheckbox
                     name="programaccessinfo"
