@@ -79,7 +79,7 @@ const DiciplineTable = ({
   const editHandler = ({ id, name, description }: any) => {
     toggleModalShow(true);
     editHandlerById({ id, name, description });
-    refreshDisciplineData(false);
+    refreshDisciplineData();
   };
 
   // delete event handler === >>>
@@ -109,10 +109,9 @@ const DiciplineTable = ({
             timer: 1500,
           });
           let endpoint = `/disciplines/${id}`;
-          refreshDisciplineData(false);
           deleteDisciplineData(endpoint).then((res: any) => {
             if (res.data !== "" && res.status === 200) {
-              refreshDisciplineData(true);
+              refreshDisciplineData();
             }
           });
         } else if (

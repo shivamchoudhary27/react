@@ -20,6 +20,7 @@ const ProgramTable = ({
   refreshProgramData,
 }: any) => {
   // custom react table Column === >>>
+  console.log(' re render the table data')
   const tableColumn = [
     {
       Header: "Name",
@@ -80,51 +81,61 @@ const ProgramTable = ({
   const editHandler = ({ id, name, description, batchYearRequired }: any) => {
     toggleModalShow(true);
     editHandlerById({ id, name, description, batchYearRequired });
-    refreshProgramData(false);
+    refreshProgramData();
   };
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: true,
-    });
-    swalWithBootstrapButtons
-      .fire({
-        title: "Are you sure to delete?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: "success",
-            title: "Deleted Successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          let endpoint = `/program-types/${id}`;
-          refreshProgramData(false);
-          deleteProgramData(endpoint).then((res: any) => {
-            if (res.data !== "" && res.status === 200) {
-              refreshProgramData(true);
-            }
-          });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire({
-            icon: "error",
-            title: "Cancelled",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
-      });
+    if (window.confirm("Are you sure you want to delete?" + id)) {
+      let endpoint = `/program-types/${id}`;
+      deleteProgramData(endpoint).then((res: any) => {
+        // if (res.data !== "" && res.status === 200) {
+        //   // refreshProgramData();
+        // }
+      });      
+      setTimeout(() => {
+        refreshProgramData();
+      }, 3000)
+    }
+    // const swalWithBootstrapButtons = Swal.mixin({
+    //   customClass: {
+    //     confirmButton: "btn btn-success",
+    //     cancelButton: "btn btn-danger",
+    //   },
+    //   buttonsStyling: true,
+    // });
+    // swalWithBootstrapButtons
+    //   .fire({
+    //     title: "Are you sure to delete?",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonText: "Yes, delete it!",
+    //     cancelButtonText: "No, cancel!",
+    //     reverseButtons: true,
+    //   })
+    //   .then((result) => {
+    //     if (result.isConfirmed) {
+    //       Swal.fire({
+    //         icon: "success",
+    //         title: "Deleted Successfully",
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //       });
+    //       let endpoint = `/program-types/${id}`;
+    //       deleteProgramData(endpoint).then((res: any) => {
+    //         if (res.data !== "" && res.status === 200) {
+    //           refreshProgramData();
+    //         }
+    //       });
+    //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+    //       Swal.fire({
+    //         icon: "error",
+    //         title: "Cancelled",
+    //         showConfirmButton: false,
+    //         timer: 1500,
+    //       });
+    //     }
+    //   });
   };
 
   // hide show toggle event handler === >>>

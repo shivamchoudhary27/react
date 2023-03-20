@@ -58,7 +58,7 @@ const DiciplineModal = ({
         .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
-            refreshDisciplineData(true);
+            refreshDisciplineData();
             setSubmitting(false);
             resetForm();
           }
@@ -73,7 +73,7 @@ const DiciplineModal = ({
           console.log(values, res);
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
-            refreshDisciplineData(true);
+            refreshDisciplineData();
             setSubmitting(false);
           }
         })
