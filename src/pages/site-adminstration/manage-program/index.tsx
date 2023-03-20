@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { getData as getProgramData } from "../../../adapters/microservices";
+import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import ManageFilter from "./manageFilter";
@@ -15,24 +15,8 @@ const ManageProgram = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    // if (refreshData === true) {
-      reloadProgramData();
-    // }
+    makeGetDataRequest('/programs', filterUpdate, setProgramData);
   }, [refreshData, filterUpdate]);
-
-  const reloadProgramData = () => {
-    const endPoint = "/programs";
-    // const apiParams = filterUpdate;
-    getProgramData(endPoint, filterUpdate)
-      .then((result : any) => {
-        if (result.data !== "" && result.status === 200) {
-          setProgramData(result.data);
-        }
-      })
-      .catch((err : any) => {
-        console.log(err);
-      });
-  }
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
