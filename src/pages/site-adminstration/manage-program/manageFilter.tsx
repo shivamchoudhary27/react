@@ -18,16 +18,13 @@ const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
   };
 
   const handleReset = () => {
+    updateinputfilters({name: "", code: ""});
     setInputName("");
-    setInputCode("")
+    setInputCode("");
   };
 
   const getInputValues = () => {
-    if (inputCode !== "") {
-      updateinputfilters({name: inputName, code: inputCode});
-    } else {
-      updateinputfilters({name: inputName});
-    }
+    updateinputfilters({name: inputName, code: inputCode});
   }
 
   return (

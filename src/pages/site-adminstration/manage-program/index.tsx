@@ -15,7 +15,7 @@ const ManageProgram = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest('/programs', filterUpdate, setProgramData);
+    makeGetDataRequest('/programs', filterUpdate, setProgramData); 
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
@@ -28,7 +28,14 @@ const ManageProgram = () => {
   }
 
   const updateInputFilters = (inputvalues : any) => {
-    setFilterUpdate({...filterUpdate, name: inputvalues.name})
+    if (inputvalues.code !== '') {
+      setFilterUpdate({...filterUpdate, name: inputvalues.name, programCode: inputvalues.code})
+    } else {
+      let updatedState = {...filterUpdate};
+      updatedState.name = inputvalues.name;
+      if (updatedState.programCode) delete updatedState.programCode;
+      setFilterUpdate(updatedState);
+    }
   }
 
   return (
