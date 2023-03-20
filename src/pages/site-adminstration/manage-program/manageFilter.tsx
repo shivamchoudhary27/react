@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./style.scss";
 import { Button } from "react-bootstrap";
 import ManageDropdown from "./manageDropdown";
 import { useNavigate } from "react-router-dom";
 
-const ManageFilter = () => {
+const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
   const [inputName, setInputName] = useState("");
   const [inputCode, setInputCode] = useState("");
 
@@ -15,10 +15,20 @@ const ManageFilter = () => {
 
   const handleSearch = (e: any) => {
     e.preventDefault();
-    console.log(e);
   };
 
-  const handleReset = () => {};
+  const handleReset = () => {
+    setInputName("");
+    setInputCode("")
+  };
+
+  const getInputValues = () => {
+    if (inputCode !== "") {
+      updateinputfilters({name: inputName, code: inputCode});
+    } else {
+      updateinputfilters({name: inputName});
+    }
+  }
 
   return (
     <>
@@ -27,7 +37,7 @@ const ManageFilter = () => {
           <form onSubmit={handleSearch}>
             <div className="row g-3 align-items-center">
               <div className="col-auto">
-                <ManageDropdown />
+                <ManageDropdown updatedepartment={updatedepartment}/>
               </div>
               <div className="col-auto">
                 <input
@@ -48,7 +58,11 @@ const ManageFilter = () => {
                 />
               </div>
               <div className="col-auto">
-                <Button variant="outline-secondary" type="submit">
+                <Button 
+                  variant="outline-secondary" 
+                  type="submit"
+                  onClick={() => getInputValues()}
+                >
                   Filter
                 </Button>{" "}
                 <Button

@@ -13,13 +13,14 @@ const Preview = () => {
   useEffect(() => {
     if (id !== undefined &&  id > 0) {
       let programsEndPoint = "/programs";
-      getProgramData(programsEndPoint).then((res : any) => {
+      const apiParams = {
+        pageNumber : 0,
+        pageSize : 1,
+        id
+      }
+      getProgramData(programsEndPoint, apiParams).then((res : any) => {
         if (res.data !== "" && res.status === 200) {
-          
-          let programData = res.data.find((obj : any) => obj.id == id);
-          let dataSet = [];
-          dataSet.push(programData);
-          setCurrentProgram({ data : dataSet, status : true, id : id })
+          setCurrentProgram({ data : res.data, status : true, id : id })
         }
       });
     } else {

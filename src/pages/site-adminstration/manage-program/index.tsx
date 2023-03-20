@@ -10,28 +10,42 @@ import ManageTable from "./manageTable";
 const ManageProgram = () => {
   const navigate = useNavigate();
   const [programData, setProgramData] = useState<any>([]);
-  const [refreshData, setRefreshData] = useState(true);
+  const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 20});
 
   // get programs API call === >>>
   useEffect(() => {
-    if (refreshData === true) {
-      const endPoint = "/programs";
-      getProgramData(endPoint)
-        .then((result : any) => {
-          if (result.data !== "" && result.status === 200) {
-            setProgramData(result.data);
-          }
-        })
-        .catch((err : any) => {
-          console.log(err);
-        });
-    }
-  }, [refreshData]);
+    // if (refreshData === true) {
+      reloadProgramData();
+    // }
+  }, [refreshData, filterUpdate]);
 
-  // handle refresh react table after SAVE data  === >>>
-  const refreshDepartmentData = (status: boolean) => {
-    setRefreshData(status);
+  const reloadProgramData = () => {
+    const endPoint = "/programs";
+    // const apiParams = filterUpdate;
+    getProgramData(endPoint, filterUpdate)
+      .then((result : any) => {
+        if (result.data !== "" && result.status === 200) {
+          setProgramData(result.data);
+        }
+      })
+      .catch((err : any) => {
+        console.log(err);
+      });
+  }
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
   };
+
+  // to update filters values in the main state filterUpdate
+  const updateDepartmentFilter = (departmentId : string) => {
+    setFilterUpdate({...filterUpdate, departmentId: departmentId})
+  }
+
+  const updateInputFilters = (inputvalues : any) => {
+    setFilterUpdate({...filterUpdate, name: inputvalues.name})
+  }
 
   return (
     <>
@@ -58,8 +72,8 @@ const ManageProgram = () => {
               </Button>
             </div>
             <hr />
-            <ManageFilter />
-            <ManageTable programData={programData} refreshDepartmentData={refreshDepartmentData}/>
+            <ManageFilter updatedepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters}/>
+            <ManageTable programData={programData} refreshDepartmentData={refreshToggle}/>
           </Container>
         </div>
       </div>
