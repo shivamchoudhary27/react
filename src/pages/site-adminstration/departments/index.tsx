@@ -5,7 +5,8 @@ import Header from "../../header";
 import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
-import DepartmentModal from "./departmentModal";
+import DepartmentModal from "./departmentModal"; 
+import CustomPagination from "../../../widgets/paginationjet";
 import "./style.scss";
 
 const Departments = () => {
@@ -45,9 +46,9 @@ const Departments = () => {
     setModalShow(status);
   };
 
-  const handlePageClick = (val: any) => {
-    console.log(val);
-  };
+  const newPageRequest = (pageRequest : number) => {
+    setFilterUpdate({...filterUpdate, pageNumber: pageRequest})
+  }
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DEPARTMENT_FILTER_COMPONENT = (
@@ -82,20 +83,14 @@ const Departments = () => {
 
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
-      <div className="main-content-container">
+      <Header pageHeading="Departments" welcomeIcon={false} />
+      <div className='main-content-container'>
         <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
+        <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
-            <div className="site-heading">
-              <h3>Departments</h3>
-            </div>
-            <hr />
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
+            <CustomPagination totalpages={5} activepage={filterUpdate.pageNumber} getrequestedpage={newPageRequest}/>
             {DEPARTMENT_MODAL_COMPONENT}
           </Container>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getData as getProgramData } from "../../../adapters/microservices";
+// import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import { Container, Button } from "react-bootstrap";
@@ -16,8 +17,9 @@ const AddProgram = () => {
 
   useEffect(() => {
     if (id !== undefined &&  id > 0) {
+      let filter = {id: id, pageNumber: 0, pageSize : 1};
       let programsEndPoint = "/programs";
-      getProgramData(programsEndPoint).then((res : any) => {
+      getProgramData(programsEndPoint, filter).then((res : any) => {
         if (res.data !== "" && res.status === 200) {
           let programData = res.data.find((obj : any) => obj.id == id);          
           if (programData !== undefined) {
@@ -44,7 +46,7 @@ const AddProgram = () => {
             <ProgramFormHeader navigate={navigate} />{" "}
             <hr />
             <div className="form-container-wrapper">
-            { 
+            {
               currentProgram.status === true &&
               <AddProgramForm initialformvalues={currentProgram.data} programid={currentProgram.id}/>
             }
