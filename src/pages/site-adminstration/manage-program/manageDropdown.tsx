@@ -1,26 +1,13 @@
 import { useState, useEffect } from "react";
-import { getData as getDepartmentsData } from "../../../adapters/microservices";
+import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 
-const ManageDropdown = ({ updatedepartment }) => {
+const ManageDropdown = ({ updatedepartment } : any) => {
   const [departmentData, setDepartmentData] = useState<any>([]);
+  const filters = {pageNumber: 0, pageSize : 20};
   
   // department API call === >>>
   useEffect(() => {
-    const endPoint = "/departments";
-    const apiParams = {
-      pageNumber : 0,
-      pageSize : 20,
-      name : ''
-    }
-    getDepartmentsData(endPoint, apiParams)
-      .then((result : any) => {
-        if (result.data !== "" && result.status === 200) {
-          setDepartmentData(result.data);
-        }
-      })
-      .catch((err : any) => {
-        console.log(err);
-      });
+    makeGetDataRequest('/departments', filters, setDepartmentData);
   }, []);
 
   const getCurrentValue = (e : any) => {
@@ -30,9 +17,9 @@ const ManageDropdown = ({ updatedepartment }) => {
   return (
     <>
       <select className="form-select" onChange={getCurrentValue}>
-        <option value="" selected>All Departments</option>
+        <option value="">All Departments</option>
         {departmentData.map((el: any, index: number) => (
-            <option value={el.id}>{el.name}</option>
+            <option key={index} value={el.id}>{el.name}</option>
         ))}
       </select>
     </>
