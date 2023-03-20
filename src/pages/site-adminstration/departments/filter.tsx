@@ -9,31 +9,23 @@ const Filter = ({
   departmentData,
   setDepartmentData,
   refreshDepartmentData,
+  updateInputFilters
 }: any) => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
 
-  // search input Handler === >>>
-  const handleInput = (val: string) => {
-    var lowerCase = val.toLowerCase();
-    setSearchValue(lowerCase);
+  const handleSearch = (e: any) => {
+    e.preventDefault();
   };
 
-  // on search event handler === >>>
-  const filterHandler = () => {
-    const filteredData = departmentData.filter((el: any) => {
-      if (searchValue === "") {
-        return el;
-      } else {
-        return el.name.toLowerCase().includes(searchValue);
-      }
-    });
-    if(filteredData.length === 0){
-      alert('no record found');
-      refreshDepartmentData()
-    }
-    setDepartmentData(filteredData);
-  };
+  const getInputValues = () => {
+    updateInputFilters(searchValue);
+  }
+
+  const resetHandler = () => {
+    updateInputFilters("");
+    setSearchValue("");
+  }
 
   // handle to open Add Department modal === >>>
   const openAddDepartment = () => {
@@ -45,24 +37,24 @@ const Filter = ({
     <>
       <div className="filter-wrapper">
         <div className="filter-form">
-          <form>
+          <form onSubmit={handleSearch}>
             <div className="row g-3 align-items-center">
               <div className="col-auto">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Name"
-                  onChange={(e) => handleInput(e.target.value)}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  value={searchValue}
                 />
               </div>
               <div className="col-auto">
-                <Button variant="outline-secondary" onClick={filterHandler}>
+                <Button variant="outline-secondary" onClick={()=>getInputValues()}>
                   Filter
                 </Button>{" "}
                 <Button
                   variant="outline-secondary"
-                  type="reset"
-                  onClick={() => refreshDepartmentData()}
+                  onClick={() => resetHandler()}
                 >
                   Reset
                 </Button>
