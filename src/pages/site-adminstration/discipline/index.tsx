@@ -19,7 +19,8 @@ const Discipline = () => {
   useEffect(() => {
     if (refreshData === true) {
       const endPoint = "/disciplines";
-      getDiciplinesData(endPoint)
+      const apiFilters = {pageNumber: 0, pageSize : 20};
+      getDiciplinesData(endPoint, apiFilters)
         .then((result) => {
           if (result.data !== "" && result.status === 200) {
             setDiciplineData(result.data);

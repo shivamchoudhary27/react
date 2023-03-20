@@ -100,7 +100,7 @@ const ManageTable = ({programData, refreshDepartmentData} : any) => {
     });
 
   const deleteHandler = (id: number) => {
-    refreshDepartmentData(false);
+    // refreshDepartmentData(false);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -129,7 +129,7 @@ const ManageTable = ({programData, refreshDepartmentData} : any) => {
           
           deleteProgramData(endPoint).then((res: any) => {
             if (res.data !== "" && res.status === 200) {
-              refreshDepartmentData(true);
+              refreshDepartmentData();
             }
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {

@@ -18,7 +18,8 @@ const ProgramType = () => {
   useEffect(() => {
     if (refreshData === true) {
       const endPoint = "/program-types";
-      getProgramData(endPoint)
+      const apiFilters = {pageNumber: 0, pageSize : 20};
+      getProgramData(endPoint, apiFilters)
       .then((result) => {
         if (result.data !== "" && result.status === 200) {
           setProgramTypeData(result.data);

@@ -1,13 +1,41 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { getData as getDepartmentsData } from "../../../adapters/microservices";
 
-const ManageDropdown = () => {
+const ManageDropdown = ({ updatedepartment }) => {
+  const [departmentData, setDepartmentData] = useState<any>([]);
+  
+  // department API call === >>>
+  useEffect(() => {
+    const endPoint = "/departments";
+    const apiParams = {
+      pageNumber : 0,
+      pageSize : 20,
+      name : ''
+    }
+    getDepartmentsData(endPoint, apiParams)
+      .then((result : any) => {
+        if (result.data !== "" && result.status === 200) {
+          setDepartmentData(result.data);
+        }
+      })
+      .catch((err : any) => {
+        console.log(err);
+      });
+  }, []);
+
+  const getCurrentValue = (e : any) => {
+    updatedepartment(e.target.value);
+  }
+
   return (
-    <select className="form-select" aria-label="Default select example">
-      <option selected>All</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+    <>
+      <select className="form-select" onChange={getCurrentValue}>
+        <option value="" selected>All Departments</option>
+        {departmentData.map((el: any, index: number) => (
+            <option value={el.id}>{el.name}</option>
+        ))}
+      </select>
+    </>
   );
 }
 

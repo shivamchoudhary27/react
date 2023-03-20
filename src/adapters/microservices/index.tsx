@@ -4,10 +4,9 @@ const ACCESS_TOKEN = sessionStorage.getItem("access_token") ?? localStorage.getI
 
 createAxiosInstance(ACCESS_TOKEN); // to reset the instance if app is refreshed
 
-export const getData = (endPoint: string) => {
-    let requestEndpoint = `${endPoint}?pageNumber=0&pageSize=20`;
+export const getData = (endPoint: string, params : any) => {
     const instance = axiosConfig.axiosInstance;
-    return instance.get(requestEndpoint);
+    return instance.get(endPoint, { params });
 };
 
 export const postData = (endPoint: string, requestData: any) => {

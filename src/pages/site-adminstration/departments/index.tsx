@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getData as getDepartmentsData } from "../../../adapters/microservices";
 import { Container } from "react-bootstrap";
 import Header from "../../header";
@@ -19,19 +19,22 @@ const Departments = () => {
   useEffect(() => {
     if (refreshData === true) {
       const endPoint = "/departments";
-      getDepartmentsData(endPoint)
-        .then((result) => {
+      const apiParams = {
+        pageNumber : 0,
+        pageSize : 20,
+        name : ''
+      }
+      getDepartmentsData(endPoint, apiParams)
+        .then((result : any) => {
           if (result.data !== "" && result.status === 200) {
             setDepartmentData(result.data);
           }
         })
-        .catch((err) => {
+        .catch((err : any) => {
           console.log(err);
         });
     }
   }, [refreshData]);
-
-  console.log(departmentData)
 
   // get id, name from the department table === >>>
   const editHandlerById = ({ id, name }: any) => {

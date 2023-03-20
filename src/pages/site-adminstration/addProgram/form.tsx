@@ -30,20 +30,21 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
+    const apiFilters = {pageNumber: 0, pageSize : 20};
     const departmentEndPoint = "/departments";
     const disciplineEndPoint = "/disciplines";
     const programTypeEndPoint = "/program-types";
-    getName(departmentEndPoint).then((res: any) => {
+    getName(departmentEndPoint, apiFilters).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setDepartmentName(res.data);
       }
     });
-    getName(disciplineEndPoint).then((res: any) => {
+    getName(disciplineEndPoint, apiFilters).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setDisciplineName(res.data);
       }
     });
-    getName(programTypeEndPoint).then((res: any) => {
+    getName(programTypeEndPoint, apiFilters).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setProgramTypeId(res.data);
       }
