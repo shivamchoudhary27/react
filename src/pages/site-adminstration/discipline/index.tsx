@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getData as getDiciplinesData } from "../../../adapters/microservices";
+import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
@@ -14,23 +14,16 @@ const Discipline = () => {
   const [diciplineData, setDiciplineData] = useState<any>([]);
   const [disciplineObj, setDisciplineObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
+  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 20});
 
-  // discipline API call === >>>
+  // get programs API call === >>>
   useEffect(() => {
-    if (refreshData === true) {
-      const endPoint = "/disciplines";
-      const apiFilters = {pageNumber: 0, pageSize : 20};
-      getDiciplinesData(endPoint, apiFilters)
-        .then((result) => {
-          if (result.data !== "" && result.status === 200) {
-            setDiciplineData(result.data);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [refreshData]);
+    makeGetDataRequest('/disciplines', filterUpdate, setDiciplineData); 
+  }, [refreshData, filterUpdate]);
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
 
   // get id, name from discipline table === >>>
   const editHandlerById = ({ id, name, description }: any) => {
@@ -40,11 +33,6 @@ const Discipline = () => {
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
-  };
-
-  // handle refresh react table after SAVE data  === >>>
-  const refreshDisciplineData = (status: boolean) => {
-    setRefreshData(status);
   };
 
   // handle to open Add Discipline modal === >>>
@@ -60,7 +48,7 @@ const Discipline = () => {
       diciplineData={diciplineData}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
-      refreshDisciplineData={refreshDisciplineData}
+      refreshDisciplineData={refreshToggle}
     />
   );
 
@@ -70,7 +58,7 @@ const Discipline = () => {
       onHide={() => setModalShow(false)}
       togglemodalshow={toggleModalShow}
       disciplineobj={disciplineObj}
-      refreshDisciplineData={refreshDisciplineData}
+      refreshDisciplineData={refreshToggle}
     />
   );
 

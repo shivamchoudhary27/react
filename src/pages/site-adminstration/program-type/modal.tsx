@@ -61,7 +61,7 @@ const AddProgramModal = ({
         .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
-            refreshprogramdata(true);
+            refreshprogramdata();
             setSubmitting(false);
             resetForm();
           }
@@ -75,7 +75,7 @@ const AddProgramModal = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
-            refreshprogramdata(true);
+            refreshprogramdata();
             setSubmitting(false);
             resetForm();
           }

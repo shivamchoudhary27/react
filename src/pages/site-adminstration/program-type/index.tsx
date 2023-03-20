@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getData as getProgramData } from "../../../adapters/microservices";
+import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
@@ -13,23 +14,18 @@ const ProgramType = () => {
   const [programTypeData, setProgramTypeData] = useState<any>([]);
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
+  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 20});
 
-  // discipline API call === >>>
+  // get programs API call === >>>
   useEffect(() => {
-    if (refreshData === true) {
-      const endPoint = "/program-types";
-      const apiFilters = {pageNumber: 0, pageSize : 20};
-      getProgramData(endPoint, apiFilters)
-      .then((result) => {
-        if (result.data !== "" && result.status === 200) {
-          setProgramTypeData(result.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        });
-    }
-  }, [refreshData]);
+    makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
+  }, [refreshData, filterUpdate]);
+
+  const refreshToggle = () => {
+    console.log('toggleing the boolean')
+    let newBool = (refreshData === true) ? false : true;
+    setRefreshData(newBool);
+  };
 
   // get id, name from the department table === >>>
   const editHandlerById = ({ id, name, description, batchYearRequired }: any) => {
@@ -66,7 +62,7 @@ const ProgramType = () => {
       onHide={() => toggleModalShow(false)}
       programtypeobj={programTypeObj}
       togglemodalshow={toggleModalShow}
-      refreshprogramdata={refreshProgramData}
+      refreshprogramdata={refreshToggle}
     />
   );
 
@@ -76,7 +72,7 @@ const ProgramType = () => {
       editHandlerById={editHandlerById}
       setModalShow={setModalShow}
       toggleModalShow={toggleModalShow}
-      refreshProgramData={refreshProgramData}
+      refreshProgramData={refreshToggle}
     />
   );
 
@@ -95,6 +91,7 @@ const ProgramType = () => {
   );
   // <<< ==== END COMPONENTS ==== >>>
 
+  console.log('new toggle value ' + refreshData)
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />

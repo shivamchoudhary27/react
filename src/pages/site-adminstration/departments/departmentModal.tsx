@@ -60,7 +60,7 @@ const DepartmentModal = ({
         .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
-            refreshdepartmentdata(true);
+            refreshdepartmentdata();
             setSubmitting(false);
             resetForm();
           }
@@ -74,7 +74,7 @@ const DepartmentModal = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
-            refreshdepartmentdata(true);
+            refreshdepartmentdata();
             setSubmitting(false);
             resetForm();
           }

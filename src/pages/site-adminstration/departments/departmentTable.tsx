@@ -86,7 +86,7 @@ const DepartmentTable = ({
   const editHandler = ({ id, name }: any) => {
     toggleModalShow(true);
     editHandlerById({ id, name });
-    refreshDepartmentData(false);
+    refreshDepartmentData();
   };
 
   // delete event handler === >>>
@@ -116,10 +116,9 @@ const DepartmentTable = ({
             timer: 1500,
           });
           let endPoint = `/departments/${id}`;
-          refreshDepartmentData(false);
           deleteDepartmentData(endPoint).then((res: any) => {
             if (res.data !== "" && res.status === 200) {
-              refreshDepartmentData(true);
+              refreshDepartmentData();
             }
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {

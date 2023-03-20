@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
-import { getData as getDepartmentsData } from "../../../adapters/microservices";
+import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
-import DepartmentPagination from "./pagination";
 import DepartmentModal from "./departmentModal";
 import "./style.scss";
 
@@ -14,27 +13,21 @@ const Departments = () => {
   const [modalShow, setModalShow] = useState(false);
   const [departmentObj, setDepartmentObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    departmentId: "",
+    name: "",
+    pageNumber: 0,
+    pageSize: 20,
+  });
 
-  // department API call === >>>
+  // get programs API call === >>>
   useEffect(() => {
-    if (refreshData === true) {
-      const endPoint = "/departments";
-      const apiParams = {
-        pageNumber : 0,
-        pageSize : 20,
-        name : ''
-      }
-      getDepartmentsData(endPoint, apiParams)
-        .then((result : any) => {
-          if (result.data !== "" && result.status === 200) {
-            setDepartmentData(result.data);
-          }
-        })
-        .catch((err : any) => {
-          console.log(err);
-        });
-    }
-  }, [refreshData]);
+    makeGetDataRequest("/departments", filterUpdate, setDepartmentData);
+  }, [refreshData, filterUpdate]);
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
 
   // get id, name from the department table === >>>
   const editHandlerById = ({ id, name }: any) => {
@@ -43,7 +36,7 @@ const Departments = () => {
 
   // handle reset Form after SAVE data === >>>
   const resetDepartmentForm = () => {
-    setDepartmentObj({id: 0, name: ''});
+    setDepartmentObj({ id: 0, name: "" });
     setRefreshData(false);
   };
 
@@ -52,9 +45,8 @@ const Departments = () => {
     setModalShow(status);
   };
 
-  // handle refresh react table after SAVE data  === >>>
-  const refreshDepartmentData = (status: boolean) => {
-    setRefreshData(status);
+  const handlePageClick = (val: any) => {
+    console.log(val);
   };
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
@@ -64,7 +56,7 @@ const Departments = () => {
       toggleModalShow={toggleModalShow}
       resetDepartmentForm={resetDepartmentForm}
       setDepartmentData={setDepartmentData}
-      refreshDepartmentData={refreshDepartmentData}
+      refreshDepartmentData={refreshToggle}
     />
   );
 
@@ -73,11 +65,9 @@ const Departments = () => {
       departmentData={departmentData}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
-      refreshDepartmentData={refreshDepartmentData}
+      refreshDepartmentData={refreshToggle}
     />
   );
-
-  const DEPARTMENT_PAGINATION_COMPONENT = <DepartmentPagination />;
 
   const DEPARTMENT_MODAL_COMPONENT = (
     <DepartmentModal
@@ -85,7 +75,7 @@ const Departments = () => {
       onHide={() => toggleModalShow(false)}
       departmentobj={departmentObj}
       togglemodalshow={toggleModalShow}
-      refreshdepartmentdata={refreshDepartmentData}
+      refreshdepartmentdata={refreshToggle}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -93,21 +83,23 @@ const Departments = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <div className='main-content-container'>
-      <Sidebar />
-      <div className="content-area content-area-slider" id="contentareaslider">
-      <Container fluid className="administration-wrapper">
-        <div className="site-heading">
-          <h3>Departments</h3>
+      <div className="main-content-container">
+        <Sidebar />
+        <div
+          className="content-area content-area-slider"
+          id="contentareaslider"
+        >
+          <Container fluid className="administration-wrapper">
+            <div className="site-heading">
+              <h3>Departments</h3>
+            </div>
+            <hr />
+            {DEPARTMENT_FILTER_COMPONENT}
+            {DEPARTMENT_TABLE_COMPONENT}
+            {DEPARTMENT_MODAL_COMPONENT}
+          </Container>
         </div>
-        <hr />
-        {DEPARTMENT_FILTER_COMPONENT}
-        {DEPARTMENT_TABLE_COMPONENT}
-        {/* {DEPARTMENT_PAGINATION_COMPONENT} */}
-        {DEPARTMENT_MODAL_COMPONENT}
-      </Container>
       </div>
-      </div> 
     </>
   );
 };

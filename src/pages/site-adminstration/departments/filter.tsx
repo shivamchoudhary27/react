@@ -15,7 +15,6 @@ const Filter = ({
 
   // search input Handler === >>>
   const handleInput = (val: string) => {
-    refreshDepartmentData(false);
     var lowerCase = val.toLowerCase();
     setSearchValue(lowerCase);
   };
@@ -24,7 +23,6 @@ const Filter = ({
   const filterHandler = () => {
     const filteredData = departmentData.filter((el: any) => {
       if (searchValue === "") {
-        refreshDepartmentData(false);
         return el;
       } else {
         return el.name.toLowerCase().includes(searchValue);
@@ -32,7 +30,7 @@ const Filter = ({
     });
     if(filteredData.length === 0){
       alert('no record found');
-      refreshDepartmentData(true)
+      refreshDepartmentData()
     }
     setDepartmentData(filteredData);
   };
@@ -40,7 +38,7 @@ const Filter = ({
   // handle to open Add Department modal === >>>
   const openAddDepartment = () => {
     toggleModalShow(true);
-    resetDepartmentForm();
+    resetDepartmentForm(true);
   };
 
   return (
@@ -64,7 +62,7 @@ const Filter = ({
                 <Button
                   variant="outline-secondary"
                   type="reset"
-                  onClick={() => refreshDepartmentData(true)}
+                  onClick={() => refreshDepartmentData()}
                 >
                   Reset
                 </Button>
