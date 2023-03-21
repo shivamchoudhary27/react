@@ -6,6 +6,7 @@ import Sidebar from "../../sidebar";
 import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
 import { useNavigate } from "react-router-dom";
+import CustomPagination from "../../../widgets/pagination";
 import "./style.scss";
 
 const Discipline = () => {
@@ -14,11 +15,16 @@ const Discipline = () => {
   const [diciplineData, setDiciplineData] = useState<any>([]);
   const [disciplineObj, setDisciplineObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
-  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 20});
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    departmentId: "",
+    name: "",
+    pageNumber: 0,
+    pageSize: 20,
+  });
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest('/disciplines', filterUpdate, setDiciplineData); 
+    makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData);
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
@@ -40,6 +46,10 @@ const Discipline = () => {
     toggleModalShow(true);
     setDisciplineObj({ id: 0, name: "", description: "" });
     setRefreshData(false);
+  };
+
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
@@ -80,9 +90,12 @@ const Discipline = () => {
   return (
     <>
       <Header pageHeading="" welcomeIcon={false} />
-      <div className='main-content-container'>
+      <div className="main-content-container">
         <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
+        <div
+          className="content-area content-area-slider"
+          id="contentareaslider"
+        >
           <Container fluid className="administration-wrapper">
             <div className="site-heading">
               <h3>Discipline</h3>
@@ -90,10 +103,15 @@ const Discipline = () => {
             <hr />
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
+            <CustomPagination
+              totalpages={5}
+              activepage={filterUpdate.pageNumber}
+              getrequestedpage={newPageRequest}
+            />
             {DISCIPLINE_MODAL_COMPONENT}
           </Container>
-        </div>      
-      </div>      
+        </div>
+      </div>
     </>
   );
 };

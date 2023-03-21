@@ -5,8 +5,8 @@ import Header from "../../header";
 import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
-import DepartmentModal from "./departmentModal"; 
-import CustomPagination from "../../../widgets/paginationjet";
+import DepartmentModal from "./departmentModal";
+import CustomPagination from "../../../widgets/pagination";
 import "./style.scss";
 
 const Departments = () => {
@@ -30,6 +30,10 @@ const Departments = () => {
     setRefreshData(!refreshData);
   };
 
+  const updateInputFilters = (inputvalues: any) => {
+    setFilterUpdate({ ...filterUpdate, name: inputvalues });
+  };
+
   // get id, name from the department table === >>>
   const editHandlerById = ({ id, name }: any) => {
     setDepartmentObj({ id: id, name: name });
@@ -46,9 +50,9 @@ const Departments = () => {
     setModalShow(status);
   };
 
-  const newPageRequest = (pageRequest : number) => {
-    setFilterUpdate({...filterUpdate, pageNumber: pageRequest})
-  }
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DEPARTMENT_FILTER_COMPONENT = (
@@ -58,6 +62,7 @@ const Departments = () => {
       resetDepartmentForm={resetDepartmentForm}
       setDepartmentData={setDepartmentData}
       refreshDepartmentData={refreshToggle}
+      updateInputFilters={updateInputFilters}
     />
   );
 
@@ -84,13 +89,20 @@ const Departments = () => {
   return (
     <>
       <Header pageHeading="Departments" welcomeIcon={false} />
-      <div className='main-content-container'>
+      <div className="main-content-container">
         <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
+        <div
+          className="content-area content-area-slider"
+          id="contentareaslider"
+        >
           <Container fluid className="administration-wrapper">
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
-            <CustomPagination totalpages={5} activepage={filterUpdate.pageNumber} getrequestedpage={newPageRequest}/>
+            <CustomPagination
+              totalpages={5}
+              activepage={filterUpdate.pageNumber}
+              getrequestedpage={newPageRequest}
+            />
             {DEPARTMENT_MODAL_COMPONENT}
           </Container>
         </div>
