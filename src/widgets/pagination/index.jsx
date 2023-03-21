@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Pagination from 'react-bootstrap/Pagination';
+import './style.scss';
+
 const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
   const [activePage, setActivePage] = useState(activepage);
 
@@ -26,8 +28,7 @@ const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
   }
 
   return (
-    <div>
-      {/* <h1>Page {activePage} of 5</h1> */}
+    <>
       <Pagination>
         {activePage > 1 && 
         <Pagination.Prev onClick={() => changePage(activePage - 1)}/>
@@ -38,7 +39,7 @@ const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
         <Pagination.Next onClick={() => changePage(activePage + 1)}/>
         }
       </Pagination>
-    </div>
+    </>
   );
 }
 

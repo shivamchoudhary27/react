@@ -16,4 +16,4 @@ const createAxiosInstance = (ACCESS_TOKEN) => {
     axiosConfig.axiosInstance = instance;
 }
 
-export { createAxiosInstance, axiosConfig};
+export { createAxiosInstance, axiosConfig };
