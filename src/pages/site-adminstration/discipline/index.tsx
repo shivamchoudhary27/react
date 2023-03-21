@@ -89,7 +89,7 @@ const Discipline = () => {
 
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
+      <Header pageHeading="Discipline" welcomeIcon={false} />
       <div className="main-content-container">
         <Sidebar />
         <div
@@ -97,10 +97,6 @@ const Discipline = () => {
           id="contentareaslider"
         >
           <Container fluid className="administration-wrapper">
-            <div className="site-heading">
-              <h3>Discipline</h3>
-            </div>
-            <hr />
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <CustomPagination

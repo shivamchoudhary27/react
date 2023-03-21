@@ -7,7 +7,8 @@ import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import CustomPagination from "../../../widgets/pagination";
-import "./style.scss";
+import {getTotalPagesCount} from "../../../utils/administration";
+import "./style.scss"; 
 
 const Departments = () => {
   const [departmentData, setDepartmentData] = useState<any>([]);
@@ -20,6 +21,7 @@ const Departments = () => {
     pageNumber: 0,
     pageSize: 20,
   });
+  const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -99,7 +101,7 @@ const Departments = () => {
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
             <CustomPagination
-              totalpages={5}
+              totalpages={totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}
             />

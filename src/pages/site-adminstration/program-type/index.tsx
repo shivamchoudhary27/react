@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getData as getProgramData } from "../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import CustomPagination from "../../../widgets/pagination";
+import {getTotalPagesCount} from "../../../utils/administration";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
@@ -15,6 +17,7 @@ const ProgramType = () => {
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 20});
+  const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -54,6 +57,10 @@ const ProgramType = () => {
     setProgramTypeObj({ id: 0, name: "", description: "", BatchYearRequired: false });
     setRefreshData(false);
   };
+  
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const ADDPROGRAM_MODAL_COMPONENT = (
@@ -91,23 +98,21 @@ const ProgramType = () => {
   );
   // <<< ==== END COMPONENTS ==== >>>
 
-  console.log('new toggle value ' + refreshData)
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
+      <Header pageHeading="Program Type" welcomeIcon={false} />
       <div className='main-content-container'>
         <Sidebar />
         <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
-            <div className="container-wrapper">
-              <div className="site-heading">
-                <h3>Program Type</h3>
-              </div>
-            </div>
-            <hr />
             {PROGRAM_TYPE_BUTTON}
             {ADDPROGRAM_MODAL_COMPONENT}
             {PROGRAM_TYPE_COMPONENT}
+            <CustomPagination
+              totalpages={totalPages}
+              activepage={filterUpdate.pageNumber}
+              getrequestedpage={newPageRequest}
+            />
           </Container>
         </div>
       </div>      
