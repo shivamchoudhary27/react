@@ -5,6 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { deleteData as deleteProgramData } from "../../../adapters/microservices";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
+import Table_Skeleton from "../../../widgets/skeleton/table";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -173,6 +174,7 @@ const ManageTable = ({programData, refreshDepartmentData} : any) => {
             })}
           </tbody>
         </Table>
+        {programData.length === 0 && <Table_Skeleton numberOfRows={5} numberOfColumns={4} />}
       </div>
     </>
   );

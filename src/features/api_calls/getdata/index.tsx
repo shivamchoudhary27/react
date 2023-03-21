@@ -9,7 +9,7 @@ export const makeGetDataRequest = (endPoint : string, filters : any, setData : a
     getProgramData(endPoint, filters)
         .then((result : any) => {
             if (result.data !== "" && result.status === 200) {
-                setData(result.data);
+                setData(result.data.items);
             }
         })
         .catch((err : any) => {
