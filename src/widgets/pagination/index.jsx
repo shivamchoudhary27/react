@@ -30,12 +30,12 @@ const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
   return (
     <>
       <Pagination>
-        {activePage > 1 && 
+        {activePage > 0 && 
         <Pagination.Prev onClick={() => changePage(activePage - 1)}/>
         }
         {renderPageNumbers()}
         {
-          activePage < totalpages &&
+          activePage < (totalpages-1) &&
         <Pagination.Next onClick={() => changePage(activePage + 1)}/>
         }
       </Pagination>

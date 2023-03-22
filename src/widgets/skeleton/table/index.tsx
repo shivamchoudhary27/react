@@ -1,9 +1,8 @@
-import React from "react";
 import Skeleton from "react-loading-skeleton";
 import { Row, Col, Container } from "react-bootstrap";
 import "./style.scss";
 
-const Table_Skeleton = ({ numberOfRows, numberOfColumns }: any) => {
+const TableSkeleton = ({ numberOfRows, numberOfColumns }: any) => {
   const Rows = numberOfRows;
   const Columns = numberOfColumns;
   const arr = [];
@@ -31,4 +30,4 @@ const Table_Skeleton = ({ numberOfRows, numberOfColumns }: any) => {
   );
 };
 
-export default Table_Skeleton;
+export default TableSkeleton;
