@@ -48,7 +48,7 @@ export default function CustomRoutes() {
           <Route path="/calenderconfig" element={<CalenderConfig />} />
           <Route path='/preview' element={<Preview />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
-          <Route path="/managecategory" element={<ManageCategory />} />
+          <Route path="/managecategory/:id" element={<ManageCategory />} />
           <Route path="/managecourses" element={<ManageCourses />} />
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />

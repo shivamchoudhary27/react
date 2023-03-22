@@ -42,7 +42,7 @@ const ManageTable = ({programData, refreshDepartmentData} : any) => {
       Header: "Manage Categories",
       // accessor: "categories",
       Cell: ({ row }: any) => (
-        <Link to="/managecategory">
+        <Link to={`/managecategory/${row.original.id}`}>
           <i className="fa-solid fa-code-branch"></i>
         </Link>
       ),
