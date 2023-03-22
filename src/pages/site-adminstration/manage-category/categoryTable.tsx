@@ -2,88 +2,70 @@ import React, { useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import { CategoryRawData } from "./rawData";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-const tableColumn = [
-  {
-    Header: "",
-    accessor: "icon",
-    Cell: ({ row }: any) => <i className={row.values.icon}></i>,
-  },
-  {
-    Header: "Categories",
-    accessor: "categories",
-    Cell: ({ row }: any) => {
-      return (
-        <p
-          style={{
-            paddingLeft:
-              row.values.categories === "Semester 1"
-                ? "30px"
-                : "0px" && row.values.categories === "Semester 2"
-                ? "30px"
-                : "0px",
-          }}
-        >
-          {row.values.categories}
-        </p>
-      );
+// Actions btns styling === >>>
+const actionsStyle = {
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+};
+
+const CategoryTable = ({ categoryData }: any) => {
+  // console.log(categoryData);
+  const tableColumn = [
+    {
+      Header: "",
+      accessor: "icon",
+      Cell: ({ row }: any) => <i className="fa-solid fa-grip-lines"></i>,
     },
-  },
-  {
-    Header: "Add Sub category",
-    accessor: "subCategory",
-    Cell: ({ row }: any) => (
-      <Link to="">
-        <i className={row.values.subCategory}></i>
-      </Link>
-    ),
-  },
-  {
-    Header: "Courses",
-    accessor: "courses",
-  },
-  {
-    Header: "Actions",
-    accessor: "actions",
-    Cell: ({ row }: any) => (
-      <span>
+    {
+      Header: "Categories",
+      accessor: "name",
+      Cell: ({ row }: any) => {
+        return (
+          <div
+            style={{
+              paddingLeft: row.original.parent === 0 ? "0px" : "30px",
+            }}
+          >
+            {row.values.name}
+          </div>
+        );
+      },
+    },
+    {
+      Header: "Add Sub category",
+      accessor: "subCategory",
+      Cell: ({ row }: any) => (
         <Link to="">
-          <i
-            className={row.values.actions.edit}
-            onClick={() => editHandler(row.id)}
-          ></i>
-        </Link>{" "}
-        <Link to="">
-          <i
-            className={row.values.actions.delete}
-            onClick={() => deleteHandler(row.id)}
-          ></i>
-        </Link>{" "}
-        <Link to="">
-          <i
-            className={row.values.actions.hide}
-            onClick={() => showToggleHandler(row.id)}
-          ></i>
+          <i className="fa-solid fa-square-plus"></i>
         </Link>
-      </span>
-    ),
-  },
-];
+      ),
+    },
+    {
+      Header: "Courses",
+      accessor: "courses",
+    },
+    {
+      Header: "Actions",
+      Cell: ({ row }: any) => (
+        <span style={actionsStyle}>
+          <Link to="">
+            <i className="fa-solid fa-pen"></i>
+          </Link>
+          <Link to="">
+            <i className="fa-solid fa-trash"></i>
+          </Link>
+          <Link to="">
+            <i className="fa-solid fa-eye"></i>
+          </Link>
+        </span>
+      ),
+    },
+  ];
 
-const editHandler = (id: number) => {
-  console.log(id);
-};
-const deleteHandler = (id: number) => {
-  console.log(id);
-};
-const showToggleHandler = (id: number) => {
-  console.log(id);
-};
-
-const CategoryTable = () => {
-  const [selectedData, setSelectedData] = useState<any>(CategoryRawData);
+  const [selectedData, setSelectedData] = useState<any>(categoryData);
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => selectedData, [selectedData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -93,11 +75,22 @@ const CategoryTable = () => {
     });
 
   const handleDragEnd = (results: any) => {
+    console.log(results)
     if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
     setSelectedData(temp);
+  };
+
+  const editHandler = (id: number) => {
+    console.log(id);
+  };
+  const deleteHandler = (id: number) => {
+    console.log(id);
+  };
+  const showToggleHandler = (id: number) => {
+    console.log(id);
   };
 
   return (
@@ -141,7 +134,8 @@ const CategoryTable = () => {
                             {row.cells.map((cell, index) => (
                               <td
                                 {...provided.dragHandleProps}
-                                {...cell.getCellProps()} key={index}
+                                {...cell.getCellProps()}
+                                key={index}
                               >
                                 {cell.render("Cell")}
                               </td>
