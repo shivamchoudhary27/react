@@ -33,6 +33,15 @@ export const addMetaInputField = [
     ],
 ];
 
+export const addMetaFields = (fieldsCount) => {
+    let fields = [];
+    fieldsCount = (fieldsCount === 0) ? 1 : fieldsCount;
+    for(let i = 1; i <= fieldsCount; i++) {
+        fields.push(addMetaInputField);
+    }
+    return fields;
+}
+
 //provided fields for modeofstudy in program 
 export const modeStudy = [
    { name: "Full Time", value : "fulltime"},

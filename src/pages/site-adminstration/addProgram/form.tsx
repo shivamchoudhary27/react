@@ -9,7 +9,7 @@ import {
   putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { addMetaInputField, generateProgramDataObject, modeStudy, addExtraMetaDataToInitialValues } from "./utils";
+import { addMetaInputField, generateProgramDataObject, modeStudy, addExtraMetaDataToInitialValues, addMetaFields } from "./utils";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import CustomButton from "../../../widgets/form_input_fields/buttons";
@@ -22,7 +22,7 @@ import "sweetalert2/src/sweetalert2.scss";
 
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
-  const [inputFieldArr, setinputFieldArr] = useState<any>(addMetaInputField);
+  const [inputFieldArr, setinputFieldArr] = useState<any>(addMetaFields(initialformvalues.meta.length));
   const [departmentName, setDepartmentName] = useState<any>([]);
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
@@ -40,15 +40,14 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId, 'programtypeList');
     setInitValues(addedValues);
   }, [programTypeId]);
-
   
   // add extra meta field ===== >>>
   const addFieldHandler = () => {
     setinputFieldArr((currentFields: any) => {
-      return [...currentFields, inputFieldArr];
+      return [...currentFields, addMetaInputField];
     });
   };
-
+  
   // remove meta field ===== >>>
   const removeBlockHandler = () => {
     if (inputFieldArr.length > 1) {

@@ -13,6 +13,7 @@ const ManageProgram = () => {
   const navigate = useNavigate();
   const [programData, setProgramData] = useState<any>([]);
   const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 20});
   const totalPages = getTotalPagesCount(15);
 
@@ -21,8 +22,16 @@ const ManageProgram = () => {
     makeGetDataRequest('/programs', filterUpdate, setProgramData); 
   }, [refreshData, filterUpdate]);
 
+  useEffect(() => {
+    if (refreshOnDelete === true) makeGetDataRequest('/programs', filterUpdate, setProgramData); 
+  }, [refreshOnDelete]);
+
   const refreshToggle = () => {
     setRefreshData(!refreshData);
+  };
+
+  const refreshOnDeleteToggle = (value: boolean) => {
+    setRefreshOnDelete(value);
   };
 
   // to update filters values in the main state filterUpdate
@@ -71,7 +80,11 @@ const ManageProgram = () => {
             </div>
             <hr />
             <ManageFilter updatedepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters}/>
-            <ManageTable programData={programData} refreshDepartmentData={refreshToggle}/>
+            <ManageTable 
+              programData={programData} 
+              refreshDepartmentData={refreshToggle}
+              refreshOnDelete={refreshOnDeleteToggle}
+            />
             <CustomPagination
                 totalpages={totalPages}
                 activepage={filterUpdate.pageNumber}

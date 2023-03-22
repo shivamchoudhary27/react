@@ -16,7 +16,7 @@ const Preview = () => {
       const apiParams = {
         pageNumber : 0,
         pageSize : 5,
-        Id: 57
+        Id: id
       }
       getProgramData(programsEndPoint, apiParams).then((res : any) => {
         if (res.data !== "" && res.status === 200) {
