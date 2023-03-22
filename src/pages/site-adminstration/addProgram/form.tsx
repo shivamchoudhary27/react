@@ -35,16 +35,17 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     makeGetDataRequest('/disciplines', apiFilters, setDisciplineName);
     makeGetDataRequest('/program-types', apiFilters, setProgramTypeId);
   }, []);
-
+  
   useEffect(() => {
     let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId, 'programtypeList');
     setInitValues(addedValues);
   }, [programTypeId]);
 
+  
   // add extra meta field ===== >>>
   const addFieldHandler = () => {
-    setinputFieldArr((el: any) => {
-      return [...inputFieldArr, el];
+    setinputFieldArr((currentFields: any) => {
+      return [...currentFields, inputFieldArr];
     });
   };
 
@@ -305,7 +306,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                         <FieldLabel htmlfor={`meta[${index}][title]`} labelText="Title" />
                         <FieldTypeText name={`meta[${index}][title]`} placeholder="Title" />
                       </div>
-
+                                                                                                                                          
                       <div className="mb-3">
                         <FieldLabel
                           htmlfor={`meta[${index}][description]`}
