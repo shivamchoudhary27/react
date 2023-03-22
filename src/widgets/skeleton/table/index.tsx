@@ -1,6 +1,6 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import "./style.scss";
 
 const Table_Skeleton = ({ numberOfRows, numberOfColumns }: any) => {
@@ -22,7 +22,7 @@ const Table_Skeleton = ({ numberOfRows, numberOfColumns }: any) => {
     </Row>
   );
 
-  const renderedRows = [...Array(Rows)].map((e, i) => x);
+  const renderedRows = [...Array(Rows)].map((e, i) => <Container key={i}>{x}</Container>);
 
   return (
     <>

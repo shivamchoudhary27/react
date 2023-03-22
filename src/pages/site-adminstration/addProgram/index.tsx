@@ -14,15 +14,16 @@ const AddProgram = () => {
   const navigate = useNavigate();
   const [currentProgram, setCurrentProgram] = useState<any>({data : {}, status: false, id: id});
   const pagetitle = (id > 0) ? 'Update program' : 'Add program';
-
+  
   useEffect(() => {
     if (id !== undefined &&  id > 0) {
       let filter = {id: id, pageNumber: 0, pageSize : 1};
       let programsEndPoint = "/programs";
       getProgramData(programsEndPoint, filter).then((res : any) => {
-        if (res.data !== "" && res.status === 200) {
-          let programData = res.data.find((obj : any) => obj.id == id);          
+        if (res.data.items !== "" && res.status === 200) {
+          let programData = res.data.items.find((obj : any) => obj.id == id);   
           if (programData !== undefined) {
+            console.log(programData)       
             let newSet = generateIinitialValues(programData);
             setCurrentProgram({ data : newSet, status : true, id : id })
           } else {
