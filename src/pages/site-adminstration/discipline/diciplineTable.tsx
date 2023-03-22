@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useTable } from "react-table";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import Table_Skeleton from "../../../widgets/skeleton/table";
+import TableSkeleton from "../../../widgets/skeleton/table";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -163,7 +163,7 @@ const DiciplineTable = ({
             })}
           </tbody>
         </Table>
-        {diciplineData.length === 0 && <Table_Skeleton numberOfRows={5} numberOfColumns={4} />}
+        {diciplineData.length === 0 && <TableSkeleton numberOfRows={5} numberOfColumns={4} />}
       </div>
     </>
   );
