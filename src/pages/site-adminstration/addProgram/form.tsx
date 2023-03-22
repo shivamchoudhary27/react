@@ -44,7 +44,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   // add extra meta field ===== >>>
   const addFieldHandler = () => {
     setinputFieldArr((el: any) => {
-      return [...el, inputFieldArr];
+      return [...inputFieldArr, el];
     });
   };
 
@@ -57,6 +57,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   };
 
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
+
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
     
@@ -92,7 +93,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
       let endPoint = `/programs/${programid}`;
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
-          if (res.data !== "" && res.status === 200) {
+          if (res.data.items !== "" && res.status === 200) {
             Swal.fire({
               icon: "success",
               title: "Update Successfully",
@@ -301,17 +302,17 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   return (
                     <div key={index}>
                       <div className="mb-3">
-                        <FieldLabel htmlfor="metatitle" labelText="Title" />
-                        <FieldTypeText name="metatitle" placeholder="Title" />
+                        <FieldLabel htmlfor={`meta[${index}][title]`} labelText="Title" />
+                        <FieldTypeText name={`meta[${index}][title]`} placeholder="Title" />
                       </div>
 
                       <div className="mb-3">
                         <FieldLabel
-                          htmlfor="metadescription"
+                          htmlfor={`meta[${index}][description]`}
                           labelText="Description"
                         />
                         <TinymceEditor
-                          name="metadescription"
+                          name={`meta[${index}][description]`}
                           handleChange={handleChange}
                         />
                       </div>

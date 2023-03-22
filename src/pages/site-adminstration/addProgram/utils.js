@@ -14,6 +14,7 @@ export const initialValues = {
     learn: "",
     metatitle: "",
     metadescription: "",
+    meta: [],
     programaccessinfo: [],
     isBatchYearRequired: false
 };
@@ -53,7 +54,8 @@ const programData = {
     published: false,
     programType: {id: ''},
     department: {id: '' },
-    discipline: {id: ''}
+    discipline: {id: ''},
+    metaFields: [{title: '', description: ''}]
 }
 
 // to convert program formdata to api required structure after the form submission
@@ -70,12 +72,13 @@ export const generateProgramDataObject = (formData) => {
     programData.programType = {id : formData.programtype} ;
     programData.department = {id : formData.department};
     programData.discipline = {id : formData.discipline};
-    
+    programData.metaFields = getMetaFields(formData.meta)
     return programData;
 };
 
 //method to provide the final initialvalues to be filled in the program form
 export const generateIinitialValues = (apiData) => {
+    console.log(apiData)
     if (Object.keys(apiData).length > 0) {
         
         let pgInfo = [];
@@ -106,4 +109,9 @@ export const generateIinitialValues = (apiData) => {
 export const addExtraMetaDataToInitialValues = (initialvalues, metadata, property) => {
    initialvalues[property] = metadata;
    return initialvalues;
+}
+
+const getMetaFields = (metaFieldsData) => {
+    const newArr = metaFieldsData.filter(el => (el !== undefined));
+    return newArr;
 }
