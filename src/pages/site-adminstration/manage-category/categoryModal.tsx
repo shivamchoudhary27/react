@@ -39,7 +39,7 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow }: any) =
     resetForm();
   };
 
-  return (
+  return ( 
     <>
       <Modal
         show={show}
