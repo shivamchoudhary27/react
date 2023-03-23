@@ -6,6 +6,8 @@ import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import { postData as addCategoriesData } from "../../../adapters/microservices";
+import { useParams } from "react-router-dom";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
@@ -13,7 +15,9 @@ const categorySchema = Yup.object({
   // description: Yup.string().max(100).required(),
 });
 
-const CategoryModal = ({ show, onHide, weight, parent }: any) => {
+const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow }: any) => {
+  console.log(parent)
+  const {id} = useParams();
   const initialValues = {
     name: "",
     description: "",
@@ -21,8 +25,17 @@ const CategoryModal = ({ show, onHide, weight, parent }: any) => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let newData = {...values, parent : parent, weight : weight};
-    console.log('nedata', newData);
+    const endPoint = `${id}/category`;
+      let newData = {...values, parent : parent, weight : weight};
+      console.log('category newdata', newData)
+      addCategoriesData(endPoint, newData).then((res: any)=>{
+        if(res.data != "", res.status === 201){
+          console.log('success save', res);
+          toggleModalShow(false)
+        }
+      }).catch((err: any)=>{
+        console.log(err)
+      })
     resetForm();
   };
 
@@ -36,7 +49,7 @@ const CategoryModal = ({ show, onHide, weight, parent }: any) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Add Category
+            {parent > 0 ? "Add Sub-Category" : "Add Category"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -99,6 +112,7 @@ const CategoryModal = ({ show, onHide, weight, parent }: any) => {
             )}
           </Formik>
           <p>Parent: {parent}</p>
+          <p>Weight: {weight}</p>
         </Modal.Body>
       </Modal>
     </>
