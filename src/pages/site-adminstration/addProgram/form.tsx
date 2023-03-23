@@ -9,7 +9,7 @@ import {
   putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { addMetaInputField, generateProgramDataObject, modeStudy, addExtraMetaDataToInitialValues, addMetaFields } from "./utils";
+import { addMetaInputField, generateProgramDataObject, addExtraMetaDataToInitialValues, addMetaFields } from "./utils";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import CustomButton from "../../../widgets/form_input_fields/buttons";
@@ -27,6 +27,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const [disciplineName, setDisciplineName] = useState<any>([]);
   const [programTypeId, setProgramTypeId] = useState<any>([]);
   const [initValues, setInitValues] = useState<any>(initialformvalues);
+
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
@@ -51,13 +52,14 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   // remove meta field ===== >>>
   const removeBlockHandler = () => {
     if (inputFieldArr.length > 1) {
-      let removeItem = inputFieldArr.pop();
+      let removeItem = inputFieldArr.slice(0, inputFieldArr.length-1);
       setinputFieldArr(removeItem);
+      console.log(removeItem)
     }
   };
 
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
-
+    console.log(values)
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
     
@@ -253,7 +255,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                {modeStudy.map((el: any, index: number) => (
+                {/* {modeStudy.map((el: any, index: number) => (
                   <div key={index}>
                     <FieldTypeRadio
                       setcurrentvalue={setValues}
@@ -264,7 +266,15 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                       radioText={el.name}
                     />
                   </div>
-                ))}
+                ))} */}
+                <label className="mx-3">
+                  <input type="radio" name="modeOfStudy" value="fulltime" onChange={handleChange} />
+                  {" "}Full Time
+                </label>
+                <label>
+                  <input type="radio" name="modeOfStudy" value="partime" onChange={handleChange} />
+                  {" "}Part Time
+                </label>
                 <FieldErrorMessage
                   errors={errors.mode}
                   touched={touched.mode}
@@ -298,7 +308,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
               </div>
               <FieldLabel htmlfor="metatitle" labelText="Program meta Fields" />
               <div className="card p-3 mb-3">
-                {inputFieldArr.map((el, index: number) => {
+                {inputFieldArr.map((el: any, index: number) => {
                   return (
                     <div key={index}>
                       <div className="mb-3">

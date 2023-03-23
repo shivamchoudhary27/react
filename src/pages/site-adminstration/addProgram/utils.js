@@ -43,10 +43,10 @@ export const addMetaFields = (fieldsCount) => {
 }
 
 //provided fields for modeofstudy in program 
-export const modeStudy = [
-   { name: "Full Time", value : "fulltime"},
-   { name: "Part Time", value : "parttime"},
-];
+// export const modeStudy = [
+//    { name: "Full Time", value : "fulltime"},
+//    { name: "Part Time", value : "parttime"},
+// ];
 
 // the api required structure for program which will later be updated in generateProgramDataObject()
 const programData = {
