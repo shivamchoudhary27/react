@@ -11,15 +11,26 @@ const ManageCategory = () => {
   const navigate = useNavigate();
   const {id} = useParams();
   const [categoryData, setCategoryData] = useState([]);
+  const [parentWeight, setParentWeight] = useState<number>(0);
 
-  useEffect(()=>{
+  useEffect(() => {
     const endPoint = `/${id}/category`;
     getCategoryData(endPoint, {}).then((res: any)=>{
       if(res.data !== "" && res.status === 200){
         setCategoryData(res.data)
       }
     })
-  }, [id])
+  }, [id]);
+
+  useEffect(() => {
+    if(categoryData.length > 0) {
+      let largestWeight = categoryData.filter(item => item.parent === 0)
+                        .reduce((prev, curr) => prev.weight > curr.weight ? prev : curr)
+                        .weight;
+      // console.log(largestWeight);
+      setParentWeight(largestWeight)
+    }
+  }, [categoryData])
   
   return (
     <>
@@ -38,7 +49,7 @@ const ManageCategory = () => {
           {categoryData.length !== 0  &&
             <CategoryTable categoryData={categoryData} />
           }
-          <Addcategory />
+          <Addcategory latestparentweight={parentWeight}/>
         </Container>
         </div>        
       </div>      
