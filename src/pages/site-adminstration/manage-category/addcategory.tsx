@@ -4,7 +4,7 @@ import CategoryModal from "./categoryModal";
 
 const Addcategory = ({ latestparentweight }) => {
   const [modalShow, setModalShow] = useState(false);
-  const toAddWeight = ++latestparentweight;
+  const toAddWeight = latestparentweight;
   const parent = 0;
 
   // console.log(toAddWeight);

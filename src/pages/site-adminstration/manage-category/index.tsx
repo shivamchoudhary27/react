@@ -6,6 +6,7 @@ import CategoryTable from "./categoryTable";
 import Addcategory from "./addcategory";
 import { useNavigate, useParams } from "react-router-dom";
 import {getData as getCategoryData} from '../../../adapters/microservices/index';
+import { getLatestWeightForCategory } from './utils';
 
 const ManageCategory = () => {
   const navigate = useNavigate();
@@ -24,10 +25,7 @@ const ManageCategory = () => {
 
   useEffect(() => {
     if(categoryData.length > 0) {
-      let largestWeight = categoryData.filter(item => item.parent === 0)
-                        .reduce((prev, curr) => prev.weight > curr.weight ? prev : curr)
-                        .weight;
-      // console.log(largestWeight);
+      let largestWeight = getLatestWeightForCategory(0, categoryData);
       setParentWeight(largestWeight)
     }
   }, [categoryData])
