@@ -12,8 +12,6 @@ export const initialValues = {
     description: "",
     programcontent: "",
     learn: "",
-    metatitle: "",
-    metadescription: "",
     meta: [],
     programaccessinfo: [],
     isBatchYearRequired: false
@@ -34,6 +32,15 @@ export const addMetaInputField = [
         },
     ],
 ];
+
+export const addMetaFields = (fieldsCount) => {
+    let fields = [];
+    fieldsCount = (fieldsCount === 0) ? 1 : fieldsCount;
+    for(let i = 1; i <= fieldsCount; i++) {
+        fields.push(addMetaInputField);
+    }
+    return fields;
+}
 
 //provided fields for modeofstudy in program 
 export const modeStudy = [
@@ -78,7 +85,7 @@ export const generateProgramDataObject = (formData) => {
 
 //method to provide the final initialvalues to be filled in the program form
 export const generateIinitialValues = (apiData) => {
-    console.log(apiData)
+    console.log('raw api data', apiData)
     if (Object.keys(apiData).length > 0) {
         
         let pgInfo = [];
@@ -98,7 +105,9 @@ export const generateIinitialValues = (apiData) => {
             description: apiData.description,
             programaccessinfo: pgInfo,
             isBatchYearRequired: false,
+            meta: apiData.metaFields,
         }
+        console.log('data for form ' , setInitialValues);
        return setInitialValues;
     }  else {
         return initialValues;

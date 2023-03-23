@@ -15,12 +15,13 @@ const Preview = () => {
       let programsEndPoint = "/programs";
       const apiParams = {
         pageNumber : 0,
-        pageSize : 1,
-        id
+        pageSize : 5,
+        Id: id
       }
       getProgramData(programsEndPoint, apiParams).then((res : any) => {
         if (res.data !== "" && res.status === 200) {
-          setCurrentProgram({ data : res.data, status : true, id : id })
+          console.log(res.data.items);          
+          setCurrentProgram({ data : res.data.items, status : true, id : id })
         }
       });
     } else {
@@ -28,6 +29,21 @@ const Preview = () => {
       navigate('/manageprogram');
     }
   }, []);
+
+  const previewMetafields = (metaData : Array<any>) => {
+    return (
+      <ul>
+        {metaData.map((el: any, index: number) => (
+          <li className="mb-3">
+            <div>
+              <strong>Title</strong> : {el.title}
+            </div>
+           <strong>Description</strong> : <div dangerouslySetInnerHTML={{ __html: el.description }}/>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 
   return (
     <>
@@ -57,6 +73,9 @@ const Preview = () => {
                      <li key={Math.random()}><strong>Duration</strong> : {el.duration} </li>
                      <li key={Math.random()}><strong>full lifetime access</strong> : {el.fullLifeTimeAccess ? 'Yes' : 'No'} </li>
                      <li key={Math.random()}><strong>Published</strong> : {el.published ? 'Yes' : 'No'} </li>
+                     <li key={Math.random()}><strong>Metafields</strong> : 
+                        {(el.metaFields.length > 0) ? previewMetafields(el.metaFields) : 'No Meta data Available'} 
+                     </li>
                     </ul>
                 </div>
             ))}

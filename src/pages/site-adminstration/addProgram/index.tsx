@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { getData as getProgramData } from "../../../adapters/microservices";
-// import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import { Container, Button } from "react-bootstrap";
@@ -17,13 +16,12 @@ const AddProgram = () => {
   
   useEffect(() => {
     if (id !== undefined &&  id > 0) {
-      let filter = {id: id, pageNumber: 0, pageSize : 1};
+      let filter = {Id: id, pageNumber: 0, pageSize : 1};
       let programsEndPoint = "/programs";
       getProgramData(programsEndPoint, filter).then((res : any) => {
         if (res.data.items !== "" && res.status === 200) {
           let programData = res.data.items.find((obj : any) => obj.id == id);   
           if (programData !== undefined) {
-            console.log(programData)       
             let newSet = generateIinitialValues(programData);
             setCurrentProgram({ data : newSet, status : true, id : id })
           } else {

@@ -13,8 +13,7 @@ const categorySchema = Yup.object({
   // description: Yup.string().max(100).required(),
 });
 
-const CategoryModal = ({ show, onHide }: any) => {
-  const parent = 0;
+const CategoryModal = ({ show, onHide, weight, parent }: any) => {
   const initialValues = {
     name: "",
     description: "",
@@ -22,7 +21,8 @@ const CategoryModal = ({ show, onHide }: any) => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    console.log(values);
+    let newData = {...values, parent : parent, weight : weight};
+    console.log('nedata', newData);
     resetForm();
   };
 

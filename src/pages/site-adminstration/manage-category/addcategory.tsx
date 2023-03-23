@@ -2,9 +2,13 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import CategoryModal from "./categoryModal";
 
-const Addcategory = () => {
+const Addcategory = ({ latestparentweight }) => {
   const [modalShow, setModalShow] = useState(false);
+  const toAddWeight = ++latestparentweight;
+  const parent = 0;
 
+  // console.log(toAddWeight);
+  
   const addCategoryHandler = () => {
     setModalShow(true)
   }
@@ -17,8 +21,12 @@ const Addcategory = () => {
           <strong>Add Category</strong>{" "}
         </Link>
       </div>
-      <CategoryModal show={modalShow}
-      onHide={() => setModalShow(false)} />
+      <CategoryModal 
+        show={modalShow}
+        onHide={() => setModalShow(false)} 
+        weight={toAddWeight}
+        parent={parent}
+      />
     </>
   );
 };
