@@ -1,6 +1,11 @@
 export const getLatestWeightForCategory = (id, fullArray) => {
-    let largestWeight = fullArray.filter(item => item.parent === id)
-    .reduce((prev, curr) => prev.weight > curr.weight ? prev : curr)
-    .weight;
-    return ++largestWeight;
+    let weight = -1;
+    for (let i=0; i < fullArray.length; i++) {
+       if (fullArray[i].parent === id) {
+          weight = (fullArray[i].weight > weight) ? fullArray[i].weight : weight;
+       }
+    }
+
+
+    return ++weight;
 }

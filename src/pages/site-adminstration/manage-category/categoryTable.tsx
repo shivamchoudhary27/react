@@ -3,6 +3,9 @@ import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import CategoryModal from "./categoryModal";
+import { getLatestWeightForCategory } from "./utils";
+import { deleteData as deleteCategoryData } from "../../../adapters/microservices";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -11,7 +14,15 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const CategoryTable = ({ categoryData }: any) => {
+const CategoryTable = ({
+  categoryData,
+  modalShow,
+  toggleModalShow,
+  id,
+}: any) => {
+  const [subCategoryParentId, setSubCategoryParentId] = useState<number>(0);
+  const [subCategoryWeight, setSubCategoryWeight] = useState<number>(0);
+
   // console.log(categoryData);
   const tableColumn = [
     {
@@ -38,9 +49,11 @@ const CategoryTable = ({ categoryData }: any) => {
       Header: "Add Sub category",
       accessor: "subCategory",
       Cell: ({ row }: any) => (
-        <Link to="">
-          <i className="fa-solid fa-square-plus"></i>
-        </Link>
+        <>
+          <Link to="" onClick={() => addSubCategoryHandler(row.original.id)}>
+            <i className="fa-solid fa-square-plus"></i>
+          </Link>
+        </>
       ),
     },
     {
@@ -55,7 +68,12 @@ const CategoryTable = ({ categoryData }: any) => {
             <i className="fa-solid fa-pen"></i>
           </Link>
           <Link to="">
-            <i className="fa-solid fa-trash"></i>
+            <i
+              className="fa-solid fa-trash"
+              onClick={() => {
+                deleteHandler(row.original.id);
+              }}
+            ></i>
           </Link>
           <Link to="">
             <i className="fa-solid fa-eye"></i>
@@ -74,8 +92,9 @@ const CategoryTable = ({ categoryData }: any) => {
       data,
     });
 
+  // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
-    console.log(results)
+    console.log(results);
     if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
@@ -83,14 +102,43 @@ const CategoryTable = ({ categoryData }: any) => {
     setSelectedData(temp);
   };
 
+  // category Table Elements Update handler === >>
   const editHandler = (id: number) => {
     console.log(id);
   };
-  const deleteHandler = (id: number) => {
-    console.log(id);
+
+  // category Table Elements Delete handler === >>
+  const deleteHandler = (delID: number) => {
+    const endPoint = `${id}/category/${delID}`;
+    deleteCategoryData(endPoint)
+      .then((res: any) => {
+        if (res.status === 200) {
+          console.log(res.data);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
   };
+
+  // category Table Elements hide/show toggle handler === >>
   const showToggleHandler = (id: number) => {
     console.log(id);
+  };
+
+  // handle to add new sub category === >>
+  const addSubCategoryHandler = (id: number) => {
+    console.log("hello clicked ", id);
+    setSubCategoryParentId(id);
+    addSubCatWeight(id);
+    toggleModalShow(true);
+  };
+
+  // handle to count weight for sub category === >>
+  const addSubCatWeight = (id: number) => {
+    let largestWeight = getLatestWeightForCategory(id, categoryData);
+    console.log("largestWeight", largestWeight);
+    setSubCategoryWeight(largestWeight);
   };
 
   return (
@@ -151,6 +199,13 @@ const CategoryTable = ({ categoryData }: any) => {
             </Droppable>
           </Table>
         </DragDropContext>
+        <CategoryModal
+          show={modalShow}
+          onHide={() => toggleModalShow(false)}
+          toggleModalShow={toggleModalShow}
+          weight={subCategoryWeight}
+          parent={subCategoryParentId}
+        />
       </div>
     </>
   );
