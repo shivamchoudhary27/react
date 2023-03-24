@@ -16,6 +16,7 @@ const Discipline = () => {
   const [diciplineData, setDiciplineData] = useState<any>(dummyData);
   const [disciplineObj, setDisciplineObj] = useState({name: "", description: ""});
   const [refreshData, setRefreshData] = useState(true);
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
     name: "",
@@ -28,8 +29,16 @@ const Discipline = () => {
     makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData);
   }, [refreshData, filterUpdate]);
 
+  useEffect(() => {
+    if (refreshOnDelete === true) makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData); 
+  }, [refreshOnDelete]);
+
   const refreshToggle = () => {
     setRefreshData(!refreshData);
+  };
+
+  const refreshOnDeleteToggle = (value: boolean) => {
+    setRefreshOnDelete(value);
   };
 
   // get id, name from discipline table === >>>
@@ -60,6 +69,7 @@ const Discipline = () => {
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       refreshDisciplineData={refreshToggle}
+      refreshOnDelete={refreshOnDeleteToggle}
     />
   );
 

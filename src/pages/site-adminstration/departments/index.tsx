@@ -15,14 +15,19 @@ const Departments = () => {
   const [departmentData, setDepartmentData] = useState<any>(dummyData);
   const [modalShow, setModalShow] = useState(false);
   const [departmentObj, setDepartmentObj] = useState({});
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [refreshData, setRefreshData] = useState(true);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 2,
+    pageSize: 5,
   });
   // const totalPages = getTotalPagesCount(15);
+
+  useEffect(() => {
+    if (refreshOnDelete === true) makeGetDataRequest("/departments", filterUpdate, setDepartmentData); 
+  }, [refreshOnDelete]);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -31,6 +36,10 @@ const Departments = () => {
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
+  };
+
+  const refreshOnDeleteToggle = (value: boolean) => {
+    setRefreshOnDelete(value);
   };
 
   const updateInputFilters = (inputvalues: any) => {
@@ -75,6 +84,7 @@ const Departments = () => {
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       refreshDepartmentData={refreshToggle}
+      refreshOnDelete={refreshOnDeleteToggle}
     />
   );
 

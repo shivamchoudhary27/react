@@ -19,6 +19,7 @@ const ProgramTable = ({
   editHandlerById,
   toggleModalShow,
   refreshProgramData,
+  refreshOnDelete
 }: any) => {
   // custom react table Column === >>>
   console.log(' re render the table data')
@@ -87,12 +88,15 @@ const ProgramTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
+    refreshOnDelete(false);
     if (window.confirm("Are you sure you want to delete?" + id)) {
       let endpoint = `/program-types/${id}`;
       deleteProgramData(endpoint).then((res: any) => {
-        // if (res.data !== "" && res.status === 200) {
-        //   // refreshProgramData();
-        // }
+        if (res.data !== "" && res.status === 200) {
+          refreshOnDelete(true);
+        } else if (res.status === 500) {
+          window.alert('Unable to delete, this program might have been used in some programs');
+        }
       });
       setTimeout(() => {
         refreshProgramData();

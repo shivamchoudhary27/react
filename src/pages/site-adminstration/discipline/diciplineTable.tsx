@@ -19,6 +19,7 @@ const DiciplineTable = ({
   editHandlerById,
   toggleModalShow,
   refreshDisciplineData,
+  refreshOnDelete
 }: any) => {
   // custom react table column === >>>
   const tableColumn = [
@@ -85,6 +86,7 @@ const DiciplineTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
+    refreshOnDelete(false);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -112,7 +114,9 @@ const DiciplineTable = ({
           let endpoint = `/disciplines/${id}`;
           deleteDisciplineData(endpoint).then((res: any) => {
             if (res.data !== "" && res.status === 200) {
-              refreshDisciplineData();
+              refreshOnDelete(true);
+            } else if (res.status === 500) {
+              window.alert('Unable to delete, this discipline might have been used in some programs');
             }
           });
         } else if (
