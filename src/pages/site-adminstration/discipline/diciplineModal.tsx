@@ -13,8 +13,8 @@ import FieldErrorMessage from "../../../widgets/form_input_fields/error_message"
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
-  name: Yup.string().min(3).max(25).required("Please Enter Name"),
-  description: Yup.string().max(100).required("Please Enter Address"),
+  name: Yup.string().min(1).required(),
+  description: Yup.string().min(1).required(),
 });
 
 const DiciplineModal = ({
@@ -115,7 +115,7 @@ const DiciplineModal = ({
                 <FieldErrorMessage
                   errors={errors.name}
                   touched={touched.name}
-                  msgText="Please Enter name"
+                  msgText="Name required atleast 1 character"
                 />
               </div>
 
@@ -134,7 +134,7 @@ const DiciplineModal = ({
                 <FieldErrorMessage
                   errors={errors.description}
                   touched={touched.description}
-                  msgText="Please Enter description"
+                  msgText="Description required atleast 1 character"
                 />
               </div>
               

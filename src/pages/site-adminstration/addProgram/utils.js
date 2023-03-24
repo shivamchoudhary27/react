@@ -71,7 +71,7 @@ export const generateProgramDataObject = (formData) => {
     programData.programCode = formData.programCode;
     programData.modeOfStudy = formData.modeOfStudy;
     programData.duration = formData.duration;
-    programData.batchYear = parseInt(formData.batchYear);
+    programData.batchYear = (formData.isBatchYearRequired) ? (formData.batchYear == "") ? 2023 : formData.batchYear : 0;
     programData.description = formData.description;
     programData.objective = formData.objective;
     programData.fullLifeTimeAccess = formData.programaccessinfo.includes("fullaccess");

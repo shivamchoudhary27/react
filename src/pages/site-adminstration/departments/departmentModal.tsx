@@ -13,7 +13,7 @@ import FieldErrorMessage from "../../../widgets/form_input_fields/error_message"
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
-  name: Yup.string().min(3).max(25).required(),
+  name: Yup.string().min(1).required(),
   // description: Yup.string().max(100).required(),
 });
 
@@ -118,7 +118,7 @@ const DepartmentModal = ({
                 <FieldErrorMessage
                   errors={errors.name}
                   touched={touched.name}
-                  msgText="Please Enter name"
+                  msgText="Name required atleast 1 character"
                 />
               </div>
 

@@ -150,7 +150,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 <FieldErrorMessage
                   errors={errors.department}
                   touched={touched.department}
-                  msgText="Please Enter Department"
+                  msgText="Please select Department"
                 />
               </div>
               <div className="mb-3">
@@ -164,7 +164,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 <FieldErrorMessage
                   errors={errors.programName}
                   touched={touched.programName}
-                  msgText="Please Enter Program Name"
+                  msgText="Program Name required atleast 1 characters"
                 />
               </div>
               <div className="mb-3">
@@ -178,7 +178,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 <FieldErrorMessage
                   errors={errors.programCode}
                   touched={touched.programCode}
-                  msgText="Please Enter Program Code"
+                  msgText="Program Code required alteast 1 characters"
                 />
               </div>
               <div className="mb-3">
@@ -209,7 +209,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 <FieldErrorMessage
                   errors={errors.programtype}
                   touched={touched.programtype}
-                  msgText="Please Enter Program Type"
+                  msgText="Please select Program Type"
                 />
               </div>
               {values.isBatchYearRequired === true && 
@@ -244,13 +244,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 <FieldErrorMessage
                   errors={errors.discipline}
                   touched={touched.discipline}
-                  msgText="Select Discipline"
+                  msgText="Please select Discipline"
                 />
               </div>
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="modeOfStudy"
-                  labelText="Mode Of Stydy"
+                  labelText="Mode Of Study"
                   required="required"
                   star="*"
                 />
@@ -285,7 +285,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   htmlfor="duration"
                   labelText="Duration"
                   required="required"
-                  star="*"
+                  // star="*"
                 />
                 <FieldTypeText name="duration" placeholder="#duration" />
                 <FieldErrorMessage
