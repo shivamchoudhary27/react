@@ -3,7 +3,7 @@ import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import CustomPagination from "../../../widgets/pagination";
-import {getTotalPagesCount} from "../../../utils/administration";
+// import {getTotalPagesCount} from "../../../utils/administration";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import ManageFilter from "./manageFilter";
@@ -11,11 +11,12 @@ import ManageTable from "./manageTable";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
-  const [programData, setProgramData] = useState<any>([]);
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const [programData, setProgramData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 20});
-  const totalPages = getTotalPagesCount(15);
+  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 3});
+  // const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -36,14 +37,14 @@ const ManageProgram = () => {
 
   // to update filters values in the main state filterUpdate
   const updateDepartmentFilter = (departmentId : string) => {
-    setFilterUpdate({...filterUpdate, departmentId: departmentId})
+    setFilterUpdate({...filterUpdate, departmentId: departmentId, pageNumber: 0})
   }
 
   const updateInputFilters = (inputvalues : any) => {
     if (inputvalues.code !== '') {
-      setFilterUpdate({...filterUpdate, name: inputvalues.name, programCode: inputvalues.code})
+      setFilterUpdate({...filterUpdate, name: inputvalues.name, programCode: inputvalues.code, pageNumber: 0})
     } else {
-      let updatedState = {...filterUpdate};
+      let updatedState = {...filterUpdate, pageNumber: 0};
       updatedState.name = inputvalues.name;
       if (updatedState.programCode) delete updatedState.programCode;
       setFilterUpdate(updatedState);
@@ -81,12 +82,12 @@ const ManageProgram = () => {
             <hr />
             <ManageFilter updatedepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters}/>
             <ManageTable 
-              programData={programData} 
+              programData={programData.items} 
               refreshDepartmentData={refreshToggle}
               refreshOnDelete={refreshOnDeleteToggle}
             />
             <CustomPagination
-                totalpages={totalPages}
+                totalpages={programData.pager.totalPages}
                 activepage={filterUpdate.pageNumber}
                 getrequestedpage={newPageRequest}
               />

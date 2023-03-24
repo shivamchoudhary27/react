@@ -7,11 +7,12 @@ import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import CustomPagination from "../../../widgets/pagination";
-import {getTotalPagesCount} from "../../../utils/administration";
+// import {getTotalPagesCount} from "../../../utils/administration";
 import "./style.scss"; 
 
 const Departments = () => {
-  const [departmentData, setDepartmentData] = useState<any>([]);
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const [departmentData, setDepartmentData] = useState<any>(dummyData);
   const [modalShow, setModalShow] = useState(false);
   const [departmentObj, setDepartmentObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
@@ -19,9 +20,9 @@ const Departments = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 20,
+    pageSize: 2,
   });
-  const totalPages = getTotalPagesCount(15);
+  // const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -33,7 +34,7 @@ const Departments = () => {
   };
 
   const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, name: inputvalues });
+    setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
   };
 
   // get id, name from the department table === >>>
@@ -59,18 +60,18 @@ const Departments = () => {
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DEPARTMENT_FILTER_COMPONENT = (
     <Filter
-      departmentData={departmentData}
+      // departmentData={departmentData}
       toggleModalShow={toggleModalShow}
       resetDepartmentForm={resetDepartmentForm}
-      setDepartmentData={setDepartmentData}
-      refreshDepartmentData={refreshToggle}
+      // setDepartmentData={setDepartmentData}
+      // refreshDepartmentData={refreshToggle}
       updateInputFilters={updateInputFilters}
     />
   );
 
   const DEPARTMENT_TABLE_COMPONENT = (
     <DepartmentTable
-      departmentData={departmentData}
+      departmentData={departmentData.items}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       refreshDepartmentData={refreshToggle}
@@ -101,7 +102,7 @@ const Departments = () => {
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
             <CustomPagination
-              totalpages={totalPages}
+              totalpages={departmentData.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}
             />

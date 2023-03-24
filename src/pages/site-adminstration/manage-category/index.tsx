@@ -109,6 +109,10 @@ const ManageCategory = () => {
     setFormWeight(catInfo.weight)
     setFormParent(catInfo.parent);
   }
+  
+  const cleanFormValues = () => {
+    setEditCategory({id: 0, name: "", weight: 0, parent: 0});
+  }
 
   return (
     <>
@@ -141,6 +145,7 @@ const ManageCategory = () => {
                 updatedeleterefresh={updateDeleteRefresh}
                 setEditCategoryValues={setEditCategoryValues}
                 refreshcategories={refreshToggle}
+                cleanFormValues={cleanFormValues}
               />
             )}
             <Addcategory
@@ -149,6 +154,7 @@ const ManageCategory = () => {
               modalShow={modalShow}
               setFormParentValue={setFormParentValue}
               setFormWeightValue={setFormWeightValue}
+              onClick={cleanFormValues}
             />
             {/* {modalShow === true
             && */}

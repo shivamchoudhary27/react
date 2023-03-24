@@ -11,15 +11,16 @@ import "./style.scss";
 
 const Discipline = () => {
   const navigate = useNavigate();
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [modalShow, setModalShow] = useState(false);
-  const [diciplineData, setDiciplineData] = useState<any>([]);
-  const [disciplineObj, setDisciplineObj] = useState({});
+  const [diciplineData, setDiciplineData] = useState<any>(dummyData);
+  const [disciplineObj, setDisciplineObj] = useState({name: "", description: ""});
   const [refreshData, setRefreshData] = useState(true);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 20,
+    pageSize: 5,
   });
 
   // get programs API call === >>>
@@ -55,7 +56,7 @@ const Discipline = () => {
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DISCIPLINE_TABLE_COMPONENT = (
     <DiciplineTable
-      diciplineData={diciplineData}
+      diciplineData={diciplineData.items}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       refreshDisciplineData={refreshToggle}
@@ -100,7 +101,7 @@ const Discipline = () => {
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <CustomPagination
-              totalpages={5}
+              totalpages={diciplineData.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}
             />

@@ -22,23 +22,23 @@ import "sweetalert2/src/sweetalert2.scss";
 
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [inputFieldArr, setinputFieldArr] = useState<any>(addMetaFields(initialformvalues.meta.length));
-  const [departmentName, setDepartmentName] = useState<any>([]);
-  const [disciplineName, setDisciplineName] = useState<any>([]);
-  const [programTypeId, setProgramTypeId] = useState<any>([]);
+  const [departmentName, setDepartmentName] = useState<any>(dummyData);
+  const [disciplineName, setDisciplineName] = useState<any>(dummyData);
+  const [programTypeId, setProgramTypeId] = useState<any>(dummyData);
   const [initValues, setInitValues] = useState<any>(initialformvalues);
-
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
-    const apiFilters = {pageNumber: 0, pageSize : 20};
+    const apiFilters = {pageNumber: 0, pageSize : 30};
     makeGetDataRequest('/departments', apiFilters, setDepartmentName);
     makeGetDataRequest('/disciplines', apiFilters, setDisciplineName);
     makeGetDataRequest('/program-types', apiFilters, setProgramTypeId);
   }, []);
   
   useEffect(() => {
-    let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId, 'programtypeList');
+    let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId.items, 'programtypeList');
     setInitValues(addedValues);
   }, [programTypeId]);
   
@@ -54,7 +54,6 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     if (inputFieldArr.length > 1) {
       let removeItem = inputFieldArr.slice(0, inputFieldArr.length-1);
       setinputFieldArr(removeItem);
-      console.log(removeItem)
     }
   };
 
@@ -145,7 +144,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 />
                 <FieldTypeSelect 
                   name="department" 
-                  options={departmentName} 
+                  options={departmentName.items} 
                   setcurrentvalue={setValues}
                   currentformvalue={values} />
                 <FieldErrorMessage
@@ -191,7 +190,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 />
                 <FieldTypeSelect 
                   name="programtype" 
-                  options={programTypeId}
+                  options={programTypeId.items}
                   setcurrentvalue={setValues}
                   currentformvalue={values}
                 />
@@ -238,7 +237,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                 />
                 <FieldTypeSelect 
                   name="discipline" 
-                  options={disciplineName}
+                  options={disciplineName.items}
                   setcurrentvalue={setValues}
                   currentformvalue={values}
                 />

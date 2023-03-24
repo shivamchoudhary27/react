@@ -21,7 +21,8 @@ const CategoryTable = ({
   setFormWeightValue,
   updatedeleterefresh,
   setEditCategoryValues,
-  refreshcategories
+  refreshcategories,
+  cleanFormValues
 }: any) => {
 
   const tableColumn = [
@@ -97,9 +98,7 @@ const CategoryTable = ({
     });
 
   // Drag & Drop handler method === >>
-  const handleDragEnd = (results: any) => {
-    console.log('drag end result', results);
-    
+  const handleDragEnd = (results: any) => {   
     if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
@@ -157,6 +156,7 @@ const CategoryTable = ({
 
   // handle to add new sub category === >>
   const addSubCategoryHandler = (id: number) => {
+    cleanFormValues();
     let largestWeight = getLatestWeightForCategory(id, categoryData);
     setFormParentValue(id);
     setFormWeightValue(largestWeight);
