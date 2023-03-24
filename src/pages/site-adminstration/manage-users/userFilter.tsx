@@ -41,7 +41,7 @@ const UserFilter = () => {
             <Button variant="primary">Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
             <Button variant="primary">Add Users</Button>{" "}
-            <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
+            <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
 
           </div>
         </div>

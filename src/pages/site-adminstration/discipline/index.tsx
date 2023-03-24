@@ -21,7 +21,7 @@ const Discipline = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 5,
+    pageSize: 10,
   });
 
   // get programs API call === >>>
