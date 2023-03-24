@@ -29,6 +29,11 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
     {
       Header: "Name",
       accessor: "name",
+      Cell: ({ row }: any) => (
+        <Link to={createPreviewLink(row.original.id)}>
+           {row.original.name}
+        </Link>
+      ),
     },
     {
       Header: "Batch Year",
@@ -80,7 +85,7 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
               onClick={() => deleteHandler(row.original.id)}
             ></i>
           </Link>
-          <Link to={createPreviewLink(row.original.id)}>
+          <Link to="">
             <i
               className="fa-solid fa-eye"
               // onClick={() => showToggleHandler(row.original.id)}
