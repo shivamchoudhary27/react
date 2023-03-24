@@ -17,8 +17,13 @@ const ProgramType = () => {
   const [programTypeData, setProgramTypeData] = useState<any>(dummyData);
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
-  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 2});
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
+  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 5});
   // const totalPages = getTotalPagesCount(15);
+
+  useEffect(() => {
+    if (refreshOnDelete === true) makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
+  }, [refreshOnDelete]);
 
   // get programs API call === >>> 
   useEffect(() => {
@@ -26,9 +31,12 @@ const ProgramType = () => {
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
-    console.log('toggleing the boolean')
     let newBool = (refreshData === true) ? false : true;
     setRefreshData(newBool);
+  };
+
+  const refreshOnDeleteToggle = (value: boolean) => {
+    setRefreshOnDelete(value);
   };
 
   // get id, name from the department table === >>>
@@ -81,6 +89,7 @@ const ProgramType = () => {
       setModalShow={setModalShow}
       toggleModalShow={toggleModalShow}
       refreshProgramData={refreshToggle}
+      refreshOnDelete={refreshOnDeleteToggle}
     />
   );
 

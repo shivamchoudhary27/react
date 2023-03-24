@@ -19,6 +19,7 @@ const DepartmentTable = ({
   editHandlerById,
   toggleModalShow,
   refreshDepartmentData,
+  refreshOnDelete
 }: any) => {
   // custom react table Column === >>>
   const tableColumn = [
@@ -92,6 +93,7 @@ const DepartmentTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
+    refreshOnDelete(false);
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -119,7 +121,9 @@ const DepartmentTable = ({
           let endPoint = `/departments/${id}`;
           deleteDepartmentData(endPoint).then((res: any) => {
             if (res.data !== "" && res.status === 200) {
-              refreshDepartmentData();
+              refreshOnDelete(true);
+            } else if (res.status === 500) {
+              window.alert('Unable to delete, this department might have been used in some programs');
             }
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
