@@ -122,7 +122,7 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
         if (result.isConfirmed) {
           Swal.fire({
             icon: "success",
-            title: "Deleted Successfully",
+            title: "Action complete",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -131,7 +131,13 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
           deleteProgramData(endPoint).then((res: any) => {
             if (res.data !== "" && res.status === 200) {
               refreshOnDelete(true);
+            } else if (res.status === 500) {
+              window.alert('Unable to delete, this program might have categories and courses');
             }
+          }).catch((result : any) => {
+            if (result.response.status === 500) {
+              window.alert('Unable to delete, this program might have categories and courses');
+            }            
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire({

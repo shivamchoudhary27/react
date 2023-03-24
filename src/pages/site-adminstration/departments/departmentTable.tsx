@@ -114,7 +114,7 @@ const DepartmentTable = ({
         if (result.isConfirmed) {
           Swal.fire({
             icon: "success",
-            title: "Deleted Successfully",
+            title: "Action complete",
             showConfirmButton: false,
             timer: 1500,
           });
@@ -125,6 +125,10 @@ const DepartmentTable = ({
             } else if (res.status === 500) {
               window.alert('Unable to delete, this department might have been used in some programs');
             }
+          }).catch((result : any) => {
+            if (result.response.status === 500) {
+              window.alert('Unable to delete, this department might have been used in some programs');
+            }            
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
           Swal.fire({
