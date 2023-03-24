@@ -141,10 +141,13 @@ const CategoryTable = ({
         if (res.status === 200) {
           console.log(res.data);
           updatedeleterefresh(true);
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
+        } else if (res.status === 500) {
+          window.alert('Unable to delete, this category might have come courses');
+        } 
+      }).catch((result : any) => {
+        if (result.response.status === 500) {
+          window.alert('Unable to delete, this category might have come courses');
+        }            
       });
     }
   };
