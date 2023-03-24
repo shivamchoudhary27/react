@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
-  name: Yup.string().min(1).max(25).required(),
+  name: Yup.string().min(1).required(),
   // description: Yup.string().max(100).required(),
 });
 
@@ -87,7 +87,7 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
                   <FieldErrorMessage
                     errors={errors.name}
                     touched={touched.name}
-                    msgText="Please Enter name"
+                    msgText="Name required atleast 1 character"
                   />
                 </div>
 

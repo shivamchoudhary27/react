@@ -14,8 +14,8 @@ import Custom_Button from "../../../widgets/form_input_fields/buttons";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({
-  name: Yup.string().min(3).max(25).required("Please Enter Name"),
-  description: Yup.string().max(100).required("Please Enter Address"),
+  name: Yup.string().min(1).required(),
+  description: Yup.string().min(1).required(),
   // isBatchYearRequired: Yup.bool()
   //   .required("Please Check")
   //   .oneOf([true], "Please Check the required field"),
@@ -120,7 +120,7 @@ const AddProgramModal = ({
                 <FieldErrorMessage
                   errors={errors.name}
                   touched={touched.name}
-                  msgText="Please Enter name"
+                  msgText="Name required atleast 1 character"
                 />
               </div>
 
@@ -139,7 +139,7 @@ const AddProgramModal = ({
                 <FieldErrorMessage
                   errors={errors.description}
                   touched={touched.description}
-                  msgText="Please Enter description"
+                  msgText="Description required atleast 1 character"
                 />
               </div>
 
