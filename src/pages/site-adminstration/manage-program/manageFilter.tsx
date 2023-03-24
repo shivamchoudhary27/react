@@ -72,7 +72,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
             </div>
           </form>
         </div>
-        <div>
+        <div className="mt-2">
           <Button variant="primary" onClick={handleAddProgram}>
             Add Program
           </Button>

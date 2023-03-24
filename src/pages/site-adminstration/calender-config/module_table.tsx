@@ -8,7 +8,7 @@ const Module_Table = ({ Field }: any) => {
         <tbody>
           <tr>
             <td>
-              <h4>Event-Type</h4>
+              <h4>Event Type Color</h4>
             </td>
           </tr>
           {event_type.map((el, index) => (
@@ -17,7 +17,7 @@ const Module_Table = ({ Field }: any) => {
 
           <tr>
             <td>
-              <h4 className="mt-3">Module</h4>
+              <h4 className="mt-3">Module Color</h4>
             </td>
           </tr>
           {module_data.map((el, index) => (

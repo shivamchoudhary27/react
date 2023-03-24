@@ -20,13 +20,11 @@ const SiteAdminHome = () => {
             <hr />
             <Row>
               {AdminRawData.map((item, index) => (
-                <Col md={4} sm={6} xs={12} key={index} className="gy-3">
+                <Col md={4} sm={6} xs={12} key={index} className="mb-4">
                   <Link to={item.link} style={{ textDecoration: "none" }}>
                     <div className="card-wrapper">
-                      <span>
-                        <i className={item.icon}></i>
-                      </span>
-                      <span className="card-title">{item.title}</span>
+                      <i className={item.icon}></i>
+                      <h4 className="card-title">{item.title}</h4>
                     </div>
                   </Link>
                 </Col>

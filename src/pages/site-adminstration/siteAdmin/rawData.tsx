@@ -1,6 +1,6 @@
 export const AdminRawData = [
   {
-    title: "user Management",
+    title: "User Management",
     icon: "fa-solid fa-user-plus card-icon",
     link: "#",
   },
@@ -13,6 +13,16 @@ export const AdminRawData = [
     title: "Program Enrollment",
     icon: "fa-solid fa-users card-icon",
     link: "/programenrollment",
+  },  
+  {
+    title: "Timetable Management",
+    icon: "fa-solid fa-table card-icon",
+    link: "#",
+  },
+  {
+    title: "Calendar Management",
+    icon: "fa-solid fa-calendar card-icon",
+    link: "/calenderconfig",
   },
   {
     title: "CO's / PO's Management",
@@ -20,18 +30,8 @@ export const AdminRawData = [
     link: "#",
   },
   {
-    title: "Timetable Management",
-    icon: "fa-solid fa-table card-icon",
-    link: "#",
-  },
-  {
-    title: "Management",
+    title: "Lorum Ipsum",
     icon: "fa-solid fa-file card-icon",
     link: "#",
-  },
-  {
-    title: "Calendar Config",
-    icon: "fa-solid fa-calendar card-icon",
-    link: "/calenderconfig",
-  },
+  },  
 ];
