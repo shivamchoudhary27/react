@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getData as getProgramData } from "../../../adapters/microservices";
+// import { getData as getProgramData } from "../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import CustomPagination from "../../../widgets/pagination";
-import {getTotalPagesCount} from "../../../utils/administration";
+// import {getTotalPagesCount} from "../../../utils/administration";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
@@ -12,14 +12,15 @@ import { useNavigate } from "react-router-dom";
 
 const ProgramType = () => {
   const navigate = useNavigate();
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}};
   const [modalShow, setModalShow] = useState(false);
-  const [programTypeData, setProgramTypeData] = useState<any>([]);
+  const [programTypeData, setProgramTypeData] = useState<any>(dummyData);
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
-  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 20});
-  const totalPages = getTotalPagesCount(15);
+  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 2});
+  // const totalPages = getTotalPagesCount(15);
 
-  // get programs API call === >>>
+  // get programs API call === >>> 
   useEffect(() => {
     makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
   }, [refreshData, filterUpdate]);
@@ -75,7 +76,7 @@ const ProgramType = () => {
 
   const PROGRAM_TYPE_COMPONENT = (
     <ProgramTable
-      programTypeData={programTypeData}
+      programTypeData={programTypeData.items}
       editHandlerById={editHandlerById}
       setModalShow={setModalShow}
       toggleModalShow={toggleModalShow}
@@ -109,7 +110,7 @@ const ProgramType = () => {
             {ADDPROGRAM_MODAL_COMPONENT}
             {PROGRAM_TYPE_COMPONENT}
             <CustomPagination
-              totalpages={totalPages}
+              totalpages={programTypeData.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}
             />

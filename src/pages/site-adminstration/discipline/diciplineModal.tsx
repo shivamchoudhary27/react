@@ -30,8 +30,6 @@ const DiciplineModal = ({
     description: disciplineobj.description,
   };
 
-  console.log(disciplineobj.name);
-
   // custom Obj & handle form data === >>>
   let formTitles = {
     btnTitle: "",

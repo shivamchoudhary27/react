@@ -9,9 +9,10 @@ const FieldTypeSelect = ({
     className="form-control",
 }: any) => {
 
-  const updateFieldCheckedStatus = (e : any) => {  
+  const updateFieldCheckedStatus = (e : any) => { 
     if (name === 'programtype') {
       let programlist = currentformvalue.programtypeList;
+     
       let idToFind = parseInt(e.target.value);
       for (let i = 0; i < programlist.length; i++) {
         if (programlist[i].id === idToFind) {

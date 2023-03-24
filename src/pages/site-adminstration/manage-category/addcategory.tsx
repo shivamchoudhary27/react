@@ -1,17 +1,15 @@
-import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import CategoryModal from "./categoryModal";
 
-const Addcategory = ({ latestparentweight, refreshCategoryTable, toggleModalShow, modalShow }: any) => {
+const Addcategory = ({ latestparentweight, toggleModalShow, setFormParentValue, setFormWeightValue }: any) => {
   
   const toAddWeight = latestparentweight;
   const parent = 0;
   
   // handle to add new category === >>
   const addCategoryHandler = () => {
-    refreshCategoryTable(false);
+    setFormParentValue(parent);
+    setFormWeightValue(toAddWeight);
     toggleModalShow(true);
-    refreshCategoryTable(true)
   }
 
   return (
@@ -22,13 +20,6 @@ const Addcategory = ({ latestparentweight, refreshCategoryTable, toggleModalShow
           <strong>Add Category</strong>{" "}
         </Link>
       </div>
-      <CategoryModal 
-        show={modalShow}
-        toggleModalShow={toggleModalShow}
-        onHide={() => toggleModalShow(false)} 
-        weight={toAddWeight}
-        parent={parent}
-      />
     </>
   );
 };

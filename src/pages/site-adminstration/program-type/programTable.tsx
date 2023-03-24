@@ -3,7 +3,7 @@ import { deleteData as deleteProgramData } from "../../../adapters/microservices
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 
@@ -93,7 +93,7 @@ const ProgramTable = ({
         // if (res.data !== "" && res.status === 200) {
         //   // refreshProgramData();
         // }
-      });      
+      });
       setTimeout(() => {
         refreshProgramData();
       }, 3000)
