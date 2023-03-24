@@ -1,5 +1,5 @@
 const siteAdminConfig = {
-    PERPAGE: 5,
+    PERPAGE: 10,
     SET_TOTAL_PAGES : 5,
 };
 

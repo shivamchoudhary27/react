@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container } from "react-bootstrap";
+import { siteAdminConfig } from "./../../../utils/administration";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import CustomPagination from "../../../widgets/pagination";
-// import {getTotalPagesCount} from "../../../utils/administration";
 import "./style.scss"; 
 
 const Departments = () => {
@@ -21,9 +21,8 @@ const Departments = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: siteAdminConfig.PERPAGE,
   });
-  // const totalPages = getTotalPagesCount(15);
 
   useEffect(() => {
     if (refreshOnDelete === true) makeGetDataRequest("/departments", filterUpdate, setDepartmentData); 

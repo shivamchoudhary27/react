@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { siteAdminConfig } from "./../../../utils/administration";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
@@ -21,7 +22,7 @@ const Discipline = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 10,
+    pageSize: siteAdminConfig.PERPAGE,
   });
 
   // get programs API call === >>>
