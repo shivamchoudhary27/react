@@ -8,22 +8,16 @@ import UsersTable from "./usersTable";
 const ManageUsers = () => {
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
+      <Header pageHeading="Manage Users: Master of Computer Applications" welcomeIcon={false} />
       <div className='main-content-container'>
         <Sidebar />
         <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
-            <div className="site-heading">
-              <h3>Manage Users: <strong>Master of Computer Applications</strong></h3>
-            </div>
-            <hr />
             <UserFilter />
             <UsersTable />
           </Container>
         </div>
-      </div>
-      
-      
+      </div>      
     </>
   );
 };

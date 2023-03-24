@@ -9,14 +9,11 @@ const ManageCourses = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
+      <Header pageHeading="Manage Courses: Master of Computer Applications" welcomeIcon={false} />
       <div className='main-content-container'>
         <Sidebar />
         <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
-              <div className="site-heading">
-                <h3>Manage Courses: <strong>Master of Computer Applications</strong></h3>
-              </div>
               <Button
             variant="outline-secondary"
             onClick={() => navigate("/manageprogram")}

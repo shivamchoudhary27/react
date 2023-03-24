@@ -15,7 +15,7 @@ const ManageProgram = () => {
   const [programData, setProgramData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 5});
+  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : 10});
   // const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>

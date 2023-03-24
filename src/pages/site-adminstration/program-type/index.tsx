@@ -18,7 +18,7 @@ const ProgramType = () => {
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 5});
+  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 10});
   // const totalPages = getTotalPagesCount(15);
 
   useEffect(() => {

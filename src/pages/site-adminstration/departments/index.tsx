@@ -21,7 +21,7 @@ const Departments = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: 5,
+    pageSize: 10,
   });
   // const totalPages = getTotalPagesCount(15);
 
