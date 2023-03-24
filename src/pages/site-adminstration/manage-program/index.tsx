@@ -76,7 +76,7 @@ const ManageProgram = () => {
                 Program Type
               </Button>{" "}
               <Button variant="primary" onClick={() => navigate("/discipline")}>
-                Disciplines
+                Discipline
               </Button>
             </div>
             <hr />

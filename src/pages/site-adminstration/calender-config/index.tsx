@@ -12,7 +12,7 @@ const CalenderConfig = () => {
   const SITE_HEADING = (
     <div className="site-heading">
       <div>
-        <h3>Events Color Config</h3>
+        <h3>Calendar Management</h3>
       </div>
       <div>
         <Button

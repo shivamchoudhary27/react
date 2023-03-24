@@ -62,7 +62,7 @@ const Filter = ({
             </div>
           </form>
         </div>
-        <div>
+        <div className="mt-2">
           <Button variant="primary" onClick={openAddDepartment}>
             Add Department
           </Button>{" "}

@@ -36,13 +36,12 @@ const UserFilter = () => {
             </div>
           </div>
         </div>
-        <div>
+        <div className="mt-2">
           <div className="site-button-group">
             <Button variant="primary">Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
             <Button variant="primary">Add Users</Button>{" "}
             <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
-
           </div>
         </div>
       </div>

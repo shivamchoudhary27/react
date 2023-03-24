@@ -90,7 +90,7 @@ function Sidebar() {
           <Menuitem>
             <Link id="" to="/siteadmin">
               <i className="fa-solid fa-user degree-icon"></i>
-              Site Admin
+              Site Administration
             </Link>
           </Menuitem>
           }
