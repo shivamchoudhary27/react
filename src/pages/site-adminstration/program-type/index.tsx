@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-// import { getData as getProgramData } from "../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { siteAdminConfig } from "./../../../utils/administration";
 import CustomPagination from "../../../widgets/pagination";
-// import {getTotalPagesCount} from "../../../utils/administration";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
@@ -18,8 +17,7 @@ const ProgramType = () => {
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : 10});
-  // const totalPages = getTotalPagesCount(15);
+  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : siteAdminConfig.PERPAGE});
 
   useEffect(() => {
     if (refreshOnDelete === true) makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
