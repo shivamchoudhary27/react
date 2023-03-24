@@ -3,9 +3,8 @@ import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import CategoryModal from "./categoryModal";
 import { getLatestWeightForCategory } from "./utils";
-import { deleteData as deleteCategoryData } from "../../../adapters/microservices";
+import { deleteData as deleteCategoryData, putData } from "../../../adapters/microservices";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -16,14 +15,15 @@ const actionsStyle = {
 
 const CategoryTable = ({
   categoryData,
-  modalShow,
   toggleModalShow,
   id,
+  setFormParentValue, 
+  setFormWeightValue,
+  updatedeleterefresh,
+  setEditCategoryValues,
+  refreshcategories
 }: any) => {
-  const [subCategoryParentId, setSubCategoryParentId] = useState<number>(0);
-  const [subCategoryWeight, setSubCategoryWeight] = useState<number>(0);
 
-  // console.log(categoryData);
   const tableColumn = [
     {
       Header: "",
@@ -37,7 +37,7 @@ const CategoryTable = ({
         return (
           <div
             style={{
-              paddingLeft: row.original.parent === 0 ? "0px" : "30px",
+              paddingLeft: setLevelPadding(row.original.level),
             }}
           >
             {row.values.name}
@@ -65,7 +65,11 @@ const CategoryTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link to="">
-            <i className="fa-solid fa-pen"></i>
+            <i className="fa-solid fa-pen"
+              onClick={() => {
+                editHandler(row.original.id, row.original.name, row.original.weight, row.original.parent);
+              }}
+            ></i>
           </Link>
           <Link to="">
             <i
@@ -94,31 +98,56 @@ const CategoryTable = ({
 
   // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
-    console.log(results);
+    console.log('drag end result', results);
+    
     if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
     setSelectedData(temp);
+
+    // call to update the new position in data
+    let catShifting = results.source.index;
+    let toMoved = results.destination.index;
+    dragActionSave(catShifting, toMoved)
   };
 
+  const dragActionSave = (catShifting : number, toMoved : number) => {
+    const endPoint = `${id}/category/${categoryData[catShifting].id}`;
+    let updatePosition = {name: categoryData[catShifting].name, 
+                       parent : categoryData[toMoved].parent, 
+                       weight : categoryData[toMoved].weight};
+
+    putData(endPoint, updatePosition)
+    .then((res: any) => {
+      refreshcategories();
+    }).catch((err: any) => {
+      window.alert('Some error occurred!');
+    })
+  }
+
   // category Table Elements Update handler === >>
-  const editHandler = (id: number) => {
-    console.log(id);
+  const editHandler = (id: number, name: string, weight: number, parent: number) => {
+    setEditCategoryValues({id, name, weight, parent});
+    toggleModalShow(true);
   };
 
   // category Table Elements Delete handler === >>
   const deleteHandler = (delID: number) => {
-    const endPoint = `${id}/category/${delID}`;
-    deleteCategoryData(endPoint)
+    updatedeleterefresh(false);
+    if (window.confirm('Are you sure to delete this category?')) {
+      const endPoint = `${id}/category/${delID}`;
+      deleteCategoryData(endPoint)
       .then((res: any) => {
         if (res.status === 200) {
           console.log(res.data);
+          updatedeleterefresh(true);
         }
       })
       .catch((err: any) => {
         console.log(err);
       });
+    }
   };
 
   // category Table Elements hide/show toggle handler === >>
@@ -128,18 +157,16 @@ const CategoryTable = ({
 
   // handle to add new sub category === >>
   const addSubCategoryHandler = (id: number) => {
-    console.log("hello clicked ", id);
-    setSubCategoryParentId(id);
-    addSubCatWeight(id);
+    let largestWeight = getLatestWeightForCategory(id, categoryData);
+    setFormParentValue(id);
+    setFormWeightValue(largestWeight);
     toggleModalShow(true);
   };
 
-  // handle to count weight for sub category === >>
-  const addSubCatWeight = (id: number) => {
-    let largestWeight = getLatestWeightForCategory(id, categoryData);
-    console.log("largestWeight", largestWeight);
-    setSubCategoryWeight(largestWeight);
-  };
+  const setLevelPadding = (level : number) => {
+    let padding = ((level - 1) * 50) + "px";
+      return padding;
+  }
 
   return (
     <>
@@ -169,7 +196,7 @@ const CategoryTable = ({
                     prepareRow(row);
                     return (
                       <Draggable
-                        draggableId={`drag-id-${row.id.toString()}`}
+                        draggableId={`drag-id-${row.original.id.toString()}`}
                         index={index}
                         key={row.id.toString()}
                       >
@@ -199,13 +226,6 @@ const CategoryTable = ({
             </Droppable>
           </Table>
         </DragDropContext>
-        <CategoryModal
-          show={modalShow}
-          onHide={() => toggleModalShow(false)}
-          toggleModalShow={toggleModalShow}
-          weight={subCategoryWeight}
-          parent={subCategoryParentId}
-        />
       </div>
     </>
   );

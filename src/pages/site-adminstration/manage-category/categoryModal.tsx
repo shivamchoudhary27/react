@@ -6,36 +6,50 @@ import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 import Custom_Button from "../../../widgets/form_input_fields/buttons";
-import { postData as addCategoriesData } from "../../../adapters/microservices";
+import { postData as addCategoriesData, putData } from "../../../adapters/microservices";
 import { useParams } from "react-router-dom";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
-  name: Yup.string().min(3).max(25).required(),
+  name: Yup.string().min(1).max(25).required(),
   // description: Yup.string().max(100).required(),
 });
 
-const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow }: any) => {
-  console.log(parent)
+const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshcategories, editCategory }: any) => {
+  
   const {id} = useParams();
   const initialValues = {
-    name: "",
+    name: editCategory.name,
     description: "",
   };
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    const endPoint = `${id}/category`;
+    if (editCategory.id === 0) {
+      const endPoint = `${id}/category`;
       let newData = {...values, parent : parent, weight : weight};
       console.log('category newdata', newData)
       addCategoriesData(endPoint, newData).then((res: any)=>{
         if(res.data != "", res.status === 201){
           console.log('success save', res);
+          refreshcategories();
           toggleModalShow(false)
         }
       }).catch((err: any)=>{
         console.log(err)
       })
+    } else {
+      const endPoint = `${id}/category/${editCategory.id}`;
+      let updateValue = {...values, parent : editCategory.parent, weight : editCategory.weight};
+
+      putData(endPoint, updateValue)
+      .then((res: any) => {
+        refreshcategories();
+        toggleModalShow(false)
+      }).catch((err: any) => {
+        window.alert('Some error occurred!');
+      })
+    }
     resetForm();
   };
 
