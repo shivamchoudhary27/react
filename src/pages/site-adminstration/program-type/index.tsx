@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
-import { siteAdminConfig } from "./../../../utils/administration";
-import CustomPagination from "../../../widgets/pagination";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
+import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { pagination } from "../../../utils/pagination";
+import BuildPagination from "../../../widgets/pagination";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
-import { useNavigate } from "react-router-dom";
 
 const ProgramType = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const ProgramType = () => {
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : siteAdminConfig.PERPAGE});
+  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : pagination.PERPAGE});
 
   useEffect(() => {
     if (refreshOnDelete === true) makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
@@ -116,7 +116,7 @@ const ProgramType = () => {
             {PROGRAM_TYPE_BUTTON}
             {ADDPROGRAM_MODAL_COMPONENT}
             {PROGRAM_TYPE_COMPONENT}
-            <CustomPagination
+            <BuildPagination
               totalpages={programTypeData.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}

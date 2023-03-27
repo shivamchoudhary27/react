@@ -98,7 +98,7 @@ const CategoryTable = ({
     });
 
   // Drag & Drop handler method === >>
-  const handleDragEnd = (results: any) => {   
+  const handleDragEnd = (results: any) => {
     if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);

@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
-import { siteAdminConfig } from "./../../../utils/administration";
-import CustomPagination from "../../../widgets/pagination";
+import { pagination } from "../../../utils/pagination";
+import BuildPagination from "../../../widgets/pagination";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import ManageFilter from "./manageFilter";
@@ -15,7 +15,7 @@ const ManageProgram = () => {
   const [programData, setProgramData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : siteAdminConfig.PERPAGE});
+  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : pagination.PERPAGE});
   // const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>
@@ -86,7 +86,7 @@ const ManageProgram = () => {
               refreshDepartmentData={refreshToggle}
               refreshOnDelete={refreshOnDeleteToggle}
             />
-            <CustomPagination
+            <BuildPagination
                 totalpages={programData.pager.totalPages}
                 activepage={filterUpdate.pageNumber}
                 getrequestedpage={newPageRequest}
