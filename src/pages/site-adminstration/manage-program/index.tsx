@@ -77,6 +77,9 @@ const ManageProgram = () => {
               </Button>{" "}
               <Button variant="primary" onClick={() => navigate("/discipline")}>
                 Discipline
+              </Button>{" "}
+              <Button variant="primary" onClick={() => navigate("/tags")}>
+                Add Tags
               </Button>
             </div>
             <hr />
