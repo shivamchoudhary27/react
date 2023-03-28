@@ -28,10 +28,8 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
     if (editCategory.id === 0) {
       const endPoint = `${id}/category`;
       let newData = {...values, parent : parent, weight : weight};
-      console.log('category newdata', newData)
       addCategoriesData(endPoint, newData).then((res: any)=>{
         if(res.data != "", res.status === 201){
-          console.log('success save', res);
           refreshcategories();
           toggleModalShow(false)
         }

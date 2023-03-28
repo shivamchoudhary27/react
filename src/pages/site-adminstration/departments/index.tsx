@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container } from "react-bootstrap";
-import { siteAdminConfig } from "./../../../utils/administration";
+import { pagination } from "../../../utils/pagination";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
-import CustomPagination from "../../../widgets/pagination";
+import BuildPagination from "../../../widgets/pagination";
 import "./style.scss"; 
 
 const Departments = () => {
@@ -21,7 +21,7 @@ const Departments = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: siteAdminConfig.PERPAGE,
+    pageSize: pagination.PERPAGE,
   });
 
   useEffect(() => {
@@ -110,7 +110,7 @@ const Departments = () => {
           <Container fluid className="administration-wrapper">
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
-            <CustomPagination
+            <BuildPagination
               totalpages={departmentData.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}

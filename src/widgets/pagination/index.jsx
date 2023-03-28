@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import Pagination from 'react-bootstrap/Pagination';
 import './style.scss';
 
-const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
+const BuildPagination = ({totalpages, activepage, getrequestedpage}) => {
   const [activePage, setActivePage] = useState(activepage);
 
-  const handlePageClick = (pageNumber) => {
+  const handlePageClick = (pageNumber) => { 
     getrequestedpage(pageNumber);
     setActivePage(pageNumber);
   }
@@ -28,7 +28,7 @@ const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
   }
 
   return (
-    <>
+    <React.Fragment>
       {totalpages > 1
       &&
       <Pagination>
@@ -42,8 +42,8 @@ const CustomPagination = ({totalpages, activepage, getrequestedpage}) => {
         }
       </Pagination>
       }
-    </>
+    </React.Fragment>
   );
 }
 
-export default CustomPagination;
+export default BuildPagination;

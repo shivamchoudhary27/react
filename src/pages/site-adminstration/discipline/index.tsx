@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
-import { siteAdminConfig } from "./../../../utils/administration";
+import { pagination } from "../../../utils/pagination";
 import { Container, Button } from "react-bootstrap";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
-import { useNavigate } from "react-router-dom";
-import CustomPagination from "../../../widgets/pagination";
+import BuildPagination from "../../../widgets/pagination";
 import "./style.scss";
 
 const Discipline = () => {
@@ -22,7 +22,7 @@ const Discipline = () => {
     departmentId: "",
     name: "",
     pageNumber: 0,
-    pageSize: siteAdminConfig.PERPAGE,
+    pageSize: pagination.PERPAGE,
   });
 
   // get programs API call === >>>
@@ -111,7 +111,7 @@ const Discipline = () => {
           <Container fluid className="administration-wrapper">
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
-            <CustomPagination
+            <BuildPagination
               totalpages={diciplineData.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}

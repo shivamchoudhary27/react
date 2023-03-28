@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { getLatestWeightForCategory } from "./utils";
-import { deleteData as deleteCategoryData, putData } from "../../../adapters/microservices";
+import { deleteData as deleteCategoryData, putData, postData } from "../../../adapters/microservices";
+import { getDragnDropAction, getItemsToUpdate, updateWeights } from './local';
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -96,20 +97,60 @@ const CategoryTable = ({
       columns,
       data,
     });
+  const [updateSource, setUpdateSource] = useState<any>({data: {}, status : 'raw'});
+  const [newWeightsItems, setNewWeightsItems] = useState<any>({data: {}, status : 'raw'});
+
+  useEffect(() => {
+    if (updateSource.status === 'updated' && newWeightsItems.status === 'updated') {
+      const mergedItems = [...newWeightsItems.data, updateSource.data];
+      console.log('mergedItems', mergedItems);
+      saveUpdatedCategoriesOrder(mergedItems);
+    }
+  }, [updateSource, newWeightsItems]);
 
   // Drag & Drop handler method === >>
-  const handleDragEnd = (results: any) => {   
+  const handleDragEnd = (results: any) => {
     if (!results.destination) return;
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
     setSelectedData(temp);
-
+    
     // call to update the new position in data
     let catShifting = results.source.index;
     let toMoved = results.destination.index;
-    dragActionSave(catShifting, toMoved)
+
+    let updateSrcProperties = {
+      id: categoryData[catShifting].id,
+      name: categoryData[catShifting].name,
+      weight: categoryData[toMoved].weight,
+      parent: categoryData[toMoved].parent,
+    };
+    
+    setUpdateSource({data: updateSrcProperties, status : 'updated'});  // update source parent and weight
+    generateFilterMetadata(catShifting, toMoved)
   };
+
+  const generateFilterMetadata = (source: number, destination : number) => {
+    const sourceObj = categoryData[source]
+    const destinationObj = categoryData[destination]
+    const dragAction = getDragnDropAction(sourceObj, destinationObj);
+    const itemsToEffect = getItemsToUpdate(selectedData, dragAction, sourceObj, destinationObj);
+    const updatedItems = updateWeights(itemsToEffect, dragAction);
+    setNewWeightsItems({data: updatedItems, status: 'updated'});
+  }
+
+  const saveUpdatedCategoriesOrder = (items : any) => {
+    const endPoint = `${id}/category/bulk`;    
+    postData(endPoint, items).then((res: any)=>{
+      if(res.status === 200){
+        console.log('categories bulk sort update', res);
+        refreshcategories();
+      }
+    }).catch((err: any)=>{
+      console.log(err)
+    })
+  }
 
   const dragActionSave = (catShifting : number, toMoved : number) => {
     const endPoint = `${id}/category/${categoryData[catShifting].id}`;
