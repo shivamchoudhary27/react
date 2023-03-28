@@ -29,6 +29,7 @@ import Preview from '../../pages/site-adminstration/manage-program/preview';
 import StudentDashboard from '../../pages/student-dashboard/dashboard';
 import TeacherDashboard from '../../pages/teacher-dashboard/dashboard';
 import CalenderConfig from '../../pages/site-adminstration/calender-config';
+import Tags from '../../pages/site-adminstration/tags';
 
 export default function CustomRoutes() {
 
@@ -53,6 +54,7 @@ export default function CustomRoutes() {
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />
+          <Route path="/tags" element={<Tags />} />
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
