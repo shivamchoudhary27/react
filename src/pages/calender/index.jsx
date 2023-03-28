@@ -67,6 +67,14 @@ export default function ReactBigCalendar() {
   }, []);
 
   const filterEvents = (eventChecked) => {
+    if (eventChecked === 'all') {
+      setFilteredEvents(eventsData);
+      return true;
+    }
+    if (eventChecked === 'none') {
+      setFilteredEvents([]);
+      return true;   
+    }
     let newEvents = [];
     if (eventChecked.length === 0) {
       newEvents = eventsData;

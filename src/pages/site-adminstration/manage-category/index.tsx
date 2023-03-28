@@ -40,7 +40,6 @@ const ManageCategory = () => {
     if (deleteRefresh === true) {
       console.log('set to refresh');
       getCategoriesData();
-      
     } 
   }, [deleteRefresh]);
   
@@ -61,7 +60,6 @@ const ManageCategory = () => {
           updateCategoryLevels(convertedResult, item.id, 2);
         }
       });
-      console.log('new update', convertedResult);
       setSortedCategories(convertedResult)
     }
   }, [categoryData]);
