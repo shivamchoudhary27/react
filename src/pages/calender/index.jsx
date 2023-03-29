@@ -67,25 +67,18 @@ export default function ReactBigCalendar() {
   }, []);
 
   const filterEvents = (eventChecked) => {
-    if (eventChecked === 'all') {
-      setFilteredEvents(eventsData);
-      return true;
-    }
-    if (eventChecked === 'none') {
-      setFilteredEvents([]);
-      return true;   
-    }
     let newEvents = [];
-    if (eventChecked.length === 0) {
-      newEvents = eventsData;
-    } else {
-      newEvents = eventsData.filter((el) => {
-        if (eventChecked.includes(el.modulename) || eventChecked.includes(el.eventtype)) {
-          return true;
-        }
-      });
-    }
+    newEvents = eventsData.filter((el) => {
+      if (eventChecked.includes(el.modulename) || eventChecked.includes(el.eventtype)) {
+        return true;
+      }
+    });
     setFilteredEvents(newEvents);
+  }
+
+  const showAllNone = (value) => {
+    if (value === true) setFilteredEvents(eventsData);
+    else setFilteredEvents([]);
   }
 
   return (
@@ -116,7 +109,7 @@ export default function ReactBigCalendar() {
                 />
               </Col>
               <Col md={2}>
-                <CalendarFilters events={colorConfig} filters={filterEvents}/>
+                <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
               </Col>
             </Row>
           </Container>
