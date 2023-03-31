@@ -7,7 +7,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../header/";
 import Sidebar from "../sidebar/";
 import { Container, Row, Col } from "react-bootstrap";
-import { getEventColor, initialColors} from "./utils";
+import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
 
 moment.locale("en-GB");
@@ -66,6 +66,10 @@ export default function ReactBigCalendar() {
       });
   }, []);
 
+  const handleSelect = (e) => {
+// console.log('hafle sleelct', e.target);
+  }
+
   const filterEvents = (eventChecked) => {
     let newEvents = [];
     newEvents = eventsData.filter((el) => {
@@ -99,7 +103,9 @@ export default function ReactBigCalendar() {
                 events={filteredEvents}
                 style={{ height: "100vh" }}
                 BackgroundWrapper = "red"
-                onSelectEvent={(event) => console.log(event)}
+                onSelectSlot={(e) => handleSelect(e)}
+                // onSelectEvent={(e) => handleSelectedEvent(e)}
+                // onSelectEvent={(event) => console.log(event)}
                 // onSelectSlot={handleSelect}
                 eventPropGetter={(myEventsList) => {
                   const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';

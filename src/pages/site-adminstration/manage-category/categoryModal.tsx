@@ -27,7 +27,7 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     if (editCategory.id === 0) {
       const endPoint = `${id}/category`;
-      let newData = {...values, parent : parent, weight : weight};
+      let newData = {...values, parent : parent, weight : weight, level: -1};
       addCategoriesData(endPoint, newData).then((res: any)=>{
         if(res.data != "", res.status === 201){
           refreshcategories();
@@ -38,7 +38,7 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
       })
     } else {
       const endPoint = `${id}/category/${editCategory.id}`;
-      let updateValue = {...values, parent : editCategory.parent, weight : editCategory.weight};
+      let updateValue = {...values, parent : editCategory.parent, weight : editCategory.weight, level: -1};
 
       putData(endPoint, updateValue)
       .then((res: any) => {
