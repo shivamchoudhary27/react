@@ -7,6 +7,7 @@ import Addcategory from "./addcategory";
 import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
+import { pagination } from "../../../utils/pagination";
 import CategoryModal from "./categoryModal";
 
 const ManageCategory = () => {
@@ -21,13 +22,18 @@ const ManageCategory = () => {
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
   const [editCategory, setEditCategory] = useState<any>({id: 0, name: "", weight: 0, parent: 0});
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    // pageSize: pagination.PERPAGE,
+    pageSize: 100,
+  });
 
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
-    getCategoryData(endPoint, {})
-      .then((res: any) => {
+    getCategoryData(endPoint, filterUpdate)
+      .then((res: any) => { 
         if (res.data !== "" && res.status === 200) {
-          setCategoryData(res.data);
+          setCategoryData(res.data.items);
         }
       })
       .catch((err: any) => {

@@ -61,6 +61,7 @@ const CategoryTable = ({
     {
       Header: "Courses",
       accessor: "courses",
+      Cell: ({ row }: any) => <p>{row.original.courses.length}</p>,
     },
     {
       Header: "Actions",

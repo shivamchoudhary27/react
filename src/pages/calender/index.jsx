@@ -7,7 +7,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../header/";
 import Sidebar from "../sidebar/";
 import { Container, Row, Col } from "react-bootstrap";
-import { getEventColor, initialColors} from "./utils";
+import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
 
 moment.locale("en-GB");
@@ -66,26 +66,23 @@ export default function ReactBigCalendar() {
       });
   }, []);
 
+  const handleSelect = (e) => {
+// console.log('hafle sleelct', e.target);
+  }
+
   const filterEvents = (eventChecked) => {
-    if (eventChecked === 'all') {
-      setFilteredEvents(eventsData);
-      return true;
-    }
-    if (eventChecked === 'none') {
-      setFilteredEvents([]);
-      return true;   
-    }
     let newEvents = [];
-    if (eventChecked.length === 0) {
-      newEvents = eventsData;
-    } else {
-      newEvents = eventsData.filter((el) => {
-        if (eventChecked.includes(el.modulename) || eventChecked.includes(el.eventtype)) {
-          return true;
-        }
-      });
-    }
+    newEvents = eventsData.filter((el) => {
+      if (eventChecked.includes(el.modulename) || eventChecked.includes(el.eventtype)) {
+        return true;
+      }
+    });
     setFilteredEvents(newEvents);
+  }
+
+  const showAllNone = (value) => {
+    if (value === true) setFilteredEvents(eventsData);
+    else setFilteredEvents([]);
   }
 
   return (
@@ -106,7 +103,9 @@ export default function ReactBigCalendar() {
                 events={filteredEvents}
                 style={{ height: "100vh" }}
                 BackgroundWrapper = "red"
-                onSelectEvent={(event) => console.log(event)}
+                onSelectSlot={(e) => handleSelect(e)}
+                // onSelectEvent={(e) => handleSelectedEvent(e)}
+                // onSelectEvent={(event) => console.log(event)}
                 // onSelectSlot={handleSelect}
                 eventPropGetter={(myEventsList) => {
                   const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
@@ -116,7 +115,7 @@ export default function ReactBigCalendar() {
                 />
               </Col>
               <Col md={2}>
-                <CalendarFilters events={colorConfig} filters={filterEvents}/>
+                <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
               </Col>
             </Row>
           </Container>
