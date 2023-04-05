@@ -7,7 +7,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from './local';
-import CourseModal from "./courseModal";
 
 const CourseManagment = () => {
   const navigate = useNavigate();
@@ -153,15 +152,6 @@ const CourseManagment = () => {
                 cleanFormValues={cleanFormValues}
               />
             )}
-            <CourseModal
-              show={modalShow}
-              toggleModalShow={toggleModalShow}
-              onHide={() => resetModalForm()} 
-              weight={formWeight}
-              parent={formParent}
-              refreshcategories={refreshToggle}
-              editCategory={editCategory}
-            />
           </Container>
         </div>
       </div>
