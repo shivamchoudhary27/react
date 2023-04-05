@@ -9,7 +9,12 @@ import {
   putData as updateProgramData,
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
-import { addMetaInputField, generateProgramDataObject, addExtraMetaDataToInitialValues, addMetaFields } from "./utils";
+import {
+  addMetaInputField,
+  generateProgramDataObject,
+  addExtraMetaDataToInitialValues,
+  addMetaFields,
+} from "./utils";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import CustomButton from "../../../widgets/form_input_fields/buttons";
@@ -19,49 +24,67 @@ import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_fiel
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
+import MultiSelectDropdown from "../../../widgets/form_input_fields/form_multi_select";
+
+// Array of all options
+const optionList = [
+  { value: "red", label: "Red" },
+  { value: "green", label: "Green" },
+  { value: "yellow", label: "Yellow" },
+  { value: "blue", label: "Blue" },
+  { value: "white", label: "White" },
+];
 
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
-  const [inputFieldArr, setinputFieldArr] = useState<any>(addMetaFields(initialformvalues.meta.length));
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const [inputFieldArr, setinputFieldArr] = useState<any>(
+    addMetaFields(initialformvalues.meta.length)
+  );
   const [departmentName, setDepartmentName] = useState<any>(dummyData);
   const [disciplineName, setDisciplineName] = useState<any>(dummyData);
   const [programTypeId, setProgramTypeId] = useState<any>(dummyData);
+  const [tags, setTags] = useState<any>(dummyData);
   const [initValues, setInitValues] = useState<any>(initialformvalues);
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
-    const apiFilters = {pageNumber: 0, pageSize : 30};
-    makeGetDataRequest('/departments', apiFilters, setDepartmentName);
-    makeGetDataRequest('/disciplines', apiFilters, setDisciplineName);
-    makeGetDataRequest('/program-types', apiFilters, setProgramTypeId);
+    const apiFilters = { pageNumber: 0, pageSize: 30 };
+    makeGetDataRequest("/departments", apiFilters, setDepartmentName);
+    makeGetDataRequest("/disciplines", apiFilters, setDisciplineName);
+    makeGetDataRequest("/program-types", apiFilters, setProgramTypeId);
+    makeGetDataRequest("/tags", apiFilters, setTags);
   }, []);
-  
+
   useEffect(() => {
-    let addedValues = addExtraMetaDataToInitialValues(initValues, programTypeId.items, 'programtypeList');
+    let addedValues = addExtraMetaDataToInitialValues(
+      initValues,
+      programTypeId.items,
+      "programtypeList"
+    );
     setInitValues(addedValues);
   }, [programTypeId]);
-  
+
   // add extra meta field ===== >>>
   const addFieldHandler = () => {
     setinputFieldArr((currentFields: any) => {
       return [...currentFields, addMetaInputField];
     });
   };
-  
+
   // remove meta field ===== >>>
   const removeBlockHandler = () => {
     if (inputFieldArr.length > 1) {
-      let removeItem = inputFieldArr.slice(0, inputFieldArr.length-1);
+      let removeItem = inputFieldArr.slice(0, inputFieldArr.length - 1);
       setinputFieldArr(removeItem);
     }
   };
 
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
-    console.log(values)
+    console.log(values);
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
-    
+
     if (programid == 0) {
       let endPoint = "/programs";
       postProgramData(endPoint, programValues)
@@ -81,10 +104,10 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
         .catch((err: any) => {
           console.log(err);
           if (err.response.status === 400) {
-            Object.entries(err.response.data).map(([key, value])=>(
-              error_Msg += `${key}: ${value} \n`
-            ))
-            alert(error_Msg)
+            Object.entries(err.response.data).map(
+              ([key, value]) => (error_Msg += `${key}: ${value} \n`)
+            );
+            alert(error_Msg);
           } else if (err.response.status === 500) {
             alert(`${err.response.data.error}, 500!`);
             navigate("/manageprogram", { state: values });
@@ -94,7 +117,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
       let endPoint = `/programs/${programid}`;
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
-          if (res.data.items !== "" && res.status === 200) {
+          if (res.data !== "" && res.status === 200) {
             Swal.fire({
               icon: "success",
               title: "Update Successfully",
@@ -109,11 +132,11 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
         .catch((err: any) => {
           console.log(err);
           if (err.response.status === 400) {
-            Object.entries(err.response.data).map(([key, value])=>(
-              error_Msg += `${key}: ${value} \n`
-            ))
-            alert(error_Msg)
-          }else if (err.response.status === 500) {
+            Object.entries(err.response.data).map(
+              ([key, value]) => (error_Msg += `${key}: ${value} \n`)
+            );
+            alert(error_Msg);
+          } else if (err.response.status === 500) {
             alert(`${err.response.data.error}, 500!`);
             navigate("/manageprogram", { state: values });
           }
@@ -133,7 +156,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
             handlerFormSubmit(values, action);
           }}
         >
-          {({ values, errors, touched, setValues, handleChange }) => (
+          {({
+            values,
+            errors,
+            touched,
+            setValues,
+            handleChange,
+          }) => (
             <Form>
               <div className="mb-3">
                 <FieldLabel
@@ -142,11 +171,12 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                <FieldTypeSelect 
-                  name="department" 
-                  options={departmentName.items} 
+                <FieldTypeSelect
+                  name="department"
+                  options={departmentName.items}
                   setcurrentvalue={setValues}
-                  currentformvalue={values} />
+                  currentformvalue={values}
+                />
                 <FieldErrorMessage
                   errors={errors.department}
                   touched={touched.department}
@@ -188,8 +218,8 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                <FieldTypeSelect 
-                  name="programtype" 
+                <FieldTypeSelect
+                  name="programtype"
                   options={programTypeId.items}
                   setcurrentvalue={setValues}
                   currentformvalue={values}
@@ -212,7 +242,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   msgText="Please select Program Type"
                 />
               </div>
-              {values.isBatchYearRequired === true && 
+              {values.isBatchYearRequired === true && (
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="batchYear"
@@ -227,7 +257,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                     msgText="Batch Year must in number"
                   />
                 </div>
-              }
+              )}
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="discipline"
@@ -235,8 +265,8 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   required="required"
                   star="*"
                 />
-                <FieldTypeSelect 
-                  name="discipline" 
+                <FieldTypeSelect
+                  name="discipline"
                   options={disciplineName.items}
                   setcurrentvalue={setValues}
                   currentformvalue={values}
@@ -267,17 +297,55 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   </div>
                 ))} */}
                 <label className="mx-3">
-                  <input type="radio" name="modeOfStudy" value="fulltime" onChange={handleChange} />
-                  {" "}Full Time
+                  <input
+                    type="radio"
+                    name="modeOfStudy"
+                    value="fulltime"
+                    onChange={handleChange}
+                  />{" "}
+                  Full Time
                 </label>
                 <label>
-                  <input type="radio" name="modeOfStudy" value="partime" onChange={handleChange} />
-                  {" "}Part Time
+                  <input
+                    type="radio"
+                    name="modeOfStudy"
+                    value="partime"
+                    onChange={handleChange}
+                  />{" "}
+                  Part Time
                 </label>
                 <FieldErrorMessage
                   errors={errors.mode}
                   touched={touched.mode}
                   msgText="Please select Program Mode"
+                />
+              </div>
+              <div className="mb-3">
+                <FieldLabel
+                  htmlfor="tags"
+                  labelText="Tags"
+                  required="required"
+                  // star="*"
+                />
+                {/* <Multiselect
+                  isObject={true}
+                  displayValue="name"
+                  options={tags.items}
+                  // onRemove={(event) => console.log(event)}
+                  onSelect={(event) => console.log(event)}
+                  name="tags[]"
+                /> */}
+                {/* <Select
+                  options={tags.items}
+                  placeholder="Select Tags"
+                  value={selectedOptions}
+                  onChange={handleSelect}
+                  isSearchable={true}
+                  isMulti
+                /> */}
+                <MultiSelectDropdown
+                  name="tags"
+                  options={optionList}
                 />
               </div>
               <div className="mb-3">
@@ -294,9 +362,10 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   msgText="Duration must in number"
                 />
               </div>
+
               <div className="mb-3">
                 <FieldLabel htmlfor="objective" labelText="Objective" />
-                <TinymceEditor name="objective" handleChange={handleChange}/>
+                <TinymceEditor name="objective" handleChange={handleChange} />
               </div>
               <div className="mb-3">
                 <FieldLabel
@@ -311,10 +380,16 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   return (
                     <div key={index}>
                       <div className="mb-3">
-                        <FieldLabel htmlfor={`meta[${index}][title]`} labelText="Title" />
-                        <FieldTypeText name={`meta[${index}][title]`} placeholder="Title" />
+                        <FieldLabel
+                          htmlfor={`meta[${index}][title]`}
+                          labelText="Title"
+                        />
+                        <FieldTypeText
+                          name={`meta[${index}][title]`}
+                          placeholder="Title"
+                        />
                       </div>
-                                                                                                                                          
+
                       <div className="mb-3">
                         <FieldLabel
                           htmlfor={`meta[${index}][description]`}

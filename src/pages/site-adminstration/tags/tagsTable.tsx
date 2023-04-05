@@ -3,18 +3,19 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
+import { deleteData as deleteTagData } from "../../../adapters/microservices";
 
 const rawData = [
-    {
-        name: "mobile"
-    },
-    {
-        name: "trending"
-    },
-    {
-        name: "courses"
-    }
-]
+  {
+    name: "mobile",
+  },
+  {
+    name: "trending",
+  },
+  {
+    name: "courses",
+  },
+];
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -23,7 +24,12 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const TagsTable = ({ allTags, toggleModalShow }: any) => {
+const TagsTable = ({
+  allTags,
+  toggleModalShow,
+  updateDeleteRefresh,
+  editHandlerById,
+}: any) => {
   const tableColumn = [
     {
       Header: "#Tags Name",
@@ -34,10 +40,18 @@ const TagsTable = ({ allTags, toggleModalShow }: any) => {
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link to="">
-            <i className="fa-solid fa-pen"></i>
+            <i
+              className="fa-solid fa-pen"
+              onClick={() =>
+                editHandler({ id: row.original.id, name: row.original.name })
+              }
+            ></i>
           </Link>
           <Link to="">
-            <i className="fa-solid fa-trash"></i>
+            <i
+              className="fa-solid fa-trash"
+              onClick={() => deleteHandler(row.original.id)}
+            ></i>
           </Link>
           <Link to="">
             <i className="fa-solid fa-eye"></i>
@@ -49,12 +63,39 @@ const TagsTable = ({ allTags, toggleModalShow }: any) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => rawData, [rawData]);
+  const data = useMemo(() => allTags, [allTags]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
+
+  const editHandler = ({id,name}: any) => {
+    toggleModalShow(true);
+    editHandlerById({id, name});
+  };
+
+  const deleteHandler = (id: number) => {
+    updateDeleteRefresh(false);
+    let endPoint = `/tags/${id}`;
+    deleteTagData(endPoint)
+      .then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          updateDeleteRefresh(true);
+        } else if (res.status === 500) {
+          window.alert(
+            "Unable to delete, this tag might have been used in some programs"
+          );
+        }
+      })
+      .catch((result: any) => {
+        if (result.response.status === 500) {
+          window.alert(
+            "Unable to delete, this tag might have been used in some programs"
+          );
+        }
+      });
+  };
 
   return (
     <>

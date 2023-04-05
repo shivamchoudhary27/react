@@ -14,7 +14,8 @@ export const initialValues = {
     learn: "",
     meta: [],
     programaccessinfo: [],
-    isBatchYearRequired: false
+    isBatchYearRequired: false,
+    tags: [],
 };
 
 // a set of fields to be added or removed within the program form
@@ -62,7 +63,8 @@ const programData = {
     programType: {id: ''},
     department: {id: '' },
     discipline: {id: ''},
-    metaFields: [{title: '', description: ''}]
+    metaFields: [{title: '', description: ''}],
+    tags: [{id: ""}]
 }
 
 // to convert program formdata to api required structure after the form submission
@@ -80,6 +82,8 @@ export const generateProgramDataObject = (formData) => {
     programData.department = {id : formData.department};
     programData.discipline = {id : formData.discipline};
     programData.metaFields = getMetaFields(formData.meta)
+    programData.tags = getTagsField(formData.tags);
+    console.log(programData)
     return programData;
 };
 
@@ -105,6 +109,7 @@ export const generateIinitialValues = (apiData) => {
             programaccessinfo: pgInfo,
             isBatchYearRequired: apiData.programType.batchYearRequired ?? false,
             meta: apiData.metaFields,
+            tags: apiData.tags,
         }
        return setInitialValues;
     }  else {
@@ -121,4 +126,9 @@ export const addExtraMetaDataToInitialValues = (initialvalues, metadata, propert
 const getMetaFields = (metaFieldsData) => {
     const newArr = metaFieldsData.filter(el => (el !== undefined));
     return newArr;
+}
+
+const getTagsField = (tagsFildData) => {
+    const newArr = tagsFildData.filter(el => (el !== undefined));
+    return (newArr);
 }

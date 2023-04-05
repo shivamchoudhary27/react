@@ -1,32 +1,51 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-const AddTags = ({toggleModalShow}: any) => {
+const AddTags = ({toggleModalShow, setTagObj, updateInputFilters}: any) => {
     const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState("");
+
+    const handleSearch = (e: any) => {
+      e.preventDefault();
+    };
+
+    const getInputValues = () => {
+      updateInputFilters(searchValue);
+    }
+
+    const resetHandler = () => {
+      updateInputFilters("");
+      setSearchValue("");
+    }
+
     const addTagsHandler = () => {
         toggleModalShow(true)
+        setTagObj({ id: 0, name: ""});
     }
 
   return (
     <>
         <div className="filter-wrapper">
         <div className="filter-form">
-          <form>
+          <form onSubmit={handleSearch}>
             <div className="row g-3 align-items-center">
               <div className="col-auto">
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Name"
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  value={searchValue}
                 />
               </div>
               <div className="col-auto">
-                <Button variant="outline-secondary">
+                <Button variant="outline-secondary" onClick={()=>getInputValues()}>
                   Filter
                 </Button>{" "}
                 <Button
                   variant="outline-secondary"
+                  onClick={() => resetHandler()}
                 >
                   Reset
                 </Button>
