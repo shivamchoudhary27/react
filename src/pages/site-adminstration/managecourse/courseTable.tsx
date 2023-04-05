@@ -8,7 +8,6 @@ import { deleteData as deleteCategoryData, putData, postData } from "../../../ad
 import { getDragnDropAction, getItemsToUpdate, updateWeights } from './local';
 import { useNavigate } from "react-router-dom";
 
-
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -113,7 +112,7 @@ const CourseTable = ({
   const addCourseHandler = (catID : number) => {
     let path = `/courseform/${programId}/${catID}`;
     console.log('add request ', path);
-    // navigate(`{/courseform/${programId}/${catID}}`);
+    navigate(`/courseform/${programId}/${catID}`);
   }
 
   // Drag & Drop handler method === >>

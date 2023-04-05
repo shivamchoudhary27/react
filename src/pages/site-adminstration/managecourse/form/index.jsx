@@ -1,146 +1,149 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useEffect, useState } from "react";
-import { getData as getProgramData } from "../../../../adapters/microservices";
+import React from "react";
 import Header from "../../../header";
 import Sidebar from "../../../sidebar";
-import { Container, Button } from "react-bootstrap";
-import AddProgramForm from "./form";
-import { useNavigate, useParams } from "react-router-dom";
+import { Formik, Form } from "formik";
+import { Container } from "react-bootstrap";
 import FieldLabel from "../../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../../widgets/form_input_fields/form_text_field";
-import FieldTypeTextarea from "../../../../widgets/form_input_fields/form_textarea_field";
-import Custom_Button from "../../../../widgets/form_input_fields/buttons";
 import FieldErrorMessage from "../../../../widgets/form_input_fields/error_message";
+import FieldTypeTextarea from "../../../../widgets/form_input_fields/form_textarea_field";
+import CustomButton from "../../../../widgets/form_input_fields/buttons";
+import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
+import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
 
-const initialValues = {
-  courseName: "",
-  shortCode: "",
-  category: "",
-  description: "",
-  published: false,
-};
+// Formik Yup validation === >>>
+const formSchema = Yup.object({
+  name: Yup.string().min(1).required(),
+  // description: Yup.string().max(100).required(),
+});
 
-const handleSubmit = (values) => {
-  console.log(values);
-};
-
-const AddCourse = () => {
-    const courseForm = () => {
-        return (
-            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-              {(formik) => (
-                <Form>
-                  <label htmlFor="courseName">Course Name:</label>
-                  <Field type="text" id="courseName" name="courseName" />
-                  <ErrorMessage name="courseName" />
-        
-                  <label htmlFor="shortCode">Short Code:</label>
-                  <Field type="text" id="shortCode" name="shortCode" />
-                  <ErrorMessage name="shortCode" />
-        
-                  <label htmlFor="category">Category:</label>
-                  <Field as="select" id="category" name="category">
-                    <option value="">Select a category</option>
-                    <option value="math">Math</option>
-                    <option value="science">Science</option>
-                    <option value="history">History</option>
-                  </Field>
-                  <ErrorMessage name="category" />
-        
-                  <label htmlFor="description">Description:</label>
-                  <Field as="textarea" id="description" name="description" />
-                  <ErrorMessage name="description" />
-        
-                  <label>
-                    <Field type="checkbox" name="published" />
-                    Published
-                  </label>
-                  <ErrorMessage name="published" />
-        
-                  <button type="submit">Submit</button>
-                </Form>
-              )}
-            </Formik>
-          );
-    } 
-
-
-    return (
-        <>
-          <Header pageHeading="Add Course" welcomeIcon={false} />
-          <div className="main-content-container">
-            <Sidebar />
-            <div
-              className="content-area content-area-slider"
-              id="contentareaslider"
-            >
-              <Container fluid className="administration-wrapper">
-                <hr />
-                <Formik
-          initialValues={initialValues}
-          validationSchema={departmentSchema}
-          onSubmit={(values, action) => {
-            handleFormData(values, action);
-          }}
+const AddCourseForm = () => {
+  // Initial values of react table === >>>
+  const initialValues = {
+    name: "",
+    code: "",
+    category:"",
+    description: "",
+  };
+  return (
+    <>
+      <Header pageHeading="Manage Courses" welcomeIcon={false} />
+      <div className="main-content-container">
+        <Sidebar />
+        <div
+          className="content-area content-area-slider"
+          id="contentareaslider"
         >
-          {({ errors, touched, isSubmitting }) => (
-            <Form>
-              <div className="mb-3">
+          <Container fluid className="administration-wrapper">
+            <Formik
+              initialValues={initialValues}
+              // validationSchema={formSchema}
+              onSubmit={(values, action) => {
+                console.log(values);
+              }}
+            >
+              {({ errors, touched, isSubmitting, setValues, values }) => (
+                <Form>
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="name"
+                      labelText="Name"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeText name="name" placeholder="Name" />
+                    <FieldErrorMessage
+                      errors={errors.name}
+                      touched={touched.name}
+                      msgText="Name required atleast 1 character"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="code"
+                      labelText="Code"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeText name="code" placeholder="Short Code" />
+                    <FieldErrorMessage
+                      errors={errors.name}
+                      touched={touched.name}
+                      msgText="Code required atleast 1 character"
+                    />
+                  </div>
+
+                  <div className="mb-3">
                 <FieldLabel
-                  htmlfor="name"
-                  labelText="Name"
+                  htmlfor="category"
+                  labelText="Category"
                   required="required"
                   star="*"
                 />
-                <FieldTypeText name="name" placeholder="Name" />
+                <FieldTypeSelect
+                  name="category"
+                  options={["1","2"]}
+                  setcurrentvalue={setValues}
+                  currentformvalue={values}
+                />
                 <FieldErrorMessage
-                  errors={errors.name}
-                  touched={touched.name}
-                  msgText="Name required atleast 1 character"
+                  errors={errors.department}
+                  touched={touched.department}
+                  msgText="Please select Department"
                 />
               </div>
 
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="description"
-                  labelText="Description"
-                  // required="required"
-                  // star="*"
-                />
-                <FieldTypeTextarea
-                  name="description"
-                  component="textarea"
-                  placeholder="Description"
-                />
-                <FieldErrorMessage
-                  errors={errors.description}
-                  touched={touched.description}
-                  msgText="Please Enter description"
-                />
-              </div>
-              <div className="text-center">
-                <Custom_Button
-                  type="submit"
-                  variant="primary"
-                  isSubmitting={isSubmitting}
-                  btnText={formTitles.btnTitle}
-                />{" "}
-                {formTitles.btnTitle === "Save" && (
-                  <Custom_Button
-                    type="reset"
-                    btnText="Reset"
-                    variant="outline-secondary"
-                  />
-                )}
-              </div>
-            </Form>
-          )}
-        </Formik>
-              </Container>
-            </div>
-          </div>
-        </>
-      );
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="description"
+                      labelText="Description"
+                      // required="required"
+                      // star="*"
+                    />
+                    <FieldTypeTextarea
+                      name="description"
+                      component="textarea"
+                      placeholder="Description"
+                    />
+                    <FieldErrorMessage
+                      errors={errors.description}
+                      touched={touched.description}
+                      msgText="Please Enter description"
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <FieldTypeCheckbox
+                      name="publish"
+                      checkboxLabel="Publish"
+                    />{" "}
+                    <FieldErrorMessage
+                      errors={errors.publish}
+                      touched={touched.publish}
+                      msgText="Please Check required field"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <CustomButton
+                      type="submit"
+                      variant="primary"
+                      // isSubmitting={isSubmitting}
+                      btnText="Save"
+                    />{" "}
+                    <CustomButton
+                      type="reset"
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </Container>
+        </div>
+      </div>
+    </>
+  );
 };
 
-export default AddCourse;
+export default AddCourseForm;
