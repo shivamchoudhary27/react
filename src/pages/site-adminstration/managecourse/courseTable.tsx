@@ -59,32 +59,29 @@ const CourseTable = ({
         <span style={actionsStyle}>
           {
             (row.original.coursename !== undefined) ?
-            <p>Edit courses</p> :
+            <>
+              <Link to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}>
+                <i className="fa-solid fa-pen"
+                ></i>
+              </Link>
+              <Link to="">
+                <i
+                  className="fa-solid fa-trash"
+                  onClick={() => {
+                    deleteHandler(row.original.courseid);
+                  }}
+                ></i>
+              </Link>
+              <Link to="">
+                <i className="fa-solid fa-eye"></i>
+              </Link>
+            </>                        
+            :
             (row.original.haschild !== undefined && row.original.haschild === false)
             &&
             <Button
               onClick={() => {addCourseHandler(row.original.id)}}
             >Add course</Button>
-            // <>
-            //   <Link to="">
-            //     <i className="fa-solid fa-pen"
-            //       onClick={() => {
-            //         editHandler(row.original.id, row.original.name, row.original.weight, row.original.parent);
-            //       }}
-            //     ></i>
-            //   </Link>
-            //   <Link to="">
-            //     <i
-            //       className="fa-solid fa-trash"
-            //       onClick={() => {
-            //         deleteHandler(row.original.id);
-            //       }}
-            //     ></i>
-            //   </Link>
-            //   <Link to="">
-            //     <i className="fa-solid fa-eye"></i>
-            //   </Link>
-            // </>            
           }
         </span>
       ),
@@ -110,10 +107,14 @@ const CourseTable = ({
   }, [updateSource, newWeightsItems]);
 
   const addCourseHandler = (catID : number) => {
-    let path = `/courseform/${programId}/${catID}`;
-    console.log('add request ', path);
-    navigate(`/courseform/${programId}/${catID}`);
+    navigate(`/courseform/${programId}/${catID}/0`);
   }
+
+  // category Table Elements Update handler === >>
+  const editHandler = (courseid: number, catID: number) => {
+    console.log()
+    navigate(`/courseform/${programId}/${catID}/${courseid}`);
+  };
 
   // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
@@ -173,28 +174,22 @@ const CourseTable = ({
     })
   }
 
-  // category Table Elements Update handler === >>
-  const editHandler = (id: number, name: string, weight: number, parent: number) => {
-    setEditCategoryValues({id, name, weight, parent});
-    toggleModalShow(true);
-  };
-
   // category Table Elements Delete handler === >>
-  const deleteHandler = (delID: number) => {
+  const deleteHandler = (courseID: number) => {
     updatedeleterefresh(false);
-    if (window.confirm('Are you sure to delete this category?')) {
-      const endPoint = `${programId}/category/${delID}`;
+    if (window.confirm('Are you sure to delete this course?')) {
+      const endPoint = `${programId}/course/${courseID}`;
       deleteCategoryData(endPoint)
       .then((res: any) => {
         if (res.status === 200) {
-          console.log(res.data);
+          // console.log(res.data);
           updatedeleterefresh(true);
         } else if (res.status === 500) {
-          window.alert('Unable to delete, this category might have come courses');
+          window.alert('Unable to delete, this course might have come courses');
         } 
       }).catch((result : any) => {
         if (result.response.status === 500) {
-          window.alert('Unable to delete, this category might have come courses');
+          window.alert('Unable to delete, this course might have come courses');
         }            
       });
     }

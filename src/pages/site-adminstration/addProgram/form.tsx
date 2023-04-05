@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
-import { Formik, Form } from "formik";
+import { Formik, Form, Field } from "formik";
 import { Schemas } from "./schemas";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import {
@@ -19,12 +19,13 @@ import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import CustomButton from "../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_field";
-import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
+// import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
 import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import MultiSelectDropdown from "../../../widgets/form_input_fields/form_multi_select";
+// import MultiSelectDropdown from "../../../widgets/form_input_fields/form_multi_select";
+import FieldMultiSelect from "../../../widgets/form_input_fields/multi_select";
 
 // Array of all options
 const optionList = [
@@ -49,7 +50,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
 
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
-    const apiFilters = { pageNumber: 0, pageSize: 30 };
+    const apiFilters = { pageNumber: 0, pageSize: 100 };
     makeGetDataRequest("/departments", apiFilters, setDepartmentName);
     makeGetDataRequest("/disciplines", apiFilters, setDisciplineName);
     makeGetDataRequest("/program-types", apiFilters, setProgramTypeId);
@@ -81,9 +82,10 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   };
 
   const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
-    console.log(values);
+    
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
+    // return;
 
     if (programid == 0) {
       let endPoint = "/programs";
@@ -320,34 +322,18 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                   msgText="Please select Program Mode"
                 />
               </div>
+              
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="tags"
                   labelText="Tags"
-                  required="required"
-                  // star="*"
                 />
-                {/* <Multiselect
-                  isObject={true}
-                  displayValue="name"
-                  options={tags.items}
-                  // onRemove={(event) => console.log(event)}
-                  onSelect={(event) => console.log(event)}
-                  name="tags[]"
-                /> */}
-                {/* <Select
-                  options={tags.items}
-                  placeholder="Select Tags"
-                  value={selectedOptions}
-                  onChange={handleSelect}
-                  isSearchable={true}
-                  isMulti
-                /> */}
-                <MultiSelectDropdown
+                <FieldMultiSelect
                   name="tags"
-                  options={optionList}
+                  options={tags.items}
                 />
               </div>
+
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="duration"
