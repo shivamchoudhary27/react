@@ -6,8 +6,12 @@ import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 import Custom_Button from "../../../widgets/form_input_fields/buttons";
-import { postData as addCategoriesData, putData } from "../../../adapters/microservices";
+import {
+  postData as addCategoriesData,
+  putData,
+} from "../../../adapters/microservices";
 import { useParams } from "react-router-dom";
+import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
@@ -15,9 +19,16 @@ const categorySchema = Yup.object({
   // description: Yup.string().max(100).required(),
 });
 
-const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshcategories, editCategory }: any) => {
-  
-  const {id} = useParams();
+const CategoryModal = ({
+  show,
+  onHide,
+  weight,
+  parent,
+  toggleModalShow,
+  refreshcategories,
+  editCategory,
+}: any) => {
+  const { id } = useParams();
   const initialValues = {
     name: editCategory.name,
     description: "",
@@ -41,17 +52,18 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
       let updateValue = {...values, parent : editCategory.parent, weight : editCategory.weight, level: -1};
 
       putData(endPoint, updateValue)
-      .then((res: any) => {
-        refreshcategories();
-        toggleModalShow(false)
-      }).catch((err: any) => {
-        window.alert('Some error occurred!');
-      })
+        .then((res: any) => {
+          refreshcategories();
+          toggleModalShow(false);
+        })
+        .catch((err: any) => {
+          window.alert("Some error occurred!");
+        });
     }
     resetForm();
   };
 
-  return ( 
+  return (
     <>
       <Modal
         show={show}
@@ -107,6 +119,16 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
                     msgText="Please Enter description"
                   />
                 </div>
+                {editCategory.id != 0 && (
+                  <div>
+                    <FieldLabel htmlfor="parent" labelText="Parent" />
+                    <select className="form-control mb-3">
+                      <option>0</option>
+                      <option>1</option>
+                      <option>2</option>
+                    </select>
+                  </div>
+                )}
                 <div className="text-center">
                   <Custom_Button
                     type="submit"
@@ -123,8 +145,8 @@ const CategoryModal = ({ show, onHide, weight, parent, toggleModalShow, refreshc
               </Form>
             )}
           </Formik>
-          <p>Parent: {parent}</p>
-          <p>Weight: {weight}</p>
+          <p>Parent: {parent === 0 ? "Top" : editCategory.name}</p>
+          {/* <p>Weight: {weight}</p> */}
         </Modal.Body>
       </Modal>
     </>
