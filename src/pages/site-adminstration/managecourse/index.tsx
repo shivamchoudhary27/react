@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import Header from "../../header";
 import Sidebar from "../../sidebar";
 import { Container, Button } from "react-bootstrap";
-import CategoryTable from "./categoryTable";
-import Addcategory from "./addcategory";
+import CourseTable from "./courseTable";
 import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
-// import { pagination } from "../../../utils/pagination";
-import CategoryModal from "./categoryModal";
+import { setHasChildProp, resetManageCourseObj } from './local';
+import CourseModal from "./courseModal";
 
-const ManageCategory = () => {
+const CourseManagment = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [categoryData, setCategoryData] = useState([]);
@@ -27,12 +26,13 @@ const ManageCategory = () => {
     // pageSize: pagination.PERPAGE,
     pageSize: 100,
   });
-
+  
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => { 
         if (res.data !== "" && res.status === 200) {
+          console.log(res.data.items);
           setCategoryData(res.data.items);
         }
       })
@@ -44,9 +44,8 @@ const ManageCategory = () => {
   // Get category Data from API === >>
   useEffect(() => {
     if (deleteRefresh === true) {
-      console.log('set to refresh');
       getCategoriesData();
-    } 
+    }
   }, [deleteRefresh]);
   
   // Get category Data from API === >>
@@ -66,7 +65,9 @@ const ManageCategory = () => {
           updateCategoryLevels(convertedResult, item.id, 2);
         }
       });
-      setSortedCategories(convertedResult)
+      const hasChildPropAdded = setHasChildProp(convertedResult);
+      const courseObjAdded = resetManageCourseObj(hasChildPropAdded);
+      setSortedCategories(courseObjAdded);
     }
   }, [categoryData]);
 
@@ -139,11 +140,11 @@ const ManageCategory = () => {
             </Button>
             <hr />
             {sortedCategories.length !== 0 && (
-              <CategoryTable
+              <CourseTable
                 categoryData={sortedCategories}
                 modalShow={modalShow}
                 toggleModalShow={toggleModalShow}
-                id={id}
+                programId={id}
                 setFormParentValue={setFormParentValue}
                 setFormWeightValue={setFormWeightValue}
                 updatedeleterefresh={updateDeleteRefresh}
@@ -152,17 +153,7 @@ const ManageCategory = () => {
                 cleanFormValues={cleanFormValues}
               />
             )}
-            <Addcategory
-              latestparentweight={parentWeight}
-              toggleModalShow={toggleModalShow}
-              modalShow={modalShow}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              onClick={cleanFormValues}
-            />
-            {/* {modalShow === true
-            && */}
-            <CategoryModal
+            <CourseModal
               show={modalShow}
               toggleModalShow={toggleModalShow}
               onHide={() => resetModalForm()} 
@@ -171,7 +162,6 @@ const ManageCategory = () => {
               refreshcategories={refreshToggle}
               editCategory={editCategory}
             />
-            {/* } */}
           </Container>
         </div>
       </div>
@@ -179,4 +169,4 @@ const ManageCategory = () => {
   );
 };
 
-export default ManageCategory;
+export default CourseManagment;

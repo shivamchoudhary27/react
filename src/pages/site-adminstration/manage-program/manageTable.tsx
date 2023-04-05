@@ -56,7 +56,7 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
       Header: "Manage Courses",
       accessor: "manage_courses",
       Cell: ({ row }: any) => (
-        <Link to="/managecourses">
+        <Link to={`/managecourses/${row.original.id}`}>
           <i className="fa-solid fa-copy"></i>
         </Link>
       ),

@@ -23,13 +23,15 @@ import AuthLogin from '../../pages/authlogin/AuthLogin';
 import SiteAdminHome from '../../pages/site-adminstration/siteAdmin';
 import ProgramEnrollment from '../../pages/site-adminstration/program-enrollment';
 import ManageCategory from '../../pages/site-adminstration/manage-category';
-import ManageCourses from '../../pages/site-adminstration/manage-courses';
+// import ManageCourses from '../../pages/site-adminstration/manage-courses';CourseManagment
+import CourseManagment from '../../pages/site-adminstration/managecourse';
 import ReactBigCalendar from '../../pages/calender';
 import Preview from '../../pages/site-adminstration/manage-program/preview';
 import StudentDashboard from '../../pages/student-dashboard/dashboard';
 import TeacherDashboard from '../../pages/teacher-dashboard/dashboard';
 import CalenderConfig from '../../pages/site-adminstration/calender-config';
 import Tags from '../../pages/site-adminstration/tags';
+import AddCourse from '../../pages/site-adminstration/managecourse/form';
 
 export default function CustomRoutes() {
 
@@ -50,11 +52,12 @@ export default function CustomRoutes() {
           <Route path='/preview' element={<Preview />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
           <Route path="/managecategory/:id" element={<ManageCategory />} />
-          <Route path="/managecourses" element={<ManageCourses />} />
+          <Route path="/managecourses/:id" element={<CourseManagment />} />
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />
           <Route path="/tags" element={<Tags />} />
+          <Route path="/courseform/:progid/:catid" element={<AddCourse />} />
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
