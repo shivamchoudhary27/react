@@ -69,6 +69,8 @@ const programData = {
 
 // to convert program formdata to api required structure after the form submission
 export const generateProgramDataObject = (formData) => {
+    console.log('after submit form values ', formData);
+    const submittedTags = convertFormSubmittedTagsData(formData.tags);
     programData.name = formData.programName;
     programData.programCode = formData.programCode;
     programData.modeOfStudy = formData.modeOfStudy;
@@ -82,15 +84,23 @@ export const generateProgramDataObject = (formData) => {
     programData.department = {id : formData.department};
     programData.discipline = {id : formData.discipline};
     programData.metaFields = getMetaFields(formData.meta)
-    programData.tags = getTagsField(formData.tags);
-    console.log(programData)
+    programData.tags = submittedTags;
+    console.log(programData);
     return programData;
 };
+
+const convertFormSubmittedTagsData = (tags) => {
+    const filteredArray = tags.filter(value => value != 0);  // to remove value zero
+    const newArray = filteredArray.map(id => {
+        return { id: parseInt(id) };
+    });
+    return newArray;
+}
 
 //method to provide the final initialvalues to be filled in the program form
 export const generateIinitialValues = (apiData) => {
     if (Object.keys(apiData).length > 0) {
-        
+
         let pgInfo = [];
         if (programData.fullLifeTimeAccess === true) pgInfo.push("fullaccess")
         if (programData.published === true) pgInfo.push("published")

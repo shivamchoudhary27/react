@@ -33,8 +33,6 @@ const Tags = () => {
       });
   };
 
-  console.log(allTags);
-
   // Get tags Data from API === >>
   useEffect(() => {
     getTags();
@@ -75,7 +73,7 @@ const Tags = () => {
 
   return (
     <>
-      <Header pageHeading="Tags" welcomeIcon={false} />
+      <Header pageHeading="Manage Tags" welcomeIcon={false} />
       <div className="main-content-container">
         <Sidebar />
         <div

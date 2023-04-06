@@ -1,4 +1,9 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getData,
+  postData as addCourseData,
+  putData,
+} from "../../../../adapters/microservices/index";
 import Header from "../../../header";
 import Sidebar from "../../../sidebar";
 import { Formik, Form } from "formik";
@@ -10,8 +15,7 @@ import FieldTypeTextarea from "../../../../widgets/form_input_fields/form_textar
 import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
-import * as Yup from "yup"
-import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -21,13 +25,107 @@ const formSchema = Yup.object({
 
 const AddCourseForm = () => {
   const navigate = useNavigate();
-  // Initial values of react table === >>>
-  const initialValues = {
+  const { progid, catid, courseid } = useParams();
+  const parsedCourseid = parseInt(courseid);
+  const [courseDetail, setCourseDetails] = useState({})
+  const [categorieslist, setCategoriesList] = useState([]);
+  const [filterUpdate, setFilterUpdate] = useState({
+    pageNumber: 0,
+    // pageSize: pagination.PERPAGE,
+    pageSize: 100,
+  });
+  const [initValues, setInitValues] = useState({
     name: "",
-    code: "",
-    category:"",
+    courseCode: "",
+    category:catid,
     description: "",
+    published: false
+  });
+
+  // Get category Data from API === >>
+  useEffect(() => {
+    if (parsedCourseid > 0) {
+      const endPoint = `/${progid}/course`;
+      let filters = {Id: courseid, pageNumber: 0, pageSize: 1}
+      getData(endPoint, filters)
+        .then((res) => { 
+          if (res.status === 200) {
+            if (res.data.items.length === 1) {
+              let requestedcourse = res.data.items[0];
+              setCourseDetails(requestedcourse);
+              setInitValues({
+                id: requestedcourse.id, 
+                name: requestedcourse.name,
+                courseCode: requestedcourse.courseCode,
+                description: requestedcourse.description,
+                published: requestedcourse.published,
+                category:catid
+              })
+            } else {
+              window.alert('No course details were found for requested course ');
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
+console.log('initValues', initValues)
+  // Get category Data from API === >>
+  useEffect(() => {
+    getCategoriesData();
+  }, []);
+
+  // useEffect(() => {
+  //   setInitValues({...initValues, category: categorieslist})
+  // }, [categorieslist]);
+
+  const getCategoriesData = () => {
+    const endPoint = `/${progid}/category`;
+    getData(endPoint, filterUpdate)
+      .then((res) => { 
+        if (res.data !== "" && res.status === 200) {
+          // console.log(res.data.items)
+          setCategoriesList(res.data.items);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  // handle Form CRUD operations === >>>
+  const handleFormData = (values, { setSubmitting, resetForm }) => {
+    console.log('form values after submission', values);
+    let requestData =  {...values, category: {id: values.category}} 
+    if (parsedCourseid === 0) {
+      const endPoint = `${progid}/course`;
+      addCourseData(endPoint, requestData).then((res)=>{
+        if(res.status === 201){
+          window.alert('Create successul');
+          navigate(`/managecourses/${progid}`);
+        }
+      }).catch((err)=>{
+        console.log(err)
+      })
+    } else {
+      const endPoint = `${progid}/course/${parsedCourseid}`;
+
+      putData(endPoint, requestData)
+        .then((res) => {
+          if (res.status === 200) {
+            window.alert('Update successul');
+            navigate(`/managecourses/${progid}`);
+          }
+        })
+        .catch((err) => {
+          window.alert("Some error occurred!");
+        });
+    }
+    // resetForm();
   };
+
   return (
     <>
       <Header pageHeading="Manage Courses: Master of Computer Applications" welcomeIcon={false} />
@@ -38,18 +136,18 @@ const AddCourseForm = () => {
           id="contentareaslider"
         >
           <Container fluid className="administration-wrapper">
-          <Button
+            <Button
               variant="outline-secondary"
-              onClick={() => navigate("/tags")}
+              onClick={() => navigate(`/managecourses/${progid}`)}
             >
               Go back
             </Button>
             <hr />
             <Formik
-              initialValues={initialValues}
-              // validationSchema={formSchema}
+              enableReinitialize={true}
+              initialValues={initValues}
               onSubmit={(values, action) => {
-                console.log(values);
+                handleFormData(values, action);
               }}
             >
               {({ errors, touched, isSubmitting, setValues, values }) => (
@@ -71,12 +169,12 @@ const AddCourseForm = () => {
 
                   <div className="mb-3">
                     <FieldLabel
-                      htmlfor="code"
-                      labelText="Code"
+                      htmlfor="courseCode"
+                      labelText="Course Code"
                       required="required"
                       star="*"
                     />
-                    <FieldTypeText name="code" placeholder="Short Code" />
+                    <FieldTypeText name="courseCode" placeholder="Course Code" />
                     <FieldErrorMessage
                       errors={errors.name}
                       touched={touched.name}
@@ -93,7 +191,7 @@ const AddCourseForm = () => {
                 />
                 <FieldTypeSelect
                   name="category"
-                  options={["1","2"]}
+                  options={categorieslist}
                   setcurrentvalue={setValues}
                   currentformvalue={values}
                 />
@@ -124,8 +222,8 @@ const AddCourseForm = () => {
                   </div>
                   <div className="mb-3">
                     <FieldTypeCheckbox
-                      name="publish"
-                      checkboxLabel="Publish"
+                      name="published"
+                      checkboxLabel="Published"
                     />{" "}
                     <FieldErrorMessage
                       errors={errors.publish}

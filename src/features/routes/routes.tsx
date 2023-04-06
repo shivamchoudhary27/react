@@ -57,7 +57,7 @@ export default function CustomRoutes() {
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />
           <Route path="/tags" element={<Tags />} />
-          <Route path="/courseform/:progid/:catid" element={<AddCourseForm />} />
+          <Route path="/courseform/:progid/:catid/:courseid" element={<AddCourseForm />} />
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
