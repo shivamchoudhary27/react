@@ -33,6 +33,7 @@ const CourseTable = ({
       Header: "",
       accessor: "icon",
       Cell: ({ row }: any) => <i className="fa-solid fa-grip-lines"></i>,
+      draggable: false,
     },
     {
       Header: "Categories",
@@ -48,10 +49,12 @@ const CourseTable = ({
           </div>
         );
       },
+      draggable: false,
     },
     {
       Header: "Courses",
       accessor: "coursename",
+      draggable: true,
     },
     {
       Header: "Actions",
@@ -85,6 +88,7 @@ const CourseTable = ({
           }
         </span>
       ),
+      draggable: false,
     },
   ];
 
@@ -120,25 +124,26 @@ const CourseTable = ({
 
   // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
-    if (!results.destination) return;
-    let temp = [...selectedData];
-    let [selectedRow] = temp.splice(results.source.index, 1);
-    temp.splice(results.destination.index, 0, selectedRow);
-    setSelectedData(temp);
+    // if (1 === 1) return;
+    // if (!results.destination) return;
+    // let temp = [...selectedData];
+    // let [selectedRow] = temp.splice(results.source.index, 1);
+    // temp.splice(results.destination.index, 0, selectedRow);
+    // setSelectedData(temp);
     
-    // call to update the new position in data
-    let catShifting = results.source.index;
-    let toMoved = results.destination.index;
+    // // call to update the new position in data
+    // let catShifting = results.source.index;
+    // let toMoved = results.destination.index;
 
-    let updateSrcProperties = {
-      id: categoryData[catShifting].id,
-      name: categoryData[catShifting].name,
-      weight: categoryData[toMoved].weight,
-      parent: categoryData[toMoved].parent,
-    };
+    // let updateSrcProperties = {
+    //   id: categoryData[catShifting].id,
+    //   name: categoryData[catShifting].name,
+    //   weight: categoryData[toMoved].weight,
+    //   parent: categoryData[toMoved].parent,
+    // };
     
-    setUpdateSource({data: updateSrcProperties, status : 'updated'});  // update source parent and weight
-    generateFilterMetadata(catShifting, toMoved)
+    // setUpdateSource({data: updateSrcProperties, status : 'updated'});  // update source parent and weight
+    // generateFilterMetadata(catShifting, toMoved)
   };
 
   const generateFilterMetadata = (source: number, destination : number) => {
@@ -233,7 +238,7 @@ const CourseTable = ({
               ))}
             </thead>
             <Droppable droppableId="tbody">
-              {(provided) => (
+              {(provided, snapshot) => (
                 <tbody
                   ref={provided.innerRef}
                   {...provided.droppableProps}
@@ -247,18 +252,33 @@ const CourseTable = ({
                         draggableId={`drag-id-${row.original.id.toString()}`}
                         index={index}
                         key={row.id.toString()}
+                        isDragDisabled={(row.original.courseid !== undefined)  ? false : true}
                       >
-                        {(provided) => (
+                        {(provided, snapshot) => (
+                          // <tr
+                          //   ref={provided.innerRef}
+                          //   {...provided.draggableProps}
+                          //   {...row.getRowProps()}
+                          // >
                           <tr
+                            {...row.getRowProps()}
                             ref={provided.innerRef}
                             {...provided.draggableProps}
-                            {...row.getRowProps()}
+                            style={{
+                              ...provided.draggableProps.style,
+                              backgroundColor: snapshot.isDragging ? 'papayawhip' : 'white',
+                            }}
                           >
                             {row.cells.map((cell, index) => (
                               <td
                                 {...provided.dragHandleProps}
                                 {...cell.getCellProps()}
                                 key={index}
+                                style={{
+                                  padding: '10px',
+                                  border: 'solid 1px gray',
+                                  background: 'white',
+                                }}
                               >
                                 {cell.render("Cell")}
                               </td>

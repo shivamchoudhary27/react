@@ -87,53 +87,22 @@ const DiciplineTable = ({
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: true,
-    });
-    swalWithBootstrapButtons
-      .fire({
-        title: "Are you sure to delete?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: "success",
-            title: "Action complete",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          let endpoint = `/disciplines/${id}`;
-          deleteDisciplineData(endpoint).then((res: any) => {
-            if (res.data !== "" && res.status === 200) {
-              refreshOnDelete(true);
-            } else if (res.status === 500) {
-              window.alert('Unable to delete, this discipline might have been used in some programs');
-            }
-          }).catch((result : any) => {
-            if (result.response.status === 500) {
-              window.alert('Unable to delete, this department might have been used in some programs');
-            }            
-          });
-        } else if (
-          result.dismiss === Swal.DismissReason.cancel
-        ) {
-          Swal.fire({
-            icon: "error",
-            title: "Cancelled",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+    if (window.confirm('Are you sure to delete this discipline?')) {
+      let endpoint = `/disciplines/${id}`;
+      deleteDisciplineData(endpoint).then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          refreshOnDelete(true);
+        } else if (res.status === 500) {
+          window.alert('Unable to delete');
         }
+      }).catch((result : any) => {
+        if (result.response.status === 400) {
+          window.alert(result.response.data.message);
+        } else {
+          window.alert(result.response.data.message);
+        }      
       });
+    }
   };
 
   // hide show toggle event handler === >>>

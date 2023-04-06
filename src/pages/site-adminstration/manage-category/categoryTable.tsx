@@ -52,9 +52,12 @@ const CategoryTable = ({
       accessor: "subCategory",
       Cell: ({ row }: any) => (
         <>
+          {row.original.courses.length === 0
+          &&
           <Link to="" onClick={() => addSubCategoryHandler(row.original.id)}>
             <i className="fa-solid fa-square-plus"></i>
           </Link>
+          }
         </>
       ),
     },

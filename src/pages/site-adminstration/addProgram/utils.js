@@ -119,7 +119,7 @@ export const generateIinitialValues = (apiData) => {
             programaccessinfo: pgInfo,
             isBatchYearRequired: apiData.programType.batchYearRequired ?? false,
             meta: apiData.metaFields,
-            tags: apiData.tags,
+            tags: apiData.tags.map(obj => obj.id),
         }
        return setInitialValues;
     }  else {

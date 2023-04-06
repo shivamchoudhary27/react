@@ -10,8 +10,9 @@ import BuildPagination from "../../../widgets/pagination";
 import { getData as getTagsData } from "../../../adapters/microservices";
 
 const Tags = () => {
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [modalShow, setModalShow] = useState(false);
-  const [allTags, setAllTags] = useState<any>([]);
+  const [allTags, setAllTags] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(false);
   const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
   const [tagObj, setTagObj] = useState({ id: "", name: "" });
@@ -19,13 +20,13 @@ const Tags = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-
+ 
   const getTags = () => {
     const endPoint = `/tags`;
     getTagsData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          setAllTags(res.data.items);
+          setAllTags(res.data);
         }
       })
       .catch((err: any) => {
@@ -36,7 +37,7 @@ const Tags = () => {
   // Get tags Data from API === >>
   useEffect(() => {
     getTags();
-  }, [refreshData]);
+  }, [refreshData, filterUpdate]);
 
   // delete tags Data from API === >>
   useEffect(() => {
@@ -95,13 +96,13 @@ const Tags = () => {
             />
             <hr />
             <TagsTable
-              allTags={allTags}
+              allTags={allTags.items}
               toggleModalShow={toggleModalShow}
               updateDeleteRefresh={updateDeleteRefresh}
               editHandlerById={editHandlerById}
             />
             <BuildPagination
-              totalpages={2}
+              totalpages={allTags.pager.totalPages}
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}
             />
