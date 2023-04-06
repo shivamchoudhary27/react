@@ -80,7 +80,7 @@ const CourseTable = ({
             (row.original.haschild !== undefined && row.original.haschild === false)
             &&
             <Button
-              onClick={() => {addCourseHandler(row.original.id)}}
+              onClick={() => {addCourseHandler(row.original.id, row.original.name)}}
             >Add course</Button>
           }
         </span>
@@ -106,8 +106,10 @@ const CourseTable = ({
     }
   }, [updateSource, newWeightsItems]);
 
-  const addCourseHandler = (catID : number) => {
-    navigate(`/courseform/${programId}/${catID}/0`);
+  const addCourseHandler = (catID : number, catName: string) => {
+    let path = `/courseform/${programId}/${catID}`;
+    console.log('add request ', path);
+    navigate(`/courseform/${programId}/${catID}`, {state: catName});
   }
 
   // category Table Elements Update handler === >>

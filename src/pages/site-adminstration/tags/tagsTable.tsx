@@ -128,9 +128,9 @@ const TagsTable = ({
             })}
           </tbody>
         </Table>
-        {/* {allTags.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )} */}
+        {allTags.length === 0 && (
+          <TableSkeleton numberOfRows={4} numberOfColumns={4} />
+        )}
       </div>
     </>
   );

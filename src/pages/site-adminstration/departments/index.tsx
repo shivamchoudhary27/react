@@ -8,7 +8,7 @@ import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import BuildPagination from "../../../widgets/pagination";
-import "./style.scss"; 
+import "./style.scss";
 
 const Departments = () => {
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
