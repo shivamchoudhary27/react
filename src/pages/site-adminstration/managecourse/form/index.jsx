@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../../../header";
 import Sidebar from "../../../sidebar";
 import { Formik, Form } from "formik";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import FieldLabel from "../../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../../widgets/form_input_fields/form_text_field";
 import FieldErrorMessage from "../../../../widgets/form_input_fields/error_message";
@@ -10,6 +10,8 @@ import FieldTypeTextarea from "../../../../widgets/form_input_fields/form_textar
 import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
+import * as Yup from "yup"
+import { useNavigate } from "react-router-dom";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -18,6 +20,7 @@ const formSchema = Yup.object({
 });
 
 const AddCourseForm = () => {
+  const navigate = useNavigate();
   // Initial values of react table === >>>
   const initialValues = {
     name: "",
@@ -27,7 +30,7 @@ const AddCourseForm = () => {
   };
   return (
     <>
-      <Header pageHeading="Manage Courses" welcomeIcon={false} />
+      <Header pageHeading="Manage Courses: Master of Computer Applications" welcomeIcon={false} />
       <div className="main-content-container">
         <Sidebar />
         <div
@@ -35,6 +38,13 @@ const AddCourseForm = () => {
           id="contentareaslider"
         >
           <Container fluid className="administration-wrapper">
+          <Button
+              variant="outline-secondary"
+              onClick={() => navigate("/tags")}
+            >
+              Go back
+            </Button>
+            <hr />
             <Formik
               initialValues={initialValues}
               // validationSchema={formSchema}
