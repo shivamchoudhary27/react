@@ -16,6 +16,7 @@ import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
 import * as Yup from "yup";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -25,6 +26,7 @@ const formSchema = Yup.object({
 
 const AddCourseForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { progid, catid, courseid } = useParams();
   const parsedCourseid = parseInt(courseid);
   const [courseDetail, setCourseDetails] = useState({})
@@ -128,7 +130,10 @@ console.log('initValues', initValues)
 
   return (
     <>
-      <Header pageHeading="Manage Courses: Master of Computer Applications" welcomeIcon={false} />
+      <Header
+        pageHeading={`Manage Courses: ${location.state}`}
+        welcomeIcon={false}
+      />
       <div className="main-content-container">
         <Sidebar />
         <div
@@ -226,8 +231,8 @@ console.log('initValues', initValues)
                       checkboxLabel="Published"
                     />{" "}
                     <FieldErrorMessage
-                      errors={errors.publish}
-                      touched={touched.publish}
+                      errors={errors.published}
+                      touched={touched.published}
                       msgText="Please Check required field"
                     />
                   </div>

@@ -12,7 +12,7 @@ import CategoryModal from "./categoryModal";
 
 const ManageCategory = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, name } = useParams();
   const [categoryData, setCategoryData] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
@@ -121,7 +121,7 @@ const ManageCategory = () => {
   return (
     <>
       <Header
-        pageHeading="Manage Categories: Master of Computer Applications"
+        pageHeading={`Manage Categories: ${name}`}
         welcomeIcon={false}
       />
       <div className="main-content-container">

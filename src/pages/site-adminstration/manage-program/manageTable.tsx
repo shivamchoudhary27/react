@@ -47,7 +47,7 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
       Header: "Manage Categories",
       // accessor: "categories",
       Cell: ({ row }: any) => (
-        <Link to={`/managecategory/${row.original.id}`}>
+        <Link to={`/managecategory/${row.original.id}/${row.original.name}`}>
           <i className="fa-solid fa-code-branch"></i>
         </Link>
       ),
@@ -56,7 +56,7 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
       Header: "Manage Courses",
       accessor: "manage_courses",
       Cell: ({ row }: any) => (
-        <Link to={`/managecourses/${row.original.id}`}>
+        <Link to={`/managecourses/${row.original.id}/${row.original.name}`}>
           <i className="fa-solid fa-copy"></i>
         </Link>
       ),

@@ -10,7 +10,7 @@ import { setHasChildProp, resetManageCourseObj } from './local';
 
 const CourseManagment = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, name } = useParams();
   const [categoryData, setCategoryData] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
@@ -120,7 +120,7 @@ const CourseManagment = () => {
   return (
     <>
       <Header
-        pageHeading="Manage Categories: Master of Computer Applications"
+        pageHeading={`Manage Courses`}
         welcomeIcon={false}
       />
       <div className="main-content-container">
