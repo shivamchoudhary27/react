@@ -107,52 +107,22 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
 
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: "btn btn-success",
-        cancelButton: "btn btn-danger",
-      },
-      buttonsStyling: true,
-    });
-    swalWithBootstrapButtons
-      .fire({
-        title: "Are you sure to delete?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "No, cancel!",
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            icon: "success",
-            title: "Action complete",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          let endPoint = `programs/${id}`;
-          
-          deleteProgramData(endPoint).then((res: any) => {
-            if (res.data !== "" && res.status === 200) {
-              refreshOnDelete(true);
-            } else if (res.status === 500) {
-              window.alert('Unable to delete, this program might have categories and courses');
-            }
-          }).catch((result : any) => {
-            if (result.response.status === 500) {
-              window.alert('Unable to delete, this program might have categories and courses');
-            }            
-          });
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire({
-            icon: "error",
-            title: "Cancelled",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+    if (window.confirm('Are you sure to delete this department?')) {
+      let endPoint = `programs/${id}`;
+      deleteProgramData(endPoint).then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          refreshOnDelete(true);
+        } else if (res.status === 500) {
+          window.alert('Unable to delete, some error occured');
         }
+      }).catch((result : any) => {
+        if (result.response.status === 400) {
+          window.alert(result.response.data.message);
+        } else if (result.response.status === 500) {
+          window.alert(result.response.data.message);
+        }            
       });
+    }
   };
 
   return (

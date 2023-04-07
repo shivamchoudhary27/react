@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { getData,
   postData as addCourseData,
   putData,
@@ -16,7 +16,9 @@ import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
 import * as Yup from "yup";
-import { useNavigate, useLocation } from "react-router-dom";
+import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "../utils";
+import { setHasChildProp, resetManageCourseObj } from '../local';
+
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -31,6 +33,7 @@ const AddCourseForm = () => {
   const parsedCourseid = parseInt(courseid);
   const [courseDetail, setCourseDetails] = useState({})
   const [categorieslist, setCategoriesList] = useState([]);
+  const [filteredCategories, setFilterCategories] = useState([]);
   const [filterUpdate, setFilterUpdate] = useState({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
@@ -44,6 +47,7 @@ const AddCourseForm = () => {
     published: false
   });
 
+  console.log(filteredCategories);
   // Get category Data from API === >>
   useEffect(() => {
     if (parsedCourseid > 0) {
@@ -73,7 +77,7 @@ const AddCourseForm = () => {
         });
     }
   }, []);
-console.log('initValues', initValues)
+
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
@@ -88,7 +92,6 @@ console.log('initValues', initValues)
     getData(endPoint, filterUpdate)
       .then((res) => { 
         if (res.data !== "" && res.status === 200) {
-          // console.log(res.data.items)
           setCategoriesList(res.data.items);
         }
       })
@@ -96,6 +99,24 @@ console.log('initValues', initValues)
         console.log(err);
       });
   }
+
+  useEffect(() => {
+    if (categorieslist.length > 0) {
+      const convertedResult = categorieslist.filter(item => item.parent === 0)
+                            .sort((a,b) => a.weight - b.weight)
+                            .reduce((acc, item) => [...acc, item, ...getChildren(item, categorieslist)], []);
+      
+      convertedResult.forEach(item => {
+        if (item.parent === 0) {
+          item.level = 1;
+          updateCategoryLevels(convertedResult, item.id, 2);
+        }
+      });
+      const hasChildPropAdded = setHasChildProp(convertedResult);
+      const filteredArr = hasChildPropAdded.filter(obj => obj.haschild === false);
+      setFilterCategories(filteredArr);
+    }
+  }, [categorieslist]);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values, { setSubmitting, resetForm }) => {
@@ -143,7 +164,7 @@ console.log('initValues', initValues)
           <Container fluid className="administration-wrapper">
             <Button
               variant="outline-secondary"
-              onClick={() => navigate(`/managecourses/${progid}`)}
+              onClick={() => navigate(`/managecourses/${progid}/`)}
             >
               Go back
             </Button>
@@ -196,7 +217,7 @@ console.log('initValues', initValues)
                 />
                 <FieldTypeSelect
                   name="category"
-                  options={categorieslist}
+                  options={filteredCategories}
                   setcurrentvalue={setValues}
                   currentformvalue={values}
                 />

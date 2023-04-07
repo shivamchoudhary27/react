@@ -98,9 +98,11 @@ const ProgramTable = ({
           window.alert('Unable to delete, this program might have been used in some programs');
         }
       }).catch((result : any) => {
-        if (result.response.status === 500) {
-          window.alert('Unable to delete, this department might have been used in some programs');
-        }            
+        if (result.response.status === 400) {
+          window.alert(result.response.data.message);
+        } else {
+          window.alert(result.response.data.message);
+        }      
       });
       setTimeout(() => {
         refreshProgramData();

@@ -119,7 +119,7 @@ const CategoryModal = ({
                     msgText="Please Enter description"
                   />
                 </div>
-                {editCategory.id != 0 && (
+                {/* {editCategory.id != 0 && (
                   <div>
                     <FieldLabel htmlfor="parent" labelText="Parent" />
                     <select className="form-control mb-3">
@@ -128,7 +128,7 @@ const CategoryModal = ({
                       <option>2</option>
                     </select>
                   </div>
-                )}
+                )} */}
                 <div className="text-center">
                   <Custom_Button
                     type="submit"
@@ -145,7 +145,7 @@ const CategoryModal = ({
               </Form>
             )}
           </Formik>
-          <p>Parent: {parent === 0 ? "Top" : editCategory.name}</p>
+          {/* <p>Parent: {parent === 0 ? "Top" : editCategory.name}</p> */}
           {/* <p>Weight: {weight}</p> */}
         </Modal.Body>
       </Modal>

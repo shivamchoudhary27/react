@@ -74,27 +74,29 @@ const TagsTable = ({
     toggleModalShow(true);
     editHandlerById({id, name});
   };
-
+ 
   const deleteHandler = (id: number) => {
     updateDeleteRefresh(false);
-    let endPoint = `/tags/${id}`;
-    deleteTagData(endPoint)
-      .then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          updateDeleteRefresh(true);
-        } else if (res.status === 500) {
-          window.alert(
-            "Unable to delete, this tag might have been used in some programs"
-          );
-        }
-      })
-      .catch((result: any) => {
-        if (result.response.status === 500) {
-          window.alert(
-            "Unable to delete, this tag might have been used in some programs"
-          );
-        }
-      });
+    if (window.confirm("Are you sure you want to delete?")) {
+      let endPoint = `/tags/${id}`;
+      deleteTagData(endPoint)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            updateDeleteRefresh(true);
+          } else if (res.status === 500) {
+            window.alert(
+              "Unable to delete, this tag might have been used in some programs"
+            );
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 400) {
+            window.alert(result.response.data.message);
+          } else {
+            window.alert(result.response.data.message);
+          }            
+        });
+    }
   };
 
   return (

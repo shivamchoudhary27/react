@@ -27,15 +27,6 @@ import "sweetalert2/src/sweetalert2.scss";
 // import MultiSelectDropdown from "../../../widgets/form_input_fields/form_multi_select";
 import FieldMultiSelect from "../../../widgets/form_input_fields/multi_select";
 
-// Array of all options
-const optionList = [
-  { value: "red", label: "Red" },
-  { value: "green", label: "Green" },
-  { value: "yellow", label: "Yellow" },
-  { value: "blue", label: "Blue" },
-  { value: "white", label: "White" },
-];
-
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -56,7 +47,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     makeGetDataRequest("/program-types", apiFilters, setProgramTypeId);
     makeGetDataRequest("/tags", apiFilters, setTags);
   }, []);
-
+console.log(initValues);
   useEffect(() => {
     let addedValues = addExtraMetaDataToInitialValues(
       initValues,

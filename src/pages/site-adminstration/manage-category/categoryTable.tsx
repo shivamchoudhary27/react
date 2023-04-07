@@ -52,9 +52,12 @@ const CategoryTable = ({
       accessor: "subCategory",
       Cell: ({ row }: any) => (
         <>
+          {row.original.courses.length === 0
+          &&
           <Link to="" onClick={() => addSubCategoryHandler(row.original.id)}>
             <i className="fa-solid fa-square-plus"></i>
           </Link>
+          }
         </>
       ),
     },
@@ -112,14 +115,19 @@ const CategoryTable = ({
   // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
     if (!results.destination) return;
+    // call to update the new position in data
+    let catShifting = results.source.index;
+    let toMoved = results.destination.index;
+    if (categoryData[catShifting].level < categoryData[toMoved].level) {
+      window.alert('Can not move parent to child level, leaving it\'s children categories orphaned');
+      return;  // in progress....  (has to be well defined the logic, can not move to only it's own child)
+    }
+
     let temp = [...selectedData];
     let [selectedRow] = temp.splice(results.source.index, 1);
     temp.splice(results.destination.index, 0, selectedRow);
     setSelectedData(temp);
     
-    // call to update the new position in data
-    let catShifting = results.source.index;
-    let toMoved = results.destination.index;
 
     let updateSrcProperties = {
       id: categoryData[catShifting].id,

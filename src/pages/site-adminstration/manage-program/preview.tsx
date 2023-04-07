@@ -45,6 +45,18 @@ const Preview = () => {
     )
   }
 
+  const previewTagfields = (metaData : Array<any>) => {
+    return (
+      <ul>
+        {metaData.map((el: any, index: number) => (
+          <li className="mb-3">
+             {el.name},
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
   return (
     <>
       <Header pageHeading="Program Preview" welcomeIcon={false} />
@@ -73,6 +85,9 @@ const Preview = () => {
                      <li key={Math.random()}><strong>Duration</strong> : {el.duration} </li>
                      <li key={Math.random()}><strong>full lifetime access</strong> : {el.fullLifeTimeAccess ? 'Yes' : 'No'} </li>
                      <li key={Math.random()}><strong>Published</strong> : {el.published ? 'Yes' : 'No'} </li>
+                     <li key={Math.random()}><strong>Tags</strong> : 
+                        {(el.tags.length > 0) ? previewTagfields(el.tags) : 'No Tags are attached to this program'} 
+                     </li>
                      <li key={Math.random()}><strong>Metafields</strong> : 
                         {(el.metaFields.length > 0) ? previewMetafields(el.metaFields) : 'No Meta data Available'} 
                      </li>
