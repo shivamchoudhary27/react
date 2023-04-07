@@ -6,10 +6,15 @@ import CategoryTable from "./categoryTable";
 import Addcategory from "./addcategory";
 import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
-import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
+import {
+  getLatestWeightForCategory,
+  updateCategoryLevels,
+  getChildren,
+} from "./utils";
 // import { pagination } from "../../../utils/pagination";
 import CategoryModal from "./categoryModal";
-import Alert from 'react-bootstrap/Alert';
+import Alert from "react-bootstrap/Alert";
+import { alertMsgProps } from "../managecourse/type";
 
 const ManageCategory = () => {
   const navigate = useNavigate();
@@ -22,7 +27,12 @@ const ManageCategory = () => {
   const [modalShow, setModalShow] = useState(false);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
-  const [editCategory, setEditCategory] = useState<any>({id: 0, name: "", weight: 0, parent: 0});
+  const [editCategory, setEditCategory] = useState<any>({
+    id: 0,
+    name: "",
+    weight: 0,
+    parent: 0,
+  });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
@@ -32,7 +42,7 @@ const ManageCategory = () => {
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
     getCategoryData(endPoint, filterUpdate)
-      .then((res: any) => { 
+      .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCategoryData(res.data.items);
         }
@@ -40,16 +50,16 @@ const ManageCategory = () => {
       .catch((err: any) => {
         console.log(err);
       });
-  }
+  };
 
   // Get category Data from API === >>
   useEffect(() => {
     if (deleteRefresh === true) {
-      console.log('set to refresh');
+      console.log("set to refresh");
       getCategoriesData();
-    } 
+    }
   }, [deleteRefresh]);
-  
+
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
@@ -57,17 +67,21 @@ const ManageCategory = () => {
 
   useEffect(() => {
     if (categoryData.length > 0) {
-      const convertedResult = categoryData.filter(item => item.parent === 0)
-                            .sort((a,b) => a.weight - b.weight)
-                            .reduce((acc, item) => [...acc, item, ...getChildren(item, categoryData)], []);
-      
-      convertedResult.forEach(item => {
+      const convertedResult = categoryData
+        .filter((item) => item.parent === 0)
+        .sort((a, b) => a.weight - b.weight)
+        .reduce(
+          (acc, item) => [...acc, item, ...getChildren(item, categoryData)],
+          []
+        );
+
+      convertedResult.forEach((item) => {
         if (item.parent === 0) {
           item.level = 1;
           updateCategoryLevels(convertedResult, item.id, 2);
         }
       });
-      setSortedCategories(convertedResult)
+      setSortedCategories(convertedResult);
     }
   }, [categoryData]);
 
@@ -88,7 +102,7 @@ const ManageCategory = () => {
     setModalShow(false);
     setFormWeight(0);
     setFormParent(0);
-  }
+  };
 
   // handle to re-rendering of category table === >>
   const refreshToggle = (status: boolean) => {
@@ -99,32 +113,41 @@ const ManageCategory = () => {
   const updateDeleteRefresh = (status: boolean) => {
     setDeleteRefresh(status);
     setSortedCategories([]);
-  }
+  };
 
-  const setFormParentValue = (value : number) => {
+  const setFormParentValue = (value: number) => {
     setFormParent(value);
-  }
+  };
 
-  const setFormWeightValue = (value : number) => {
+  const setFormWeightValue = (value: number) => {
     setFormWeight(value);
-  }
+  };
 
-  const setEditCategoryValues = (catInfo : any) => {
+  const setEditCategoryValues = (catInfo: any) => {
     setEditCategory(catInfo);
-    setFormWeight(catInfo.weight)
+    setFormWeight(catInfo.weight);
     setFormParent(catInfo.parent);
-  }
-  
+  };
+
   const cleanFormValues = () => {
-    setEditCategory({id: 0, name: "", weight: 0, parent: 0});
-  }
+    setEditCategory({ id: 0, name: "", weight: 0, parent: 0 });
+  };
+
+  const AlertMessage = ({
+    variant,
+    strong,
+    msg,
+  }: alertMsgProps) => {
+    return (
+      <Alert className="mt-3" variant={variant}>
+        <strong>{strong}</strong>: {msg}
+      </Alert>
+    );
+  };
 
   return (
     <>
-      <Header
-        pageHeading={`Manage Categories: ${name}`}
-        welcomeIcon={false}
-      />
+      <Header pageHeading={`Manage Categories: ${name}`} welcomeIcon={false} />
       <div className="main-content-container">
         <Sidebar />
         <div
@@ -166,7 +189,7 @@ const ManageCategory = () => {
             <CategoryModal
               show={modalShow}
               toggleModalShow={toggleModalShow}
-              onHide={() => resetModalForm()} 
+              onHide={() => resetModalForm()}
               weight={formWeight}
               parent={formParent}
               refreshcategories={refreshToggle}
@@ -174,11 +197,19 @@ const ManageCategory = () => {
             />
             {/* } */}
           </Container>
-
-          {/* <Alert className="mt-5" variant="info">
-            <strong>Instruction</strong>
-            This is a variant alert—check it out!
-          </Alert> */}
+          {sortedCategories.length !== 0 ? (
+            <AlertMessage
+              variant="info"
+              strong="Instruction"
+              msg="Not able to drag on parent position!"
+            />
+          ) : (
+            <AlertMessage
+              variant="secondary"
+              strong="No records found!"
+              msg=""
+            />
+          )}
         </div>
       </div>
     </>
