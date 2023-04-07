@@ -160,12 +160,13 @@ const CourseTable = ({
        window.alert('Course can be moved to only categories that have no children category after');
        return;
     }
+    // if 
     let updateCourseCategory = categoryData[catShifting].coursedetails;
 
     setUpdateCourse({
       data: { 
         coursedetail: updateCourseCategory, 
-        category: categoryData[toMoved].id
+        category: categoryData[toMoved].catid ?? categoryData[toMoved].id
       },
       status : 'updating'
     });
