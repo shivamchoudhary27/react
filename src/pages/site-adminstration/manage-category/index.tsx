@@ -9,6 +9,7 @@ import { getData as getCategoryData } from "../../../adapters/microservices/inde
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
 // import { pagination } from "../../../utils/pagination";
 import CategoryModal from "./categoryModal";
+import Alert from 'react-bootstrap/Alert';
 
 const ManageCategory = () => {
   const navigate = useNavigate();
@@ -173,6 +174,11 @@ const ManageCategory = () => {
             />
             {/* } */}
           </Container>
+
+          {/* <Alert className="mt-5" variant="info">
+            <strong>Instruction</strong>
+            This is a variant alert—check it out!
+          </Alert> */}
         </div>
       </div>
     </>
