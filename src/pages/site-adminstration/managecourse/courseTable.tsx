@@ -32,7 +32,11 @@ const CourseTable = ({
     {
       Header: "",
       accessor: "icon",
-      Cell: ({ row }: any) => <i className="fa-solid fa-grip-lines"></i>,
+      Cell: ({ row }: any) => 
+        {row.original.courseid !== undefined 
+         &&
+         <i className="fa-solid fa-grip-lines"></i>
+        },
       draggable: false,
     },
     {
@@ -135,8 +139,7 @@ const CourseTable = ({
 
   const addCourseHandler = (catID : number, catName: string) => {
     let path = `/courseform/${programId}/${catID}`;
-    console.log('add request ', path);
-    navigate(`/courseform/${programId}/${catID}/`, {state: catName});
+    navigate(`/courseform/${programId}/${catID}/0`, {state: catName});
   }
 
   // category Table Elements Update handler === >>
