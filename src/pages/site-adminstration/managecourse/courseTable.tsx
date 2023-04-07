@@ -102,84 +102,76 @@ const CourseTable = ({
     });
   const [updateSource, setUpdateSource] = useState<any>({data: {}, status : 'raw'});
   const [newWeightsItems, setNewWeightsItems] = useState<any>({data: {}, status : 'raw'});
+  const [updatecourse, setUpdateCourse] = useState<any>({data: {coursedetail: '', category: 0}, status : 'nutral'});
 
   useEffect(() => {
-    if (updateSource.status === 'updated' && newWeightsItems.status === 'updated') {
-      const mergedItems = [...newWeightsItems.data, updateSource.data];
-      saveUpdatedCategoriesOrder(mergedItems);
+    if (updatecourse.status === 'updating') {
+      console.log(updatecourse);
+      let updatingcourseid = updatecourse.data.coursedetail.id; 
+      let updateCourseData = {
+        name: updatecourse.data.coursedetail.name,
+        courseCode: updatecourse.data.coursedetail.courseCode,
+        description: updatecourse.data.coursedetail.description,
+        published: updatecourse.data.coursedetail.published,
+        category: { id : updatecourse.data.category}
+      }
+      const endPoint = `${programId}/course/${updatingcourseid}`;
+
+      putData(endPoint, updateCourseData)
+        .then((res : any) => {
+          if (res.status === 200) {
+            window.alert('Update successul');
+            setUpdateCourse({data : {}, status : 'nutral'});
+            refreshcategories();
+          }
+        })
+        .catch((err : any) => {
+          console.log(err);
+          window.alert("Some error occurred!");
+          setUpdateCourse({data : {}, status : 'nutral'});
+        });
     }
-  }, [updateSource, newWeightsItems]);
+  }, [updatecourse]);
 
   const addCourseHandler = (catID : number, catName: string) => {
     let path = `/courseform/${programId}/${catID}`;
     console.log('add request ', path);
-    navigate(`/courseform/${programId}/${catID}`, {state: catName});
+    navigate(`/courseform/${programId}/${catID}/`, {state: catName});
   }
 
   // category Table Elements Update handler === >>
   const editHandler = (courseid: number, catID: number) => {
-    console.log()
+    // console.log()
     navigate(`/courseform/${programId}/${catID}/${courseid}`);
   };
 
   // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
-    // if (1 === 1) return;
-    // if (!results.destination) return;
-    // let temp = [...selectedData];
-    // let [selectedRow] = temp.splice(results.source.index, 1);
-    // temp.splice(results.destination.index, 0, selectedRow);
-    // setSelectedData(temp);
-    
-    // // call to update the new position in data
-    // let catShifting = results.source.index;
-    // let toMoved = results.destination.index;
+    if (!results.destination) return;
 
-    // let updateSrcProperties = {
-    //   id: categoryData[catShifting].id,
-    //   name: categoryData[catShifting].name,
-    //   weight: categoryData[toMoved].weight,
-    //   parent: categoryData[toMoved].parent,
-    // };
-    
-    // setUpdateSource({data: updateSrcProperties, status : 'updated'});  // update source parent and weight
-    // generateFilterMetadata(catShifting, toMoved)
+    // call to update the new position in data
+    let catShifting = results.source.index;
+    let toMoved = results.destination.index;
+
+    if (categoryData[toMoved].haschild !== undefined && categoryData[toMoved].haschild === true) {
+       window.alert('Course can be moved to only categories that have no children category after');
+       return;
+    }
+    let updateCourseCategory = categoryData[catShifting].coursedetails;
+
+    setUpdateCourse({
+      data: { 
+        coursedetail: updateCourseCategory, 
+        category: categoryData[toMoved].id
+      },
+      status : 'updating'
+    });
+
+    let temp = [...selectedData];
+    let [selectedRow] = temp.splice(results.source.index, 1);
+    temp.splice(results.destination.index, 0, selectedRow);
+    setSelectedData(temp);
   };
-
-  const generateFilterMetadata = (source: number, destination : number) => {
-    const sourceObj = categoryData[source]
-    const destinationObj = categoryData[destination]
-    const dragAction = getDragnDropAction(sourceObj, destinationObj);
-    const itemsToEffect = getItemsToUpdate(selectedData, dragAction, sourceObj, destinationObj);
-    const updatedItems = updateWeights(itemsToEffect, dragAction);
-    setNewWeightsItems({data: updatedItems, status: 'updated'});
-  }
-
-  const saveUpdatedCategoriesOrder = (items : any) => {
-    const endPoint = `${programId}/category/bulk`;    
-    postData(endPoint, items).then((res: any)=>{
-      if(res.status === 200){
-        console.log('categories bulk sort update', res);
-        refreshcategories();
-      }
-    }).catch((err: any)=>{
-      console.log(err)
-    })
-  }
-
-  const dragActionSave = (catShifting : number, toMoved : number) => {
-    const endPoint = `${programId}/category/${categoryData[catShifting].id}`;
-    let updatePosition = {name: categoryData[catShifting].name, 
-                       parent : categoryData[toMoved].parent, 
-                       weight : categoryData[toMoved].weight};
-
-    putData(endPoint, updatePosition)
-    .then((res: any) => {
-      refreshcategories();
-    }).catch((err: any) => {
-      window.alert('Some error occurred!');
-    })
-  }
 
   // category Table Elements Delete handler === >>
   const deleteHandler = (courseID: number) => {
