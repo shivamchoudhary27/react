@@ -127,7 +127,7 @@ const AddCourseForm = () => {
       addCourseData(endPoint, requestData).then((res)=>{
         if(res.status === 201){
           window.alert('Create successul');
-          navigate(`/managecourses/${progid}`);
+          navigate(`/managecourses/${progid}/course`);
         }
       }).catch((err)=>{
         console.log(err)
@@ -139,7 +139,7 @@ const AddCourseForm = () => {
         .then((res) => {
           if (res.status === 200) {
             window.alert('Update successul');
-            navigate(`/managecourses/${progid}`);
+            navigate(`/managecourses/${progid}/course`);
           }
         })
         .catch((err) => {
@@ -164,7 +164,7 @@ const AddCourseForm = () => {
           <Container fluid className="administration-wrapper">
             <Button
               variant="outline-secondary"
-              onClick={() => navigate(`/managecourses/${progid}/`)}
+              onClick={() => navigate(`/managecourses/${progid}/course`)}
             >
               Go back
             </Button>
