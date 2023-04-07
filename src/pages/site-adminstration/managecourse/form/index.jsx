@@ -126,7 +126,7 @@ const AddCourseForm = () => {
       const endPoint = `${progid}/course`;
       addCourseData(endPoint, requestData).then((res)=>{
         if(res.status === 201){
-          window.alert('Create successul');
+          window.alert('Course created successfully');
           navigate(`/managecourses/${progid}/course`);
         }
       }).catch((err)=>{
