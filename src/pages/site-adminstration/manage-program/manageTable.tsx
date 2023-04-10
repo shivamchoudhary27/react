@@ -21,18 +21,19 @@ const createEditLink = (id: number) => {
 
 const createPreviewLink = (id: number) => {
   return `/programpreview/${id}`;
-}
+};
 
-const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any) => {
-
+const ManageTable = ({
+  programData,
+  refreshDepartmentData,
+  refreshOnDelete,
+}: any) => {
   const tableColumn = [
     {
       Header: "Name",
       accessor: "name",
       Cell: ({ row }: any) => (
-        <Link to={createPreviewLink(row.original.id)}>
-           {row.original.name}
-        </Link>
+        <Link to={createPreviewLink(row.original.id)}>{row.original.name}</Link>
       ),
     },
     {
@@ -61,23 +62,21 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
         </Link>
       ),
     },
-    {
-      Header: "Manage Users",
-      accessor: "manage_users",
-      Cell: ({ row }: any) => (
-        <Link to="/manageusers">
-          <i className="fa fa-users"></i>
-        </Link>
-      ),
-    },
+    // {
+    //   Header: "Manage Users",
+    //   accessor: "manage_users",
+    //   Cell: ({ row }: any) => (
+    //     <Link to="/manageusers">
+    //       <i className="fa fa-users"></i>
+    //     </Link>
+    //   ),
+    // },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span  style={actionsStyle}>
+        <span style={actionsStyle}>
           <Link to={createEditLink(row.original.id)}>
-            <i
-              className="fa-solid fa-pen"
-            ></i>
+            <i className="fa-solid fa-pen"></i>
           </Link>
           <Link to="">
             <i
@@ -107,21 +106,23 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
 
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
-    if (window.confirm('Are you sure to delete this department?')) {
+    if (window.confirm("Are you sure to delete this department?")) {
       let endPoint = `programs/${id}`;
-      deleteProgramData(endPoint).then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          refreshOnDelete(true);
-        } else if (res.status === 500) {
-          window.alert('Unable to delete, some error occured');
-        }
-      }).catch((result : any) => {
-        if (result.response.status === 400) {
-          window.alert(result.response.data.message);
-        } else if (result.response.status === 500) {
-          window.alert(result.response.data.message);
-        }            
-      });
+      deleteProgramData(endPoint)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            refreshOnDelete(true);
+          } else if (res.status === 500) {
+            window.alert("Unable to delete, some error occured");
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 400) {
+            window.alert(result.response.data.message);
+          } else if (result.response.status === 500) {
+            window.alert(result.response.data.message);
+          }
+        });
     }
   };
 
@@ -140,25 +141,26 @@ const ManageTable = ({programData, refreshDepartmentData, refreshOnDelete} : any
               </tr>
             ))}
           </thead>
-          {programData.length > 0
-           &&
-          <tbody {...getTableBodyProps()}>
-            {rows.map((row, index) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()} key={index}>
-                  {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>
-                      {cell.render("Cell")}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-          }
-          </Table>
-        {programData.length === 0 && <TableSkeleton numberOfRows={5} numberOfColumns={4} />}
+          {programData.length > 0 && (
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()} key={index}>
+                    {row.cells.map((cell, index) => (
+                      <td {...cell.getCellProps()} key={index}>
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
+        </Table>
+        {programData.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
       </div>
     </>
   );
