@@ -36,6 +36,8 @@ import AddUsers from '../../pages/site-adminstration/manage-users/addUsers';
 import UserManagement from '../../pages/site-adminstration/user-management';
 import AddUsersForm from '../../pages/site-adminstration/user-management/form/addUsersForm';
 import SignUpNew from '../../pages/signupNew';
+import EnrolUsers from '../../pages/site-adminstration/enrolment/enrol_user';
+import FileUploadForm from '../../widgets/form_input_fields/fileupload/example2';
 
 export default function CustomRoutes() {
 
@@ -61,6 +63,8 @@ export default function CustomRoutes() {
           <Route path="/addusers" element={<AddUsers />} />
           <Route path="/managecategory/:id/:name" element={<ManageCategory />} />
           <Route path="/managecourses/:id/:name" element={<CourseManagment />} />
+          <Route path="/enrolusers/:id/:name" element={<EnrolUsers />} />
+          <Route path="/fileuploadtest" element={<FileUploadForm />} />
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />
