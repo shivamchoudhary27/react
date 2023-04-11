@@ -11,25 +11,29 @@ import AddProgramModal from "./modal";
 
 const ProgramType = () => {
   const navigate = useNavigate();
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}};
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [modalShow, setModalShow] = useState(false);
   const [programTypeData, setProgramTypeData] = useState<any>(dummyData);
   const [programTypeObj, setProgramTypeObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({pageNumber: 0, pageSize : pagination.PERPAGE});
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
 
   useEffect(() => {
-    if (refreshOnDelete === true) makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
+    if (refreshOnDelete === true)
+      makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData);
   }, [refreshOnDelete]);
 
-  // get programs API call === >>> 
+  // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest('/program-types', filterUpdate, setProgramTypeData); 
+    makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData);
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
-    let newBool = (refreshData === true) ? false : true;
+    let newBool = refreshData === true ? false : true;
     setRefreshData(newBool);
   };
 
@@ -38,8 +42,13 @@ const ProgramType = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name, description, batchYearRequired }: any) => {
-    console.log(batchYearRequired)
+  const editHandlerById = ({
+    id,
+    name,
+    description,
+    batchYearRequired,
+  }: any) => {
+    console.log(batchYearRequired);
     setProgramTypeObj({
       id: id,
       name: name,
@@ -61,10 +70,15 @@ const ProgramType = () => {
   // handle to open Add Discipline modal === >>>
   const openAddProgramType = () => {
     toggleModalShow(true);
-    setProgramTypeObj({ id: 0, name: "", description: "", BatchYearRequired: false });
+    setProgramTypeObj({
+      id: 0,
+      name: "",
+      description: "",
+      BatchYearRequired: false,
+    });
     setRefreshData(false);
   };
-  
+
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
@@ -92,16 +106,42 @@ const ProgramType = () => {
   );
 
   const PROGRAM_TYPE_BUTTON = (
-    <div>
-      <Button variant="primary" onClick={openAddProgramType}>
-        Add Program Type
-      </Button>{" "}
-      <Button
-        variant="outline-secondary"
-        onClick={() => navigate("/manageprogram")}
-      >
-        Go back
-      </Button>
+    <div className="filter-wrapper">
+      <div className="filter-form">
+        <form>
+          <div className="row g-3 align-items-center">
+            <div className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Name"
+                // onChange={(e) => setSearchValue(e.target.value)}
+                // value={searchValue}
+              />
+            </div>
+            <div className="col-auto">
+              <Button variant="outline-secondary">Filter</Button>{" "}
+              <Button
+                variant="outline-secondary"
+                // onClick={() => resetHandler()}
+              >
+                Reset
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div className="mt-2">
+        <Button variant="primary" onClick={openAddProgramType}>
+          Add Program Type
+        </Button>{" "}
+        <Button
+          variant="outline-secondary"
+          onClick={() => navigate("/manageprogram")}
+        >
+          Go back
+        </Button>
+      </div>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -109,9 +149,12 @@ const ProgramType = () => {
   return (
     <>
       <Header pageHeading="Program Type" welcomeIcon={false} />
-      <div className='main-content-container'>
+      <div className="main-content-container">
         <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
+        <div
+          className="content-area content-area-slider"
+          id="contentareaslider"
+        >
           <Container fluid className="administration-wrapper">
             {PROGRAM_TYPE_BUTTON}
             {ADDPROGRAM_MODAL_COMPONENT}
@@ -123,7 +166,7 @@ const ProgramType = () => {
             />
           </Container>
         </div>
-      </div>      
+      </div>
     </>
   );
 };

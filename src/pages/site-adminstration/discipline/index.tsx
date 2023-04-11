@@ -12,10 +12,13 @@ import "./style.scss";
 
 const Discipline = () => {
   const navigate = useNavigate();
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [modalShow, setModalShow] = useState(false);
   const [diciplineData, setDiciplineData] = useState<any>(dummyData);
-  const [disciplineObj, setDisciplineObj] = useState({name: "", description: ""});
+  const [disciplineObj, setDisciplineObj] = useState({
+    name: "",
+    description: "",
+  });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -31,7 +34,8 @@ const Discipline = () => {
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
-    if (refreshOnDelete === true) makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData); 
+    if (refreshOnDelete === true)
+      makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData);
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -85,16 +89,42 @@ const Discipline = () => {
   );
 
   const DISCIPLINE_BUTTONS = (
-    <div>
-      <Button variant="primary" onClick={openAddDiscipline}>
-        Add Discipline
-      </Button>{" "}
-      <Button
-        variant="outline-secondary"
-        onClick={() => navigate("/manageprogram")}
-      >
-        Go back
-      </Button>
+    <div className="filter-wrapper">
+      <div className="filter-form">
+        <form>
+          <div className="row g-3 align-items-center">
+            <div className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Name"
+                // onChange={(e) => setSearchValue(e.target.value)}
+                // value={searchValue}
+              />
+            </div>
+            <div className="col-auto">
+              <Button variant="outline-secondary">Filter</Button>{" "}
+              <Button
+                variant="outline-secondary"
+                // onClick={() => resetHandler()}
+              >
+                Reset
+              </Button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div className="mt-2">
+        <Button variant="primary" onClick={openAddDiscipline}>
+          Add Discipline
+        </Button>{" "}
+        <Button
+          variant="outline-secondary"
+          onClick={() => navigate("/manageprogram")}
+        >
+          Go back
+        </Button>
+      </div>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>

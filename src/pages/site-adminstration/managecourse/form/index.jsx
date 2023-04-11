@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import { getData,
+import {
+  getData,
   postData as addCourseData,
   putData,
 } from "../../../../adapters/microservices/index";
@@ -16,9 +17,12 @@ import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
 import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
 import * as Yup from "yup";
-import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "../utils";
-import { setHasChildProp, resetManageCourseObj } from '../local';
-
+import {
+  getLatestWeightForCategory,
+  updateCategoryLevels,
+  getChildren,
+} from "../utils";
+import { setHasChildProp, resetManageCourseObj } from "../local";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -31,7 +35,7 @@ const AddCourseForm = () => {
   const location = useLocation();
   const { progid, catid, courseid } = useParams();
   const parsedCourseid = parseInt(courseid);
-  const [courseDetail, setCourseDetails] = useState({})
+  const [courseDetail, setCourseDetails] = useState({});
   const [categorieslist, setCategoriesList] = useState([]);
   const [filteredCategories, setFilterCategories] = useState([]);
   const [filterUpdate, setFilterUpdate] = useState({
@@ -42,9 +46,9 @@ const AddCourseForm = () => {
   const [initValues, setInitValues] = useState({
     name: "",
     courseCode: "",
-    category:catid,
+    category: catid,
     description: "",
-    published: false
+    published: false,
   });
 
   console.log(filteredCategories);
@@ -52,23 +56,25 @@ const AddCourseForm = () => {
   useEffect(() => {
     if (parsedCourseid > 0) {
       const endPoint = `/${progid}/course`;
-      let filters = {Id: courseid, pageNumber: 0, pageSize: 1}
+      let filters = { Id: courseid, pageNumber: 0, pageSize: 1 };
       getData(endPoint, filters)
-        .then((res) => { 
+        .then((res) => {
           if (res.status === 200) {
             if (res.data.items.length === 1) {
               let requestedcourse = res.data.items[0];
               setCourseDetails(requestedcourse);
               setInitValues({
-                id: requestedcourse.id, 
+                id: requestedcourse.id,
                 name: requestedcourse.name,
                 courseCode: requestedcourse.courseCode,
                 description: requestedcourse.description,
                 published: requestedcourse.published,
-                category:catid
-              })
+                category: catid,
+              });
             } else {
-              window.alert('No course details were found for requested course ');
+              window.alert(
+                "No course details were found for requested course "
+              );
             }
           }
         })
@@ -90,7 +96,7 @@ const AddCourseForm = () => {
   const getCategoriesData = () => {
     const endPoint = `/${progid}/category`;
     getData(endPoint, filterUpdate)
-      .then((res) => { 
+      .then((res) => {
         if (res.data !== "" && res.status === 200) {
           setCategoriesList(res.data.items);
         }
@@ -98,30 +104,36 @@ const AddCourseForm = () => {
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   useEffect(() => {
     if (categorieslist.length > 0) {
-      const convertedResult = categorieslist.filter(item => item.parent === 0)
-                            .sort((a,b) => a.weight - b.weight)
-                            .reduce((acc, item) => [...acc, item, ...getChildren(item, categorieslist)], []);
-      
-      convertedResult.forEach(item => {
+      const convertedResult = categorieslist
+        .filter((item) => item.parent === 0)
+        .sort((a, b) => a.weight - b.weight)
+        .reduce(
+          (acc, item) => [...acc, item, ...getChildren(item, categorieslist)],
+          []
+        );
+
+      convertedResult.forEach((item) => {
         if (item.parent === 0) {
           item.level = 1;
           updateCategoryLevels(convertedResult, item.id, 2);
         }
       });
       const hasChildPropAdded = setHasChildProp(convertedResult);
-      const filteredArr = hasChildPropAdded.filter(obj => obj.haschild === false);
+      const filteredArr = hasChildPropAdded.filter(
+        (obj) => obj.haschild === false
+      );
       setFilterCategories(filteredArr);
     }
   }, [categorieslist]);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values, { setSubmitting, resetForm }) => {
-    console.log('form values after submission', values);
-    let requestData =  {...values, category: {id: values.category}} 
+    console.log("form values after submission", values);
+    let requestData = { ...values, category: { id: values.category } };
     if (parsedCourseid === 0) {
       const endPoint = `${progid}/course`;
       addCourseData(endPoint, requestData).then((res)=>{
@@ -138,7 +150,7 @@ const AddCourseForm = () => {
       putData(endPoint, requestData)
         .then((res) => {
           if (res.status === 200) {
-            window.alert('Update successul');
+            window.alert("Update successul");
             navigate(`/managecourses/${progid}/course`);
           }
         })
@@ -200,7 +212,10 @@ const AddCourseForm = () => {
                       required="required"
                       star="*"
                     />
-                    <FieldTypeText name="courseCode" placeholder="Course Code" />
+                    <FieldTypeText
+                      name="courseCode"
+                      placeholder="Course Code"
+                    />
                     <FieldErrorMessage
                       errors={errors.name}
                       touched={touched.name}
@@ -209,24 +224,24 @@ const AddCourseForm = () => {
                   </div>
 
                   <div className="mb-3">
-                <FieldLabel
-                  htmlfor="category"
-                  labelText="Category"
-                  required="required"
-                  star="*"
-                />
-                <FieldTypeSelect
-                  name="category"
-                  options={filteredCategories}
-                  setcurrentvalue={setValues}
-                  currentformvalue={values}
-                />
-                <FieldErrorMessage
-                  errors={errors.department}
-                  touched={touched.department}
-                  msgText="Please select Department"
-                />
-              </div>
+                    <FieldLabel
+                      htmlfor="category"
+                      labelText="Category"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeSelect
+                      name="category"
+                      options={filteredCategories}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                    />
+                    <FieldErrorMessage
+                      errors={errors.department}
+                      touched={touched.department}
+                      msgText="Please select Department"
+                    />
+                  </div>
 
                   <div className="mb-3">
                     <FieldLabel

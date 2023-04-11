@@ -32,6 +32,7 @@ import TeacherDashboard from '../../pages/teacher-dashboard/dashboard';
 import CalenderConfig from '../../pages/site-adminstration/calender-config';
 import Tags from '../../pages/site-adminstration/tags';
 import AddCourseForm from '../../pages/site-adminstration/managecourse/form';
+import AddUsers from '../../pages/site-adminstration/manage-users/addUsers';
 
 export default function CustomRoutes() {
 
@@ -51,6 +52,7 @@ export default function CustomRoutes() {
           <Route path="/calenderconfig" element={<CalenderConfig />} />
           <Route path='/preview' element={<Preview />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
+          <Route path="/addusers" element={<AddUsers />} />
           <Route path="/managecategory/:id/:name" element={<ManageCategory />} />
           <Route path="/managecourses/:id/:name" element={<CourseManagment />} />
           <Route path="/department" element={<Departments />} />

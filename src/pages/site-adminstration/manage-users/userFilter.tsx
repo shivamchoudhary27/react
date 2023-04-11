@@ -40,8 +40,8 @@ const UserFilter = () => {
           <div className="site-button-group">
             <Button variant="primary">Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
-            <Button variant="primary">Add Users</Button>{" "}
-            <Button variant="outline-secondary" onClick={() => navigate("/manageprogram")}>Go back</Button>
+            <Button variant="primary" onClick={() => navigate("/addusers")}>Add Users</Button>{" "}
+            <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
           </div>
         </div>
       </div>
