@@ -2,7 +2,7 @@ export const AdminRawData = [
   {
     title: "User Management",
     icon: "fa-solid fa-user-plus card-icon",
-    link: "#",
+    link: "/usermanagement",
   },
   {
     title: "Program Management",
