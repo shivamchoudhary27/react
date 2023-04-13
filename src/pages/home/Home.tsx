@@ -3,11 +3,13 @@ import { Container, Button } from "react-bootstrap";
 import config from "../../utils/config";
 import logo from "../../assets/images/logo.png";
 import "./home.scss";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const redirectUri = config.REDIRECT_URI;
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
-  console.log('redirect uri ' + redirectUri);
+  console.log("redirect uri " + redirectUri);
   console.log(oAuthUrl);
   const dashStyle = {
     display: "flex",
@@ -35,15 +37,13 @@ const Home = () => {
               </p>
             </div>
             <a href={oAuthUrl}>
-              <Button
-                variant="warning"
-                size="md"
-                className="button-link"
-              >
+              <Button variant="warning" className="button-link">
                 click here to login
               </Button>
-            </a>
-
+            </a>{" "}
+            <Button variant="warning" className="button-link" onClick={()=>navigate("/signupnew")}>
+               click here to signup
+            </Button>
           </div>
         </Container>
         <div>

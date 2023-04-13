@@ -4,10 +4,11 @@ const FieldLabel = ({
     htmlfor,
     labelText,
     required,
+    className,
     star
 }: any) => {
   return (
-    <label htmlFor={htmlfor}>
+    <label htmlFor={htmlfor} className={className}>
       {labelText} <sup className={required}>{star}</sup>
     </label>
   );
