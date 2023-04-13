@@ -12,7 +12,9 @@ import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import { CountryList } from "../countryDataList";
 
 const initialValues = {
-  name: "",
+  username:"",
+  lastname:"",
+  firstname: "",
   email: "",
   password: "",
   city: "",
@@ -49,31 +51,16 @@ const AddUsersForm = () => {
                 <Form>
                   <div className="mb-3">
                     <FieldLabel
-                      htmlfor="name"
-                      labelText="Name"
+                      htmlfor="username"
+                      labelText="Username"
                       required="required"
                       star="*"
                     />
-                    <FieldTypeText name="name" placeholder="Name" />
+                    <FieldTypeText name="username" placeholder="Username" />
                     <FieldErrorMessage
-                      errors={errors.name}
-                      touched={touched.name}
-                      msgText="Name required atleast 1 character"
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <FieldLabel
-                      htmlfor="email"
-                      labelText="Email"
-                      required="required"
-                      star="*"
-                    />
-                    <FieldTypeText name="email" placeholder="Email" />
-                    <FieldErrorMessage
-                      errors={errors.email}
-                      touched={touched.email}
-                      msgText="Email required"
+                      errors={errors.username}
+                      touched={touched.username}
+                      msgText="Username required atleast 1 character"
                     />
                   </div>
 
@@ -89,6 +76,51 @@ const AddUsersForm = () => {
                       errors={errors.password}
                       touched={touched.password}
                       msgText="Password required"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="firstname"
+                      labelText="Firstname"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeText name="firstname" placeholder="First Name" />
+                    <FieldErrorMessage
+                      errors={errors.firstname}
+                      touched={touched.firstname}
+                      msgText="Firstname required atleast 1 character"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="lastname"
+                      labelText="Lastname"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeText name="lastname" placeholder="Last Name" />
+                    <FieldErrorMessage
+                      errors={errors.lastname}
+                      touched={touched.lastname}
+                      msgText="Last name required atleast 1 character"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="email"
+                      labelText="Email"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeText name="email" placeholder="Email" />
+                    <FieldErrorMessage
+                      errors={errors.email}
+                      touched={touched.email}
+                      msgText="Email required"
                     />
                   </div>
 

@@ -35,6 +35,7 @@ import AddCourseForm from '../../pages/site-adminstration/managecourse/form';
 import AddUsers from '../../pages/site-adminstration/manage-users/addUsers';
 import UserManagement from '../../pages/site-adminstration/user-management';
 import AddUsersForm from '../../pages/site-adminstration/user-management/form/addUsersForm';
+import SignUpNew from '../../pages/signupNew';
 
 export default function CustomRoutes() {
 
@@ -46,6 +47,7 @@ export default function CustomRoutes() {
         <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/dashboard" />} />
         <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
         <Route path='/authlogin' element={<AuthLogin />} />
+        <Route path="/signupnew" element={<SignUpNew />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/siteadmin" element={<SiteAdminHome />} />
