@@ -38,7 +38,7 @@ const UserFilter = () => {
         </div>
         <div className="mt-2">
           <div className="site-button-group">
-            <Button variant="primary">Enroll Users</Button>{" "}
+            <Button variant="primary" onClick={() => navigate("/enrolusers/133/TestEnrolUsers")}>Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
             <Button variant="primary" onClick={() => navigate("/addusers")}>Add Users</Button>{" "}
             <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>

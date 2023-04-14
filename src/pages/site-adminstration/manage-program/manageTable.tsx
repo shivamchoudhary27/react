@@ -62,15 +62,15 @@ const ManageTable = ({
         </Link>
       ),
     },
-    {
-      Header: "Manage Users",
-      accessor: "manage_users",
-      Cell: ({ row }: any) => (
-        <Link to="/enrolusers/133/TestEnrolUsers">
-          <i className="fa fa-users"></i>
-        </Link>
-      ),
-    },
+    // {
+    //   Header: "Manage Users",
+    //   accessor: "manage_users",
+    //   Cell: ({ row }: any) => (
+    //     <Link to="/enrolusers/133/TestEnrolUsers">
+    //       <i className="fa fa-users"></i>
+    //     </Link>
+    //   ),
+    // },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
