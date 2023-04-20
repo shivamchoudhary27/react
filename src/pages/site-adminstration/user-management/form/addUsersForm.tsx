@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../../header";
 import Sidebar from "../../../sidebar";
 import FieldLabel from "../../../../widgets/form_input_fields/labels";
@@ -10,19 +10,85 @@ import FieldErrorMessage from "../../../../widgets/form_input_fields/error_messa
 import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
 import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import { CountryList } from "../countryDataList";
+import { postData, getData, putData } from "../../../../adapters/coreservices";
+import * as Yup from "yup";
 
 const initialValues = {
   username:"",
-  lastname:"",
-  firstname: "",
+  lastName:"",
+  firstName: "",
   email: "",
   password: "",
   city: "",
   country: "",
+  idnumber: ""
 };
 
 const AddUsersForm = () => {
   const navigate = useNavigate();
+  const { userid } = useParams();
+  const parsedUserid = parseInt(userid);
+  const [formValues, setFormvalues] = useState(initialValues);
+
+  useEffect(() => {
+    if (parsedUserid > 0) {
+      getData(`/user/${parsedUserid}`, {})
+          .then((result : any) => {
+              console.log(result);
+              if (result.status === 200) {
+                result.data.password = "Admin@123";
+                setFormvalues(result.data);
+              //     if (result.data.items.content.length < 1) {
+              //         window.alert('No data available for this request');
+              //     }
+              //     // setUserData(result.data);
+              }
+          })
+          .catch((err : any) => {
+              console.log(err);
+          });
+    }
+  }, []);
+
+  // Formik Yup validation === >>>
+  const userFormSchema = Yup.object({
+    username: Yup.string().trim().min(4).required(),
+    password: Yup.string().min(6).trim().required(),
+    // idnumber: Yup.number().min(4).max(9).required(),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    firstName: Yup.string().min(1).trim().required(),
+    lastName: Yup.string().min(1).trim().required(),
+    city: Yup.string().min(1).trim().required(),
+    country: Yup.string().required(),
+  });
+
+  // handle Form CRUD operations === >>>
+  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    if (parsedUserid === 0) {
+      postData('/user/', values)
+      .then((res: any) => {
+        if (res.status === 201) {
+          navigate('/usermanagement');
+        }
+      })
+      .catch((err: any) => {
+        if (err.response.status === 404) {
+          window.alert(err.response.data.message);
+        }
+      });
+    } else {
+      putData(`/user/${parsedUserid}`, values)
+      .then((res: any) => {
+        if (res.status === 200) {
+          navigate('/usermanagement');
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    }
+  };
+
   return (
     <React.Fragment>
       <Header pageHeading="Add Users" welcomeIcon={false} />
@@ -42,9 +108,10 @@ const AddUsersForm = () => {
             <hr />
             <Formik
               enableReinitialize={true}
-              initialValues={initialValues}
+              initialValues={formValues}
+              validationSchema={userFormSchema}
               onSubmit={(values, action) => {
-                console.log(values, action);
+                handleFormData(values, action);
               }}
             >
               {({ errors, touched, isSubmitting, setValues, values }) => (
@@ -60,7 +127,7 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.username}
                       touched={touched.username}
-                      msgText="Username required atleast 1 character"
+                      msgText="Username required and atleast 4 characters minimum"
                     />
                   </div>
 
@@ -71,41 +138,41 @@ const AddUsersForm = () => {
                       required="required"
                       star="*"
                     />
-                    <FieldTypeText name="password" placeholder="Password" />
+                    <FieldTypeText type="password" name="password" placeholder="Password" />
                     <FieldErrorMessage
                       errors={errors.password}
                       touched={touched.password}
-                      msgText="Password required"
+                      msgText="Password is required with minimum 5 characters"
                     />
                   </div>
 
                   <div className="mb-3">
                     <FieldLabel
-                      htmlfor="firstname"
+                      htmlfor="firstName"
                       labelText="Firstname"
                       required="required"
                       star="*"
                     />
-                    <FieldTypeText name="firstname" placeholder="First Name" />
+                    <FieldTypeText name="firstName" placeholder="First Name" />
                     <FieldErrorMessage
-                      errors={errors.firstname}
-                      touched={touched.firstname}
-                      msgText="Firstname required atleast 1 character"
+                      errors={errors.firstName}
+                      touched={touched.firstName}
+                      msgText="Firstname is required"
                     />
                   </div>
 
                   <div className="mb-3">
                     <FieldLabel
-                      htmlfor="lastname"
+                      htmlfor="lastName"
                       labelText="Lastname"
                       required="required"
                       star="*"
                     />
-                    <FieldTypeText name="lastname" placeholder="Last Name" />
+                    <FieldTypeText name="lastName" placeholder="Last Name" />
                     <FieldErrorMessage
-                      errors={errors.lastname}
-                      touched={touched.lastname}
-                      msgText="Last name required atleast 1 character"
+                      errors={errors.lastName}
+                      touched={touched.lastName}
+                      msgText="Lastname is required"
                     />
                   </div>
 
@@ -120,7 +187,22 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.email}
                       touched={touched.email}
-                      msgText="Email required"
+                      msgText="Email is required"
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="idnumber"
+                      labelText="Idnumber"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeText type="number" name="idnumber" placeholder="Id number" />
+                    <FieldErrorMessage
+                      errors={errors.idnumber}
+                      touched={touched.idnumber}
+                      msgText="Idnumber is required with minimun 6 and maximum 10 digits"
                     />
                   </div>
 
@@ -135,7 +217,7 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.city}
                       touched={touched.city}
-                      msgText="City required"
+                      msgText="City is required"
                     />
                   </div>
 

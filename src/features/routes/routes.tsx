@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoutes } from './ProtectedRoutes';
 import Video from '../../pages/courses/video';
@@ -17,13 +17,12 @@ import ProgramType from '../../pages/site-adminstration/program-type';
 import Discipline from '../../pages/site-adminstration/discipline';
 import ManageProgram from '../../pages/site-adminstration/manage-program';
 import AddProgram from '../../pages/site-adminstration/addProgram';
-import ManageUsers from '../../pages/site-adminstration/manage-users';
+import ManageUserEnrollment from '../../pages/site-adminstration/manage-users';
 import Home from '../../pages/home/Home';
 import AuthLogin from '../../pages/authlogin/AuthLogin';
 import SiteAdminHome from '../../pages/site-adminstration/siteAdmin';
 import ProgramEnrollment from '../../pages/site-adminstration/program-enrollment';
 import ManageCategory from '../../pages/site-adminstration/manage-category';
-// import ManageCourses from '../../pages/site-adminstration/manage-courses';CourseManagment
 import CourseManagment from '../../pages/site-adminstration/managecourse';
 import ReactBigCalendar from '../../pages/calender';
 import Preview from '../../pages/site-adminstration/manage-program/preview';
@@ -32,13 +31,13 @@ import TeacherDashboard from '../../pages/teacher-dashboard/dashboard';
 import CalenderConfig from '../../pages/site-adminstration/calender-config';
 import Tags from '../../pages/site-adminstration/tags';
 import AddCourseForm from '../../pages/site-adminstration/managecourse/form';
-import AddUsers from '../../pages/site-adminstration/manage-users/addUsers';
+import EnrolUserToProgram from '../../pages/site-adminstration/manage-users/addUsers';
 import UserManagement from '../../pages/site-adminstration/user-management';
 import AddUsersForm from '../../pages/site-adminstration/user-management/form/addUsersForm';
 import SignUpNew from '../../pages/signupNew';
 import EnrolUsers from '../../pages/site-adminstration/enrolment/enrol_user';
+import CourseEnrollment from '../../pages/site-adminstration/enrolment/courseenrollment';
 import FileUploadForm from '../../widgets/form_input_fields/fileupload/example2';
-import EnrolUsersCourse from '../../pages/site-adminstration/program-enrollment/enrolusers';
 
 export default function CustomRoutes() {
 
@@ -59,13 +58,13 @@ export default function CustomRoutes() {
           <Route path="/calenderconfig" element={<CalenderConfig />} />
           <Route path='/preview' element={<Preview />} />
           <Route path='/usermanagement' element={<UserManagement />} />
-          <Route path='/addusersform' element={<AddUsersForm />} />
+          <Route path='/addusersform/:userid' element={<AddUsersForm />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
-          <Route path="/addusers" element={<AddUsers />} />
+          <Route path="/enrolusertoprogram/:programid/:userid" element={<EnrolUserToProgram />} />
           <Route path="/managecategory/:id/:name" element={<ManageCategory />} />
           <Route path="/managecourses/:id/:name" element={<CourseManagment />} />
           <Route path="/enrolusers/:id/:name" element={<EnrolUsers />} />
-          <Route path="/enroluserscourse" element={<EnrolUsersCourse />} />
+          <Route path="/courseenrollment/:programid/:courseid" element={<CourseEnrollment />}/>
           <Route path="/fileuploadtest" element={<FileUploadForm />} />
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
@@ -75,7 +74,7 @@ export default function CustomRoutes() {
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
-          <Route path="/manageusers" element={<ManageUsers />} />
+          <Route path="/manageuserenrollment/:programid" element={<ManageUserEnrollment />} />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
           <Route path="/mod/video/report" element={<Report />} />
           <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />

@@ -10,7 +10,7 @@ import { setHasChildProp, resetManageCourseObj } from './local';
 
 const EnrolUsers = () => {
   const navigate = useNavigate();
-  const { id, name } = useParams();
+  const { id } = useParams();
   const [categoryData, setCategoryData] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
@@ -132,7 +132,7 @@ const EnrolUsers = () => {
           <Container fluid className="administration-wrapper">
             <Button
               variant="outline-secondary"
-              onClick={() => navigate("/manageusers ")}
+              onClick={() => navigate(`/manageuserenrollment/${id}`)}
             >
               Go back
             </Button>

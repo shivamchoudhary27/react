@@ -1,0 +1,29 @@
+import { axiosConfig, 
+    createAxiosInstance
+ } from "./utils";
+
+const ACCESS_TOKEN = ""; 
+
+createAxiosInstance(ACCESS_TOKEN); // to reset the instance if app is refreshed
+
+export const getData = (endPoint: string, params : any) => {
+    const instance = axiosConfig.axiosInstance;
+    return instance.get(endPoint, { params });
+};
+
+export const postData = (endPoint: string, requestData: any) => {
+    const instance = axiosConfig.axiosInstance;
+    const data = requestData;
+    return instance.post(endPoint, data);
+};
+
+export const putData = (endPoint: string, requestData: any) => {
+    const instance = axiosConfig.axiosInstance;
+    const data = requestData;
+    return instance.put(endPoint, data);
+};
+
+export const deleteData = (endPoint: string) => {
+    const instance = axiosConfig.axiosInstance;
+    return instance.delete(endPoint);
+};

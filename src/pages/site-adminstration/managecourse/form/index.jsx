@@ -51,7 +51,6 @@ const AddCourseForm = () => {
     published: false,
   });
 
-  console.log(filteredCategories);
   // Get category Data from API === >>
   useEffect(() => {
     if (parsedCourseid > 0) {
