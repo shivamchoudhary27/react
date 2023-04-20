@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import SignupForm from "./form";
 import SignupImg from "../../assets/images/signup.jpg";
+
 import "./style.scss";
 
 const SignUpNew = () => {

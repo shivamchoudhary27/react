@@ -22,7 +22,7 @@ const tableColumn = [
     Header: "Manage Users",
     accessor: "manage_users",
     Cell: ({ row }: any) => (
-      <Link to="/manageusers">
+      <Link to={`/manageuserenrollment/${row.original.id}`}>
         <i className="fa fa-users"></i>
       </Link>
     ),

@@ -8,6 +8,7 @@ import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_fiel
 import CustomButton from "../../../widgets/form_input_fields/buttons";
 import { CountryList } from "../data";
 import { useNavigate, Link } from "react-router-dom";
+import { postData } from "../../../adapters/coreservices";
 
 const initialValues = {
   username: "",
@@ -21,6 +22,22 @@ const initialValues = {
 
 const SignupForm = () => {
   const navigate = useNavigate();
+
+    // handle Form CRUD operations === >>>
+    const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+      postData('/user/', values)
+      .then((res: any) => {
+        if (res.status === 201) {
+          navigate('/usermanagement');
+        }
+      })
+      .catch((err: any) => {
+        if (err.response.status === 404) {
+          window.alert(err.response.data.message);
+        }
+      });
+    };
+
   return (
     <React.Fragment>
       <h2 className="form-head">Registration</h2>

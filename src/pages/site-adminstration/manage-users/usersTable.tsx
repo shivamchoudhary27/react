@@ -1,59 +1,92 @@
 import React, { useMemo } from "react";
-import { usersRawData } from "./data";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { deleteData } from "../../../adapters/microservices";
 
-const tableColumn = [
-  {
-    Header: "Full Name",
-    accessor: "fullname",
-  },
-  {
-    Header: "Email",
-    accessor: "email",
-  },
-  {
-    Header: "Role No",
-    accessor: "roleNo",
-  },
-  {
-    Header: "Role",
-    accessor: "role",
-  },
-  {
-    Header: "Actions",
-    accessor: "actions",
-    Cell: ({ row }: any) => (
-      <span>
-        <Link to=""><i className={row.values.actions.edit} onClick={()=>editHandler(row.id)}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.delete} onClick={()=>deleteHandler(row.id)}></i></Link>{" "}
-        <Link to=""><i className={row.values.actions.hide} onClick={()=>showToggleHandler(row.id)}></i></Link>
-      </span>
-    ),
-  },
-];
+// Actions btns styling === >>>
+const actionsStyle = {
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "center",
+};
 
-const editHandler = (id: number) => {
-  console.log(id)
-}
-const deleteHandler = (id: number) => {
-  console.log(id)
-}
-const showToggleHandler = (id: number) => {
-  console.log(id)
-}
+const UsersTable = ({enrolleduserdata, programid, refreshdata}: any) => {
 
-const UsersTable = () => {
+  const tableColumn = [
+    {
+      Header: "Full Name",
+      Cell: ({ row }: any) => (
+        `${row.original.userFirstName} ${row.original.userLastName}`
+      ),
+    },
+    {
+      Header: "Email",
+      accessor: "userEmail",
+    },
+    {
+      Header: "Role No",
+      accessor: "roleNumber",
+    },
+    {
+      Header: "Role",
+      accessor: "role",
+    },
+    {
+      Header: "Actions",
+      Cell: ({ row }: any) => (
+        <span style={actionsStyle}>
+          <Link to={createEditLink(row.original.userId)}>
+            <i className="fa-solid fa-pen"></i>
+          </Link>
+          <Link to="">
+              <i
+                className="fa-solid fa-trash"
+                onClick={() => deleteHandler(row.original.userId)}
+              ></i>
+          </Link>
+        </span>
+      ),
+    },
+  ];
+
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => usersRawData, [usersRawData]);
+  const data = useMemo(() => enrolleduserdata, [enrolleduserdata]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
+
+  // edit event handler === >>>
+  const createEditLink = (id: number) => {
+    return `/enrolusertoprogram/${programid}/${id}`;
+  };
+
+  const deleteHandler = (userid: number) => {
+    if (window.confirm("Are you sure to delete this user?")) {
+      refreshdata(false);
+      let endPoint = `/program/${programid}/enrol-user/${userid}`;
+      deleteData(endPoint)
+        .then((res: any) => {
+          console.log(res);
+          if (res.status === 200) {
+            refreshdata(true);
+          } else if (res.status === 500) {
+            window.alert("Unable to delete, some error occured");
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 400) {
+            window.alert(result.response.data.message);
+          } else if (result.response.status === 500) {
+            window.alert(result.response.data.message);
+          }
+        });
+    }
+  };
   return (
-    <>
+    <React.Fragment>
       <div className="table-wrapper mt-3">
         <Table bordered hover {...getTableProps()}>
           <thead>
@@ -69,7 +102,6 @@ const UsersTable = () => {
           </thead>
           <tbody {...getTableBodyProps()}>
             {rows.map((row, index) => {
-              console.log(row)
               prepareRow(row);
               return (
                 <tr {...row.getRowProps()} key={index}>
@@ -82,7 +114,7 @@ const UsersTable = () => {
           </tbody>
         </Table>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
