@@ -120,7 +120,7 @@ const CourseManagment = () => {
   return (
     <>
       <Header
-        pageHeading={`Manage Courses`}
+        pageHeading={`Manage Courses : ${name}`}
         welcomeIcon={false}
       />
       <div className="main-content-container">

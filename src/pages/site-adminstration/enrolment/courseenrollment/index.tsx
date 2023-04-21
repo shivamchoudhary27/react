@@ -14,11 +14,14 @@ import "./style.scss";
 
 const CourseEnrollment = () => {
   const navigate = useNavigate();
-  const { programid, courseid } = useParams();
+  const { programid, courseid, coursename } = useParams();
   const parsedCourseid = parseInt(courseid);
   const dummyData = { items: [], userRoles : {}, pager: { totalElements: 0, totalPages: 0 } };
   const [modalShow, setModalShow] = useState(false);
   const [finalTableData, setFinalTableData] = useState([]);
+  const [programData, setProgramData] = useState({ items: [], pager: { totalElements: 0, totalPages: 0 } });
+  // const [programUsers, setProgramUsers] = useState({ items: [], pager: { totalElements: 0, totalPages: 0 } });
+  const [programName, setProgramName] = useState('');
   const [diciplineData, setDiciplineData] = useState<any>(dummyData);
   const [disciplineObj, setDisciplineObj] = useState({
     name: "",
@@ -34,7 +37,16 @@ const CourseEnrollment = () => {
   // get programs API call === >>>
   useEffect(() => {
     makeGetDataRequest(`/course/${parsedCourseid}/enrol-user`, filterUpdate, setDiciplineData);
+    makeGetDataRequest('/programs', {pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid}, setProgramData);
+    // makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setProgramUsers); 
   }, [refreshData, filterUpdate]);
+
+  useEffect(() => {
+    if (programData.items.length === 1) {
+      setProgramName(programData.items[0].name);
+    }
+
+  }, [programData]);
 
   useEffect(() => {
     const updatedItems = diciplineData.items.map((item : any) => {
@@ -48,7 +60,6 @@ const CourseEnrollment = () => {
     // setDiciplineData({...diciplineData, items : updatedItems})
   }, [diciplineData]);
 
-  console.log(diciplineData)
   useEffect(() => {
     if (refreshOnDelete === true)
       makeGetDataRequest(`/course/${parsedCourseid}/enrol-user`, filterUpdate, setDiciplineData);
@@ -117,7 +128,7 @@ const CourseEnrollment = () => {
       courseid={parsedCourseid}
     />
   );
-//
+
   const updateSearchFilters = (newFilterRequest: any, reset = false ) => {
     if (reset === true) {
       const { name, email, ...newObject } = newFilterRequest;
@@ -155,7 +166,7 @@ const CourseEnrollment = () => {
         </Button>{" "}
         <Button
           variant="outline-secondary"
-          onClick={() => navigate(`/enrolusers/${programid}/Enrol%20To%20Courses`)}
+          onClick={() => navigate(`/enrolusers/${programid}/${programName}`)}
         >
           Go back
         </Button>
@@ -166,7 +177,7 @@ const CourseEnrollment = () => {
 
   return (
     <>
-      <Header pageHeading="Course Enrollment" welcomeIcon={false} />
+      <Header pageHeading={`Course Enrollment: ${coursename}`} welcomeIcon={false} />
       <div className="main-content-container">
         <Sidebar />
         <div

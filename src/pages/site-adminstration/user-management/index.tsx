@@ -9,7 +9,7 @@ import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 
 const UserManagement = () => {
-  const dummyData = {items: {content : []}, pager: {totalElements: 0, totalPages: 0}}
+  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [userData, setUserData] = useState<any>(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(true);
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -23,7 +23,7 @@ const UserManagement = () => {
       getData("/user/all_users", filterUpdate)
           .then((result : any) => {
               if (result.data !== "" && result.status === 200) {
-                  if (result.data.items.content.length < 1) {
+                  if (result.data.items.length < 1) {
                       window.alert('No data available for this request');
                   }
                   setUserData(result.data);
@@ -76,7 +76,7 @@ const UserManagement = () => {
           <Container fluid className="administration-wrapper">
             <Filter updatefilters={updateSearchFilters}/>
             <hr />
-            <UserManagementTable userdata={userData.items.content} refreshdata={refreshOnDeleteToggle}/>
+            <UserManagementTable userdata={userData.items} refreshdata={refreshOnDeleteToggle}/>
             <BuildPagination
               totalpages={userData.pager.totalPages}
               activepage={filterUpdate.pageNumber}

@@ -11,14 +11,11 @@ const initialValues = {
   roleNumber: ""
 }
 
-const UserFilter = ({ updateinputfilters } : any) => {
+const UserFilter = ({ updateinputfilters, programname } : any) => {
   const navigate = useNavigate();
   const { programid } = useParams();
   const parsedProgramid = parseInt(programid);
-  const addUserLink = `/enrolusertoprogram/${parsedProgramid}/0`;
-
-  const [inputName, setInputName] = React.useState("");
-  const [inputCode, setInputCode] = React.useState("");
+  const addUserLink = `/enrolusertoprogram/${parsedProgramid}/0/${programname}`;
   
   const formik = useFormik({
     initialValues: initialValues,
@@ -36,22 +33,8 @@ const UserFilter = ({ updateinputfilters } : any) => {
     }
   });
 
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-  };
-
-  const handleReset = () => {
-    updateinputfilters({firstNameStart: "", userEmail: ""});
-    setInputName("");
-    setInputCode("");
-  };
-
-  const getInputValues = () => {
-    updateinputfilters({firstNameStart: inputName, userEmail: inputCode});
-  }
-
   const toEnrolProgramCourses = () => {
-    const enrollToCourses = `/enrolusers/${parsedProgramid}/Enrol To Courses`;
+    const enrollToCourses = `/enrolusers/${parsedProgramid}/${programname}`;
     navigate(enrollToCourses);
   }
 
@@ -61,36 +44,44 @@ const UserFilter = ({ updateinputfilters } : any) => {
         <div className="filter-form">
           <div className="row g-3 align-items-center">
             <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-              <label htmlFor="name">Name</label>
-              <input
-                className="form-control"
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Fullname"
-                onChange={formik.handleChange}
-                value={formik.values.name}
-              />
-              <label htmlFor="email">Email</label>
-              <input
-                className="form-control"
-                id="email"
-                name="email"
-                type="text"
-                placeholder="Email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-              <label htmlFor="roleNumber">Role number</label>
-              <input
-                className="form-control"
-                id="roleNumber"
-                name="roleNumber"
-                type="text"
-                placeholder="Role number"
-                onChange={formik.handleChange}
-                value={formik.values.roleNumber}
-              />
+              <div className="row mb-3">
+                <div className="col-md-4">
+                  <label htmlFor="name">Name</label>
+                  <input
+                    className="form-control"
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="Fullname"
+                    onChange={formik.handleChange}
+                    value={formik.values.name}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    className="form-control"
+                    id="email"
+                    name="email"
+                    type="text"
+                    placeholder="Email"
+                    onChange={formik.handleChange}
+                    value={formik.values.email}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <label htmlFor="roleNumber">Role number</label>
+                  <input
+                    className="form-control"
+                    id="roleNumber"
+                    name="roleNumber"
+                    type="text"
+                    placeholder="Role number"
+                    onChange={formik.handleChange}
+                    value={formik.values.roleNumber}
+                  />
+                </div>
+              </div>
               <Button variant="outline-secondary" type="submit">Filter</Button>
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </form>
@@ -98,10 +89,10 @@ const UserFilter = ({ updateinputfilters } : any) => {
         </div>
         <div className="mt-2">
           <div className="site-button-group">
-            <Button variant="primary" onClick={toEnrolProgramCourses}>Enroll Users</Button>{" "}
             <Button variant="primary">Upload Users</Button>{" "}
             <Button variant="primary" onClick={() => navigate(addUserLink)}>Add Users</Button>{" "}
             <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
+            <Button variant="primary" onClick={toEnrolProgramCourses}>Enroll Users To Courses</Button>{" "}
           </div>
         </div>
       </div>

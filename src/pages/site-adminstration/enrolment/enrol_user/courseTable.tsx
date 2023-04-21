@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -69,7 +69,7 @@ const EnrolUserTable = ({
           {
             (row.original.coursename !== undefined) &&
 
-            <Link to={`/courseenrollment/${programId}/${row.original.id}`}>
+            <Link to={`/courseenrollment/${programId}/${row.original.id}/${row.original.coursename}`}>
               <Button>Enrol Users</Button>
               {/* <i className="fa-solid fa-pen" onClick={() => enrolToCourses(row.original.id)}></i> */}
             </Link>

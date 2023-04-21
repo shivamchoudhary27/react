@@ -9,11 +9,12 @@ import CustomButton from "../../../widgets/form_input_fields/buttons";
 import { CountryList } from "../data";
 import { useNavigate, Link } from "react-router-dom";
 import { postData } from "../../../adapters/coreservices";
+import * as Yup from "yup";
 
 const initialValues = {
   username: "",
-  lastname: "",
-  firstname: "",
+  lastName: "",
+  firstName: "",
   email: "",
   password: "",
   city: "",
@@ -23,31 +24,49 @@ const initialValues = {
 const SignupForm = () => {
   const navigate = useNavigate();
 
-    // handle Form CRUD operations === >>>
-    const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-      postData('/user/', values)
-      .then((res: any) => {
-        if (res.status === 201) {
-          navigate('/usermanagement');
-        }
-      })
-      .catch((err: any) => {
-        if (err.response.status === 404) {
-          window.alert(err.response.data.message);
-        }
-      });
-    };
+  // Formik Yup validation === >>>
+  const userFormSchema = Yup.object({
+    username: Yup.string().trim().min(4).required(),
+    password: Yup.string().min(5).trim().required(),
+    email: Yup.string().email().required(),
+    firstName: Yup.string().min(1).trim().required(),
+    lastName: Yup.string().min(1).trim().required(),
+    city: Yup.string().min(1).trim().required(),
+    country: Yup.string().required(),
+  });
+
+  // handle Form CRUD operations === >>>
+  const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
+    values.idnumber = 98789871;
+    postData('/user/signup', values)
+    .then((res: any) => {
+      console.log('res', res);
+      if (res.status === 201 || res.status  === 200 ) {
+        window.alert('Registration successful');
+      } else {
+        window.alert("Some error occurred")
+      }
+      navigate('/');
+    })
+    .catch((err: any) => {
+      if (err.response.status === 404) {
+        window.alert(err.response.data.message);
+      } else {
+        window.alert('Some error occurred');
+      }
+    });
+  };
 
   return (
     <React.Fragment>
       <h2 className="form-head">Registration</h2>
-      <div className="title-head mb-2">Please let us know little bit about yourself!</div>
       <Container className="">
         <Formik
           enableReinitialize={true}
           initialValues={initialValues}
+          validationSchema={userFormSchema}
           onSubmit={(values, action) => {
-            console.log(values, action);
+            handleFormData(values, action)
           }}
         >
           {({ errors, touched, isSubmitting, setValues, values }) => (
@@ -64,7 +83,7 @@ const SignupForm = () => {
                 <FieldErrorMessage
                   errors={errors.username}
                   touched={touched.username}
-                  msgText="Username required atleast 1 character"
+                  msgText="Username required with minimum 4 - 20 characters"
                 />
               </div>
 
@@ -80,37 +99,37 @@ const SignupForm = () => {
                 <FieldErrorMessage
                   errors={errors.password}
                   touched={touched.password}
-                  msgText="Password required"
+                  msgText="Password required with 5 minimum characters"
                 />
               </div>
 
               <div className="mb-2">
                 <FieldLabel
-                  htmlfor="firstname"
-                  labelText="Firstname"
+                  htmlfor="firstName"
+                  labelText="firstName"
                   required="required"
                   className="label-style"
                 />
-                <FieldTypeText name="firstname" placeholder="First Name" />
+                <FieldTypeText name="firstName" placeholder="First Name" />
                 <FieldErrorMessage
-                  errors={errors.firstname}
-                  touched={touched.firstname}
-                  msgText="Firstname required atleast 1 character"
+                  errors={errors.firstName}
+                  touched={touched.firstName}
+                  msgText="firstName required"
                 />
               </div>
 
               <div className="mb-2">
                 <FieldLabel
-                  htmlfor="lastname"
-                  labelText="Lastname"
+                  htmlfor="lastName"
+                  labelText="lastName"
                   required="required"
                   className="label-style"
                 />
-                <FieldTypeText name="lastname" placeholder="Last Name" />
+                <FieldTypeText name="lastName" placeholder="Last Name" />
                 <FieldErrorMessage
-                  errors={errors.lastname}
-                  touched={touched.lastname}
-                  msgText="Last name required atleast 1 character"
+                  errors={errors.lastName}
+                  touched={touched.lastName}
+                  msgText="Last name required"
                 />
               </div>
 

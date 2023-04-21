@@ -10,7 +10,7 @@ import { setHasChildProp, resetManageCourseObj } from './local';
 
 const EnrolUsers = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, name } = useParams();
   const [categoryData, setCategoryData] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
@@ -77,6 +77,7 @@ const EnrolUsers = () => {
     }
   }, [categoryData]);
 
+
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
@@ -120,7 +121,7 @@ const EnrolUsers = () => {
   return (
     <>
       <Header
-        pageHeading="Enrol Users"
+        pageHeading={`Enrol Users To Courses : ${name}`}
         welcomeIcon={false}
       />
       <div className="main-content-container">
@@ -132,7 +133,7 @@ const EnrolUsers = () => {
           <Container fluid className="administration-wrapper">
             <Button
               variant="outline-secondary"
-              onClick={() => navigate(`/manageuserenrollment/${id}`)}
+              onClick={() => navigate(`/manageuserenrollment/${id}/${name}`)}
             >
               Go back
             </Button>

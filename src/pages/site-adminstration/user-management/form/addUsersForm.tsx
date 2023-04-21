@@ -53,8 +53,8 @@ const AddUsersForm = () => {
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     username: Yup.string().trim().min(4).required(),
-    password: Yup.string().min(6).trim().required(),
-    // idnumber: Yup.number().min(4).max(9).required(),
+    password: Yup.string().min(5).trim().required(),
+    idnumber: Yup.number().min(4).required(),
     email: Yup.string().email('Invalid email').required('Email is required'),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
@@ -127,7 +127,7 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.username}
                       touched={touched.username}
-                      msgText="Username required and atleast 4 characters minimum"
+                      msgText="Username is required with 4 characters minimum"
                     />
                   </div>
 
@@ -142,7 +142,7 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.password}
                       touched={touched.password}
-                      msgText="Password is required with minimum 5 characters"
+                      msgText="Password is required with 5 characters minimum"
                     />
                   </div>
 
@@ -202,7 +202,7 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.idnumber}
                       touched={touched.idnumber}
-                      msgText="Idnumber is required with minimun 6 and maximum 10 digits"
+                      msgText="Idnumber is required with minimun 4 and maximum 9 digits"
                     />
                   </div>
 
