@@ -92,10 +92,10 @@ const UserFilter = ({ updateinputfilters, programname } : any) => {
             <Button variant="primary">Upload Users</Button>{" "}
             <Button variant="primary" onClick={() => navigate(addUserLink)}>Add Users</Button>{" "}
             <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
-            <Button variant="primary" onClick={toEnrolProgramCourses}>Enroll Users To Courses</Button>{" "}
+            <Button variant="primary" style={{float:"right"}} onClick={toEnrolProgramCourses}>Enroll Users To Courses</Button>{" "}
           </div>
         </div>
-      </div>
+      </div> 
     </React.Fragment>
   );
 };

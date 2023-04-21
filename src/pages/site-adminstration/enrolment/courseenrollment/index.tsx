@@ -192,6 +192,9 @@ const CourseEnrollment = () => {
               activepage={filterUpdate.pageNumber}
               getrequestedpage={newPageRequest}
             />
+            <Button variant="primary" onClick={openAddDiscipline}>
+              Enrol User
+            </Button>{" "}
             {DISCIPLINE_MODAL_COMPONENT}
           </Container>
         </div>
