@@ -95,7 +95,7 @@ const SignupForm = () => {
                   star="*"
                   className="label-style"
                 />
-                <FieldTypeText name="password" placeholder="Password" />
+                <FieldTypeText type="password" name="password" placeholder="Password" />
                 <FieldErrorMessage
                   errors={errors.password}
                   touched={touched.password}
