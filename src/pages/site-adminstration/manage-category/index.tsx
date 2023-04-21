@@ -197,7 +197,7 @@ const ManageCategory = () => {
             />
             {/* } */}
           </Container>
-          {sortedCategories.length !== 0 ? (
+          {/* {sortedCategories.length !== 0 ? (
             <AlertMessage
               variant="info"
               strong="Instruction"
@@ -209,7 +209,7 @@ const ManageCategory = () => {
               strong="No records found!"
               msg=""
             />
-          )}
+          )} */}
         </div>
       </div>
     </>

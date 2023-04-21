@@ -60,11 +60,11 @@ export default function CustomRoutes() {
           <Route path='/usermanagement' element={<UserManagement />} />
           <Route path='/addusersform/:userid' element={<AddUsersForm />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
-          <Route path="/enrolusertoprogram/:programid/:userid" element={<EnrolUserToProgram />} />
+          <Route path="/enrolusertoprogram/:programid/:userid/:name" element={<EnrolUserToProgram />} />
           <Route path="/managecategory/:id/:name" element={<ManageCategory />} />
           <Route path="/managecourses/:id/:name" element={<CourseManagment />} />
           <Route path="/enrolusers/:id/:name" element={<EnrolUsers />} />
-          <Route path="/courseenrollment/:programid/:courseid" element={<CourseEnrollment />}/>
+          <Route path="/courseenrollment/:programid/:courseid/:coursename" element={<CourseEnrollment />}/>
           <Route path="/fileuploadtest" element={<FileUploadForm />} />
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
@@ -74,7 +74,7 @@ export default function CustomRoutes() {
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
-          <Route path="/manageuserenrollment/:programid" element={<ManageUserEnrollment />} />
+          <Route path="/manageuserenrollment/:programid/:programname" element={<ManageUserEnrollment />} />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
           <Route path="/mod/video/report" element={<Report />} />
           <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />

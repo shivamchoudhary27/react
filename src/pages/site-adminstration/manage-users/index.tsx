@@ -10,7 +10,7 @@ import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 
 const ManageUserEnrollment = () => {
-  const { programid } = useParams();
+  const { programid, programname } = useParams();
   const parsedProgramid = parseInt(programid);
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [enrolUserData, setEnrolUserData] = useState<any>(dummyData);
@@ -37,17 +37,6 @@ const ManageUserEnrollment = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  // const updateInputFilters = (inputvalues : any) => {
-  //   if (inputvalues.userEmail !== '') {
-  //     setFilterUpdate({...filterUpdate, firstNameStart: inputvalues.firstNameStart, userEmail: inputvalues.userEmail, pageNumber: 0})
-  //   } else {
-  //     let updatedState = {...filterUpdate, pageNumber: 0};
-  //     updatedState.firstNameStart = inputvalues.firstNameStart;
-  //     if (updatedState.userEmail) delete updatedState.userEmail;
-  //     setFilterUpdate(updatedState);
-  //   }
-  // }
-
   const updateSearchFilters = (newFilterRequest: any, reset = false ) => {
     if (reset === true) {
       const { name, email, rolenumber, ...newObject } = newFilterRequest;
@@ -66,12 +55,12 @@ const ManageUserEnrollment = () => {
 
   return (
     <React.Fragment>
-      <Header pageHeading="Program Enrollment" welcomeIcon={false} />
+      <Header pageHeading={`Program Enrollment: ${programname}`} welcomeIcon={false} />
       <div className='main-content-container'>
         <Sidebar />
         <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
-            <UserFilter updateinputfilters={updateSearchFilters}/>
+            <UserFilter updateinputfilters={updateSearchFilters} programname={programname}/>
             <UsersTable
               enrolleduserdata={enrolUserData.items} 
               programid={parsedProgramid} 

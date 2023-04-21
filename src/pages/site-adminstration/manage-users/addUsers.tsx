@@ -27,7 +27,7 @@ const dummyInitValues = {
 
 const EnrolUserToProgram = () => {
   const navigate = useNavigate();
-  const { programid, userid } = useParams();
+  const { programid, userid, name } = useParams();
   const parsedProgramid = parseInt(programid);
   const parsedUserid = parseInt(userid);
   const dummyData = {items: [dummyInitValues], pager: {totalElements: 0, totalPages: 0}}
@@ -38,7 +38,7 @@ const EnrolUserToProgram = () => {
     userId : (parsedUserid > 0) ? parsedUserid : ''
   };
   const [intialValues, setInitialvalues] = useState({});
-  const gobackLink = `/manageuserenrollment/${parsedProgramid}`;
+  const gobackLink = `/manageuserenrollment/${parsedProgramid}/${name}`;
 
   useEffect(() => {
     if (parsedUserid > 0) {
