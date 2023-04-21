@@ -59,7 +59,6 @@ const SignupForm = () => {
 
   return (
     <React.Fragment>
-      <h2 className="form-head">Registration</h2>
       <Container className="">
         <Formik
           enableReinitialize={true}
@@ -181,32 +180,20 @@ const SignupForm = () => {
                   touched={touched.country}
                   msgText="Please select Country"
                 />
-              </div>
-              <div className="form-link">
-                Already a member? <Link to={"/"} className="redirect-link">Log in</Link>
-              </div>
+              </div>              
               <div className="text-center">
                 <CustomButton
                   type="submit"
                   variant="warning"
-                  // isSubmitting={isSubmitting}
-                  btnText="Register"
+                  btnText="Sign up"
                 />{" "}
-                {/* <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="secondary"
-                    /> */}
               </div>
-            </Form>
+              <div className="form-link mt-3">
+                Already a member? <Link to={"/"} className="redirect-link">Sign in</Link>
+              </div>
+            </Form>            
           )}
         </Formik>
-        {/* <CustomButton
-            type="button"
-            btnText="Back"
-            variant="outline-secondary"
-            onClick={()=>navigate('/')}
-          /> */}
       </Container>
     </React.Fragment>
   );

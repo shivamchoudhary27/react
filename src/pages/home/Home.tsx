@@ -27,22 +27,16 @@ const Home = () => {
             <div className="ai-logo-wrapper">
               <img className="ai-logo" src={logo} alt="logo" />
             </div>
-            <div>
-              <h1>
-                Welcome to <span>Ballistic University Premium</span>
-              </h1>
-              <p>
-                Ballistic Academy is a hybrid learning platform that uses FLIP
-                classroom, and social learning (P2P).
-              </p>
-            </div>
+            <h1 className="mb-5">
+              Welcome to <span>Ballistic University Premium</span>
+            </h1>
             <a href={oAuthUrl}>
-              <Button variant="warning" className="button-link">
-                click here to login
+              <Button variant="warning btn-lg" className="button-link">
+                Sign in
               </Button>
             </a>{" "}
-            <Button variant="warning" className="button-link" onClick={()=>navigate("/signupnew")}>
-               click here to signup
+            <Button variant="dark btn-lg" className="button-link ms-3" onClick={()=>navigate("/signupnew")}>
+               Sign up
             </Button>
           </div>
         </Container>
