@@ -76,7 +76,6 @@ console.log(initValues);
     
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
-    // return;
 
     if (programid == 0) {
       let endPoint = "/programs";

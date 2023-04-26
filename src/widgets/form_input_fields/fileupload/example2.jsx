@@ -1,64 +1,105 @@
-import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+// import React from 'react';
+// import { Formik, Field, Form, ErrorMessage } from 'formik';
+// import { postData } from '../../../adapters/microservices';
+// import * as Yup from 'yup';
 
-const validationSchema = Yup.object().shape({
-  file: Yup.mixed().required('File is required'),
-});
+// const validationSchema = Yup.object().shape({
+//   file: Yup.mixed().required('File is required'),
+// });
 
-const onSubmit = (values) => {
-  console.log(values.file);
-  const reader = new FileReader();
-  reader.readAsDataURL(values.file);
-  reader.onload = () => {
-    const base64 = reader.result;
-    console.log(base64);
-  };
-};
+// const FileUploadForm = () => {
+//   const onSubmit = (values) => {
 
-// const onSubmit = async (values) => {
-//   const formData = new FormData();
-//   formData.append('file', values.file);
+//     console.log(values.file);
 
-//   try {
-//     const response = await axios.post('https://example.com/upload', formData);
-//     console.log(response.data);
-//   } catch (error) {
-//     console.error(error);
-//   }
+//     postData('/csv/program-user-erol/133', {}, values.file)
+//       .then((res) => {
+//         console.log('res', res);
+//       })
+//       .catch((err) => {
+//         console.log('error', err);
+//       });
+//   };
+
+//   return (
+//     <React.Fragment>
+//       <Formik
+//         initialValues={{ file: null }}
+//         validationSchema={validationSchema}
+//         onSubmit={onSubmit}
+//       >
+//         {({ values, setFieldValue, errors, touched }) => (
+//           <Form>
+//             <div>
+//               <label htmlFor="file">Upload a file:</label>
+//               <input
+//                 id="file"
+//                 name="file"
+//                 type="file"
+//                 onChange={(event) => {
+//                   setFieldValue('file', event.currentTarget.files[0]);
+//                 }}
+//               />
+//               <ErrorMessage name="file" />
+//             </div>
+
+//             <button type="submit" disabled={!values.file}>
+//               Submit
+//             </button>
+
+//             <pre>{JSON.stringify({ values, errors, touched }, null, 2)}</pre>
+//           </Form>
+//         )}
+//       </Formik>
+//     </React.Fragment>
+//   );
 // };
 
-const FileUploadForm = () => {
-  return (
-    <Formik
-      initialValues={{ file: null }}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ values, setFieldValue, errors, touched }) => (
-        <Form>
-          <div>
-            <label htmlFor="file">Upload a file:</label>
-            <input
-              id="file"
-              name="file"
-              type="file"
-              onChange={(event) => {
-                setFieldValue('file', event.currentTarget.files[0]);
-              }}
-            />
-            <ErrorMessage name="file" />
-          </div>
+// export default FileUploadForm;
 
-          <button type="submit" disabled={!values.file}>
-            Submit
-          </button>
+// import React, { useState } from 'react';
+// import Papa from 'papaparse'; // library for parsing CSV files
 
-          <pre>{JSON.stringify({ values, errors, touched }, null, 2)}</pre>
-        </Form>
-      )}
-    </Formik>
-  );
-};
+// function FileUploadForm() {
+//   const [tableData, setTableData] = useState([]);
 
-export default FileUploadForm;
+//   const handleFileUpload = (event) => {
+//     const file = event.target.files[0];
+//     Papa.parse(file, {
+//       header: true,
+//       complete: (result) => {
+//         setTableData(result.data);
+//       },
+//     });
+//   };
+
+//   return (
+//     <div>
+//       <input type="file" onChange={handleFileUpload} />
+//       {tableData.length > 0 && (
+//         <table>
+//           <thead>
+//             <tr>
+//               <th>#</th>
+//               {Object.keys(tableData[0]).map((key) => (
+//                 <th key={key}>{key}</th>
+//               ))}
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {tableData.map((row, index) => (
+//               <tr key={index}>
+//                 <td>{index + 1}</td>
+//                 {Object.values(row).map((value, index) => (
+//                   <td key={index}>{value}</td>
+//                 ))}
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       )}
+//     </div>
+//   );
+// }
+
+// export default FileUploadForm;

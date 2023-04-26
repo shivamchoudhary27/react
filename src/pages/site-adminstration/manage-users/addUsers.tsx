@@ -38,7 +38,7 @@ const EnrolUserToProgram = () => {
     userId : (parsedUserid > 0) ? parsedUserid : ''
   };
   const [intialValues, setInitialvalues] = useState({});
-  const gobackLink = `/manageuserenrollment/${parsedProgramid}/${name}`;
+  const gobackLink = `/manageprogramenrollment/${parsedProgramid}/${name}`;
 
   useEffect(() => {
     if (parsedUserid > 0) {
@@ -123,7 +123,7 @@ const EnrolUserToProgram = () => {
                       ?
                       <>
                         <label>Email</label><br />
-                        <input className="form-control" type="readonly" value={intialValues.userEmail} />
+                        <input className="form-control" type="email" value={intialValues.userEmail} disabled/>
                       </>
                       :
                       <>
@@ -133,7 +133,11 @@ const EnrolUserToProgram = () => {
                           required="required"
                           star="*"
                         />
-                        <FieldTypeText name="userEmail" placeholder="Email" />
+                        <FieldTypeText  
+                          name="userEmail" 
+                          placeholder="Email"
+                          type="email" 
+                        />
                         <FieldErrorMessage
                           errors={errors.userEmail}
                           touched={touched.userEmail}
