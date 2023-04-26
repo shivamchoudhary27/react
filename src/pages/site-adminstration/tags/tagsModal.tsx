@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
@@ -53,7 +53,7 @@ const TagsModal = ({
   };
 
   return (
-    <>
+    <React.Fragment>
       <Modal
         show={show}
         onHide={onHide}
@@ -112,7 +112,7 @@ const TagsModal = ({
           </Formik>
         </Modal.Body>
       </Modal>
-    </>
+    </React.Fragment>
   );
 };
 

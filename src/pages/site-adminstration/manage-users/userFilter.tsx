@@ -11,7 +11,7 @@ const initialValues = {
   roleNumber: ""
 }
 
-const UserFilter = ({ updateinputfilters, programname } : any) => {
+const UserFilter = ({ updateinputfilters, programname, toggleModalShow } : any) => {
   const navigate = useNavigate();
   const { programid } = useParams();
   const parsedProgramid = parseInt(programid);
@@ -82,14 +82,14 @@ const UserFilter = ({ updateinputfilters, programname } : any) => {
                   />
                 </div>
               </div>
-              <Button variant="outline-secondary" type="submit">Filter</Button>
+              <Button variant="outline-secondary" type="submit">Filter</Button>{" "}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </form>
           </div>
         </div>
         <div className="mt-2">
           <div className="site-button-group">
-            <Button variant="primary">Upload Users</Button>{" "}
+            <Button variant="primary" onClick={toggleModalShow}>Upload Users</Button>{" "}
             <Button variant="primary" onClick={() => navigate(addUserLink)}>Add Users</Button>{" "}
             <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
             <Button variant="primary" style={{float:"right"}} onClick={toEnrolProgramCourses}>Enroll Users To Courses</Button>{" "}

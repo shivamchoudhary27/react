@@ -17,7 +17,7 @@ import ProgramType from '../../pages/site-adminstration/program-type';
 import Discipline from '../../pages/site-adminstration/discipline';
 import ManageProgram from '../../pages/site-adminstration/manage-program';
 import AddProgram from '../../pages/site-adminstration/addProgram';
-import ManageUserEnrollment from '../../pages/site-adminstration/manage-users';
+import ManageProgramEnrollment from '../../pages/site-adminstration/manage-users';
 import Home from '../../pages/home/Home';
 import AuthLogin from '../../pages/authlogin/AuthLogin';
 import SiteAdminHome from '../../pages/site-adminstration/siteAdmin';
@@ -74,7 +74,7 @@ export default function CustomRoutes() {
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
-          <Route path="/manageuserenrollment/:programid/:programname" element={<ManageUserEnrollment />} />
+          <Route path="/manageprogramenrollment/:programid/:programname" element={<ManageProgramEnrollment />} />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
           <Route path="/mod/video/report" element={<Report />} />
           <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />

@@ -5,13 +5,16 @@ import Sidebar from "../../sidebar";
 import { Container } from "react-bootstrap";
 import UserFilter from "./userFilter";
 import UsersTable from "./usersTable";
+import UploadUsersEnrollment from "./uploadUsers";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 
-const ManageUserEnrollment = () => {
+const ManageProgramEnrollment = () => {
   const { programid, programname } = useParams();
   const parsedProgramid = parseInt(programid);
+  const [modalShow, setModalShow] = useState(false);
+  const [refreshData, setRefreshData] = useState<boolean>(false);
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [enrolUserData, setEnrolUserData] = useState<any>(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -19,11 +22,11 @@ const ManageUserEnrollment = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-
+  
   // get programs API call === >>>
   useEffect(() => {
     makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setEnrolUserData); 
-  }, [filterUpdate]);
+  }, [refreshData, filterUpdate]);
 
   useEffect(() => {
     if (refreshOnDelete === true) makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setEnrolUserData); 
@@ -35,6 +38,15 @@ const ManageUserEnrollment = () => {
 
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
   };
 
   const updateSearchFilters = (newFilterRequest: any, reset = false ) => {
@@ -60,11 +72,16 @@ const ManageUserEnrollment = () => {
         <Sidebar />
         <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
-            <UserFilter updateinputfilters={updateSearchFilters} programname={programname}/>
+            <UserFilter 
+              updateinputfilters={updateSearchFilters} 
+              programname={programname} 
+              toggleModalShow={toggleModalShow}
+            />
             <UsersTable
               enrolleduserdata={enrolUserData.items} 
               programid={parsedProgramid} 
               refreshdata={refreshOnDeleteToggle}
+              programname={programname}
             />
             <BuildPagination
               totalpages={enrolUserData.pager.totalPages}
@@ -73,9 +90,16 @@ const ManageUserEnrollment = () => {
             />
           </Container>
         </div>
-      </div>      
+      </div>
+      <UploadUsersEnrollment
+        programid={programid}
+        show={modalShow}
+        onHide={() => toggleModalShow(false)}
+        togglemodalshow={toggleModalShow}
+        updateAddRefresh={refreshToggle}
+      />      
     </React.Fragment>
   );
 };
 
-export default ManageUserEnrollment;
+export default ManageProgramEnrollment;

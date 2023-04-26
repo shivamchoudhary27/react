@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ const AddTags = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <div className="filter-wrapper">
         <div className="filter-form">
           <form>
@@ -49,7 +49,7 @@ const AddTags = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
           </Button>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

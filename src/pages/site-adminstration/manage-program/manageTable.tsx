@@ -1,10 +1,8 @@
 import { useMemo } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { deleteData as deleteProgramData } from "../../../adapters/microservices";
-import Swal from "sweetalert2";
-import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 
 // Actions btns styling === >>>
@@ -25,7 +23,6 @@ const createPreviewLink = (id: number) => {
 
 const ManageTable = ({
   programData,
-  refreshDepartmentData,
   refreshOnDelete,
 }: any) => {
   const tableColumn = [
@@ -63,15 +60,6 @@ const ManageTable = ({
       ),
     },
     {
-      Header: "Manage Users",
-      accessor: "manage_users",
-      Cell: ({ row }: any) => (
-        <Link to="/enrolusers/133/Enrol To Courses">
-          <i className="fa fa-users"></i>
-        </Link>
-      ),
-    },
-    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
@@ -95,7 +83,6 @@ const ManageTable = ({
     },
   ];
 
-  const navigate = useNavigate();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => programData, [programData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =

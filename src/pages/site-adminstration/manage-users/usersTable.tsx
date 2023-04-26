@@ -11,7 +11,7 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const UsersTable = ({enrolleduserdata, programid, refreshdata}: any) => {
+const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any) => {
 
   const tableColumn = [
     {
@@ -60,7 +60,7 @@ const UsersTable = ({enrolleduserdata, programid, refreshdata}: any) => {
 
   // edit event handler === >>>
   const createEditLink = (id: number) => {
-    return `/enrolusertoprogram/${programid}/${id}`;
+    return `/enrolusertoprogram/${programid}/${id}/${programname}`;
   };
 
   const deleteHandler = (userid: number) => {

@@ -133,7 +133,7 @@ const EnrolUsers = () => {
           <Container fluid className="administration-wrapper">
             <Button
               variant="outline-secondary"
-              onClick={() => navigate(`/manageuserenrollment/${id}/${name}`)}
+              onClick={() => navigate(`/manageprogramenrollment/${id}/${name}`)}
             >
               Go back
             </Button>
