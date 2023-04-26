@@ -10,6 +10,7 @@ import DiciplineModal from "./enrolmodal";
 import BuildPagination from "../../../../widgets/pagination";
 import ManageFilter from "./filters";
 import EnglishLetterFilter from "../../../../widgets/filters/alphabets";
+import UploadCourseUsersEnrollment from "./uploadUsers";
 import "./style.scss";
 
 const CourseEnrollment = () => {
@@ -45,7 +46,6 @@ const CourseEnrollment = () => {
     if (programData.items.length === 1) {
       setProgramName(programData.items[0].name);
     }
-
   }, [programData]);
 
   useEffect(() => {
@@ -164,6 +164,7 @@ const CourseEnrollment = () => {
         <Button variant="primary" onClick={openAddDiscipline}>
           Enrol User
         </Button>{" "}
+        <Button variant="primary" onClick={toggleModalShow}>Upload Users</Button>{" "}
         <Button
           variant="outline-secondary"
           onClick={() => navigate(`/enrolusers/${programid}/${programName}`)}
@@ -198,6 +199,13 @@ const CourseEnrollment = () => {
             {DISCIPLINE_MODAL_COMPONENT}
           </Container>
         </div>
+        <UploadCourseUsersEnrollment
+          courseid={courseid}
+          show={modalShow}
+          onHide={() => toggleModalShow(false)}
+          togglemodalshow={toggleModalShow}
+          updateAddRefresh={refreshToggle}
+        />
       </div>
     </>
   );
