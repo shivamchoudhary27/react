@@ -6,7 +6,7 @@ import events from "./events.js";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../header/";
 import Sidebar from "../sidebar/";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
 
@@ -14,6 +14,8 @@ moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
 export default function ReactBigCalendar() {
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const [eventsData, setEventsData] = useState(events);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const enroled_courses = JSON.parse(localStorage.getItem("enroled_courses"));
@@ -66,9 +68,10 @@ export default function ReactBigCalendar() {
       });
   }, []);
 
-  const handleSelect = (e) => {
-// console.log('hafle sleelct', e.target);
-  }
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event);
+    setShowModal(true);
+  };
 
   const filterEvents = (eventChecked) => {
     let newEvents = [];
@@ -86,7 +89,7 @@ export default function ReactBigCalendar() {
   }
 
   return (
-    <>      
+    <React.Fragment>      
       <Header pageHeading="Calendar" welcomeIcon={false} />
       <div className='main-content-container'>
         <Sidebar />
@@ -94,25 +97,39 @@ export default function ReactBigCalendar() {
           <Container fluid>
             <Row>
               <Col md={10}>
+                {selectedEvent && <Modal />}
                 <Calendar
-                views={["day", "agenda", "work_week", "month"]}
-                selectable
-                localizer={localizer}
-                defaultDate={new Date()}
-                defaultView="month"
-                events={filteredEvents}
-                style={{ height: "100vh" }}
-                BackgroundWrapper = "red"
-                onSelectSlot={(e) => handleSelect(e)}
-                // onSelectEvent={(e) => handleSelectedEvent(e)}
-                // onSelectEvent={(event) => console.log(event)}
-                // onSelectSlot={handleSelect}
-                eventPropGetter={(myEventsList) => {
-                  const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
-                  const color = myEventsList.color ? myEventsList.color : 'white';
-                  return { style: { backgroundColor, color}}
-                }}
+                  views={["day", "agenda", "work_week", "month"]}
+                  selectable
+                  localizer={localizer}
+                  defaultDate={new Date()}
+                  defaultView="month"
+                  events={filteredEvents}
+                  style={{ height: "100vh" }}
+                  BackgroundWrapper = "red"
+                  // onSelectSlot={(e) => handleSelect(e)}
+                  onSelectEvent={handleSelectEvent}
+                  eventPropGetter={(myEventsList) => {
+                    const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
+                    const color = myEventsList.color ? myEventsList.color : 'white';
+                    return { style: { backgroundColor, color}}
+                  }}
                 />
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>{selectedEvent?.title}</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {selectedEvent?.description && <p>{selectedEvent.description}</p>}
+                    <p>{moment(selectedEvent?.start).format('LLL')}</p>
+                    <p>{moment(selectedEvent?.end).format('LLL')}</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowModal(false)}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </Col>
               <Col md={2}>
                 <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
@@ -121,6 +138,6 @@ export default function ReactBigCalendar() {
           </Container>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }
