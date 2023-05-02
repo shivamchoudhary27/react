@@ -23,6 +23,7 @@ const CourseEnrollment = () => {
     pager: { totalElements: 0, totalPages: 0 },
   };
   const [modalShow, setModalShow] = useState(false);
+  const [uploadModalShow, setUploadModalShow] = useState(false);
   const [finalTableData, setFinalTableData] = useState([]);
   const [programData, setProgramData] = useState({
     items: [],
@@ -113,6 +114,10 @@ const CourseEnrollment = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  const toggleUploadModal = () => {
+    setUploadModalShow(true)
+  }
+
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.userEmail !== "") {
       setFilterUpdate({
@@ -184,13 +189,13 @@ const CourseEnrollment = () => {
     <div className="filter-wrapper">
       <ManageFilter updateinputfilters={updateSearchFilters} />
       <div className="mt-2">
-        <Button variant="primary" onClick={() => navigate(`/managegroups/${courseid}`)}>
+        <Button variant="primary" onClick={() => navigate(`/managegroups/${programid}/${courseid}/${coursename}`)}>
           Manage Groups
         </Button>{" "}
         <Button variant="primary" onClick={openAddDiscipline}>
           Enrol User
         </Button>{" "}
-        <Button variant="primary" onClick={toggleModalShow}>Upload Users</Button>{" "}
+        <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
         <Button
           variant="outline-secondary"
           onClick={() => navigate(`/enrolusers/${programid}/${programName}`)}
@@ -237,9 +242,9 @@ const CourseEnrollment = () => {
         </div>
         <UploadCourseUsersEnrollment
           courseid={courseid}
-          show={modalShow}
-          onHide={() => toggleModalShow(false)}
-          togglemodalshow={toggleModalShow}
+          show={uploadModalShow}
+          onHide={() => setUploadModalShow(false)}
+          setUploadModalShow={setUploadModalShow}
           updateAddRefresh={refreshToggle}
         />
       </div>

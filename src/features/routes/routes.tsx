@@ -61,7 +61,7 @@ export default function CustomRoutes() {
           <Route path='/usermanagement' element={<UserManagement />} />
           <Route path='/addusersform/:userid' element={<AddUsersForm />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
-          <Route path="/managegroups/:courseid" element={<ManageGroups />} />
+          <Route path="/managegroups/:programid/:courseid/:coursename" element={<ManageGroups />} />
           <Route path="/enrolusertoprogram/:programid/:userid/:name" element={<EnrolUserToProgram />} />
           <Route path="/managecategory/:id/:name" element={<ManageCategory />} />
           <Route path="/managecourses/:id/:name" element={<CourseManagment />} />
