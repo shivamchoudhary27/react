@@ -17,12 +17,19 @@ const CourseEnrollment = () => {
   const navigate = useNavigate();
   const { programid, courseid, coursename } = useParams();
   const parsedCourseid = parseInt(courseid);
-  const dummyData = { items: [], userRoles : {}, pager: { totalElements: 0, totalPages: 0 } };
+  const dummyData = {
+    items: [],
+    userRoles: {},
+    pager: { totalElements: 0, totalPages: 0 },
+  };
   const [modalShow, setModalShow] = useState(false);
   const [finalTableData, setFinalTableData] = useState([]);
-  const [programData, setProgramData] = useState({ items: [], pager: { totalElements: 0, totalPages: 0 } });
+  const [programData, setProgramData] = useState({
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  });
   // const [programUsers, setProgramUsers] = useState({ items: [], pager: { totalElements: 0, totalPages: 0 } });
-  const [programName, setProgramName] = useState('');
+  const [programName, setProgramName] = useState("");
   const [diciplineData, setDiciplineData] = useState<any>(dummyData);
   const [disciplineObj, setDisciplineObj] = useState({
     name: "",
@@ -37,9 +44,17 @@ const CourseEnrollment = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest(`/course/${parsedCourseid}/enrol-user`, filterUpdate, setDiciplineData);
-    makeGetDataRequest('/programs', {pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid}, setProgramData);
-    // makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setProgramUsers); 
+    makeGetDataRequest(
+      `/course/${parsedCourseid}/enrol-user`,
+      filterUpdate,
+      setDiciplineData
+    );
+    makeGetDataRequest(
+      "/programs",
+      { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
+      setProgramData
+    );
+    // makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setProgramUsers);
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
@@ -49,7 +64,7 @@ const CourseEnrollment = () => {
   }, [programData]);
 
   useEffect(() => {
-    const updatedItems = diciplineData.items.map((item : any) => {
+    const updatedItems = diciplineData.items.map((item: any) => {
       const role = diciplineData.userRoles[item.userEmail];
       if (role) {
         return { ...item, userRole: role };
@@ -62,7 +77,11 @@ const CourseEnrollment = () => {
 
   useEffect(() => {
     if (refreshOnDelete === true)
-      makeGetDataRequest(`/course/${parsedCourseid}/enrol-user`, filterUpdate, setDiciplineData);
+      makeGetDataRequest(
+        `/course/${parsedCourseid}/enrol-user`,
+        filterUpdate,
+        setDiciplineData
+      );
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -94,16 +113,21 @@ const CourseEnrollment = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  const updateInputFilters = (inputvalues : any) => {
-    if (inputvalues.userEmail !== '') {
-      setFilterUpdate({...filterUpdate, firstNameStart: inputvalues.firstNameStart, userEmail: inputvalues.userEmail, pageNumber: 0})
+  const updateInputFilters = (inputvalues: any) => {
+    if (inputvalues.userEmail !== "") {
+      setFilterUpdate({
+        ...filterUpdate,
+        firstNameStart: inputvalues.firstNameStart,
+        userEmail: inputvalues.userEmail,
+        pageNumber: 0,
+      });
     } else {
-      let updatedState = {...filterUpdate, pageNumber: 0};
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
       updatedState.firstNameStart = inputvalues.firstNameStart;
       if (updatedState.userEmail) delete updatedState.userEmail;
       setFilterUpdate(updatedState);
     }
-  }
+  };
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DISCIPLINE_TABLE_COMPONENT = (
@@ -129,38 +153,40 @@ const CourseEnrollment = () => {
     />
   );
 
-  const updateSearchFilters = (newFilterRequest: any, reset = false ) => {
+  const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
       const { name, email, ...newObject } = newFilterRequest;
-      setFilterUpdate({...filterUpdate, ...newObject});
+      setFilterUpdate({ ...filterUpdate, ...newObject });
     } else {
       const { name, email } = newFilterRequest;
-      let updatedState = {...filterUpdate, pageNumber: 0, ...newFilterRequest};
+      let updatedState = {
+        ...filterUpdate,
+        pageNumber: 0,
+        ...newFilterRequest,
+      };
 
       if (email === "") delete updatedState.email;
       if (name === "") delete updatedState.name;
 
       setFilterUpdate(updatedState);
     }
-  }
+  };
 
-  const addAlphabetFirstNameFilter = (letter : string) => {
+  const addAlphabetFirstNameFilter = (letter: string) => {
     setFilterUpdate({ ...filterUpdate, firstNameStart: letter });
-  }
+  };
 
-  const addAlphabetLastNameFilter = (letter : string) => {
+  const addAlphabetLastNameFilter = (letter: string) => {
     setFilterUpdate({ ...filterUpdate, lastNameStart: letter });
-  }
+  };
 
   const DISCIPLINE_BUTTONS = (
     <div className="filter-wrapper">
-      <ManageFilter updateinputfilters={updateSearchFilters}/>
-      FirstName
-      <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter}/>
-      <br />
-      LastName
-      <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter}/>
+      <ManageFilter updateinputfilters={updateSearchFilters} />
       <div className="mt-2">
+        <Button variant="primary" onClick={() => navigate(`/managegroups/${courseid}`)}>
+          Manage Groups
+        </Button>{" "}
         <Button variant="primary" onClick={openAddDiscipline}>
           Enrol User
         </Button>{" "}
@@ -172,13 +198,23 @@ const CourseEnrollment = () => {
           Go back
         </Button>
       </div>
+      <div className="mt-2">
+        FirstName
+        <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
+        <br />
+        LastName
+        <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
+      </div>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
 
   return (
     <>
-      <Header pageHeading={`Course Enrollment: ${coursename}`} welcomeIcon={false} />
+      <Header
+        pageHeading={`Course Enrollment: ${coursename}`}
+        welcomeIcon={false}
+      />
       <div className="main-content-container">
         <Sidebar />
         <div
