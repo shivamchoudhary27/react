@@ -53,8 +53,8 @@ const AddUsersForm = () => {
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     username: Yup.string().trim().min(4).required(),
-    password: Yup.string().min(5).trim().required(),
-    idnumber: Yup.number().min(4).required(),
+    password: Yup.string().min(6).trim().required(),
+    idnumber: Yup.number().min(5).required(),
     email: Yup.string().email('Invalid email').required('Email is required'),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
@@ -64,6 +64,7 @@ const AddUsersForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    console.log(values)
     if (parsedUserid === 0) {
       postData('/user/', values)
       .then((res: any) => {
@@ -142,7 +143,7 @@ const AddUsersForm = () => {
                     <FieldErrorMessage
                       errors={errors.password}
                       touched={touched.password}
-                      msgText="Password is required with 5 characters minimum"
+                      msgText="Password is required with 6 characters minimum"
                     />
                   </div>
 

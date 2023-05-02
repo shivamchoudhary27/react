@@ -4,37 +4,50 @@ import Sidebar from "../../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import ManageGroupTable from "./manageGroupTable";
 import GroupModal from "./groupModal";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getData } from "../../../../adapters/microservices/index";
+import BuildPagination from "../../../../widgets/pagination";
+import { pagination } from "../../../../utils/pagination";
 
 const ManageGroups = () => {
-  const { courseid } = useParams();
+  const navigate = useNavigate()
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const { courseid, programid, coursename } = useParams();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
-  const [manageGroupList, setManageGroupList] = useState([]);
+  const [manageGroupList, setManageGroupList] = useState<any>(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [groupObj, setGroupObj] = useState({
     name: "",
     description: "",
   });
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
 
   // fetch all manage group data
   useEffect(() => {
     const endPoint = `/${courseid}/group`;
-    getData(endPoint, { pageNumber: 0, pageSize: 100 }).then((res: any) => {
+    getData(endPoint, filterUpdate).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
-        setManageGroupList(res.data.items);
+        setManageGroupList(res.data);
       }
     });
-  }, [courseid, refreshData]);
+  }, [courseid, refreshData, filterUpdate]);
+
+  console.log(manageGroupList)
 
   // refresh on delete
-  useEffect(() => { 
-    if(refreshOnDelete === true){
+  useEffect(() => {
+    if (refreshOnDelete === true) {
       const endPoint = `/${courseid}/group`;
-      getData(endPoint, { pageNumber: 0, pageSize: 100 }).then((res: any) => {
+      getData(endPoint, filterUpdate).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          setManageGroupList(res.data.items);
+          setManageGroupList(res.data);
         }
       });
     }
@@ -44,11 +57,11 @@ const ManageGroups = () => {
     setRefreshData(!refreshData);
   };
 
-  // add group modal handler 
+  // add group modal handler
   const openAddGroup = () => {
     setModalShow(true);
     setGroupObj({ id: 0, name: "", description: "" });
-    setRefreshData(false)
+    setRefreshData(false);
   };
 
   // get id, name from discipline table === >>>
@@ -60,16 +73,30 @@ const ManageGroups = () => {
     setRefreshOnDelete(value);
   };
 
-  const Add_Groups_Btn = (
-    <Button variant="primary" onClick={openAddGroup}>
-      Add Groups
-    </Button>
-  );
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
+  const Add_Groups_Btn = () => {
+    return (
+      <>
+        <Button variant="primary" onClick={openAddGroup}>
+          Add Groups
+        </Button>{" "}
+        <Button
+          variant="outline-secondary"
+          onClick={() => navigate(`/courseenrollment/${programid}/${courseid}/${coursename}`)}
+        >
+          Go Back
+        </Button>
+      </>
+    );
+  };
 
   return (
     <React.Fragment>
       <Header
-        pageHeading="Manage Groups: Business Statistics"
+        pageHeading={`Manage Groups: ${coursename}`}
         welcomeIcon={false}
       />
       <div className="main-content-container">
@@ -79,7 +106,7 @@ const ManageGroups = () => {
           id="contentareaslider"
         >
           <Container fluid className="administration-wrapper">
-            {Add_Groups_Btn}
+            <Add_Groups_Btn />
             <GroupModal
               show={modalShow}
               onHide={() => setModalShow(false)}
@@ -90,12 +117,17 @@ const ManageGroups = () => {
             />
             <hr />
             <ManageGroupTable
-              manageGroupList={manageGroupList}
+              manageGroupList={manageGroupList.items}
               courseid={courseid}
               refreshOnDelete={refreshOnDeleteToggle}
               setModalShow={setModalShow}
               editHandlerById={editHandlerById}
               refreshGroupData={refreshToggle}
+            />
+            <BuildPagination
+              totalpages={manageGroupList.pager.totalPages}
+              activepage={filterUpdate.pageNumber}
+              getrequestedpage={newPageRequest}
             />
           </Container>
         </div>

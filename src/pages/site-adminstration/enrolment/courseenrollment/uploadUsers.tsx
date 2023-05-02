@@ -11,7 +11,7 @@ const validationSchema = Yup.object().shape({
 const UploadCourseUsersEnrollment = ({
   show,
   onHide,
-  togglemodalshow,
+  setUploadModalShow,
   updateAddRefresh,
   courseid
 }: any) => {
