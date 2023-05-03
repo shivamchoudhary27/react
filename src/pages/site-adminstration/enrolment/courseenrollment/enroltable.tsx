@@ -41,7 +41,7 @@ const DiciplineTable = ({
     },
     {
       Header: "Groups",
-      accessor: "",
+      accessor: "groupName",
     },
     {
       Header: "Actions",
