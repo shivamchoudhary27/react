@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
+import './style.scss';
 
 const CalendarFilters = ({events, filters, showAllNone}) => {
   const eventModules = Object.keys(events);
@@ -7,7 +8,6 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
   const [isChecked, setIsChecked] = useState(eventModules);   // to keep the checkbox inputs check or uncheck
   const [showAllCheck, setShowAllCheck] = useState('checked');
 
-  // console.log('rendering test');
   useEffect(() => {
     if (showAllCheck === '') filters(isChecked);
     if (isChecked.length === (totalModules)) setShowAllCheck('checked');
@@ -61,7 +61,6 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
                 handleChecked(e);
             }}
             checked={showAllCheck}
-            // {"checked"}
           /> {" "}
           Show All/none
         </div>
@@ -69,12 +68,13 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
           &&
           Object.entries(events).map(([key, value]) => (
             <div key={key}>
+              <div className="color-box" style={{ backgroundColor: `${value}` }}></div>
               <input type="checkbox" name={key} value={value} 
                 checked={isChecked.includes(key) && 'checked'}
                 onChange={
                   (e) => {
                     handleChecked(e);
-                }}
+                  }}
               />
               {" " + key.charAt(0).toUpperCase() + key.slice(1)}
             </div>
