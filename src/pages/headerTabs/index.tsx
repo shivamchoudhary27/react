@@ -1,5 +1,6 @@
 import React from "react";
 import Nav from 'react-bootstrap/Nav';
+import { Link } from "react-router-dom";
 import "./style.scss";
 import dashboardIcon from "../../assets/images/icons/dashboard.svg";
 import calendarIcon from "../../assets/images/icons/calendar.svg";
@@ -14,46 +15,46 @@ const HeaderTabs = () => {
         <div className="site-header-tab">
             <Nav as="ul">
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={dashboardIcon} alt="Dashboard" />
                         <span>Dashboard</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={calendarIcon} alt="Calendar" />
                         <span>Calendar</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={performanceIcon} alt="Performance" />
                         <span>Performance</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={gradeboolIcon} alt="Gradebook" />
                         <span>Gradebook</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={attendanceIcon} alt="Attendance" />
                         <span>Attendance</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={helpdeskIcon} alt="Helpdesk" />
                         <span>Helpdesk</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Nav.Link href="#">
+                    <Link to="/dashboard">
                         <img src={siteadminIcon} alt="Helpdesk" />
                         <span>Administration</span>
-                    </Nav.Link>             
+                    </Link>             
                 </Nav.Item>
             </Nav>
         </div>
