@@ -86,6 +86,9 @@ const EnrolUserToProgram = () => {
         if (err.response.status === 400) {
           window.alert(err.response.data.message);
         }
+        if (err.response.status === 404) {
+          window.alert(err.response.data.message);
+        }
       });
     }
   };
