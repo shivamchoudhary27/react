@@ -39,8 +39,6 @@ const ManageGroups = () => {
     });
   }, [courseid, refreshData, filterUpdate]);
 
-  console.log(manageGroupList)
-
   // refresh on delete
   useEffect(() => {
     if (refreshOnDelete === true) {

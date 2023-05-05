@@ -21,8 +21,7 @@ const DiciplineTable = ({
   refreshOnDelete,
   courseid,
 }: any) => {
-  console.log(diciplineData);
-  // const userRoles = userroles;
+
   // custom react table column === >>>
   const tableColumn = [
     {
@@ -37,7 +36,9 @@ const DiciplineTable = ({
     },
     {
       Header: "Roles",
-      accessor: "userRole"
+      Cell: ({ row }: any) => (
+        `${row.original.userRole.charAt(0).toUpperCase() + row.original.userRole.slice(1)}`
+      ),
     },
     {
       Header: "Groups",
@@ -47,6 +48,14 @@ const DiciplineTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
+          <Link to="">
+            <i
+              className="fa-solid fa-pen"
+              onClick={() =>
+                editHandler(row.original.userId, row.original.userEmail)
+              }
+            ></i>
+          </Link>
           <Link to="">
             <i
               className="fa-solid fa-trash"
@@ -74,10 +83,11 @@ const DiciplineTable = ({
     });
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description }: any) => {
-    toggleModalShow(true);
-    editHandlerById({ id, name, description });
-    refreshDisciplineData();
+  const editHandler = (userId : number, userEmail : string) => {
+    console.log(userEmail, userId)
+    // toggleModalShow(true);
+    // editHandlerById({ id, name, description });
+    // refreshDisciplineData();
   };
 
   // delete event handler === >>>
