@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { getData } from '../adapters';
+import alertIcon from "../assets/images/icons/bell-icon.svg";
 
 function NotificationOverlay(props: { userid: number; }) {
   const useridto = props.userid;
@@ -36,24 +37,24 @@ function NotificationOverlay(props: { userid: number; }) {
       trigger="click"
       placement="bottom"
       overlay={
-        <Popover id="popover-basic">
+        <Popover id="popover-alert">
           <Popover.Header as="h3">Notifications</Popover.Header>
+          <Popover.Body>
           {message.totalcount > 0 ? (
             message.list.map((item, index) => (
-              <Popover.Body key={index}>
-                <div> {item} </div>{' '}
-              </Popover.Body>
+                <p> {item} </p>
             ))
           ) : (
-            <Popover.Body>No new notifications</Popover.Body>
+            <p>No new notifications</p>
           )}
+          </Popover.Body>          
         </Popover>
       }
     >
-      <li>
-        <i className="fa fa-bell search-icon" />
-        {message.totalcount > 0 && <sup>{message.totalcount}</sup>}
-      </li>
+      <>
+        <img src={alertIcon} alt="Alert" />
+        {message.totalcount > 0 && <span>{message.totalcount}</span>}
+      </>
     </OverlayTrigger>
   );
 }
