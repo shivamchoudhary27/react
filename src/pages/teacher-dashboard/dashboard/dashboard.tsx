@@ -9,7 +9,6 @@ import MyCourses from "./my-courses";
 const DashboardTeacher = () => {
   return (
     <>
-    <div className="content-area content-area-slider" id="contentareaslider">
       <Container fluid>
           <Row>
             <Col md={9}>
@@ -21,8 +20,7 @@ const DashboardTeacher = () => {
               <MyScheduleComp />
             </Col>
           </Row>
-      </Container>
-    </div>      
+      </Container>    
     </>
   );
 };
