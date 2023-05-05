@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
-import './style.scss';
+import ColorBox from "../../widgets/colorBox";
 
 const CalendarFilters = ({events, filters, showAllNone}) => {
   const eventModules = Object.keys(events);
@@ -56,10 +56,7 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
       <>
         <div>
           <input type="checkbox" name="showall" value="showall"
-            onChange={
-              (e) => {
-                handleChecked(e);
-            }}
+            onChange={(e) => {handleChecked(e)}}
             checked={showAllCheck}
           /> {" "}
           Show All/none
@@ -67,14 +64,11 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
         { (typeof events === "object" && events !== null) 
           &&
           Object.entries(events).map(([key, value]) => (
-            <div key={key}>
-              <div className="color-box" style={{ backgroundColor: `${value}` }}></div>
+            <div key={key}> 
+              <ColorBox colorValue={value}/>
               <input type="checkbox" name={key} value={value} 
                 checked={isChecked.includes(key) && 'checked'}
-                onChange={
-                  (e) => {
-                    handleChecked(e);
-                  }}
+                onChange={(e) => {handleChecked(e)}}
               />
               {" " + key.charAt(0).toUpperCase() + key.slice(1)}
             </div>
