@@ -185,7 +185,7 @@ const CourseEnrollment = () => {
   const addAlphabetLastNameFilter = (letter: string) => {
     setFilterUpdate({ ...filterUpdate, lastNameStart: letter });
   };
-
+ 
   const DISCIPLINE_BUTTONS = (
     <div className="filter-wrapper">
       <ManageFilter updateinputfilters={updateSearchFilters} />

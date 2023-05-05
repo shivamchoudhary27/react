@@ -10,7 +10,7 @@ const getTotalPagesCount = (totaldata : number) => {
  * global object for pagination values
  */
 const pagination = {
-    PERPAGE: 10,
+    PERPAGE: 15,
     TOTAL_PAGES : 5,    // for dummy paginations
     PAGECOUNTER: getTotalPagesCount
 };
