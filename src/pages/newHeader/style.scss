@@ -1,0 +1,60 @@
+.site-header {
+    padding: 15px; border-bottom: 1px solid #E7E7E7;
+    .site-logo {
+        img {
+            max-height: 68px;
+        }
+    }
+    .sh-toolbar {
+        li {
+            border: 0.5px solid #E7E7E7;
+            background-color: #F4F7FF;
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            margin-right: 10px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+        .sh-notification {
+            position: relative;
+            span {
+                background: linear-gradient(180deg, #28C8E5 0%, #2C2C33 100%);
+                position: absolute;
+                top: -2px;
+                right: 0;
+                padding: 1px 5px;
+                border-radius: 50%;
+                font-size: 10px;
+                color: #fff;
+            }
+        }
+        img {
+            width: 20px;
+        }
+    }
+    .user-profile-pix {
+        width: 46px;
+        height: 46px;
+        background-color: #F4F7FF;
+        border: 0.5px solid #E7E7E7;
+        display: inline-block;
+    }
+}
+
+@media (max-width: 575.98px) {
+    
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
+
+}
