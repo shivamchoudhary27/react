@@ -13,20 +13,22 @@ const SiteAdminHome = () => {
       <Header />
       <HeaderTabs />
       <h3>Site Administration</h3>
-      <Container fluid className="administration-wrapper">          
-        <Row>
-          {AdminRawData.map((item, index) => (
-            <Col md={4} sm={6} xs={12} key={index} className="mb-4">
-              <Link to={item.link} style={{ textDecoration: "none" }}>
-                <div className="card-wrapper">
-                  <i className={item.icon}></i>
-                  <h4 className="card-title">{item.title}</h4>
-                </div>
-              </Link>
-            </Col>
-          ))}
-        </Row>
-      </Container>
+      <div className="contentarea-wrapper">
+        <Container fluid className="administration-box">          
+          <Row>
+            {AdminRawData.map((item, index) => (
+              <Col md={4} sm={6} xs={12} key={index} className="mb-4">
+                <Link to={item.link} style={{ textDecoration: "none" }}>
+                  <div className="card-wrapper">
+                    <i className={item.icon}></i>
+                    <h4 className="card-title">{item.title}</h4>
+                  </div>
+                </Link>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </div>
       <Footer />
     </>
   );

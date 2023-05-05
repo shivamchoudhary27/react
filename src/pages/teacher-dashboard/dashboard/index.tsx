@@ -1,16 +1,19 @@
 import React from "react";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import { Container, Row, Col } from "react-bootstrap";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
 import DashboardTeacher from "./dashboard";
 
 const TeacherDashboard = () => {
   return (
     <>
-      <Header pageHeading="" welcomeIcon={false} />
-      <div className='main-content-container'>
-        <Sidebar />
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper">        
         <DashboardTeacher />
       </div>
+      <Footer />      
     </>
   );
 };
