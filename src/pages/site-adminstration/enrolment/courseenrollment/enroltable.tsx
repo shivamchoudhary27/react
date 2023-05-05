@@ -21,14 +21,12 @@ const DiciplineTable = ({
   refreshOnDelete,
   courseid,
 }: any) => {
-
   // custom react table column === >>>
   const tableColumn = [
     {
       Header: "Firstname / Surname",
-      Cell: ({ row }: any) => (
-        `${row.original.userFirstName} ${row.original.userLastName}`
-      ),
+      Cell: ({ row }: any) =>
+        `${row.original.userFirstName} ${row.original.userLastName}`,
     },
     {
       Header: "Email address",
@@ -36,9 +34,11 @@ const DiciplineTable = ({
     },
     {
       Header: "Roles",
-      Cell: ({ row }: any) => (
-        `${row.original.userRole.charAt(0).toUpperCase() + row.original.userRole.slice(1)}`
-      ),
+      Cell: ({ row }: any) =>
+        `${
+          row.original.userRole.charAt(0).toUpperCase() +
+          row.original.userRole.slice(1)
+        }`,
     },
     {
       Header: "Groups",
@@ -52,7 +52,11 @@ const DiciplineTable = ({
             <i
               className="fa-solid fa-pen"
               onClick={() =>
-                editHandler(row.original.userId, row.original.userEmail)
+                editHandler({
+                  userId: row.original.userId,
+                  userEmail: row.original.userEmail,
+                  groupId: row.original.groupId,
+                })
               }
             ></i>
           </Link>
@@ -83,33 +87,34 @@ const DiciplineTable = ({
     });
 
   // edit event handler === >>>
-  const editHandler = (userId : number, userEmail : string) => {
-    console.log(userEmail, userId)
-    // toggleModalShow(true);
-    // editHandlerById({ id, name, description });
+  const editHandler = ({ userId, userEmail, groupId }: any) => {
+    toggleModalShow(true);
+    editHandlerById({ userId, userEmail, groupId });
     // refreshDisciplineData();
   };
 
   // delete event handler === >>>
   const deleteHandler = (userId: number) => {
     refreshOnDelete(false);
-    if (window.confirm('Are you sure to unenrol this user?')) {
+    if (window.confirm("Are you sure to unenrol this user?")) {
       let endpoint = `/course/${courseid}/enrol-user/${userId}`;
-      deleteDisciplineData(endpoint).then((res: any) => {
-        console.log(res);
-        if (res.data !== "" && res.status === 200) {
-          refreshOnDelete(true);
-        } else if (res.status === 500) {
-          window.alert('Unable to delete');
-        }
-      }).catch((result : any) => {
-        console.log(result);
-        if (result.response.status === 400) {
-          window.alert(result.response.data.message);
-        } else {
-          window.alert(result.response.data.message);
-        }      
-      });
+      deleteDisciplineData(endpoint)
+        .then((res: any) => {
+          console.log(res);
+          if (res.data !== "" && res.status === 200) {
+            refreshOnDelete(true);
+          } else if (res.status === 500) {
+            window.alert("Unable to delete");
+          }
+        })
+        .catch((result: any) => {
+          console.log(result);
+          if (result.response.status === 400) {
+            window.alert(result.response.data.message);
+          } else {
+            window.alert(result.response.data.message);
+          }
+        });
     }
   };
 
@@ -148,7 +153,9 @@ const DiciplineTable = ({
             })}
           </tbody>
         </Table>
-        {diciplineData.length === 0 && <TableSkeleton numberOfRows={5} numberOfColumns={4} />}
+        {diciplineData.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
       </div>
     </React.Fragment>
   );

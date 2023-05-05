@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form } from "formik";
-import { postData } from "../../../../adapters/microservices";
+import { postData, putData } from "../../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 import { pagination } from "../../../../utils/pagination";
 import * as Yup from "yup";
@@ -25,9 +25,10 @@ const DiciplineModal = ({
   courseid
 }: any) => {
   // Initial values of react table === >>>
+  console.log(disciplineobj)
   const initialValues = {
-    userEmail: "",
-    groupId: ""
+    userEmail: disciplineobj.userEmail,
+    groupId: disciplineobj.groupId
   };
   const dummyData = {
     items: [],
@@ -49,6 +50,11 @@ const DiciplineModal = ({
       btnTitle: "Save",
       titleHeading: "Enrol User",
     };
+  }else{
+    formTitles = {
+      btnTitle: "Save",
+      titleHeading: "Enrol User",
+    };
   }
 
   useEffect(() => {
@@ -63,27 +69,44 @@ const DiciplineModal = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     console.log(values);
     
-    let endPoint = `/course/${courseid}/enrol-user`;
+
     setSubmitting(true);
-    postData(endPoint, values)
-      .then((res: any) => {
-        if (res.data !== "") {
-          togglemodalshow(false);
-          refreshDisciplineData();
-          setSubmitting(false);
-          resetForm();
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-        if (err.response.status === 404 || err.response.status === 400) {
-          if (err.response.data.userEmail !== undefined) {
-            window.alert(err.response.data.userEmail);
-          } else {
-            window.alert(err.response.data.message);
+    if(disciplineobj.userId === 0){
+      let endPoint = `/course/${courseid}/enrol-user`;
+      postData(endPoint, values)
+        .then((res: any) => {
+          if (res.data !== "") {
+            togglemodalshow(false);
+            refreshDisciplineData();
+            setSubmitting(false);
+            resetForm();
           }
-        }
-      });
+        })
+        .catch((err: any) => {
+          console.log(err);
+          if (err.response.status === 404 || err.response.status === 400) {
+            if (err.response.data.userEmail !== undefined) {
+              window.alert(err.response.data.userEmail);
+            } else {
+              window.alert(err.response.data.message);
+            }
+          }
+        })
+    }else{
+      let endPoint = `/course/${courseid}/enrol-user/${disciplineobj.userId}`;
+      putData(endPoint, values)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            togglemodalshow(false);
+            refreshDisciplineData();
+            setSubmitting(false);
+            resetForm();
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -155,7 +178,7 @@ const DiciplineModal = ({
                     btnText="Reset"
                     variant="outline-secondary"
                   />
-                {/* )} */}
+                 {/* )} */}
               </div>
             </Form>
           )}

@@ -33,8 +33,9 @@ const CourseEnrollment = () => {
   const [programName, setProgramName] = useState("");
   const [diciplineData, setDiciplineData] = useState<any>(dummyData);
   const [disciplineObj, setDisciplineObj] = useState({
-    name: "",
-    description: "",
+    userId: 0,
+    userEmail: "",
+    groupId:""
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -94,8 +95,8 @@ const CourseEnrollment = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({ id, name, description }: any) => {
-    setDisciplineObj({ id: id, name: name, description: description });
+  const editHandlerById = ({userId, userEmail, groupId}: any) => {
+    setDisciplineObj({ userId: userId, userEmail: userEmail, groupId: groupId });
   };
 
   // handle modal hide & show functionality === >>>
@@ -106,7 +107,7 @@ const CourseEnrollment = () => {
   // handle to open Add Discipline modal === >>>
   const openAddDiscipline = () => {
     toggleModalShow(true);
-    setDisciplineObj({ id: 0, name: "", description: "" });
+    setDisciplineObj({ userId: 0, userEmail: "", groupId:""});
     setRefreshData(false);
   };
 
