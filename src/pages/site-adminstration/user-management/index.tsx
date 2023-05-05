@@ -7,10 +7,13 @@ import UserManagementTable from "./table";
 import { getData } from "../../../adapters/coreservices";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
+import UploadNewUsers from "./uploadUsers";
 
 const UserManagement = () => {
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [userData, setUserData] = useState<any>(dummyData);
+  const [uploadModalShow, setUploadModalShow] = useState(false);
+  const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(true);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -34,6 +37,26 @@ const UserManagement = () => {
           });
     }
   }, [refreshOnDelete, filterUpdate]);
+
+  // get programs API call === >>>
+  useEffect(() => {
+    getData("/user/all_users", filterUpdate)
+        .then((result : any) => {
+            if (result.data !== "" && result.status === 200) {
+                if (result.data.items.length < 1) {
+                    window.alert('No data available for this request');
+                }
+                setUserData(result.data);
+            }
+        })
+        .catch((err : any) => {
+            console.log(err);
+        });
+  }, [refreshData]);
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
 
   const refreshOnDeleteToggle = (value: boolean) => {
     setRefreshOnDelete(value);
@@ -64,6 +87,10 @@ const UserManagement = () => {
     }
   }
 
+  const toggleUploadModal = () => {
+    setUploadModalShow(true)
+  }
+
   return (
     <React.Fragment>
       <Header pageHeading="User Management" welcomeIcon={false} />
@@ -74,7 +101,7 @@ const UserManagement = () => {
           id="contentareaslider"
         >
           <Container fluid className="administration-wrapper">
-            <Filter updatefilters={updateSearchFilters}/>
+            <Filter updatefilters={updateSearchFilters} toggleUploadModal={toggleUploadModal}/>
             <hr />
             <UserManagementTable userdata={userData.items} refreshdata={refreshOnDeleteToggle}/>
             <BuildPagination
@@ -85,6 +112,12 @@ const UserManagement = () => {
           </Container>
         </div>
       </div>
+      <UploadNewUsers
+          show={uploadModalShow}
+          onHide={() => setUploadModalShow(false)}
+          setUploadModalShow={setUploadModalShow}
+          updateAddRefresh={refreshToggle}
+        />
     </React.Fragment>
   );
 };

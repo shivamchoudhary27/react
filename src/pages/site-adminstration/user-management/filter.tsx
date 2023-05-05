@@ -11,7 +11,7 @@ const initialValues = {
   lastName: "",
 }
 
-const Filter = ({updatefilters} : any) => {
+const Filter = ({updatefilters, toggleUploadModal} : any) => {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialValues,
@@ -83,6 +83,7 @@ const Filter = ({updatefilters} : any) => {
         </form>
         </div>
         <div className="mt-2">
+          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
           <Button variant="primary" onClick={()=>navigate("/addusersform/0")}>Add Users</Button>{" "}
           <Button
             variant="outline-secondary"
