@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import Header from "../../../header";
-import Sidebar from "../../../sidebar";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
+// import Sidebar from "../../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import UserTable from "./userTable";
 import EnrolCourseFilter from "./filter";
@@ -20,17 +22,10 @@ const EnrolUsersCourse = () => {
 
   return (
     <React.Fragment>
-      <Header
-        pageHeading="Enrol users to course: Business Statistics"
-        welcomeIcon={false}
-      />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <EnrolCourseFilter togglemodalshow={toggleModalShow} />
             <hr />
             <UserTable />
@@ -44,7 +39,7 @@ const EnrolUsersCourse = () => {
             />
           </Container>
         </div>
-      </div>
+      <Footer />
     </React.Fragment>
   );
 };

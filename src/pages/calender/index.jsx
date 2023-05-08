@@ -4,8 +4,10 @@ import { getCalendarEvents } from "../../adapters";
 import moment from "moment";
 import events from "./events.js";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import Header from "../header/";
-import Sidebar from "../sidebar/";
+import Header from "../newHeader";
+import Footer from "../newFooter";
+import HeaderTabs from "../headerTabs";
+// import Sidebar from "../sidebar/";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
@@ -90,11 +92,10 @@ export default function ReactBigCalendar() {
 
   return (
     <React.Fragment>      
-      <Header pageHeading="Calendar" welcomeIcon={false} />
-      <div className='main-content-container'>
-        <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
-          <Container fluid>
+      <Header />
+      <HeaderTabs />
+        <div className="contentarea-wrapper">
+          <Container fluid className="administration-box">
             <Row>
               <Col md={10}>
                 {selectedEvent && <Modal />}
@@ -137,7 +138,7 @@ export default function ReactBigCalendar() {
             </Row>
           </Container>
         </div>
-      </div>
+        <Footer />
     </React.Fragment>
   );
 }

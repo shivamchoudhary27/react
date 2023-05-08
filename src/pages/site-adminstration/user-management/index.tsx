@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+// import Sidebar from "../../sidebar";
 import { Container } from "react-bootstrap";
 import Filter from "./filter";
 import UserManagementTable from "./table";
@@ -93,14 +95,10 @@ const UserManagement = () => {
 
   return (
     <React.Fragment>
-      <Header pageHeading="User Management" welcomeIcon={false} />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <Filter updatefilters={updateSearchFilters} toggleUploadModal={toggleUploadModal}/>
             <hr />
             <UserManagementTable userdata={userData.items} refreshdata={refreshOnDeleteToggle}/>
@@ -111,13 +109,13 @@ const UserManagement = () => {
             />
           </Container>
         </div>
-      </div>
       <UploadNewUsers
           show={uploadModalShow}
           onHide={() => setUploadModalShow(false)}
           setUploadModalShow={setUploadModalShow}
           updateAddRefresh={refreshToggle}
         />
+        <Footer />
     </React.Fragment>
   );
 };

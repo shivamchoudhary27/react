@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../../header";
-import Sidebar from "../../../sidebar";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
+// import Sidebar from "../../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import ManageGroupTable from "./manageGroupTable";
 import GroupModal from "./groupModal";
@@ -93,17 +95,10 @@ const ManageGroups = () => {
 
   return (
     <React.Fragment>
-      <Header
-        pageHeading={`Manage Groups: ${coursename}`}
-        welcomeIcon={false}
-      />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <Add_Groups_Btn />
             <GroupModal
               show={modalShow}
@@ -129,7 +124,7 @@ const ManageGroups = () => {
             />
           </Container>
         </div>
-      </div>
+      <Footer />
     </React.Fragment>
   );
 };

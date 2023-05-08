@@ -3,8 +3,10 @@ import "./style.scss";
 import { Container } from "react-bootstrap";
 import ProgramEnrollFilter from "./programEnrollFilter";
 import ProgramEnrollTable from "./programEnrollTable";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+// import Sidebar from "../../sidebar";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 
@@ -42,20 +44,16 @@ const ProgramEnrollment = () => {
 
   return (
     <>
-      <Header pageHeading="Program Enrollment" welcomeIcon={false} />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <ProgramEnrollFilter updateDepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters} />
             <hr />
             <ProgramEnrollTable enrollmentData={enrollmentData.items} />
           </Container>
         </div>
-      </div>
+      <Footer />
     </>
   );
 };

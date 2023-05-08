@@ -3,8 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 import { pagination } from "../../../../utils/pagination";
 import { Container, Button } from "react-bootstrap";
-import Header from "../../../header";
-import Sidebar from "../../../sidebar";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
+// import Sidebar from "../../../sidebar";
 import DiciplineTable from "./enroltable";
 import DiciplineModal from "./enrolmodal";
 import BuildPagination from "../../../../widgets/pagination";
@@ -217,17 +219,10 @@ const CourseEnrollment = () => {
 
   return (
     <>
-      <Header
-        pageHeading={`Course Enrollment: ${coursename}`}
-        welcomeIcon={false}
-      />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <BuildPagination
@@ -248,7 +243,7 @@ const CourseEnrollment = () => {
           setUploadModalShow={setUploadModalShow}
           updateAddRefresh={refreshToggle}
         />
-      </div>
+      <Footer />
     </>
   );
 };

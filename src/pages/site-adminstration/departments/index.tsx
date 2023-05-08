@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+// import Sidebar from "../../sidebar";
 import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
@@ -100,14 +102,10 @@ const Departments = () => {
 
   return (
     <>
-      <Header pageHeading="Departments" welcomeIcon={false} />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
             <BuildPagination
@@ -118,7 +116,7 @@ const Departments = () => {
             {DEPARTMENT_MODAL_COMPONENT}
           </Container>
         </div>
-      </div>
+      <Footer />
     </>
   );
 };

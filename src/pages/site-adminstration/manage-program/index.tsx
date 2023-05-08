@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+// import Sidebar from "../../sidebar";
 import ManageFilter from "./manageFilter";
 import ManageTable from "./manageTable";
 
@@ -57,11 +59,10 @@ const ManageProgram = () => {
 
   return (
     <>
-      <Header pageHeading="Manage Programs" welcomeIcon={false} />
-      <div className='main-content-container'>
-        <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
-          <Container fluid className="administration-wrapper">        
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">       
             <div className="site-button-group">
               <Button
                 variant="primary"
@@ -96,7 +97,7 @@ const ManageProgram = () => {
               />
           </Container>
         </div>
-      </div>
+      <Footer />
     </>
   );
 };
