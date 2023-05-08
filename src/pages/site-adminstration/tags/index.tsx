@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+// import Sidebar from "../../sidebar";
 import AddTags from "./addTags";
 import TagsModal from "./tagsModal";
 import TagsTable from "./tagsTable";
@@ -74,14 +76,10 @@ const Tags = () => {
 
   return (
     <>
-      <Header pageHeading="Manage Tags" welcomeIcon={false} />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <AddTags
               toggleModalShow={toggleModalShow}
               setTagObj={setTagObj}
@@ -108,7 +106,7 @@ const Tags = () => {
             />
           </Container>
         </div>
-      </div>
+      <Footer />
     </>
   );
 };

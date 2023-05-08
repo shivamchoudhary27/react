@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import HeaderTabs from "../../headerTabs";
+import Footer from "../../newFooter";
+import Header from "../../newHeader";
+// import Sidebar from "../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import CategoryTable from "./categoryTable";
 import Addcategory from "./addcategory";
@@ -147,14 +149,10 @@ const ManageCategory = () => {
 
   return (
     <>
-      <Header pageHeading={`Manage Categories: ${name}`} welcomeIcon={false} />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <Button
               variant="outline-secondary"
               onClick={() => navigate("/manageprogram")}
@@ -211,7 +209,7 @@ const ManageCategory = () => {
             />
           )} */}
         </div>
-      </div>
+      <Footer />
     </>
   );
 };

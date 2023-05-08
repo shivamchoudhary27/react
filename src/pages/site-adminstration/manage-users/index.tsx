@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+// import Sidebar from "../../sidebar";
 import { Container } from "react-bootstrap";
 import UserFilter from "./userFilter";
 import UsersTable from "./usersTable";
@@ -67,11 +69,10 @@ const ManageProgramEnrollment = () => {
 
   return (
     <React.Fragment>
-      <Header pageHeading={`Program Enrollment: ${programname}`} welcomeIcon={false} />
-      <div className='main-content-container'>
-        <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <UserFilter 
               updateinputfilters={updateSearchFilters} 
               programname={programname} 
@@ -90,14 +91,14 @@ const ManageProgramEnrollment = () => {
             />
           </Container>
         </div>
-      </div>
       <UploadUsersEnrollment
         programid={programid}
         show={modalShow}
         onHide={() => toggleModalShow(false)}
         togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
-      />      
+      />     
+      <Footer /> 
     </React.Fragment>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../../header";
-import Sidebar from "../../../sidebar";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
+// import Sidebar from "../../../sidebar";
 import { Container, Button } from "react-bootstrap";
 import EnrolUserTable from "./courseTable";
 import { useNavigate, useParams } from "react-router-dom";
@@ -120,17 +122,10 @@ const EnrolUsers = () => {
 
   return (
     <>
-      <Header
-        pageHeading={`Enrol Users To Courses : ${name}`}
-        welcomeIcon={false}
-      />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid className="administration-box">
             <Button
               variant="outline-secondary"
               onClick={() => navigate(`/manageprogramenrollment/${id}/${name}`)}
@@ -154,7 +149,7 @@ const EnrolUsers = () => {
             )}
           </Container>
         </div>
-      </div>
+      <Footer />
     </>
   );
 };
