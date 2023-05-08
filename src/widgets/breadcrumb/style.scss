@@ -1,0 +1,28 @@
+.breadcrumb-item {
+  font-size: 18px;
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 0px 0px 15px #f3f3f3;
+}
+
+.breadcrumb-item.active {
+  font-size: 20px;
+  color: #f3f3f3;
+  text-shadow: 0px 0px 15px #fff;
+  animation: psychedelic 2s infinite;
+}
+
+@keyframes psychedelic {
+  0% {
+    text-shadow: 0px 0px 15px #f3f3f3;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0px 0px 25px #f3f3f3;
+    transform: scale(1.2);
+  }
+  100% {
+    text-shadow: 0px 0px 15px #f3f3f3;
+    transform: scale(1);
+  }
+}

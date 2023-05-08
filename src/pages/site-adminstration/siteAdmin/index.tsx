@@ -6,12 +6,17 @@ import { Link } from "react-router-dom";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const SiteAdminHome = () => {
   return (
-    <>
+    <React.Fragment>
       <Header />
       <HeaderTabs />
+      <BreadcrumbComponent routes={[
+        { name: 'Home', path: '/' },
+        { name: 'Products', path: '/' },
+      ]} />
       <h3>Site Administration</h3>
       <div className="contentarea-wrapper">
         <Container fluid className="administration-box">          
@@ -30,7 +35,7 @@ const SiteAdminHome = () => {
         </Container>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 
