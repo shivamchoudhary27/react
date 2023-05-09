@@ -13,13 +13,12 @@ const SiteAdminHome = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <BreadcrumbComponent routes={[
-        { name: 'Home', path: '/' },
-        { name: 'Products', path: '/' },
-      ]} />
-      <h3>Site Administration</h3>
-      <div className="contentarea-wrapper">
-        <Container fluid className="administration-box">          
+      <div className="contentarea-wrapper mt-3">
+        <Container fluid className="administration-box">
+        <h3>Site Administration</h3>
+        <BreadcrumbComponent
+          routes={[{ name: "Site Administration", path: "" }]}
+        />
           <Row>
             {AdminRawData.map((item, index) => (
               <Col md={4} sm={6} xs={12} key={index} className="mb-4">

@@ -10,6 +10,7 @@ import TagsModal from "./tagsModal";
 import TagsTable from "./tagsTable";
 import BuildPagination from "../../../widgets/pagination";
 import { getData as getTagsData } from "../../../adapters/microservices";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const Tags = () => {
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
@@ -80,6 +81,13 @@ const Tags = () => {
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
           <Container fluid className="administration-box">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "User Management", path: "/manageprogram" },
+              { name: "Tags", path: "" },
+            ]}
+          />
             <AddTags
               toggleModalShow={toggleModalShow}
               setTagObj={setTagObj}

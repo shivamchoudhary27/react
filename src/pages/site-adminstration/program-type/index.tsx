@@ -10,6 +10,7 @@ import HeaderTabs from "../../headerTabs";
 // import Sidebar from "../../sidebar";
 import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const ProgramType = () => {
   const navigate = useNavigate();
@@ -154,6 +155,13 @@ const ProgramType = () => {
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
           <Container fluid className="administration-box">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "User Management", path: "/manageprogram" },
+              { name: "Program Type", path: "" },
+            ]}
+          />
             {PROGRAM_TYPE_BUTTON}
             {ADDPROGRAM_MODAL_COMPONENT}
             {PROGRAM_TYPE_COMPONENT}

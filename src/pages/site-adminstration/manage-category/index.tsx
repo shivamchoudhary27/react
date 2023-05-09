@@ -17,6 +17,7 @@ import {
 import CategoryModal from "./categoryModal";
 import Alert from "react-bootstrap/Alert";
 import { alertMsgProps } from "../managecourse/type";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const ManageCategory = () => {
   const navigate = useNavigate();
@@ -153,6 +154,13 @@ const ManageCategory = () => {
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
           <Container fluid className="administration-box">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "User Management", path: "/manageprogram" },
+              { name: "Manage Category", path: "" },
+            ]}
+          />
             <Button
               variant="outline-secondary"
               onClick={() => navigate("/manageprogram")}

@@ -10,6 +10,7 @@ import HeaderTabs from "../../headerTabs";
 import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
 import BuildPagination from "../../../widgets/pagination";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import "./style.scss";
 
 const Discipline = () => {
@@ -137,6 +138,13 @@ const Discipline = () => {
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
           <Container fluid className="administration-box">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "User Management", path: "/manageprogram" },
+              { name: "Discipline", path: "" },
+            ]}
+          />
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <BuildPagination
