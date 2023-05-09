@@ -22,7 +22,7 @@ import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 
-export default function CustomRoutes() {
+export default function NewCustomRoutes() {
 
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
