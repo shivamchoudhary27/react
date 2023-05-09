@@ -10,6 +10,7 @@ import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import BuildPagination from "../../../widgets/pagination";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import "./style.scss";
 
 const Departments = () => {
@@ -106,6 +107,13 @@ const Departments = () => {
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
           <Container fluid className="administration-box">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "User Management", path: "/manageprogram" },
+              { name: "Department", path: "" },
+            ]}
+          />
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
             <BuildPagination
