@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom';
-import StudentDashboard from '../../../pages/student-dashboard/dashboard';
+import StudentDashboard from '../../../pages/studentDashboard/dashboard';
 
 const StudentDashRoutes = () => {
   return [

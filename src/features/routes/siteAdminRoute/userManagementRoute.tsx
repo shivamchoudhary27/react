@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import UserManagement from '../../../pages/site-adminstration/userManagement'
-import AddUsersForm from '../../../pages/site-adminstration/userManagement/form/addUsersForm'
+import UserManagement from '../../../pages/siteAdminstration/userManagement'
+import AddUsersForm from '../../../pages/siteAdminstration/userManagement/form/addUsersForm'
 
 const UserManagementRoute = () => {
   return [

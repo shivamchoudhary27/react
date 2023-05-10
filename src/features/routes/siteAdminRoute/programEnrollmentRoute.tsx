@@ -1,14 +1,14 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import ProgramEnrollment from '../../../pages/site-adminstration/programEnrollment'
-import ManageProgramEnrollment from '../../../pages/site-adminstration/manageUsers'
-import EnrolUserToProgram from '../../../pages/site-adminstration/manageUsers/addUsers'
-import EnrolUsers from '../../../pages/site-adminstration/enrolment/enrolUser'
-import CourseEnrollment from '../../../pages/site-adminstration/enrolment/courseenrollment'
-import ManageGroups from '../../../pages/site-adminstration/enrolment/manageGroups'
-import SiteAdminHome from "../../../pages/site-adminstration/siteAdmin";
-import ManageUsers from "../../../pages/site-adminstration/manageUsers";
-import Preview from "../../../pages/site-adminstration/manageProgram/preview";
+import ProgramEnrollment from '../../../pages/siteAdminstration/programEnrollment'
+import ManageProgramEnrollment from '../../../pages/siteAdminstration/manageUsers'
+import EnrolUserToProgram from '../../../pages/siteAdminstration/manageUsers/addUsers'
+import EnrolUsers from '../../../pages/siteAdminstration/enrolment/enrolUser'
+import CourseEnrollment from '../../../pages/siteAdminstration/enrolment/courseenrollment'
+import ManageGroups from '../../../pages/siteAdminstration/enrolment/manageGroups'
+import SiteAdminHome from "../../../pages/siteAdminstration/siteAdmin";
+import ManageUsers from "../../../pages/siteAdminstration/manageUsers";
+import Preview from "../../../pages/siteAdminstration/manageProgram/preview";
 
 const ProgramEnrollmentRoute = () => {
   return [

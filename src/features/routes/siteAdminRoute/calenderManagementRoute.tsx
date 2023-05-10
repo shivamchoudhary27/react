@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import CalenderConfig from '../../../pages/site-adminstration/calenderConfig'
+import CalenderConfig from '../../../pages/siteAdminstration/calenderConfig'
 import ReactBigCalendar from '../../../pages/calender'
 
 const CalenderManagementRoute = () => {
