@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import Header from "../../../header";
-import Sidebar from "../../../sidebar";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import FieldLabel from "../../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../../widgets/form_input_fields/form_text_field";
 import FieldErrorMessage from "../../../../widgets/form_input_fields/error_message";
@@ -92,9 +94,17 @@ const AddUsersForm = () => {
 
   return (
     <React.Fragment>
-      <Header pageHeading="Add Users" welcomeIcon={false} />
-      <div className="main-content-container">
-        <Sidebar />
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "User Management", path: "/usermanagement" },
+              { name: "Add user", path: "" },       
+            ]}
+          />
+          <h3>Add user</h3>
         <div
           className="content-area content-area-slider"
           id="contentareaslider"
@@ -261,6 +271,7 @@ const AddUsersForm = () => {
           </Container>
         </div>
       </div>
+      <Footer />   
     </React.Fragment>
   );
 };

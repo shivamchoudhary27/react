@@ -55,6 +55,7 @@ const ProgramEnrollment = () => {
               { name: "Program Enrollment", path: "" },
             ]}
           />
+          <h3>Programs</h3>
             <ProgramEnrollFilter updateDepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters} />
             <hr />
             <ProgramEnrollTable enrollmentData={enrollmentData.items} />

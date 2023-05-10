@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
 import { Container } from "react-bootstrap";
 import UserFilter from "./userFilter";
 import UsersTable from "./usersTable";
@@ -77,10 +76,11 @@ const ManageProgramEnrollment = () => {
           <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
-              { name: "User Management", path: "/programenrollment" },
-              { name: "Manage program Enrollment", path: "" },
+              { name: "Programs", path: "/programenrollment" },
+              { name: programname, path: "" },
             ]}
           />
+          <h3>Enrolment : {programname}</h3>
             <UserFilter 
               updateinputfilters={updateSearchFilters} 
               programname={programname} 

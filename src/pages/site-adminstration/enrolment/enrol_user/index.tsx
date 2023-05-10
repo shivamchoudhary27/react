@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
-// import Sidebar from "../../../sidebar";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { Container, Button } from "react-bootstrap";
 import EnrolUserTable from "./courseTable";
 import { useNavigate, useParams } from "react-router-dom";
@@ -125,7 +125,16 @@ const EnrolUsers = () => {
       <Header />
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "Programs", path: "/programenrollment" },
+              { name: name, path: `/manageprogramenrollment/${id}/${name}` },
+              { name: "Courses", path: "" },       
+            ]}
+          />
           <Container fluid className="administration-box">
+            <h3>Courses: {name}</h3>
             <Button
               variant="outline-secondary"
               onClick={() => navigate(`/manageprogramenrollment/${id}/${name}`)}

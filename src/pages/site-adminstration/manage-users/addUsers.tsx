@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from '../../header';
-import Sidebar from '../../sidebar';
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import { Container, Button } from 'react-bootstrap';
 import { Formik, Form } from 'formik';
 import FieldLabel from '../../../widgets/form_input_fields/labels';
@@ -95,17 +97,18 @@ const EnrolUserToProgram = () => {
 
   return (
     <React.Fragment>
-        <Header
-        pageHeading="Add User To Program"
-        welcomeIcon={false}
-      />
+      <Header />
+      <HeaderTabs />
       <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
+          <Container fluid className="administration-wrapper"> 
+            <BreadcrumbComponent
+              routes={[
+                { name: "Site Administration", path: "/siteadmin" },
+                { name: name, path: gobackLink },
+                { name: "Program Preview", path: "" },       
+              ]}
+            />
+            <h3>Program Preview</h3>
             <Button
               variant="outline-secondary"
               onClick={() => navigate(gobackLink)}
@@ -201,9 +204,9 @@ const EnrolUserToProgram = () => {
                 </Form>
               )}
             </Formik>
-          </Container>
-        </div>
+           </Container>
       </div>
+      <Footer />   
     </React.Fragment>
   )
 }
