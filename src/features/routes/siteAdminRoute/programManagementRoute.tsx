@@ -1,14 +1,14 @@
 import { Route } from 'react-router-dom'
-import ManageProgram from '../../../pages/site-adminstration/manage-program'
+import ManageProgram from '../../../pages/site-adminstration/manageProgram'
 import Departments from '../../../pages/site-adminstration/departments'
 import Discipline from '../../../pages/site-adminstration/discipline'
-import ProgramType from '../../../pages/site-adminstration/program-type'
+import ProgramType from '../../../pages/site-adminstration/programType'
 import Tags from '../../../pages/site-adminstration/tags'
 import AddProgram from '../../../pages/site-adminstration/addProgram'
-import ManageCategory from '../../../pages/site-adminstration/manage-category'
+import ManageCategory from '../../../pages/site-adminstration/manageCategory'
 import CourseManagment from '../../../pages/site-adminstration/managecourse'
 import AddCourseForm from '../../../pages/site-adminstration/managecourse/form'
-import Preview from '../../../pages/site-adminstration/manage-program/preview'
+import Preview from '../../../pages/site-adminstration/manageProgram/preview'
 
 const ProgramManagementRoute = () => {
   return [

@@ -4,7 +4,7 @@ import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
 // import Sidebar from "../../sidebar";
-import Module_List from "./module_list";
+import Module_List from "./moduleList";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
 
