@@ -3,7 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import FilterDropdown from "./timeline/filterDropdown";
 import Timeline from "./timeline/timeline";
 import MyScheduleComp from "./schedule/scheduleComp";
-import Program_Certification from "./program_certification";
+import Program_Certification from "./programCertification";
 
 const DashboardStudent = () => {
   return (

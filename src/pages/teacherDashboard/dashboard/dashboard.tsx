@@ -3,9 +3,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import FilterDropdown from "./timeline/filterDropdown";
 import Timeline from "./timeline/timeline";
 import MyScheduleComp from "./schedule/scheduleComp";
-import Program_Certification from "./program_certification";
+import MyCourses from "./myCourses";
+// import Program_Certification from "./program_certification";
 
-const DashboardStudent = () => {
+const DashboardTeacher = () => {
   return (
     <>
       <Container fluid>
@@ -13,15 +14,15 @@ const DashboardStudent = () => {
             <Col md={9}>
               <FilterDropdown />
               <Timeline />
-              <Program_Certification />
+              <MyCourses />
             </Col>
             <Col md={3}>
               <MyScheduleComp />
             </Col>
           </Row>
-      </Container>
+      </Container>    
     </>
   );
 };
 
-export default DashboardStudent;
+export default DashboardTeacher;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import TeacherDashboard from '../../../pages/teacher-dashboard/dashboard'
+import TeacherDashboard from '../../../pages/teacherDashboard/dashboard'
 
 const TeacherDashRoutes = () => {
   return [
