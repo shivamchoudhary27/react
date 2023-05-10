@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import Module_Table from "./module_table";
+import Module_Table from "./moduleTable";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
