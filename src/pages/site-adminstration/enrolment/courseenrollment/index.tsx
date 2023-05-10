@@ -6,7 +6,7 @@ import { Container, Button } from "react-bootstrap";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
-// import Sidebar from "../../../sidebar";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import DiciplineTable from "./enroltable";
 import DiciplineModal from "./enrolmodal";
 import BuildPagination from "../../../../widgets/pagination";
@@ -222,6 +222,16 @@ const CourseEnrollment = () => {
       <Header />
       <HeaderTabs />
       <div className="contentarea-wrapper mt-3">
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "Programs", path: "/programenrollment" },
+              { name: "Manage Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
+              { name: programName, path: `/enrolusers/${programid}/${programName}` },
+              { name: coursename, path: "" },       
+            ]}
+          />
+          <h3>{coursename}</h3>
           <Container fluid className="administration-box">
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}

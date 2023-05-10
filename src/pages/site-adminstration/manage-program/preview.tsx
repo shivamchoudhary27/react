@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getData as getProgramData } from "../../../adapters/microservices";
-import Header from "../../header";
-import Sidebar from "../../sidebar";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import HeaderTabs from "../../headerTabs";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import { Button, Container } from "react-bootstrap";
 
 const Preview = () => {
@@ -59,15 +61,19 @@ const Preview = () => {
 
   return (
     <>
-      <Header pageHeading="Program Preview" welcomeIcon={false} />
-      <div className='main-content-container'>
-        <Sidebar />
-        <div className="content-area content-area-slider" id="contentareaslider">
+      <Header />
+      <HeaderTabs />
+      <div className="contentarea-wrapper mt-3">
         <Container fluid className="administration-wrapper">
-          <div className="site-heading">
-            {/* <h3>Program Preview</h3>{" "} */}
-            <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Go back</Button>
-          </div>
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "Manage Program", path: "/manageprogram" },
+              { name: "Program Preview", path: "" },       
+            ]}
+          />
+          <h3>Program Preview</h3>
+          <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Go back</Button>
           <hr />
           <div>
             {currentProgram.data.map((el : any) => (
@@ -95,9 +101,9 @@ const Preview = () => {
                 </div>
             ))}
           </div>
-        </Container>
-        </div>        
-      </div>      
+        </Container>      
+      </div>
+      <Footer />   
     </>
   );
 };

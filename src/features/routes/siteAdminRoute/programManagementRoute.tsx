@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route } from 'react-router-dom'
 import ManageProgram from '../../../pages/site-adminstration/manage-program'
 import Departments from '../../../pages/site-adminstration/departments'
@@ -7,7 +6,7 @@ import ProgramType from '../../../pages/site-adminstration/program-type'
 import Tags from '../../../pages/site-adminstration/tags'
 import AddProgram from '../../../pages/site-adminstration/addProgram'
 import ManageCategory from '../../../pages/site-adminstration/manage-category'
-import ManageCourses from '../../../pages/site-adminstration/manage-courses'
+import CourseManagment from '../../../pages/site-adminstration/managecourse'
 import AddCourseForm from '../../../pages/site-adminstration/managecourse/form'
 import Preview from '../../../pages/site-adminstration/manage-program/preview'
 
@@ -20,7 +19,7 @@ const ProgramManagementRoute = () => {
     <Route path="/tags" element={<Tags />} />,
     <Route path="/addprogram/:id" key="addprogram" element={<AddProgram />} />,
     <Route path="/managecategory/:id/:name" key="managecategory" element={<ManageCategory />} />,
-    <Route path="managecourses/:id/:name" key="managecourses" element={<ManageCourses />} />,
+    <Route path="/managecourses/:id/:name" key="managecourses" element={<CourseManagment />} />,
     <Route path="/courseform/:progid/:catid/:courseid" element={<AddCourseForm />} />,
     <Route path="/programpreview/:id" element={<Preview />} />,
   ];
