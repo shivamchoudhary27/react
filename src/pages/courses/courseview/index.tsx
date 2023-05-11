@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getData } from '../../../adapters';
-import BreadCrumb from '../../../widgets/BreadCrumb';
+import BreadcrumbComponent from '../../../widgets/breadcrumb';
 import Cards from '../../../widgets/CourseComp';
 import quizIcon from '../../../assets/images/activity-icon/quiz-icon.png';
 import vidIcon from '../../../assets/images/activity-icon/video-icon.png';
@@ -83,12 +83,10 @@ function CourseView() {
       <Header pageHeading={fullname ?? ""} welcomeIcon={false} />
       <div className="main-container pt-4 course-view-slider" id="courseviewslider">
         <div className="contents">
-          <BreadCrumb
-            className="breadcrumb"
-            title={fullname}
-            breadcrumbItem={[
-              ['Home', '/dashboard', true],
-              ['Courseview', '/courseview', false],
+          <BreadcrumbComponent
+            routes={[
+              { name: "Home", path: "/dashboard" },
+              { name: "Courseview", path: "/courseview" },
             ]}
           />
           {show === true && <Errordiv cstate={show} msg="Something went wrong" />}
