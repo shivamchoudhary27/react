@@ -15,7 +15,7 @@ const HeaderTabs = () => {
         <div className="site-header-tab">
             <Nav as="ul">
                 <Nav.Item as="li">
-                    <Link to="/dashboard" className={location.pathname === '/dashboard' ? 'active-tab' : ''}>
+                    <Link to="/teacherdashboard" className={location.pathname === '/teacherdashboard' ? 'active-tab' : ''}>
                         <img src={dashboardIcon} alt="Dashboard" />
                         <span>Dashboard</span>
                     </Link>             
@@ -27,13 +27,13 @@ const HeaderTabs = () => {
                     </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link to="/studentdashboard" className={location.pathname === '/studentdashboard' ? 'active-tab' : ''}>
+                    <Link to="" className={location.pathname === '' ? 'active-tab' : ''}>
                         <img src={performanceIcon} alt="Performance" />
                         <span>Performance</span>
                     </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link to="/teacherdashboard" className={location.pathname === '/teacherdashboard' ? 'active-tab' : ''}>
+                    <Link to="" className={location.pathname === '' ? 'active-tab' : ''}>
                         <img src={gradeboolIcon} alt="Gradebook" />
                         <span>Gradebook</span>
                     </Link>             
