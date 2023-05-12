@@ -155,7 +155,7 @@ const ManageCategory = () => {
       <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
-              { name: "User Management", path: "/manageprogram" },
+              { name: "Manage Program", path: "/manageprogram" },
               { name: "Manage Category", path: "" },
             ]}
           />

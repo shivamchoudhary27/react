@@ -16,9 +16,10 @@ import { pagination } from '../../../utils/pagination';
 import { makeGetDataRequest } from '../../../features/api_calls/getdata';
 
 const roleData = [
-  {id:"student", name: "Student"},
   {id:"manager", name: "Manager"},
-  {id:"faculty", name: "Faculty"},
+  {id:"student", name: "Student"},
+  {id:"editingteacher", name: "Teacher"},
+  {id:"teacher", name: "Non-editing teacher"},
 ];
 
 const dummyInitValues = {
