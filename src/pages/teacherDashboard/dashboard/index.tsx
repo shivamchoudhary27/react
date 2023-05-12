@@ -10,10 +10,10 @@ const TeacherDashboard = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper">        
+      <div className="contentarea-wrapper">
         <DashboardTeacher />
       </div>
-      <Footer />      
+      <Footer />
     </>
   );
 };

@@ -42,7 +42,7 @@ function NotificationOverlay(props: { userid: number; }) {
           <Popover.Body>
           {message.totalcount > 0 ? (
             message.list.map((item, index) => (
-                <p> {item} </p>
+                <p key={index}> {item} </p>
             ))
           ) : (
             <p>No new notifications</p>

@@ -17,7 +17,7 @@ const ManageDropdown = ({ updatedepartment } : any) => {
 
   return (
     <>
-      <select className="form-select" onChange={getCurrentValue}>
+      <select className="form-select" onChange={getCurrentValue} defaultValue="All Departments">
         <option value="">All Departments</option>
         {departmentData.items.map((el: any, index: number) => (
             <option key={index} value={el.id}>{el.name}</option>
