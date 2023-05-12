@@ -21,6 +21,8 @@ const StudentDashboard = () => {
     return (
       <Container style={loaderStyle}>
         <Loader />
+        <br />
+        Logging in..
       </Container>
     );
   }

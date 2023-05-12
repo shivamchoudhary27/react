@@ -28,7 +28,7 @@ const Header = () => {
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center site-header">
-      <Link to="/teacherdashboard" className="me-auto site-logo">
+      <Link to="/studentdashboard" className="me-auto site-logo">
         <img className="bl-logo" src={logo} alt="Ballistic Learning Pvt Ltd" />
       </Link>
 

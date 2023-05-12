@@ -15,7 +15,7 @@ const HeaderTabs = () => {
         <div className="site-header-tab">
             <Nav as="ul">
                 <Nav.Item as="li">
-                    <Link to="/teacherdashboard" className={location.pathname === '/teacherdashboard' ? 'active-tab' : ''}>
+                    <Link to="/studentdashboard" className={location.pathname === '/studentdashboard' ? 'active-tab' : ''}>
                         <img src={dashboardIcon} alt="Dashboard" />
                         <span>Dashboard</span>
                     </Link>             

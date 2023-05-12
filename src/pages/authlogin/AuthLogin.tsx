@@ -51,13 +51,13 @@ const AuthLogin = () => {
                 config.OAUTH2_ACCESS_TOKEN = result.access_token;               
                 
                 userCtx.setUserToken(config.WSTOKEN);
-                Swal.fire({
-                  position: "center",
-                  icon: "success",
-                  title: "Login Successful",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
+                // Swal.fire({
+                //   position: "center",
+                //   icon: "success",
+                //   title: "Login Successful",
+                //   showConfirmButton: false,
+                //   timer: 1500,
+                // });
                 navigate("/studentdashboard");         
               } else {
                 window.alert('Failed to get auth token');
