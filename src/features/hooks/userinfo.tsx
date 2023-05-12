@@ -41,13 +41,7 @@ const useUserinfo = () => {
       getData(query)
         .then((res) => {
           if (res.status === 200 && res.data) {
-            if (triggerEnrolApi.userid !== query.userid || res.data.errorcode) {
-              // setError("Something went wrong");
-            } else {
-              // setMyCourses(res.data);
-              // setLoadSkeleton(false);
-              localStorage.setItem("enroled_courses", JSON.stringify(res.data));
-            }
+            localStorage.setItem("enroled_courses", JSON.stringify(res.data));
           }
         })
         .catch((err) => {

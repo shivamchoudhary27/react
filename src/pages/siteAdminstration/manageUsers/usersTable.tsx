@@ -30,7 +30,7 @@ const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any
     },
     {
       Header: "Role",
-      accessor: "role",
+      Cell: ({ row }: any) => (userRoleString(row.original.role))
     },
     {
       Header: "Actions",
@@ -62,6 +62,14 @@ const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any
   const createEditLink = (id: number) => {
     return `/enrolusertoprogram/${programid}/${id}/${programname}`;
   };
+
+  const userRoleString = (userRole: string) => {
+    if (userRole === 'manager') return "Manager";
+    if (userRole === 'student') return "Student";
+    if (userRole === 'editingteacher') return "Teacher";
+    if (userRole === 'teacher') return "Non-editing teacher";
+    return '';
+  }
 
   const deleteHandler = (userid: number) => {
     if (window.confirm("Are you sure to delete this user?")) {
