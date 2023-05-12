@@ -58,7 +58,7 @@ const AuthLogin = () => {
                   showConfirmButton: false,
                   timer: 1500,
                 });
-                navigate("/dashboard");         
+                navigate("/studentdashboard");         
               } else {
                 window.alert('Failed to get auth token');
               }
@@ -77,7 +77,7 @@ const AuthLogin = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <Container style={loaderStyle}>
         <div>
           {(error && <div>{error}</div>) ||
@@ -89,7 +89,7 @@ const AuthLogin = () => {
             ))}
         </div>
       </Container>
-    </>
+    </React.Fragment>
   );
 };
 
