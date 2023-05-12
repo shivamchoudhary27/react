@@ -221,8 +221,7 @@ const CourseEnrollment = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Programs", path: "/programenrollment" },
@@ -231,8 +230,9 @@ const CourseEnrollment = () => {
               { name: coursename, path: "" },       
             ]}
           />
+      <div className="contentarea-wrapper mt-5">          
           <h3>{coursename}</h3>
-          <Container fluid className="administration-box">
+          <Container fluid>
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <BuildPagination

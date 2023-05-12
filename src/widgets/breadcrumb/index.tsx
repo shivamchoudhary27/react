@@ -1,10 +1,11 @@
-
+import { Container, Row, Col } from "react-bootstrap";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Link } from 'react-router-dom';
-// import './style.scss';
+import './style.scss';
 
 const BreadcrumbComponent = ({ routes } : any) => {
   return (
+    <Container fluid className="breadcrumb-box">
     <Breadcrumb>
       {routes.map((route : any, index : number) => {
         if (index === routes.length - 1) {
@@ -22,6 +23,7 @@ const BreadcrumbComponent = ({ routes } : any) => {
         }
       })}
     </Breadcrumb>
+    </Container>
   );
 };
 

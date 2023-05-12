@@ -96,15 +96,15 @@ const AddUsersForm = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "/usermanagement" },
               { name: "Add user", path: "" },       
             ]}
           />
-          <h3>Add user</h3>
+      <div className="contentarea-wrapper mt-5">          
+        <h3>Add user</h3>
         <div
           className="content-area content-area-slider"
           id="contentareaslider"

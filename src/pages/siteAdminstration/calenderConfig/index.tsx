@@ -39,8 +39,8 @@ const CalenderConfig = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>
             <div className="container-wrapper"></div>
             {SITE_HEADING}
             <hr />

@@ -1,37 +1,44 @@
+import usermanagement from '../../../assets/images/user-management.png';
+import manageprogram from '../../../assets/images/program-management.png';
+import programenrollment from '../../../assets/images/program-enrollment.png';
+import copomanagement from '../../../assets/images/copo-management.png';
+import timetablemanagement from '../../../assets/images/timetable-management.png';
+import calendaermanagement from '../../../assets/images/timetable-management.png';
 export const AdminRawData = [
   {
-    title: "User Management",
-    icon: "fa-solid fa-user-plus card-icon",
+    title: "User <br>Management",
+    image: usermanagement,
     link: "/usermanagement",
+    classname: "user-management",
   },
   {
-    title: "Program Management",
-    icon: "fa-solid fa-user-plus card-icon",
+    title: "Program <br>Management",
+    image: manageprogram,
     link: "/manageprogram",
+    classname: "manage-program",
   },
   {
-    title: "Program Enrollment",
-    icon: "fa-solid fa-users card-icon",
+    title: "Program <br>Enrollment",
+    image: programenrollment,
     link: "/programenrollment",
+    classname: "program-enrollment",
   },  
   {
-    title: "Timetable Management",
-    icon: "fa-solid fa-table card-icon",
+    title: "CO's / PO's <br>Management",
+    image: copomanagement,
     link: "#",
+    classname: "copo-management",
   },
   {
-    title: "Calendar Management",
-    icon: "fa-solid fa-calendar card-icon",
+    title: "Timetable <br>Management",
+    image: timetablemanagement,
+    link: "#",
+    classname: "timetable-management",
+  },
+  {
+    title: "Calendar <br>Management",
+    image: calendaermanagement,
     link: "/calenderconfig",
-  },
-  {
-    title: "CO's / PO's Management",
-    icon: "fa-regular fa-file-lines card-icon",
-    link: "#",
-  },
-  {
-    title: "Lorum Ipsum",
-    icon: "fa-solid fa-file card-icon",
-    link: "#",
-  },  
+    classname: "calender-config",
+  }, 
 ];

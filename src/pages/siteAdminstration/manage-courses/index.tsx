@@ -14,15 +14,15 @@ const ManageCourses = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "/manageprogram" },
               { name: "Manage Courses", path: "" },
             ]}
           />
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>          
               <Button
             variant="outline-secondary"
             onClick={() => navigate("/manageprogram")}

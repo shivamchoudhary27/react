@@ -123,8 +123,8 @@ const CourseManagment = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>
             <Button
               variant="outline-secondary"
               onClick={() => navigate("/manageprogram")}

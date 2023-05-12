@@ -105,15 +105,15 @@ const Departments = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "/manageprogram" },
               { name: "Department", path: "" },
             ]}
           />
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>          
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
             <BuildPagination

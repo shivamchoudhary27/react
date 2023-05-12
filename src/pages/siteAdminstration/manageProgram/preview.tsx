@@ -63,15 +63,15 @@ const Preview = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-        <Container fluid className="administration-wrapper">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Manage Program", path: "/manageprogram" },
               { name: "Program Preview", path: "" },       
             ]}
           />
+      <div className="contentarea-wrapper mt-5">
+        <Container fluid className="administration-wrapper">          
           <h3>Program Preview</h3>
           <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Go back</Button>
           <hr />

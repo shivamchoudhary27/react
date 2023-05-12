@@ -5,3 +5,10 @@ body {
     font-size: 16px;
     font-weight: 400;
 }
+a {
+    color: #000;
+    text-decoration: none;
+    &:hover {
+        color: #27D8F6;
+    }
+}

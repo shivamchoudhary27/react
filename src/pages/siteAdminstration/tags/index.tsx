@@ -79,15 +79,15 @@ const Tags = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "/manageprogram" },
               { name: "Tags", path: "" },
             ]}
           />
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>          
             <AddTags
               toggleModalShow={toggleModalShow}
               setTagObj={setTagObj}
