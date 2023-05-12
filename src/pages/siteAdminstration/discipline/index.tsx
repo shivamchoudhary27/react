@@ -136,15 +136,15 @@ const Discipline = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "/manageprogram" },
               { name: "Discipline", path: "" },
             ]}
           />
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>          
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <BuildPagination

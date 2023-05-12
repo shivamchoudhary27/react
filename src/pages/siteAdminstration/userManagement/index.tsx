@@ -102,15 +102,14 @@ const UserManagement = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-        <Container fluid className="administration-box">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "" },
             ]}
           />
-
+      <div className="contentarea-wrapper mt-5">
+        <Container fluid>
           <Filter
             updatefilters={updateSearchFilters}
             toggleUploadModal={toggleUploadModal}

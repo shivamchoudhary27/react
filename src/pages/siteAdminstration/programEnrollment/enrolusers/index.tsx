@@ -25,15 +25,15 @@ const EnrolUsersCourse = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
-          {/* <BreadcrumbComponent
+      {/* <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "User Management", path: "/programenrollment" },
               { name: "Manage program Enrollment", path: "" },
             ]}
           /> */}
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>          
             <EnrolCourseFilter togglemodalshow={toggleModalShow} />
             <hr />
             <UserTable />

@@ -62,14 +62,14 @@ const ManageProgram = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">  
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Manage Program", path: "" },
             ]}
-          />     
+          />
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>
             <div className="site-button-group">
               <Button
                 variant="primary"

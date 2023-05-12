@@ -71,15 +71,15 @@ const ManageProgramEnrollment = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
-          <BreadcrumbComponent
+      <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Programs", path: "/programenrollment" },
               { name: programname, path: "" },
             ]}
           />
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>          
           <h3>Enrolment : {programname}</h3>
             <UserFilter 
               updateinputfilters={updateSearchFilters} 

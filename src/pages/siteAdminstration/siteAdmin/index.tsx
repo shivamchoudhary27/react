@@ -13,22 +13,16 @@ const SiteAdminHome = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-        <Container fluid className="administration-box">
-        <h3>Site Administration</h3>
-        <BreadcrumbComponent
-          routes={[{ name: "Site Administration", path: "" }]}
-        />
+      <div className="contentarea-wrapper mt-5">
+        <Container className="administration-box">
           <Row>
             {AdminRawData.map((item, index) => (
-              <Col md={4} sm={6} xs={12} key={index} className="mb-4">
-                <Link to={item.link} style={{ textDecoration: "none" }}>
-                  <div className="card-wrapper">
-                    <i className={item.icon}></i>
-                    <h4 className="card-title">{item.title}</h4>
-                  </div>
+              <div key={index} className="col-4 mb-4">
+                <Link to={item.link} className={`default-item ${item.classname}`}>
+                    <h4 className="card-title" dangerouslySetInnerHTML={{ __html: item.title }} />
+                    <img src={item.image} alt={item.title} className="img-fluid" />                    
                 </Link>
-              </Col>
+              </div>
             ))}
           </Row>
         </Container>

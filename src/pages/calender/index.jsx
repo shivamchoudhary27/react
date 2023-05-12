@@ -94,8 +94,8 @@ export default function ReactBigCalendar() {
     <React.Fragment>      
       <Header />
       <HeaderTabs />
-        <div className="contentarea-wrapper">
-          <Container fluid className="administration-box">
+        <div className="contentarea-wrapper mt-5">
+          <Container fluid>
             <Row>
               <Col md={10}>
                 {selectedEvent && <Modal />}

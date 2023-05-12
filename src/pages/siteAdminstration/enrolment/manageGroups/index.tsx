@@ -97,8 +97,8 @@ const ManageGroups = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid className="administration-box">
+      <div className="contentarea-wrapper mt-5">
+          <Container fluid>
             <Add_Groups_Btn />
             <GroupModal
               show={modalShow}
