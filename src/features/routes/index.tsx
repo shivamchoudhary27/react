@@ -29,8 +29,8 @@ export default function NewCustomRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/dashboard" />} />
-        <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
+        <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/studentdashboard" />} />
+        <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/studentdashboard" />} />
         <Route path='/authlogin' element={<AuthLogin />} />
         <Route path="/signupnew" element={<SignUpNew />} />
         <Route element={<ProtectedRoutes />}>
@@ -51,7 +51,7 @@ export default function NewCustomRoutes() {
           <Route path="/catalogue" element={<Catalogue />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element={<Review />} />
-          <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/dashboard" />} />
+          <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/studentdashboard" />} />
         </Route>
       </Routes>
     </BrowserRouter>
