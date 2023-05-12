@@ -3,6 +3,7 @@ import { getData } from '../../adapters';
 import UserContext from '../context/user/user';
 const useUserinfo = () => {
   const userCtx = useContext(UserContext);
+  const [triggerEnrolApi, setTriggerEnrolApi] = useState({ status : false, userid : 0});
   const [isLoading, setLoading] = useState(
     userCtx.status === '200' ? 'loaded' : 'loading'
   );
@@ -21,6 +22,7 @@ const useUserinfo = () => {
             }
             res.data.userissiteadmin = res.data.userissiteadmin.toString();
             userCtx.setUserInfo(res.data);
+            setTriggerEnrolApi({ status : true, userid : res.data.userid})
           }
           setLoading('loaded');
         })
@@ -29,6 +31,31 @@ const useUserinfo = () => {
         });
     }
   }, []);
+
+  useEffect(() => {
+    if (triggerEnrolApi.status === true) {
+      const query = {
+        wsfunction: "core_enrol_get_users_courses",
+        userid : triggerEnrolApi.userid,
+      };
+      getData(query)
+        .then((res) => {
+          if (res.status === 200 && res.data) {
+            if (triggerEnrolApi.userid !== query.userid || res.data.errorcode) {
+              // setError("Something went wrong");
+            } else {
+              // setMyCourses(res.data);
+              // setLoadSkeleton(false);
+              localStorage.setItem("enroled_courses", JSON.stringify(res.data));
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [triggerEnrolApi]);
+
   return isLoading === 'loading' ? 'loading' : userCtx;
 };
 export default useUserinfo;
