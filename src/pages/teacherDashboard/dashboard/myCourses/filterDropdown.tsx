@@ -33,8 +33,9 @@ const ShortByAcadmicYear = () => {
           style={dropdown_style}
           className="form-select"
           aria-label="Default select example"
+          defaultValue="2023-2024"
         >
-          <option value="1" selected>
+          <option value="1">
             2023-2024
           </option>
           <option value="2">Two</option>
@@ -55,8 +56,9 @@ const ShortByDepartment = () => {
           style={dropdown_style}
           className="form-select"
           aria-label="Default select example"
+          defaultValue="All"
         >
-          <option value="1" selected>
+          <option value="1">
             All
           </option>
           <option value="2">Two</option>
@@ -77,8 +79,9 @@ const ShortByProgram = () => {
           style={dropdown_style}
           className="form-select"
           aria-label="Default select example"
+          defaultValue="All"
         >
-          <option value="1" selected>
+          <option value="1">
             All
           </option>
           <option value="2">Two</option>
@@ -99,8 +102,9 @@ const ShortBySemester = () => {
           style={dropdown_style}
           className="form-select"
           aria-label="Default select example"
+          defaultValue="All"
         >
-          <option value="1" selected>
+          <option value="1">
             All
           </option>
           <option value="2">Two</option>
@@ -117,8 +121,9 @@ const ShortByProgress = () => {
       style={dropdown_style}
       className="form-select"
       aria-label="Default select example"
+      defaultValue="In Progress"
     >
-      <option value="1" selected>
+      <option value="1">
         In Progress
       </option>
       <option value="2">Two</option>

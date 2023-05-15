@@ -9,7 +9,7 @@ const FilterDropdown = () => {
           <h3>TIMELINE</h3>
         </div>
         <div className="ui-filter-dropdowns">
-          <ShortByDaysDropdowns />{" "}<ShortByDateDropdowns />
+          <ShortByDaysDropdowns /> <ShortByDateDropdowns />
         </div>
       </div>
     </>
@@ -20,13 +20,18 @@ export default FilterDropdown;
 
 const dropdown_style = {
   display: "inline",
-  width: "auto"
-}
+  width: "auto",
+};
 
 const ShortByDaysDropdowns = () => {
   return (
-    <select style={dropdown_style} className="form-select" aria-label="Default select example">
-      <option selected>Next 7 days</option>
+    <select
+      style={dropdown_style}
+      className="form-select"
+      aria-label="Default select example"
+      defaultValue="Next 7 days"
+    >
+      <option>Next 7 days</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
@@ -36,8 +41,13 @@ const ShortByDaysDropdowns = () => {
 
 const ShortByDateDropdowns = () => {
   return (
-    <select style={dropdown_style} className="form-select" aria-label="Default select example">
-      <option selected>Sort by date</option>
+    <select
+      style={dropdown_style}
+      className="form-select"
+      aria-label="Default select example"
+      defaultValue="Sort by date"
+    >
+      <option>Sort by date</option>
       <option value="1">One</option>
       <option value="2">Two</option>
       <option value="3">Three</option>

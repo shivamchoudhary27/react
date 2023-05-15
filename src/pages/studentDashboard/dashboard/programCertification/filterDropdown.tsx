@@ -25,8 +25,9 @@ const ShortBySemester = () => {
       style={dropdown_style}
       className="form-select"
       aria-label="Default select example"
+      defaultValue="Semester 4"
     >
-      <option value="1" selected>Semester 4</option>
+      <option value="1">Semester 4</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
     </select>
@@ -39,8 +40,9 @@ const ShortByStatus = () => {
       style={dropdown_style}
       className="form-select"
       aria-label="Default select example"
+      defaultValue="In Progress"
     >
-      <option value="1" selected>In Progress</option>
+      <option value="1">In Progress</option>
       <option value="2">Two</option>
       <option value="3">Three</option>
     </select>

@@ -21,6 +21,7 @@ import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
+import ProgramOverview from '../../pages/programOverview';
 
 export default function NewCustomRoutes() {
 
@@ -43,6 +44,7 @@ export default function NewCustomRoutes() {
           {/* Site-Admin Route End */}
           {StudentDashRoutes()}
           {TeacherDashRoutes()}
+          <Route path='/programoverview' element={<ProgramOverview />} />
           <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
           <Route path="/mod/video/report" element={<Report />} />
           <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />
