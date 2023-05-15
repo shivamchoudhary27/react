@@ -9,7 +9,7 @@ import logo from "../../assets/images/logo.png";
 import UserContext from "../../features/context/user/user";
 import { getPublicData } from "../../adapters";
 import config from "../../utils/config";
-import Loader from "../../widgets/loader/loader";
+import NewLoader from "../../widgets/loader";
 import "./login.scss";
 const LoginForm = () => {
   const location = useLocation().search;
@@ -144,7 +144,7 @@ const LoginForm = () => {
                     )}
 
                     <div className="login-loader">
-                      {showLoader === true && <Loader />}
+                      {showLoader === true && <NewLoader />}
                     </div>
                     <Form>
                         <div className="input-icons mb-4">
