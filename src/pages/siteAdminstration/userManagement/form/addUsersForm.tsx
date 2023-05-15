@@ -14,6 +14,7 @@ import CustomButton from "../../../../widgets/form_input_fields/buttons";
 import { CountryList } from "../countryDataList";
 import { postData, getData, putData } from "../../../../adapters/coreservices";
 import * as Yup from "yup";
+import PageTitle from "../../../../widgets/pageTitle";
 
 const initialValues = {
   username:"",
@@ -103,20 +104,11 @@ const AddUsersForm = () => {
               { name: "Add user", path: "" },       
             ]}
           />
-      <div className="contentarea-wrapper mt-5">          
-        <h3>Add user</h3>
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate("/usermanagement/")}
-            >
-              Go back
-            </Button>
-            <hr />
+        <div className="contentarea-wrapper mt-3">
+          <Container fluid>
+            <PageTitle 
+              pageTitle = "Add user" gobacklink = "/usermanagement/"
+            />
             <Formik
               enableReinitialize={true}
               initialValues={formValues}
@@ -126,7 +118,7 @@ const AddUsersForm = () => {
               }}
             >
               {({ errors, touched, isSubmitting, setValues, values }) => (
-                <Form>
+                <Form className="mt-3">
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="username"
@@ -269,7 +261,6 @@ const AddUsersForm = () => {
               )}
             </Formik>
           </Container>
-        </div>
       </div>
       <Footer />   
     </React.Fragment>

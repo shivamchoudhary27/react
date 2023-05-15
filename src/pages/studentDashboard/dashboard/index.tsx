@@ -22,7 +22,6 @@ const StudentDashboard = () => {
       <Container style={loaderStyle}>
         <NewLoader />
         <br />
-        Loading...
       </Container>
     );
   }

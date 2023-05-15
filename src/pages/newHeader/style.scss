@@ -1,5 +1,6 @@
 .site-header {
-    padding: 10px 15px; border-bottom: 1px solid #E7E7E7;
+    --bs-gutter-x: 1.5rem;
+    padding: 10px calc(var(--bs-gutter-x) * .5); border-bottom: 1px solid #E7E7E7;
     .site-logo {
         img {
             max-height: 68px;
