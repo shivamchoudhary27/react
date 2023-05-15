@@ -1,11 +1,11 @@
 import React from "react";
 import { Container } from "react-bootstrap";
+import Button from 'react-bootstrap/Button';
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/form_input_fields/labels";
 import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
 import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
 import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
-import CustomButton from "../../../widgets/form_input_fields/buttons";
 import { CountryList } from "../data";
 import { useNavigate, Link } from "react-router-dom";
 import { postData } from "../../../adapters/coreservices";
@@ -17,7 +17,6 @@ const initialValues = {
   firstName: "",
   email: "",
   password: "",
-  city: "",
   country: "",
 };
 
@@ -31,7 +30,6 @@ const SignupForm = () => {
     email: Yup.string().email().required(),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
-    city: Yup.string().min(1).trim().required(),
     country: Yup.string().required(),
   });
 
@@ -59,7 +57,6 @@ const SignupForm = () => {
 
   return (
     <React.Fragment>
-      <Container className="">
         <Formik
           enableReinitialize={true}
           initialValues={initialValues}
@@ -69,105 +66,88 @@ const SignupForm = () => {
           }}
         >
           {({ errors, touched, isSubmitting, setValues, values }) => (
-            <Form>
-              <div className="mb-2">
+            <Form className="row">
+              <div className="col-lg-6 mb-3 text-start">
                 <FieldLabel
                   htmlfor="username"
                   labelText="Username"
                   required="required"
-                  star="*"
-                  className="label-style"
+                  className="form-label"
                 />
                 <FieldTypeText name="username" placeholder="Username" />
                 <FieldErrorMessage
                   errors={errors.username}
                   touched={touched.username}
-                  msgText="Username required with minimum 4 - 20 characters"
+                  msgText="Required with minimum 4-20 characters."
                 />
               </div>
 
-              <div className="mb-2">
+              <div className="col-lg-6 mb-3 text-start">
                 <FieldLabel
                   htmlfor="password"
                   labelText="Password"
                   required="required"
-                  star="*"
-                  className="label-style"
+                  className="form-label"
                 />
                 <FieldTypeText type="password" name="password" placeholder="Password" />
                 <FieldErrorMessage
                   errors={errors.password}
                   touched={touched.password}
-                  msgText="Password required with 5 minimum characters"
+                  msgText="Required with minimum 5 characters."
                 />
               </div>
 
-              <div className="mb-2">
+              <div className="col-lg-6 mb-3 text-start">
                 <FieldLabel
                   htmlfor="firstName"
-                  labelText="firstName"
+                  labelText="First name"
                   required="required"
-                  className="label-style"
+                  className="form-label"
                 />
                 <FieldTypeText name="firstName" placeholder="First Name" />
                 <FieldErrorMessage
                   errors={errors.firstName}
                   touched={touched.firstName}
-                  msgText="firstName required"
+                  msgText="Required."
                 />
               </div>
 
-              <div className="mb-2">
+              <div className="col-lg-6 mb-3 text-start">
                 <FieldLabel
                   htmlfor="lastName"
-                  labelText="lastName"
+                  labelText="Last name"
                   required="required"
-                  className="label-style"
+                  className="form-label"
                 />
                 <FieldTypeText name="lastName" placeholder="Last Name" />
                 <FieldErrorMessage
                   errors={errors.lastName}
                   touched={touched.lastName}
-                  msgText="Last name required"
+                  msgText="Required."
                 />
               </div>
 
-              <div className="mb-2">
+              <div className="col-lg-6 mb-4 text-start">
                 <FieldLabel
                   htmlfor="email"
                   labelText="Email"
                   required="required"
-                  className="label-style"
+                  className="form-label"
                 />
                 <FieldTypeText name="email" placeholder="Email" />
                 <FieldErrorMessage
                   errors={errors.email}
                   touched={touched.email}
-                  msgText="Email required"
+                  msgText="Required."
                 />
               </div>
 
-              <div className="mb-2">
-                <FieldLabel
-                  htmlfor="city"
-                  labelText="City"
-                  required="required"
-                  className="label-style"
-                />
-                <FieldTypeText name="city" placeholder="City" />
-                <FieldErrorMessage
-                  errors={errors.city}
-                  touched={touched.city}
-                  msgText="City required"
-                />
-              </div>
-
-              <div className="mb-2">
+              <div className="col-lg-6 mb-4 text-start">
                 <FieldLabel
                   htmlfor="country"
                   labelText="Country"
                   required="required"
-                  className="label-style"
+                  className="form-label"
                 />
                 <FieldTypeSelect
                   name="country"
@@ -178,23 +158,21 @@ const SignupForm = () => {
                 <FieldErrorMessage
                   errors={errors.country}
                   touched={touched.country}
-                  msgText="Please select Country"
+                  msgText="Required please select country."
                 />
               </div>              
-              <div className="text-center">
-                <CustomButton
+              <div className="col-12 mb-4 d-grid">
+                <Button
                   type="submit"
-                  variant="warning"
-                  btnText="Sign up"
-                />{" "}
-              </div>
-              <div className="form-link mt-3">
-                Already a member? <Link to={"/"} className="redirect-link">Sign in</Link>
+                  variant="primary"
+                >
+                  Sign up
+                </Button>
+                {" "}
               </div>
             </Form>            
           )}
         </Formik>
-      </Container>
     </React.Fragment>
   );
 };
