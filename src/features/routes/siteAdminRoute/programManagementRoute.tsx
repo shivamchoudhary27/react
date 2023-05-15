@@ -6,8 +6,8 @@ import ProgramType from '../../../pages/siteAdminstration/programType'
 import Tags from '../../../pages/siteAdminstration/tags'
 import AddProgram from '../../../pages/siteAdminstration/addProgram'
 import ManageCategory from '../../../pages/siteAdminstration/manageCategory'
-import CourseManagment from '../../../pages/siteAdminstration/managecourse'
-import AddCourseForm from '../../../pages/siteAdminstration/managecourse/form'
+import CourseManagment from '../../../pages/siteAdminstration/manageCourse'
+import AddCourseForm from '../../../pages/siteAdminstration/manageCourse/form'
 import Preview from '../../../pages/siteAdminstration/manageProgram/preview'
 
 const ProgramManagementRoute = () => {

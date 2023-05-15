@@ -1,5 +1,5 @@
 import React from "react";
-import BlockLoader from "../../../widgets/loader/blockloader";
+import NewLoader from "../../../widgets/loader";
 function QuestionsPageNav(prop: any) {
   const props = prop;
   const changePage = (e: { target: { value: number; }; }) => {
@@ -8,7 +8,7 @@ function QuestionsPageNav(prop: any) {
   if (props.quizPages.totalPages === 0) {
     return (
       <div>
-        <BlockLoader />
+        <NewLoader />
       </div>
     );
   }

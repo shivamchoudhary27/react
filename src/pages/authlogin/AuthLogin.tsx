@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Loader from "../../widgets/loader/loader";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -7,6 +6,7 @@ import "sweetalert2/src/sweetalert2.scss";
 import UserContext from "../../features/context/user/user";
 import config from "../../utils/config";
 import { createAxiosInstance } from "../../adapters/microservices/utils";
+import NewLoader from "../../widgets/loader";
 
 const AuthLogin = () => {
   const error = null;
@@ -83,7 +83,7 @@ const AuthLogin = () => {
           {(error && <div>{error}</div>) ||
             (!isLoaded && (
               <div>
-                <Loader />
+                <NewLoader />
                 <p>Authentication in progress ...</p>
               </div>
             ))}

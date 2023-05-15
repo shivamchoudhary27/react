@@ -3,7 +3,7 @@ import { useParams, useNavigate, useLocation, NavigateFunction } from 'react-rou
 import { Row } from 'react-bootstrap';
 import { getData, processQuizData } from '../../../adapters';
 import './style.scss';
-import PageLoader from '../../../widgets/loader/pageloader';
+import NewLoader from '../../../widgets/loader';
 import Sidebar from '../../sidebar';
 import Header from '../../header';
 import ErrorBox from '../../../widgets/ErrorBox';
@@ -214,7 +214,7 @@ function Attempt() {
     [next, quizData]
   );
   if (showLoader === true) {
-    return <PageLoader />;
+    return <NewLoader />;
   }
   return (
     <>

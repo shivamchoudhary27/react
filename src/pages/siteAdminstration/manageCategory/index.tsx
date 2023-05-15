@@ -16,7 +16,7 @@ import {
 // import { pagination } from "../../../utils/pagination";
 import CategoryModal from "./categoryModal";
 import Alert from "react-bootstrap/Alert";
-import { alertMsgProps } from "../managecourse/type";
+import { alertMsgProps } from "../manageCourse/type";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const ManageCategory = () => {

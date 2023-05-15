@@ -5,7 +5,7 @@ import Header from '../header';
 // import Footer from '../footer';
 import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
 import useUserinfo from '../../features/hooks/userinfo';
-import Loader from '../../widgets/loader/pageloader';
+import NewLoader from '../../widgets/loader';
 import './style.scss';
 
 function Dashboard() {
@@ -15,7 +15,7 @@ function Dashboard() {
   const [toggleColor, setToggleColor] = useState<CourseTabToggle>({ inprogColor: '#f57f17', compltColor: '', notcompleteColor: '' });
 
   if (res === 'loading') {
-    return <Loader />;
+    return <NewLoader />;
   }
 
   const handleInprogressData = () => {

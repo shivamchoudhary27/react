@@ -5,7 +5,7 @@ import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
 import DashboardStudent from "./dashboard";
 import useUserinfo from "../../../features/hooks/userinfo";
-import Loader from "../../../widgets/loader/loader";
+import NewLoader from "../../../widgets/loader";
 
 const StudentDashboard = () => {
   const res = useUserinfo();
@@ -20,7 +20,7 @@ const StudentDashboard = () => {
   if (res === 'loading') {
     return (
       <Container style={loaderStyle}>
-        <Loader />
+        <NewLoader />
         <br />
         Loading...
       </Container>

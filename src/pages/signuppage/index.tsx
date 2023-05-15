@@ -6,7 +6,7 @@ import signUpSchema from "./signupValidation";
 import "../loginpage/login.scss";
 import { signupData } from "../../adapters";
 import SuccessModal from "../../widgets/errorhandling/successModal";
-import Loader from "../../widgets/loader/loader";
+import NewLoader from "../../widgets/loader";
 import logo from "../../assets/images/logo.png";
 const Signup = () => {
   const navigate = useNavigate();
@@ -71,7 +71,7 @@ const Signup = () => {
         <h3 className="welcome-heading">Signup</h3>
         <div className="bar" />
         <p className="login-info mb-4">Please create your account.</p>
-        <div className="login-loader">{showLoader === true && <Loader />}</div>
+        <div className="login-loader">{showLoader === true && <NewLoader />}</div>
         <form onSubmit={handleSubmit}>
           <div className="input-icons mb-3">
             <i className="fa fa-circle-user icon" />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { signupData } from "../../adapters";
-import Loader from "../../widgets/loader/loader";
+import NewLoader from "../../widgets/loader";
 import SuccessModal from "../../widgets/errorhandling/successModal";
 import "../loginpage/login.scss";
 import * as Yup from "yup";
@@ -65,7 +65,7 @@ const ForgotPassword = () => {
       <div className="bar" />
       <p className="login-info mb-4">Please enter your email id.</p>
 
-      <div className="login-loader">{showLoader === true && <Loader />}</div>
+      <div className="login-loader">{showLoader === true && <NewLoader />}</div>
       {response.status === true && response.success === false && <p className="login-info errorAlert">{response.msg}</p>}
 
       <form onSubmit={values.handleSubmit}>
