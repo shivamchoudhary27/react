@@ -34,10 +34,10 @@ function NotificationOverlay(props: { userid: number; }) {
   }, []);
   return (
     <OverlayTrigger
-      trigger="click"
+      trigger={['click']}
       placement="bottom"
       overlay={
-        <Popover id="popover-alert">
+        <Popover id="popover-basic">
           <Popover.Header as="h3">Notifications</Popover.Header>
           <Popover.Body>
           {message.totalcount > 0 ? (
@@ -51,10 +51,10 @@ function NotificationOverlay(props: { userid: number; }) {
         </Popover>
       }
     >
-      <>
+      <div>
         <img src={alertIcon} alt="Alert" />
         {message.totalcount > 0 && <span>{message.totalcount}</span>}
-      </>
+      </div>
     </OverlayTrigger>
   );
 }

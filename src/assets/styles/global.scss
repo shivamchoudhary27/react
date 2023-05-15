@@ -5,10 +5,40 @@ body {
     font-size: 16px;
     font-weight: 400;
 }
-a {
-    color: #000;
+a, a:visited {
+    color: #0191AC;
     text-decoration: none;
     &:hover {
-        color: #27D8F6;
+        color: #000;
     }
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #929DA7;
+    opacity: 1; /* Firefox */
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #929DA7;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #929DA7;
+}
+.form-control {
+    padding: 0.5rem 0.75rem;
+}
+.btn-primary, .btn-primary:active, .btn-primary:visited {
+    background: linear-gradient(180deg, #28C8E5 0%, #2C2C33 100%); border-color: #28C8E5;
+}
+.btn-primary:hover, .btn-primary:focus {
+    border-color: #28C8E5; background: linear-gradient(180deg, #28C8E5 0%, #58E5FF 0.01%, #515158 100%);
+}
+.btn-secondary, .btn-secondary:active, .btn-secondary:visited {
+    background: #fff; border-color: #000; color: #000;
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    border-color: #000;
+}
+.error-message {
+    color: #ff0000;
+    font-size: 11px;
+    margin-bottom: 0.25rem;
 }
