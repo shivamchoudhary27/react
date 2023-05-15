@@ -37,8 +37,17 @@ a, a:visited {
 .btn-secondary:hover, .btn-secondary:focus {
     border-color: #000;
 }
+.btn-outline-primary {
+    border-color: #28C8E5; color: #28C8E5;
+}
+.btn-outline-primary:hover {
+    background-color: #28C8E5; color: #fff;
+}
 .error-message {
     color: #ff0000;
     font-size: 11px;
     margin-bottom: 0.25rem;
+}
+.page-title {
+    border-bottom: 1px solid #ddd;
 }

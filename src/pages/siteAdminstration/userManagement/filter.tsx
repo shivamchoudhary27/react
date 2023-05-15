@@ -37,12 +37,14 @@ const Filter = ({updatefilters, toggleUploadModal} : any) => {
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper">
-        <div className="filter-form">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <div className="row mb-3">
-            <div className="col-md-4">
-              <label htmlFor="name">Name</label>
+        <div className="action-btn mt-3">
+          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
+          <Button variant="primary" onClick={()=>navigate("/addusersform/0")}>Add Users</Button>{" "}
+        </div>
+        <form className="filter-form mt-3" onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+          <div className="row">
+            <div className="col-auto">
+              <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
                 id="name"
@@ -53,8 +55,8 @@ const Filter = ({updatefilters, toggleUploadModal} : any) => {
                 value={formik.values.name}
               />
             </div>
-            <div className="col-md-4">
-              <label htmlFor="email">Email</label>
+            <div className="col-auto">
+              <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
                 id="email"
@@ -65,8 +67,8 @@ const Filter = ({updatefilters, toggleUploadModal} : any) => {
                 value={formik.values.email}
               />
             </div>
-            <div className="col-md-4">
-              <label htmlFor="city">City</label>
+            <div className="col-auto">
+              <label htmlFor="city" hidden>City</label>
               <input
                 className="form-control"
                 id="city"
@@ -77,22 +79,12 @@ const Filter = ({updatefilters, toggleUploadModal} : any) => {
                 value={formik.values.city}
               />
             </div>
-          </div>
-          <Button variant="outline-secondary" type="submit">Filter</Button>
-          <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+            <div className="col-auto">
+            <Button variant="primary" type="submit" className="me-2">Filter</Button>
+            <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+            </div>
+          </div>          
         </form>
-        </div>
-        <div className="mt-2">
-          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-          <Button variant="primary" onClick={()=>navigate("/addusersform/0")}>Add Users</Button>{" "}
-          <Button
-            variant="outline-secondary"
-            onClick={() => navigate("/siteadmin")}
-          >
-            Go back 
-          </Button>
-        </div>
-      </div>
     </React.Fragment>
   );
 };

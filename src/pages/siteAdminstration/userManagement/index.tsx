@@ -11,6 +11,7 @@ import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -108,13 +109,15 @@ const UserManagement = () => {
               { name: "User Management", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
+      <div className="contentarea-wrapper mt-3">
         <Container fluid>
+          <PageTitle 
+            pageTitle = "User Management" gobacklink = "/siteadmin"
+          />
           <Filter
             updatefilters={updateSearchFilters}
             toggleUploadModal={toggleUploadModal}
           />
-          <hr />
           <UserManagementTable
             userdata={userData.items}
             refreshdata={refreshOnDeleteToggle}
