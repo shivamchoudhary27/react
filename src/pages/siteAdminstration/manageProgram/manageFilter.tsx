@@ -29,8 +29,13 @@ const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
 
   return (
     <>
-      <div className="filter-wrapper">
-        <div className="filter-form">
+      <div className="filter-wrapper mt-2">
+      <div>
+          <Button variant="primary" onClick={handleAddProgram}>
+            Add Program
+          </Button>
+        </div>
+        <div className="filter-form mt-2">
           <form onSubmit={handleSearch}>
             <div className="row g-3 align-items-center">
               <div className="col-auto">
@@ -71,13 +76,6 @@ const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
               </div>
             </div>
           </form>
-        </div>
-        <div className="mt-2">
-          <Button variant="primary" onClick={handleAddProgram}>
-            Add Program
-          </Button>
-          {" "}
-          <Button variant="outline-secondary" onClick={() => navigate("/siteadmin")}>Go back</Button>
         </div>
       </div>
     </>

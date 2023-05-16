@@ -13,6 +13,7 @@ import BuildPagination from "../../../../widgets/pagination";
 import ManageFilter from "./filters";
 import EnglishLetterFilter from "../../../../widgets/filters/alphabets";
 import UploadCourseUsersEnrollment from "./uploadUsers";
+import PageTitle from "../../../../widgets/pageTitle";
 import "./style.scss";
 
 const CourseEnrollment = () => {
@@ -190,7 +191,6 @@ const CourseEnrollment = () => {
  
   const DISCIPLINE_BUTTONS = (
     <div className="filter-wrapper">
-      <ManageFilter updateinputfilters={updateSearchFilters} />
       <div className="mt-2">
         <Button variant="primary" onClick={() => navigate(`/managegroups/${programid}/${courseid}/${coursename}`)}>
           Manage Groups
@@ -199,20 +199,15 @@ const CourseEnrollment = () => {
           Enrol User
         </Button>{" "}
         <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-        <Button
-          variant="outline-secondary"
-          onClick={() => navigate(`/enrolusers/${programid}/${programName}`)}
-        >
-          Go back
-        </Button>
       </div>
-      <div className="mt-2">
+      <div className="my-3">
         FirstName
         <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
         <br />
         LastName
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
+      <ManageFilter updateinputfilters={updateSearchFilters} />
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -224,15 +219,17 @@ const CourseEnrollment = () => {
       <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
-              { name: "Programs", path: "/programenrollment" },
-              { name: "Manage Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
+              { name: "Program Enrollment", path: "/programenrollment" },
+              { name: "Manage Program Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
               { name: programName, path: `/enrolusers/${programid}/${programName}` },
               { name: coursename, path: "" },       
             ]}
           />
-      <div className="contentarea-wrapper mt-5">          
-          <h3>{coursename}</h3>
+      <div className="contentarea-wrapper mt-3">
           <Container fluid>
+          <PageTitle 
+            pageTitle = {coursename} gobacklink = {`/enrolusers/${programid}/${programName}`}
+          />
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <BuildPagination

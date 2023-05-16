@@ -10,6 +10,7 @@ import AddProgramForm from "./form";
 import { useNavigate, useParams } from "react-router-dom";
 import { initialValues, generateIinitialValues } from "./utils";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 
 const AddProgram = () => {
@@ -47,43 +48,28 @@ const AddProgram = () => {
       <Header />
       <HeaderTabs />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Manage Program", path: "/manageprogram" },
-              { name: "Add Program", path: "" },
-            ]}
-          />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
-            <div className="contents">
-              <ProgramFormHeader navigate={navigate} /> <hr />
-              <div className="form-container-wrapper">
-                {currentProgram.status === true && (
-                  <AddProgramForm
-                    initialformvalues={currentProgram.data}
-                    programid={currentProgram.id}
-                  />
-                )}
-              </div>
-            </div>
-          </Container>
-        </div>
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Manage Program", path: "/manageprogram" },
+          { name: "Add Program", path: "" },
+        ]}
+      />
+      <div className="contentarea-wrapper mt-3">
+        <Container fluid>
+          <PageTitle pageTitle="Add Program" gobacklink="/manageprogram" />
+          <div className="form-container-wrapper">
+            {currentProgram.status === true && (
+              <AddProgramForm
+                initialformvalues={currentProgram.data}
+                programid={currentProgram.id}
+              />
+            )}
+          </div>
+        </Container>
+      </div>
       <Footer />
     </>
   );
 };
 
 export default AddProgram;
-
-const ProgramFormHeader = ({ navigate }: any) => {
-  return (
-    <>
-      <Button
-        variant="outline-secondary"
-        onClick={() => navigate("/manageprogram")}
-      >
-        Go back
-      </Button>
-    </>
-  );
-};

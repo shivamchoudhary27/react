@@ -58,12 +58,6 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
                   onClick={() => handleReset()}
                 >
                   Reset
-                </Button>{" "}
-                <Button
-                  variant="outline-secondary"
-                  onClick={() => navigate("/siteadmin")}
-                >
-                  Go back
                 </Button>
               </div>
             </div>

@@ -9,7 +9,7 @@ const Filter = ({
   departmentData,
   setDepartmentData,
   refreshDepartmentData,
-  updateInputFilters
+  updateInputFilters,
 }: any) => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
@@ -20,12 +20,12 @@ const Filter = ({
 
   const getInputValues = () => {
     updateInputFilters(searchValue);
-  }
+  };
 
   const resetHandler = () => {
     updateInputFilters("");
     setSearchValue("");
-  }
+  };
 
   // handle to open Add Department modal === >>>
   const openAddDepartment = () => {
@@ -36,7 +36,12 @@ const Filter = ({
   return (
     <>
       <div className="filter-wrapper">
-        <div className="filter-form">
+        <div>
+          <Button variant="primary" onClick={openAddDepartment}>
+            Add Department
+          </Button>
+        </div>
+        <div className="filter-form mt-2">
           <form onSubmit={handleSearch}>
             <div className="row g-3 align-items-center">
               <div className="col-auto">
@@ -49,7 +54,10 @@ const Filter = ({
                 />
               </div>
               <div className="col-auto">
-                <Button variant="outline-secondary" onClick={()=>getInputValues()}>
+                <Button
+                  variant="outline-secondary"
+                  onClick={() => getInputValues()}
+                >
                   Filter
                 </Button>{" "}
                 <Button
@@ -61,17 +69,6 @@ const Filter = ({
               </div>
             </div>
           </form>
-        </div>
-        <div className="mt-2">
-          <Button variant="primary" onClick={openAddDepartment}>
-            Add Department
-          </Button>{" "}
-          <Button
-            variant="outline-secondary"
-            onClick={() => navigate("/manageprogram")}
-          >
-            Go back
-          </Button>
         </div>
       </div>
     </>

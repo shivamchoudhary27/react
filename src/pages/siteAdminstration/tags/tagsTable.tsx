@@ -101,7 +101,7 @@ const TagsTable = ({
 
   return (
     <>
-      <div className="table-wrapper mt-5">
+      <div className="table-wrapper mt-3">
         <Table bordered hover {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (

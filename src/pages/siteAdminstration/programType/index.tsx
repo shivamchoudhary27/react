@@ -11,6 +11,7 @@ import HeaderTabs from "../../headerTabs";
 import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const ProgramType = () => {
   const navigate = useNavigate();
@@ -110,7 +111,12 @@ const ProgramType = () => {
 
   const PROGRAM_TYPE_BUTTON = (
     <div className="filter-wrapper">
-      <div className="filter-form">
+      <div>
+        <Button variant="primary" onClick={openAddProgramType}>
+          Add Program Type
+        </Button>
+      </div>
+      <div className="filter-form mt-2">
         <form>
           <div className="row g-3 align-items-center">
             <div className="col-auto">
@@ -134,17 +140,6 @@ const ProgramType = () => {
           </div>
         </form>
       </div>
-      <div className="mt-2">
-        <Button variant="primary" onClick={openAddProgramType}>
-          Add Program Type
-        </Button>{" "}
-        <Button
-          variant="outline-secondary"
-          onClick={() => navigate("/manageprogram")}
-        >
-          Go back
-        </Button>
-      </div>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -160,8 +155,11 @@ const ProgramType = () => {
               { name: "Program Type", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>
+          <PageTitle 
+            pageTitle = "Program Type" gobacklink = "/manageprogram"
+          />        
             {PROGRAM_TYPE_BUTTON}
             {ADDPROGRAM_MODAL_COMPONENT}
             {PROGRAM_TYPE_COMPONENT}

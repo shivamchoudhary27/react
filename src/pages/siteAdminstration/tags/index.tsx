@@ -11,6 +11,7 @@ import TagsTable from "./tagsTable";
 import BuildPagination from "../../../widgets/pagination";
 import { getData as getTagsData } from "../../../adapters/microservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const Tags = () => {
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
@@ -86,8 +87,11 @@ const Tags = () => {
               { name: "Tags", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>     
+          <PageTitle 
+            pageTitle = "Tags" gobacklink = "/manageprogram"
+          />       
             <AddTags
               toggleModalShow={toggleModalShow}
               setTagObj={setTagObj}
@@ -100,7 +104,6 @@ const Tags = () => {
               updateAddRefresh={refreshToggle}
               tagObj={tagObj}
             />
-            <hr />
             <TagsTable
               allTags={allTags.items}
               toggleModalShow={toggleModalShow}

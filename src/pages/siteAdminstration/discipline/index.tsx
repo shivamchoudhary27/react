@@ -11,6 +11,7 @@ import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 
 const Discipline = () => {
@@ -93,7 +94,12 @@ const Discipline = () => {
 
   const DISCIPLINE_BUTTONS = (
     <div className="filter-wrapper">
-      <div className="filter-form">
+      <div>
+        <Button variant="primary" onClick={openAddDiscipline}>
+          Add Discipline
+        </Button>
+      </div>
+      <div className="filter-form mt-2">
         <form>
           <div className="row g-3 align-items-center">
             <div className="col-auto">
@@ -117,17 +123,6 @@ const Discipline = () => {
           </div>
         </form>
       </div>
-      <div className="mt-2">
-        <Button variant="primary" onClick={openAddDiscipline}>
-          Add Discipline
-        </Button>{" "}
-        <Button
-          variant="outline-secondary"
-          onClick={() => navigate("/manageprogram")}
-        >
-          Go back
-        </Button>
-      </div>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -143,8 +138,11 @@ const Discipline = () => {
               { name: "Discipline", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>
+          <PageTitle 
+            pageTitle = "Discipline" gobacklink = "/manageprogram"
+          />       
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
             <BuildPagination

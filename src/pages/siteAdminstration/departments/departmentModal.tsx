@@ -5,11 +5,11 @@ import {
 } from "../../../adapters/microservices";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import FieldLabel from "../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
-import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
-import Custom_Button from "../../../widgets/form_input_fields/buttons";
-import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
+import FieldLabel from "../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import Custom_Button from "../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({

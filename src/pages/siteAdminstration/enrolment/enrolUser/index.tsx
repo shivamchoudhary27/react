@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../../adapters/microservices/index";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from './local';
+import PageTitle from "../../../../widgets/pageTitle";
 
 const EnrolUsers = () => {
   const navigate = useNavigate();
@@ -127,21 +128,16 @@ const EnrolUsers = () => {
       <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
-              { name: "Programs", path: "/programenrollment" },
+              { name: "Programs Enrollment", path: "/programenrollment" },
               { name: name, path: `/manageprogramenrollment/${id}/${name}` },
-              { name: "Courses", path: "" },       
+              { name: "Course", path: "" },       
             ]}
           />
-      <div className="contentarea-wrapper mt-5">          
+      <div className="contentarea-wrapper mt-3">          
           <Container fluid>
-            <h3>Courses: {name}</h3>
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate(`/manageprogramenrollment/${id}/${name}`)}
-            >
-              Go back
-            </Button>
-            <hr />
+          <PageTitle 
+            pageTitle = {`Course: ${name}`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}
+          />
             {sortedCategories.length !== 0 && (
               <EnrolUserTable
                 categoryData={sortedCategories}

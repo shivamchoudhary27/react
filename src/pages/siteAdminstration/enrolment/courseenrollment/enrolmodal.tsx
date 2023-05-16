@@ -5,11 +5,11 @@ import { postData, putData } from "../../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 import { pagination } from "../../../../utils/pagination";
 import * as Yup from "yup";
-import FieldLabel from "../../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../../widgets/form_input_fields/form_text_field";
-import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
-import Custom_Button from "../../../../widgets/form_input_fields/buttons";
-import FieldErrorMessage from "../../../../widgets/form_input_fields/error_message";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
+import Custom_Button from "../../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({

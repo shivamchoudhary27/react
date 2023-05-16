@@ -41,12 +41,17 @@ const UserFilter = ({ updateinputfilters, programname, toggleModalShow } : any) 
   return (
     <React.Fragment>
       <div className="filter-wrapper">
-        <div className="filter-form">
+        <div className="site-button-group ">
+          <Button variant="primary" onClick={toggleModalShow}>Upload Users</Button>{" "}
+          <Button variant="primary" onClick={() => navigate(addUserLink)}>Add Users</Button>
+          <Button variant="primary" style={{float:"right"}} onClick={toEnrolProgramCourses}>Enroll Users To Courses</Button>{" "}
+        </div>
+        <div className="filter-form mt-2">
           <div className="row g-3 align-items-center">
             <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
               <div className="row mb-3">
                 <div className="col-md-4">
-                  <label htmlFor="name">Name</label>
+                  {/* <label htmlFor="name">Name</label> */}
                   <input
                     className="form-control"
                     id="name"
@@ -58,7 +63,7 @@ const UserFilter = ({ updateinputfilters, programname, toggleModalShow } : any) 
                   />
                 </div>
                 <div className="col-md-4">
-                  <label htmlFor="email">Email</label>
+                  {/* <label htmlFor="email">Email</label> */}
                   <input
                     className="form-control"
                     id="email"
@@ -70,7 +75,7 @@ const UserFilter = ({ updateinputfilters, programname, toggleModalShow } : any) 
                   />
                 </div>
                 <div className="col-md-4">
-                  <label htmlFor="roleNumber">Role number</label>
+                  {/* <label htmlFor="roleNumber">Role number</label> */}
                   <input
                     className="form-control"
                     id="roleNumber"
@@ -85,14 +90,6 @@ const UserFilter = ({ updateinputfilters, programname, toggleModalShow } : any) 
               <Button variant="outline-secondary" type="submit">Filter</Button>{" "}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </form>
-          </div>
-        </div>
-        <div className="mt-2">
-          <div className="site-button-group">
-            <Button variant="primary" onClick={toggleModalShow}>Upload Users</Button>{" "}
-            <Button variant="primary" onClick={() => navigate(addUserLink)}>Add Users</Button>{" "}
-            <Button variant="outline-secondary" onClick={() => navigate("/programenrollment")}>Go back</Button>
-            <Button variant="primary" style={{float:"right"}} onClick={toEnrolProgramCourses}>Enroll Users To Courses</Button>{" "}
           </div>
         </div>
       </div> 

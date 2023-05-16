@@ -11,6 +11,7 @@ import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 
 const Departments = () => {
@@ -112,8 +113,11 @@ const Departments = () => {
               { name: "Department", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>  
+          <PageTitle 
+            pageTitle = "Department" gobacklink = "/manageprogram"
+          />    
             {DEPARTMENT_FILTER_COMPONENT}
             {DEPARTMENT_TABLE_COMPONENT}
             <BuildPagination

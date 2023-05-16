@@ -3,9 +3,9 @@ import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-import CustomButton from "../../../../widgets/form_input_fields/buttons";
-import FieldLabel from "../../../../widgets/form_input_fields/labels";
-import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 
 // initialValues === >>>
 const initialValues = {};

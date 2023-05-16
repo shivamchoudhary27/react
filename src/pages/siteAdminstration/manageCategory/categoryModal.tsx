@@ -1,17 +1,17 @@
 import * as Yup from "yup";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import FieldLabel from "../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
-import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
-import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
-import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import FieldLabel from "../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import Custom_Button from "../../../widgets/formInputFields/buttons";
 import {
   postData as addCategoriesData,
   putData,
 } from "../../../adapters/microservices";
 import { useParams } from "react-router-dom";
-import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
+import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({

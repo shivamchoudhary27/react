@@ -11,6 +11,7 @@ import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const ManageProgramEnrollment = () => {
   const { programid, programname } = useParams();
@@ -74,13 +75,15 @@ const ManageProgramEnrollment = () => {
       <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
-              { name: "Programs", path: "/programenrollment" },
+              { name: "Program Enrollment", path: "/programenrollment" },
               { name: programname, path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
-          <h3>Enrolment : {programname}</h3>
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>
+          <PageTitle 
+            pageTitle = {`Program: ${programname}`} gobacklink = "/programenrollment"
+          />
             <UserFilter 
               updateinputfilters={updateSearchFilters} 
               programname={programname} 

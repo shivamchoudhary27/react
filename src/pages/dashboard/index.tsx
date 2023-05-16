@@ -3,7 +3,7 @@ import { CourseTabToggle } from "../../type/dashboard";
 import Sidebar from '../sidebar';
 import Header from '../header';
 // import Footer from '../footer';
-import DashMyCourse from '../../widgets/dashboard_Comp/dash_mycourse_comp';
+import DashMyCourse from '../../widgets/dashboardComp/dashMycourseComp';
 import useUserinfo from '../../features/hooks/userinfo';
 import NewLoader from '../../widgets/loader';
 import './style.scss';

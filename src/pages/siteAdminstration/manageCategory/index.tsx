@@ -18,6 +18,7 @@ import CategoryModal from "./categoryModal";
 import Alert from "react-bootstrap/Alert";
 import { alertMsgProps } from "../manageCourse/type";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const ManageCategory = () => {
   const navigate = useNavigate();
@@ -159,15 +160,11 @@ const ManageCategory = () => {
               { name: "Manage Category", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate("/manageprogram")}
-            >
-              Go back
-            </Button>
-            <hr />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>   
+          <PageTitle 
+            pageTitle = "Manage categories" gobacklink = "/manageprogram"
+          />
             {sortedCategories.length !== 0 && (
               <CategoryTable
                 categoryData={sortedCategories}

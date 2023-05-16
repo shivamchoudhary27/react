@@ -101,7 +101,7 @@ const ManageGroupTable = ({
 
   return (
     <React.Fragment>
-      <div className="table-wrapper mt-5">
+      <div className="table-wrapper mt-3">
         <Table bordered hover {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
