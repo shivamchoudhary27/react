@@ -6,7 +6,7 @@ import ReactBigCalendar from '../../../pages/calender'
 const CalenderManagementRoute = () => {
   return [
     <Route path="/calenderconfig" key="calenderconfig" element={<CalenderConfig />} />,
-    <Route path="/calender" element={<ReactBigCalendar />} />,
+    <Route path="/calender" key="calender" element={<ReactBigCalendar />} />,
   ]
 }
 

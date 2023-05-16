@@ -16,12 +16,12 @@ const ProgramManagementRoute = () => {
     <Route path="/department" key="department" element={<Departments />} />,
     <Route path="/discipline" key="discipline" element={<Discipline />} />,
     <Route path="/programtype" key="programtype" element={<ProgramType />} />,
-    <Route path="/tags" element={<Tags />} />,
+    <Route path="/tags" key="tags" element={<Tags />} />,
     <Route path="/addprogram/:id" key="addprogram" element={<AddProgram />} />,
     <Route path="/managecategory/:id/:name" key="managecategory" element={<ManageCategory />} />,
     <Route path="/managecourses/:id/:name" key="managecourses" element={<CourseManagment />} />,
-    <Route path="/courseform/:progid/:catid/:courseid" element={<AddCourseForm />} />,
-    <Route path="/programpreview/:id" element={<Preview />} />,
+    <Route path="/courseform/:progid/:catid/:courseid" key="courseform" element={<AddCourseForm />} />,
+    <Route path="/programpreview/:id" key="programpreview" element={<Preview />} />,
   ];
 };
 

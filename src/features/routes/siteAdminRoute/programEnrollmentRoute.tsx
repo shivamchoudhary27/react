@@ -15,14 +15,12 @@ const ProgramEnrollmentRoute = () => {
     <Route path="/siteadmin" key="siteadmin" element={<SiteAdminHome />} />,
     <Route path="/preview" key="preview" element={<Preview />} />,
     <Route path="/manageusers" key="manageusers" element={<ManageUsers />} />,
-
     <Route path="/programenrollment" key="programenrollment" element={<ProgramEnrollment />} />,
-    <Route path="/manageprogramenrollment/:programid/:programname" element={<ManageProgramEnrollment />} />,
-    <Route path="/enrolusertoprogram/:programid/:userid/:name" element={<EnrolUserToProgram />} />,
-    <Route path="/enrolusers/:id/:name" element={<EnrolUsers />} />,
-    <Route path="/courseenrollment/:programid/:courseid/:coursename" element={<CourseEnrollment />}/>,
-    <Route path="/managegroups/:programid/:courseid/:coursename" element={<ManageGroups />} />,
-
+    <Route path="/manageprogramenrollment/:programid/:programname" key="manageprogramenrollment" element={<ManageProgramEnrollment />} />,
+    <Route path="/enrolusertoprogram/:programid/:userid/:name" key="enrolusertoprogram" element={<EnrolUserToProgram />} />,
+    <Route path="/enrolusers/:id/:name" key="enrolusers" element={<EnrolUsers />} />,
+    <Route path="/courseenrollment/:programid/:courseid/:coursename" key="courseenrollment" element={<CourseEnrollment />}/>,
+    <Route path="/managegroups/:programid/:courseid/:coursename" key="managegroups" element={<ManageGroups />} />,
   ]
 }
 
