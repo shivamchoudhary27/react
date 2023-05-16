@@ -36,12 +36,10 @@ export default function NewCustomRoutes() {
         <Route path="/signupnew" element={<SignUpNew />} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* Site-Admin Route */}
           {UserManagementRoute()}
           {ProgramManagementRoute()}
           {ProgramEnrollmentRoute()}
           {CalenderManagementRoute()}
-          {/* Site-Admin Route End */}
           {StudentDashRoutes()}
           {TeacherDashRoutes()}
           <Route path='/programoverview' element={<ProgramOverview />} />

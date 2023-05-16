@@ -5,8 +5,8 @@ import AddUsersForm from '../../../pages/siteAdminstration/userManagement/form/a
 
 const UserManagementRoute = () => {
   return [
-    <Route path='/usermanagement' element={<UserManagement />} />,
-    <Route path='/addusersform/:userid' element={<AddUsersForm />} />,
+    <Route key="usermanagement" path='/usermanagement' element={<UserManagement />} />,
+    <Route key="addusersform" path='/addusersform/:userid' element={<AddUsersForm />} />,
   ]
 }
 
