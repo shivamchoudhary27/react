@@ -4,7 +4,7 @@ import Sidebar from "../sidebar";
 import "./style.scss";
 import Coursecataloguecard from "./coursecataloguecard";
 import { getData } from "../../adapters";
-import Pagination from "./Pagination";
+// import Pagination from "./Pagination";
 import SkeletonMimic from "./Skeleton";
 import TrendingCourses from "./trendingCourses";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,8 @@ import {
   CounterValueType,
   CataloguePaginationType,
 } from "../../type/index";
+import BuildPagination from "../../widgets/pagination";
+import { pagination } from "../../utils/pagination";
 
 const Catalogue: React.FunctionComponent = () => {
   const showPerPage = 2;
@@ -43,6 +45,10 @@ const Catalogue: React.FunctionComponent = () => {
   const [courseIdStore, setCourseIdStore] = useState<any>(
     storedCart !== null ? storedCart : []
   );
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: 2,
+  });
   // const [categoriesListing, setCategoriesListing] = useState(5);
   // const [showToggle, setShowToggle] = useState(true);
 
@@ -160,6 +166,10 @@ const Catalogue: React.FunctionComponent = () => {
     navigate("/cart");
   };
 
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
   return (
     <>
       <Header pageHeading="Catalogue" welcomeIcon={false} />
@@ -226,7 +236,7 @@ const Catalogue: React.FunctionComponent = () => {
                     ) : (
                       filterdCourses !== undefined &&
                       filterdCourses
-                        .slice(pagination.start, pagination.end)
+                        .slice(filterUpdate.pageNumber, filterUpdate.pageSize)
                         .map((item) => {
                           return (
                             <div key={item.id}>
@@ -242,7 +252,12 @@ const Catalogue: React.FunctionComponent = () => {
                           );
                         })
                     )}
-                    {loadSkeleton === true ? null : (
+                    <BuildPagination
+                      totalpages="5"
+                      activepage="1"
+                      getrequestedpage={newPageRequest}
+                    />
+                    {/* {loadSkeleton === true ? null : (
                       <Pagination
                         showPerPage={showPerPage}
                         onPaginationChange={onPaginationChange}
@@ -252,7 +267,7 @@ const Catalogue: React.FunctionComponent = () => {
                             : 0
                         }
                       />
-                    )}
+                    )} */}
                   </div>
                 )}
               </div>
