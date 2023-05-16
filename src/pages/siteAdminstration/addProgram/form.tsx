@@ -15,17 +15,17 @@ import {
   addExtraMetaDataToInitialValues,
   addMetaFields,
 } from "./utils";
-import FieldLabel from "../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
-import CustomButton from "../../../widgets/form_input_fields/buttons";
-import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_field";
+import FieldLabel from "../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 // import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
-import FieldTypeSelect from "../../../widgets/form_input_fields/form_select_field";
-import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
+import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 // import MultiSelectDropdown from "../../../widgets/form_input_fields/form_multi_select";
-import FieldMultiSelect from "../../../widgets/form_input_fields/multi_select";
+import FieldMultiSelect from "../../../widgets/formInputFields/multiSelect";
 
 const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const navigate = useNavigate();

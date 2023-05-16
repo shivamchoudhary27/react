@@ -13,7 +13,12 @@ const AddTags = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
   return (
     <React.Fragment>
       <div className="filter-wrapper">
-        <div className="filter-form">
+      <div>
+          <Button variant="primary" onClick={addTagsHandler}>
+            Add Tags
+          </Button>
+        </div>
+        <div className="filter-form mt-2">
           <form>
             <div className="row g-3 align-items-center">
               <div className="col-auto">
@@ -36,17 +41,6 @@ const AddTags = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
               </div>
             </div>
           </form>
-        </div>
-        <div className="mt-2">
-          <Button variant="primary" onClick={addTagsHandler}>
-            Add Tags
-          </Button>{" "}
-          <Button
-            variant="outline-secondary"
-            onClick={() => navigate("/manageprogram")}
-          >
-            Go back
-          </Button>
         </div>
       </div>
     </React.Fragment>

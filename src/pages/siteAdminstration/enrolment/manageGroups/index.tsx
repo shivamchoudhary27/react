@@ -10,6 +10,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getData } from "../../../../adapters/microservices/index";
 import BuildPagination from "../../../../widgets/pagination";
 import { pagination } from "../../../../utils/pagination";
+import PageTitle from "../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 
 const ManageGroups = () => {
   const navigate = useNavigate()
@@ -97,8 +99,11 @@ const ManageGroups = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-5">
+      <div className="contentarea-wrapper mt-3">
           <Container fluid>
+          <PageTitle 
+            pageTitle = "Manage Group" gobacklink = {`/courseenrollment/${programid}/${courseid}/${coursename}`}
+          />
             <Add_Groups_Btn />
             <GroupModal
               show={modalShow}
@@ -108,7 +113,6 @@ const ManageGroups = () => {
               groupObj={groupObj}
               refreshGroupData={refreshToggle}
             />
-            <hr />
             <ManageGroupTable
               manageGroupList={manageGroupList.items}
               courseid={courseid}

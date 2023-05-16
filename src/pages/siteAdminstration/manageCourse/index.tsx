@@ -9,6 +9,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from './local';
+import PageTitle from "../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const CourseManagment = () => {
   const navigate = useNavigate();
@@ -123,15 +125,18 @@ const CourseManagment = () => {
     <>
       <Header />
       <HeaderTabs />
-      <div className="contentarea-wrapper mt-5">
+      <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "Manage Program", path: "/manageprogram" },
+              { name: "Manage Courses", path: "" },
+            ]}
+          />
+      <div className="contentarea-wrapper mt-3">
           <Container fluid>
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate("/manageprogram")}
-            >
-              Go back
-            </Button>
-            <hr />
+          <PageTitle 
+            pageTitle = "Manage Courses" gobacklink = "/manageprogram"
+          />
             {sortedCategories.length !== 0 && (
               <CourseTable
                 categoryData={sortedCategories}

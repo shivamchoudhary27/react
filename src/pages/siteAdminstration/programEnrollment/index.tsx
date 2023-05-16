@@ -10,6 +10,7 @@ import HeaderTabs from "../../headerTabs";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -53,11 +54,12 @@ const ProgramEnrollment = () => {
               { name: "Program Enrollment", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
-          <Container fluid>          
-          <h3>Programs</h3>
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>
+          <PageTitle 
+            pageTitle = "Program Enrollment" gobacklink = "/siteadmin"
+          />
             <ProgramEnrollFilter updateDepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters} />
-            <hr />
             <ProgramEnrollTable enrollmentData={enrollmentData.items} />
           </Container>
         </div>

@@ -5,12 +5,12 @@ import {
 } from "../../../adapters/microservices";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import FieldLabel from "../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../widgets/form_input_fields/form_text_field";
-import FieldTypeTextarea from "../../../widgets/form_input_fields/form_textarea_field";
-import FieldTypeCheckbox from "../../../widgets/form_input_fields/form_checkbox_field";
-import FieldErrorMessage from "../../../widgets/form_input_fields/error_message";
-import Custom_Button from "../../../widgets/form_input_fields/buttons";
+import FieldLabel from "../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import Custom_Button from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({

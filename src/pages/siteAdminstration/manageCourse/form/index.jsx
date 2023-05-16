@@ -5,17 +5,18 @@ import {
   postData as addCourseData,
   putData,
 } from "../../../../adapters/microservices/index";
-import Header from "../../../header";
-import Sidebar from "../../../sidebar";
+import Header from "../../../newHeader";
+import HeaderTabs from "../../../headerTabs";
+import Footer from "../../../newFooter";
 import { Formik, Form } from "formik";
 import { Container, Button } from "react-bootstrap";
-import FieldLabel from "../../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../../widgets/form_input_fields/form_text_field";
-import FieldErrorMessage from "../../../../widgets/form_input_fields/error_message";
-import FieldTypeTextarea from "../../../../widgets/form_input_fields/form_textarea_field";
-import CustomButton from "../../../../widgets/form_input_fields/buttons";
-import FieldTypeCheckbox from "../../../../widgets/form_input_fields/form_checkbox_field";
-import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_field";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
+import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 import * as Yup from "yup";
 import {
   getLatestWeightForCategory,
@@ -23,6 +24,8 @@ import {
   getChildren,
 } from "../utils";
 import { setHasChildProp, resetManageCourseObj } from "../local";
+import PageTitle from "../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -162,24 +165,20 @@ const AddCourseForm = () => {
 
   return (
     <>
-      <Header
-        pageHeading={`Manage Courses: ${location.state}`}
-        welcomeIcon={false}
-      />
-      <div className="main-content-container">
-        <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
-          <Container fluid className="administration-wrapper">
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate(`/managecourses/${progid}/course`)}
-            >
-              Go back
-            </Button>
-            <hr />
+      <Header />
+      <HeaderTabs />
+          <BreadcrumbComponent
+            routes={[
+              { name: "Site Administration", path: "/siteadmin" },
+              { name: "Manage Program", path: "/manageprogram" },
+              { name: "Add Course", path: "" },
+            ]}
+          />
+        <div className="contentarea-wrapper mt-3">
+          <Container fluid >
+          <PageTitle 
+            pageTitle = "Add Course" gobacklink = {`/managecourses/${progid}/course`}
+          />
             <Formik
               enableReinitialize={true}
               initialValues={initValues}
@@ -289,7 +288,6 @@ const AddCourseForm = () => {
             </Formik>
           </Container>
         </div>
-      </div>
     </>
   );
 };

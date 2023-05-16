@@ -11,6 +11,7 @@ import HeaderTabs from "../../headerTabs";
 import ManageFilter from "./manageFilter";
 import ManageTable from "./manageTable";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PageTitle from "../../../widgets/pageTitle";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
@@ -68,8 +69,11 @@ const ManageProgram = () => {
               { name: "Manage Program", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
+      <div className="contentarea-wrapper mt-3">
           <Container fluid>
+          <PageTitle 
+            pageTitle = "Program Management" gobacklink = "/siteadmin"
+          />
             <div className="site-button-group">
               <Button
                 variant="primary"
@@ -90,7 +94,6 @@ const ManageProgram = () => {
                 Add Tags
               </Button>
             </div>
-            <hr />
             <ManageFilter updatedepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters}/>
             <ManageTable
               programData={programData.items} 

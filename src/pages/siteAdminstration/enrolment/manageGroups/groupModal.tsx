@@ -1,11 +1,11 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import FieldLabel from "../../../../widgets/form_input_fields/labels";
-import FieldTypeText from "../../../../widgets/form_input_fields/form_text_field";
-import FieldErrorMessage from "../../../../widgets/form_input_fields/error_message";
-import FieldTypeTextarea from "../../../../widgets/form_input_fields/form_textarea_field";
-import CustomButton from "../../../../widgets/form_input_fields/buttons";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { postData, putData } from "../../../../adapters/microservices";
 
