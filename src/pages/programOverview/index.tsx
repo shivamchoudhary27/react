@@ -5,6 +5,9 @@ import Footer from "../newFooter";
 import { Container } from "react-bootstrap";
 import ProgramTabs from "./programTabs";
 import KeyInformation from "./keyInformation";
+import Curriculum from "./curriculum";
+import Instructor from "./instructor";
+import Feedback from "./feedback";
 
 const ProgramOverview = () => {
   return (
@@ -39,6 +42,9 @@ const ProgramOverview = () => {
                 </p>
               </div>
               <ProgramTabs />
+              <Curriculum />
+              <Instructor />
+              <Feedback />
             </div>
             <div className="col-md-3">
               <KeyInformation />
