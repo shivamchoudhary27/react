@@ -9,7 +9,7 @@ const TeacherDashboard = () => {
   return (
     <>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="teacherdashboard"/>
       <div className="contentarea-wrapper">
         <DashboardTeacher />
       </div>

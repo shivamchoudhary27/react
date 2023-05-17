@@ -38,7 +38,7 @@ const CalenderConfig = () => {
   return (
     <>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="calender"/>
       <div className="contentarea-wrapper mt-5">
           <Container fluid>
             <div className="container-wrapper"></div>

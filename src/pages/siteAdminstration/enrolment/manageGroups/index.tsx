@@ -98,7 +98,7 @@ const ManageGroups = () => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="siteadmin"/>
       <div className="contentarea-wrapper mt-3">
           <Container fluid>
           <PageTitle 

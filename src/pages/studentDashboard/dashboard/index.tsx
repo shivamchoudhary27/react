@@ -29,7 +29,7 @@ const StudentDashboard = () => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="studentdashboard"/>
       <div className="contentarea-wrapper">        
         <DashboardStudent />
       </div>

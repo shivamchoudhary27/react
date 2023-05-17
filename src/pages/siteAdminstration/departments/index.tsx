@@ -105,7 +105,7 @@ const Departments = () => {
   return (
     <>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="siteadmin"/>
       <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
