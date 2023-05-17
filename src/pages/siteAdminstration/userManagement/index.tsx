@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
 import { Container } from "react-bootstrap";
 import Filter from "./filter";
 import UserManagementTable from "./table";
@@ -19,9 +18,16 @@ const UserManagement = () => {
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  const [userObj, setUserObj] = useState({});
+  const [userObj, setUserObj] = useState({
+    username: "",
+    password: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    country: "",
+  });
   const [refreshData, setRefreshData] = useState(true);
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(true);
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -106,42 +112,68 @@ const UserManagement = () => {
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
+  
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name }: any) => {
-    setUserObj({ id: id, name: name });
+  const editHandlerById = ({
+    id,
+    username,
+    password,
+    firstname,
+    lastname,
+    email,
+    country,
+  }: any) => {
+    console.log(id, username, password, firstname, lastname, email, country);
+    setUserObj({
+      id: id,
+      username: username,
+      password: password,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      country: country,
+    });
   };
 
-  // handle reset Form after SAVE data === >>>
-  const resetUserForm = () => {
-    setUserObj({ id: 0, name: "" });
-    setRefreshData(false);
+  // handle to open Add Discipline modal === >>>
+  const openAddUserModal = () => {
+    toggleModalShow(true);
+    setUserObj({
+      id: 0,
+      username: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      email: "",
+      country: "",
+    });
+    // setRefreshData(false);
   };
 
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "User Management", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "User Management", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle 
-            pageTitle = "User Management" gobacklink = "/siteadmin"
-          />
+          <PageTitle pageTitle="User Management" gobacklink="/siteadmin" />
           <Filter
             updatefilters={updateSearchFilters}
             toggleUploadModal={toggleUploadModal}
-            toggleModalShow={toggleModalShow}
+            openAddUserModal={openAddUserModal}
           />
           <UserManagementTable
             userdata={userData.items}
             refreshdata={refreshOnDeleteToggle}
             editHandlerById={editHandlerById}
+            toggleModalShow={toggleModalShow}
           />
           <BuildPagination
             totalpages={userData.pager.totalPages}
@@ -156,11 +188,11 @@ const UserManagement = () => {
         setUploadModalShow={setUploadModalShow}
         updateAddRefresh={refreshToggle}
       />
-      <AddUserModal 
+      <AddUserModal
         show={modalShow}
         onHide={() => toggleModalShow(false)}
-        userObj={userObj}
-        // setUploadModalShow={setUploadModalShow}
+        userobj={userObj}
+        togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
       />
       <Footer />

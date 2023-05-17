@@ -11,7 +11,7 @@ const initialValues = {
   lastName: "",
 }
 
-const Filter = ({updatefilters, toggleUploadModal, toggleModalShow} : any) => {
+const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialValues,
@@ -39,7 +39,7 @@ const Filter = ({updatefilters, toggleUploadModal, toggleModalShow} : any) => {
     <React.Fragment>
         <div className="action-btn mt-3">
           <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-          <Button variant="primary" onClick={toggleModalShow}>Add Users</Button>{" "}
+          <Button variant="primary" onClick={openAddUserModal}>Add Users</Button>{" "}
         </div>
         <form className="filter-form mt-3" onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <div className="row">
