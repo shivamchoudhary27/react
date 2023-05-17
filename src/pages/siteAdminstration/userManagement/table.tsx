@@ -12,14 +12,18 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const UserManagementTable = ( {userdata, refreshdata} : any) => {
+const UserManagementTable = ({
+  userdata,
+  refreshdata,
+  toggleModalShow,
+  editHandlerById,
+}: any) => {
   const tableColumn = [
     {
       Header: "Name",
       accessor: "name",
-      Cell: ({ row }: any) => (
-        `${row.original.firstName} ${row.original.lastName}`
-      ),
+      Cell: ({ row }: any) =>
+        `${row.original.firstName} ${row.original.lastName}`,
     },
     {
       Header: "Email",
@@ -33,15 +37,28 @@ const UserManagementTable = ( {userdata, refreshdata} : any) => {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to={`/addusersform/${row.original.id}`}>
-            <i className="fa-solid fa-pen"></i>
+          <Link to={""}>
+            <i
+              className="fa-solid fa-pen"
+              onClick={() =>
+                editHandler({
+                  id: row.original.id,
+                  username: row.original.username,
+                  password: row.original.password,
+                  firstname: row.original.firstName,
+                  lastname: row.original.lastName,
+                  email: row.original.email,
+                  country: row.original.country,
+                })
+              }
+            ></i>
           </Link>
           <Link to="">
-              <i
-                className="fa-solid fa-trash"
-                onClick={() => deleteHandler(row.original.id)}
-              ></i>
-            </Link>
+            <i
+              className="fa-solid fa-trash"
+              onClick={() => deleteHandler(row.original.id)}
+            ></i>
+          </Link>
         </span>
       ),
     },
@@ -55,7 +72,7 @@ const UserManagementTable = ( {userdata, refreshdata} : any) => {
       columns,
       data,
     });
-  
+
   const deleteHandler = (userid: number) => {
     if (window.confirm("Are you sure to delete this user?")) {
       refreshdata(false);
@@ -77,6 +94,30 @@ const UserManagementTable = ( {userdata, refreshdata} : any) => {
         });
     }
   };
+
+  // edit event handler === >>>
+  const editHandler = ({
+    id,
+    username,
+    password,
+    firstname,
+    lastname,
+    email,
+    country,
+  }: any) => {
+    toggleModalShow(true);
+    editHandlerById({
+      id,
+      username,
+      password,
+      firstname,
+      lastname,
+      email,
+      country,
+    });
+    // refreshDepartmentData();
+  };
+
   return (
     <React.Fragment>
       <div className="table-wrapper mt-3">
