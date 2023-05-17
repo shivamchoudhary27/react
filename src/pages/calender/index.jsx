@@ -7,7 +7,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../newHeader";
 import Footer from "../newFooter";
 import HeaderTabs from "../headerTabs";
-// import Sidebar from "../sidebar/";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
@@ -93,7 +92,7 @@ export default function ReactBigCalendar() {
   return (
     <React.Fragment>      
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="calender"/>
         <div className="contentarea-wrapper mt-5">
           <Container fluid>
             <Row>

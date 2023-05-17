@@ -12,7 +12,7 @@ const SiteAdminHome = () => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="siteadmin"/>
       <div className="contentarea-wrapper mt-5">
       {AdminRawData.map((item, index) => (
         <Container key={index} className={`administration-box row${index + 1}`}>

@@ -12,11 +12,14 @@ import BuildPagination from "../../../widgets/pagination";
 import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import AddUserModal from "./modalForm";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
+  const [userObj, setUserObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(true);
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -99,10 +102,26 @@ const UserManagement = () => {
     setUploadModalShow(true);
   };
 
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
+
+  // get id, name from the department table === >>>
+  const editHandlerById = ({ id, name }: any) => {
+    setUserObj({ id: id, name: name });
+  };
+
+  // handle reset Form after SAVE data === >>>
+  const resetUserForm = () => {
+    setUserObj({ id: 0, name: "" });
+    setRefreshData(false);
+  };
+
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="siteadmin"/>
       <BreadcrumbComponent
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
@@ -117,10 +136,12 @@ const UserManagement = () => {
           <Filter
             updatefilters={updateSearchFilters}
             toggleUploadModal={toggleUploadModal}
+            toggleModalShow={toggleModalShow}
           />
           <UserManagementTable
             userdata={userData.items}
             refreshdata={refreshOnDeleteToggle}
+            editHandlerById={editHandlerById}
           />
           <BuildPagination
             totalpages={userData.pager.totalPages}
@@ -133,6 +154,13 @@ const UserManagement = () => {
         show={uploadModalShow}
         onHide={() => setUploadModalShow(false)}
         setUploadModalShow={setUploadModalShow}
+        updateAddRefresh={refreshToggle}
+      />
+      <AddUserModal 
+        show={modalShow}
+        onHide={() => toggleModalShow(false)}
+        userObj={userObj}
+        // setUploadModalShow={setUploadModalShow}
         updateAddRefresh={refreshToggle}
       />
       <Footer />

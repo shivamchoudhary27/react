@@ -13,7 +13,7 @@ const ProgramOverview = () => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab=""/>
       <div className="contentarea-wrapper">
         <div
           style={{ backgroundColor: "#666", color: "#f1f1f1", padding: "2rem" }}

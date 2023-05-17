@@ -99,7 +99,7 @@ const EnrolUserToProgram = () => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs />
+      <HeaderTabs activeTab="siteadmin"/>
       <div className="main-content-container">
           <Container fluid className="administration-wrapper"> 
             <BreadcrumbComponent
