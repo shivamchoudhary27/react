@@ -57,7 +57,6 @@ const EnrolUserModal = ({ show, onHide, togglemodalshow }: any) => {
                     htmlfor="users"
                     labelText="Select users"
                     required="required"
-                    star="*"
                   />
                   <FieldTypeSelect
                     name="users"
@@ -72,7 +71,6 @@ const EnrolUserModal = ({ show, onHide, togglemodalshow }: any) => {
                     htmlfor="cohorts"
                     labelText="Select cohorts"
                     required="required"
-                    star="*"
                   />
                   <FieldTypeSelect
                     name="cohorts"
@@ -87,7 +85,6 @@ const EnrolUserModal = ({ show, onHide, togglemodalshow }: any) => {
                     htmlfor="role"
                     labelText="Assign role"
                     required="required"
-                    star="*"
                   />
                   <FieldTypeSelect
                     name="role"

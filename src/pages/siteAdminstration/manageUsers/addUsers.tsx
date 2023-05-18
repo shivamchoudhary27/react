@@ -14,6 +14,7 @@ import FieldTypeSelect from '../../../widgets/formInputFields/formSelectField';
 import { postData, putData } from '../../../adapters/microservices';
 import { pagination } from '../../../utils/pagination';
 import { makeGetDataRequest } from '../../../features/api_calls/getdata';
+import PageTitle from '../../../widgets/pageTitle';
 
 const roleData = [
   {id:"manager", name: "Manager"},
@@ -100,23 +101,17 @@ const EnrolUserToProgram = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs activeTab="siteadmin"/>
-      <div className="main-content-container">
-          <Container fluid className="administration-wrapper"> 
-            <BreadcrumbComponent
+      <BreadcrumbComponent
               routes={[
                 { name: "Site Administration", path: "/siteadmin" },
+                {name:"Program Enrollment", path:"/programenrollment"},
                 { name: name, path: gobackLink },
-                { name: "Program Preview", path: "" },       
+                { name: "Add Users", path: "" },       
               ]}
             />
-            <h3>Program Preview</h3>
-            <Button
-              variant="outline-secondary"
-              onClick={() => navigate(gobackLink)}
-            >
-              Go back
-            </Button>
-            <hr />
+      <div className="contentarea-wrapper mt-3">
+          <Container fluid>
+          <PageTitle pageTitle="Add Users" gobacklink={gobackLink} />
             <Formik
               enableReinitialize={true}
               initialValues={intialValues}

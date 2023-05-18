@@ -7,11 +7,12 @@ const FieldTypeCheckbox = ({
   value,
   checkboxLabel,
   className = "form-check-input",
+  onClick
 }: any) => {
   return (
     <>
       <label>
-        <Field name={name} type={type} value={value} className={className} />{" "}
+        <Field name={name} type={type} value={value} className={className} onClick={onClick} />{" "}
         {checkboxLabel}
       </label>
     </>

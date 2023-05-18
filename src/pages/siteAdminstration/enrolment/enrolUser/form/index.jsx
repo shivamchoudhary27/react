@@ -181,7 +181,7 @@ const AddCourseForm = () => {
                       htmlfor="name"
                       labelText="Name"
                       required="required"
-                      star="*"
+  
                     />
                     <FieldTypeText name="name" placeholder="Name" />
                     <FieldErrorMessage
@@ -196,7 +196,7 @@ const AddCourseForm = () => {
                       htmlfor="courseCode"
                       labelText="Course Code"
                       required="required"
-                      star="*"
+  
                     />
                     <FieldTypeText name="courseCode" placeholder="Course Code" />
                     <FieldErrorMessage
@@ -211,7 +211,6 @@ const AddCourseForm = () => {
                   htmlfor="category"
                   labelText="Category"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeSelect
                   name="category"
@@ -231,7 +230,6 @@ const AddCourseForm = () => {
                       htmlfor="description"
                       labelText="Description"
                       // required="required"
-                      // star="*"
                     />
                     <FieldTypeTextarea
                       name="description"

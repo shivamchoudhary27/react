@@ -109,7 +109,6 @@ const DiciplineModal = ({
                   htmlfor="name"
                   labelText="Name"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeText name="name" placeholder="Name" />
                 <FieldErrorMessage
@@ -124,7 +123,6 @@ const DiciplineModal = ({
                   htmlfor="description"
                   labelText="Description"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeTextarea
                   name="description"

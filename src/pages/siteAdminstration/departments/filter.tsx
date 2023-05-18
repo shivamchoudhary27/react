@@ -55,7 +55,7 @@ const Filter = ({
               </div>
               <div className="col-auto">
                 <Button
-                  variant="outline-secondary"
+                  variant="primary" className="me-2"
                   onClick={() => getInputValues()}
                 >
                   Filter

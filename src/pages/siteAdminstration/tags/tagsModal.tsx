@@ -81,7 +81,6 @@ const TagsModal = ({
                     htmlfor="name"
                     labelText="Tag Name"
                     required="required"
-                    star="*"
                   />
                   <FieldTypeText name="name" placeholder="Name" />
                   <FieldErrorMessage

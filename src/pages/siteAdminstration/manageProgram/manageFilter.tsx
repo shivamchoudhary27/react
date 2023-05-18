@@ -61,8 +61,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
               </div>
               <div className="col-auto">
                 <Button 
-                  variant="outline-secondary" 
-                  type="submit"
+                  variant="primary" type="submit" className="me-2"
                   onClick={() => getInputValues()}
                 >
                   Filter

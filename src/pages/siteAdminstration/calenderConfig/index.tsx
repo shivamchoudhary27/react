@@ -6,6 +6,8 @@ import HeaderTabs from "../../headerTabs";
 // import Sidebar from "../../sidebar";
 import Module_List from "./moduleList";
 import { useNavigate } from "react-router-dom";
+import PageTitle from "../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import "./style.scss";
 
 const CalenderConfig = () => {
@@ -14,22 +16,12 @@ const CalenderConfig = () => {
   const SITE_HEADING = (
     <div className="site-heading">
       <div>
-        <h3>Calendar Management</h3>
-      </div>
-      <div>
         <Button
           type="button"
           variant="primary"
           onClick={() => navigate("/calender")}
         >
           View Calender
-        </Button>{" "}
-        <Button
-          type="button"
-          variant="outline-secondary"
-          onClick={() => navigate("/siteadmin")}
-        >
-          Back
         </Button>
       </div>
     </div>
@@ -39,11 +31,15 @@ const CalenderConfig = () => {
     <>
       <Header />
       <HeaderTabs activeTab="calender"/>
-      <div className="contentarea-wrapper mt-5">
+      <BreadcrumbComponent routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Calender Management", path: "" }
+        ]} />
+      <div className="contentarea-wrapper mt-3">
           <Container fluid>
+          <PageTitle pageTitle="Calendar Management" gobacklink="/siteadmin" />
             <div className="container-wrapper"></div>
             {SITE_HEADING}
-            <hr />
             <div className="form-container-wrapper">{<Module_List />}</div>
           </Container>
         </div>

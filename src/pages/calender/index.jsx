@@ -10,6 +10,8 @@ import HeaderTabs from "../headerTabs";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
+import PageTitle from "../../widgets/pageTitle";
+import BreadcrumbComponent from "../../widgets/breadcrumb";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -93,8 +95,14 @@ export default function ReactBigCalendar() {
     <React.Fragment>      
       <Header />
       <HeaderTabs activeTab="calender"/>
-        <div className="contentarea-wrapper mt-5">
+      <BreadcrumbComponent routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Calender Management", path: "/calenderconfig" },
+          {name: "Calender", path: ""}
+        ]} />
+        <div className="contentarea-wrapper mt-3">
           <Container fluid>
+          <PageTitle pageTitle="Calender" gobacklink="/calenderconfig" />
             <Row>
               <Col md={10}>
                 {selectedEvent && <Modal />}

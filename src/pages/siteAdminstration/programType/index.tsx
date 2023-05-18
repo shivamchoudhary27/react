@@ -129,7 +129,7 @@ const ProgramType = () => {
               />
             </div>
             <div className="col-auto">
-              <Button variant="outline-secondary">Filter</Button>{" "}
+              <Button variant="primary" className="me-2">Filter</Button>{" "}
               <Button
                 variant="outline-secondary"
                 // onClick={() => resetHandler()}
