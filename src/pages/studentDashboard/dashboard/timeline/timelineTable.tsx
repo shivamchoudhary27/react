@@ -1,33 +1,25 @@
 import React from "react";
-import { Container, Table } from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "./style.scss";
 
 const TimelineTable = () => {
   return (
     <>
-      <h6>Mon Feb 11 2023</h6>
-      <Container>
-        <Table responsive>
-          <tbody>
-            {tableData.map((item, index) => (
-              <tr key={index}>
-                <td>icon</td>
-                <td>
-                  <div className="table-contents-wrapper">
-                    <div>
-                      <h6>{item.title}</h6>
-                      <p>{item.subtitle}</p>
-                      <Link to="">{item.link}</Link>
-                    </div>
-                    <div>{item.time}</div>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Container>
+      <div className="mitblock-body">
+        <Container fluid>
+          {tableData.map((item, index) => (
+            <Row key={index}>
+              <Col xs={9}>
+                <h6>{item.title}</h6>
+                <div>{item.subtitle}</div>                
+                <span>{item.time}</span>                
+              </Col>
+              <Col xs={3}><Link to="">{item.link}</Link></Col>
+            </Row>
+          ))}
+        </Container>
+      </div>
     </>
   );
 };
