@@ -7,7 +7,7 @@ import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 import { CountryList } from "../data";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { postData } from "../../../adapters/coreservices";
 import * as Yup from "yup";
 
@@ -36,6 +36,7 @@ const SignupForm = () => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     values.idnumber = 98789871;
+    values.city = "Delhi";
     postData('/user/signup', values)
     .then((res: any) => {
       console.log('res', res);
