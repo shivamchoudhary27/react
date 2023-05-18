@@ -3,14 +3,9 @@ import "./style.scss";
 
 const FilterDropdown = () => {
   return (
-    <>
-      <div className="ui-dropdown-wrapper">
-        <div className="ui-title">
-          <h3>TIMELINE</h3>
-        </div>
-        <div className="ui-filter-dropdowns">
-          <ShortByDaysDropdowns /> <ShortByDateDropdowns />
-        </div>
+    <>     
+      <div className="block-filter">
+        <ShortByDaysDropdowns /> <ShortByDateDropdowns />
       </div>
     </>
   );
@@ -27,7 +22,7 @@ const ShortByDaysDropdowns = () => {
   return (
     <select
       style={dropdown_style}
-      className="form-select"
+      className="form-select form-select-sm"
       aria-label="Default select example"
       defaultValue="Next 7 days"
     >
@@ -43,7 +38,7 @@ const ShortByDateDropdowns = () => {
   return (
     <select
       style={dropdown_style}
-      className="form-select"
+      className="form-select form-select-sm"
       aria-label="Default select example"
       defaultValue="Sort by date"
     >

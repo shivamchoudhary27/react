@@ -1,11 +1,16 @@
-.ui-dropdown-wrapper{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    .ui-title{
-        text-transform: uppercase;
-        font-weight: 700;
+.dashboard-topPanel {
+    background: linear-gradient(91.5deg, #28C8E5 6.81%, #2C2C33 98.68%);
+    padding: 20px 0;
+    .mitblock-body {
+        min-height: 200px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 0.5rem;
+    }
+}
+.dashboard-bottomPanel {
+    .tab-content {
+        padding: 15px 0;
     }
 }
 

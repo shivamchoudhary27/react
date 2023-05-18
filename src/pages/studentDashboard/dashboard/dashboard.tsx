@@ -1,29 +1,26 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import FilterDropdown from "./timeline/filterDropdown";
 import Timeline from "./timeline/timeline";
 import MyScheduleComp from "./schedule/scheduleComp";
 import Program_Certification from "./programCertification";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import PerformanceOverview from "./performance/performance";
+import "./style.scss";
 
 const DashboardStudent = () => {
   return (
     <>
+    <div className="dashboard-topPanel">
       <Container fluid>
-          <Row>
-            <Col md={9}>
-            <BreadcrumbComponent routes={[
-              { name: "Student Dashboard", path: "/studentdashboard" }
-            ]} />
-              <FilterDropdown />
-              <Timeline />
-              <Program_Certification />
-            </Col>
-            <Col md={3}>
-              <MyScheduleComp />
-            </Col>
-          </Row>
+        <Row>
+          <Col md={4}><Timeline /></Col>
+          <Col md={4}><PerformanceOverview /></Col>
+          <Col md={4}><MyScheduleComp /></Col>          
+        </Row>
       </Container>
+    </div>
+    <div className="dashboard-bottomPanel mt-4">
+      <Program_Certification />
+    </div>
     </>
   );
 };

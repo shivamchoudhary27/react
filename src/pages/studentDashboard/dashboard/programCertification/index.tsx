@@ -12,7 +12,6 @@ const Program_Certification = () => {
         id="controlled-tab-example"
         activeKey={key}
         onSelect={(e) => setKey(e)}
-        className="mb-3"
       >
         <Tab eventKey="program" title="Program">
           <FilterProgramDropdown />

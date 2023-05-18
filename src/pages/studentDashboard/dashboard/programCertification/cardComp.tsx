@@ -6,7 +6,7 @@ import Image from "../../../../assets/images/course_catalogue_ai_image.jpg";
 const Card_Component = () => {
   return (
     <>
-      <Container>
+      <Container fluid>
         <Row>
           {card_Data.map((item, index) => (
             <Col md={4} key={index} className="gy-3">
