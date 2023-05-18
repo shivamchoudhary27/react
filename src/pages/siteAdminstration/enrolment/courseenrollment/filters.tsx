@@ -5,9 +5,9 @@ import "./style.scss";
 const initialValues = {
   name: "",
   email: "",
-}
+};
 
-const ManageFilter = ({ updateinputfilters } : any) => {
+const ManageFilter = ({ updateinputfilters }: any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -19,43 +19,57 @@ const ManageFilter = ({ updateinputfilters } : any) => {
         email: "",
       });
       updateinputfilters({}, true);
-    }
+    },
   });
 
   return (
     <>
-      <div className="filter-wrapper">
-        <div className="filter-form">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <div className="row mb-3">
-              <div className="col-md-4">
-                <input
-                  className="form-control"
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Fullname"
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                />
-              </div>
-              <div className="col-md-4">
-                <input
-                  className="form-control"
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder="Email"
-                  onChange={formik.handleChange}
-                  value={formik.values.email}
-                />
-              </div>
-            </div>
-            <Button variant="outline-secondary" type="submit">Filter</Button>
-            <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
-            </form>
+      {/* <div className="filter-wrapper">
+        <div className="filter-form"> */}
+      <form
+        className="filter-form mt-3"
+        onSubmit={formik.handleSubmit}
+        onReset={formik.handleReset}
+      >
+        <div className="row">
+          <div className="col-auto">
+            <input
+              className="form-control"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Fullname"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+            />
+          </div>
+          <div className="col-auto">
+            <input
+              className="form-control"
+              id="email"
+              name="email"
+              type="text"
+              placeholder="Email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+            />
+          </div>
+          <div className="col-auto">
+            <Button variant="primary" type="submit" className="me-2">
+              Filter
+            </Button>
+            <Button
+              variant="outline-secondary"
+              type="reset"
+              onClick={formik.handleReset}
+            >
+              Reset
+            </Button>
+          </div>
         </div>
-      </div>
+      </form>
+      {/* </div>
+      </div> */}
     </>
   );
 };

@@ -161,7 +161,6 @@ console.log(initValues);
                   htmlfor="department"
                   labelText="Department"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeSelect
                   name="department"
@@ -180,7 +179,6 @@ console.log(initValues);
                   htmlfor="programName"
                   labelText="Program Name"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeText name="programName" placeholder="Program Name" />
                 <FieldErrorMessage
@@ -194,7 +192,6 @@ console.log(initValues);
                   htmlfor="programCode"
                   labelText="Program Code"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeText name="programCode" placeholder="Program Code" />
                 <FieldErrorMessage
@@ -208,7 +205,6 @@ console.log(initValues);
                   htmlfor="programtype"
                   labelText="Program Type "
                   required="required"
-                  star="*"
                 />
                 <FieldTypeSelect
                   name="programtype"
@@ -240,7 +236,7 @@ console.log(initValues);
                     htmlfor="batchYear"
                     labelText="Batch Year"
                     required="required"
-                    star="*"
+
                   />
                   <FieldTypeText name="batchYear" placeholder="#Year" />
                   <FieldErrorMessage
@@ -255,7 +251,6 @@ console.log(initValues);
                   htmlfor="discipline"
                   labelText="Discipline"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeSelect
                   name="discipline"
@@ -274,7 +269,6 @@ console.log(initValues);
                   htmlfor="modeOfStudy"
                   labelText="Mode Of Study"
                   required="required"
-                  star="*"
                 />
                 {/* {modeStudy.map((el: any, index: number) => (
                   <div key={index}>
@@ -329,7 +323,7 @@ console.log(initValues);
                   htmlfor="duration"
                   labelText="Duration"
                   required="required"
-                  // star="*"
+    
                 />
                 <FieldTypeText name="duration" placeholder="#duration" />
                 <FieldErrorMessage

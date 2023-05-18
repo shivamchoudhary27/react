@@ -6,6 +6,7 @@ const FieldTypeText = ({
   placeholder,
   type = "text",
   className = "form-control",
+  disabled
 }: any) => {
   return (
     <>
@@ -15,6 +16,7 @@ const FieldTypeText = ({
         type={type}
         className={className}
         placeholder={placeholder}
+        disabled={disabled}
       />
     </>
   );

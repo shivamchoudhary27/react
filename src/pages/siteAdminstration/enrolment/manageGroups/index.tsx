@@ -84,12 +84,6 @@ const ManageGroups = () => {
       <>
         <Button variant="primary" onClick={openAddGroup}>
           Add Groups
-        </Button>{" "}
-        <Button
-          variant="outline-secondary"
-          onClick={() => navigate(`/courseenrollment/${programid}/${courseid}/${coursename}`)}
-        >
-          Go Back
         </Button>
       </>
     );

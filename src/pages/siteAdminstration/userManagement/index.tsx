@@ -124,7 +124,6 @@ const UserManagement = () => {
     email,
     country,
   }: any) => {
-    console.log(id, username, password, firstname, lastname, email, country);
     setUserObj({
       id: id,
       username: username,

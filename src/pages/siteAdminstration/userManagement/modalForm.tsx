@@ -10,6 +10,7 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import { CountryList } from "./countryDataList";
 import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/coreservices";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 const AddUserModal = ({
   show,
@@ -29,6 +30,7 @@ const AddUserModal = ({
     // city: "",
     // idnumber: ""
   };
+  const [passwordCheck, setPasswordCheck] = useState(false);
 
   const navigate = useNavigate();
 
@@ -50,8 +52,8 @@ const AddUserModal = ({
     if (userobj.id === 0) {
       postData("/user/", values)
         .then((res: any) => {
-          if (res.data !== "", res.status === 201) {
-            togglemodalshow(false)
+          if ((res.data !== "", res.status === 201)) {
+            togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
             resetForm();
@@ -66,7 +68,7 @@ const AddUserModal = ({
     } else {
       putData(`/user/${userobj.id}`, values)
         .then((res: any) => {
-          if (res.data !== "", res.status === 200) {
+          if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
@@ -76,6 +78,16 @@ const AddUserModal = ({
         .catch((err: any) => {
           console.log(err);
         });
+    }
+  };
+
+  const handleCheckToggle = () => {
+    setPasswordCheck(!passwordCheck);
+  };
+
+  const hangleClick = (e: any) => {
+    if (e.type === "click") {
+      handleCheckToggle();
     }
   };
 
@@ -100,6 +112,7 @@ const AddUserModal = ({
             validationSchema={userFormSchema}
             onSubmit={(values, action) => {
               handleFormData(values, action);
+              console.log(values);
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
@@ -119,6 +132,12 @@ const AddUserModal = ({
                 </div>
 
                 <div className="mb-3">
+                  {userobj.id !== 0 && (
+                    <FieldTypeCheckbox
+                      name="check"
+                      onClick={(e: any) => hangleClick(e)}
+                    />
+                  )}{" "}
                   <FieldLabel
                     htmlfor="password"
                     labelText="Password"
@@ -128,6 +147,7 @@ const AddUserModal = ({
                     type="password"
                     name="password"
                     placeholder="Password"
+                    disabled={passwordCheck !== true && userobj.id !== 0 && "disabled"}
                   />
                   <FieldErrorMessage
                     errors={errors.password}

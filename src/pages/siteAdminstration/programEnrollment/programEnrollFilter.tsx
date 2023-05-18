@@ -48,7 +48,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
               </div>
               <div className="col-auto">
                 <Button
-                  variant="outline-secondary"
+                  variant="primary" className="me-2"
                   onClick={() => getInputValues()}
                 >
                   Filter

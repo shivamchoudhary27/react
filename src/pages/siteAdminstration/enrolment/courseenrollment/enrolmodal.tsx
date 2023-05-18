@@ -137,7 +137,6 @@ const DiciplineModal = ({
                   htmlfor="userEmail"
                   labelText="Email"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeText name="userEmail" placeholder="User Email" />
                 <FieldErrorMessage
@@ -151,7 +150,6 @@ const DiciplineModal = ({
                   htmlfor="groupId"
                   labelText="Group"
                   // required="required"
-                  // star="*"
                 />
                 <FieldTypeSelect
                   name="groupId"
