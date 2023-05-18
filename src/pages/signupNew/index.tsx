@@ -31,7 +31,9 @@ const SignUpNew = () => {
           <Col lg={5} className="d-flex align-items-center justify-content-center">
             <div className="signup-rightForm text-center">
               <div className="signup-logo rounded-circle m-auto mb-4">
-                <img className="img-fluid" src={logo} alt="Ballistic Learning Pvt Ltd" />
+                <Link to="/">
+                  <img className="img-fluid" src={logo} alt="Ballistic Learning Pvt Ltd" />
+                </Link>
               </div>
               <h2 className="signup-title">Welcome to Ballistic University</h2>
 
@@ -39,17 +41,16 @@ const SignUpNew = () => {
                 <React.Fragment>
                   <p className="signup-desc mb-4">Please enter your email to request a new password</p>
                   <ForgotPasswordForm />
-                  <p>Not a member yet? <Link to="/signupnew" className="ms-1">Sign up</Link></p>
+                  <p>Go back to <a href={oAuthUrl} className="ms-1">Sign in</a></p>
                 </React.Fragment>
               ) : (
                 <React.Fragment>
                   <p className="signup-desc mb-4">Please enter your details to Sign up</p>
                   <SignupForm />
-                  <p>Forgot password? <Link to="/signupnew/?form=forgotpassword" className="ms-1">Forgot password</Link></p>
+                  <p>Already a member? <a href={oAuthUrl} className="ms-1">Sign in</a></p>
                 </React.Fragment>
               )}
 
-              <p>Already a member? <a href={oAuthUrl} className="ms-1">Sign in</a></p>
             </div>
           </Col>
         </Row>
