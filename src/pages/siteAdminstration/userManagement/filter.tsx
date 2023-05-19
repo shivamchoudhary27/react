@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const initialValues = {
   name: "",
   email: "",
-  city: "",
   firstName: "",
   lastName: "",
 }
@@ -19,7 +18,6 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
       let newRequest = {
         firstName: values.name,
         email: values.email,
-        city: values.city
       }
       updatefilters(newRequest);
     },
@@ -28,7 +26,6 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
         firstName: "",
         lastName: "",
         email: "",
-        city: "",
         name:""
       });
       updatefilters(initialValues, true);
@@ -65,18 +62,6 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 placeholder="Email"
                 onChange={formik.handleChange}
                 value={formik.values.email}
-              />
-            </div>
-            <div className="col-auto">
-              <label htmlFor="city" hidden>City</label>
-              <input
-                className="form-control"
-                id="city"
-                name="city"
-                type="text"
-                placeholder="City"
-                onChange={formik.handleChange}
-                value={formik.values.city}
               />
             </div>
             <div className="col-auto">
