@@ -24,12 +24,12 @@ const DiciplineTable = ({
   // custom react table column === >>>
   const tableColumn = [
     {
-      Header: "Firstname / Surname",
+      Header: "First Name / Surname",
       Cell: ({ row }: any) =>
         `${row.original.userFirstName} ${row.original.userLastName}`,
     },
     {
-      Header: "Email address",
+      Header: "Email Address",
       accessor: "userEmail",
     },
     {

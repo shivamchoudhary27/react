@@ -201,10 +201,10 @@ const CourseEnrollment = () => {
         <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
       </div>
       <div className="my-3">
-        FirstName
+        First Name {" "}
         <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
         <br />
-        LastName
+        Last Name {" "}
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
       <ManageFilter updateinputfilters={updateSearchFilters} />
@@ -228,7 +228,7 @@ const CourseEnrollment = () => {
       <div className="contentarea-wrapper mt-3">
           <Container fluid>
           <PageTitle 
-            pageTitle = {coursename} gobacklink = {`/enrolusers/${programid}/${programName}`}
+            pageTitle ={`Course: ${coursename}`} gobacklink = {`/enrolusers/${programid}/${programName}`}
           />
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}

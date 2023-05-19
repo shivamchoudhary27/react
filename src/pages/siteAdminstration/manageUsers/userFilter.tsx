@@ -52,7 +52,7 @@ const UserFilter = ({
           Add Users
         </Button>{" "}
         <Button variant="primary" onClick={toEnrolProgramCourses}>
-          Enroll Users To Courses
+          Enroll Users to Courses
         </Button>
       </div>
       <form

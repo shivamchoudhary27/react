@@ -130,13 +130,13 @@ const EnrolUsers = () => {
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Programs Enrollment", path: "/programenrollment" },
               { name: name, path: `/manageprogramenrollment/${id}/${name}` },
-              { name: "Course", path: "" },       
+              { name: "Courses", path: "" },       
             ]}
           />
       <div className="contentarea-wrapper mt-3">          
           <Container fluid>
           <PageTitle 
-            pageTitle = {`Course: ${name}`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}
+            pageTitle = {`Program: ${name}`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}
           />
             {sortedCategories.length !== 0 && (
               <EnrolUserTable
