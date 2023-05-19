@@ -42,7 +42,9 @@ const DiciplineTable = ({
     },
     {
       Header: "Groups",
-      accessor: "groupName",
+      Cell: ({row}: any) => (
+        getCommaSeparatedNames(row.original.groups)
+      )
     },
     {
       Header: "Actions",
@@ -55,7 +57,7 @@ const DiciplineTable = ({
                 editHandler({
                   userId: row.original.userId,
                   userEmail: row.original.userEmail,
-                  groupId: row.original.groupId,
+                  groups: row.original.groups,
                 })
               }
             ></i>
@@ -87,9 +89,9 @@ const DiciplineTable = ({
     });
 
   // edit event handler === >>>
-  const editHandler = ({ userId, userEmail, groupId }: any) => {
+  const editHandler = ({ userId, userEmail, groups }: any) => {
     toggleModalShow(true);
-    editHandlerById({ userId, userEmail, groupId });
+    editHandlerById({ userId, userEmail, groups });
     // refreshDisciplineData();
   };
 
@@ -123,6 +125,9 @@ const DiciplineTable = ({
     console.log(id);
   };
 
+  const getCommaSeparatedNames = (arr : any) => {
+    return arr.map((obj :any) => obj.name).join(", ");
+  }
   return (
     <React.Fragment>
       <div className="table-wrapper mt-3">

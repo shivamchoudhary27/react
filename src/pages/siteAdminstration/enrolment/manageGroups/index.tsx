@@ -38,6 +38,15 @@ const ManageGroups = () => {
     const endPoint = `/${courseid}/group`;
     getData(endPoint, filterUpdate).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
+        const updatedItems = res.data.items.map((item : any ) => {
+          const matchingGroup = res.data.groupUserCounts.find((group : any) => group.groupId === item.id);
+          if (matchingGroup) {
+            return { ...item, totalMembers: matchingGroup.totalMembers };
+          }
+          return item;
+        });
+        
+        res.data.items = updatedItems;
         setManageGroupList(res.data);
       }
     });

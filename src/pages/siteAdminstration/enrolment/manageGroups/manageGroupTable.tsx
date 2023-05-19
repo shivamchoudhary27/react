@@ -31,6 +31,10 @@ const ManageGroupTable = ({
       accessor: "description",
     },
     {
+      Header: "Total members",
+      accessor: "totalMembers",
+    },
+    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
