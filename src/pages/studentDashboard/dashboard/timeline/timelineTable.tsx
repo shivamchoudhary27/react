@@ -7,18 +7,16 @@ const TimelineTable = () => {
   return (
     <>
       <div className="mitblock-body">
-        <Container fluid>
           {tableData.map((item, index) => (
-            <Row key={index}>
-              <Col xs={9}>
-                <h6>{item.title}</h6>
-                <div>{item.subtitle}</div>                
-                <span>{item.time}</span>                
-              </Col>
-              <Col xs={3}><Link to="">{item.link}</Link></Col>
-            </Row>
-          ))}
-        </Container>
+            <div className="d-flex align-items-center atb-row" key={index}>
+              <div className="atb-info">
+                <h6>{item.title}</h6>                
+                <p>{item.subtitle}</p>
+                <span>{item.time}</span>
+              </div>
+              <a href="#" className="btn btn-light btn-sm atb-button">{item.link}</a>
+            </div>
+          ))}          
       </div>
     </>
   );

@@ -46,6 +46,9 @@ a, a:visited {
 .progress {
     --bs-progress-height: 0.5rem;
 }
+.badge {
+    border-radius: 0.75rem;
+}
 .error-message {
     color: #ff0000;
     font-size: 11px;
@@ -66,6 +69,7 @@ a, a:visited {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 30px;
 }
 .mitblock-body {
     margin-top: 1.5rem;
