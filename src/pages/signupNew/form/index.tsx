@@ -11,18 +11,18 @@ import { useNavigate } from "react-router-dom";
 import { postData } from "../../../adapters/coreservices";
 import * as Yup from "yup";
 
-const initialValues = {
-  username: "",
-  lastName: "",
-  firstName: "",
-  email: "",
-  password: "",
-  country: "",
-};
 
 const SignupForm = () => {
   const navigate = useNavigate();
-
+  
+  const initialValues = {
+    username: "",
+    lastName: "",
+    firstName: "",
+    email: "",
+    password: "",
+    country: "",
+  };
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     username: Yup.string().trim().min(4).required(),

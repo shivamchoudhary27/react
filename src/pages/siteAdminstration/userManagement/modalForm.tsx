@@ -159,7 +159,7 @@ const AddUserModal = ({
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="firstName"
-                    labelText="Firstname"
+                    labelText="First Name"
                     required="required"
                   />
                   <FieldTypeText name="firstName" placeholder="First Name" />
@@ -173,7 +173,7 @@ const AddUserModal = ({
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="lastName"
-                    labelText="Lastname"
+                    labelText="Last Name"
                     required="required"
                   />
                   <FieldTypeText name="lastName" placeholder="Last Name" />
@@ -241,7 +241,7 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.country}
                     touched={touched.country}
-                    msgText="Please select Country"
+                    msgText="Please select country"
                   />
                 </div>
 

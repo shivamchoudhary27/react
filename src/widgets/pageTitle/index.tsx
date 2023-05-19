@@ -13,7 +13,7 @@ const PageTitle = ({pageTitle, gobacklink}:any) => {
             variant="outline-secondary"
             onClick={() => navigate(gobacklink)}
           >
-            Go back 
+            Go Back 
           </Button>
       </h3>  
     );

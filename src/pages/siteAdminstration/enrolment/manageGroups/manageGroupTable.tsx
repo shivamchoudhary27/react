@@ -31,7 +31,7 @@ const ManageGroupTable = ({
       accessor: "description",
     },
     {
-      Header: "Total members",
+      Header: "Total Members",
       accessor: "totalMembers",
     },
     {
