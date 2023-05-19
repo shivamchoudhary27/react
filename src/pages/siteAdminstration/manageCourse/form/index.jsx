@@ -171,6 +171,7 @@ const AddCourseForm = () => {
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Manage Program", path: "/manageprogram" },
+              { name: "Manage Courses", path: `/managecourses/${progid}/course` },
               { name: "Add Course", path: "" },
             ]}
           />
