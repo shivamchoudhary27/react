@@ -49,7 +49,7 @@ const UserManagement = () => {
           console.log(err);
         });
     }
-  }, [refreshOnDelete, filterUpdate]);
+  }, [refreshOnDelete]);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -65,7 +65,7 @@ const UserManagement = () => {
       .catch((err: any) => {
         console.log(err);
       });
-  }, [refreshData]);
+  }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -85,11 +85,10 @@ const UserManagement = () => {
       if (updatedState.firstName !== undefined) delete updatedState.firstName;
       if (updatedState.lastName !== undefined) delete updatedState.lastName;
       if (updatedState.email !== undefined) delete updatedState.email;
-      if (updatedState.city !== undefined) delete updatedState.city;
 
       setFilterUpdate(updatedState);
     } else {
-      const { firstName, email, city } = newFilterRequest;
+      const { firstName, email } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
         pageNumber: 0,
@@ -98,8 +97,7 @@ const UserManagement = () => {
 
       if (email === "") delete updatedState.email;
       if (firstName === "") delete updatedState.firstName;
-      if (city === "") delete updatedState.city;
-
+      
       setFilterUpdate(updatedState);
     }
   };
@@ -112,7 +110,6 @@ const UserManagement = () => {
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
-  
 
   // get id, name from the department table === >>>
   const editHandlerById = ({

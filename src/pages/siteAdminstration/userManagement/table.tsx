@@ -30,8 +30,8 @@ const UserManagementTable = ({
       accessor: "email",
     },
     {
-      Header: "City",
-      accessor: "city",
+      Header: "Country",
+      accessor: "country",
     },
     {
       Header: "Actions",

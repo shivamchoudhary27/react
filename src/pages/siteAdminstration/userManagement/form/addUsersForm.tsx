@@ -24,7 +24,7 @@ const initialValues = {
   password: "",
   city: "",
   country: "",
-  idnumber: ""
+  idnumber: "IN"
 };
 
 const AddUsersForm = () => {
@@ -40,6 +40,9 @@ const AddUsersForm = () => {
               console.log(result);
               if (result.status === 200) {
                 result.data.password = "Admin@123";
+                if (result.data.country === null) {
+                  result.data.country = "IN";
+                }
                 setFormvalues(result.data);
               //     if (result.data.items.content.length < 1) {
               //         window.alert('No data available for this request');
@@ -61,7 +64,6 @@ const AddUsersForm = () => {
     email: Yup.string().email('Invalid email').required('Email is required'),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
-    city: Yup.string().min(1).trim().required(),
     country: Yup.string().required(),
   });
 
