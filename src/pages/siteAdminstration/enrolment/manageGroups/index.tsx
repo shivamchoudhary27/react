@@ -12,6 +12,7 @@ import BuildPagination from "../../../../widgets/pagination";
 import { pagination } from "../../../../utils/pagination";
 import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 
 const ManageGroups = () => {
   const navigate = useNavigate()
@@ -23,6 +24,11 @@ const ManageGroups = () => {
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
   const [manageGroupList, setManageGroupList] = useState<any>(dummyData);
+  const [programData, setProgramData] = useState({
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  });
+  const [programName, setProgramName] = useState("");
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [groupObj, setGroupObj] = useState({
     name: "",
@@ -51,6 +57,20 @@ const ManageGroups = () => {
       }
     });
   }, [courseid, refreshData, filterUpdate]);
+
+  useEffect(() => {
+    makeGetDataRequest(
+      "/programs",
+      { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
+      setProgramData
+    );
+  }, []);
+
+  useEffect(() => {
+    if (programData.items.length === 1) {
+      setProgramName(programData.items[0].name);
+    }
+  }, [programData]);
 
   // refresh on delete
   useEffect(() => {
@@ -106,9 +126,10 @@ const ManageGroups = () => {
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Program Enrollment", path: "/programenrollment" },
-              // { name: "Manage Program Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
-              // { name: programName, path: `/enrolusers/${programid}/${programName}` },
-              { name: coursename, path: `/courseenrollment/${programid}/${courseid}/${coursename}` },      
+              { name: "Manage Program Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
+              { name: programName, path: `/enrolusers/${programid}/${programName}` },
+              { name: coursename, path: `/courseenrollment/${programid}/${courseid}/${coursename}` },
+              { name: "Manage Groups", path: "" },
             ]}
           />
       <div className="contentarea-wrapper mt-3">
