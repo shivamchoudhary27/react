@@ -1,17 +1,12 @@
 .todaysession-block {
     .mitblock-title {
-        .ts-date {
+        .tsb-date {
             font-size: 12px;
             font-weight: 500;
         }
     }
-    .ts-row {
-        display: flex;
-        align-items: center;
-        .ts-icon {
-            align-self: flex-start;
-        }
-        .ts-info {
+    .tsb-row {
+        .tsb-info {
             margin-right: 15px;
             h6 {
                 margin-bottom: 0.25rem;
@@ -24,12 +19,12 @@
                 line-height: normal;
             }
         }
-        .ts-button {
+        .tsb-button {
             margin-left: auto;
             font-weight: 400;
             background-color: #000;
             color: #fff;
-            min-width: 52px;
+            min-width: 60px;
             &.online {
                 background: linear-gradient(95.68deg, #334665 11.59%, #27DDFB 97.23%);
             }

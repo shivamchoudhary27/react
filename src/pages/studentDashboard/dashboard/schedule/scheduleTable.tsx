@@ -8,16 +8,16 @@ const ScheduleTable = () => {
     <>
       <div className="mitblock-body">
           {tableData.map((item, index) => (
-            <div className="ts-row mb-2" key={index}>
-              <div className="ts-icon me-3">
+            <div className="d-flex align-items-center tsb-row mb-2" key={index}>
+              <div className="align-self-start me-3">
                 <img src={degreeIcon} alt="Schedule Icon" />
               </div>
-              <div className="ts-info">
+              <div className="tsb-info">
                 <h6>{item.title}</h6>                
                 <p>{item.subtitle}</p>
                 <span>{item.time}</span>
               </div>
-              <span className={`badge ts-button ${item.classname}`}>{item.btn}</span>
+              <span className={`badge tsb-button ${item.classname}`}>{item.btn}</span>
             </div>
           ))}
       </div>

@@ -9,7 +9,7 @@ import FilterDropdown from "./filterDropdown";
 const Timeline = () => {
   return (
     <>
-      <div className="mitblock timeline-block">
+      <div className="mitblock activityTimeline-block">
         <h3 className="mitblock-title">
           Activity Timeline
           <FilterDropdown />
