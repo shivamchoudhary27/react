@@ -85,7 +85,7 @@ export const generateProgramDataObject = (formData) => {
     programData.discipline = {id : formData.discipline};
     programData.metaFields = getMetaFields(formData.meta)
     programData.tags = submittedTags;
-    console.log(programData);
+    
     return programData;
 };
 

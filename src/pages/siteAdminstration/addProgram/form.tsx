@@ -47,7 +47,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     makeGetDataRequest("/program-types", apiFilters, setProgramTypeId);
     makeGetDataRequest("/tags", apiFilters, setTags);
   }, []);
-console.log(initValues);
+
   useEffect(() => {
     let addedValues = addExtraMetaDataToInitialValues(
       initValues,

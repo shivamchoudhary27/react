@@ -7,13 +7,13 @@ import { pagination } from "../../../../utils/pagination";
 import * as Yup from "yup";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
-import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 import Custom_Button from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import FieldMultiSelect from '../../../../widgets/formInputFields/multiSelect';
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
-  userEmail: Yup.string().email().required('sdfdf'),
+  userEmail: Yup.string().email().required(''),
 });
 
 const DiciplineModal = ({
@@ -24,11 +24,11 @@ const DiciplineModal = ({
   onHide,
   courseid
 }: any) => {
+
   // Initial values of react table === >>>
-  console.log(disciplineobj)
   const initialValues = {
     userEmail: disciplineobj.userEmail,
-    groupId: disciplineobj.groupId
+    groups: disciplineobj.groups.map((obj : any ) => obj.id)  
   };
   const dummyData = {
     items: [],
@@ -37,7 +37,7 @@ const DiciplineModal = ({
   const [groupData, setGroupData] = useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    pageSize: pagination.PERPAGE * 50,
+    pageSize: pagination.PERPAGE * 5,
   });
 
   // custom Obj & handle form data === >>>
@@ -65,10 +65,17 @@ const DiciplineModal = ({
     );
   }, []);
   
+  const convertFormSubmittedTagsData = (tags : any) => {
+    const filteredArray = tags.filter((value : any )=> value != 0);  // to remove value zero
+    const newArray = filteredArray.map((id :any) => {
+        return { id: parseInt(id) };
+    });
+    return newArray;
+  }
+
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    console.log(values);
-    
+    values.groups = convertFormSubmittedTagsData(values.groups);
 
     setSubmitting(true);
     if(disciplineobj.userId === 0){
@@ -147,15 +154,13 @@ const DiciplineModal = ({
               </div>          
               <div className="mb-3">
                 <FieldLabel
-                  htmlfor="groupId"
+                  htmlfor="groups"
                   labelText="Group"
                   // required="required"
                 />
-                <FieldTypeSelect
-                  name="groupId"
+                <FieldMultiSelect
+                  name="groups"
                   options={groupData.items}
-                  setcurrentvalue={setValues}
-                  currentformvalue={values}
                 />
                 <FieldErrorMessage
                   errors={errors.groupId}
