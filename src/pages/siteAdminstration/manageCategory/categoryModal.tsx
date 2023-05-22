@@ -91,7 +91,6 @@ const CategoryModal = ({
                     htmlfor="name"
                     labelText="Name"
                     required="required"
-                    star="*"
                   />
                   <FieldTypeText name="name" placeholder="Name" />
                   <FieldErrorMessage
@@ -106,7 +105,6 @@ const CategoryModal = ({
                     htmlfor="description"
                     labelText="Description"
                     // required="required"
-                    // star="*"
                   />
                   <FieldTypeTextarea
                     name="description"

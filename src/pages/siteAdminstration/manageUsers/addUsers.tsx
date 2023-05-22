@@ -133,7 +133,6 @@ const EnrolUserToProgram = () => {
                           htmlfor="userEmail"
                           labelText="Email"
                           required="required"
-                          star="*"
                         />
                         <FieldTypeText  
                           name="userEmail" 
@@ -154,7 +153,6 @@ const EnrolUserToProgram = () => {
                       htmlfor="roleNumber"
                       labelText="Role No"
                       required="required"
-                      star="*"
                     />
                     <FieldTypeText name="roleNumber" placeholder="Role No" />
                     <FieldErrorMessage
@@ -169,7 +167,6 @@ const EnrolUserToProgram = () => {
                       htmlfor="role"
                       labelText="Role"
                       required="required"
-                      star="*"
                     />
                     <FieldTypeSelect
                       name="role"
