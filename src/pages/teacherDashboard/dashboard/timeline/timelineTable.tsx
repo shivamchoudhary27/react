@@ -6,28 +6,18 @@ import "./style.scss";
 const TimelineTable = () => {
   return (
     <>
-      <h6>Mon Feb 11 2023</h6>
-      <Container>
-        <Table responsive>
-          <tbody>
-            {tableData.map((item, index) => (
-              <tr key={index}>
-                <td>icon</td>
-                <td>
-                  <div className="table-contents-wrapper">
-                    <div>
-                      <h6>{item.title}</h6>
-                      <p>{item.subtitle}</p>
-                      <Link to="">{item.link}</Link>
-                    </div>
-                    <div>{item.time}</div>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </Container>
+      <div className="mitblock-body">
+          {tableData.map((item, index) => (
+            <div className="d-flex align-items-center atb-row" key={index}>
+              <div className="atb-info">
+                <h6>{item.title}</h6>                
+                <p>{item.subtitle}</p>
+                <span>{item.time}</span>
+              </div>
+              <a href="#" className="btn btn-light btn-sm atb-button">{item.link}</a>
+            </div>
+          ))}          
+      </div>
     </>
   );
 };

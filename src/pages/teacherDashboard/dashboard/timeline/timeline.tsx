@@ -2,13 +2,18 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import './style.scss';
 import TimelineTable from "./timelineTable";
+import FilterDropdown from "./filterDropdown";
 
 const Timeline = () => {
   return (
     <>
-      <Card className="my-2" body>
+      <div className="mitblock activityTimeline-block">
+        <h3 className="mitblock-title">
+          Activity Timeline
+          <FilterDropdown />
+        </h3>        
         <TimelineTable />
-      </Card>
+      </div>
     </>
   );
 };
