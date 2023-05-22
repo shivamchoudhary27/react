@@ -18,7 +18,7 @@ const PerformanceOverview = () => {
               {data.map((item, index) => (
                 <Col md={6} key={index}>
                   <div className="d-flex align-items-center mt-4 pob-row">
-                    <img className="po-icon" src={item.icon} alt="Av. Grade" />
+                    <img className="pob-icon" src={item.icon} alt="Av. Grade" />
                     <div className="d-flex flex-column flex-fill">
                       <div className="d-flex justify-content-between pob-info">
                         <span>{item.title}</span>

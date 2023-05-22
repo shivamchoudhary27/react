@@ -5,49 +5,31 @@ import Image from "../../../../assets/images/course_catalogue_ai_image.jpg";
 
 const Card_Component = () => {
   return (
-    <>
-      <Container fluid>
-        <Row>
-          {card_Data.map((item, index) => (
-            <Col md={4} key={index} className="gy-3">
-              <Card body>
-                <Card.Img variant="top" src={Image} height="120px" />
-                <Card.Title className="pt-2">
-                  <small className="text-muted">{item.title}</small>
-                </Card.Title>
-                <Card.Text>
-                  <Row>
-                    <Col sm={6} className="program-innerleft-column">
-                      <i className="fa-solid fa-trophy"></i>{" "}
-                      <span>Grade : </span>
-                      <span>{item.grade}</span>
-                    </Col>
-                    <Col sm={6}>
-                      <i className="fa-solid fa-certificate"></i>{" "}
-                      <span>Badges : </span>
-                      <span>{item.badges}</span>
-                    </Col>
-                  </Row>
-
-                  <ProgressBar
-                    now={item.progress}
-                    label={`${item.progress}%`}
-                    variant={
-                      item.progress < 50
-                        ? "danger"
-                        : item.progress >= 50 && item.progress < 70
-                        ? "warning"
-                        : "success"
-                    }
-                    className="mt-2"
-                  />
-                </Card.Text>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </>
+    <Row className="g-4">
+      {card_Data.map((item, index) => (
+        <Col sm={6} lg={4} xl={3} key={index}>
+          <Card body className="card shadow h-100">
+            <Card.Img src={Image} alt="" />
+            <Card.ImgOverlay>
+              <h4>{item.title}</h4>
+              <span>{`${item.progress}%`}</span>
+            </Card.ImgOverlay>
+            <Row>
+              <Col sm={6} className="program-innerleft-column">
+                <i className="fa-solid fa-trophy"></i>{" "}
+                <span>Grade : </span>
+                <span>{item.grade}</span>
+              </Col>
+              <Col sm={6}>
+                <i className="fa-solid fa-certificate"></i>{" "}
+                <span>Badges : </span>
+                <span>{item.badges}</span>
+              </Col>
+            </Row>
+          </Card>
+        </Col>
+      ))}
+    </Row>
   );
 };
 
