@@ -3,7 +3,7 @@ const API_URL =  'https://api.microlearning.ballisticlearning.com';
 const config = {
   APP_NAME: 'BL Mircolearning',
   MOODLE_BASE_URL: 'https://demo.learn.ballisticlearning.com',
-  REST_ENDPOINT: '/webservice/rest/server.php',
+  REST_ENDPOINT: '/webservice/blrest/server.php',
   TOKEN_ENDPOINT: '/login/token.php',
   OAUTH2_URL: API_URL + ':8443/oauth2-service/oauth2',
   JAVA_API_URL: API_URL + '/learning-service/api/v1',

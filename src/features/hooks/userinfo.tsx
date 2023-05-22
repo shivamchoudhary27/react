@@ -10,7 +10,7 @@ const useUserinfo = () => {
   useEffect(() => {
     if (userCtx.status !== '200') {
       const query = {
-        wsfunction: 'core_webservice_get_site_info'
+        wsfunction: 'local_blapi_get_userinfo'
       };
       getData(query)
         .then(res => {

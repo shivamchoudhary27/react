@@ -48,6 +48,7 @@ const Header = () => {
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
+          <Dropdown.Item href="#/action-2" >{fullname}</Dropdown.Item>
           <Dropdown.Item href="#/action-2" onClick={logout}>Logout</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
