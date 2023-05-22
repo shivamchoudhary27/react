@@ -5,7 +5,7 @@ import Image from "../../../../assets/images/course_catalogue_ai_image.jpg";
 
 const Card_Component = () => {
   return (
-    <Row className="g-4">
+    <Row className="g-4 mylearning-card">
       {card_Data.map((item, index) => (
         <Col sm={6} lg={4} xl={3} key={index}>
           <Card body className="card shadow h-100">
@@ -15,14 +15,14 @@ const Card_Component = () => {
               <span>{`${item.progress}%`}</span>
             </Card.ImgOverlay>
             <Row>
-              <Col sm={6} className="program-innerleft-column">
+              <Col sm={6}>
                 <i className="fa-solid fa-trophy"></i>{" "}
-                <span>Grade : </span>
+                <span>Grade: </span>
                 <span>{item.grade}</span>
               </Col>
               <Col sm={6}>
                 <i className="fa-solid fa-certificate"></i>{" "}
-                <span>Badges : </span>
+                <span>Badges: </span>
                 <span>{item.badges}</span>
               </Col>
             </Row>
