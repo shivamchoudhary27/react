@@ -12,19 +12,15 @@ a, a:visited {
         color: #000;
     }
 }
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: #929DA7;
-    opacity: 1; /* Firefox */
+
+/**** Headings Start ****/
+.page-title {
+    border-bottom: 1px solid #ddd;
 }
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: #929DA7;
-}
-::-ms-input-placeholder { /* Microsoft Edge */
-    color: #929DA7;
-}
-.form-control {
-    padding: 0.5rem 0.75rem;
-}
+/**** Headings End ****/
+
+
+/**** Button / Link Start ****/
 .btn-primary, .btn-primary:active, .btn-primary:visited {
     background: linear-gradient(180deg, #28C8E5 0%, #2C2C33 100%); border-color: #28C8E5;
 }
@@ -43,20 +39,50 @@ a, a:visited {
 .btn-outline-primary:hover {
     background-color: #28C8E5; color: #fff;
 }
-.progress {
-    --bs-progress-height: 0.5rem;
+/**** Button End ****/
+
+
+/**** Form Start ****/
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #929DA7;
+    opacity: 1; /* Firefox */
 }
-.badge {
-    border-radius: 0.75rem;
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #929DA7;
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #929DA7;
 }
 .error-message {
     color: #ff0000;
     font-size: 11px;
     margin-bottom: 0.25rem;
 }
-.page-title {
-    border-bottom: 1px solid #ddd;
+.form-control {
+    padding: 0.5rem 0.75rem;
 }
+label {
+    font-weight: 500;
+}
+.badge {
+    border-radius: 0.75rem;
+}
+/**** Form End ****/
+
+
+/**** Progress Start ****/
+.progress {
+    --bs-progress-height: 0.5rem;
+}
+/**** Progress End ****/
+
+/**** Grid Start ****/
+.container-fluid {
+    max-width: 98%;
+}
+/**** Grid End ****/
+
+/**** Block Start ****/
 .mitblock {
     background-color: #fff;
     border-radius: 15px;
@@ -74,3 +100,10 @@ a, a:visited {
 .mitblock-body {
     margin-top: 1.5rem;
 }
+/**** Block End ****/
+
+/**** Component Heading with Filter Start ****/
+.mitcomponet-heading {
+
+}
+/**** Component Heading with Filter End ****/

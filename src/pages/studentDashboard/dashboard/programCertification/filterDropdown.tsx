@@ -3,9 +3,8 @@ import React from "react";
 const FilterProgramDropdown = () => {
   return (
     <>
-      <div className="ui-filter-dropdowns text-center">
-        <strong>Filter By :</strong>{" "}
-        <ShortBySemester />{" "}
+      <div className="row">        
+        <ShortBySemester />
         <ShortByStatus />
       </div>
     </>
@@ -14,37 +13,36 @@ const FilterProgramDropdown = () => {
 
 export default FilterProgramDropdown;
 
-const dropdown_style = {
-  display: "inline",
-  width: "auto",
-};
-
 const ShortBySemester = () => {
   return (
-    <select
-      style={dropdown_style}
-      className="form-select"
-      aria-label="Default select example"
-      defaultValue="Semester 4"
-    >
-      <option value="1">Semester 4</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+    <div className="col-auto">
+      <label>Semester</label>
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        defaultValue="Semester 3"
+        >
+        <option value="1">Semester 3</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 1</option>
+      </select>
+    </div>
   );
 };
 
 const ShortByStatus = () => {
   return (
-    <select
-      style={dropdown_style}
-      className="form-select"
-      aria-label="Default select example"
-      defaultValue="In Progress"
-    >
-      <option value="1">In Progress</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+    <div className="col-auto">
+      <label>Status</label>
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        defaultValue="In Progress"
+      >
+        <option value="1">In-Progress</option>
+        <option value="2">Not Started</option>
+        <option value="3">Completed</option>      
+      </select>
+    </div>
   );
 };

@@ -1,28 +1,19 @@
 import React, { useState } from "react";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Container, Row, Col } from "react-bootstrap";
 import Card_Component from "./cardComp";
 import FilterProgramDropdown from "./filterDropdown";
-import Certification from "./certification";
 
-const Program_Certification = () => {
+const ProgramCertification = () => {
   const [key, setKey] = useState<any>("program");
   return (
-    <>
-      <Tabs
-        id="controlled-tab-example"
-        activeKey={key}
-        onSelect={(e) => setKey(e)}
-      >
-        <Tab eventKey="program" title="Program">
-          <FilterProgramDropdown />
-          <Card_Component />
-        </Tab>
-        <Tab eventKey="certification" title="Certification">
-          <Certification />
-        </Tab>
-      </Tabs>
-    </>
+    <Container fluid>
+      <div className="d-flex align-items-center justify-content-between mitcomponet-heading">
+        <h3>My Courses</h3>
+        <FilterProgramDropdown />
+      </div>
+      <Card_Component />
+    </Container>
   );
 };
 
-export default Program_Certification;
+export default ProgramCertification;
