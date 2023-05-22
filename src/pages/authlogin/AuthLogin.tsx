@@ -85,7 +85,6 @@ const AuthLogin = () => {
             (!isLoaded && (
               <div>
                 <NewLoader />
-                <p>Authentication in progress ...</p>
               </div>
             ))}
         </div>
