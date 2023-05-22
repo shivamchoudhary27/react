@@ -21,7 +21,7 @@ const initialValues = {
   lastName:"",
   firstName: "",
   email: "",
-  password: "",
+  password: "Admin@123",
   city: "",
   country: "",
   idnumber: "IN"

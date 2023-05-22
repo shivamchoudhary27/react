@@ -47,7 +47,8 @@ const AuthLogin = () => {
                 });
 
                 createAxiosInstance(result.access_token);
-                config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
+                // config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
+                config.WSTOKEN = result.access_token;
                 config.OAUTH2_ACCESS_TOKEN = result.access_token;               
                 
                 userCtx.setUserToken(config.WSTOKEN);
