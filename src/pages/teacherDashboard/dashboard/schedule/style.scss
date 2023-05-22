@@ -1,16 +1,39 @@
-.icon-bg{
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #6c757d   ;
-    color: #ffffff;
-}
-
-.schedule-contents{
-    p{
-        margin-bottom: 0px;
+.todaysession-block {
+    .mitblock-title {
+        .tsb-date {
+            font-size: 12px;
+            font-weight: 500;
+        }
+    }
+    .tsb-row {
+        .tsb-info {
+            margin-right: 15px;
+            h6 {
+                margin-bottom: 0.25rem;
+                font-size: 14px;
+            }
+            p, span {
+                font-size: 13px;
+                font-weight: 300;
+                margin-bottom: 0.25rem;
+                line-height: normal;
+            }
+        }
+        .tsb-button {
+            margin-left: auto;
+            font-weight: 400;
+            background-color: #000;
+            color: #fff;
+            min-width: 60px;
+            &.online {
+                background: linear-gradient(95.68deg, #334665 11.59%, #27DDFB 97.23%);
+            }
+            &.offline {
+                background: linear-gradient(95.68deg, #2C2C33 11.59%, #626265 97.23%);
+            }
+            &.lab {
+                background: linear-gradient(95.68deg, #0EC97D 11.59%, #276C6B 97.23%);
+            }
+        }
     }
 }

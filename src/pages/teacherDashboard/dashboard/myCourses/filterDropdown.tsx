@@ -1,133 +1,48 @@
 import React from "react";
 
-const MyCourses_Filter = () => {
+const FilterProgramDropdown = () => {
   return (
     <>
-      <div className="ui-CoursesFilter-dropdowns">
-        <div>
-          <ShortByAcadmicYear /> <ShortByDepartment /> <ShortByProgram />{" "}
-          <ShortBySemester />
-        </div>
-        <div>
-          <ShortByProgress />
-        </div>
+      <div className="row">        
+        <ShortBySemester />
+        <ShortByStatus />
       </div>
     </>
   );
 };
 
-export default MyCourses_Filter;
-
-const dropdown_style = {
-  display: "inline",
-  width: "auto",
-};
-
-const ShortByAcadmicYear = () => {
-  return (
-    <>
-      <div className="d-inline-block">
-        <label><strong>Academic Year</strong></label>
-        <br />
-        <select
-          style={dropdown_style}
-          className="form-select"
-          aria-label="Default select example"
-          defaultValue="2023-2024"
-        >
-          <option value="1">
-            2023-2024
-          </option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </>
-  );
-};
-
-const ShortByDepartment = () => {
-  return (
-    <>
-      <div className="d-inline-block">
-        <label><strong>Department</strong></label>
-        <br />
-        <select
-          style={dropdown_style}
-          className="form-select"
-          aria-label="Default select example"
-          defaultValue="All"
-        >
-          <option value="1">
-            All
-          </option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </>
-  );
-};
-
-const ShortByProgram = () => {
-  return (
-    <>
-      <div className="d-inline-block">
-        <label><strong>Program</strong></label>
-        <br />
-        <select
-          style={dropdown_style}
-          className="form-select"
-          aria-label="Default select example"
-          defaultValue="All"
-        >
-          <option value="1">
-            All
-          </option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </>
-  );
-};
+export default FilterProgramDropdown;
 
 const ShortBySemester = () => {
   return (
-    <>
-      <div className="d-inline-block">
-        <label><strong>Semester</strong></label>
-        <br />
-        <select
-          style={dropdown_style}
-          className="form-select"
-          aria-label="Default select example"
-          defaultValue="All"
+    <div className="col-auto">
+      <label>Semester</label>
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        defaultValue="Semester 3"
         >
-          <option value="1">
-            All
-          </option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
-    </>
+        <option value="1">Semester 3</option>
+        <option value="2">Semester 2</option>
+        <option value="3">Semester 1</option>
+      </select>
+    </div>
   );
 };
 
-const ShortByProgress = () => {
+const ShortByStatus = () => {
   return (
-    <select
-      style={dropdown_style}
-      className="form-select"
-      aria-label="Default select example"
-      defaultValue="In Progress"
-    >
-      <option value="1">
-        In Progress
-      </option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
+    <div className="col-auto">
+      <label>Status</label>
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        defaultValue="In Progress"
+      >
+        <option value="1">In-Progress</option>
+        <option value="2">Not Started</option>
+        <option value="3">Completed</option>      
+      </select>
+    </div>
   );
 };
