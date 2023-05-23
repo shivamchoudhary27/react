@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -12,27 +12,44 @@ import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import AddUsersModal from "./addUsersModal";
 
 const ManageProgramEnrollment = () => {
   const { programid, programname } = useParams();
   const parsedProgramid = parseInt(programid);
   const [modalShow, setModalShow] = useState(false);
+  const [usersModalShow, setUsersModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState<boolean>(false);
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [enrolUserData, setEnrolUserData] = useState<any>(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  
+  const [usersDataObj, setUsersDataObj] = useState({
+    id: 0,
+    email: "",
+    roleNo: "",
+    role: "",
+  });
+
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setEnrolUserData); 
+    makeGetDataRequest(
+      `program/${programid}/enrol-user`,
+      filterUpdate,
+      setEnrolUserData
+    );
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
-    if (refreshOnDelete === true) makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setEnrolUserData); 
+    if (refreshOnDelete === true)
+      makeGetDataRequest(
+        `program/${programid}/enrol-user`,
+        filterUpdate,
+        setEnrolUserData
+      );
   }, [refreshOnDelete]);
 
   const refreshOnDeleteToggle = (value: boolean) => {
@@ -52,13 +69,43 @@ const ManageProgramEnrollment = () => {
     setModalShow(status);
   };
 
-  const updateSearchFilters = (newFilterRequest: any, reset = false ) => {
+  // handle modal hide & show functionality === >>>
+  const AddUsersModalShow = (status: boolean) => {
+    setUsersModalShow(status);
+    setUsersDataObj({
+      id: 0,
+      email: "",
+      roleNo: "",
+      role: "",
+    });
+  };
+
+  // get users data from the users table === >>>
+  const editHandlerById = (
+    id: number,
+    email: string,
+    roleNo: string,
+    role: string
+  ) => {
+    setUsersDataObj({
+      id: id,
+      email: email,
+      roleNo: roleNo,
+      role: role,
+    });
+  };
+
+  const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
       const { name, email, rolenumber, ...newObject } = newFilterRequest;
-      setFilterUpdate({...filterUpdate, ...newObject});
+      setFilterUpdate({ ...filterUpdate, ...newObject });
     } else {
-      const { name, email, roleNumber} = newFilterRequest;
-      let updatedState = {...filterUpdate, pageNumber: 0, ...newFilterRequest};
+      const { name, email, roleNumber } = newFilterRequest;
+      let updatedState = {
+        ...filterUpdate,
+        pageNumber: 0,
+        ...newFilterRequest,
+      };
 
       if (email === "") delete updatedState.email;
       if (roleNumber === "") delete updatedState.roleNumber;
@@ -66,50 +113,61 @@ const ManageProgramEnrollment = () => {
 
       setFilterUpdate(updatedState);
     }
-  }
+  };
 
-  return ( 
+  return (
     <React.Fragment>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Program Enrollment", path: "/programenrollment" },
-              { name: programname, path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Program Enrollment", path: "/programenrollment" },
+          { name: programname, path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>
-          <PageTitle 
-            pageTitle = {`Program: ${programname}`} gobacklink = "/programenrollment"
+        <Container fluid>
+          <PageTitle
+            pageTitle={`Program: ${programname}`}
+            gobacklink="/programenrollment"
           />
-            <UserFilter 
-              updateinputfilters={updateSearchFilters} 
-              programname={programname} 
-              toggleModalShow={toggleModalShow}
-            />
-            <UsersTable
-              enrolleduserdata={enrolUserData.items} 
-              programid={parsedProgramid} 
-              refreshdata={refreshOnDeleteToggle}
-              programname={programname}
-            />
-            <BuildPagination
-              totalpages={enrolUserData.pager.totalPages}
-              activepage={filterUpdate.pageNumber}
-              getrequestedpage={newPageRequest}
-            />
-          </Container>
-        </div>
+          <UserFilter
+            updateinputfilters={updateSearchFilters}
+            programname={programname}
+            toggleModalShow={toggleModalShow}
+            AddUsersModalShow={AddUsersModalShow}
+          />
+          <UsersTable
+            enrolleduserdata={enrolUserData.items}
+            programid={parsedProgramid}
+            refreshdata={refreshOnDeleteToggle}
+            programname={programname}
+            editHandlerById={editHandlerById}
+            AddUsersModalShow={AddUsersModalShow}
+          />
+          <BuildPagination
+            totalpages={enrolUserData.pager.totalPages}
+            activepage={filterUpdate.pageNumber}
+            getrequestedpage={newPageRequest}
+          />
+        </Container>
+      </div>
       <UploadUsersEnrollment
         programid={programid}
         show={modalShow}
         onHide={() => toggleModalShow(false)}
         togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
-      />     
-      <Footer /> 
+      />
+      <AddUsersModal
+        show={usersModalShow}
+        onHide={() => AddUsersModalShow(false)}
+        addusersmodalshow={AddUsersModalShow}
+        usersdataobj={usersDataObj}
+        refreshToggle={refreshToggle}
+      />
+      <Footer />
     </React.Fragment>
   );
 };

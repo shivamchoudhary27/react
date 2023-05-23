@@ -43,7 +43,7 @@ const AddUserModal = ({
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
     //   city: Yup.string().min(1).trim().required(),
-    country: Yup.string().required(),
+    // country: Yup.string().required(),
   });
 
   // handle Form CRUD operations === >>>
@@ -122,6 +122,7 @@ const AddUserModal = ({
                     htmlfor="username"
                     labelText="Username"
                     required="required"
+                    star="*"
                   />
                   <FieldTypeText name="username" placeholder="Username" />
                   <FieldErrorMessage
@@ -142,6 +143,7 @@ const AddUserModal = ({
                     htmlfor="password"
                     labelText="Password"
                     required="required"
+                    star="*"
                   />
                   <FieldTypeText
                     type="password"
@@ -161,6 +163,7 @@ const AddUserModal = ({
                     htmlfor="firstName"
                     labelText="First Name"
                     required="required"
+                    star="*"
                   />
                   <FieldTypeText name="firstName" placeholder="First Name" />
                   <FieldErrorMessage
@@ -175,6 +178,7 @@ const AddUserModal = ({
                     htmlfor="lastName"
                     labelText="Last Name"
                     required="required"
+                    star="*"
                   />
                   <FieldTypeText name="lastName" placeholder="Last Name" />
                   <FieldErrorMessage
@@ -189,6 +193,7 @@ const AddUserModal = ({
                     htmlfor="email"
                     labelText="Email"
                     required="required"
+                    star="*"
                   />
                   <FieldTypeText name="email" placeholder="Email" />
                   <FieldErrorMessage

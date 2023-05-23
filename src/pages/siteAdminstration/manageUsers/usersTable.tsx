@@ -11,14 +11,19 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any) => {
-
+const UsersTable = ({
+  enrolleduserdata,
+  programid,
+  refreshdata,
+  programname,
+  editHandlerById,
+  AddUsersModalShow
+}: any) => {
   const tableColumn = [
     {
       Header: "Full Name",
-      Cell: ({ row }: any) => (
-        `${row.original.userFirstName} ${row.original.userLastName}`
-      ),
+      Cell: ({ row }: any) =>
+        `${row.original.userFirstName} ${row.original.userLastName}`,
     },
     {
       Header: "Email",
@@ -30,20 +35,33 @@ const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any
     },
     {
       Header: "Role",
-      Cell: ({ row }: any) => (userRoleString(row.original.role))
+      Cell: ({ row }: any) => userRoleString(row.original.role),
     },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to={createEditLink(row.original.userId)}>
-            <i className="fa-solid fa-pen"></i>
+          <Link
+            to=""
+            // to={createEditLink(row.original.userId)}
+          >
+            <i
+              className="fa-solid fa-pen"
+              onClick={() =>
+                editHandler(
+                  row.original.userId,
+                  row.original.userEmail,
+                  row.original.roleNumber,
+                  row.original.role
+                )
+              }
+            ></i>
           </Link>
           <Link to="">
-              <i
-                className="fa-solid fa-trash"
-                onClick={() => deleteHandler(row.original.userId)}
-              ></i>
+            <i
+              className="fa-solid fa-trash"
+              onClick={() => deleteHandler(row.original.userId)}
+            ></i>
           </Link>
         </span>
       ),
@@ -64,12 +82,17 @@ const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any
   };
 
   const userRoleString = (userRole: string) => {
-    if (userRole === 'manager') return "Manager";
-    if (userRole === 'student') return "Student";
-    if (userRole === 'editingteacher') return "Teacher";
-    if (userRole === 'teacher') return "Non-editing teacher";
-    return '';
-  }
+    if (userRole === "manager") return "Manager";
+    if (userRole === "student") return "Student";
+    if (userRole === "editingteacher") return "Teacher";
+    if (userRole === "teacher") return "Non-editing teacher";
+    return "";
+  };
+
+  const editHandler = (id: number, email: string, roleNo: string, role: string) => {
+    AddUsersModalShow(true)
+    editHandlerById(id, email, roleNo, role);
+  };
 
   const deleteHandler = (userid: number) => {
     if (window.confirm("Are you sure to delete this user?")) {
@@ -114,7 +137,9 @@ const UsersTable = ({enrolleduserdata, programid, refreshdata, programname}: any
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>{cell.render("Cell")}</td>
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render("Cell")}
+                    </td>
                   ))}
                 </tr>
               );
