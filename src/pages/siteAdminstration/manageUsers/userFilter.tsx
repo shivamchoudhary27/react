@@ -15,6 +15,7 @@ const UserFilter = ({
   updateinputfilters,
   programname,
   toggleModalShow,
+  AddUsersModalShow
 }: any) => {
   const navigate = useNavigate();
   const { programid } = useParams();
@@ -48,7 +49,10 @@ const UserFilter = ({
         <Button variant="primary" onClick={toggleModalShow}>
           Upload Users
         </Button>{" "}
-        <Button variant="primary" onClick={() => navigate(addUserLink)}>
+        <Button variant="primary" 
+          // onClick={() => navigate(addUserLink)}
+          onClick={AddUsersModalShow}
+        >
           Add Users
         </Button>{" "}
         <Button variant="primary" onClick={toEnrolProgramCourses}>
