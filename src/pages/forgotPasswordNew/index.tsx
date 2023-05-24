@@ -5,7 +5,7 @@ import FieldLabel from "../../widgets/formInputFields/labels";
 import FieldTypeText from "../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../widgets/formInputFields/errorMessage";
 // import { useNavigate } from "react-router-dom";
-// import { postData } from "../../adapters/coreservices";
+import { postData } from "../../adapters/coreservices";
 import * as Yup from "yup";
 
 const initialValues = {
@@ -21,6 +21,21 @@ const ForgotPasswordForm = () => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     console.log(values)
+    postData('/user/forgotPassword', values)
+    .then((res: any) => {
+      console.log('forgotpassowrd', res)
+      if (res.status === 200) {
+        window.alert('An email has been sent, Please check..');
+      } else {
+        window.alert('There was an error');
+      }
+    })
+    .catch((err: any) => {
+      console.log('error', err);
+      if (err.response.status === 404) {
+        window.alert(err.response.data.message);
+      }
+    });
   };
 
   return (
@@ -46,7 +61,7 @@ const ForgotPasswordForm = () => {
                 <FieldErrorMessage
                   errors={errors.email}
                   touched={touched.email}
-                  msgText="Please provide an email"
+                  msgText="Please provide your email"
                 />
               </div>              
               <div className="col-12 mb-4 d-grid">
