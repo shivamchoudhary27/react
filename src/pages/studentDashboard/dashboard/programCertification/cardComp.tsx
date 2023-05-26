@@ -1,31 +1,33 @@
 import React from "react";
 import { Card, Row, Col, Container, ProgressBar } from "react-bootstrap";
 import "./style.scss";
-import Image from "../../../../assets/images/course_catalogue_ai_image.jpg";
+import courseImage from "../../../../assets/images/course-default.jpg";
+import gradeIcon from "../../../../assets/images/icons/grade.svg"
+import badgesIcon from "../../../../assets/images/icons/badges.svg"
 
 const Card_Component = () => {
   return (
     <Row className="g-4 mylearning-card">
       {card_Data.map((item, index) => (
         <Col sm={6} lg={4} xl={3} key={index}>
-          <Card body className="card shadow h-100">
-            <Card.Img src={Image} alt="" />
-            <Card.ImgOverlay>
-              <h4>{item.title}</h4>
-              <span>{`${item.progress}%`}</span>
-            </Card.ImgOverlay>
-            <Row>
-              <Col sm={6}>
-                <i className="fa-solid fa-trophy"></i>{" "}
-                <span>Grade: </span>
+          <Card body className="h-100">
+            <div className="mlcard-image">
+              <Card.Img src={courseImage} alt={item.title} />
+            </div>
+            <div className="mlcard-title">
+              <h5>{item.title}</h5>
+              <span className="my-progress">{`${item.progress}%`}</span>
+            </div>
+            <div className="mlcard-info">
+              <div>                
+                <img src={gradeIcon} alt="Grade" className="small-icon" />Grade:
                 <span>{item.grade}</span>
-              </Col>
-              <Col sm={6}>
-                <i className="fa-solid fa-certificate"></i>{" "}
-                <span>Badges: </span>
+              </div>
+              <div>
+                <img src={badgesIcon} alt="Badges" />Badges: 
                 <span>{item.badges}</span>
-              </Col>
-            </Row>
+              </div>
+            </div>
           </Card>
         </Col>
       ))}
