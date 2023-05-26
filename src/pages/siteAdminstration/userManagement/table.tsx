@@ -133,7 +133,7 @@ const UserManagementTable = ({
               </tr>
             ))}
           </thead>
-
+          
           <tbody {...getTableBodyProps}>
             {rows.map((row, index) => {
               prepareRow(row);

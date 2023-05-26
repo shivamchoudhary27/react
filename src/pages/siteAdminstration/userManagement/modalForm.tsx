@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
 import { Formik, Form, ErrorMessage } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
@@ -10,15 +9,14 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import { CountryList } from "./countryDataList";
 import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/coreservices";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+// import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 const AddUserModal = ({
   show,
   onHide,
   userobj,
   togglemodalshow,
-  updateAddRefresh,
-  programid,
+  updateAddRefresh
 }: any) => {
   const initialValues = {
     username: userobj.username,
@@ -27,23 +25,20 @@ const AddUserModal = ({
     email: userobj.email,
     password: userobj.password,
     country: userobj.country,
-    // city: "",
-    // idnumber: ""
+    shouldValidatePassword: (userobj.id > 0) ? false : true
   };
-  const [passwordCheck, setPasswordCheck] = useState(false);
-
-  const navigate = useNavigate();
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     username: Yup.string().trim().min(4).required(),
-    password: Yup.string().min(6).trim().required(),
-    //   idnumber: Yup.number().min(5).required(),
     email: Yup.string().email("Invalid email").required("Email is required"),
+    password: Yup.string().when('shouldValidatePassword', {
+      is: true,
+      then: Yup.string().min(6).trim().required(),
+      otherwise: Yup.string().trim()
+    }),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
-    //   city: Yup.string().min(1).trim().required(),
-    // country: Yup.string().required(),
   });
 
   // handle Form CRUD operations === >>>
@@ -57,7 +52,6 @@ const AddUserModal = ({
             updateAddRefresh();
             setSubmitting(false);
             resetForm();
-            // navigate("/usermanagement");
           }
         })
         .catch((err: any) => {
@@ -72,22 +66,11 @@ const AddUserModal = ({
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
-            // navigate("/usermanagement");
           }
         })
         .catch((err: any) => {
           console.log(err);
         });
-    }
-  };
-
-  const handleCheckToggle = () => {
-    setPasswordCheck(!passwordCheck);
-  };
-
-  const hangleClick = (e: any) => {
-    if (e.type === "click") {
-      handleCheckToggle();
     }
   };
 
@@ -117,46 +100,42 @@ const AddUserModal = ({
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
               <Form className="mt-3">
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="username"
-                    labelText="Username"
-                    required="required"
-                    star="*"
-                  />
-                  <FieldTypeText name="username" placeholder="Username" />
-                  <FieldErrorMessage
-                    errors={errors.username}
-                    touched={touched.username}
-                    msgText="Username is required with 4 characters minimum"
-                  />
-                </div>
-
-                <div className="mb-3">
-                  {userobj.id !== 0 && (
-                    <FieldTypeCheckbox
-                      name="check"
-                      onClick={(e: any) => hangleClick(e)}
-                    />
-                  )}{" "}
-                  <FieldLabel
-                    htmlfor="password"
-                    labelText="Password"
-                    required="required"
-                    star="*"
-                  />
-                  <FieldTypeText
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    disabled={passwordCheck !== true && userobj.id !== 0 && "disabled"}
-                  />
-                  <FieldErrorMessage
-                    errors={errors.password}
-                    touched={touched.password}
-                    msgText="Password is required with 6 characters minimum"
-                  />
-                </div>
+                {userobj.id === 0 &&
+                  <React.Fragment>
+                    <div className="mb-3">
+                      <FieldLabel
+                        htmlfor="username"
+                        labelText="Username"
+                        required="required"
+                        star="*"
+                      />
+                      <FieldTypeText name="username" placeholder="Username" />
+                      <FieldErrorMessage
+                        errors={errors.username}
+                        touched={touched.username}
+                        msgText="Username is required with 4 characters minimum"
+                      />
+                    </div>
+                    <div className="mb-3">                  
+                      <FieldLabel
+                        htmlfor="password"
+                        labelText="Password"
+                        required="required"
+                        star="*"
+                      />
+                      <FieldTypeText
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                      />
+                      <FieldErrorMessage
+                        errors={errors.password}
+                        touched={touched.password}
+                        msgText="Password is required with 6 characters minimum"
+                      />
+                    </div>
+                  </React.Fragment>
+                }
 
                 <div className="mb-3">
                   <FieldLabel
