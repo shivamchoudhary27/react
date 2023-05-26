@@ -3,8 +3,8 @@ import { Card, Row, Col, Container, ProgressBar } from "react-bootstrap";
 import "./style.scss";
 import courseImage from "../../../../assets/images/course-default.jpg";
 import gradeIcon from "../../../../assets/images/icons/grade.svg"
-import attendanceIcon from "../../../../assets/images/icons/badges.svg"
-import sessionIcon from "../../../../assets/images/icons/badges.svg"
+import sessionIcon from "../../../../assets/images/icons/session.svg"
+import attendanceIcon from "../../../../assets/images/icons/attendance-black.svg"
 
 const Card_Component = () => {
   return (
@@ -20,7 +20,7 @@ const Card_Component = () => {
           </div>
           <div className="mlcard-info">
             <div>                
-              <img src={gradeIcon} alt="Grade" className="small-icon" />Av Grade
+              <img src={gradeIcon} alt="Grade" />Av Grade
               <span>{item.grade}</span>
             </div>
             <div>
@@ -28,7 +28,7 @@ const Card_Component = () => {
               <span>{item.session}</span>
             </div>
             <div>
-              <img src={attendanceIcon} alt="Attendance" />Attendance
+              <img src={attendanceIcon} alt="Attendance" className="small-icon" />Attendance
               <span>{item.attendance}</span>
             </div>
           </div>
