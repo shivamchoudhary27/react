@@ -20,21 +20,18 @@ const ForgotPasswordForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    console.log(values)
     postData('/user/forgotPassword', values)
     .then((res: any) => {
       console.log('forgotpassowrd', res)
       if (res.status === 200) {
-        window.alert('An email has been sent, Please check..');
+        window.alert('An email has been sent, Please check and follow the link');
       } else {
         window.alert('There was an error');
       }
     })
     .catch((err: any) => {
       console.log('error', err);
-      if (err.response.status === 404) {
-        window.alert(err.response.data.message);
-      }
+      window.alert('Some error occurred');
     });
   };
 
