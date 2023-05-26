@@ -10,7 +10,7 @@ import * as Yup from "yup";
 
 const initialValues = {
     newPassword: "",
-    conformPassword: "",
+    confirmPassword: "",
 };
 
 const ResetPasswordForm = () => {
@@ -20,7 +20,11 @@ const ResetPasswordForm = () => {
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     newPassword: Yup.string().required(),
-    conformPassword: Yup.string().required(),
+    confirmPassword: Yup.string()
+    .required()
+    .test('passwords-match', 'Passwords must match', function (value) {
+      return value === this.parent.newPassword;
+    }),
   });
 
   useEffect(() => {
@@ -35,9 +39,15 @@ const ResetPasswordForm = () => {
     putData(endPoint, values)
     .then((res: any) => {
       console.log('resetpassowrd', res)
+      if (res.status === 200) {
+        window.alert(res.data);
+      } else {
+        window.alert('Some error occurred');
+      }
     })
     .catch((err: any) => {
       console.log('error', err);
+      window.alert('Some error occurred');
     });
   };
 
@@ -60,7 +70,7 @@ const ResetPasswordForm = () => {
                   required="required"
                   className="form-label"
                 />
-                <FieldTypeText name="newPassword" placeholder="New Password" />
+                <FieldTypeText type="password" name="newPassword" placeholder="New Password" />
                 <FieldErrorMessage
                   errors={errors.newPassword}
                   touched={touched.newPassword}
@@ -69,16 +79,16 @@ const ResetPasswordForm = () => {
               </div>              
               <div className="col-12 mb-4 text-start">
                 <FieldLabel
-                  htmlfor="conformPassword"
+                  htmlfor="confirmPassword"
                   labelText="Confirm Password"
                   required="required"
                   className="form-label"
                 />
-                <FieldTypeText name="conformPassword" placeholder="Confirm Password" />
+                <FieldTypeText type="password" name="confirmPassword" placeholder="Confirm Password" />
                 <FieldErrorMessage
-                  errors={errors.conformPassword}
-                  touched={touched.conformPassword}
-                  msgText="Please re-enter your new password"
+                  errors={errors.confirmPassword}
+                  touched={touched.confirmPassword}
+                  msgText="Please re-enter password that must match new password"
                 />
               </div>              
               <div className="col-12 mb-4 d-grid">
