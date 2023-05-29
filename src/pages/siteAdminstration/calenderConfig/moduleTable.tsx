@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap";
 const Module_Table = ({ Field }: any) => {
   return (
     <>
-      <Table hover responsive size="sm">
+      <Table borderless striped hover responsive size="sm">
         <tbody>
           <tr>
             <td>

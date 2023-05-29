@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Button } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
@@ -111,35 +111,22 @@ const ProgramType = () => {
 
   const PROGRAM_TYPE_BUTTON = (
     <div className="filter-wrapper">
-      <div>
-        <Button variant="primary" onClick={openAddProgramType}>
-          Add Program Type
-        </Button>
-      </div>
-      <div className="filter-form mt-2">
-        <form>
-          <div className="row g-3 align-items-center">
-            <div className="col-auto">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Name"
-                // onChange={(e) => setSearchValue(e.target.value)}
-                // value={searchValue}
-              />
-            </div>
-            <div className="col-auto">
-              <Button variant="primary" className="me-2">Filter</Button>{" "}
-              <Button
-                variant="outline-secondary"
-                // onClick={() => resetHandler()}
-              >
-                Reset
-              </Button>
-            </div>
-          </div>
-        </form>
-      </div>
+      <form>
+        <Row className="align-items-center gx-3">
+          <Col className="col-auto">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Name"
+            />
+          </Col>
+          <Col className="col-auto">
+            <Button variant="primary" className="me-2">Filter</Button>{" "}
+            <Button variant="outline-secondary">Reset</Button>
+          </Col>
+        </Row>
+      </form>
+      <Button variant="primary" onClick={openAddProgramType}>Add Program Type</Button>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>

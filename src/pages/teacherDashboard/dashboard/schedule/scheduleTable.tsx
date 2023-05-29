@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Button, Card } from "react-bootstrap";
 import "./style.scss";
-import degreeIcon from "../../../../assets/images/icons/degree.svg";
+import calendarIcon from "../../../../assets/images/icons/calendar-black.svg";
 
 const ScheduleTable = () => {
   return (
@@ -10,7 +10,7 @@ const ScheduleTable = () => {
           {tableData.map((item, index) => (
             <div className="d-flex align-items-center tsb-row mb-2" key={index}>
               <div className="align-self-start me-3">
-                <img src={degreeIcon} alt="Schedule Icon" />
+                <img src={calendarIcon} alt="Schedule Icon" />
               </div>
               <div className="tsb-info">
                 <h6>{item.title}</h6>                

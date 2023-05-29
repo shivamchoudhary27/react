@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import "./style.scss";
-import degreeIcon from "../../../../assets/images/icons/degree.svg";
+import calendarIcon from "../../../../assets/images/icons/calendar-black.svg";
 
 const ScheduleTable = () => {
   return (
@@ -10,7 +10,7 @@ const ScheduleTable = () => {
           {tableData.map((item, index) => (
             <div className="d-flex align-items-center tsb-row mb-2" key={index}>
               <div className="align-self-start me-3">
-                <img src={degreeIcon} alt="Schedule Icon" />
+                <img src={calendarIcon} alt="Schedule Icon" />
               </div>
               <div className="tsb-info">
                 <h6>{item.title}</h6>                
@@ -32,29 +32,29 @@ const tableData = [
     title: "Introduction to logic and Proofs",
     subtitle: "Discrete Mathmatical Structures, Venue name",
     time: "10:30 AM",
-    btn: "Offline",
-    classname: "offline"
+    btn: "Online",
+    classname: "online"
   },
   {
     title: "Data structure Evolution",
     subtitle: "Data structure & Algorithms",
     time: "11:15 AM",
-    btn: "Online",
-    classname: "online"
+    btn: "Offline",
+    classname: "offline"
   },
   {
     title: "Advantages of DBMS",
     subtitle: "Database management system",
     time: "12:00 PM",
-    btn: "Online",
+    btn: "Lab",
     classname: "lab"
   },
   {
     title: "Structure and Function (Multicore Computer)",
     subtitle: "Computer Organization and Architecture, Venue name",
     time: "01:00 AM",
-    btn: "Lab",
-    classname: "online"
+    btn: "Offline",
+    classname: "offline"
   },
   {
     title: "CISC v/s RISC",

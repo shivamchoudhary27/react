@@ -13,35 +13,31 @@ const AddTags = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
   return (
     <React.Fragment>
       <div className="filter-wrapper">
-      <div>
-          <Button variant="primary" onClick={addTagsHandler}>
-            Add Tags
-          </Button>
-        </div>
-        <div className="filter-form mt-2">
-          <form>
-            <div className="row g-3 align-items-center">
-              <div className="col-auto">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Name"
-                  // onChange={(e) => setSearchValue(e.target.value)}
-                  // value={searchValue}
-                />
-              </div>
-              <div className="col-auto">
-                <Button variant="primary" className="me-2">Filter</Button>{" "}
-                <Button
-                  variant="outline-secondary"
-                  // onClick={() => resetHandler()}
-                >
-                  Reset
-                </Button>
-              </div>
+        <form>
+          <div className="row">
+            <div className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Name"
+                // onChange={(e) => setSearchValue(e.target.value)}
+                // value={searchValue}
+              />
             </div>
-          </form>
-        </div>
+            <div className="col-auto">
+              <Button variant="primary" className="me-2">Filter</Button>{" "}
+              <Button
+                variant="outline-secondary"
+                // onClick={() => resetHandler()}
+              >
+                Reset
+              </Button>
+            </div>
+          </div>
+        </form>
+        <Button variant="primary" onClick={addTagsHandler}>
+          Add Tags
+        </Button>
       </div>
     </React.Fragment>
   );

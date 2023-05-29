@@ -9,7 +9,7 @@ const KeyInformation = () => {
           <Card.Title className="text-muted">Key Information</Card.Title>
           <hr />
           <Card.Text>
-            <Table>
+            <Table borderless striped hover>
               {Object.entries(Data).map(([title, value], index) => (
                 <tr key={index}>
                   <td>{title}</td>
