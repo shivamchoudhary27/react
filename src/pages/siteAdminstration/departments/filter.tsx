@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.scss";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const Filter = ({
@@ -36,40 +36,28 @@ const Filter = ({
   return (
     <>
       <div className="filter-wrapper">
-        <div>
-          <Button variant="primary" onClick={openAddDepartment}>
-            Add Department
-          </Button>
-        </div>
-        <div className="filter-form mt-2">
-          <form onSubmit={handleSearch}>
-            <div className="row g-3 align-items-center">
-              <div className="col-auto">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Name"
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  value={searchValue}
-                />
-              </div>
-              <div className="col-auto">
-                <Button
-                  variant="primary" className="me-2"
-                  onClick={() => getInputValues()}
-                >
-                  Filter
-                </Button>{" "}
-                <Button
-                  variant="outline-secondary"
-                  onClick={() => resetHandler()}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div>
-          </form>
-        </div>
+        <form onSubmit={handleSearch}>
+          <Row className="align-items-center gx-3">
+            <Col className="col-auto">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Name"
+                onChange={(e) => setSearchValue(e.target.value)}
+                value={searchValue}
+              />
+            </Col>
+            <Col className="col-auto">
+              <Button variant="primary" className="me-2" onClick={() => getInputValues()}>
+                Filter
+              </Button>{" "}
+              <Button variant="outline-secondary" onClick={() => resetHandler()}>
+                Reset
+              </Button>
+            </Col>
+          </Row>
+        </form>
+        <Button variant="primary" onClick={openAddDepartment}>Add Department</Button>
       </div>
     </>
   );

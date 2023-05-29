@@ -74,23 +74,27 @@ const ManageProgram = () => {
           <PageTitle 
             pageTitle = "Program Management" gobacklink = "/siteadmin"
           />
-            <div className="site-button-group">
+            <div className="site-button-group mb-3">
               <Button
-                variant="primary"
+                variant="primary" size="sm"
                 onClick={() => navigate("/department")}
               >
                 Department
               </Button>{" "}
               <Button
-                variant="primary"
+                variant="primary" size="sm"
                 onClick={() => navigate("/programtype")}
               >
                 Program Type
               </Button>{" "}
-              <Button variant="primary" onClick={() => navigate("/discipline")}>
+              <Button 
+                variant="primary" size="sm"
+                onClick={() => navigate("/discipline")}>
                 Discipline
               </Button>{" "}
-              <Button variant="primary" onClick={() => navigate("/tags")}>
+              <Button 
+                variant="primary" size="sm"
+                onClick={() => navigate("/tags")}>
                 Add Tags
               </Button>
             </div>

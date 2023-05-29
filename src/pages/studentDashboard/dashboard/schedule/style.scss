@@ -26,13 +26,13 @@
             color: #fff;
             min-width: 60px;
             &.online {
-                background: linear-gradient(95.68deg, #334665 11.59%, #27DDFB 97.23%);
+                background: linear-gradient(91.5deg, #0F4C81 6.81%, #1B609D 98.68%);
             }
             &.offline {
                 background: linear-gradient(95.68deg, #2C2C33 11.59%, #626265 97.23%);
             }
             &.lab {
-                background: linear-gradient(95.68deg, #0EC97D 11.59%, #276C6B 97.23%);
+                background: #298DE6;
             }
         }
     }

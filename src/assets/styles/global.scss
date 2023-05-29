@@ -6,7 +6,7 @@ body {
     font-weight: 400;
 }
 a, a:visited {
-    color: #0191AC;
+    color: #1B609D;
     text-decoration: none;
     &:hover {
         color: #000;
@@ -22,10 +22,13 @@ a, a:visited {
 
 /**** Button / Link Start ****/
 .btn-primary, .btn-primary:active, .btn-primary:visited {
-    background: linear-gradient(180deg, #28C8E5 0%, #2C2C33 100%); border-color: #28C8E5;
+    background-color: #1B609D;
+    border-color: #1B609D;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
 }
 .btn-primary:hover, .btn-primary:focus {
-    border-color: #28C8E5; background: linear-gradient(180deg, #28C8E5 0%, #58E5FF 0.01%, #515158 100%);
+    background-color: #247bc7;
+    border-color: #247bc7;
 }
 .btn-secondary, .btn-secondary:active, .btn-secondary:visited {
     background: #fff; border-color: #000; color: #000;
@@ -34,10 +37,10 @@ a, a:visited {
     border-color: #000;
 }
 .btn-outline-primary {
-    border-color: #28C8E5; color: #28C8E5;
+    border-color: #1B609D; color: #1B609D;
 }
 .btn-outline-primary:hover {
-    background-color: #28C8E5; color: #fff;
+    background-color: #1B609D; color: #fff;
 }
 /**** Button End ****/
 
@@ -68,12 +71,27 @@ label {
 .badge {
     border-radius: 0.75rem;
 }
+// input {
+//     border: 0;
+//     outline: 0;
+//     border-radius: 30px;
+//     padding: 10px 15px;
+//     background-color: #EBECF0;
+//     text-shadow: 1px 1px 0 #FFF;
+//     transition: all 0.2s ease-in-out;
+//     box-shadow: inset 2px 2px 5px #BABECC, inset -5px -5px 10px #FFF;
+//     appearance: none;
+//     -webkit-appearance: none;
+// }
+// input:focus {
+//     box-shadow: inset 1px 1px 2px #BABECC, inset -1px -1px 2px #FFF;
+// }
 /**** Form End ****/
 
 
 /**** Progress Start ****/
 .progress {
-    --bs-progress-height: 0.5rem;
+    --bs-progress-height: 0.4rem;
 }
 /**** Progress End ****/
 
@@ -111,3 +129,29 @@ label {
     }
 }
 /**** Component Heading with Filter End ****/
+
+/**** Table Start ****/
+.table  {
+    border: 1px solid #ddd;
+    thead tr {
+        background: linear-gradient(0deg, #2475A0 0%, #1B609D 52.08%);
+    }
+    th {
+        font-weight: 500;
+        color: #fff;
+    }
+}
+.table-hover>tbody>tr:hover>* {
+    background: linear-gradient(0deg, rgba(36, 117, 160, 0.05) 0%, rgba(27, 96, 157, 0.05) 52.08%);
+}
+/**** Table End ****/
+
+/**** Filter Start ****/
+.filter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(27, 96, 157, 0.05);
+    padding: 1rem;
+}
+/**** Filter End ****/

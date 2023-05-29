@@ -102,7 +102,7 @@ const TagsTable = ({
   return (
     <>
       <div className="table-wrapper mt-3">
-        <Table bordered hover {...getTableProps}>
+        <Table borderless striped hover {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

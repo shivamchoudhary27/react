@@ -9,6 +9,11 @@
                 cursor: pointer;
                 bottom: -68px;
             }
+            .mlcard-image {
+                &::after {
+                    background: linear-gradient(11.26deg, rgba(15, 76, 129, 0.8) 10.56%, rgba(27, 96, 156, 0.8) 111.21%);
+                }
+            }
         }
     }    
     .card-body {
