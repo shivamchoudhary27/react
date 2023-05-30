@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -10,17 +10,10 @@ import { useNavigate } from "react-router-dom";
 import { postData } from "../../../adapters/coreservices";
 import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
-import axios from "axios";
-
-const END_POINT = "https://www.google.comrecaptcha/api/siteverify";
-const SITE_KEY = "6LejSUAmAAAAAFmngSNYvY8SzmyGbwlvEGCAG08l";
-const SECRET_KEY = "6LejSUAmAAAAANhFWyJKv7Bn-OrZDNY01iYG7wkg";
+import googleReCaptcha from "../../../utils/recaptcha";
 
 const SignupForm = () => {
   const navigate = useNavigate();
-  const [verified, setVerified] = useState(true);
-  const [captchaValue, setCaptchaValue] = useState("");
-  const captchaRef = useRef();
 
   const initialValues = {
     username: "",
@@ -47,29 +40,25 @@ const SignupForm = () => {
     console.log(values)
     values.idnumber = 98789871;
     values.city = "Delhi";
-    postData("/user/signup", values)
-      .then((res: any) => {
-        console.log("res", res);
-        if(values.recaptcha !== ""){
+    if(values.recaptcha !== ""){
+      postData("/user/signup", values)
+        .then((res: any) => {
+          console.log("res", res);
           if (res.status === 201 || res.status === 200) {
             window.alert("Registration successful");
           } else {
             window.alert("Some error occurred");
           }
-        }else{
-          alert("Captcha Required!")
-          // setFieldError('recaptcha', 'reCAPTCHA verification is required');
-          // setSubmitting(false);
-        }
-        navigate("/");
-      })
-      .catch((err: any) => {
-        if (err.response.status === 404) {
-          window.alert(err.response.data.message);
-        } else {
-          window.alert("Some error occurred");
-        }
-      });
+          navigate("/");
+        })
+        .catch((err: any) => {
+          if (err.response.status === 404) {
+            window.alert(err.response.data.message);
+          } else {
+            window.alert("Some error occurred");
+          }
+        });    
+    }
   };
 
   return (
@@ -112,7 +101,7 @@ const SignupForm = () => {
                 name="password"
                 placeholder="Password"
               />
-              <FieldErrorMessage
+              <FieldErrorMessage  
                 errors={errors.password}
                 touched={touched.password}
                 msgText="Required with minimum 5 characters."
@@ -185,7 +174,7 @@ const SignupForm = () => {
             </div>
             <div className="mb-4">
               <ReCAPTCHA
-                sitekey={SITE_KEY}
+                sitekey={googleReCaptcha.SITE_KEY}
                 onChange={(value: any) => setFieldValue('recaptcha', value)}
               />
               <FieldErrorMessage
