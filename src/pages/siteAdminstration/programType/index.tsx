@@ -12,6 +12,7 @@ import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const ProgramType = () => {
   const navigate = useNavigate();
@@ -114,19 +115,19 @@ const ProgramType = () => {
       <form>
         <Row className="align-items-center gx-3">
           <Col className="col-auto">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Name"
-            />
+            <input type="text" className="form-control" placeholder="Name" />
           </Col>
           <Col className="col-auto">
-            <Button variant="primary" className="me-2">Filter</Button>{" "}
+            <Button variant="primary" className="me-2">
+              Filter
+            </Button>{" "}
             <Button variant="outline-secondary">Reset</Button>
           </Col>
         </Row>
       </form>
-      <Button variant="primary" onClick={openAddProgramType}>Add Program Type</Button>
+      <Button variant="primary" onClick={openAddProgramType}>
+        Add Program Type
+      </Button>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -134,29 +135,31 @@ const ProgramType = () => {
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Manage Program", path: "/manageprogram" },
-              { name: "Program Type", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Manage Program", path: "/manageprogram" },
+          { name: "Program Type", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>
-          <PageTitle 
-            pageTitle = "Program Type" gobacklink = "/manageprogram"
-          />        
-            {PROGRAM_TYPE_BUTTON}
-            {ADDPROGRAM_MODAL_COMPONENT}
-            {PROGRAM_TYPE_COMPONENT}
-            <BuildPagination
-              totalpages={programTypeData.pager.totalPages}
-              activepage={filterUpdate.pageNumber}
-              getrequestedpage={newPageRequest}
-            />
-          </Container>
-        </div>
+        <Container fluid>
+          <PageTitle pageTitle="Program Type" gobacklink="/manageprogram" />
+          {PROGRAM_TYPE_BUTTON}
+          {ADDPROGRAM_MODAL_COMPONENT}
+          {programTypeData.items !== "" ? (
+            PROGRAM_TYPE_COMPONENT
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
+          <BuildPagination
+            totalpages={programTypeData.pager.totalPages}
+            activepage={filterUpdate.pageNumber}
+            getrequestedpage={newPageRequest}
+          />
+        </Container>
+      </div>
       <Footer />
     </>
   );

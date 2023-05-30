@@ -12,6 +12,7 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -97,7 +98,7 @@ const UserManagement = () => {
 
       if (email === "") delete updatedState.email;
       if (firstName === "") delete updatedState.firstName;
-      
+
       setFilterUpdate(updatedState);
     }
   };
@@ -165,12 +166,16 @@ const UserManagement = () => {
             toggleUploadModal={toggleUploadModal}
             openAddUserModal={openAddUserModal}
           />
-          <UserManagementTable
-            userdata={userData.items}
-            refreshdata={refreshOnDeleteToggle}
-            editHandlerById={editHandlerById}
-            toggleModalShow={toggleModalShow}
-          />
+          {userData.items !== "" ? (
+            <UserManagementTable
+              userdata={userData.items}
+              refreshdata={refreshOnDeleteToggle}
+              editHandlerById={editHandlerById}
+              toggleModalShow={toggleModalShow}
+            />
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
           <BuildPagination
             totalpages={userData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

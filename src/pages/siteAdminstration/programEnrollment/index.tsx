@@ -11,6 +11,7 @@ import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -29,40 +30,54 @@ const ProgramEnrollment = () => {
   }, [refreshData, filterUpdate]);
 
   // to update filters values in the main state filterUpdate
-  const updateDepartmentFilter = (departmentId : string) => {
-    setFilterUpdate({...filterUpdate, departmentId: departmentId, pageNumber: 0})
-  }
+  const updateDepartmentFilter = (departmentId: string) => {
+    setFilterUpdate({
+      ...filterUpdate,
+      departmentId: departmentId,
+      pageNumber: 0,
+    });
+  };
 
-  const updateInputFilters = (inputvalues : any) => {
-    if (inputvalues.code !== '') {
-      setFilterUpdate({...filterUpdate, name: inputvalues.name, programCode: inputvalues.code, pageNumber: 0})
+  const updateInputFilters = (inputvalues: any) => {
+    if (inputvalues.code !== "") {
+      setFilterUpdate({
+        ...filterUpdate,
+        name: inputvalues.name,
+        programCode: inputvalues.code,
+        pageNumber: 0,
+      });
     } else {
-      let updatedState = {...filterUpdate, pageNumber: 0};
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
       updatedState.name = inputvalues.name;
       if (updatedState.programCode) delete updatedState.programCode;
       setFilterUpdate(updatedState);
     }
-  }
+  };
 
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Program Enrollment", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Program Enrollment", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>
-          <PageTitle 
-            pageTitle = "Program Enrollment" gobacklink = "/siteadmin"
+        <Container fluid>
+          <PageTitle pageTitle="Program Enrollment" gobacklink="/siteadmin" />
+          <ProgramEnrollFilter
+            updateDepartment={updateDepartmentFilter}
+            updateinputfilters={updateInputFilters}
           />
-            <ProgramEnrollFilter updateDepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters} />
+          {enrollmentData.items !== "" ? (
             <ProgramEnrollTable enrollmentData={enrollmentData.items} />
-          </Container>
-        </div>
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
+        </Container>
+      </div>
       <Footer />
     </>
   );

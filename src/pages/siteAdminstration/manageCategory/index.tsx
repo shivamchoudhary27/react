@@ -19,6 +19,7 @@ import Alert from "react-bootstrap/Alert";
 import { alertMsgProps } from "../manageCourse/type";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const ManageCategory = () => {
   const navigate = useNavigate();
@@ -165,7 +166,7 @@ const ManageCategory = () => {
           <PageTitle 
             pageTitle = "Manage categories" gobacklink = "/manageprogram"
           />
-            {sortedCategories.length !== 0 && (
+            {sortedCategories.length > 0 ? (
               <CategoryTable
                 categoryData={sortedCategories}
                 modalShow={modalShow}
@@ -178,7 +179,8 @@ const ManageCategory = () => {
                 refreshcategories={refreshToggle}
                 cleanFormValues={cleanFormValues}
               />
-            )}
+            ) : <Errordiv msg="No record found!" cstate className="mt-3" /> 
+            }
             <Addcategory
               latestparentweight={parentWeight}
               toggleModalShow={toggleModalShow}

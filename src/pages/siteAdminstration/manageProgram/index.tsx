@@ -12,23 +12,30 @@ import ManageFilter from "./manageFilter";
 import ManageTable from "./manageTable";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [programData, setProgramData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({departmentId: '', name: '', pageNumber: 0, pageSize : pagination.PERPAGE});
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    departmentId: "",
+    name: "",
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
   // const totalPages = getTotalPagesCount(15);
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest('/programs', filterUpdate, setProgramData); 
+    makeGetDataRequest("/programs", filterUpdate, setProgramData);
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
-    if (refreshOnDelete === true) makeGetDataRequest('/programs', filterUpdate, setProgramData); 
+    if (refreshOnDelete === true)
+      makeGetDataRequest("/programs", filterUpdate, setProgramData);
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -40,20 +47,29 @@ const ManageProgram = () => {
   };
 
   // to update filters values in the main state filterUpdate
-  const updateDepartmentFilter = (departmentId : string) => {
-    setFilterUpdate({...filterUpdate, departmentId: departmentId, pageNumber: 0})
-  }
+  const updateDepartmentFilter = (departmentId: string) => {
+    setFilterUpdate({
+      ...filterUpdate,
+      departmentId: departmentId,
+      pageNumber: 0,
+    });
+  };
 
-  const updateInputFilters = (inputvalues : any) => {
-    if (inputvalues.code !== '') {
-      setFilterUpdate({...filterUpdate, name: inputvalues.name, programCode: inputvalues.code, pageNumber: 0})
+  const updateInputFilters = (inputvalues: any) => {
+    if (inputvalues.code !== "") {
+      setFilterUpdate({
+        ...filterUpdate,
+        name: inputvalues.name,
+        programCode: inputvalues.code,
+        pageNumber: 0,
+      });
     } else {
-      let updatedState = {...filterUpdate, pageNumber: 0};
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
       updatedState.name = inputvalues.name;
       if (updatedState.programCode) delete updatedState.programCode;
       setFilterUpdate(updatedState);
     }
-  }
+  };
 
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -62,55 +78,67 @@ const ManageProgram = () => {
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Manage Program", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Manage Program", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>
-          <PageTitle 
-            pageTitle = "Program Management" gobacklink = "/siteadmin"
+        <Container fluid>
+          <PageTitle pageTitle="Program Management" gobacklink="/siteadmin" />
+          <div className="site-button-group mb-3">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate("/department")}
+            >
+              Department
+            </Button>{" "}
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate("/programtype")}
+            >
+              Program Type
+            </Button>{" "}
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate("/discipline")}
+            >
+              Discipline
+            </Button>{" "}
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate("/tags")}
+            >
+              Add Tags
+            </Button>
+          </div>
+          <ManageFilter
+            updatedepartment={updateDepartmentFilter}
+            updateinputfilters={updateInputFilters}
           />
-            <div className="site-button-group mb-3">
-              <Button
-                variant="primary" size="sm"
-                onClick={() => navigate("/department")}
-              >
-                Department
-              </Button>{" "}
-              <Button
-                variant="primary" size="sm"
-                onClick={() => navigate("/programtype")}
-              >
-                Program Type
-              </Button>{" "}
-              <Button 
-                variant="primary" size="sm"
-                onClick={() => navigate("/discipline")}>
-                Discipline
-              </Button>{" "}
-              <Button 
-                variant="primary" size="sm"
-                onClick={() => navigate("/tags")}>
-                Add Tags
-              </Button>
-            </div>
-            <ManageFilter updatedepartment={updateDepartmentFilter} updateinputfilters={updateInputFilters}/>
+          {programData.items !== "" ? (
             <ManageTable
-              programData={programData.items} 
+              programData={programData.items}
               refreshDepartmentData={refreshToggle}
               refreshOnDelete={refreshOnDeleteToggle}
             />
-            <BuildPagination
-                totalpages={programData.pager.totalPages}
-                activepage={filterUpdate.pageNumber}
-                getrequestedpage={newPageRequest}
-              />
-          </Container>
-        </div>
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
+
+          <BuildPagination
+            totalpages={programData.pager.totalPages}
+            activepage={filterUpdate.pageNumber}
+            getrequestedpage={newPageRequest}
+          />
+        </Container>
+      </div>
       <Footer />
     </>
   );

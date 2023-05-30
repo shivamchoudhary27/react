@@ -12,10 +12,12 @@ import DepartmentModal from "./departmentModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
+import SuccessDiv from "../../../widgets/alert/successdiv";
 import "./style.scss";
 
 const Departments = () => {
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [departmentData, setDepartmentData] = useState<any>(dummyData);
   const [modalShow, setModalShow] = useState(false);
   const [departmentObj, setDepartmentObj] = useState({});
@@ -29,7 +31,8 @@ const Departments = () => {
   });
 
   useEffect(() => {
-    if (refreshOnDelete === true) makeGetDataRequest("/departments", filterUpdate, setDepartmentData); 
+    if (refreshOnDelete === true)
+      makeGetDataRequest("/departments", filterUpdate, setDepartmentData);
   }, [refreshOnDelete]);
 
   // get programs API call === >>>
@@ -105,29 +108,31 @@ const Departments = () => {
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Manage Program", path: "/manageprogram" },
-              { name: "Department", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Manage Program", path: "/manageprogram" },
+          { name: "Department", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>  
-          <PageTitle 
-            pageTitle = "Department" gobacklink = "/manageprogram"
-          />    
-            {DEPARTMENT_FILTER_COMPONENT}
-            {DEPARTMENT_TABLE_COMPONENT}
-            <BuildPagination
-              totalpages={departmentData.pager.totalPages}
-              activepage={filterUpdate.pageNumber}
-              getrequestedpage={newPageRequest}
-            />
-            {DEPARTMENT_MODAL_COMPONENT}
-          </Container>
-        </div>
+        <Container fluid>
+          <PageTitle pageTitle="Department" gobacklink="/manageprogram" />
+          {DEPARTMENT_FILTER_COMPONENT}
+          {departmentData.items !== "" ? (
+            DEPARTMENT_TABLE_COMPONENT
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
+          <BuildPagination
+            totalpages={departmentData.pager.totalPages}
+            activepage={filterUpdate.pageNumber}
+            getrequestedpage={newPageRequest}
+          />
+          {DEPARTMENT_MODAL_COMPONENT}
+        </Container>
+      </div>
       <Footer />
     </>
   );
