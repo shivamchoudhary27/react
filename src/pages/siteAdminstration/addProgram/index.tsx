@@ -5,9 +5,9 @@ import { getData as getProgramData } from "../../../adapters/microservices";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-import { Container, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import AddProgramForm from "./form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { initialValues, generateIinitialValues } from "./utils";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
@@ -15,7 +15,6 @@ import "./style.scss";
 
 const AddProgram = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [currentProgram, setCurrentProgram] = useState<any>({
     data: {},
     status: false,

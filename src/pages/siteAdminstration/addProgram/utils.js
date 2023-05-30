@@ -5,9 +5,10 @@ export const initialValues = {
     programCode: "",
     programtype: "",
     discipline: "",
-    batchYear: "",
+    batchYear: getCurrentBatchYear(),
     modeOfStudy: "fulltime",
-    duration: "",
+    durationValue: 0,
+    durationUnit : 'day',
     objective: "",
     description: "",
     programcontent: "",
@@ -54,8 +55,9 @@ const programData = {
     name: "",
     programCode: "",
     modeOfStudy: "",
-    duration: "",
-    batchYear: 0,
+    durationValue: "",
+    durationUnit: "",
+    batchYear: "",
     description: "",
     objective: "",
     fullLifeTimeAccess: false,
@@ -74,7 +76,8 @@ export const generateProgramDataObject = (formData) => {
     programData.name = formData.programName;
     programData.programCode = formData.programCode;
     programData.modeOfStudy = formData.modeOfStudy;
-    programData.duration = formData.duration;
+    programData.durationValue = formData.durationValue;
+    programData.durationUnit = formData.durationUnit;
     programData.batchYear = (formData.isBatchYearRequired) ? (formData.batchYear == "") ? 2023 : formData.batchYear : 0;
     programData.description = formData.description;
     programData.objective = formData.objective;
@@ -113,7 +116,8 @@ export const generateIinitialValues = (apiData) => {
             discipline: apiData.discipline.id,
             batchYear: apiData.batchYear,
             modeOfStudy: apiData.modeOfStudy,
-            duration: apiData.duration,
+            durationValue: apiData.durationValue,
+            durationUnit: apiData.durationUnit,
             objective: apiData.objective ?? '',
             description: apiData.description,
             programaccessinfo: pgInfo,
@@ -133,6 +137,28 @@ export const addExtraMetaDataToInitialValues = (initialvalues, metadata, propert
    return initialvalues;
 }
 
+export const generateAcademicYears = () => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    for (let i = -5; i <= 10; i++) {
+        const startYear = currentYear + i;
+        const endYear = startYear + 1;
+        const yearString = `${startYear}-${endYear.toString().substr(2)}`; 
+        const yearObj = { id: yearString, name : yearString}
+        years.push(yearObj);
+    }
+    return years;
+};
+
+export const durationTypeObj = () => {
+    return [
+        {id: 'year', name: 'Year'},
+        {id: 'month', name: 'Months'},
+        {id: 'week', name: 'Weeks'},
+        {id: 'day', name: 'Days'},
+    ]
+}
+
 const getMetaFields = (metaFieldsData) => {
     const newArr = metaFieldsData.filter(el => (el !== undefined));
     return newArr;
@@ -142,3 +168,9 @@ const getTagsField = (tagsFildData) => {
     const newArr = tagsFildData.filter(el => (el !== undefined));
     return (newArr);
 }
+
+function getCurrentBatchYear () {
+    const currentYear = new Date().getFullYear();
+    const nextYear = currentYear + 1;
+    return `${currentYear}-${nextYear.toString().substr(2)}`;
+};

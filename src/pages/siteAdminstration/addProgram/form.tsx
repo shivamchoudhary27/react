@@ -13,6 +13,8 @@ import {
   generateProgramDataObject,
   addExtraMetaDataToInitialValues,
   addMetaFields,
+  generateAcademicYears,
+  durationTypeObj
 } from "./utils";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
@@ -40,7 +42,7 @@ const step1Schema = Yup.object({
 // Step 2 validation schema
 const step2Schema = Yup.object({
   programtype: Yup.string().required(),
-  batchYear: Yup.number(),
+  batchYear: Yup.string().required(),
 });
 
 // Step 3 validation schema
@@ -59,6 +61,8 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const [tags, setTags] = useState<any>(dummyData);
   const [initValues, setInitValues] = useState<any>(initialformvalues);
   const [step, setStep] = useState(0);
+  const batchYearOptions = generateAcademicYears();
+  const durationType = durationTypeObj();
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -67,9 +71,10 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   const handlePreviousStep = () => {
     setStep(step - 1);
   };
-
+  
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
+    generateAcademicYears();
     const apiFilters = { pageNumber: 0, pageSize: 100 };
     makeGetDataRequest("/departments", apiFilters, setDepartmentName);
     makeGetDataRequest("/disciplines", apiFilters, setDisciplineName);
@@ -274,18 +279,6 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                       setcurrentvalue={setValues}
                       currentformvalue={values}
                     />
-                    {/* {programTypeId.map((el: any, index: number) => (
-                      <div key={index}>
-                        <FieldTypeRadio
-                          setcurrentvalue={setValues}
-                          currentformvalue={values}
-                          type='radio'
-                          name="programtype"
-                          value={el.id}
-                          radioText={el.name}
-                        />
-                      </div>
-                    ))} */}
                     <FieldErrorMessage
                       errors={errors.programtype}
                       touched={touched.programtype}
@@ -298,9 +291,13 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                         htmlfor="batchYear"
                         labelText="Batch Year"
                         required="required"
-
                       />
-                      <FieldTypeText name="batchYear" placeholder="#Year" />
+                      <FieldTypeSelect
+                        name="batchYear"
+                        options={batchYearOptions}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                      />
                       <FieldErrorMessage
                         errors={errors.batchYear}
                         touched={touched.batchYear}
@@ -315,18 +312,6 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                       labelText="Mode Of Study"
                       required="required"
                     />
-                    {/* {modeStudy.map((el: any, index: number) => (
-                      <div key={index}>
-                        <FieldTypeRadio
-                          setcurrentvalue={setValues}
-                          currentformvalue={values}
-                          type='radio'
-                          name="modeOfStudy"
-                          value={el.value}
-                          radioText={el.name}
-                        />
-                      </div>
-                    ))} */}
                     <label className="mx-3">
                       <input
                         type="radio"
@@ -367,16 +352,22 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
 
                   <div className="mb-3">
                     <FieldLabel
-                      htmlfor="duration"
+                      htmlfor="durationValue"
                       labelText="Duration"
                       required="required"
-        
                     />
-                    <FieldTypeText name="duration" placeholder="#duration" />
+                    <FieldTypeText type="number" name="durationValue" placeholder="#duration" />
                     <FieldErrorMessage
-                      errors={errors.duration}
-                      touched={touched.duration}
+                      errors={errors.durationValue}
+                      touched={touched.durationValue}
                       msgText="Duration must in number"
+                    />
+                    <FieldTypeSelect
+                      name="durationUnit"
+                      options={durationType}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                      emptyOption={true}
                     />
                   </div>
                 </>
@@ -450,13 +441,6 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                         checkboxLabel="Full life time access"
                       />
                     </div>
-                    {/* <div>
-                      <FieldTypeCheckbox
-                        name="programaccessinfo"
-                        value="certificate"
-                        checkboxLabel="Certificate of completion"
-                      />
-                    </div> */}
                     <div>
                       <FieldTypeCheckbox
                         name="programaccessinfo"
