@@ -179,9 +179,9 @@ const EnrolUserToProgram = () => {
                       touched={touched.role}
                       msgText="Please select Role"
                     />
-                    </div>
+                  </div>
 
-                  <div className="text-center">
+                  <div className="modal-buttons">
                     <CustomButton
                       type="submit"
                       variant="primary"

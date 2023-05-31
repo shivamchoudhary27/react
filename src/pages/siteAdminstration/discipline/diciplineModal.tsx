@@ -138,7 +138,7 @@ const DiciplineModal = ({
                 />
               </div>
               
-              <div className="text-center">
+              <div className="modal-buttons">
                 <Custom_Button
                   type="submit"
                   variant="primary"

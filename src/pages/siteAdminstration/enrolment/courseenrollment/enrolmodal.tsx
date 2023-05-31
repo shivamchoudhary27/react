@@ -168,7 +168,7 @@ const DiciplineModal = ({
                   // msgText="Please select Discipline"
                 />
               </div>    
-              <div className="text-center">
+              <div className="modal-buttons">
                 <Custom_Button
                   type="submit"
                   variant="primary"

@@ -72,7 +72,7 @@ const UploadUsersEnrollment = ({
         >
             {({ values, setFieldValue, errors, touched }) => (
             <Form>
-              <div className="text-center">
+              <div className="mb-3">
                 <label htmlFor="file">Upload a csv file:</label>
                 <input
                   className="form-control"
@@ -85,7 +85,7 @@ const UploadUsersEnrollment = ({
                 />
                 <ErrorMessage name="file" />
               </div>
-              <div className="text-center">
+              <div className="modal-buttons">
                 <button className="btn btn-primary" type="submit">
                   {submitBtn}
                 </button>
