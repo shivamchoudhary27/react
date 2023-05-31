@@ -179,7 +179,7 @@ const ManageCategory = () => {
                 refreshcategories={refreshToggle}
                 cleanFormValues={cleanFormValues}
               />
-            ) : <Errordiv msg="No record found!" cstate className="mt-3" /> 
+            ) : <Errordiv msg="No record found!" cstate /> 
             }
             <Addcategory
               latestparentweight={parentWeight}

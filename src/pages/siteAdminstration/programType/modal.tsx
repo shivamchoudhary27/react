@@ -1,4 +1,5 @@
 import Modal from "react-bootstrap/Modal";
+import { Alert } from "react-bootstrap";
 import {
   postData as addProgramData,
   putData as putProgramData,
@@ -170,10 +171,9 @@ const AddProgramModal = ({
                   />
                 )}
               </div>
-              <div className="mt-4" style={{ color: "#666" }}>
-                <span style={{ fontWeight: "600" }}>Note: </span>If batch year
-                is checked then it is available on add program form.
-              </div>
+              <Alert variant="primary" className="mt-3 small">
+                <strong>Note: </strong>If batch year is checked then it is available on add program form.
+              </Alert>
             </Form>
           )}
         </Formik>

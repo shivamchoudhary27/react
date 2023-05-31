@@ -123,7 +123,7 @@ const Departments = () => {
           {departmentData.items !== "" ? (
             DEPARTMENT_TABLE_COMPONENT
           ) : (
-            <Errordiv msg="No record found!" cstate className="mt-3" />
+            <Errordiv msg="No record found!" cstate />
           )}
           <BuildPagination
             totalpages={departmentData.pager.totalPages}

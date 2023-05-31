@@ -74,7 +74,7 @@ const ProgramEnrollment = () => {
           {enrollmentData.items !== "" ? (
             <ProgramEnrollTable enrollmentData={enrollmentData.items} />
           ) : (
-            <Errordiv msg="No record found!" cstate className="mt-3" />
+            <Errordiv msg="No record found!" cstate />
           )}
         </Container>
       </div>

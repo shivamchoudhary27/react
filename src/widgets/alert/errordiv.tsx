@@ -6,14 +6,14 @@ function Errordiv(props: { cstate: boolean; msg: string; className: string }) {
   console.log(props.cstate);
   return (
     <>
-      <div>
+      <div className="table-wrapper mt-3">
         {show === true && (
           <Alert
             className={`${props.className} alert alert-primary`}
             role="alert"
             onClose={() => setShow(false)}
           >
-            <h4>{props.msg}</h4>
+            {props.msg}
           </Alert>
         )}
       </div>

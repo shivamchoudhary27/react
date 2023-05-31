@@ -111,7 +111,7 @@ const Tags = () => {
               editHandlerById={editHandlerById}
             />
           ) : (
-            <Errordiv msg="No record found!" cstate className="mt-3" />
+            <Errordiv msg="No record found!" cstate />
           )}
           <BuildPagination
             totalpages={allTags.pager.totalPages}

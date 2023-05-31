@@ -130,7 +130,7 @@ const ManageProgramEnrollment = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle
-            pageTitle={`Program: ${programname}`}
+            pageTitle={`Program: <span>${programname}</span>`}
             gobacklink="/programenrollment"
           />
           <UserFilter
@@ -148,7 +148,7 @@ const ManageProgramEnrollment = () => {
               programname={programname}
               editHandlerById={editHandlerById}
               AddUsersModalShow={AddUsersModalShow}
-            /> : <Errordiv msg="No record found!" cstate className="mt-3" />
+            /> : <Errordiv msg="No record found!" cstate />
           }
           <BuildPagination
             totalpages={enrolUserData.pager.totalPages}
