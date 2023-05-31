@@ -77,7 +77,6 @@ const AddUserModal = ({
   return (
     <React.Fragment>
       <Modal
-        size="lg"
         show={show}
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
@@ -99,7 +98,7 @@ const AddUserModal = ({
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
-              <Form className="mt-3">
+              <Form>
                 {userobj.id === 0 &&
                   <React.Fragment>
                     <div className="mb-3">
@@ -229,7 +228,7 @@ const AddUserModal = ({
                   />
                 </div>
 
-                <div className="text-center">
+                <div className="modal-buttons">
                   <CustomButton
                     type="submit"
                     variant="primary"
