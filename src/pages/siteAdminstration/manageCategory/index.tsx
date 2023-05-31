@@ -166,7 +166,7 @@ const ManageCategory = () => {
           <PageTitle 
             pageTitle = "Manage categories" gobacklink = "/manageprogram"
           />
-            {sortedCategories.length > 0 ? (
+            {sortedCategories.length > 0 && (
               <CategoryTable
                 categoryData={sortedCategories}
                 modalShow={modalShow}
@@ -179,8 +179,7 @@ const ManageCategory = () => {
                 refreshcategories={refreshToggle}
                 cleanFormValues={cleanFormValues}
               />
-            ) : <Errordiv msg="No record found!" cstate /> 
-            }
+            )}
             <Addcategory
               latestparentweight={parentWeight}
               toggleModalShow={toggleModalShow}

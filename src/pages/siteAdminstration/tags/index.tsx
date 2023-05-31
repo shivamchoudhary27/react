@@ -25,17 +25,21 @@ const Tags = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   const getTags = () => {
+    setApiStatus("started")
     const endPoint = `/tags`;
     getTagsData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setAllTags(res.data);
         }
+        setApiStatus("finished")
       })
       .catch((err: any) => {
         console.log(err);
+        setApiStatus("finished")
       });
   };
 
@@ -103,16 +107,14 @@ const Tags = () => {
             updateAddRefresh={refreshToggle}
             tagObj={tagObj}
           />
-          {allTags.items !== "" ? (
             <TagsTable
               allTags={allTags.items}
               toggleModalShow={toggleModalShow}
               updateDeleteRefresh={updateDeleteRefresh}
               editHandlerById={editHandlerById}
+              apiStatus={apiStatus}
+              
             />
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
           <BuildPagination
             totalpages={allTags.pager.totalPages}
             activepage={filterUpdate.pageNumber}

@@ -4,6 +4,7 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { deleteData as deleteProgramData } from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -24,6 +25,7 @@ const createPreviewLink = (id: number) => {
 const ManageTable = ({
   programData,
   refreshOnDelete,
+  apiStatus
 }: any) => {
   const tableColumn = [
     {
@@ -145,8 +147,11 @@ const ManageTable = ({
             </tbody>
           )}
         </Table>
-        {programData.length === 0 && (
+        {apiStatus === "started" && programData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
+        {apiStatus === "finished" && programData.length === 0 && (
+          <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
     </>

@@ -12,7 +12,6 @@ import ManageFilter from "./manageFilter";
 import ManageTable from "./manageTable";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
@@ -20,6 +19,7 @@ const ManageProgram = () => {
   const [programData, setProgramData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
+  const [apiStatus, setApiStatus] = useState("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
     name: "",
@@ -30,12 +30,12 @@ const ManageProgram = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/programs", filterUpdate, setProgramData);
+    makeGetDataRequest("/programs", filterUpdate, setProgramData, setApiStatus);
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
     if (refreshOnDelete === true)
-      makeGetDataRequest("/programs", filterUpdate, setProgramData);
+      makeGetDataRequest("/programs", filterUpdate, setProgramData, setApiStatus);
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -122,15 +122,12 @@ const ManageProgram = () => {
             updatedepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
           />
-          {programData.items !== "" ? (
             <ManageTable
               programData={programData.items}
               refreshDepartmentData={refreshToggle}
               refreshOnDelete={refreshOnDeleteToggle}
+              apiStatus={apiStatus}
             />
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
 
           <BuildPagination
             totalpages={programData.pager.totalPages}

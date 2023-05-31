@@ -11,7 +11,6 @@ import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
 
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -23,10 +22,11 @@ const ProgramEnrollment = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/programs", filterUpdate, setEnrollmentData);
+    makeGetDataRequest("/programs", filterUpdate, setEnrollmentData, setApiStatus);
   }, [refreshData, filterUpdate]);
 
   // to update filters values in the main state filterUpdate
@@ -71,11 +71,7 @@ const ProgramEnrollment = () => {
             updateDepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
           />
-          {enrollmentData.items !== "" ? (
-            <ProgramEnrollTable enrollmentData={enrollmentData.items} />
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
+          <ProgramEnrollTable enrollmentData={enrollmentData.items} apiStatus={apiStatus} />
         </Container>
       </div>
       <Footer />

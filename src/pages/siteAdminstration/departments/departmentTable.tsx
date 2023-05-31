@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -19,8 +20,10 @@ const DepartmentTable = ({
   editHandlerById,
   toggleModalShow,
   refreshDepartmentData,
-  refreshOnDelete
+  refreshOnDelete,
+  apiStatus
 }: any) => {
+  console.log(departmentData)
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -148,7 +151,12 @@ const DepartmentTable = ({
             })}
           </tbody>
         </Table>
-        {departmentData.length === 0 && <TableSkeleton numberOfRows={5} numberOfColumns={4} />}
+        {apiStatus === "started" && departmentData.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
+        {apiStatus === "finished" && departmentData.length === 0 && (
+          <Errordiv msg="No record found!" cstate className="mt-3" />
+        )}
       </div>
     </>
   );

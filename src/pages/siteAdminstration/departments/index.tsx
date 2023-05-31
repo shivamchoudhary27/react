@@ -12,8 +12,6 @@ import DepartmentModal from "./departmentModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
-import SuccessDiv from "../../../widgets/alert/successdiv";
 import "./style.scss";
 
 const Departments = () => {
@@ -23,6 +21,7 @@ const Departments = () => {
   const [departmentObj, setDepartmentObj] = useState({});
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [refreshData, setRefreshData] = useState(true);
+  const [apiStatus, setApiStatus] = useState("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
     name: "",
@@ -32,12 +31,22 @@ const Departments = () => {
 
   useEffect(() => {
     if (refreshOnDelete === true)
-      makeGetDataRequest("/departments", filterUpdate, setDepartmentData);
+      makeGetDataRequest(
+        "/departments",
+        filterUpdate,
+        setDepartmentData,
+        setApiStatus
+      );
   }, [refreshOnDelete]);
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/departments", filterUpdate, setDepartmentData);
+    makeGetDataRequest(
+      "/departments",
+      filterUpdate,
+      setDepartmentData,
+      setApiStatus
+    );
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
@@ -91,6 +100,7 @@ const Departments = () => {
       toggleModalShow={toggleModalShow}
       refreshDepartmentData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
+      apiStatus={apiStatus}
     />
   );
 
@@ -120,11 +130,7 @@ const Departments = () => {
         <Container fluid>
           <PageTitle pageTitle="Department" gobacklink="/manageprogram" />
           {DEPARTMENT_FILTER_COMPONENT}
-          {departmentData.items !== "" ? (
-            DEPARTMENT_TABLE_COMPONENT
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
+          {DEPARTMENT_TABLE_COMPONENT}
           <BuildPagination
             totalpages={departmentData.pager.totalPages}
             activepage={filterUpdate.pageNumber}
