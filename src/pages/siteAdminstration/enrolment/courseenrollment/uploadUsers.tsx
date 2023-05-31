@@ -60,7 +60,7 @@ const UploadCourseUsersEnrollment = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Upload file
+            Upload Users
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -73,20 +73,18 @@ const UploadCourseUsersEnrollment = ({
         >
             {({ values, setFieldValue, errors, touched }) => (
             <Form>
-              <div className="text-center">
-                <label htmlFor="file">Upload a csv file:</label>
-                <input
-                  className="form-control"
-                  id="file"
-                  name="file"
-                  type="file"
-                  onChange={(event) => {
-                  setFieldValue('file', event.currentTarget.files[0]);
-                  }}
-                />
-                <ErrorMessage name="file" />
-              </div>
-              <div className="text-center">
+              <label htmlFor="file">Upload a csv file:</label>
+              <input
+                className="form-control"
+                id="file"
+                name="file"
+                type="file"
+                onChange={(event) => {
+                setFieldValue('file', event.currentTarget.files[0]);
+                }}
+              />
+              <ErrorMessage name="file" />
+              <div className="modal-buttons">
                 <button className="btn btn-primary" type="submit">
                   {submitBtn}
                 </button>

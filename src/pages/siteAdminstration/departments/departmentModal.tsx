@@ -139,7 +139,7 @@ const DepartmentModal = ({
                   msgText="Please Enter description"
                 />
               </div>
-              <div className="text-center">
+              <div className="modal-buttons">
                 <Custom_Button
                   type="submit"
                   variant="primary"

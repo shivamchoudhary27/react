@@ -174,7 +174,7 @@ const AddUsersModal = ({
                   />
                 </div>
 
-                <div className="text-center">
+                <div className="modal-buttons">
                   <CustomButton
                     type="submit"
                     variant="primary"

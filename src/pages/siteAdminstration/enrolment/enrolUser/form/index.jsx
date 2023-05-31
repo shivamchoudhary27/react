@@ -155,10 +155,7 @@ const AddCourseForm = () => {
       />
       <div className="main-content-container">
         <Sidebar />
-        <div
-          className="content-area content-area-slider"
-          id="contentareaslider"
-        >
+        <div className="content-area content-area-slider" id="contentareaslider">
           <Container fluid className="administration-wrapper">
             <Button
               variant="outline-secondary"
@@ -180,8 +177,7 @@ const AddCourseForm = () => {
                     <FieldLabel
                       htmlfor="name"
                       labelText="Name"
-                      required="required"
-  
+                      required="required"  
                     />
                     <FieldTypeText name="name" placeholder="Name" />
                     <FieldErrorMessage
@@ -195,8 +191,7 @@ const AddCourseForm = () => {
                     <FieldLabel
                       htmlfor="courseCode"
                       labelText="Course Code"
-                      required="required"
-  
+                      required="required"  
                     />
                     <FieldTypeText name="courseCode" placeholder="Course Code" />
                     <FieldErrorMessage
@@ -207,23 +202,23 @@ const AddCourseForm = () => {
                   </div>
 
                   <div className="mb-3">
-                <FieldLabel
-                  htmlfor="category"
-                  labelText="Category"
-                  required="required"
-                />
-                <FieldTypeSelect
-                  name="category"
-                  options={filteredCategories}
-                  setcurrentvalue={setValues}
-                  currentformvalue={values}
-                />
-                <FieldErrorMessage
-                  errors={errors.department}
-                  touched={touched.department}
-                  msgText="Please select Department"
-                />
-              </div>
+                    <FieldLabel
+                      htmlfor="category"
+                      labelText="Category"
+                      required="required"
+                    />
+                    <FieldTypeSelect
+                      name="category"
+                      options={filteredCategories}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                    />
+                    <FieldErrorMessage
+                      errors={errors.department}
+                      touched={touched.department}
+                      msgText="Please select Department"
+                    />
+                  </div>
 
                   <div className="mb-3">
                     <FieldLabel
@@ -253,7 +248,7 @@ const AddCourseForm = () => {
                       msgText="Please Check required field"
                     />
                   </div>
-                  <div className="text-center">
+                  <div className="modal-buttons">
                     <CustomButton
                       type="submit"
                       variant="primary"

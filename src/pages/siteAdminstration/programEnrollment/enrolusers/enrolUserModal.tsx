@@ -98,7 +98,7 @@ const EnrolUserModal = ({ show, onHide, togglemodalshow }: any) => {
                   <Link to="">Show more ...</Link>
                 </div>
 
-                <div className="text-center">
+                <div className="modal-buttons">
                   <CustomButton
                     type="submit"
                     variant="primary"
