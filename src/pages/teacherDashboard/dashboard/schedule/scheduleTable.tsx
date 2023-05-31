@@ -46,15 +46,15 @@ const tableData = [
     title: "Advantages of DBMS",
     subtitle: "Database management system",
     time: "12 : 00 PM",
-    btn: "Online",
+    btn: "Lab",
     classname: "lab",
   },
   {
     title: "Structure and Function (Multicore Computer)",
     subtitle: "Computer Organization and Architecture, Venue name",
     time: "01 : 00 AM",
-    btn: "Lab",
-    classname: "online",
+    btn: "Offline",
+    classname: "offline",
   },
   {
     title: "Hirerarchical database system",

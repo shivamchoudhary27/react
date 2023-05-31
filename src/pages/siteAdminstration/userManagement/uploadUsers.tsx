@@ -60,7 +60,7 @@ const UploadNewUsers = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Upload file
+            Upload Users
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

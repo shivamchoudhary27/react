@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 
@@ -34,11 +34,8 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
 
   return (
     <React.Fragment>
-        <div className="action-btn mt-3">
-          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-          <Button variant="primary" onClick={openAddUserModal}>Add Users</Button>{" "}
-        </div>
-        <form className="filter-form mt-3" onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+      <div className="filter-wrapper mt-2">
+        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <div className="row">
             <div className="col-auto">
               <label htmlFor="name" hidden>Name</label>
@@ -70,6 +67,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
             </div>
           </div>          
         </form>
+        <div className="site-button-group">
+          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
+          <Button variant="primary" onClick={openAddUserModal}>Add User</Button>{" "}
+        </div>
+      </div>
     </React.Fragment>
   );
 };
