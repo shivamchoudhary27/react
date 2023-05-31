@@ -6,6 +6,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { getLatestWeightForCategory } from "./utils";
 import { deleteData as deleteCategoryData, putData, postData } from "../../../adapters/microservices";
 import { getDragnDropAction, getItemsToUpdate, updateWeights } from './local';
+import TableSkeleton from "../../../widgets/skeleton/table";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -223,6 +224,7 @@ const CategoryTable = ({
 
   return (
     <>
+      {/* {categoryData.length === 0 && <TableSkeleton numberOfRows={5} numberOfColumns={4} />} */}
       <div className="table-wrapper mt-3">
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
           <Table borderless striped hover {...getTableProps()}>

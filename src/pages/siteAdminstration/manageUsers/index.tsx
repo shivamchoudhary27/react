@@ -13,6 +13,7 @@ import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUsersModal from "./addUsersModal";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const ManageProgramEnrollment = () => {
   const { programid, programname } = useParams();
@@ -138,14 +139,17 @@ const ManageProgramEnrollment = () => {
             toggleModalShow={toggleModalShow}
             AddUsersModalShow={AddUsersModalShow}
           />
-          <UsersTable
-            enrolleduserdata={enrolUserData.items}
-            programid={parsedProgramid}
-            refreshdata={refreshOnDeleteToggle}
-            programname={programname}
-            editHandlerById={editHandlerById}
-            AddUsersModalShow={AddUsersModalShow}
-          />
+          {
+            enrolUserData.items.length > 0 ? 
+            <UsersTable
+              enrolleduserdata={enrolUserData.items}
+              programid={parsedProgramid}
+              refreshdata={refreshOnDeleteToggle}
+              programname={programname}
+              editHandlerById={editHandlerById}
+              AddUsersModalShow={AddUsersModalShow}
+            /> : <Errordiv msg="No record found!" cstate className="mt-3" />
+          }
           <BuildPagination
             totalpages={enrolUserData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

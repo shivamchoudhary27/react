@@ -12,6 +12,7 @@ import DiciplineModal from "./diciplineModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
 import "./style.scss";
 
 const Discipline = () => {
@@ -106,12 +107,16 @@ const Discipline = () => {
             />
           </Col>
           <Col className="col-auto">
-            <Button variant="primary" className="me-2">Filter</Button>{" "}
+            <Button variant="primary" className="me-2">
+              Filter
+            </Button>{" "}
             <Button variant="outline-secondary">Reset</Button>
           </Col>
         </Row>
       </form>
-      <Button variant="primary" onClick={openAddDiscipline}>Add Discipline</Button>
+      <Button variant="primary" onClick={openAddDiscipline}>
+        Add Discipline
+      </Button>
     </div>
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -119,29 +124,31 @@ const Discipline = () => {
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Manage Program", path: "/manageprogram" },
-              { name: "Discipline", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Manage Program", path: "/manageprogram" },
+          { name: "Discipline", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>
-          <PageTitle 
-            pageTitle = "Discipline" gobacklink = "/manageprogram"
-          />       
-            {DISCIPLINE_BUTTONS}
-            {DISCIPLINE_TABLE_COMPONENT}
-            <BuildPagination
-              totalpages={diciplineData.pager.totalPages}
-              activepage={filterUpdate.pageNumber}
-              getrequestedpage={newPageRequest}
-            />
-            {DISCIPLINE_MODAL_COMPONENT}
-          </Container>
-        </div>
+        <Container fluid>
+          <PageTitle pageTitle="Discipline" gobacklink="/manageprogram" />
+          {DISCIPLINE_BUTTONS}
+          {diciplineData.items !== "" ? (
+            DISCIPLINE_TABLE_COMPONENT
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
+          <BuildPagination
+            totalpages={diciplineData.pager.totalPages}
+            activepage={filterUpdate.pageNumber}
+            getrequestedpage={newPageRequest}
+          />
+          {DISCIPLINE_MODAL_COMPONENT}
+        </Container>
+      </div>
       <Footer />
     </>
   );

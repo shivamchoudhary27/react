@@ -12,9 +12,10 @@ import BuildPagination from "../../../widgets/pagination";
 import { getData as getTagsData } from "../../../adapters/microservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const Tags = () => {
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [modalShow, setModalShow] = useState(false);
   const [allTags, setAllTags] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(false);
@@ -24,7 +25,7 @@ const Tags = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
- 
+
   const getTags = () => {
     const endPoint = `/tags`;
     getTagsData(endPoint, filterUpdate)
@@ -79,44 +80,46 @@ const Tags = () => {
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Manage Program", path: "/manageprogram" },
-              { name: "Tags", path: "" },
-            ]}
-          />
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Manage Program", path: "/manageprogram" },
+          { name: "Tags", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3">
-          <Container fluid>     
-          <PageTitle 
-            pageTitle = "Tags" gobacklink = "/manageprogram"
-          />       
-            <AddTags
-              toggleModalShow={toggleModalShow}
-              setTagObj={setTagObj}
-              updateInputFilters={updateInputFilters}
-            />
-            <TagsModal
-              show={modalShow}
-              onHide={() => toggleModalShow(false)}
-              togglemodalshow={toggleModalShow}
-              updateAddRefresh={refreshToggle}
-              tagObj={tagObj}
-            />
+        <Container fluid>
+          <PageTitle pageTitle="Tags" gobacklink="/manageprogram" />
+          <AddTags
+            toggleModalShow={toggleModalShow}
+            setTagObj={setTagObj}
+            updateInputFilters={updateInputFilters}
+          />
+          <TagsModal
+            show={modalShow}
+            onHide={() => toggleModalShow(false)}
+            togglemodalshow={toggleModalShow}
+            updateAddRefresh={refreshToggle}
+            tagObj={tagObj}
+          />
+          {allTags.items !== "" ? (
             <TagsTable
               allTags={allTags.items}
               toggleModalShow={toggleModalShow}
               updateDeleteRefresh={updateDeleteRefresh}
               editHandlerById={editHandlerById}
             />
-            <BuildPagination
-              totalpages={allTags.pager.totalPages}
-              activepage={filterUpdate.pageNumber}
-              getrequestedpage={newPageRequest}
-            />
-          </Container>
-        </div>
+          ) : (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
+          <BuildPagination
+            totalpages={allTags.pager.totalPages}
+            activepage={filterUpdate.pageNumber}
+            getrequestedpage={newPageRequest}
+          />
+        </Container>
+      </div>
       <Footer />
     </>
   );
