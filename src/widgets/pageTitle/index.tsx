@@ -7,7 +7,7 @@ const PageTitle = ({pageTitle, gobacklink}:any) => {
     const navigate = useNavigate();
     return (
       <h3 className="sitepage-title">
-        {pageTitle}
+        <div dangerouslySetInnerHTML={{ __html: pageTitle }}></div>
         <Button
             size="sm"
             variant="outline-secondary"

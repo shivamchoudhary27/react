@@ -133,11 +133,6 @@ const EnrolUserTable = ({
                               <td
                                 {...cell.getCellProps()}
                                 key={index}
-                                style={{
-                                  padding: '10px',
-                                  border: 'solid 1px gray',
-                                  background: 'white',
-                                }}
                               >
                                 {cell.render("Cell")}
                               </td>

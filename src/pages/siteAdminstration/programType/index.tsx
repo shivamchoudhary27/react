@@ -151,7 +151,7 @@ const ProgramType = () => {
           {programTypeData.items !== "" ? (
             PROGRAM_TYPE_COMPONENT
           ) : (
-            <Errordiv msg="No record found!" cstate className="mt-3" />
+            <Errordiv msg="No record found!" cstate />
           )}
           <BuildPagination
             totalpages={programTypeData.pager.totalPages}

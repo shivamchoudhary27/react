@@ -136,7 +136,7 @@ const EnrolUsers = () => {
       <div className="contentarea-wrapper mt-3">          
           <Container fluid>
           <PageTitle 
-            pageTitle = {`Program: ${name}`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}
+            pageTitle = {`Program: <span>${name}</span>`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}
           />
             {sortedCategories.length !== 0 && (
               <EnrolUserTable

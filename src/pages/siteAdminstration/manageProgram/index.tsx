@@ -129,7 +129,7 @@ const ManageProgram = () => {
               refreshOnDelete={refreshOnDeleteToggle}
             />
           ) : (
-            <Errordiv msg="No record found!" cstate className="mt-3" />
+            <Errordiv msg="No record found!" cstate />
           )}
 
           <BuildPagination
