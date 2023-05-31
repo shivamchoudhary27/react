@@ -7,6 +7,7 @@ const FieldTypeSelect = ({
     currentformvalue,
     as="select",
     className="form-control",
+    emptyOption=false
 }: any) => {
 
   const updateFieldCheckedStatus = (e : any) => { 
@@ -28,7 +29,7 @@ const FieldTypeSelect = ({
   return (
     <>
       <Field as={as} name={name} className={className} onChange={updateFieldCheckedStatus}>
-        <option value="0">Select {name}</option>
+        {emptyOption === false && <option value="0">Select {name}</option>}
         {
           options.map((el: any, index: number)=>(
               <option value={el.id} key={index}>
