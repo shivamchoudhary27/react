@@ -12,7 +12,6 @@ import DiciplineModal from "./diciplineModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
 import "./style.scss";
 
 const Discipline = () => {
@@ -32,15 +31,16 @@ const Discipline = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData);
+    makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData, setApiStatus);
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
     if (refreshOnDelete === true)
-      makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData);
+      makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData, setApiStatus);
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -80,6 +80,7 @@ const Discipline = () => {
       toggleModalShow={toggleModalShow}
       refreshDisciplineData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
+      apiStatus={apiStatus}
     />
   );
 
@@ -136,11 +137,7 @@ const Discipline = () => {
         <Container fluid>
           <PageTitle pageTitle="Discipline" gobacklink="/manageprogram" />
           {DISCIPLINE_BUTTONS}
-          {diciplineData.items !== "" ? (
-            DISCIPLINE_TABLE_COMPONENT
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
+          {DISCIPLINE_TABLE_COMPONENT}
           <BuildPagination
             totalpages={diciplineData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

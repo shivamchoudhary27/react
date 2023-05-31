@@ -3,6 +3,8 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { deleteData } from "../../../adapters/microservices";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -17,7 +19,8 @@ const UsersTable = ({
   refreshdata,
   programname,
   editHandlerById,
-  AddUsersModalShow
+  AddUsersModalShow,
+  apiStatus
 }: any) => {
   const tableColumn = [
     {
@@ -146,6 +149,12 @@ const UsersTable = ({
             })}
           </tbody>
         </Table>
+        {apiStatus === "started" && enrolleduserdata.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
+        {apiStatus === "finished" && enrolleduserdata.length === 0 && (
+          <Errordiv msg="No record found!" cstate className="mt-3" />
+        )}
       </div>
     </React.Fragment>
   );

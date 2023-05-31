@@ -46,18 +46,19 @@ const CourseEnrollment = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   // get programs API call === >>>
   useEffect(() => {
     makeGetDataRequest(
       `/course/${parsedCourseid}/enrol-user`,
       filterUpdate,
-      setDiciplineData
+      setDiciplineData, setApiStatus
     );
     makeGetDataRequest(
       "/programs",
       { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
-      setProgramData
+      setProgramData, setApiStatus
     );
     // makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setProgramUsers);
   }, [refreshData, filterUpdate]);
@@ -85,7 +86,7 @@ const CourseEnrollment = () => {
       makeGetDataRequest(
         `/course/${parsedCourseid}/enrol-user`,
         filterUpdate,
-        setDiciplineData
+        setDiciplineData, setApiStatus
       );
   }, [refreshOnDelete]);
 
@@ -148,6 +149,7 @@ const CourseEnrollment = () => {
       refreshOnDelete={refreshOnDeleteToggle}
       courseid={parsedCourseid}
       userroles={diciplineData.userRoles}
+      apiStatus={apiStatus}
     />
   );
 

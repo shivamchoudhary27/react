@@ -13,7 +13,6 @@ import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUsersModal from "./addUsersModal";
-import Errordiv from "../../../widgets/alert/errordiv";
 
 const ManageProgramEnrollment = () => {
   const { programid, programname } = useParams();
@@ -34,13 +33,14 @@ const ManageProgramEnrollment = () => {
     roleNo: "",
     role: "",
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   // get programs API call === >>>
   useEffect(() => {
     makeGetDataRequest(
       `program/${programid}/enrol-user`,
       filterUpdate,
-      setEnrolUserData
+      setEnrolUserData, setApiStatus
     );
   }, [refreshData, filterUpdate]);
 
@@ -49,7 +49,7 @@ const ManageProgramEnrollment = () => {
       makeGetDataRequest(
         `program/${programid}/enrol-user`,
         filterUpdate,
-        setEnrolUserData
+        setEnrolUserData, setApiStatus
       );
   }, [refreshOnDelete]);
 
@@ -139,8 +139,6 @@ const ManageProgramEnrollment = () => {
             toggleModalShow={toggleModalShow}
             AddUsersModalShow={AddUsersModalShow}
           />
-          {
-            enrolUserData.items.length > 0 ? 
             <UsersTable
               enrolleduserdata={enrolUserData.items}
               programid={parsedProgramid}
@@ -148,8 +146,9 @@ const ManageProgramEnrollment = () => {
               programname={programname}
               editHandlerById={editHandlerById}
               AddUsersModalShow={AddUsersModalShow}
-            /> : <Errordiv msg="No record found!" cstate />
-          }
+              apiStatus={apiStatus}
+            /> 
+          
           <BuildPagination
             totalpages={enrolUserData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

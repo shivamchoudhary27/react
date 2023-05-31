@@ -12,7 +12,6 @@ import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
 
 const ProgramType = () => {
   const navigate = useNavigate();
@@ -26,15 +25,16 @@ const ProgramType = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   useEffect(() => {
     if (refreshOnDelete === true)
-      makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData);
+      makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData, setApiStatus);
   }, [refreshOnDelete]);
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData);
+    makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData, setApiStatus);
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
@@ -107,6 +107,7 @@ const ProgramType = () => {
       toggleModalShow={toggleModalShow}
       refreshProgramData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
+      apiStatus={apiStatus}
     />
   );
 
@@ -148,11 +149,7 @@ const ProgramType = () => {
           <PageTitle pageTitle="Program Type" gobacklink="/manageprogram" />
           {PROGRAM_TYPE_BUTTON}
           {ADDPROGRAM_MODAL_COMPONENT}
-          {programTypeData.items !== "" ? (
-            PROGRAM_TYPE_COMPONENT
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
+          {PROGRAM_TYPE_COMPONENT}
           <BuildPagination
             totalpages={programTypeData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

@@ -28,17 +28,21 @@ const EnrolUsers = () => {
     // pageSize: pagination.PERPAGE,
     pageSize: 100,
   });
+  const [apiStatus, setApiStatus] = useState("");
   
   const getCategoriesData = () => {
+    setApiStatus("started")
     const endPoint = `/${id}/category`;
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => { 
         if (res.data !== "" && res.status === 200) {
           setCategoryData(res.data.items);
         }
+        setApiStatus("finished")
       })
       .catch((err: any) => {
         console.log(err);
+        setApiStatus("finished")
       });
   }
 
@@ -150,6 +154,7 @@ const EnrolUsers = () => {
                 setEditCategoryValues={setEditCategoryValues}
                 refreshcategories={refreshToggle}
                 cleanFormValues={cleanFormValues}
+                apiStatus={apiStatus}
               />
             )}
           </Container>

@@ -12,7 +12,6 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
-import Errordiv from "../../../widgets/alert/errordiv";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -33,6 +32,7 @@ const UserManagement = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   // get programs API call === >>>
   useEffect(() => {
@@ -54,19 +54,24 @@ const UserManagement = () => {
 
   // get programs API call === >>>
   useEffect(() => {
+    setApiStatus("started");
     getData("/user/all_users", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
-            window.alert("No data available for this request");
+            // window.alert("No data available for this request");
           }
           setUserData(result.data);
         }
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
+        setApiStatus("finished");
       });
   }, [refreshData, filterUpdate]);
+
+  console.log(apiStatus);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -166,16 +171,13 @@ const UserManagement = () => {
             toggleUploadModal={toggleUploadModal}
             openAddUserModal={openAddUserModal}
           />
-          {userData.items !== "" ? (
-            <UserManagementTable
-              userdata={userData.items}
-              refreshdata={refreshOnDeleteToggle}
-              editHandlerById={editHandlerById}
-              toggleModalShow={toggleModalShow}
-            />
-          ) : (
-            <Errordiv msg="No record found!" cstate />
-          )}
+          <UserManagementTable
+            userdata={userData.items}
+            refreshdata={refreshOnDeleteToggle}
+            editHandlerById={editHandlerById}
+            toggleModalShow={toggleModalShow}
+            apiStatus={apiStatus}
+          />
           <BuildPagination
             totalpages={userData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

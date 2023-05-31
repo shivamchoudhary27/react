@@ -38,9 +38,11 @@ const ManageGroups = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [apiStatus, setApiStatus] = useState("");
 
   // fetch all manage group data
   useEffect(() => {
+    setApiStatus("started")
     const endPoint = `/${courseid}/group`;
     getData(endPoint, filterUpdate).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
@@ -55,6 +57,7 @@ const ManageGroups = () => {
         res.data.items = updatedItems;
         setManageGroupList(res.data);
       }
+      setApiStatus("finished")
     });
   }, [courseid, refreshData, filterUpdate]);
 
@@ -62,7 +65,7 @@ const ManageGroups = () => {
     makeGetDataRequest(
       "/programs",
       { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
-      setProgramData
+      setProgramData, setApiStatus
     );
   }, []);
 
@@ -74,12 +77,14 @@ const ManageGroups = () => {
 
   // refresh on delete
   useEffect(() => {
+    setApiStatus("started")
     if (refreshOnDelete === true) {
       const endPoint = `/${courseid}/group`;
       getData(endPoint, filterUpdate).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setManageGroupList(res.data);
         }
+        setApiStatus("finished")
       });
     }
   }, [refreshOnDelete]);
@@ -153,6 +158,7 @@ const ManageGroups = () => {
               setModalShow={setModalShow}
               editHandlerById={editHandlerById}
               refreshGroupData={refreshToggle}
+              apiStatus={apiStatus}
             />
             <BuildPagination
               totalpages={manageGroupList.pager.totalPages}
