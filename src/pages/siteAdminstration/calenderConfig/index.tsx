@@ -13,34 +13,18 @@ import "./style.scss";
 const CalenderConfig = () => {
   const navigate = useNavigate();
 
-  const SITE_HEADING = (
-    <div className="site-heading">
-      <div>
-        <Button
-          type="button"
-          variant="primary"
-          onClick={() => navigate("/calender")}
-        >
-          View Calender
-        </Button>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <Header />
       <HeaderTabs activeTab="calender"/>
       <BreadcrumbComponent routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Calender Management", path: "" }
+          { name: "Events color", path: "" }
         ]} />
       <div className="contentarea-wrapper mt-3">
           <Container fluid>
-          <PageTitle pageTitle="Calendar Management" gobacklink="/siteadmin" />
-            <div className="container-wrapper"></div>
-            {SITE_HEADING}
-            <div className="form-container-wrapper">{<Module_List />}</div>
+            <PageTitle pageTitle="Events Color" gobacklink="/siteadmin" />
+            <div className="contentarea-wrapper mt-3">{<Module_List />}</div>
           </Container>
         </div>
       <Footer />

@@ -4,22 +4,17 @@ import { Table } from "react-bootstrap";
 const Module_Table = ({ Field }: any) => {
   return (
     <>
-      <Table borderless striped hover responsive size="sm">
-        <tbody>
+      <Table borderless striped hover>
+        <thead>
           <tr>
-            <td>
-              <h4>Event Type Color</h4>
-            </td>
+            <th>Events</th>
+            <th>Color</th>
           </tr>
+        </thead>
+        <tbody>
           {event_type.map((el, index) => (
             <CALENDER_MODULES el={el} key={index} Field={Field} />
           ))}
-
-          <tr>
-            <td>
-              <h4 className="mt-3">Module Color</h4>
-            </td>
-          </tr>
           {module_data.map((el, index) => (
             <CALENDER_MODULES el={el} key={index} Field={Field} />
           ))}
@@ -33,7 +28,7 @@ export default Module_Table;
 
 const CALENDER_MODULES = ({ el, Field }: any) => (
   <tr>
-    <td style={{ textTransform: "capitalize" }}>
+    <td>
       <span className={el.icon}></span> {el.label}
     </td>
     <td>
