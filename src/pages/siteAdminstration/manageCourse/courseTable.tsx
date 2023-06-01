@@ -4,8 +4,12 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { getLatestWeightForCategory } from "./utils";
-import { deleteData as deleteCategoryData, putData, postData } from "../../../adapters/microservices";
-import { getDragnDropAction, getItemsToUpdate, updateWeights } from './local';
+import {
+  deleteData as deleteCategoryData,
+  putData,
+  postData,
+} from "../../../adapters/microservices";
+import { getDragnDropAction, getItemsToUpdate, updateWeights } from "./local";
 import { useNavigate } from "react-router-dom";
 
 // Actions btns styling === >>>
@@ -19,12 +23,15 @@ const CourseTable = ({
   categoryData,
   toggleModalShow,
   programId,
-  setFormParentValue, 
+  setFormParentValue,
   setFormWeightValue,
   updatedeleterefresh,
   setEditCategoryValues,
   refreshcategories,
-  cleanFormValues
+  cleanFormValues,
+  toggleCourseModal,
+  openAddCourseModal,
+  editHandlerById,
 }: any) => {
   const navigate = useNavigate();
 
@@ -32,11 +39,11 @@ const CourseTable = ({
     {
       Header: "",
       accessor: "icon",
-      Cell: ({ row }: any) => 
-        {row.original.courseid !== undefined 
-         &&
-         <i className="fa-solid fa-grip-lines"></i>
-        },
+      Cell: ({ row }: any) => {
+        row.original.courseid !== undefined && (
+          <i className="fa-solid fa-grip-lines"></i>
+        );
+      },
       draggable: false,
     },
     {
@@ -64,11 +71,23 @@ const CourseTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {
-            (row.original.coursename !== undefined) ?
+          {row.original.coursename !== undefined ? (
             <>
-              <Link to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}>
-                <i className="fa-solid fa-pen"
+              <Link
+                to=""
+                // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
+              >
+                <i
+                  className="fa-solid fa-pen"
+                  onClick={() =>
+                    editHandler({
+                      id: row.original.id,
+                      name: row.original.coursename,
+                      courseCode: row.original.courseid,
+                      category: row.original.catid,
+                      description: row.original.coursedetails.description,
+                    })
+                  }
                 ></i>
               </Link>
               <Link to="">
@@ -82,14 +101,13 @@ const CourseTable = ({
               <Link to="">
                 <i className="fa-solid fa-eye"></i>
               </Link>
-            </>                        
-            :
-            (row.original.haschild !== undefined && row.original.haschild === false)
-            &&
-            <Button
-              onClick={() => {addCourseHandler(row.original.id, row.original.name)}}
-            >Add course</Button>
-          }
+            </>
+          ) : (
+            row.original.haschild !== undefined &&
+            row.original.haschild === false && (
+              <Button onClick={openAddCourseModal}>Add course</Button>
+            )
+          )}
         </span>
       ),
       draggable: false,
@@ -104,48 +122,70 @@ const CourseTable = ({
       columns,
       data,
     });
-  const [updateSource, setUpdateSource] = useState<any>({data: {}, status : 'raw'});
-  const [newWeightsItems, setNewWeightsItems] = useState<any>({data: {}, status : 'raw'});
-  const [updatecourse, setUpdateCourse] = useState<any>({data: {coursedetail: '', category: 0}, status : 'nutral'});
+  const [updateSource, setUpdateSource] = useState<any>({
+    data: {},
+    status: "raw",
+  });
+  const [newWeightsItems, setNewWeightsItems] = useState<any>({
+    data: {},
+    status: "raw",
+  });
+  const [updatecourse, setUpdateCourse] = useState<any>({
+    data: { coursedetail: "", category: 0 },
+    status: "nutral",
+  });
 
   useEffect(() => {
-    if (updatecourse.status === 'updating') {
+    if (updatecourse.status === "updating") {
       console.log(updatecourse);
-      let updatingcourseid = updatecourse.data.coursedetail.id; 
+      let updatingcourseid = updatecourse.data.coursedetail.id;
       let updateCourseData = {
         name: updatecourse.data.coursedetail.name,
         courseCode: updatecourse.data.coursedetail.courseCode,
         description: updatecourse.data.coursedetail.description,
         published: updatecourse.data.coursedetail.published,
-        category: { id : updatecourse.data.category}
-      }
+        category: { id: updatecourse.data.category },
+      };
       const endPoint = `${programId}/course/${updatingcourseid}`;
 
       putData(endPoint, updateCourseData)
-        .then((res : any) => {
+        .then((res: any) => {
           if (res.status === 200) {
-            window.alert('Update successul');
-            setUpdateCourse({data : {}, status : 'nutral'});
+            window.alert("Update successul");
+            setUpdateCourse({ data: {}, status: "nutral" });
             refreshcategories();
           }
         })
-        .catch((err : any) => {
+        .catch((err: any) => {
           console.log(err);
           window.alert("Some error occurred!");
-          setUpdateCourse({data : {}, status : 'nutral'});
+          setUpdateCourse({ data: {}, status: "nutral" });
         });
     }
   }, [updatecourse]);
 
-  const addCourseHandler = (catID : number, catName: string) => {
-    let path = `/courseform/${programId}/${catID}`;
-    navigate(`/courseform/${programId}/${catID}/0`, {state: catName});
-  }
+  const addCourseHandler = () => {
+    // let path = `/courseform/${programId}/${catID}`;
+    // navigate(`/courseform/${programId}/${catID}/0`, {state: catName});
+  };
 
   // category Table Elements Update handler === >>
-  const editHandler = (courseid: number, catID: number) => {
-    // console.log()
-    navigate(`/courseform/${programId}/${catID}/${courseid}`);
+  const editHandler = ({
+    id,
+    name,
+    courseCode,
+    category,
+    description,
+  }: any) => {
+    // navigate(`/courseform/${programId}/${catID}/${courseid}`);
+    toggleCourseModal(true);
+    editHandlerById({
+      id,
+      name,
+      courseCode,
+      category,
+      description,
+    });
   };
 
   // Drag & Drop handler method === >>
@@ -156,19 +196,24 @@ const CourseTable = ({
     let catShifting = results.source.index;
     let toMoved = results.destination.index;
 
-    if (categoryData[toMoved].haschild !== undefined && categoryData[toMoved].haschild === true) {
-       window.alert('Course can be moved to only categories that have no children category after');
-       return;
+    if (
+      categoryData[toMoved].haschild !== undefined &&
+      categoryData[toMoved].haschild === true
+    ) {
+      window.alert(
+        "Course can be moved to only categories that have no children category after"
+      );
+      return;
     }
-    // if 
+    // if
     let updateCourseCategory = categoryData[catShifting].coursedetails;
 
     setUpdateCourse({
-      data: { 
-        coursedetail: updateCourseCategory, 
-        category: categoryData[toMoved].catid ?? categoryData[toMoved].id
+      data: {
+        coursedetail: updateCourseCategory,
+        category: categoryData[toMoved].catid ?? categoryData[toMoved].id,
       },
-      status : 'updating'
+      status: "updating",
     });
 
     let temp = [...selectedData];
@@ -180,21 +225,26 @@ const CourseTable = ({
   // category Table Elements Delete handler === >>
   const deleteHandler = (courseID: number) => {
     updatedeleterefresh(false);
-    if (window.confirm('Are you sure to delete this course?')) {
+    if (window.confirm("Are you sure to delete this course?")) {
       const endPoint = `${programId}/course/${courseID}`;
       deleteCategoryData(endPoint)
-      .then((res: any) => {
-        if (res.status === 200) {
-          // console.log(res.data);
-          updatedeleterefresh(true);
-        } else if (res.status === 500) {
-          window.alert('Unable to delete, this course might have come courses');
-        } 
-      }).catch((result : any) => {
-        if (result.response.status === 500) {
-          window.alert('Unable to delete, this course might have come courses');
-        }            
-      });
+        .then((res: any) => {
+          if (res.status === 200) {
+            // console.log(res.data);
+            updatedeleterefresh(true);
+          } else if (res.status === 500) {
+            window.alert(
+              "Unable to delete, this course might have come courses"
+            );
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 500) {
+            window.alert(
+              "Unable to delete, this course might have come courses"
+            );
+          }
+        });
     }
   };
 
@@ -212,10 +262,10 @@ const CourseTable = ({
     toggleModalShow(true);
   };
 
-  const setLevelPadding = (level : number) => {
-    let padding = ((level - 1) * 50) + "px";
-      return padding;
-  }
+  const setLevelPadding = (level: number) => {
+    let padding = (level - 1) * 50 + "px";
+    return padding;
+  };
 
   return (
     <>
@@ -248,7 +298,9 @@ const CourseTable = ({
                         draggableId={`drag-id-${row.original.id.toString()}`}
                         index={index}
                         key={row.id.toString()}
-                        isDragDisabled={(row.original.courseid !== undefined)  ? false : true}
+                        isDragDisabled={
+                          row.original.courseid !== undefined ? false : true
+                        }
                       >
                         {(provided, snapshot) => (
                           // <tr
@@ -262,7 +314,9 @@ const CourseTable = ({
                             {...provided.draggableProps}
                             style={{
                               ...provided.draggableProps.style,
-                              backgroundColor: snapshot.isDragging ? 'papayawhip' : 'white',
+                              backgroundColor: snapshot.isDragging
+                                ? "papayawhip"
+                                : "white",
                             }}
                           >
                             {row.cells.map((cell, index) => (

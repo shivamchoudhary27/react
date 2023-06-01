@@ -74,7 +74,7 @@ const SignupForm = () => {
       >
         {({ errors, touched, isSubmitting, setValues, values, setFieldValue }) => (
           <Form className="row">                
-            <div className="col-lg-6 mb-3 text-start">
+            {/* <div className="col-lg-6 mb-3 text-start">
               <FieldLabel
                 htmlfor="username"
                 labelText="Username"
@@ -87,9 +87,9 @@ const SignupForm = () => {
                 touched={touched.username}
                 msgText="Required with minimum 4-20 characters."
               />
-            </div>
+            </div> */}
 
-            <div className="col-lg-6 mb-3 text-start">
+            {/* <div className="col-lg-6 mb-3 text-start">
               <FieldLabel
                 htmlfor="password"
                 labelText="Password"
@@ -106,7 +106,7 @@ const SignupForm = () => {
                 touched={touched.password}
                 msgText="Required with minimum 5 characters."
               />
-            </div>
+            </div> */}
 
             <div className="col-lg-6 mb-3 text-start">
               <FieldLabel
