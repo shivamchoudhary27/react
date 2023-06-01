@@ -93,11 +93,16 @@ const InstituteManagement = () => {
 
       setFilterUpdate(updatedState);
     } else {
+      const { shortCode, name } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
         pageNumber: 0,
         ...newFilterRequest,
       };
+
+      if (shortCode === "") delete updatedState.shortCode;
+      if (name === "") delete updatedState.name;
+
       setFilterUpdate(updatedState);
     }
   };
