@@ -39,7 +39,7 @@ export const AdminRawData = [
     {
       title: "Timetable <br>Management",
       image: timetablemanagement,
-      link: "#",
+      link: "/timetable",
       classname: "timetable-management",
       boxclassname: "",
     },
