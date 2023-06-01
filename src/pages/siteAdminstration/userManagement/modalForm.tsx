@@ -30,13 +30,13 @@ const AddUserModal = ({
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    username: Yup.string().trim().min(4).required(),
+    // username: Yup.string().trim().min(4).required(),
+    // password: Yup.string().when('shouldValidatePassword', {
+      //   is: true,
+      //   then: Yup.string().min(6).trim().required(),
+      //   otherwise: Yup.string().trim()
+      // }),
     email: Yup.string().email("Invalid email").required("Email is required"),
-    password: Yup.string().when('shouldValidatePassword', {
-      is: true,
-      then: Yup.string().min(6).trim().required(),
-      otherwise: Yup.string().trim()
-    }),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
   });
@@ -101,7 +101,7 @@ const AddUserModal = ({
               <Form>
                 {userobj.id === 0 &&
                   <React.Fragment>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                       <FieldLabel
                         htmlfor="username"
                         labelText="Username"
@@ -114,8 +114,8 @@ const AddUserModal = ({
                         touched={touched.username}
                         msgText="Username is required with 4 characters minimum"
                       />
-                    </div>
-                    <div className="mb-3">                  
+                    </div> */}
+                    {/* <div className="mb-3">                  
                       <FieldLabel
                         htmlfor="password"
                         labelText="Password"
@@ -132,7 +132,7 @@ const AddUserModal = ({
                         touched={touched.password}
                         msgText="Password is required with 6 characters minimum"
                       />
-                    </div>
+                    </div> */}
                   </React.Fragment>
                 }
 

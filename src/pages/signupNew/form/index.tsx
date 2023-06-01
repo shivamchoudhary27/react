@@ -16,18 +16,14 @@ const SignupForm = () => {
   const navigate = useNavigate();
 
   const initialValues = {
-    username: "",
     lastName: "",
     firstName: "",
     email: "",
-    password: "",
     country: "",
     recaptcha:""
   };
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    username: Yup.string().trim().min(4).required(),
-    password: Yup.string().min(5).trim().required(),
     email: Yup.string().email().required(),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
@@ -37,10 +33,10 @@ const SignupForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm, setFieldError }: any) => {
-    console.log(values)
+    console.log(values);
     values.idnumber = 98789871;
     values.city = "Delhi";
-    if(values.recaptcha !== ""){
+    // if(values.recaptcha !== ""){
       postData("/user/signup", values)
         .then((res: any) => {
           console.log("res", res);
@@ -58,7 +54,7 @@ const SignupForm = () => {
             window.alert("Some error occurred");
           }
         });    
-    }
+    // }
   };
 
   return (
@@ -74,7 +70,7 @@ const SignupForm = () => {
       >
         {({ errors, touched, isSubmitting, setValues, values, setFieldValue }) => (
           <Form className="row">                
-            <div className="col-lg-6 mb-3 text-start">
+            {/* <div className="col-lg-6 mb-3 text-start">
               <FieldLabel
                 htmlfor="username"
                 labelText="Username"
@@ -87,9 +83,9 @@ const SignupForm = () => {
                 touched={touched.username}
                 msgText="Required with minimum 4-20 characters."
               />
-            </div>
+            </div> */}
 
-            <div className="col-lg-6 mb-3 text-start">
+            {/* <div className="col-lg-6 mb-3 text-start">
               <FieldLabel
                 htmlfor="password"
                 labelText="Password"
@@ -106,7 +102,7 @@ const SignupForm = () => {
                 touched={touched.password}
                 msgText="Required with minimum 5 characters."
               />
-            </div>
+            </div> */}
 
             <div className="col-lg-6 mb-3 text-start">
               <FieldLabel

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SignupForm from "./form";
 import ForgotPasswordForm from "../forgotPasswordNew";
 import ResetPasswordForm from "../forgotPasswordNew/resetPassword";
+import ConfirmUserForm from "./form/confirmUser";
 import logo from "../../assets/images/logo.png";
 import config from "../../utils/config";
 import "./style.scss";
@@ -50,7 +51,13 @@ const SignUpNew = () => {
                   <ResetPasswordForm />
                   {/* <p>Already a member? <a href={oAuthUrl} className="ms-1">Sign in</a></p> */}
                 </React.Fragment>
-              ) : (
+              ) : formToggle === "confirmuser" ?
+                <React.Fragment>
+                  <p className="signup-desc mb-4">Please create your password</p>
+                  <ConfirmUserForm />
+                </React.Fragment>
+              :
+              (
                 <React.Fragment>
                   <p className="signup-desc mb-4">Please enter your details to Sign up</p>
                   <SignupForm />
