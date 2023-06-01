@@ -102,7 +102,7 @@ export default function ReactBigCalendar() {
         ]} />
         <div className="contentarea-wrapper mt-3">
           <Container fluid>
-          <PageTitle pageTitle="Calender" gobacklink="/calenderconfig" />
+          <PageTitle pageTitle="Calender" gobacklink="" />
             <Row>
               <Col md={10}>
                 {selectedEvent && <Modal />}

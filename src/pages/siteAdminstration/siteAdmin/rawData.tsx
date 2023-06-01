@@ -28,7 +28,6 @@ export const AdminRawData = [
       boxclassname: "",
     },
   ],
-
   [
     {
       title: "CO / PO <br>Management",
@@ -48,6 +47,29 @@ export const AdminRawData = [
       title: "Calendar <br>Management",
       image: calendaermanagement,
       link: "/calenderconfig",
+      classname: "calender-config",
+      boxclassname: "row2box",
+    },
+  ],
+  [
+    {
+      title: "Institute <br>Management",
+      image: copomanagement,
+      link: "/institute",
+      classname: "copo-management",
+      boxclassname: "row2box",    
+    },
+    {
+      title: "Tab8<br>",
+      image: timetablemanagement,
+      link: "#",
+      classname: "timetable-management",
+      boxclassname: "",
+    },
+    {
+      title: "Tab9 <br>",
+      image: calendaermanagement,
+      link: "#",
       classname: "calender-config",
       boxclassname: "row2box",
     },
