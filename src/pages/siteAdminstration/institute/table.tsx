@@ -19,8 +19,10 @@ const UserManagementTable = ({
   toggleModalShow,
   editHandlerById,
   apiStatus,
+  configModalShow,
+  editConfigHandler,
 }: any) => {
-  console.log(apiStatus);
+  // console.log(apiStatus);
   const tableColumn = [
     {
       Header: "Name",
@@ -46,6 +48,21 @@ const UserManagementTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
+          <Link to="">
+            <i className="fa-solid fa-gear"
+              onClick={() =>
+                configEditHandler({
+                  id: row.original.id,
+                  name: row.original.name,
+                  userEmail: row.original.userEmail,
+                  shortCode: row.original.shortCode,
+                  instanceUrl: row.original.instanceUrl,
+                  webServiceToken: row.original.webServiceToken,
+                  locked: row.original.locked,
+                })
+              }
+            ></i>
+          </Link>
           <Link to={""}>
             <i
               className="fa-solid fa-pen"
@@ -102,6 +119,27 @@ const UserManagementTable = ({
           }
         });
     }
+  };
+
+  const configEditHandler = ({
+    id,
+    name,
+    userEmail,
+    shortCode,
+    instanceUrl,
+    webServiceToken,
+    locked,
+  }: any) => {
+    configModalShow(true);
+    editConfigHandler({
+      id,
+      name,
+      userEmail,
+      shortCode,
+      instanceUrl,
+      webServiceToken,
+      locked,
+    });
   };
 
   // edit event handler === >>>

@@ -12,12 +12,14 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
+import ConfigModal from "./configModal";
 
 const InstituteManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const [configModal, setConfigModal] = useState(false);
   const [userObj, setUserObj] = useState({
     name: "",
     userEmail: "",
@@ -71,7 +73,7 @@ const InstituteManagement = () => {
       });
   }, [refreshData, filterUpdate]);
 
-  console.log(apiStatus);
+  // console.log(apiStatus);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -115,6 +117,32 @@ const InstituteManagement = () => {
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
+
+  // handle modal hide & show functionality === >>>
+  const configModalShow = (status: boolean) => {
+    setConfigModal(status);
+  };
+
+  // get configure handler === >>>
+  const editConfigHandler = ({
+    id,
+    name,
+    userEmail,
+    shortCode,
+    instanceUrl,
+    webServiceToken,
+    locked,
+  }: any) => {
+    setUserObj({
+      id: id,
+      name: name,
+      userEmail: userEmail,
+      shortCode: shortCode,
+      instanceUrl: instanceUrl,
+      webServiceToken: webServiceToken,
+      locked: locked,
+    });
+  }
 
   // get id, name from the department table === >>>
   const editHandlerById = ({
@@ -174,7 +202,9 @@ const InstituteManagement = () => {
             userdata={userData.items}
             refreshdata={refreshOnDeleteToggle}
             editHandlerById={editHandlerById}
+            editConfigHandler={editConfigHandler}
             toggleModalShow={toggleModalShow}
+            configModalShow={configModalShow}
             apiStatus={apiStatus}
           />
           <BuildPagination
@@ -196,6 +226,14 @@ const InstituteManagement = () => {
         userobj={userObj}
         togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
+      />
+      <ConfigModal 
+        show={configModal}
+        onHide={() => configModalShow(false)}
+        userobj={userObj}
+        configModalShow={configModalShow}
+        updateAddRefresh={refreshToggle}
+        editConfigHandler={editConfigHandler}
       />
       <Footer />
     </React.Fragment>
