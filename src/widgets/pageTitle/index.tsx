@@ -8,14 +8,17 @@ const PageTitle = ({pageTitle, gobacklink}:any) => {
     return (
       <h3 className="sitepage-title">
         <div dangerouslySetInnerHTML={{ __html: pageTitle }}></div>
-        <Button
-            size="sm"
-            variant="outline-secondary"
-            onClick={() => navigate(gobacklink)}
+        {
+          gobacklink !== "" && 
+          <Button
+              size="sm"
+              variant="outline-secondary"
+              onClick={() => navigate(gobacklink)}
           >
             Go Back 
           </Button>
-      </h3>  
+        }
+      </h3>
     );
   };
   
