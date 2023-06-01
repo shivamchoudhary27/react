@@ -12,6 +12,7 @@ import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import Filters from "./filters";
 
 const ProgramType = () => {
   const navigate = useNavigate();
@@ -29,12 +30,12 @@ const ProgramType = () => {
 
   useEffect(() => {
     if (refreshOnDelete === true)
-      makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData, setApiStatus);
+      makeGetDataRequest("/1/program-types", filterUpdate, setProgramTypeData, setApiStatus);
   }, [refreshOnDelete]);
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/program-types", filterUpdate, setProgramTypeData, setApiStatus);
+    makeGetDataRequest("/1/program-types", filterUpdate, setProgramTypeData, setApiStatus);
   }, [refreshData, filterUpdate]);
 
   const refreshToggle = () => {
@@ -88,6 +89,30 @@ const ProgramType = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  // to update filters values in the main state filterUpdate
+  const updateDepartmentFilter = (departmentId: string) => {
+    setFilterUpdate({
+      ...filterUpdate,
+      departmentId: departmentId,
+      pageNumber: 0,
+    });
+  };
+
+  const updateInputFilters = (inputvalues: any) => {
+    if (inputvalues.code !== "") {
+      setFilterUpdate({
+        ...filterUpdate,
+        name: inputvalues.name,
+        programCode: inputvalues.code,
+        pageNumber: 0,
+      });
+    } else {
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      updatedState.name = inputvalues.name;
+      if (updatedState.programCode) delete updatedState.programCode;
+      setFilterUpdate(updatedState);
+    }
+  };
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const ADDPROGRAM_MODAL_COMPONENT = (
     <AddProgramModal
@@ -147,7 +172,12 @@ const ProgramType = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Program Type" gobacklink="/manageprogram" />
-          {PROGRAM_TYPE_BUTTON}
+          <Filters
+            openAddProgramType={openAddProgramType}
+            updateDepartment={updateDepartmentFilter}
+            updateinputfilters={updateInputFilters}
+          />
+          {/* {PROGRAM_TYPE_BUTTON} */}
           {ADDPROGRAM_MODAL_COMPONENT}
           {PROGRAM_TYPE_COMPONENT}
           <BuildPagination

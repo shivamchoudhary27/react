@@ -137,48 +137,6 @@ const AddUserModal = ({
                     msgText="shortCode is required"
                   />
                 </div>
-                {userobj.id > 0 &&
-                  <React.Fragment>
-                    <div className="mb-3">
-                      <FieldLabel
-                        htmlfor="instanceUrl"
-                        labelText="instanceUrl"
-                        required="required"
-                        star="*"
-                      />
-                      <FieldTypeText name="instanceUrl" placeholder="instanceUrl" />
-                      <FieldErrorMessage
-                        errors={errors.instanceUrl}
-                        touched={touched.instanceUrl}
-                        msgText="instanceUrl is required"
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <FieldLabel
-                        htmlfor="webServiceToken"
-                        labelText="webServiceToken"
-                        required="required"
-                        star="*"
-                      />
-                      <FieldTypeText name="webServiceToken" placeholder="webServiceToken" />
-                      <FieldErrorMessage
-                        errors={errors.webServiceToken}
-                        touched={touched.webServiceToken}
-                        msgText="webServiceToken is required"
-                      />
-                    </div>
-
-                    <div className="mb-3">
-                      <FieldTypeCheckbox
-                        name="locked"
-                        value="locked"
-                        checkboxLabel="locked"
-                      />
-                    </div>
-                  </React.Fragment>
-                }
-
                 <div className="modal-buttons">
                   <CustomButton
                     type="submit"

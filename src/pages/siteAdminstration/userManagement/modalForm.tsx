@@ -30,15 +30,10 @@ const AddUserModal = ({
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    // username: Yup.string().trim().min(4).required(),
-    // password: Yup.string().when('shouldValidatePassword', {
-      //   is: true,
-      //   then: Yup.string().min(6).trim().required(),
-      //   otherwise: Yup.string().trim()
-      // }),
     email: Yup.string().email("Invalid email").required("Email is required"),
     firstName: Yup.string().min(1).trim().required(),
     lastName: Yup.string().min(1).trim().required(),
+    country: Yup.string().required(),
   });
 
   // handle Form CRUD operations === >>>
@@ -99,43 +94,6 @@ const AddUserModal = ({
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
               <Form>
-                {userobj.id === 0 &&
-                  <React.Fragment>
-                    {/* <div className="mb-3">
-                      <FieldLabel
-                        htmlfor="username"
-                        labelText="Username"
-                        required="required"
-                        star="*"
-                      />
-                      <FieldTypeText name="username" placeholder="Username" />
-                      <FieldErrorMessage
-                        errors={errors.username}
-                        touched={touched.username}
-                        msgText="Username is required with 4 characters minimum"
-                      />
-                    </div> */}
-                    {/* <div className="mb-3">                  
-                      <FieldLabel
-                        htmlfor="password"
-                        labelText="Password"
-                        required="required"
-                        star="*"
-                      />
-                      <FieldTypeText
-                        type="password"
-                        name="password"
-                        placeholder="Password"
-                      />
-                      <FieldErrorMessage
-                        errors={errors.password}
-                        touched={touched.password}
-                        msgText="Password is required with 6 characters minimum"
-                      />
-                    </div> */}
-                  </React.Fragment>
-                }
-
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="firstName"
@@ -180,35 +138,6 @@ const AddUserModal = ({
                     msgText="Email is required"
                   />
                 </div>
-
-                {/* <div className="mb-3">
-                    <FieldLabel
-                      htmlfor="idnumber"
-                      labelText="Idnumber"
-                      required="required"
-                    />
-                    <FieldTypeText type="number" name="idnumber" placeholder="Id number" />
-                    <FieldErrorMessage
-                      errors={errors.idnumber}
-                      touched={touched.idnumber}
-                      msgText="Idnumber is required with minimun 4 and maximum 9 digits"
-                    />
-                  </div> */}
-
-                {/* <div className="mb-3">
-                    <FieldLabel
-                      htmlfor="city"
-                      labelText="City"
-                      required="required"
-                    />
-                    <FieldTypeText name="city" placeholder="City" />
-                    <FieldErrorMessage
-                      errors={errors.city}
-                      touched={touched.city}
-                      msgText="City is required"
-                    />
-                  </div> */}
-
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="country"
