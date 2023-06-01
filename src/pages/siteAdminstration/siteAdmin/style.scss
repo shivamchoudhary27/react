@@ -57,13 +57,13 @@
     &.program-enrollment:hover {
       background: linear-gradient(128.98deg, #0FC87D 18.58%, #314B64 75.2%);
     }
-    &.copo-management:hover, &.institute-management:hover {
+    &.copo-management:hover {
       background: linear-gradient(120.28deg, #F8C901 2.89%, #F39032 98.57%);
     }
     &.timetable-management:hover {
       background: linear-gradient(111.63deg, #B5FFDD 14.84%, #324663 109.82%);
     }
-    &.calender-config:hover {
+    &.institute-management:hover {
       background: linear-gradient(107.58deg, #CEF8FF -3.01%, #0D92AA 111.53%);
     }
     img {
@@ -73,6 +73,9 @@
       right: 0;
       bottom: 0;
       z-index: 0;
+    }
+    &.institute-management img {
+      max-height: 180px;
     }
     &:hover img {
       filter: none;

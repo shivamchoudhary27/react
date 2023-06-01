@@ -192,25 +192,27 @@ const CourseEnrollment = () => {
   };
  
   const DISCIPLINE_BUTTONS = (
-    <div className="filter-wrapper">
-      <div className="mt-2">
-        <Button variant="primary" onClick={() => navigate(`/managegroups/${programid}/${courseid}/${coursename}`)}>
+    <>
+      <div className="site-button-group mb-3">
+        <Button variant="primary" size="sm" onClick={() => navigate(`/managegroups/${programid}/${courseid}/${coursename}`)}>
           Manage Groups
         </Button>{" "}
-        <Button variant="primary" onClick={openAddDiscipline}>
+        <Button variant="primary" size="sm" onClick={openAddDiscipline}>
           Enrol User
         </Button>{" "}
-        <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-      </div>
-      <div className="my-3">
+        <Button variant="primary" size="sm" onClick={toggleUploadModal}>Upload Users</Button>{" "}
+      </div>   
+      <div className="">
         First Name {" "}
         <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
         <br />
         Last Name {" "}
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
-      <ManageFilter updateinputfilters={updateSearchFilters} />
-    </div>
+      <div className="filter-wrapper mt-2">
+        <ManageFilter updateinputfilters={updateSearchFilters} />
+      </div>
+      </>
   );
   // <<< ==== END COMPONENTS ==== >>>
 
@@ -227,7 +229,7 @@ const CourseEnrollment = () => {
               { name: coursename, path: "" },       
             ]}
           />
-      <div className="contentarea-wrapper mt-3">
+        <div className="contentarea-wrapper mt-3">
           <Container fluid>
           <PageTitle 
             pageTitle ={`Course: ${coursename}`} gobacklink = {`/enrolusers/${programid}/${programName}`}

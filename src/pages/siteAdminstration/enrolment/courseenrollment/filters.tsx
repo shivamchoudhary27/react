@@ -27,11 +27,10 @@ const ManageFilter = ({ updateinputfilters }: any) => {
       {/* <div className="filter-wrapper">
         <div className="filter-form"> */}
       <form
-        className="filter-form mt-3"
         onSubmit={formik.handleSubmit}
         onReset={formik.handleReset}
       >
-        <div className="row">
+        <div className="row gx-3">
           <div className="col-auto">
             <input
               className="form-control"
