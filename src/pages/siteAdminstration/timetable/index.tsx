@@ -123,12 +123,12 @@ const TimeTable = () => {
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable", path: "" },
+          { name: "Timetable Management", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle="Timetable" gobacklink="/siteadmin" />
+          <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
           {DEPARTMENT_FILTER_COMPONENT}
           {DEPARTMENT_TABLE_COMPONENT}
           <Errordiv msg="Work in progress..." cstate className="mt-3" />

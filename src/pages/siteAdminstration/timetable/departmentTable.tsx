@@ -27,17 +27,17 @@ const DepartmentTable = ({
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Name",
+      Header: "Column 1",
       accessor: "name",
     },
     {
-      Header: "Event",
+      Header: "Column 2",
       Cell: () => {
         <span>{2}</span>;
       },
     },
     {
-      Header: "Color",
+      Header: "Column 3",
       Cell: ({ row }: any) => {
         <Link to="">
           <i
