@@ -7,35 +7,35 @@ import calendaermanagement from '../../../assets/images/timetable-management.png
 export const AdminRawData = [
   [
     {
+      title: "Institute <br>Management",
+      image: copomanagement,
+      link: "/institute",
+      classname: "institute-management",
+      boxclassname: "",    
+    },
+    {
       title: "User <br>Management",
       image: usermanagement,
       link: "/usermanagement",
       classname: "user-management",
-      boxclassname: "",
+      boxclassname: "middle",
     },
     {
       title: "Program <br>Management",
       image: manageprogram,
       link: "/manageprogram",
       classname: "manage-program",
-      boxclassname: "middle",
-    },
+      boxclassname: "",
+    }    
+  ],
+  [
     {
       title: "Program <br>Enrollment",
       image: programenrollment,
       link: "/programenrollment",
       classname: "program-enrollment",
-      boxclassname: "",
-    },
-  ],
-  [
-    {
-      title: "CO / PO <br>Management",
-      image: copomanagement,
-      link: "#",
-      classname: "copo-management",
-      boxclassname: "row2box",    
-    },
+      boxclassname: "row2box",
+    },    
     {
       title: "Timetable <br>Management",
       image: timetablemanagement,
@@ -49,29 +49,15 @@ export const AdminRawData = [
       link: "/calenderconfig",
       classname: "calender-config",
       boxclassname: "row2box",
-    },
+    }
   ],
   [
     {
-      title: "Institute <br>Management",
+      title: "CO / PO <br>Management",
       image: copomanagement,
-      link: "/institute",
+      link: "#",
       classname: "copo-management",
-      boxclassname: "row2box",    
-    },
-    {
-      title: "Tab8<br>",
-      image: timetablemanagement,
-      link: "#",
-      classname: "timetable-management",
-      boxclassname: "",
-    },
-    {
-      title: "Tab9 <br>",
-      image: calendaermanagement,
-      link: "#",
-      classname: "calender-config",
-      boxclassname: "row2box",
-    },
+      boxclassname: "",    
+    },    
   ]
 ];

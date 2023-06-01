@@ -81,7 +81,7 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
   return (
     <Accordion defaultActiveKey={['0']} alwaysOpen>
       <Accordion.Item eventKey="0">
-        <Accordion.Header>Calendar Events</Accordion.Header>
+        <Accordion.Header>Events key</Accordion.Header>
         <Accordion.Body>
           {eventCheckboxes()}
         </Accordion.Body>

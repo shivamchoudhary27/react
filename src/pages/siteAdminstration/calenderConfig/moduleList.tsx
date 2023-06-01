@@ -45,9 +45,7 @@ const Module_List = () => {
         {() => (
           <Form>
             <Module_Table Field={Field} />
-            <Button type="submit">
-              Save
-            </Button>
+            <div className="text-center mt-3"><Button type="submit">Save</Button></div>
           </Form>
         )}
       </Formik>
