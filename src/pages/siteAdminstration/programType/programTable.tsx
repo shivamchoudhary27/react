@@ -3,7 +3,6 @@ import { deleteData as deleteProgramData } from "../../../adapters/microservices
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
-// import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
@@ -21,10 +20,10 @@ const ProgramTable = ({
   toggleModalShow,
   refreshProgramData,
   refreshOnDelete,
-  apiStatus
+  apiStatus,
+  currentInstitute
 }: any) => {
   // custom react table Column === >>>
-  console.log(' re render the table data')
   const tableColumn = [
     {
       Header: "Name",
@@ -91,8 +90,8 @@ const ProgramTable = ({
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
-    if (window.confirm("Are you sure you want to delete?" + id)) {
-      let endpoint = `/program-types/${id}`;
+    if (window.confirm("Are you sure you want to delete this program type?")) {
+      let endpoint = `/${currentInstitute}/program-types/${id}`;
       deleteProgramData(endpoint).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           refreshOnDelete(true);
@@ -110,45 +109,6 @@ const ProgramTable = ({
         refreshProgramData();
       }, 3000)
     }
-    // const swalWithBootstrapButtons = Swal.mixin({
-    //   customClass: {
-    //     confirmButton: "btn btn-success",
-    //     cancelButton: "btn btn-danger",
-    //   },
-    //   buttonsStyling: true,
-    // });
-    // swalWithBootstrapButtons
-    //   .fire({
-    //     title: "Are you sure to delete?",
-    //     icon: "warning",
-    //     showCancelButton: true,
-    //     confirmButtonText: "Yes, delete it!",
-    //     cancelButtonText: "No, cancel!",
-    //     reverseButtons: true,
-    //   })
-    //   .then((result) => {
-    //     if (result.isConfirmed) {
-    //       Swal.fire({
-    //         icon: "success",
-    //         title: "Deleted Successfully",
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //       });
-    //       let endpoint = `/program-types/${id}`;
-    //       deleteProgramData(endpoint).then((res: any) => {
-    //         if (res.data !== "" && res.status === 200) {
-    //           refreshProgramData();
-    //         }
-    //       });
-    //     } else if (result.dismiss === Swal.DismissReason.cancel) {
-    //       Swal.fire({
-    //         icon: "error",
-    //         title: "Cancelled",
-    //         showConfirmButton: false,
-    //         timer: 1500,
-    //       });
-    //     }
-    //   });
   };
 
   // hide show toggle event handler === >>>

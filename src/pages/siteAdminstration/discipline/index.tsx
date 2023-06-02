@@ -13,6 +13,8 @@ import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
+import Filters from "./filters";
+import InstituteFilter from "./instituteFilter";
 
 const Discipline = () => {
   const navigate = useNavigate();
@@ -32,15 +34,21 @@ const Discipline = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
+  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+
+  const updateCurrentInstitute = (instituteId : number) => {
+    setCurrentInstitute(instituteId);
+  }
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData, setApiStatus);
-  }, [refreshData, filterUpdate]);
+    if (currentInstitute > 0)
+    makeGetDataRequest(`/${currentInstitute}/disciplines`, filterUpdate, setDiciplineData, setApiStatus);
+  }, [refreshData, filterUpdate, currentInstitute]);
 
   useEffect(() => {
-    if (refreshOnDelete === true)
-      makeGetDataRequest("/disciplines", filterUpdate, setDiciplineData, setApiStatus);
+    if (refreshOnDelete === true && currentInstitute > 0)
+      makeGetDataRequest(`/${currentInstitute}/disciplines`, filterUpdate, setDiciplineData, setApiStatus);
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -81,6 +89,7 @@ const Discipline = () => {
       refreshDisciplineData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
       apiStatus={apiStatus}
+      currentInstitute={currentInstitute}
     />
   );
 
@@ -91,6 +100,7 @@ const Discipline = () => {
       togglemodalshow={toggleModalShow}
       disciplineobj={disciplineObj}
       refreshDisciplineData={refreshToggle}
+      currentInstitute={currentInstitute}
     />
   );
 
@@ -136,7 +146,11 @@ const Discipline = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Discipline" gobacklink="/manageprogram" />
-          {DISCIPLINE_BUTTONS}
+          Institute : <InstituteFilter updateCurrentInstitute={updateCurrentInstitute}/>
+          <Filters
+            openAddDiscipline={openAddDiscipline}
+          />
+          {/* {DISCIPLINE_BUTTONS} */}
           {DISCIPLINE_TABLE_COMPONENT}
           <BuildPagination
             totalpages={diciplineData.pager.totalPages}

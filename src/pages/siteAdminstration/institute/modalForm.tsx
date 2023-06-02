@@ -28,9 +28,9 @@ const AddUserModal = ({
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    // name: Yup.string().trim().min(4).required(),
+    name: Yup.string().trim().required(),
     userEmail: Yup.string().email("Invalid email").required("Email is required"),
-    // shortCode: Yup.string().min(1).trim().required(),
+    shortCode: Yup.string().trim().required(),
     // lastName: Yup.string().min(1).trim().required(),
   });
 
@@ -103,13 +103,13 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.name}
                     touched={touched.name}
-                    msgText="Name is required with 4 characters minimum"
+                    msgText="Name is required"
                   />
                 </div>
                 <div className="mb-3">                  
                   <FieldLabel
                     htmlfor="userEmail"
-                    labelText="userEmail"
+                    labelText="User Email"
                     required="required"
                     star="*"
                   />
@@ -120,21 +120,21 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.userEmail}
                     touched={touched.userEmail}
-                    msgText="userEmail is required with 6 characters minimum"
+                    msgText="Email is required"
                   />
                 </div>
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="shortCode"
-                    labelText="shortCode"
+                    labelText="Short Code"
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText name="shortCode" placeholder="shortCode" />
+                  <FieldTypeText name="shortCode" placeholder="Short Code" />
                   <FieldErrorMessage
                     errors={errors.shortCode}
                     touched={touched.shortCode}
-                    msgText="shortCode is required"
+                    msgText="Short code is required"
                   />
                 </div>
                 <div className="modal-buttons">

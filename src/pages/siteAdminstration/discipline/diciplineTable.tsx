@@ -21,7 +21,8 @@ const DiciplineTable = ({
   toggleModalShow,
   refreshDisciplineData,
   refreshOnDelete,
-  apiStatus
+  apiStatus,
+  currentInstitute
 }: any) => {
   // custom react table column === >>>
   const tableColumn = [
@@ -90,7 +91,7 @@ const DiciplineTable = ({
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
     if (window.confirm('Are you sure to delete this discipline?')) {
-      let endpoint = `/disciplines/${id}`;
+      let endpoint = `${currentInstitute}/disciplines/${id}`;
       deleteDisciplineData(endpoint).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           refreshOnDelete(true);

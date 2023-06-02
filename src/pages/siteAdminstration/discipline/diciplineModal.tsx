@@ -23,6 +23,7 @@ const DiciplineModal = ({
   refreshDisciplineData,
   show,
   onHide,
+  currentInstitute
 }: any) => {
   // Initial values of react table === >>>
   const initialValues = {
@@ -49,7 +50,7 @@ const DiciplineModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let endPoint = "/disciplines";
+    let endPoint = `/${currentInstitute}/disciplines`;
     setSubmitting(true);
     if (disciplineobj.id === 0) {
       addDisciplineData(endPoint, values)

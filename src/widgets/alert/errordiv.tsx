@@ -3,7 +3,6 @@ import Alert from "react-bootstrap/Alert";
 
 function Errordiv(props: { cstate: boolean; msg: string; className: string }) {
   const [show, setShow] = useState(props.cstate);
-  console.log(props.cstate);
   return (
     <>
       <div className="table-wrapper mt-3">

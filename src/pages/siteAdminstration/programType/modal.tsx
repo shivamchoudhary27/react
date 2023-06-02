@@ -28,6 +28,7 @@ const AddProgramModal = ({
   refreshprogramdata,
   show,
   onHide,
+  currentInstitute
 }: any) => {
   // Initial values of react table === >>>
   const initialValues = {
@@ -55,7 +56,7 @@ const AddProgramModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    let endPoint = "/program-types";
+    let endPoint = `/${currentInstitute}/program-types`;
     setSubmitting(true);
     if (programtypeobj.id === 0) {
       addProgramData(endPoint, values)
