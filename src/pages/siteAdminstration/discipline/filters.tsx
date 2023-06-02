@@ -6,7 +6,7 @@ const initialValues = {
   name: "",
 }
 
-const Filter = ({openAddProgramType} : any) => {
+const Filter = ({openAddDiscipline} : any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -48,7 +48,7 @@ const Filter = ({openAddProgramType} : any) => {
           </div>          
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddProgramType}>Add Program Type</Button>{" "}
+          <Button variant="primary" onClick={openAddDiscipline}>Add Discipline</Button>{" "}
         </div>
       </div>
     </React.Fragment>

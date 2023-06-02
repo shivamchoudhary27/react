@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import {useState, useEffect} from "react";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 
 const InstituteFilter = ({updateCurrentInstitute}: any) => {

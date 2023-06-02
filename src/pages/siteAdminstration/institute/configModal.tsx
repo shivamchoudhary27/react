@@ -16,7 +16,7 @@ const Schema = Yup.object({
   // locked: Yup.required(),
 });
 
-const ConfigModal = ({ show, onHide, userobj, configModalShow }: any) => {
+const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh }: any) => {
   console.log(userobj);
   const initialValues = {
     instanceUrl: userobj.instanceUrl,
@@ -33,7 +33,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow }: any) => {
       .then((res: any) => {
         if ((res.data !== "", res.status === 200)) {
           configModalShow(false);
-          // updateAddRefresh();
+          updateAddRefresh();
           setSubmitting(false);
         }
       })

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
@@ -7,15 +6,14 @@ import BuildPagination from "../../../widgets/pagination";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
 import ProgramTable from "./programTable";
 import AddProgramModal from "./modal";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import Filters from "./filters";
+import InstituteFilter from "./instituteFilter";
 
 const ProgramType = () => {
-  const navigate = useNavigate();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [modalShow, setModalShow] = useState(false);
   const [programTypeData, setProgramTypeData] = useState<any>(dummyData);
@@ -27,16 +25,23 @@ const ProgramType = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
+  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
 
-  useEffect(() => {
-    if (refreshOnDelete === true)
-      makeGetDataRequest("/1/program-types", filterUpdate, setProgramTypeData, setApiStatus);
-  }, [refreshOnDelete]);
+  const updateCurrentInstitute = (instituteId : number) => {
+    setCurrentInstitute(instituteId);
+  }
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/1/program-types", filterUpdate, setProgramTypeData, setApiStatus);
-  }, [refreshData, filterUpdate]);
+    if (currentInstitute > 0)
+    makeGetDataRequest(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
+  }, [refreshData, filterUpdate, currentInstitute]);
+
+  useEffect(() => {
+    if (refreshOnDelete === true && currentInstitute > 0)
+      makeGetDataRequest(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
+  }, [refreshOnDelete]);
+
 
   const refreshToggle = () => {
     let newBool = refreshData === true ? false : true;
@@ -121,6 +126,7 @@ const ProgramType = () => {
       programtypeobj={programTypeObj}
       togglemodalshow={toggleModalShow}
       refreshprogramdata={refreshToggle}
+      currentInstitute={currentInstitute}
     />
   );
 
@@ -133,6 +139,7 @@ const ProgramType = () => {
       refreshProgramData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
       apiStatus={apiStatus}
+      currentInstitute={currentInstitute}
     />
   );
 
@@ -172,10 +179,12 @@ const ProgramType = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Program Type" gobacklink="/manageprogram" />
+          Institute : <InstituteFilter updateCurrentInstitute={updateCurrentInstitute}/>
           <Filters
             openAddProgramType={openAddProgramType}
             updateDepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
+            updateCurrentInstitute={updateCurrentInstitute}
           />
           {/* {PROGRAM_TYPE_BUTTON} */}
           {ADDPROGRAM_MODAL_COMPONENT}
