@@ -99,11 +99,11 @@ const AddUserModal = ({
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText name="name" placeholder="name" />
+                  <FieldTypeText name="name" placeholder="Name" />
                   <FieldErrorMessage
                     errors={errors.name}
                     touched={touched.name}
-                    msgText="Name is required"
+                    msgText="Name is Required"
                   />
                 </div>
                 <div className="mb-3">                  
@@ -120,7 +120,7 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.userEmail}
                     touched={touched.userEmail}
-                    msgText="Email is required"
+                    msgText="User Email is Required"
                   />
                 </div>
                 <div className="mb-3">
@@ -134,7 +134,7 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.shortCode}
                     touched={touched.shortCode}
-                    msgText="Short code is required"
+                    msgText="Short Code is Required"
                   />
                 </div>
                 <div className="modal-buttons">
