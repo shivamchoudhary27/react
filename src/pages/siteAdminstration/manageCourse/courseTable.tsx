@@ -33,7 +33,6 @@ const CourseTable = ({
   openAddCourseModal,
   editHandlerById,
 }: any) => {
-  const navigate = useNavigate();
 
   const tableColumn = [
     {
@@ -81,11 +80,12 @@ const CourseTable = ({
                   className="fa-solid fa-pen"
                   onClick={() =>
                     editHandler({
-                      id: row.original.id,
+                      id: row.original.coursedetails.id,
                       name: row.original.coursename,
-                      courseCode: row.original.courseid,
+                      courseCode: row.original.coursedetails.courseCode,
                       category: row.original.catid,
                       description: row.original.coursedetails.description,
+                      published: row.original.coursedetails.published
                     })
                   }
                 ></i>
@@ -105,7 +105,17 @@ const CourseTable = ({
           ) : (
             row.original.haschild !== undefined &&
             row.original.haschild === false && (
-              <Button onClick={openAddCourseModal}>Add course</Button>
+              <Button onClick={
+                () =>
+                editHandler({
+                  id: 0,
+                  name: "",
+                  courseCode: "",
+                  category: row.original.id,
+                  description: "",
+                  published: false
+                })
+              }>Add course</Button>
             )
           )}
         </span>
@@ -176,6 +186,7 @@ const CourseTable = ({
     courseCode,
     category,
     description,
+    published
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -185,6 +196,7 @@ const CourseTable = ({
       courseCode,
       category,
       description,
+      published
     });
   };
 

@@ -11,9 +11,8 @@ import { putData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 
 const Schema = Yup.object({
-  instanceUrl: Yup.string().trim().required(),
-  webServiceToken: Yup.string().trim().required(),
-  // locked: Yup.required(),
+  instanceUrl: Yup.string().trim().url().required(),
+  webServiceToken: Yup.string().trim().min(20).required(),
 });
 
 const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh }: any) => {
@@ -52,7 +51,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Institute Config
+            Institute Configuration
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -62,7 +61,6 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
             validationSchema={Schema}
             onSubmit={(values, action) => {
               handleFormData(values, action);
-              //   console.log(values);
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
@@ -82,7 +80,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
                   <FieldErrorMessage
                     errors={errors.instanceUrl}
                     touched={touched.instanceUrl}
-                    msgText="instanceUrl is required"
+                    msgText="A proper instance url is required"
                   />
                 </div>
 
@@ -101,7 +99,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
                   <FieldErrorMessage
                     errors={errors.webServiceToken}
                     touched={touched.webServiceToken}
-                    msgText="webServiceToken is required"
+                    msgText="Webservice token is required with minimum 20 characters"
                   />
                 </div>
                 {userobj.locked === false ? (
@@ -130,7 +128,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
                   </div>
                 )}
                 <Errordiv
-                  msg="Note: Once locked, configuration can not be changed"
+                  msg="Note: Once locked, configuration can not be changed later"
                   cstate
                   className="mt-3"
                 />
