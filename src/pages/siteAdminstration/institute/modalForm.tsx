@@ -115,7 +115,7 @@ const AddUserModal = ({
                   />
                   <FieldTypeText
                     name="userEmail"
-                    placeholder="userEmail"
+                    placeholder="User Email"
                   />
                   <FieldErrorMessage
                     errors={errors.userEmail}

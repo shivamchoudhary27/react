@@ -70,13 +70,13 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="instanceUrl"
-                    labelText="Instance Url"
+                    labelText="Instance URL"
                     required="required"
                     star="*"
                   />
                   <FieldTypeText
                     name="instanceUrl"
-                    placeholder="instanceUrl"
+                    placeholder="Instance URL"
                     disabled={userobj.locked === true && "disabled"}
                   />
                   <FieldErrorMessage
