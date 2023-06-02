@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import { Formik, Form } from "formik";
 import FieldLabel from "../../widgets/formInputFields/labels";
@@ -7,16 +7,21 @@ import FieldErrorMessage from "../../widgets/formInputFields/errorMessage";
 // import { useNavigate } from "react-router-dom";
 import { postData } from "../../adapters/coreservices";
 import * as Yup from "yup";
+import Errordiv from "../../widgets/alert/errordiv";
 
 const initialValues = {
   email: "",
 };
 
+// Formik Yup validation === >>>
+const userFormSchema = Yup.object({
+  email: Yup.string().email().required(),
+});
+
 const ForgotPasswordForm = () => {
-  // Formik Yup validation === >>>
-  const userFormSchema = Yup.object({
-    email: Yup.string().email().required(),
-  });
+  const [alertStatus, setAlertStatus] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
@@ -24,19 +29,42 @@ const ForgotPasswordForm = () => {
     .then((res: any) => {
       console.log('forgotpassowrd', res)
       if (res.status === 200) {
-        window.alert('An email has been sent, Please check and follow the link');
+        // window.alert('An email has been sent, Please check and follow the link');
+        setAlertStatus(true)
+        setAlertMsg({
+          message: "An email has been sent, Please check and follow the link",
+          alertBoxColor: ""
+        })
       } else {
-        window.alert('There was an error');
+        // window.alert('There was an error');
+        setAlertStatus(true)
+        setAlertMsg({
+          message: "There was an error, Try again!",
+          alertBoxColor: "alert-danger"
+        })
       }
     })
     .catch((err: any) => {
-      console.log('error', err);
-      window.alert('Some error occurred');
+      // console.log('error', err);
+      // window.alert('Some error occurred');
+      setAlertStatus(true)
+        setAlertMsg({
+          message: "Some error occurred, Try again!",
+          alertBoxColor: "alert-danger"
+        })
     });
   };
 
   return (
     <React.Fragment>
+      {alertStatus === true && (
+        <Errordiv
+          msg={alertMsg.message}
+          cstate
+          className="mt-3"
+          alertColor={alertMsg.alertBoxColor}
+        />
+      )}
         <Formik
           enableReinitialize={true}
           initialValues={initialValues}
