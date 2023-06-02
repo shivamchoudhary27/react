@@ -41,11 +41,12 @@ const CourseManagment = () => {
   });
   const [addCourseModal, setAddCourseModal] = useState(false);
   const [courseObj, setCourseObj] = useState({
+    id: "",
     name: "",
     courseCode: "",
-    caytegory: "",
+    category: "",
     description: "",
-    publish: "",
+    published: false,
   });
 
   const getCategoriesData = () => {
@@ -112,19 +113,19 @@ const CourseManagment = () => {
     setAddCourseModal(status);
   };
 
-  // handle to open Add Course modal === >>>
-  const openAddCourseModal = () => {
-    setAddCourseModal(true);
-    setCourseObj({
-      id: 0,
-      name: "",
-      courseCode: "",
-      caytegory: "",
-      description: "",
-      publish: "",
-    });
-    // setRefreshData(false);
-  };
+  // // handle to open Add Course modal === >>>
+  // const openAddCourseModal = () => {
+  //   setAddCourseModal(true);
+  //   setCourseObj({
+  //     id: "",
+  //     name: "",
+  //     courseCode: "",
+  //     category: "",
+  //     description: "",
+  //     published: false,
+  //   });
+  //   // setRefreshData(false);
+  // };
 
   // handle to Edit Course modal === >>>
   const editHandlerById = ({
@@ -133,22 +134,16 @@ const CourseManagment = () => {
     courseCode,
     category,
     description,
+    published
   }: any) => {
-    console.log(id)
     setCourseObj({
       id: id,
       name: name,
       courseCode: courseCode,
       category: category,
       description: description,
-      // publish: ""
+      published: published
     });
-  };
-
-  const resetModalForm = () => {
-    setModalShow(false);
-    setFormWeight(0);
-    setFormParent(0);
   };
 
   // handle to re-rendering of category table === >>
@@ -207,9 +202,7 @@ const CourseManagment = () => {
               refreshcategories={refreshToggle}
               cleanFormValues={cleanFormValues}
               toggleCourseModal={toggleCourseModal}
-              editHandlerById={editHandlerById}
-              openAddCourseModal={openAddCourseModal}
-              
+              editHandlerById={editHandlerById}              
             />
           )}
         </Container>
@@ -220,6 +213,7 @@ const CourseManagment = () => {
           programId={id}
           toggleCourseModal={toggleCourseModal}
           updateAddRefresh={refreshToggle}
+          refreshcategories={refreshToggle}
         />
       </div>
       <Footer />

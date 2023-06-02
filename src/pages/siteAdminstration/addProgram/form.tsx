@@ -20,7 +20,6 @@ import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-// import FieldTypeRadio from "../../../widgets/form_input_fields/form_radio_field";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import Swal from "sweetalert2";
@@ -43,6 +42,11 @@ const step1Schema = Yup.object({
 const step2Schema = Yup.object({
   programtype: Yup.string().required(),
   batchYear: Yup.string().required(),
+  durationValue: Yup
+  .number()
+  .integer('Number must be an integer')
+  .positive('Number must be positive')
+  .required('Number is required'),
 });
 
 // Step 3 validation schema
@@ -360,7 +364,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
                     <FieldErrorMessage
                       errors={errors.durationValue}
                       touched={touched.durationValue}
-                      msgText="Duration must in number"
+                      msgText="Duration must in positive number and non decimal"
                     />
                     <FieldTypeSelect
                       name="durationUnit"

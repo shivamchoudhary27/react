@@ -9,21 +9,20 @@ import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
-import { useParams } from "react-router-dom";
-import { getData } from "../../../adapters/microservices";
+import { getData, postData, putData } from "../../../adapters/microservices";
 import { getChildren, updateCategoryLevels } from "./utils";
 import { setHasChildProp } from "./local";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
-    name: Yup.string().min(1).required(),
-    courseCode: Yup.number().required(),
-    // category: Yup.string().required(),
+    name: Yup.string().trim().required(),
+    courseCode: Yup.string().trim().required(),
+    category: Yup.string().required(),
     // description: Yup.string().max(100).required(),
   });
 
-const CourseModal = ({ show, onHide, courseobj, programId }: any) => {
-    console.log(courseobj)
+const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, refreshcategories }: any) => {
+    
     const [courseDetail, setCourseDetails] = useState({});
     const [categorieslist, setCategoriesList] = useState([]);
     const [filteredCategories, setFilterCategories] = useState([]);
@@ -33,45 +32,27 @@ const CourseModal = ({ show, onHide, courseobj, programId }: any) => {
         pageSize: 100,
       });
   const [initValues, setInitValues] = useState({
+    id: "",
     name: "",
     courseCode: "",
-    category: courseobj.category,
+    category: "",
     description: "",
     published: false,
   });
-
+  
   // Get category Data from API === >>
   useEffect(() => {
-    if (courseobj.courseCode > 0) {
-      const endPoint = `/${programId}/course`;
-      let filters = { Id: courseobj.courseCode, pageNumber: 0, pageSize: 1 };
-      getData(endPoint, filters)
-        .then((res: any) => {
-          if (res.status === 200) {
-            if (res.data.items.length === 1) {
-              let requestedcourse = res.data.items[0];
-              setCourseDetails(requestedcourse);
-              console.log(res.data.items)
-              setInitValues({
-                id: requestedcourse.id,
-                name: requestedcourse.name,
-                courseCode: requestedcourse.courseCode,
-                description: requestedcourse.description,
-                published: requestedcourse.published,
-                category: courseobj.category,
-              });
-            } else {
-              window.alert(
-                "No course details were found for requested course "
-              );
-            }
-          }
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  }, []);
+    // if (courseobj.id > 0) {
+      setInitValues({
+        id: courseobj.id,
+        name: courseobj.name,
+        courseCode: courseobj.courseCode,
+        description: courseobj.description,
+        published: courseobj.published,
+        category: courseobj.category,
+      });
+    // }
+  }, [courseobj]);
 
   // Get category Data from API === >>
   useEffect(() => {
@@ -114,6 +95,39 @@ const CourseModal = ({ show, onHide, courseobj, programId }: any) => {
       setFilterCategories(filteredArr);
     }
   }, [categorieslist]);
+  
+  // handle Form CRUD operations === >>>
+  const handleFormData = (values : {}, { setSubmitting, resetForm } : any) => {
+    let requestData = { ...values, category: { id: values.category } };
+    if (courseobj.id == 0) {
+      const endPoint = `${programId}/course`;
+      postData(endPoint, requestData).then((res : any)=>{
+        if(res.status === 201){
+          // window.alert('Course created successfully');
+        }
+        toggleCourseModal(false);
+        refreshcategories()
+      }).catch((err : any)=>{
+        console.log(err)
+      })
+    } else {
+      const endPoint = `${programId}/course/${courseobj.id}`;
+
+      putData(endPoint, requestData)
+        .then((res : any) => {
+          if (res.status === 200) {
+            // window.alert("Update succesful");
+          }
+          toggleCourseModal(false);
+          refreshcategories();
+        })
+        .catch((err : any) => {
+          window.alert("Some error occurred!");
+          toggleCourseModal(false);
+        });
+    }
+    // resetForm();
+  };
 
   return (
     <React.Fragment>
@@ -134,8 +148,7 @@ const CourseModal = ({ show, onHide, courseobj, programId }: any) => {
             initialValues={initValues}
             validationSchema={formSchema}
             onSubmit={(values, action) => {
-              // handleFormData(values, action);
-              console.log(values);
+              handleFormData(values, action);
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
@@ -220,7 +233,7 @@ const CourseModal = ({ show, onHide, courseobj, programId }: any) => {
                     type="submit"
                     variant="primary"
                     // isSubmitting={isSubmitting}
-                    btnText={courseobj.id === 0 ? "Save" : "update"}
+                    btnText={courseobj.id === 0 ? "Save" : "Update"}
                   />{" "}
                   {courseobj.id === 0 && (
                     <CustomButton

@@ -1,10 +1,9 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/microservices";

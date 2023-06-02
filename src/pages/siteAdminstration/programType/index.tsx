@@ -143,28 +143,6 @@ const ProgramType = () => {
     />
   );
 
-  const PROGRAM_TYPE_BUTTON = (
-    <div className="filter-wrapper">
-      <form>
-        <Row className="align-items-center gx-3">
-          <Col className="col-auto">
-            <input type="text" className="form-control" placeholder="Name" />
-          </Col>
-          <Col className="col-auto">
-            <Button variant="primary" className="me-2">
-              Filter
-            </Button>{" "}
-            <Button variant="outline-secondary">Reset</Button>
-          </Col>
-        </Row>
-      </form>
-      <Button variant="primary" onClick={openAddProgramType}>
-        Add Program Type
-      </Button>
-    </div>
-  );
-  // <<< ==== END COMPONENTS ==== >>>
-
   return (
     <>
       <Header />

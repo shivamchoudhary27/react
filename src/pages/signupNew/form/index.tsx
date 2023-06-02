@@ -6,7 +6,6 @@ import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 import { CountryList } from "../data";
-import { useNavigate } from "react-router-dom";
 import { postData } from "../../../adapters/coreservices";
 import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -14,7 +13,6 @@ import googleReCaptcha from "../../../utils/recaptcha";
 import Errordiv from "../../../widgets/alert/errordiv";
 
 const SignupForm = () => {
-  const navigate = useNavigate();
   const [alertStatus, setAlertStatus] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
@@ -39,7 +37,6 @@ const SignupForm = () => {
     values: any,
     { setSubmitting, resetForm, setFieldError }: any
   ) => {
-    console.log(values);
     values.idnumber = 98789871;
     values.city = "Delhi";
     if (values.recaptcha !== "") {
@@ -56,20 +53,15 @@ const SignupForm = () => {
           } else {
             window.alert("Some error occurred");
           }
-          // setTimeout(()=>{
-          //   navigate("/");
-          // }, 3000)
         })
         .catch((err: any) => {
           if (err.response.status === 404) {
-            // window.alert(err.response.data.message);
             setAlertStatus(true);
             setAlertMsg({
               message: "User already exists. Please Sign in",
               alertBoxColor: "alert-warning"
             });
           } else {
-            // window.alert("Some error occurred");
             setAlertStatus(true);
             setAlertMsg({
               message: "Some error occurred, Try again!",
