@@ -41,7 +41,6 @@ const ResetPasswordForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    // values.token = urlParams;
     let endPoint = `/user/resetPassword?token=${requestToken}`;
     putData(endPoint, values)
       .then((res: any) => {
@@ -49,24 +48,21 @@ const ResetPasswordForm = () => {
         if (res.status === 200) {
           setAlertStatus(true);
           setAlertMsg({
-            message: "Password reset successfully.",
+            message: "Password successfully updated. You can now sign in using your new password.",
             alertBoxColor: "",
           });
         } else {
-          // window.alert("Some error occurred");
           setAlertStatus(true);
           setAlertMsg({
-            message: "Some error occurred. Try again!",
+            message: "Error! Unable to process the reset password request. Please try again later.",
             alertBoxColor: "alert-danger",
           });
         }
       })
       .catch((err: any) => {
-        // console.log("error", err);
-        // window.alert("Some error occurred");
         setAlertStatus(true);
           setAlertMsg({
-            message: "Some error occurred. Try again!",
+            message: "Error! Unable to process the reset password request. Please try again later.",
             alertBoxColor: "alert-danger",
           });
       });

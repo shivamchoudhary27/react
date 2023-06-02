@@ -42,29 +42,32 @@ const SignupForm = () => {
     if (values.recaptcha !== "") {
       postData("/user/signup", values)
         .then((res: any) => {
-          console.log("res", res);
           if (res.status === 201 || res.status === 200) {
             setAlertStatus(true);
             setAlertMsg({
               message:
-                "Form submit successfully, Link send to your email for set password.",
+                "Signup Successful! Please check your email to confirm your signup.",
               alertBoxColor: "",
             });
           } else {
-            window.alert("Some error occurred");
+            setAlertStatus(true);
+            setAlertMsg({
+              message: "Some error occurred, Please try again",
+              alertBoxColor: "alert-warning"
+            });
           }
         })
         .catch((err: any) => {
           if (err.response.status === 404) {
             setAlertStatus(true);
             setAlertMsg({
-              message: "User already exists. Please Sign in",
+              message: "This user already exists. Please Sign up with a new email",
               alertBoxColor: "alert-warning"
             });
           } else {
             setAlertStatus(true);
             setAlertMsg({
-              message: "Some error occurred, Try again!",
+              message: "Some error occurred, Please try again!",
               alertBoxColor: "alert-danger"
             });
           }

@@ -29,27 +29,23 @@ const ForgotPasswordForm = () => {
     .then((res: any) => {
       console.log('forgotpassowrd', res)
       if (res.status === 200) {
-        // window.alert('An email has been sent, Please check and follow the link');
         setAlertStatus(true)
         setAlertMsg({
-          message: "An email has been sent, Please check and follow the link",
+          message: "Success! Please check your email and follow the instructions to complete the password reset process.",
           alertBoxColor: ""
         })
       } else {
-        // window.alert('There was an error');
         setAlertStatus(true)
         setAlertMsg({
-          message: "There was an error, Try again!",
+          message: "Error! Unable to process the forgot password request. Please try again later.",
           alertBoxColor: "alert-danger"
         })
       }
     })
     .catch((err: any) => {
-      // console.log('error', err);
-      // window.alert('Some error occurred');
       setAlertStatus(true)
         setAlertMsg({
-          message: "Some error occurred, Try again!",
+          message: "Error! Unable to process the forgot password request. Please try again later.",
           alertBoxColor: "alert-danger"
         })
     });
