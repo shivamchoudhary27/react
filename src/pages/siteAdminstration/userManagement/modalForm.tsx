@@ -6,7 +6,7 @@ import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
-import { CountryList } from "./countryDataList";
+import CountryList from "../../../globals/country";
 import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/coreservices";
 // import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";

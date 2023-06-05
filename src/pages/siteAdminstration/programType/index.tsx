@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
@@ -11,7 +11,7 @@ import AddProgramModal from "./modal";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import Filters from "./filters";
-import InstituteFilter from "./instituteFilter";
+import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const ProgramType = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };

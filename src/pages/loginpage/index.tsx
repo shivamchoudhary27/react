@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Signup from "../signuppage";
-import ForgotPassword from "../forgotpassword/index";
+// import Signup from "../signuppage";
+// import ForgotPassword from "../forgotpassword/index";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row } from "react-bootstrap";

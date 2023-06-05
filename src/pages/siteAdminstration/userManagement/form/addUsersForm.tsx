@@ -11,7 +11,7 @@ import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
-import { CountryList } from "../countryDataList";
+import CountryList from "../../../../globals/country";
 import { postData, getData, putData } from "../../../../adapters/coreservices";
 import * as Yup from "yup";
 import PageTitle from "../../../../widgets/pageTitle";

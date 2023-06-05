@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
-import { Card, Row, Col, Container, Button } from "react-bootstrap";
+import { Row, Col, Container, Button } from "react-bootstrap";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
 import DiciplineTable from "./diciplineTable";
 import DiciplineModal from "./diciplineModal";
 import BuildPagination from "../../../widgets/pagination";
@@ -14,10 +12,9 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
-import InstituteFilter from "./instituteFilter";
+import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const Discipline = () => {
-  const navigate = useNavigate();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [modalShow, setModalShow] = useState(false);
   const [diciplineData, setDiciplineData] = useState<any>(dummyData);

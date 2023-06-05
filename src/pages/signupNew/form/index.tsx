@@ -5,7 +5,7 @@ import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
-import { CountryList } from "../data";
+import CountryList from "../../../globals/country";
 import { postData } from "../../../adapters/coreservices";
 import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";

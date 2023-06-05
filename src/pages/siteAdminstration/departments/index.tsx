@@ -5,14 +5,14 @@ import { pagination } from "../../../utils/pagination";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
-import Filter from "./filter";
 import DepartmentTable from "./departmentTable";
 import DepartmentModal from "./departmentModal";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
+import Filters from "./filters";
+import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const Departments = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -28,11 +28,12 @@ const Departments = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
 
   useEffect(() => {
-    if (refreshOnDelete === true)
+    if (refreshOnDelete === true && currentInstitute > 0)
       makeGetDataRequest(
-        "/departments",
+        `/${currentInstitute}/departments`,
         filterUpdate,
         setDepartmentData,
         setApiStatus
@@ -41,13 +42,14 @@ const Departments = () => {
 
   // get programs API call === >>>
   useEffect(() => {
+    if (currentInstitute > 0)
     makeGetDataRequest(
-      "/departments",
+      `/${currentInstitute}/departments`,
       filterUpdate,
       setDepartmentData,
       setApiStatus
     );
-  }, [refreshData, filterUpdate]);
+  }, [refreshData, filterUpdate, currentInstitute]);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -81,17 +83,22 @@ const Departments = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  const updateCurrentInstitute = (instituteId : number) => {
+    setCurrentInstitute(instituteId);
+  }
+
+
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
-  const DEPARTMENT_FILTER_COMPONENT = (
-    <Filter
-      // departmentData={departmentData}
-      toggleModalShow={toggleModalShow}
-      resetDepartmentForm={resetDepartmentForm}
-      // setDepartmentData={setDepartmentData}
-      // refreshDepartmentData={refreshToggle}
-      updateInputFilters={updateInputFilters}
-    />
-  );
+  // const DEPARTMENT_FILTER_COMPONENT = (
+  //   <Filter
+  //     // departmentData={departmentData}
+  //     toggleModalShow={toggleModalShow}
+  //     resetDepartmentForm={resetDepartmentForm}
+  //     // setDepartmentData={setDepartmentData}
+  //     // refreshDepartmentData={refreshToggle}
+  //     updateInputFilters={updateInputFilters}
+  //   />
+  // );
 
   const DEPARTMENT_TABLE_COMPONENT = (
     <DepartmentTable
@@ -111,6 +118,7 @@ const Departments = () => {
       departmentobj={departmentObj}
       togglemodalshow={toggleModalShow}
       refreshdepartmentdata={refreshToggle}
+      currentInstitute={currentInstitute}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -129,7 +137,16 @@ const Departments = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Department" gobacklink="/manageprogram" />
-          {DEPARTMENT_FILTER_COMPONENT}
+          Institute : <InstituteFilter updateCurrentInstitute={updateCurrentInstitute}/>
+          <Filters
+            toggleModalShow={toggleModalShow}
+            refreshDepartmentData={refreshToggle}
+            setDepartmentData={setDepartmentData}
+            updateInputFilters={updateInputFilters} 
+            // updateDepartment={updateDepartmentFilter}
+            // updateinputfilters={updateInputFilters}
+            // updateCurrentInstitute={updateCurrentInstitute}
+          />
           {DEPARTMENT_TABLE_COMPONENT}
           <BuildPagination
             totalpages={departmentData.pager.totalPages}

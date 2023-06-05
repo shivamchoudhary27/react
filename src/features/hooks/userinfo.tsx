@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { getData } from '../../adapters';
 import UserContext from '../context/user/user';
+
 const useUserinfo = () => {
   const userCtx = useContext(UserContext);
   const [triggerEnrolApi, setTriggerEnrolApi] = useState({ status : false, userid : 0});
