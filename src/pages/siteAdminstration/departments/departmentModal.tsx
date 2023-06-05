@@ -23,6 +23,7 @@ const DepartmentModal = ({
   refreshdepartmentdata,
   show,
   onHide,
+  currentInstitute
 }: any) => {
   // Initial values of react table === >>>
   const initialValues = {
@@ -53,7 +54,7 @@ const DepartmentModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let endPoint = "/departments";
+    let endPoint = `/${currentInstitute}/departments`;
     setSubmitting(true);
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)

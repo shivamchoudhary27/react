@@ -1,4 +1,4 @@
-export const CountryList = [
+const CountryList = [
     { name: "Afghanistan", id: "AF" },
     { name: "Åland Islands", id: "AX" },
     { name: "Albania", id: "AL" },
@@ -239,5 +239,6 @@ export const CountryList = [
     { name: "Yemen", id: "YE" },
     { name: "Zambia", id: "ZM" },
     { name: "Zimbabw", id: "ZN" },
-  ];
-  
+];
+
+export default CountryList;
