@@ -3,7 +3,7 @@ import React from "react";
 const FilterProgramDropdown = () => {
   return (
     <>
-      <div className="row">        
+      <div className="row mt-3 mt-sm-0">        
         <ShortByAcademic />
         <ShortByProgram />
         <ShortBySemester />

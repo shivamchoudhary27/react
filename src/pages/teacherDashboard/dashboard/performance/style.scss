@@ -1,4 +1,7 @@
 .performanceOverview-block {
+    .pob-row {
+        margin-top: 1.5rem;
+    }
     .pob-icon {
         margin-right: 15px;
         width: 36px;
@@ -14,5 +17,18 @@
     }
     .progress-bar {
         background: linear-gradient(269.92deg, #0F4C81 1.69%, #1270C4 99.93%);
+    }
+}
+
+// `sm` applies to x-small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) { 
+    .performanceOverview-block {
+        .mitblock-body {
+            margin-top: 0;
+        }
+        .pob-row {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+        }
     }
 }

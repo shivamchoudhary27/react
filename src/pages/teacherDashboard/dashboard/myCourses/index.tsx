@@ -9,7 +9,7 @@ const MyCourses = () => {
   return (
     <>
       <Container fluid>
-      <div className="d-flex align-items-center justify-content-between mitcomponet-heading">
+      <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
         <h3>My Courses</h3>
         <FilterProgramDropdown />
       </div>
