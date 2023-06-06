@@ -1,14 +1,14 @@
 import React , {useState, useEffect} from "react";
 import { useLocation } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import { putData } from "../../../adapters/coreservices";
+import { postData } from "../../../adapters/coreservices";
 import config from "../../../utils/config";
 import * as Yup from "yup";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const initialValues = {
     newPassword: "",
@@ -21,6 +21,8 @@ const ConfirmUserForm = () => {
   const [signInLink, setSigninLink] = useState<boolean>(false);
   const redirectUri = config.REDIRECT_URI;
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
+  const [alertStatus, setAlertStatus] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
@@ -39,21 +41,31 @@ const ConfirmUserForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    // values.token = urlParams;
-    // let endPoint = `/user/confirmuser?token=${requestToken}`
-    // putData(endPoint, values)
-    // .then((res: any) => {
-    //   console.log('resetpassowrd', res)
-    //   if (res.status === 200) {
-    //     setSigninLink(true);
-    //   } else {
-    //     window.alert('Some error occurred');
-    //   }
-    // })
-    // .catch((err: any) => {
-    //   console.log('error', err);
-    //   window.alert('Some error occurred');
-    // });
+    let endPoint = `/user/confirmUser?token=${requestToken}`;
+    postData(endPoint, values)
+      .then((res: any) => {
+        console.log("resetpassowrd", res);
+        if (res.status === 200) {
+          setAlertStatus(true);
+          setAlertMsg({
+            message: "Password successfully updated. You can now sign in using your new password.",
+            alertBoxColor: "",
+          });
+        } else {
+          setAlertStatus(true);
+          setAlertMsg({
+            message: "Error! Unable to process the reset password request. Please try again later.",
+            alertBoxColor: "alert-danger",
+          });
+        }
+      })
+      .catch((err: any) => {
+        setAlertStatus(true);
+          setAlertMsg({
+            message: "Error! Unable to process the reset password request. Please try again later.",
+            alertBoxColor: "alert-danger",
+          });
+      });
   };
 
   return (
@@ -108,15 +120,14 @@ const ConfirmUserForm = () => {
             </Form>            
           )}
         </Formik>
-        {
-          signInLink &&
-          <React.Fragment>
-            <Alert variant="success">
-              <h5>Password reset successfully</h5>
-            </Alert>
-            <p>Go to <a href={oAuthUrl} className="ms-1">Sign in</a></p>
-          </React.Fragment>
-        }
+        {alertStatus === true && (
+        <Errordiv
+          msg={alertMsg.message}
+          cstate
+          className="mt-3"
+          alertColor={alertMsg.alertBoxColor}
+        />
+      )}
     </React.Fragment>
   );
 };

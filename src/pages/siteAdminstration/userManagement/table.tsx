@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import { deleteData } from "../../../adapters/coreservices";
 import Errordiv from "../../../widgets/alert/errordiv";
+import { searchCountryNameById } from "../../../globals/getCountry";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -34,7 +35,7 @@ const UserManagementTable = ({
     },
     {
       Header: "Country",
-      accessor: "country",
+      Cell: ({row} :any) => (searchCountryNameById(row.original.country))
     },
     {
       Header: "Actions",
