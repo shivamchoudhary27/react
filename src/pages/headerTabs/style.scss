@@ -44,3 +44,91 @@
         }
     }
 }
+
+// `xl` applies to large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) { 
+    .site-header-tab {
+        padding: 15px 0;
+        ul {
+            .nav-item {
+                margin-right: 20px;
+                a {
+                width: 114px;
+                padding: 8px;
+                    &:hover, &.active-tab {
+                        transform: scale(1.15);
+                    }
+                                    
+                }
+                span {
+                    margin-top: 8px;                    
+                }
+                img {
+                    max-height: 36px;
+                }
+            }
+        }
+    }
+}
+
+// `lg` applies to medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {    
+    .site-header-tab {
+        ul {
+            .nav-item {
+                margin-right: 15px;
+                a {
+                width: 90px;
+                padding: 6px;
+                    &:hover, &.active-tab {
+                        transform: scale(1.05);
+                    }
+                                    
+                }
+                span {
+                    margin-top: 6px;
+                    font-size: 12px;
+                }
+                img {
+                    max-height: 28px;
+                }
+            }
+        }
+    }
+}
+
+// `md` applies to small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) { 
+    .site-header-tab {
+        ul {
+            .nav-item {
+                margin-right: 10px;
+                a {
+                width: 80px;
+                padding: 15px 6px;
+                                    
+                }
+                span {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+// `sm` applies to x-small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) { 
+    .site-header-tab {
+        ul {
+            .nav-item {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                a {
+                width: 80px;
+                padding: 15px 6px;
+                                    
+                }
+            }
+        }
+    }
+}

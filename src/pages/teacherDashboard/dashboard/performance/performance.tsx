@@ -16,8 +16,8 @@ const PerformanceOverview = () => {
           <Container fluid>
             <Row>
               {data.map((item, index) => (
-                <Col md={6} key={index}>
-                  <div className="d-flex align-items-center mt-4 pob-row">
+                <Col sm={6} key={index}>
+                  <div className="d-flex align-items-center pob-row">
                     <img className="pob-icon" src={item.icon} alt="Av. Grade" />
                     <div className="d-flex flex-column flex-fill">
                       <div className="d-flex justify-content-between pob-info">

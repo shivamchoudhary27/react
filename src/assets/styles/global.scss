@@ -121,6 +121,9 @@ label {
 }
 .mitblock-body {
     margin-top: 1.5rem;
+    .container-fluid {
+        max-width: 100%;
+    }
 }
 /**** Block End ****/
 
