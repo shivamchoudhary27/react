@@ -1,6 +1,6 @@
-import React , {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
@@ -11,8 +11,8 @@ import * as Yup from "yup";
 import Errordiv from "../../../widgets/alert/errordiv";
 
 const initialValues = {
-    newPassword: "",
-    confirmPassword: "",
+  newPassword: "",
+  confirmPassword: "",
 };
 
 const ConfirmUserForm = () => {
@@ -28,10 +28,10 @@ const ConfirmUserForm = () => {
   const userFormSchema = Yup.object({
     newPassword: Yup.string().required(),
     confirmPassword: Yup.string()
-    .required()
-    .test('passwords-match', 'Passwords must match', function (value) {
-      return value === this.parent.newPassword;
-    }),
+      .required()
+      .test("passwords-match", "Passwords must match", function (value) {
+        return value === this.parent.newPassword;
+      }),
   });
 
   useEffect(() => {
@@ -44,83 +44,41 @@ const ConfirmUserForm = () => {
     let endPoint = `/user/confirmUser?token=${requestToken}`;
     postData(endPoint, values)
       .then((res: any) => {
-        console.log("resetpassowrd", res);
+        console.log("setpassword", res);
         if (res.status === 200) {
           setAlertStatus(true);
+          resetForm();
+          setSubmitting(true);
           setAlertMsg({
-            message: "Password successfully updated. You can now sign in using your new password.",
+            message:
+              "Password set successfully. You can now sign In.",
             alertBoxColor: "",
           });
+          setSigninLink(true);
         } else {
           setAlertStatus(true);
+          resetForm();
+          setSubmitting(true);
           setAlertMsg({
-            message: "Error! Unable to process the reset password request. Please try again later.",
+            message:
+              "Error! Unable to process the set password request. Please try again later.",
             alertBoxColor: "alert-danger",
           });
         }
       })
       .catch((err: any) => {
         setAlertStatus(true);
-          setAlertMsg({
-            message: "Error! Unable to process the reset password request. Please try again later.",
-            alertBoxColor: "alert-danger",
-          });
+        setAlertMsg({
+          message:
+            "Error! Unable to process the set password request. Please try again later.",
+          alertBoxColor: "alert-danger",
+        });
       });
   };
 
   return (
     <React.Fragment>
-        <Formik
-          enableReinitialize={true}
-          initialValues={initialValues}
-          validationSchema={userFormSchema}
-          onSubmit={(values, action) => {
-            handleFormData(values, action)
-          }}
-        >
-          {({ errors, touched, isSubmitting, setValues, values }) => (
-            <Form className="row">
-              <div className="col-12 mb-4 text-start">
-                <FieldLabel
-                  htmlfor="newPassword"
-                  labelText="Create your password"
-                  required="required"
-                  className="form-label"
-                />
-                <FieldTypeText type="password" name="newPassword" placeholder="New Password" />
-                <FieldErrorMessage
-                  errors={errors.newPassword}
-                  touched={touched.newPassword}
-                  msgText="Please enter a new password"
-                />
-              </div>              
-              <div className="col-12 mb-4 text-start">
-                <FieldLabel
-                  htmlfor="confirmPassword"
-                  labelText="Confirm Password"
-                  required="required"
-                  className="form-label"
-                />
-                <FieldTypeText type="password" name="confirmPassword" placeholder="Confirm Password" />
-                <FieldErrorMessage
-                  errors={errors.confirmPassword}
-                  touched={touched.confirmPassword}
-                  msgText="Please re-enter password that must match new password"
-                />
-              </div>              
-              <div className="col-12 mb-4 d-grid">
-                <Button
-                  type="submit"
-                  variant="primary"
-                >
-                  Submit
-                </Button>
-                {" "}
-              </div>
-            </Form>            
-          )}
-        </Formik>
-        {alertStatus === true && (
+      {alertStatus === true && (
         <Errordiv
           msg={alertMsg.message}
           cstate
@@ -128,6 +86,68 @@ const ConfirmUserForm = () => {
           alertColor={alertMsg.alertBoxColor}
         />
       )}
+      {signInLink === true && (
+        <p>
+          Click here to{" "}
+          <a href={oAuthUrl} className="ms-1">
+            Sign in
+          </a>
+        </p>
+      )}
+      <Formik
+        enableReinitialize={true}
+        initialValues={initialValues}
+        validationSchema={userFormSchema}
+        onSubmit={(values, action) => {
+          handleFormData(values, action);
+        }}
+      >
+        {({ errors, touched, isSubmitting, setValues, values }) => (
+          <Form className="row">
+            <div className="col-12 mb-4 text-start">
+              <FieldLabel
+                htmlfor="newPassword"
+                labelText="Create your password"
+                required="required"
+                className="form-label"
+              />
+              <FieldTypeText
+                type="password"
+                name="newPassword"
+                placeholder="New Password"
+              />
+              <FieldErrorMessage
+                errors={errors.newPassword}
+                touched={touched.newPassword}
+                msgText="Please enter a new password"
+              />
+            </div>
+            <div className="col-12 mb-4 text-start">
+              <FieldLabel
+                htmlfor="confirmPassword"
+                labelText="Confirm Password"
+                required="required"
+                className="form-label"
+              />
+              <FieldTypeText
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+              />
+              <FieldErrorMessage
+                errors={errors.confirmPassword}
+                touched={touched.confirmPassword}
+                msgText="Please re-enter password that must match new password"
+              />
+            </div>
+            <div className="col-12 mb-4 d-grid">
+              <Button type="submit" variant="primary" disabled={signInLink && isSubmitting}>
+                Submit
+              </Button>{" "}
+            </div>
+          </Form>
+        )}
+      </Formik>
     </React.Fragment>
   );
 };

@@ -180,7 +180,7 @@ const SignupForm = () => {
               <p></p>
             </div>
             <div className="col-12 mb-4 d-grid">
-              <Button type="submit" variant="primary" disabled={isSubmitting}>
+              <Button type="submit" variant="primary">
                 Sign up
               </Button>{" "}
             </div>
