@@ -29,7 +29,7 @@ const InstituteFilter = ({updateCurrentInstitute}: any) => {
       className="form-control"
       value={selectedValue} 
       onChange={getCurrentValue}>
-      <option value={0}>Institutes</option>
+      <option value={0}>Select Institute</option>
       {institutes.items.map((el: any, index: number) => (
           <option key={index} value={el.id}>{el.name}</option>
       ))}

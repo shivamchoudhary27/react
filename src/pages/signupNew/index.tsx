@@ -21,6 +21,13 @@ const SignUpNew = () => {
     setformtoggle(urlParams.get("form"));
   }, [location]);
 
+  useEffect(() => {
+    document.body.classList.add('authBody');
+    return () => {
+      document.body.classList.remove('authBody');
+    };
+  }, []);
+
   return (
     <React.Fragment>
       <Container fluid className="signup-container">
@@ -64,7 +71,6 @@ const SignUpNew = () => {
                   <p>Already a member? <a href={oAuthUrl} className="ms-1">Sign in</a></p>
                 </React.Fragment>
               )}
-
             </div>
           </Col>
         </Row>
