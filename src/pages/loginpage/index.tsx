@@ -79,9 +79,9 @@ const LoginForm = () => {
   };
   const setCurrentForm = (request: string) => {
     if (request === "signup") {
-      return <Signup />;
+      return ""; //<Signup />;
     } else if (request === "forgotpassword") {
-      return <ForgotPassword />;
+      return ""; //<ForgotPassword />;
     }
   };
   const validation = Yup.object({
