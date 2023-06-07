@@ -1,3 +1,4 @@
+import React,{useState} from "react";
 import Modal from "react-bootstrap/Modal";
 import {
   postData as addDepartmentData,
@@ -10,6 +11,7 @@ import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import Custom_Button from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
@@ -23,8 +25,11 @@ const DepartmentModal = ({
   refreshdepartmentdata,
   show,
   onHide,
-  currentInstitute
+  currentInstitute,
 }: any) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   // Initial values of react table === >>>
   const initialValues = {
     name: departmentobj.name,
@@ -68,6 +73,8 @@ const DepartmentModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to add department! Please try again.", alertBoxColor: "danger" })
         });
     } else {
       endPoint += `/${departmentobj.id}`;
@@ -82,6 +89,8 @@ const DepartmentModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to update department! Please try again.", alertBoxColor: "danger" })
         });
     }
   };
@@ -99,6 +108,13 @@ const DepartmentModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         <Formik
           initialValues={initialValues}
           validationSchema={departmentSchema}
@@ -127,7 +143,7 @@ const DepartmentModal = ({
                 <FieldLabel
                   htmlfor="description"
                   labelText="Description"
-                  // required="required"   
+                  // required="required"
                 />
                 <FieldTypeTextarea
                   name="description"

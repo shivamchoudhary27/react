@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
@@ -6,7 +6,11 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import * as Yup from "yup";
-import { postData as addTagsData, putData as updateTagsData } from "../../../adapters/microservices";
+import {
+  postData as addTagsData,
+  putData as updateTagsData,
+} from "../../../adapters/microservices";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const tagsSchema = Yup.object({
@@ -22,10 +26,11 @@ const TagsModal = ({
   tagObj,
   currentInstitute
 }: any) => {
-
   const initialValues = {
     name: tagObj.name,
   };
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     if(tagObj.id === 0){
@@ -42,15 +47,16 @@ const TagsModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to add tags! Please try again.", alertBoxColor: "danger" })
         });
     }else{
       const endPoint = `/${currentInstitute}/tags/${tagObj.id}`;
       updateTagsData(endPoint, values).then((res: any)=>{
         updateAddRefresh();
         togglemodalshow(false);
-      })
+      });
     }
-
   };
 
   return (
@@ -68,6 +74,13 @@ const TagsModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             initialValues={initialValues}
             validationSchema={tagsSchema}
