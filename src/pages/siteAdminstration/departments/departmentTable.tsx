@@ -3,7 +3,6 @@ import { deleteData as deleteDepartmentData } from "../../../adapters/microservi
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
@@ -21,9 +20,9 @@ const DepartmentTable = ({
   toggleModalShow,
   refreshDepartmentData,
   refreshOnDelete,
-  apiStatus
+  apiStatus,
+  currentInstitute
 }: any) => {
-  console.log(departmentData)
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -98,7 +97,7 @@ const DepartmentTable = ({
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
     if (window.confirm('Are you sure to delete this department?')) {
-      let endPoint = `/departments/${id}`;
+      let endPoint = `${currentInstitute}/departments/${id}`;
       deleteDepartmentData(endPoint).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           refreshOnDelete(true);

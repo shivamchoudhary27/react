@@ -7,11 +7,11 @@ import BuildPagination from "../../../widgets/pagination";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
 import ManageFilter from "./manageFilter";
 import ManageTable from "./manageTable";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
@@ -26,16 +26,21 @@ const ManageProgram = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  // const totalPages = getTotalPagesCount(15);
+  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
+
+  const updateInstituteName = (instituteName : string) => {
+    setCurrentInstituteName(instituteName)
+  }
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest("/programs", filterUpdate, setProgramData, setApiStatus);
-  }, [refreshData, filterUpdate]);
+    makeGetDataRequest(`/${currentInstitute}/programs`, filterUpdate, setProgramData, setApiStatus);
+  }, [refreshData, filterUpdate, currentInstitute]);
 
   useEffect(() => {
-    if (refreshOnDelete === true)
-      makeGetDataRequest("/programs", filterUpdate, setProgramData, setApiStatus);
+    if (refreshOnDelete === true && currentInstitute > 0)
+      makeGetDataRequest(`/${currentInstitute}/programs`, filterUpdate, setProgramData, setApiStatus);
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -75,6 +80,10 @@ const ManageProgram = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  const updateCurrentInstitute = (instituteId : number) => {
+    setCurrentInstitute(instituteId);
+  }
+
   return (
     <>
       <Header />
@@ -85,9 +94,17 @@ const ManageProgram = () => {
           { name: "Manage Program", path: "" },
         ]}
       />
+      <div className="row gx-2 mb-3 align-items-center justify-content-center">
+        <div className="col-auto">
+          <label className="col-form-label">Institute : </label>
+        </div>
+        <div className="col-auto">
+          <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
+        </div>
+      </div>
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle="Program Management" gobacklink="/siteadmin" />
+          <PageTitle pageTitle={`${currentInstitueName}: Program Management`} gobacklink="/siteadmin" />
           <div className="site-button-group mb-3">
             <Button
               variant="primary"
@@ -121,14 +138,15 @@ const ManageProgram = () => {
           <ManageFilter
             updatedepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
+            currentInstitute={currentInstitute}
           />
-            <ManageTable
-              programData={programData.items}
-              refreshDepartmentData={refreshToggle}
-              refreshOnDelete={refreshOnDeleteToggle}
-              apiStatus={apiStatus}
-            />
-
+          <ManageTable
+            programData={programData.items}
+            refreshDepartmentData={refreshToggle}
+            refreshOnDelete={refreshOnDeleteToggle}
+            apiStatus={apiStatus}
+            currentInstitute={currentInstitute}
+          />
           <BuildPagination
             totalpages={programData.pager.totalPages}
             activepage={filterUpdate.pageNumber}

@@ -29,6 +29,11 @@ const Departments = () => {
     pageSize: pagination.PERPAGE,
   });
   const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
+
+  const updateInstituteName = (instituteName : string) => {
+    setCurrentInstituteName(instituteName)
+  }
 
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
@@ -87,7 +92,6 @@ const Departments = () => {
     setCurrentInstitute(instituteId);
   }
 
-
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   // const DEPARTMENT_FILTER_COMPONENT = (
   //   <Filter
@@ -108,6 +112,7 @@ const Departments = () => {
       refreshDepartmentData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
       apiStatus={apiStatus}
+      currentInstitute={currentInstitute}
     />
   );
 
@@ -136,13 +141,13 @@ const Departments = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle="Department" gobacklink="/manageprogram" />
+          <PageTitle pageTitle={`${currentInstitueName}: Department`} gobacklink="/manageprogram" />
           <div className="row gx-2 mb-3 align-items-center justify-content-center">
             <div className="col-auto">
-              <label className="col-form-label">Institute</label>
+              <label className="col-form-label">Institute : </label>
             </div>
             <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute}/>
+              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
             </div>
           </div>
           <Filters
@@ -150,6 +155,7 @@ const Departments = () => {
             refreshDepartmentData={refreshToggle}
             setDepartmentData={setDepartmentData}
             updateInputFilters={updateInputFilters} 
+            resetDepartmentForm={resetDepartmentForm}
             // updateDepartment={updateDepartmentFilter}
             // updateinputfilters={updateInputFilters}
             // updateCurrentInstitute={updateCurrentInstitute}

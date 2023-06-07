@@ -53,7 +53,8 @@ const step2Schema = Yup.object({
 const step3Schema = Yup.object({
 });
 
-const AddProgramForm = ({ initialformvalues, programid }: any) => {
+const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
+  console.log('instituteId', instituteId)
   const navigate = useNavigate();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [inputFieldArr, setinputFieldArr] = useState<any>(
@@ -78,13 +79,14 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
   
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
+    if (instituteId > 0)
     generateAcademicYears();
     const apiFilters = { pageNumber: 0, pageSize: 100 };
-    makeGetDataRequest("/departments", apiFilters, setDepartmentName);
-    makeGetDataRequest("/disciplines", apiFilters, setDisciplineName);
-    makeGetDataRequest("/program-types", apiFilters, setProgramTypeId);
-    makeGetDataRequest("/tags", apiFilters, setTags);
-  }, []);
+    makeGetDataRequest(`/${instituteId}/departments`, apiFilters, setDepartmentName);
+    makeGetDataRequest(`/${instituteId}/disciplines`, apiFilters, setDisciplineName);
+    makeGetDataRequest(`/${instituteId}/program-types`, apiFilters, setProgramTypeId);
+    makeGetDataRequest(`/${instituteId}/tags`, apiFilters, setTags);
+  }, [instituteId]);
 
   useEffect(() => {
     let addedValues = addExtraMetaDataToInitialValues(
@@ -115,10 +117,8 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
     
-    console.log('programValues', programValues);
-
     if (programid == 0) {
-      let endPoint = "/programs";
+      let endPoint = `/${instituteId}/programs`;
       postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
@@ -146,7 +146,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
           }
         });
     } else {
-      let endPoint = `/programs/${programid}`;
+      let endPoint = `/${instituteId}/programs/${programid}`;
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -174,7 +174,7 @@ const AddProgramForm = ({ initialformvalues, programid }: any) => {
           }
         });
     }
-    // navigate("/manageprogram", { state: values });
+    navigate("/manageprogram", { state: values });
   };
 
   return (

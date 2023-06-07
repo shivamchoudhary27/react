@@ -1,16 +1,16 @@
 import { useState } from "react";
 import "./style.scss";
-import { Button, Row, Col, Container } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import ManageDropdown from "./manageDropdown";
 import { useNavigate } from "react-router-dom";
 
-const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
+const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute } : any) => {
   const [inputName, setInputName] = useState("");
   const [inputCode, setInputCode] = useState("");
-
   const navigate = useNavigate();
+  
   const handleAddProgram = () => {
-    navigate("/addprogram/0");
+    navigate(`/addprogram/0?institute=${currentInstitute}`);
   };
 
   const handleSearch = (e: any) => {
@@ -33,7 +33,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters } : any) => {
         <form onSubmit={handleSearch}>
           <Row className="align-items-center gx-3">
             <Col className="col-auto">
-            <ManageDropdown updatedepartment={updatedepartment}/>
+            <ManageDropdown updatedepartment={updatedepartment} currentInstitute={currentInstitute}/>
             </Col>
             <Col className="col-auto">
               <input
