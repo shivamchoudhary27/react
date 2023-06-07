@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { deleteData as deleteDisciplineData } from "../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -22,8 +23,11 @@ const DiciplineTable = ({
   refreshDisciplineData,
   refreshOnDelete,
   apiStatus,
-  currentInstitute
+  currentInstitute,
 }: any) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   // custom react table column === >>>
   const tableColumn = [
     {
@@ -90,21 +94,40 @@ const DiciplineTable = ({
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
-    if (window.confirm('Are you sure to delete this discipline?')) {
+    if (window.confirm("Are you sure to delete this discipline?")) {
       let endpoint = `${currentInstitute}/disciplines/${id}`;
-      deleteDisciplineData(endpoint).then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          refreshOnDelete(true);
-        } else if (res.status === 500) {
-          window.alert('Unable to delete');
-        }
-      }).catch((result : any) => {
-        if (result.response.status === 400) {
-          window.alert(result.response.data.message);
-        } else {
-          window.alert(result.response.data.message);
-        }      
-      });
+      deleteDisciplineData(endpoint)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            refreshOnDelete(true);
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Deleted successfuly.",
+              alertBoxColor: "primary",
+            });
+          } else if (res.status === 500) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete! Please try again.",
+              alertBoxColor: "danger",
+            });
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 400) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${result.response.data.message} Unable to delete! Please try again.`,
+              alertBoxColor: "danger",
+            });
+          } else {
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${result.response.data.message} Unable to delete! Please try again.`,
+              alertBoxColor: "danger",
+            });
+          }
+        });
     }
   };
 
@@ -115,6 +138,13 @@ const DiciplineTable = ({
 
   return (
     <>
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
       <div className="table-wrapper mt-3">
         <Table borderless striped hover {...getTableProps}>
           <thead>

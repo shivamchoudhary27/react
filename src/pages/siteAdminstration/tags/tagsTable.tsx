@@ -1,10 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import { deleteData as deleteTagData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const rawData = [
   {
@@ -33,6 +34,9 @@ const TagsTable = ({
   apiStatus,
   currentInstitute
 }: any) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   const tableColumn = [
     {
       Header: "#Tags Name",
@@ -73,11 +77,11 @@ const TagsTable = ({
       data,
     });
 
-  const editHandler = ({id,name}: any) => {
+  const editHandler = ({ id, name }: any) => {
     toggleModalShow(true);
-    editHandlerById({id, name});
+    editHandlerById({ id, name });
   };
- 
+
   const deleteHandler = (id: number) => {
     updateDeleteRefresh(false);
     if (window.confirm("Are you sure you want to delete?")) {
@@ -87,23 +91,41 @@ const TagsTable = ({
           if (res.data !== "" && res.status === 200) {
             updateDeleteRefresh(true);
           } else if (res.status === 500) {
-            window.alert(
-              "Unable to delete, this tag might have been used in some programs"
-            );
+            setShowAlert(true);
+            setAlertMsg({
+              message:
+                "Unable to delete, this tag might have been used in some programs.",
+              alertBoxColor: "danger",
+            });
           }
         })
         .catch((result: any) => {
           if (result.response.status === 400) {
-            window.alert(result.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${result.response.data.message} Unable to delete! Please try again.`,
+              alertBoxColor: "danger",
+            });
           } else {
-            window.alert(result.response.data.message);
-          }            
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${result.response.data.message} Unable to delete! Please try again.`,
+              alertBoxColor: "danger",
+            });
+          }
         });
     }
   };
 
   return (
     <>
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
       <div className="table-wrapper mt-3">
         <Table borderless striped hover {...getTableProps}>
           <thead>

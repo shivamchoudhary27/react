@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form } from "formik";
 import {
@@ -10,6 +11,7 @@ import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import Custom_Button from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -23,8 +25,11 @@ const DiciplineModal = ({
   refreshDisciplineData,
   show,
   onHide,
-  currentInstitute
+  currentInstitute,
 }: any) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   // Initial values of react table === >>>
   const initialValues = {
     name: disciplineobj.name,
@@ -64,6 +69,8 @@ const DiciplineModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to add discipline! Please try again.", alertBoxColor: "danger" })
         });
     } else {
       endPoint += `/${disciplineobj.id}`;
@@ -78,6 +85,8 @@ const DiciplineModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to update discipline! Please try again.", alertBoxColor: "danger" })
         });
     }
   };
@@ -95,6 +104,13 @@ const DiciplineModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         <Formik
           initialValues={initialValues}
           validationSchema={diciplineSchema}
@@ -138,7 +154,7 @@ const DiciplineModal = ({
                   msgText="Description required atleast 1 character"
                 />
               </div>
-              
+
               <div className="modal-buttons">
                 <Custom_Button
                   type="submit"

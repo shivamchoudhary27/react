@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form, ErrorMessage } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -10,14 +10,18 @@ import CountryList from "../../../globals/country";
 import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/coreservices";
 // import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const AddUserModal = ({
   show,
   onHide,
   userobj,
   togglemodalshow,
-  updateAddRefresh
+  updateAddRefresh,
 }: any) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   const initialValues = {
     username: userobj.username,
     lastName: userobj.lastname,
@@ -25,7 +29,7 @@ const AddUserModal = ({
     email: userobj.email,
     password: userobj.password,
     country: userobj.country,
-    shouldValidatePassword: (userobj.id > 0) ? false : true
+    shouldValidatePassword: userobj.id > 0 ? false : true,
   };
 
   // Formik Yup validation === >>>
@@ -50,8 +54,14 @@ const AddUserModal = ({
           }
         })
         .catch((err: any) => {
+          console.log(err);
           if (err.response.status === 404) {
-            window.alert(err.response.data.message);
+            // window.alert(err.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${err.response.data.message}. Please Sign up with a new email`,
+              alertBoxColor: "warning",
+            });
           }
         });
     } else {
@@ -83,6 +93,13 @@ const AddUserModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -161,14 +178,21 @@ const AddUserModal = ({
                   <CustomButton
                     type="submit"
                     variant="primary"
-                    // isSubmitting={isSubmitting}
-                    btnText={userobj.id === 0 ? "Save" : "Update"}
+                    disabled={isSubmitting}
+                    btnText={
+                      userobj.id === 0
+                        ? "Save"
+                        : isSubmitting
+                        ? "submitting"
+                        : "Update"
+                    }
                   />{" "}
                   {userobj.id === 0 && (
                     <CustomButton
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"
+                      onClick={() => setShowAlert(false)}
                     />
                   )}
                 </div>

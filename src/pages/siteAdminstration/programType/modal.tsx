@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Alert } from "react-bootstrap";
 import {
@@ -12,6 +13,7 @@ import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaFiel
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import Custom_Button from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({
@@ -28,8 +30,11 @@ const AddProgramModal = ({
   refreshprogramdata,
   show,
   onHide,
-  currentInstitute
+  currentInstitute,
 }: any) => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   // Initial values of react table === >>>
   const initialValues = {
     name: programtypeobj.name,
@@ -70,6 +75,8 @@ const AddProgramModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to add program! Please try again.", alertBoxColor: "danger" })
         });
     } else {
       endPoint += `/${programtypeobj.id}`;
@@ -84,6 +91,8 @@ const AddProgramModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setShowAlert(true)
+          setAlertMsg({ message: "Failed to update program! Please try again.", alertBoxColor: "danger" })
         });
     }
   };
@@ -101,6 +110,13 @@ const AddProgramModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         <Formik
           initialValues={initialValues}
           validationSchema={programTypeSchema}
@@ -173,7 +189,8 @@ const AddProgramModal = ({
                 )}
               </div>
               <Alert variant="primary" className="mt-3 small">
-                <strong>Note: </strong>If batch year is checked then it is available on add program form.
+                <strong>Note: </strong>If batch year is checked then it is
+                available on add program form.
               </Alert>
             </Form>
           )}
