@@ -11,9 +11,9 @@ const Timeline = () => {
     <>
       <div className="mitblock activityTimeline-block">
         <h3 className="mitblock-title">
-          Activity Timeline
-          <FilterDropdown />
-        </h3>        
+          Activity Timeline          
+        </h3>
+        <FilterDropdown />
         <TimelineTable />
       </div>
     </>

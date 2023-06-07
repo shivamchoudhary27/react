@@ -1,8 +1,8 @@
 .activityTimeline-block {
     .atb-row {
         border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
         &:last-child {
             border-bottom: none;
         }
@@ -31,5 +31,9 @@
         .form-select-sm {
             font-size: 0.75rem;
         }
+    }
+    .mitblock-body {
+        min-height: 168px;
+        max-height: 168px;
     }
 }
