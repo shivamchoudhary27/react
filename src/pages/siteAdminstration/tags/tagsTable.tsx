@@ -30,7 +30,8 @@ const TagsTable = ({
   toggleModalShow,
   updateDeleteRefresh,
   editHandlerById,
-  apiStatus
+  apiStatus,
+  currentInstitute
 }: any) => {
   const tableColumn = [
     {
@@ -80,7 +81,7 @@ const TagsTable = ({
   const deleteHandler = (id: number) => {
     updateDeleteRefresh(false);
     if (window.confirm("Are you sure you want to delete?")) {
-      let endPoint = `/tags/${id}`;
+      let endPoint = `${currentInstitute}/tags/${id}`;
       deleteTagData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {

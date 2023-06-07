@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { getData as getProgramData } from "../../../adapters/microservices";
-// import Header from "../../header";
-// import Sidebar from "../../sidebar";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -15,17 +14,25 @@ import "./style.scss";
 
 const AddProgram = () => {
   const { id } = useParams();
+  const location = useLocation().search;
   const [currentProgram, setCurrentProgram] = useState<any>({
     data: {},
     status: false,
     id: id,
   });
+  const [instituteId, setInstituteId] = useState<number | string | null>(0);
   const pagetitle = id > 0 ? "Update program" : "Add program";
 
   useEffect(() => {
-    if (id !== undefined && id > 0) {
+    const urlParams = new URLSearchParams(location);
+    let instituteParam = parseInt(urlParams.get("institute"))
+    setInstituteId(instituteParam);
+  }, [location]);
+
+  useEffect(() => {
+    if (instituteId !== undefined && instituteId > 0 && id !== undefined && id > 0) {
       let filter = { Id: id, pageNumber: 0, pageSize: 1 };
-      let programsEndPoint = "/programs";
+      let programsEndPoint = `/${instituteId}/programs`;
       getProgramData(programsEndPoint, filter).then((res: any) => {
         if (res.data.items !== "" && res.status === 200) {
           let programData = res.data.items.find((obj: any) => obj.id == id);
@@ -40,7 +47,7 @@ const AddProgram = () => {
     } else {
       setCurrentProgram({ data: initialValues, status: true, id: id });
     }
-  }, []);
+  }, [instituteId]);
 
   return (
     <>
@@ -61,6 +68,7 @@ const AddProgram = () => {
               <AddProgramForm
                 initialformvalues={currentProgram.data}
                 programid={currentProgram.id}
+                instituteId={instituteId}
               />
             )}
           </div>

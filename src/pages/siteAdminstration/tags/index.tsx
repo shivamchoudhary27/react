@@ -4,7 +4,6 @@ import { pagination } from "../../../utils/pagination";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
 import AddTags from "./addTags";
 import TagsModal from "./tagsModal";
 import TagsTable from "./tagsTable";
@@ -13,6 +12,7 @@ import { getData as getTagsData } from "../../../adapters/microservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import Errordiv from "../../../widgets/alert/errordiv";
+import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const Tags = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -26,10 +26,16 @@ const Tags = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
+  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
+
+  const updateInstituteName = (instituteName : string) => {
+    setCurrentInstituteName(instituteName)
+  }
 
   const getTags = () => {
     setApiStatus("started")
-    const endPoint = `/tags`;
+    const endPoint = `/${currentInstitute}/tags`;
     getTagsData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
@@ -45,12 +51,13 @@ const Tags = () => {
 
   // Get tags Data from API === >>
   useEffect(() => {
+    if (currentInstitute > 0)
     getTags();
-  }, [refreshData, filterUpdate]);
+  }, [refreshData, filterUpdate, currentInstitute]);
 
   // delete tags Data from API === >>
   useEffect(() => {
-    if (deleteRefresh === true) {
+    if (deleteRefresh === true && currentInstitute > 0) {
       getTags();
     }
   }, [deleteRefresh]);
@@ -81,6 +88,10 @@ const Tags = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  const updateCurrentInstitute = (instituteId : number) => {
+    setCurrentInstitute(instituteId);
+  }
+
   return (
     <>
       <Header />
@@ -94,7 +105,15 @@ const Tags = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle="Tags" gobacklink="/manageprogram" />
+          <PageTitle pageTitle={`${currentInstitueName}: Tags`} gobacklink="/manageprogram" />
+          <div className="row gx-2 mb-3 align-items-center justify-content-center">
+            <div className="col-auto">
+              <label className="col-form-label">Institute : </label>
+            </div>
+            <div className="col-auto">
+              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
+            </div>
+          </div>
           <AddTags
             toggleModalShow={toggleModalShow}
             setTagObj={setTagObj}
@@ -106,15 +125,16 @@ const Tags = () => {
             togglemodalshow={toggleModalShow}
             updateAddRefresh={refreshToggle}
             tagObj={tagObj}
+            currentInstitute={currentInstitute}
           />
-            <TagsTable
-              allTags={allTags.items}
-              toggleModalShow={toggleModalShow}
-              updateDeleteRefresh={updateDeleteRefresh}
-              editHandlerById={editHandlerById}
-              apiStatus={apiStatus}
-              
-            />
+          <TagsTable
+            allTags={allTags.items}
+            toggleModalShow={toggleModalShow}
+            updateDeleteRefresh={updateDeleteRefresh}
+            editHandlerById={editHandlerById}
+            apiStatus={apiStatus}
+            currentInstitute={currentInstitute}
+          />
           <BuildPagination
             totalpages={allTags.pager.totalPages}
             activepage={filterUpdate.pageNumber}

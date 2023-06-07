@@ -14,8 +14,8 @@ const actionsStyle = {
 };
 
 // edit event handler === >>>
-const createEditLink = (id: number) => {
-  return `/addprogram/${id}`;
+const createEditLink = (id: number, instituteId: string | number) => {
+  return `/addprogram/${id}?institute=${instituteId}`;
 };
 
 const createPreviewLink = (id: number) => {
@@ -25,7 +25,8 @@ const createPreviewLink = (id: number) => {
 const ManageTable = ({
   programData,
   refreshOnDelete,
-  apiStatus
+  apiStatus,
+  currentInstitute
 }: any) => {
   const tableColumn = [
     {
@@ -65,7 +66,7 @@ const ManageTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to={createEditLink(row.original.id)}>
+          <Link to={createEditLink(row.original.id, currentInstitute)}>
             <i className="fa-solid fa-pen"></i>
           </Link>
           <Link to="">

@@ -19,7 +19,8 @@ const TagsModal = ({
   onHide,
   togglemodalshow,
   updateAddRefresh,
-  tagObj
+  tagObj,
+  currentInstitute
 }: any) => {
 
   const initialValues = {
@@ -28,7 +29,7 @@ const TagsModal = ({
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     if(tagObj.id === 0){
-      const endPoint = "/tags";
+      const endPoint = `/${currentInstitute}/tags`;
       setSubmitting(true);
       addTagsData(endPoint, values)
         .then((res: any) => {
@@ -43,7 +44,7 @@ const TagsModal = ({
           console.log(err);
         });
     }else{
-      const endPoint = `/tags/${tagObj.id}`;
+      const endPoint = `/${currentInstitute}/tags/${tagObj.id}`;
       updateTagsData(endPoint, values).then((res: any)=>{
         updateAddRefresh();
         togglemodalshow(false);
