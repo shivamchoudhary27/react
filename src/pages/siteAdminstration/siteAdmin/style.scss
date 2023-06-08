@@ -32,9 +32,8 @@
   .box.row2box:hover {
     width: 35%;
   }
-
-  .default-item {
-    background: linear-gradient(128.98deg, #AFAFAF 18.58%, #494949 75.2%);
+  
+  .default-item {    
     display: flex;
     flex-wrap: wrap;
     height: 100%;
@@ -42,29 +41,11 @@
     position: relative;
     color: #000;
     border-radius: 30px;
-    &:nth-child(odd) {
-      background: linear-gradient(111.63deg, #EFEFEF 14.84%, #5E5E5E 109.82%);
-    }
+    background: #D9ECFF;
     &:hover {
       color: #000;
-    }
-    &.user-management:hover {
-      background: linear-gradient(106.43deg, rgba(27, 96, 157, 0.8) -3.07%, rgba(90, 126, 180, 0.8) 97.56%);
-    }
-    &.manage-program:hover {
-      background: linear-gradient(134.71deg, #9AE967 3.48%, #F9F443 96.84%);
-    }
-    &.program-enrollment:hover {
-      background: linear-gradient(128.98deg, #0FC87D 18.58%, #314B64 75.2%);
-    }
-    &.copo-management:hover {
-      background: linear-gradient(120.28deg, #F8C901 2.89%, #F39032 98.57%);
-    }
-    &.timetable-management:hover {
-      background: linear-gradient(111.63deg, #B5FFDD 14.84%, #324663 109.82%);
-    }
-    &.institute-management:hover {
-      background: linear-gradient(107.58deg, #CEF8FF -3.01%, #0D92AA 111.53%);
+      background: linear-gradient(113.18deg, #118CF4 16.67%, #1558B3 94.82%);
+      box-shadow: 5px 5px 11px #959595;
     }
     img {
       filter: grayscale(100%);
@@ -84,6 +65,20 @@
       margin: 20px 30px;
       z-index: 1;
       font-weight: 600;
+    }
+  }
+  &.row1 .box:nth-child(even) .default-item {
+    background: #A6D0F9;
+    &:hover {
+      background: linear-gradient(113.18deg, #118CF4 16.67%, #1558B3 94.82%);
+      box-shadow: 5px 5px 11px #959595;
+    }
+  }
+  &.row2 .box:nth-child(odd) .default-item {
+    background: #A6D0F9;
+    &:hover {
+      background: linear-gradient(113.18deg, #118CF4 16.67%, #1558B3 94.82%);
+      box-shadow: 5px 5px 11px #959595;
     }
   }
 }

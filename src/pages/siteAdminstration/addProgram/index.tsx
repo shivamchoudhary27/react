@@ -63,15 +63,13 @@ const AddProgram = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Add Program" gobacklink="/manageprogram" />
-          <div className="form-container-wrapper">
-            {currentProgram.status === true && (
-              <AddProgramForm
-                initialformvalues={currentProgram.data}
-                programid={currentProgram.id}
-                instituteId={instituteId}
-              />
-            )}
-          </div>
+          {currentProgram.status === true && (
+            <AddProgramForm
+              initialformvalues={currentProgram.data}
+              programid={currentProgram.id}
+              instituteId={instituteId}
+            />
+          )}
         </Container>
       </div>
       <Footer />

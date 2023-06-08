@@ -70,7 +70,7 @@ const Preview = () => {
               { name: "Program Preview", path: "" },       
             ]}
           />
-      <div className="contentarea-wrapper mt-5">
+      <div className="contentarea-wrapper mt-4">
         <Container fluid className="administration-wrapper">          
           <h3>Program Preview</h3>
           <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Go back</Button>

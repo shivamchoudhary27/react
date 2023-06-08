@@ -26,9 +26,9 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import FieldMultiSelect from "../../../widgets/formInputFields/multiSelect";
 import * as Yup from "yup";
-import './multiStepFrom.scss';
+import './style.scss';
 
-const steps = ['Step 1', 'Step 2', 'Step 3'];
+const steps = ['Step 1', 'Step 2'];
 
 // Step 1 validation schema
 const step1Schema = Yup.object({
@@ -203,6 +203,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   </div>
                 ))}
               </div>
+
+              {/*** Step 1 ***/}
               {step === 0 && (
               <>
                 <div className="mb-3">
@@ -267,10 +269,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     msgText="Please select Discipline"
                   />
                 </div>
-              </>
-              )}
-              {step === 1 && (
-                <>
+           
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="programtype"
@@ -309,7 +308,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       />
                     </div>
                   )}
-
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="modeOfStudy"
@@ -341,8 +339,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       touched={touched.mode}
                       msgText="Please select Program Mode"
                     />
-                  </div>  
-                  
+                  </div>                  
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="tags"
@@ -353,7 +350,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       options={tags.items}
                     />
                   </div>
-
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="durationValue"
@@ -376,7 +372,9 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   </div>
                 </>
               )}
-              {step === 2 && (
+
+              {/*** Step 3 ***/}
+              {step === 1 && (
                 <>
                   <div className="mb-3">
                     <FieldLabel htmlfor="objective" labelText="Objective" />
@@ -453,51 +451,31 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       />
                     </div>
                   </div>
-              </>
+                </>
               )}
+
+              {/*** Buttons ***/}
               <div className="button-group">
                 {step > 0 && (
-                  <button type="button" className="previous-button" onClick={handlePreviousStep}>
+                  <button type="button" className="btn btn-outline-secondary me-3" onClick={handlePreviousStep}>
                     Previous
                   </button>
                 )}
                 {step < steps.length - 1 && (
-                  <button type="button" className="next-button" onClick={handleNextStep}>
+                  <button type="button" className="btn btn-outline-secondary" onClick={handleNextStep}>
                     Next
                   </button>
                 )}
                 {step === steps.length - 1 && (
-                  // <button type="submit" className="submit-button" disabled={!values.confirmPassword}>
-                  //   Submit
-                  // </button>
                   <div className="text-center">
                     <CustomButton
                       type="submit"
                       btnText="Submit"
                       variant="primary"
-                      // isSubmitting={isSubmitting}
                     />{" "}
-                    {/* <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    /> */}
                   </div>
                 )}
               </div>
-              {/* <div className="text-center">
-                <CustomButton
-                  type="submit"
-                  btnText="Submit"
-                  variant="primary"
-                  // isSubmitting={isSubmitting}
-                />{" "}
-                <CustomButton
-                  type="reset"
-                  btnText="Reset"
-                  variant="outline-secondary"
-                />
-              </div> */}
             </Form>
           )}
         </Formik>
