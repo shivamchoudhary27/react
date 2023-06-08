@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 import Header from "../../newHeader";
@@ -15,7 +15,7 @@ import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 }, institute : 0 };
   const [programData, setProgramData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -29,19 +29,36 @@ const ManageProgram = () => {
   const [currentInstitute, setCurrentInstitute] = useState<any>(0);
   const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
-  const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
+  const getProgramData = (endPoint : string, filters : any) => {
+    setApiStatus("started")
+    getData(endPoint, filters)
+    .then((result : any) => {
+        if (result.data !== "" && result.status === 200) {
+            for (const key in result.data.items) {
+              if (typeof result.data.items[key] === "object" && !Array.isArray(result.data.items[key])) {
+                result.data.items[key].instituteId = currentInstitute;
+              }
+            }
+            setProgramData(result.data);
+        }
+        setApiStatus("finished")
+    })
+    .catch((err : any) => {
+        console.log(err);
+        setApiStatus("finished")
+    });
   }
 
   // get programs API call === >>>
   useEffect(() => {
-    makeGetDataRequest(`/${currentInstitute}/programs`, filterUpdate, setProgramData, setApiStatus);
+    getProgramData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshData, filterUpdate, currentInstitute]);
-
+  
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
-      makeGetDataRequest(`/${currentInstitute}/programs`, filterUpdate, setProgramData, setApiStatus);
+    getProgramData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshOnDelete]);
+
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -50,7 +67,7 @@ const ManageProgram = () => {
   const refreshOnDeleteToggle = (value: boolean) => {
     setRefreshOnDelete(value);
   };
-
+  
   // to update filters values in the main state filterUpdate
   const updateDepartmentFilter = (departmentId: string) => {
     setFilterUpdate({
@@ -59,7 +76,7 @@ const ManageProgram = () => {
       pageNumber: 0,
     });
   };
-
+  
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.code !== "") {
       setFilterUpdate({
@@ -80,6 +97,10 @@ const ManageProgram = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  const updateInstituteName = (instituteName : string) => {
+    setCurrentInstituteName(instituteName)
+  }
+  
   const updateCurrentInstitute = (instituteId : number) => {
     setCurrentInstitute(instituteId);
   }

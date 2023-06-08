@@ -54,7 +54,6 @@ const step3Schema = Yup.object({
 });
 
 const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
-  console.log('instituteId', instituteId)
   const navigate = useNavigate();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [inputFieldArr, setinputFieldArr] = useState<any>(
@@ -89,13 +88,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   }, [instituteId]);
 
   useEffect(() => {
+    const valuesPacket = { ...initialformvalues }
     let addedValues = addExtraMetaDataToInitialValues(
-      initValues,
+      valuesPacket,
       programTypeId.items,
       "programtypeList"
     );
     setInitValues(addedValues);
-  }, [programTypeId]);
+  }, [initialformvalues, programTypeId]);
 
   // add extra meta field ===== >>>
   const addFieldHandler = () => {

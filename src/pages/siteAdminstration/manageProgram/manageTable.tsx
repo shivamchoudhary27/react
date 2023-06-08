@@ -13,27 +13,19 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-// edit event handler === >>>
-const createEditLink = (id: number, instituteId: string | number) => {
-  return `/addprogram/${id}?institute=${instituteId}`;
-};
-
-const createPreviewLink = (id: number) => {
-  return `/programpreview/${id}`;
-};
-
 const ManageTable = ({
   programData,
   refreshOnDelete,
   apiStatus,
   currentInstitute
 }: any) => {
+
   const tableColumn = [
     {
       Header: "Name",
       accessor: "name",
       Cell: ({ row }: any) => (
-        <Link to={createPreviewLink(row.original.id)}>{row.original.name}</Link>
+        <Link to={createPreviewLink(row.original.id, row.original.instituteId)}>{row.original.name}</Link>
       ),
     },
     {
@@ -66,13 +58,13 @@ const ManageTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to={createEditLink(row.original.id, currentInstitute)}>
+          <Link to={createEditLink(row.original.id, row.original.instituteId)}>
             <i className="fa-solid fa-pen"></i>
           </Link>
           <Link to="">
             <i
               className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.id)}
+              onClick={() => deleteHandler(row.original.id, row.original.instituteId)}
             ></i>
           </Link>
           <Link to="">
@@ -94,10 +86,18 @@ const ManageTable = ({
       data,
     });
 
-  const deleteHandler = (id: number) => {
+  const createPreviewLink = (id: number, instituteId : number) => {
+    return `/programpreview/${id}?institute=${instituteId}`;
+  };
+
+  const createEditLink = (id: number, instituteId : number) => {
+    return `/addprogram/${id}?institute=${instituteId}`;
+  };
+
+  const deleteHandler = (id: number, instituteId : number) => {
     refreshOnDelete(false);
     if (window.confirm("Are you sure to delete this department?")) {
-      let endPoint = `programs/${id}`;
+      let endPoint = `/${instituteId}/programs/${id}`;
       deleteProgramData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
