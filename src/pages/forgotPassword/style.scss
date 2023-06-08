@@ -9,12 +9,20 @@
 }
 .signup-rightForm {
   width: 100%; margin-right: 20%;
-}
-.signup-rightForm .form-label {
-  margin-bottom: 0.25rem;
-}
-.signup-rightForm .form-control {
-  font-size: 14px;
+  .form-label {
+    margin-bottom: 0.25rem;
+  }
+  .form-control {
+    font-size: 14px;
+  }
+  .btn[type="submit"], .btn[type="submit"]:active, .btn[type="submit"]:visited {
+    background: linear-gradient(180deg, #4197E4 0%, #3688D2 48.96%, #075296 100%);
+    border-color: #3688D2;
+    padding: 0.5rem 0.75rem;
+  }
+  .btn[type="submit"]:hover, .btn[type="submit"]:focus {
+    background: linear-gradient(180deg, #075296 0%, #3688D2 48.96%, #4197E4 100%);
+  }
 }
 .signup-logo {
   background: #fff;
@@ -24,9 +32,9 @@
   align-items: center;
   justify-content: center;
   box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
-}
-.signup-logo img {
-  max-height: 74px;
+  img {
+    max-height: 74px;
+  }
 }
 .signup-title {
   font-family: 'DM Serif Display', serif;
