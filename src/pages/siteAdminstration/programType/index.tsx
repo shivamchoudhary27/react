@@ -161,15 +161,15 @@ const ProgramType = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle={`${currentInstitueName}: Program Type`} gobacklink="/manageprogram" />
           <div className="row gx-2 mb-3 align-items-center justify-content-center">
             <div className="col-auto">
-              <label className="col-form-label">Institute : </label>
+              <label className="col-form-label">Institute: </label>
             </div>
             <div className="col-auto">
               <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
             </div>
           </div>
+          <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />          
           <Filters
             openAddProgramType={openAddProgramType}
             updateDepartment={updateDepartmentFilter}
