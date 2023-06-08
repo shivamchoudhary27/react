@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { postData } from "../../../adapters/coreservices";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -17,13 +18,12 @@ const UploadNewUsers = ({
   updateAddRefresh,
   courseid,
 }: any) => {
-  const [submitBtn, setSubmitBtn] = React.useState("Submit");
   const [uploadResponse, setUploadresponse] = React.useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    setSubmitBtn("Submitting...");
+    setSubmitting(true);
     setUploadresponse("");
     postData(`/user/upload`, {}, values.file)
       .then((res: any) => {
@@ -43,19 +43,20 @@ const UploadNewUsers = ({
                 (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
             );
           }
+          setSubmitting(false);
           setUploadresponse(responseMsg);
           resetForm();
           updateAddRefresh();
-          setSubmitting(false);
+          setShowAlert(false);
         }
-        setSubmitBtn("Submit");
       })
       .catch((err: any) => {
-        console.log("error", err);
-        // window.alert("Some error occurred");
-        setShowAlert(true)
-        setAlertMsg({ message: "File upload failed! Please try again.", alertBoxColor: "danger" })
-        setSubmitBtn("Submit");
+        setSubmitting(false);
+        setShowAlert(true);
+        setAlertMsg({
+          message: "File upload failed! Please try again.",
+          alertBoxColor: "danger",
+        });
       });
   };
 
@@ -73,13 +74,6 @@ const UploadNewUsers = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
           <Formik
             initialValues={{ file: null }}
             validationSchema={validationSchema}
@@ -102,17 +96,30 @@ const UploadNewUsers = ({
                   />
                   <ErrorMessage name="file" />
                 </div>
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
+                    <CustomButton
+                      type="submit"
+                      variant="primary"
+                      btnText="Upload"
+                    />
+                  </div>
+                ) : (
+                  <LoadingButton
                     variant="primary"
-                    // disabled={isSubmitting}
-                    btnText={submitBtn}
+                    btnText="Uploading..."
+                    className="modal-buttons"
                   />
-                </div>
+                )}
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
         </Modal.Body>
       </Modal>

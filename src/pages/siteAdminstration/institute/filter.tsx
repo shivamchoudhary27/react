@@ -64,7 +64,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
           </div>          
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddUserModal}>Add Institue</Button>{" "}
+          <Button variant="primary" onClick={openAddUserModal}>Add Institute</Button>{" "}
         </div>
       </div>
     </React.Fragment>

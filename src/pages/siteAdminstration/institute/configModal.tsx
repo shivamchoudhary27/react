@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -9,6 +9,8 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { putData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const Schema = Yup.object({
   instanceUrl: Yup.string().trim().url().required(),
@@ -17,6 +19,9 @@ const Schema = Yup.object({
 
 const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh }: any) => {
   console.log(userobj);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   const initialValues = {
     instanceUrl: userobj.instanceUrl,
     webServiceToken: userobj.webServiceToken,
@@ -28,16 +33,23 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    setSubmitting(true)
     putData(`/institutes/${userobj.id}`, values)
       .then((res: any) => {
         if ((res.data !== "", res.status === 200)) {
           configModalShow(false);
-          updateAddRefresh();
           setSubmitting(false);
+          updateAddRefresh();
+          resetForm();
         }
       })
       .catch((err: any) => {
-        console.log(err);
+        setSubmitting(false);
+        setShowAlert(true);
+            setAlertMsg({
+              message: `Failed to add institute configuration, ${err.response.data.error}.`,
+              alertBoxColor: "danger",
+            });
       });
   };
 
@@ -112,20 +124,24 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
                   </span>
                 )}
                 {userobj.locked === false && (
+                  isSubmitting === false ?
                   <div className="modal-buttons">
                     <CustomButton
                       type="submit"
                       variant="primary"
-                      // isSubmitting={isSubmitting}
-                      btnText="Save"
+                      isSubmitting={isSubmitting}
+                      btnText="Submit"
                     />{" "}
                     <CustomButton
                       type="reset"
                       variant="outline-secondary"
-                      // isSubmitting={isSubmitting}
                       btnText="Reset"
                     />
-                  </div>
+                  </div> : <LoadingButton
+                  variant="primary"
+                  btnText="Submitting..."
+                  className="modal-buttons"
+                />
                 )}
                 <Errordiv
                   msg="Note: Once locked, configuration can not be changed later"
@@ -135,6 +151,13 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+        />
         </Modal.Body>
       </Modal>
     </React.Fragment>

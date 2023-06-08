@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import {
   postData as addDepartmentData,
@@ -9,9 +9,10 @@ import * as Yup from "yup";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import Custom_Button from "../../../widgets/formInputFields/buttons";
+import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
@@ -45,7 +46,7 @@ const DepartmentModal = ({
   if (departmentobj.id === 0) {
     formTitles = {
       titleHeading: "Add Department",
-      btnTitle: "Save",
+      btnTitle: "Submit",
       description: "",
     };
   } else {
@@ -59,38 +60,45 @@ const DepartmentModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let endPoint = `/${currentInstitute}/departments`;
     setSubmitting(true);
+    let endPoint = `/${currentInstitute}/departments`;
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
-            refreshdepartmentdata();
             setSubmitting(false);
+            refreshdepartmentdata();
             resetForm();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to add department! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to add department! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     } else {
       endPoint += `/${departmentobj.id}`;
+      setSubmitting(true);
       putDepartmentData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
-            refreshdepartmentdata();
             setSubmitting(false);
+            refreshdepartmentdata();
             resetForm();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to update department! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to update department! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     }
   };
@@ -156,21 +164,29 @@ const DepartmentModal = ({
                   msgText="Please Enter description"
                 />
               </div>
-              <div className="modal-buttons">
-                <Custom_Button
-                  type="submit"
+              {isSubmitting === false ? (
+                <div className="modal-buttons">
+                  <CustomButton
+                    type="submit"
+                    variant="primary"
+                    isSubmitting={isSubmitting}
+                    btnText={formTitles.btnTitle}
+                  />{" "}
+                  {formTitles.btnTitle === "Submit" && (
+                    <CustomButton
+                      type="reset"
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  )}
+                </div>
+              ) : (
+                <LoadingButton
                   variant="primary"
-                  isSubmitting={isSubmitting}
-                  btnText={formTitles.btnTitle}
-                />{" "}
-                {formTitles.btnTitle === "Save" && (
-                  <Custom_Button
-                    type="reset"
-                    btnText="Reset"
-                    variant="outline-secondary"
-                  />
-                )}
-              </div>
+                  btnText={departmentobj.id === 0 ? "Submitting..." : "Updating..."}
+                  className="modal-buttons"
+                />
+              )}
             </Form>
           )}
         </Formik>
