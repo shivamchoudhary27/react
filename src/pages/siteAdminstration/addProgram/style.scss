@@ -1,6 +1,29 @@
-.form-container-wrapper{
-    padding: 2.5rem;
-    box-shadow:
-        rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-      margin-bottom: 2rem,
+.multi-step-form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.step {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  background-color: #f0f0f0;
+}
+.step.active {
+  background-color: #007bff;
+  color: #fff;
+}
+.step-content {
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 10px;
+}
+.button-group {
+  display: flex;
+  justify-content: flex-end;
 }
