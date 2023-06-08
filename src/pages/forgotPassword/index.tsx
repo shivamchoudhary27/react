@@ -77,6 +77,7 @@ const ForgotPasswordForm = () => {
                   labelText="Email"
                   required="required"
                   className="form-label"
+                  star="*"
                 />
                 <FieldTypeText name="email" placeholder="Email" />
                 <FieldErrorMessage

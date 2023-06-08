@@ -109,6 +109,7 @@ const SignupForm = () => {
                 labelText="First name"
                 required="required"
                 className="form-label"
+                star="*"
               />
               <FieldTypeText name="firstName" placeholder="First Name" />
               <FieldErrorMessage
@@ -124,6 +125,7 @@ const SignupForm = () => {
                 labelText="Last name"
                 required="required"
                 className="form-label"
+                star="*"
               />
               <FieldTypeText name="lastName" placeholder="Last Name" />
               <FieldErrorMessage
@@ -139,8 +141,12 @@ const SignupForm = () => {
                 labelText="Email"
                 required="required"
                 className="form-label"
+                star="*"
               />
-              <FieldTypeText name="email" placeholder="Email" />
+              <FieldTypeText 
+                name="email" 
+                placeholder="Email"
+              />
               <FieldErrorMessage
                 errors={errors.email}
                 touched={touched.email}
@@ -154,6 +160,7 @@ const SignupForm = () => {
                 labelText="Country"
                 required="required"
                 className="form-label"
+                star="*"
               />
               <FieldTypeSelect
                 name="country"
@@ -177,7 +184,6 @@ const SignupForm = () => {
                 touched={touched.recaptcha}
                 msgText="Captcha Required."
               />
-              <p></p>
             </div>
             <div className="col-12 mb-4 d-grid">
               <Button type="submit" variant="primary">
