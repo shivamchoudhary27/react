@@ -6,7 +6,7 @@ body {
     font-weight: 400;
 }
 body.authBody {
-    background-color: #E8EFF5;
+    background-color: #EDF6F8;
 }
 a, a:visited {
     color: #1B609D;
@@ -73,6 +73,13 @@ label {
 }
 .badge {
     border-radius: 0.75rem;
+}
+.form-check-input {
+    background-color: #0A5599;
+    &:checked {
+        background-color: #0A5599;
+        border-color: #0A5599;
+    }
 }
 // input, .form-control {
 //     border: 0;
