@@ -15,7 +15,7 @@
   .form-control {
     font-size: 14px;
   }
-  .btn[type="submit"] {
+  .btn[type="submit"], .btn[type="submit"]:active, .btn[type="submit"]:visited {
     background: linear-gradient(180deg, #4197E4 0%, #3688D2 48.96%, #075296 100%);
     border-color: #3688D2;
     padding: 0.5rem 0.75rem;
