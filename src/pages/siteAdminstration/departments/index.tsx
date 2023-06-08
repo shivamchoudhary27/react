@@ -141,7 +141,6 @@ const Departments = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle={`${currentInstitueName}: Department`} gobacklink="/manageprogram" />
           <div className="row gx-2 mb-3 align-items-center justify-content-center">
             <div className="col-auto">
               <label className="col-form-label">Institute : </label>
@@ -150,6 +149,7 @@ const Departments = () => {
               <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
             </div>
           </div>
+          <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />          
           <Filters
             toggleModalShow={toggleModalShow}
             refreshDepartmentData={refreshToggle}
