@@ -10,7 +10,7 @@ const FieldMultiSelect = ({
   return (
     <>
       <Field as={as} name={name} className={className} multiple>
-        <option value="0">Select {name}</option>
+        <option value="0">Select {name.charAt(0).toUpperCase() + name.slice(1)}</option>
         {
           options.map((el: any, index: number)=>(
               <option value={el.id} key={index}>

@@ -1,4 +1,4 @@
-import { getData as getProgramData } from "../../../adapters/microservices";
+import { getData } from "../../../adapters/microservices";
 
 // central get api data method
 // can also add a param to setError also if something wrong happen
@@ -7,7 +7,7 @@ import { getData as getProgramData } from "../../../adapters/microservices";
 // { data: [],  status: '', error: {} / "whatever"}
 export const makeGetDataRequest = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
     {setApiStatus && setApiStatus("started")}
-    getProgramData(endPoint, filters)
+    getData(endPoint, filters)
         .then((result : any) => {
             if (result.data !== "" && result.status === 200) {
                 if (result.data.items.length < 1) {

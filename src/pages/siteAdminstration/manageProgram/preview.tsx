@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { getData as getProgramData } from "../../../adapters/microservices";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
@@ -10,11 +10,19 @@ import { Button, Container } from "react-bootstrap";
 const Preview = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation().search;
   const [currentProgram, setCurrentProgram] = useState<any>({data : [], status: false, id: id});
+  const [instituteId, setInstituteId] = useState<number | string | null>(0);
 
   useEffect(() => {
-    if (id !== undefined &&  id > 0) {
-      let programsEndPoint = "/programs";
+    const urlParams = new URLSearchParams(location);
+    let instituteParam = parseInt(urlParams.get("institute"))
+    setInstituteId(instituteParam);
+  }, [location]);
+
+  useEffect(() => {
+    if (instituteId !== undefined && instituteId > 0 && id !== undefined &&  id > 0) {
+      let programsEndPoint = `${instituteId}/programs`;
       const apiParams = {
         pageNumber : 0,
         pageSize : 5,
@@ -22,15 +30,11 @@ const Preview = () => {
       }
       getProgramData(programsEndPoint, apiParams).then((res : any) => {
         if (res.data !== "" && res.status === 200) {
-          console.log(res.data.items);          
           setCurrentProgram({ data : res.data.items, status : true, id : id })
         }
       });
-    } else {
-      window.alert('Program info not found');
-      navigate('/manageprogram');
     }
-  }, []);
+  }, [instituteId]);
 
   const previewMetafields = (metaData : Array<any>) => {
     return (
@@ -51,7 +55,7 @@ const Preview = () => {
     return (
       <ul>
         {metaData.map((el: any, index: number) => (
-          <li className="mb-3">
+          <li className="mb-3" key={index}>
              {el.name},
           </li>
         ))}
