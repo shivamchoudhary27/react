@@ -37,10 +37,6 @@ const step1Schema = Yup.object({
   programName: Yup.string().min(1).trim().required(),
   programCode: Yup.string().min(1).trim().required(),
   discipline: Yup.string().required(),
-});
-
-// Step 2 validation schema
-const step2Schema = Yup.object({
   programtype: Yup.string().required(),
   batchYear: Yup.string().required(),
   durationValue: Yup
@@ -50,8 +46,8 @@ const step2Schema = Yup.object({
   .required('Number is required'),
 });
 
-// Step 3 validation schema
-const step3Schema = Yup.object({
+// Step 2 validation schema
+const step2Schema = Yup.object({
 });
 
 const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
@@ -113,14 +109,23 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     }
   };
 
-  const handlerFormSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
-    
+  function _handleSubmit(values : any, actions : any) {
+    if (step === 1) {
+      _submitForm(values, actions);
+    } else {
+      actions.setTouched({});
+      actions.setSubmitting(false);
+      handleNextStep();
+    }
+  }
+
+  const _submitForm = (values : any, actions : any) => {
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
     
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
-      setSubmitting(true)
+      actions.setSubmitting(true)
       postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
@@ -130,14 +135,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
               showConfirmButton: false,
               timer: 1500,
             });
-            setSubmitting(false);
-            resetForm();
+            actions.setSubmitting(false);
+            actions.resetForm();
             navigate("/manageprogram", { state: values });
           }
         })
         .catch((err: any) => {
           console.log(err);
-          setSubmitting(false)
+          actions.setSubmitting(false)
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -150,7 +155,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         });
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
-      setSubmitting(true)
+      actions.setSubmitting(true)
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -160,14 +165,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
               showConfirmButton: false,
               timer: 1500,
             });
-            setSubmitting(false);
-            resetForm();
+            actions.setSubmitting(false);
+            actions.resetForm();
             navigate("/manageprogram", { state: values });
           }
         })
         .catch((err: any) => {
           console.log(err);
-          setSubmitting(false)
+          actions.setSubmitting(false)
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -188,10 +193,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         <Formik
           enableReinitialize={true}
           initialValues={initValues}
-          onSubmit={(values, action) => {
-            handlerFormSubmit(values, action);
-          }}
-          validationSchema={step === 0 ? step1Schema : step === 1 ? step2Schema : step3Schema}
+          onSubmit={_handleSubmit}
+          validationSchema={step === 0 ? step1Schema : step === 1 && step2Schema}
         >
           {({
             values,
@@ -276,44 +279,44 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   />
                 </div>
            
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="programtype"
+                    labelText="Program Type "
+                    required="required"
+                  />
+                  <FieldTypeSelect
+                    name="programtype"
+                    options={programTypeId.items}
+                    setcurrentvalue={setValues}
+                    currentformvalue={values}
+                  />
+                  <FieldErrorMessage
+                    errors={errors.programtype}
+                    touched={touched.programtype}
+                    msgText="Please select Program Type"
+                  />
+                </div>
+                {values.isBatchYearRequired === true && (
                   <div className="mb-3">
                     <FieldLabel
-                      htmlfor="programtype"
-                      labelText="Program Type "
+                      htmlfor="batchYear"
+                      labelText="Batch Year"
                       required="required"
                     />
                     <FieldTypeSelect
-                      name="programtype"
-                      options={programTypeId.items}
+                      name="batchYear"
+                      options={batchYearOptions}
                       setcurrentvalue={setValues}
                       currentformvalue={values}
                     />
                     <FieldErrorMessage
-                      errors={errors.programtype}
-                      touched={touched.programtype}
-                      msgText="Please select Program Type"
+                      errors={errors.batchYear}
+                      touched={touched.batchYear}
+                      msgText="Batch Year must in number"
                     />
                   </div>
-                  {values.isBatchYearRequired === true && (
-                    <div className="mb-3">
-                      <FieldLabel
-                        htmlfor="batchYear"
-                        labelText="Batch Year"
-                        required="required"
-                      />
-                      <FieldTypeSelect
-                        name="batchYear"
-                        options={batchYearOptions}
-                        setcurrentvalue={setValues}
-                        currentformvalue={values}
-                      />
-                      <FieldErrorMessage
-                        errors={errors.batchYear}
-                        touched={touched.batchYear}
-                        msgText="Batch Year must in number"
-                      />
-                    </div>
-                  )}
+                )}
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="modeOfStudy"
@@ -379,7 +382,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                 </>
               )}
 
-              {/*** Step 3 ***/}
+              {/*** Step 2 ***/}
               {step === 1 && (
                 <>
                   <div className="mb-3">
@@ -460,35 +463,39 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                 </>
               )}
 
-              {/*** Buttons ***/}
-              {
-                isSubmitting === false ? 
               <div className="button-group">
-                {step > 0 && (
+                {isSubmitting === false && step > 0 && (
                   <button type="button" className="btn btn-outline-secondary me-3" onClick={handlePreviousStep}>
                     Previous
                   </button>
                 )}
                 {step < steps.length - 1 && (
-                  <button type="button" className="btn btn-outline-secondary" onClick={handleNextStep}>
+                  <button 
+                    disabled={isSubmitting} 
+                    type="submit" 
+                    className="btn btn-outline-secondary" 
+                  >
                     Next
                   </button>
                 )}
                 {step === steps.length - 1 && (
-                  <div className="text-center">
-                    <CustomButton
-                      type="submit"
-                      btnText={programid == 0 ? "Submit" : "Update"}
+                  isSubmitting === false ? (
+                    <div className="text-center">
+                      <CustomButton
+                        type="submit"
+                        btnText={programid == 0 ? "Submit" : "Update"}
+                        variant="primary"
+                      />{" "}
+                    </div>
+                  ) : (
+                    <LoadingButton
                       variant="primary"
-                    />{" "}
-                  </div>
+                      btnText={programid.id == 0 ? "Submitting..." : "Updating..."}
+                      className="modal-buttons"
+                    />
+                  )
                 )}
-              </div> : <LoadingButton
-                  variant="primary"
-                  btnText={programid.id == 0 ? "Submitting..." : "Updating..."}
-                  className="modal-buttons"
-                />
-              }
+              </div>
             </Form>
           )}
         </Formik>

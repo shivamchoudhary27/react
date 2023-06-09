@@ -71,7 +71,6 @@ const programData = {
 
 // to convert program formdata to api required structure after the form submission
 export const generateProgramDataObject = (formData) => {
-    console.log('after submit form values ', formData);
     const submittedTags = convertFormSubmittedTagsData(formData.tags);
     programData.name = formData.programName;
     programData.programCode = formData.programCode;
