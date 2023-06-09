@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { getData } from "../../../../adapters/microservices";
 
 const InstituteFilter = ({updateCurrentInstitute, updateInstituteName}: any) => {
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}};
@@ -9,7 +9,17 @@ const InstituteFilter = ({updateCurrentInstitute, updateInstituteName}: any) => 
 
   // department API call === >>>
   useEffect(() => {
-    makeGetDataRequest('/institutes', filters, setInstitutes);
+    getData('/institutes', filters)
+    .then((result : any) => {
+        if (result.status === 200 && result.data !== "" ) {
+          const filteredArray = result.data.items.filter((obj :any) => obj.locked !== false);
+          result.data.items = filteredArray
+          setInstitutes(result.data);
+        }
+    })
+    .catch((err : any) => {
+        console.log(err);
+    });
   }, []);
 
   useEffect(() => {
