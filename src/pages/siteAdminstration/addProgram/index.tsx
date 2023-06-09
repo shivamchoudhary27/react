@@ -62,7 +62,7 @@ const AddProgram = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle="Add Program" gobacklink="/manageprogram" />
+          <PageTitle pageTitle={currentProgram.id == 0 ? "Add Program" : "Update Program"} gobacklink="/manageprogram" />
           {currentProgram.status === true && (
             <AddProgramForm
               initialformvalues={currentProgram.data}

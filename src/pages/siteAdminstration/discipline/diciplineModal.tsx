@@ -12,6 +12,7 @@ import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaFiel
 import Custom_Button from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -43,7 +44,7 @@ const DiciplineModal = ({
   };
   if (disciplineobj.id === 0) {
     formTitles = {
-      btnTitle: "Save",
+      btnTitle: "Submit",
       titleHeading: "Add Discipline",
     };
   } else {
@@ -55,38 +56,45 @@ const DiciplineModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let endPoint = `/${currentInstitute}/disciplines`;
     setSubmitting(true);
+    let endPoint = `/${currentInstitute}/disciplines`;
     if (disciplineobj.id === 0) {
       addDisciplineData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
-            refreshDisciplineData();
             setSubmitting(false);
+            refreshDisciplineData();
             resetForm();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to add discipline! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to add discipline! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     } else {
       endPoint += `/${disciplineobj.id}`;
+      setSubmitting(true);
       putDesciplineData(endPoint, values)
         .then((res: any) => {
           console.log(values, res);
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
-            refreshDisciplineData();
             setSubmitting(false);
+            refreshDisciplineData();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to update discipline! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to update discipline! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     }
   };
@@ -104,13 +112,6 @@ const DiciplineModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <TimerAlertBox
-          alertMsg={alertMsg.message}
-          className="mt-3"
-          variant={alertMsg.alertBoxColor}
-          setShowAlert={setShowAlert}
-          showAlert={showAlert}
-        />
         <Formik
           initialValues={initialValues}
           validationSchema={diciplineSchema}
@@ -155,24 +156,39 @@ const DiciplineModal = ({
                 />
               </div>
 
-              <div className="modal-buttons">
-                <Custom_Button
-                  type="submit"
-                  variant="primary"
-                  isSubmitting={isSubmitting}
-                  btnText={formTitles.btnTitle}
-                />{" "}
-                {formTitles.btnTitle === "Save" && (
+              {isSubmitting === false ? (
+                <div className="modal-buttons">
                   <Custom_Button
-                    type="reset"
-                    btnText="Reset"
-                    variant="outline-secondary"
-                  />
-                )}
-              </div>
+                    type="submit"
+                    variant="primary"
+                    isSubmitting={isSubmitting}
+                    btnText={formTitles.btnTitle}
+                  />{" "}
+                  {formTitles.btnTitle === "Submit" && (
+                    <Custom_Button
+                      type="reset"
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  )}
+                </div>
+              ) : (
+                <LoadingButton
+                  variant="primary"
+                  btnText={disciplineobj.id === 0 ? "Submitting..." : "Updating..."}
+                  className="modal-buttons"
+                />
+              )}
             </Form>
           )}
         </Formik>
+        <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
       </Modal.Body>
     </Modal>
   );

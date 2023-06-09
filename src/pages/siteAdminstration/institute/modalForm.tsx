@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -7,15 +7,19 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/microservices";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const AddUserModal = ({
   show,
   onHide,
   userobj,
   togglemodalshow,
-  updateAddRefresh
+  updateAddRefresh,
 }: any) => {
-  // console.log(userobj);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   const initialValues = {
     name: userobj.name,
     userEmail: userobj.userEmail,
@@ -28,40 +32,65 @@ const AddUserModal = ({
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     name: Yup.string().trim().required(),
-    userEmail: Yup.string().email("Invalid email").required("Email is required"),
+    userEmail: Yup.string()
+      .email("Invalid email")
+      .required("Email is required"),
     shortCode: Yup.string().trim().required(),
     // lastName: Yup.string().min(1).trim().required(),
   });
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    console.log('formvalues', values);
+    console.log("formvalues", values);
+    setSubmitting(true);
     if (userobj.id === 0) {
       postData("/institutes", values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 201)) {
             togglemodalshow(false);
-            updateAddRefresh();
             setSubmitting(false);
+            updateAddRefresh();
             resetForm();
           }
         })
         .catch((err: any) => {
+          console.log(err)
+          setSubmitting(false);
           if (err.response.status === 404) {
-            window.alert(err.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: `Failed to add institute, ${err.response.data.message}.`,
+              alertBoxColor: "danger",
+            });
+          }
+          if (err.response.status === 400) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: `Failed to add institute, ${err.response.data.instanceUrl}.`,
+              alertBoxColor: "danger",
+            });
           }
         });
     } else {
+      setSubmitting(true);
       putData(`/institutes/${userobj.id}`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
-            updateAddRefresh();
             setSubmitting(false);
+            updateAddRefresh();
           }
         })
         .catch((err: any) => {
           console.log(err);
+          setSubmitting(false);
+          if (err.response.status === 500) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: `Failed to add institute, ${err.response.data.error}.`,
+              alertBoxColor: "danger",
+            });
+          }
         });
     }
   };
@@ -76,7 +105,7 @@ const AddUserModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {userobj.id === 0 ? "Add Institute" : "Update Institue"}
+            {userobj.id === 0 ? "Add Institute" : "Update Institute"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -105,17 +134,14 @@ const AddUserModal = ({
                     msgText="Name is Required"
                   />
                 </div>
-                <div className="mb-3">                  
+                <div className="mb-3">
                   <FieldLabel
                     htmlfor="userEmail"
                     labelText="User Email"
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText
-                    name="userEmail"
-                    placeholder="User Email"
-                  />
+                  <FieldTypeText name="userEmail" placeholder="User Email" />
                   <FieldErrorMessage
                     errors={errors.userEmail}
                     touched={touched.userEmail}
@@ -136,17 +162,39 @@ const AddUserModal = ({
                     msgText="Short Code is Required"
                   />
                 </div>
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
+                    <CustomButton
+                      type="submit"
+                      variant="primary"
+                      // isSubmitting={isSubmitting}
+                      btnText={userobj.id === 0 ? "Submit" : "Update"}
+                    />{" "}
+                    {userobj.id === 0 && (
+                      <CustomButton
+                        type="reset"
+                        btnText="Reset"
+                        variant="outline-secondary"
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <LoadingButton
                     variant="primary"
-                    // isSubmitting={isSubmitting}
-                    btnText={userobj.id === 0 ? "Save" : "Update"}
-                  />{" "}
-                </div>
+                    btnText={userobj.id === 0 ? "Submitting..." : "Updating..."}
+                    className="modal-buttons"
+                  />
+                )}
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>

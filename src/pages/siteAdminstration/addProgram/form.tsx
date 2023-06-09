@@ -27,6 +27,7 @@ import "sweetalert2/src/sweetalert2.scss";
 import FieldMultiSelect from "../../../widgets/formInputFields/multiSelect";
 import * as Yup from "yup";
 import './style.scss';
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 const steps = ['Step 1', 'Step 2'];
 
@@ -119,6 +120,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
+      setSubmitting(true)
       postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
@@ -135,6 +137,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         })
         .catch((err: any) => {
           console.log(err);
+          setSubmitting(false)
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -147,6 +150,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         });
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
+      setSubmitting(true)
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -163,6 +167,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         })
         .catch((err: any) => {
           console.log(err);
+          setSubmitting(false)
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -194,6 +199,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             touched,
             setValues,
             handleChange,
+            isSubmitting
           }) => (
             <Form>
               <div className="step-indicator">
@@ -455,6 +461,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
               )}
 
               {/*** Buttons ***/}
+              {
+                isSubmitting === false ? 
               <div className="button-group">
                 {step > 0 && (
                   <button type="button" className="btn btn-outline-secondary me-3" onClick={handlePreviousStep}>
@@ -470,12 +478,17 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   <div className="text-center">
                     <CustomButton
                       type="submit"
-                      btnText="Submit"
+                      btnText={programid == 0 ? "Submit" : "Update"}
                       variant="primary"
                     />{" "}
                   </div>
                 )}
-              </div>
+              </div> : <LoadingButton
+                  variant="primary"
+                  btnText={programid.id == 0 ? "Submitting..." : "Updating..."}
+                  className="modal-buttons"
+                />
+              }
             </Form>
           )}
         </Formik>

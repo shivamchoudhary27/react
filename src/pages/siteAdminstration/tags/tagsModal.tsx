@@ -11,6 +11,7 @@ import {
   putData as updateTagsData,
 } from "../../../adapters/microservices";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const tagsSchema = Yup.object({
@@ -24,7 +25,7 @@ const TagsModal = ({
   togglemodalshow,
   updateAddRefresh,
   tagObj,
-  currentInstitute
+  currentInstitute,
 }: any) => {
   const initialValues = {
     name: tagObj.name,
@@ -33,28 +34,33 @@ const TagsModal = ({
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    if(tagObj.id === 0){
+    if (tagObj.id === 0) {
       const endPoint = `/${currentInstitute}/tags`;
       setSubmitting(true);
       addTagsData(endPoint, values)
         .then((res: any) => {
           if (res.data != "") {
-            resetForm();
-            updateAddRefresh();
             togglemodalshow(false);
             setSubmitting(false);
+            updateAddRefresh();
+            resetForm();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to add tags! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to add tags! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
-    }else{
+    } else {
       const endPoint = `/${currentInstitute}/tags/${tagObj.id}`;
-      updateTagsData(endPoint, values).then((res: any)=>{
-        updateAddRefresh();
+      setSubmitting(true);
+      updateTagsData(endPoint, values).then((res: any) => {
         togglemodalshow(false);
+        setSubmitting(false);
+        updateAddRefresh();
       });
     }
   };
@@ -69,8 +75,7 @@ const TagsModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {/* {formTitles.titleHeading} */}
-            Add Tags
+            {tagObj.id === 0 ? "Add Tags" : "Update Tags"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -105,22 +110,28 @@ const TagsModal = ({
                   />
                 </div>
 
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
+                    <CustomButton
+                      type="submit"
+                      variant="primary"
+                      btnText={tagObj.id === 0 ? "Submit" : "Update"}
+                    />{" "}
+                    {tagObj.id === 0 && (
+                      <CustomButton
+                        type="reset"
+                        btnText="Reset"
+                        variant="outline-secondary"
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <LoadingButton
                     variant="primary"
-                    btnText="Add"
-                    //   isSubmitting={isSubmitting}
-                    //   btnText={formTitles.btnTitle}
-                  />{" "}
-                  {/* {formTitles.btnTitle === "Save" && ( */}
-                  <CustomButton
-                    type="reset"
-                    btnText="Reset"
-                    variant="outline-secondary"
+                    btnText={tagObj.id === 0 ? "Submitting..." : "Updating..."}
+                    className="modal-buttons"
                   />
-                  {/* )} */}
-                </div>
+                )}
               </Form>
             )}
           </Formik>

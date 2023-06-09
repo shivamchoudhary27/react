@@ -14,6 +14,7 @@ import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxFiel
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import Custom_Button from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({
@@ -50,7 +51,7 @@ const AddProgramModal = ({
   if (programtypeobj.id === 0) {
     formTitles = {
       titleHeading: "Add Program Type",
-      btnTitle: "Save",
+      btnTitle: "Submit",
     };
   } else {
     formTitles = {
@@ -61,38 +62,45 @@ const AddProgramModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    let endPoint = `/${currentInstitute}/program-types`;
     setSubmitting(true);
+    let endPoint = `/${currentInstitute}/program-types`;
     if (programtypeobj.id === 0) {
       addProgramData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
             togglemodalshow(false);
-            refreshprogramdata();
             setSubmitting(false);
+            refreshprogramdata();
             resetForm();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to add program! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to add program! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     } else {
       endPoint += `/${programtypeobj.id}`;
+      setSubmitting(true);
       putProgramData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
-            refreshprogramdata();
             setSubmitting(false);
+            refreshprogramdata();
             resetForm();
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setShowAlert(true)
-          setAlertMsg({ message: "Failed to update program! Please try again.", alertBoxColor: "danger" })
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to update program! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     }
   };
@@ -173,21 +181,31 @@ const AddProgramModal = ({
                 />
               </div>
 
-              <div className="modal-buttons">
-                <Custom_Button
-                  type="submit"
-                  variant="primary"
-                  isSubmitting={isSubmitting}
-                  btnText={formTitles.btnTitle}
-                />{" "}
-                {formTitles.btnTitle === "Save" && (
+              {isSubmitting === false ? (
+                <div className="modal-buttons">
                   <Custom_Button
-                    type="reset"
-                    btnText="Reset"
-                    variant="outline-secondary"
-                  />
-                )}
-              </div>
+                    type="submit"
+                    variant="primary"
+                    isSubmitting={isSubmitting}
+                    btnText={formTitles.btnTitle}
+                  />{" "}
+                  {formTitles.btnTitle === "Submit" && (
+                    <Custom_Button
+                      type="reset"
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  )}
+                </div>
+              ) : (
+                <LoadingButton
+                  variant="primary"
+                  btnText={
+                    programtypeobj.id === 0 ? "Submitting..." : "Updating..."
+                  }
+                  className="modal-buttons"
+                />
+              )}
               <Alert variant="primary" className="mt-3 small">
                 <strong>Note: </strong>If batch year is checked then it is
                 available on add program form.

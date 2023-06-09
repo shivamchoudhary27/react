@@ -10,7 +10,7 @@ const TimerAlertBox = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAlert(false);
-    }, 5000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
@@ -24,7 +24,7 @@ const TimerAlertBox = ({
           <Alert
             style={{textAlign:"center"}}
             variant={variant}
-            // onClose={() => setShowAlert(false)}
+            onClick={() => setShowAlert(false)}
             // dismissible
           >
             {alertMsg}

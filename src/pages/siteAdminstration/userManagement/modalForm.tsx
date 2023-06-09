@@ -11,6 +11,7 @@ import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/coreservices";
 // import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 const AddUserModal = ({
   show,
@@ -42,7 +43,7 @@ const AddUserModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    console.log(values);
+    setSubmitting(true);
     if (userobj.id === 0) {
       postData("/user/", values)
         .then((res: any) => {
@@ -56,16 +57,17 @@ const AddUserModal = ({
         .catch((err: any) => {
           console.log(err);
           if (err.response.status === 404) {
-            // window.alert(err.response.data.message);
+            setSubmitting(false);
             setShowAlert(true);
             setAlertMsg({
               message: `${err.response.data.message}. Please Sign up with a new email`,
-              alertBoxColor: "warning",
+              alertBoxColor: "danger",
             });
           }
         });
     } else {
-      putData(`/user/${userobj.id}`, values)
+      putData(`/user/${userobj.id}`, values);
+      setSubmitting(true)
         .then((res: any) => {
           if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
@@ -75,6 +77,7 @@ const AddUserModal = ({
         })
         .catch((err: any) => {
           console.log(err);
+          setSubmitting(true);
         });
     }
   };
@@ -93,13 +96,6 @@ const AddUserModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -174,31 +170,40 @@ const AddUserModal = ({
                   />
                 </div>
 
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
-                    variant="primary"
-                    disabled={isSubmitting}
-                    btnText={
-                      userobj.id === 0
-                        ? "Save"
-                        : isSubmitting
-                        ? "submitting"
-                        : "Update"
-                    }
-                  />{" "}
-                  {userobj.id === 0 && (
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
                     <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                      onClick={() => setShowAlert(false)}
-                    />
-                  )}
-                </div>
+                      type="submit"
+                      variant="primary"
+                      disabled={isSubmitting}
+                      btnText={userobj.id === 0 ? "Submit" : "Update"}
+                    />{" "}
+                    {userobj.id === 0 && (
+                      <CustomButton
+                        type="reset"
+                        btnText="Reset"
+                        variant="outline-secondary"
+                        onClick={() => setShowAlert(false)}
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <LoadingButton
+                    variant="primary"
+                    btnText="Submitting..."
+                    className="modal-buttons"
+                  />
+                )}
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>
