@@ -16,6 +16,8 @@ import { setHasChildProp, resetManageCourseObj } from "./local";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import CourseModal from "./courseModal";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const CourseManagment = () => {
   const navigate = useNavigate();
@@ -28,6 +30,7 @@ const CourseManagment = () => {
   const [modalShow, setModalShow] = useState(false);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
+  const [apiStatus, setApiStatus] = useState("");
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",
@@ -51,14 +54,17 @@ const CourseManagment = () => {
 
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
+    setApiStatus("started");
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCategoryData(res.data.items);
         }
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
+        setApiStatus("finished");
       });
   };
 
@@ -189,7 +195,7 @@ const CourseManagment = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
-          {sortedCategories.length !== 0 && (
+          {sortedCategories.length !== 0 ? (
             <CourseTable
               categoryData={sortedCategories}
               modalShow={modalShow}
@@ -204,7 +210,11 @@ const CourseManagment = () => {
               toggleCourseModal={toggleCourseModal}
               editHandlerById={editHandlerById}              
             />
-          )}
+            ) : apiStatus === "started" && categoryData.length === 0 ? (
+              <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+            ) : (
+              <Errordiv msg="No record found!" cstate className="mt-3" />
+            )}
         </Container>
         <CourseModal
           show={addCourseModal}

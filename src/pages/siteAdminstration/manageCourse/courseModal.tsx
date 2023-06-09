@@ -233,7 +233,7 @@ const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, re
                     type="submit"
                     variant="primary"
                     // isSubmitting={isSubmitting}
-                    btnText={courseobj.id === 0 ? "Save" : "Update"}
+                    btnText={courseobj.id === 0 ? "Submit" : "Update"}
                   />{" "}
                   {courseobj.id === 0 && (
                     <CustomButton

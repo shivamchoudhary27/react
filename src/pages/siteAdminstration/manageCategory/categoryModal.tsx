@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
@@ -5,13 +6,15 @@ import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import Custom_Button from "../../../widgets/formInputFields/buttons";
+import CustomButton from "../../../widgets/formInputFields/buttons";
 import {
   postData as addCategoriesData,
   putData,
 } from "../../../adapters/microservices";
 import { useParams } from "react-router-dom";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
@@ -33,31 +36,62 @@ const CategoryModal = ({
     name: editCategory.name,
     description: "",
   };
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    setSubmitting(true);
     if (editCategory.id === 0) {
       const endPoint = `${id}/category`;
-      let newData = {...values, parent : parent, weight : weight, level: -1};
-      addCategoriesData(endPoint, newData).then((res: any)=>{
-        if(res.data != "", res.status === 201){
-          refreshcategories();
-          toggleModalShow(false)
-        }
-      }).catch((err: any)=>{
-        console.log(err)
-      })
-    } else {
-      const endPoint = `${id}/category/${editCategory.id}`;
-      let updateValue = {...values, parent : editCategory.parent, weight : editCategory.weight, level: -1};
-
-      putData(endPoint, updateValue)
+      let newData = { ...values, parent: parent, weight: weight, level: -1 };
+      addCategoriesData(endPoint, newData)
         .then((res: any) => {
-          refreshcategories();
-          toggleModalShow(false);
+          if ((res.data != "" && res.status === 201)) {
+            toggleModalShow(false);
+            setSubmitting(false);
+            refreshcategories();
+          }
         })
         .catch((err: any) => {
-          window.alert("Some error occurred!");
+          console.log(err);
+          setSubmitting(false);
+          if(err.response.status === 500){
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${err.message}`,
+              alertBoxColor: "danger",
+            });  
+          }else{
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Failed to add category! Please try again.",
+              alertBoxColor: "danger",
+            });
+          }
+        });
+    } else {
+      const endPoint = `${id}/category/${editCategory.id}`;
+      let updateValue = {
+        ...values,
+        parent: editCategory.parent,
+        weight: editCategory.weight,
+        level: -1,
+      };
+      setSubmitting(true);
+      putData(endPoint, updateValue)
+        .then((res: any) => {
+          toggleModalShow(false);
+          setSubmitting(false);
+          refreshcategories();
+        })
+        .catch((err: any) => {
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to update category! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     }
     resetForm();
@@ -128,22 +162,37 @@ const CategoryModal = ({
                     </select>
                   </div>
                 )} */}
-                <div className="modal-buttons">
-                  <Custom_Button
-                    type="submit"
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
+                    <CustomButton
+                      type="submit"
+                      variant="primary"
+                      isSubmitting={isSubmitting}
+                      btnText="Submit"
+                    />{" "}
+                    <CustomButton
+                      type="reset"
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  </div>
+                ) : (
+                  <LoadingButton
                     variant="primary"
-                    isSubmitting={isSubmitting}
-                    btnText="Save"
-                  />{" "}
-                  <Custom_Button
-                    type="reset"
-                    btnText="Reset"
-                    variant="outline-secondary"
+                    btnText="Submitting..."
+                    className="modal-buttons"
                   />
-                </div>
+                )}
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           {/* <p>Parent: {parent === 0 ? "Top" : editCategory.name}</p> */}
           {/* <p>Weight: {weight}</p> */}
         </Modal.Body>
