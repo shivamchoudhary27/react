@@ -10,7 +10,7 @@ const TimerAlertBox = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAlert(false);
-    }, 3000);
+    }, 6000);
 
     return () => {
       clearTimeout(timer);

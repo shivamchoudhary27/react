@@ -46,10 +46,11 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
       .catch((err: any) => {
         setSubmitting(false);
         setShowAlert(true);
-            setAlertMsg({
-              message: `Failed to add institute configuration, ${err.response.data.error}.`,
-              alertBoxColor: "danger",
-            });
+        if (err.response.status === 404)
+          setAlertMsg({
+            message: `${err.response.data.message}.`,
+            alertBoxColor: "danger",
+          });
       });
   };
 
