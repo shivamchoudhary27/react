@@ -144,9 +144,16 @@ label {
 
 /**** Table Start ****/
 .table  {
-    border: 1px solid #ddd;
+    --bs-table-striped-bg: rgba(36, 117, 160, 0.05);
+    --bs-table-hover-bg: rgba(36, 117, 160, 0.05);
+    border: 1px solid #0D70E8;
+    background-image: url('../images/table-bg.svg');
+    background-position: left top;
+    background-repeat: repeat;
     thead tr {
-        background: linear-gradient(0deg, #2475A0 0%, #1B609D 52.08%);
+            background-color: #0F80EF;
+            background-image: url('../images/table-head-bg.svg');
+            background-repeat: repeat;
     }
     th {
         font-weight: 500;
