@@ -179,7 +179,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         });
     }
-    navigate("/manageprogram", { state: values });
+    // navigate("/manageprogram", { state: values });
   };
 
   return (
