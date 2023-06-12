@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import { deleteData as deleteTagData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
 
 const rawData = [
   {
@@ -32,10 +33,13 @@ const TagsTable = ({
   updateDeleteRefresh,
   editHandlerById,
   apiStatus,
-  currentInstitute
+  currentInstitute,
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
 
   const tableColumn = [
     {
@@ -82,14 +86,19 @@ const TagsTable = ({
     editHandlerById({ id, name });
   };
 
-  const deleteHandler = (id: number) => {
-    updateDeleteRefresh(false);
-    if (window.confirm("Are you sure you want to delete?")) {
-      let endPoint = `${currentInstitute}/tags/${id}`;
+  useEffect(() => {
+    if (onDeleteAction === "Yes") {
+      let endPoint = `${currentInstitute}/tags/${deleteId}`;
       deleteTagData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             updateDeleteRefresh(true);
+            setShowAlert(true);
+            setAlertMsg({
+              message:
+                "Deleted successfully",
+              alertBoxColor: "success",
+            });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
@@ -115,17 +124,24 @@ const TagsTable = ({
           }
         });
     }
+    setOnDeleteAction("");
+  }, [onDeleteAction]);
+
+  const deleteHandler = (id: number) => {
+    updateDeleteRefresh(false);
+    setShowDeleteModal(true);
+    setDeleteId(id);
+  };
+
+  // getting onDelete Modal Action === >>>
+  const deleteActionResponse = (action: string) => {
+    console.log(action);
+    setOnDeleteAction(action);
+    setShowDeleteModal(false);
   };
 
   return (
     <>
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      />
       <div className="table-wrapper mt-3">
         <Table borderless striped hover {...getTableProps}>
           <thead>
@@ -162,6 +178,19 @@ const TagsTable = ({
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
+      <DeleteAlert
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        deleteActionResponse={deleteActionResponse}
+        modalHeading="Tag"
+      />
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
     </>
   );
 };

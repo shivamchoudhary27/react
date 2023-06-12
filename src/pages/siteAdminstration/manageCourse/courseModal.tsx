@@ -12,25 +12,33 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import { getData, postData, putData } from "../../../adapters/microservices";
 import { getChildren, updateCategoryLevels } from "./utils";
 import { setHasChildProp } from "./local";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
-    name: Yup.string().trim().required(),
-    courseCode: Yup.string().trim().required(),
-    category: Yup.string().required(),
-    // description: Yup.string().max(100).required(),
-  });
+  name: Yup.string().trim().required(),
+  courseCode: Yup.string().trim().required(),
+  category: Yup.string().required(),
+  // description: Yup.string().max(100).required(),
+});
 
-const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, refreshcategories }: any) => {
-    
-    const [courseDetail, setCourseDetails] = useState({});
-    const [categorieslist, setCategoriesList] = useState([]);
-    const [filteredCategories, setFilterCategories] = useState([]);
-    const [filterUpdate, setFilterUpdate] = useState({
-        pageNumber: 0,
-        // pageSize: pagination.PERPAGE,
-        pageSize: 100,
-      });
+const CourseModal = ({
+  show,
+  onHide,
+  courseobj,
+  programId,
+  toggleCourseModal,
+  refreshcategories,
+}: any) => {
+  const [courseDetail, setCourseDetails] = useState({});
+  const [categorieslist, setCategoriesList] = useState([]);
+  const [filteredCategories, setFilterCategories] = useState([]);
+  const [filterUpdate, setFilterUpdate] = useState({
+    pageNumber: 0,
+    // pageSize: pagination.PERPAGE,
+    pageSize: 100,
+  });
   const [initValues, setInitValues] = useState({
     id: "",
     name: "",
@@ -39,18 +47,20 @@ const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, re
     description: "",
     published: false,
   });
-  
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
   // Get category Data from API === >>
   useEffect(() => {
     // if (courseobj.id > 0) {
-      setInitValues({
-        id: courseobj.id,
-        name: courseobj.name,
-        courseCode: courseobj.courseCode,
-        description: courseobj.description,
-        published: courseobj.published,
-        category: courseobj.category,
-      });
+    setInitValues({
+      id: courseobj.id,
+      name: courseobj.name,
+      courseCode: courseobj.courseCode,
+      description: courseobj.description,
+      published: courseobj.published,
+      category: courseobj.category,
+    });
     // }
   }, [courseobj]);
 
@@ -95,35 +105,50 @@ const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, re
       setFilterCategories(filteredArr);
     }
   }, [categorieslist]);
-  
+
   // handle Form CRUD operations === >>>
-  const handleFormData = (values : {}, { setSubmitting, resetForm } : any) => {
+  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    setSubmitting(true);
     let requestData = { ...values, category: { id: values.category } };
     if (courseobj.id == 0) {
       const endPoint = `${programId}/course`;
-      postData(endPoint, requestData).then((res : any)=>{
-        if(res.status === 201){
-          // window.alert('Course created successfully');
-        }
-        toggleCourseModal(false);
-        refreshcategories()
-      }).catch((err : any)=>{
-        console.log(err)
-      })
+      postData(endPoint, requestData)
+        .then((res: any) => {
+          if (res.status === 201) {
+            // window.alert('Course created successfully');
+          }
+          toggleCourseModal(false);
+          setSubmitting(false);
+          refreshcategories();
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to add course! Please try again.",
+            alertBoxColor: "danger",
+          });
+        });
     } else {
       const endPoint = `${programId}/course/${courseobj.id}`;
-
+      setSubmitting(true);
       putData(endPoint, requestData)
-        .then((res : any) => {
+        .then((res: any) => {
           if (res.status === 200) {
             // window.alert("Update succesful");
           }
           toggleCourseModal(false);
+          setSubmitting(true);
           refreshcategories();
         })
-        .catch((err : any) => {
-          window.alert("Some error occurred!");
+        .catch((err: any) => {
+          setSubmitting(true);
           toggleCourseModal(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "Failed to add course! Please try again.",
+            alertBoxColor: "danger",
+          });
         });
     }
     // resetForm();
@@ -170,7 +195,8 @@ const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, re
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="courseCode"
-                    labelText="Course Code"number
+                    labelText="Course Code"
+                    number
                     required="required"
                   />
                   <FieldTypeText name="courseCode" placeholder="Course Code" />
@@ -228,24 +254,41 @@ const CourseModal = ({ show, onHide, courseobj, programId, toggleCourseModal, re
                     msgText="Please Check Required Field"
                   />
                 </div>
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
-                    variant="primary"
-                    // isSubmitting={isSubmitting}
-                    btnText={courseobj.id === 0 ? "Submit" : "Update"}
-                  />{" "}
-                  {courseobj.id === 0 && (
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
                     <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  )}
-                </div>
+                      type="submit"
+                      variant="primary"
+                      // isSubmitting={isSubmitting}
+                      btnText={courseobj.id === 0 ? "Submit" : "Update"}
+                    />{" "}
+                    {courseobj.id === 0 && (
+                      <CustomButton
+                        type="reset"
+                        btnText="Reset"
+                        variant="outline-secondary"
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <LoadingButton
+                    variant="primary"
+                    btnText={
+                      courseobj.id === 0 ? "Submitting..." : "Updating..."
+                    }
+                    className="modal-buttons"
+                  />
+                )}
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         </Modal.Body>
       </Modal>
     </React.Fragment>

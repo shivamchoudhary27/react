@@ -1,10 +1,12 @@
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { deleteData as deleteProgramData } from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -17,15 +19,16 @@ const ManageTable = ({
   programData,
   refreshOnDelete,
   apiStatus,
-  currentInstitute
+  currentInstitute,
 }: any) => {
-
   const tableColumn = [
     {
       Header: "Name",
       accessor: "name",
       Cell: ({ row }: any) => (
-        <Link to={createPreviewLink(row.original.id, row.original.instituteId)}>{row.original.name}</Link>
+        <Link to={createPreviewLink(row.original.id, row.original.instituteId)}>
+          {row.original.name}
+        </Link>
       ),
     },
     {
@@ -64,7 +67,9 @@ const ManageTable = ({
           <Link to="">
             <i
               className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.id, row.original.instituteId)}
+              onClick={() =>
+                deleteHandler(row.original.id, row.original.instituteId)
+              }
             ></i>
           </Link>
           <Link to="">
@@ -85,35 +90,70 @@ const ManageTable = ({
       columns,
       data,
     });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState({ id: 0, instituteId: 0 });
 
-  const createPreviewLink = (id: number, instituteId : number) => {
+  const createPreviewLink = (id: number, instituteId: number) => {
     return `/programpreview/${id}?institute=${instituteId}`;
   };
 
-  const createEditLink = (id: number, instituteId : number) => {
+  const createEditLink = (id: number, instituteId: number) => {
     return `/addprogram/${id}?institute=${instituteId}`;
   };
 
-  const deleteHandler = (id: number, instituteId : number) => {
-    refreshOnDelete(false);
-    if (window.confirm("Are you sure to delete this department?")) {
-      let endPoint = `/${instituteId}/programs/${id}`;
+  useEffect(() => {
+    if (onDeleteAction === "Yes") {
+      let endPoint = `/${deleteId.instituteId}/programs/${deleteId.id}`;
       deleteProgramData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Deleted successfully",
+              alertBoxColor: "success",
+            });
           } else if (res.status === 500) {
-            window.alert("Unable to delete, some error occured");
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete, some error occurred.",
+              alertBoxColor: "danger",
+            });
           }
         })
         .catch((result: any) => {
           if (result.response.status === 400) {
-            window.alert(result.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: result.response.data.message,
+              alertBoxColor: "danger",
+            });
           } else if (result.response.status === 500) {
-            window.alert(result.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: result.response.data.message,
+              alertBoxColor: "danger",
+            });
           }
         });
     }
+    setOnDeleteAction("");
+  }, [onDeleteAction]);
+
+  const deleteHandler = (id: number, instituteId: number) => {
+    refreshOnDelete(false);
+    setShowDeleteModal(true);
+    setDeleteId({ id: id, instituteId: instituteId });
+  };
+
+  // getting onDelete Modal Action === >>>
+  const deleteActionResponse = (action: string) => {
+    console.log(action);
+    setOnDeleteAction(action);
+    setShowDeleteModal(false);
   };
 
   return (
@@ -155,6 +195,19 @@ const ManageTable = ({
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
+      <DeleteAlert
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        deleteActionResponse={deleteActionResponse}
+        modalHeading="Program"
+      />
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
     </>
   );
 };
