@@ -26,7 +26,7 @@ const DeleteAlert = ({
             Delete {modalHeading}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are tou sure, you want to delete!</Modal.Body>
+        <Modal.Body>Are you sure, you want to delete!</Modal.Body>
         <Modal.Footer>
           <Button variant="primary" onClick={(e) => deleteHandler(e)}>
             Yes
