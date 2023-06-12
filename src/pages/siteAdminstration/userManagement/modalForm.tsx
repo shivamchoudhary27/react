@@ -66,8 +66,8 @@ const AddUserModal = ({
           }
         });
     } else {
-      putData(`/user/${userobj.id}`, values);
       setSubmitting(true)
+      putData(`/user/${userobj.id}`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
@@ -190,7 +190,7 @@ const AddUserModal = ({
                 ) : (
                   <LoadingButton
                     variant="primary"
-                    btnText="Submitting..."
+                    btnText={userobj.id === 0 ? "Submitting..." : "Updating"}
                     className="modal-buttons"
                   />
                 )}

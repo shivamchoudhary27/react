@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { deleteData as deleteDisciplineData } from "../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -27,6 +28,9 @@ const DiciplineTable = ({
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
 
   // custom react table column === >>>
   const tableColumn = [
@@ -67,7 +71,7 @@ const DiciplineTable = ({
           <Link to="">
             <i
               className="fa-solid fa-eye"
-              onClick={() => showToggleHandler(row.original.id)}
+              // onClick={() => showToggleHandler(row.original.id)}
             ></i>
           </Link>
         </span>
@@ -91,19 +95,17 @@ const DiciplineTable = ({
     refreshDisciplineData();
   };
 
-  // delete event handler === >>>
-  const deleteHandler = (id: number) => {
-    refreshOnDelete(false);
-    if (window.confirm("Are you sure to delete this discipline?")) {
-      let endpoint = `${currentInstitute}/disciplines/${id}`;
+  useEffect(() => {
+    if (onDeleteAction === "Yes") {
+      let endpoint = `${currentInstitute}/disciplines/${deleteId}`;
       deleteDisciplineData(endpoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
             setShowAlert(true);
             setAlertMsg({
-              message: "Deleted successfuly.",
-              alertBoxColor: "primary",
+              message: "Deleted successfully.",
+              alertBoxColor: "success",
             });
           } else if (res.status === 500) {
             setShowAlert(true);
@@ -129,22 +131,25 @@ const DiciplineTable = ({
           }
         });
     }
+    setOnDeleteAction("");
+  }, [onDeleteAction]);
+
+  // delete event handler === >>>
+  const deleteHandler = (id: number) => {
+    refreshOnDelete(false);
+    setShowDeleteModal(true);
+    setDeleteId(id);
   };
 
-  // hide show toggle event handler === >>>
-  const showToggleHandler = (id: number) => {
-    console.log(id);
+  // getting onDelete Modal Action === >>>
+  const deleteActionResponse = (action: string) => {
+    console.log(action);
+    setOnDeleteAction(action);
+    setShowDeleteModal(false);
   };
 
   return (
     <>
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      />
       <div className="table-wrapper mt-3">
         <Table borderless striped hover {...getTableProps}>
           <thead>
@@ -180,6 +185,19 @@ const DiciplineTable = ({
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
+      <DeleteAlert
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        deleteActionResponse={deleteActionResponse}
+        modalHeading="Discipline"
+      />
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
     </>
   );
 };
