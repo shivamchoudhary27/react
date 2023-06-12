@@ -12,6 +12,7 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
+import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -19,12 +20,11 @@ const UserManagement = () => {
   const [uploadModalShow, setUploadModalShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [userObj, setUserObj] = useState({
-    username: "",
-    password: "",
-    firstname: "",
-    lastname: "",
-    email: "",
-    country: "",
+    id : 0,
+    userFirstName: "",
+    userLastName: "",
+    userEmail: "",
+    userCountry: "",
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -33,11 +33,13 @@ const UserManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
+  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   // get programs API call === >>>
   useEffect(() => {
-    if (refreshOnDelete === true) {
-      getData("/user/all_users", filterUpdate)
+    if (refreshOnDelete === true && currentInstitute > 0) {
+      getData(`/${currentInstitute}/users`, filterUpdate)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length < 1) {
@@ -54,8 +56,9 @@ const UserManagement = () => {
 
   // get programs API call === >>>
   useEffect(() => {
+    if (currentInstitute > 0)
     setApiStatus("started");
-    getData("/user/all_users", filterUpdate)
+    getData(`/${currentInstitute}/users`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
@@ -69,9 +72,7 @@ const UserManagement = () => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [refreshData, filterUpdate]);
-
-  console.log(apiStatus);
+  }, [refreshData, filterUpdate, currentInstitute]);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -88,21 +89,21 @@ const UserManagement = () => {
   const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
       let updatedState = { ...filterUpdate, pageNumber: 0 };
-      if (updatedState.firstName !== undefined) delete updatedState.firstName;
-      if (updatedState.lastName !== undefined) delete updatedState.lastName;
-      if (updatedState.email !== undefined) delete updatedState.email;
+      if (updatedState.userFirstName !== undefined) delete updatedState.userFirstName;
+      if (updatedState.userLastName !== undefined) delete updatedState.userLastName;
+      if (updatedState.userEmail !== undefined) delete updatedState.userEmail;
 
       setFilterUpdate(updatedState);
     } else {
-      const { firstName, email } = newFilterRequest;
+      const { userFirstName, userEmail } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
         pageNumber: 0,
         ...newFilterRequest,
       };
 
-      if (email === "") delete updatedState.email;
-      if (firstName === "") delete updatedState.firstName;
+      if (userEmail === "") delete updatedState.userEmail;
+      if (userFirstName === "") delete updatedState.userFirstName;
 
       setFilterUpdate(updatedState);
     }
@@ -120,21 +121,17 @@ const UserManagement = () => {
   // get id, name from the department table === >>>
   const editHandlerById = ({
     id,
-    username,
-    password,
-    firstname,
-    lastname,
-    email,
-    country,
+    userFirstName,
+    userLastName,
+    userEmail,
+    userCountry,
   }: any) => {
     setUserObj({
       id: id,
-      username: username,
-      password: password,
-      firstname: firstname,
-      lastname: lastname,
-      email: email,
-      country: country,
+      userFirstName: userFirstName,
+      userLastName: userLastName,
+      userEmail: userEmail,
+      userCountry: userCountry,
     });
   };
 
@@ -143,15 +140,21 @@ const UserManagement = () => {
     toggleModalShow(true);
     setUserObj({
       id: 0,
-      username: "",
-      password: "",
-      firstname: "",
-      lastname: "",
-      email: "",
-      country: "",
+      userFirstName: "",
+      userLastName: "",
+      userEmail: "",
+      userCountry: "",
     });
     // setRefreshData(false);
   };
+
+  const updateCurrentInstitute = (instituteId : number) => {
+    setCurrentInstitute(instituteId);
+  }
+
+  const updateInstituteName = (instituteName : string) => {
+    setCurrentInstituteName(instituteName)
+  }
 
   return (
     <React.Fragment>
@@ -165,6 +168,14 @@ const UserManagement = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
+          <div className="row gx-2 mb-3 align-items-center justify-content-center">
+            <div className="col-auto">
+              <label className="col-form-label">Institute : </label>
+            </div>
+            <div className="col-auto">
+              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
+            </div>
+          </div>
           <PageTitle pageTitle="User Management" gobacklink="/siteadmin" />
           <Filter
             updatefilters={updateSearchFilters}
@@ -177,6 +188,7 @@ const UserManagement = () => {
             editHandlerById={editHandlerById}
             toggleModalShow={toggleModalShow}
             apiStatus={apiStatus}
+            currentInstitute={currentInstitute}
           />
           <BuildPagination
             totalpages={userData.pager.totalPages}
@@ -190,6 +202,7 @@ const UserManagement = () => {
         onHide={() => setUploadModalShow(false)}
         setUploadModalShow={setUploadModalShow}
         updateAddRefresh={refreshToggle}
+        currentInstitute={currentInstitute}
       />
       <AddUserModal
         show={modalShow}
@@ -197,6 +210,7 @@ const UserManagement = () => {
         userobj={userObj}
         togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
+        currentInstitute={currentInstitute}
       />
       <Footer />
     </React.Fragment>

@@ -7,7 +7,8 @@ const FieldTypeSelect = ({
     currentformvalue,
     as="select",
     className="form-control",
-    emptyOption=false
+    emptyOption=false,
+    selectDefaultLabel=""
 }: any) => {
 
   const updateFieldCheckedStatus = (e : any) => { 
@@ -29,7 +30,12 @@ const FieldTypeSelect = ({
   return (
     <>
       <Field as={as} name={name} className={className} onChange={updateFieldCheckedStatus}>
-        {emptyOption === false && <option value="0">Select {name.charAt(0).toUpperCase() + name.slice(1)}</option>}
+        {emptyOption === false && 
+          <option value="0">
+            Select{" "}
+            {selectDefaultLabel !== "" ? selectDefaultLabel : name.charAt(0).toUpperCase() + name.slice(1)}
+          </option>
+        }
         {
           options.map((el: any, index: number)=>(
               <option value={el.id} key={index}>

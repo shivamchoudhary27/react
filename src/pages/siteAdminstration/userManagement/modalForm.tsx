@@ -19,33 +19,33 @@ const AddUserModal = ({
   userobj,
   togglemodalshow,
   updateAddRefresh,
+  currentInstitute
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const initialValues = {
-    username: userobj.username,
-    lastName: userobj.lastname,
-    firstName: userobj.firstname,
-    email: userobj.email,
-    password: userobj.password,
-    country: userobj.country,
-    shouldValidatePassword: userobj.id > 0 ? false : true,
+    userFirstName: userobj.userFirstName,
+    userLastName: userobj.userLastName,
+    userEmail: userobj.userEmail,
+    userCountry: userobj.userCountry,
+    // shouldValidatePassword: userobj.id > 0 ? false : true,
   };
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    email: Yup.string().email("Invalid email").required("Email is required"),
-    firstName: Yup.string().min(1).trim().required(),
-    lastName: Yup.string().min(1).trim().required(),
-    country: Yup.string().required(),
+    userEmail: Yup.string().email("Invalid email").required("Email is required"),
+    userFirstName: Yup.string().min(1).trim().required(),
+    userLastName: Yup.string().min(1).trim().required(),
+    userCountry: Yup.string().required(),
   });
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     if (userobj.id === 0) {
-      postData("/user/", values)
+      console.log('in here post')
+      postData(`/${currentInstitute}/users`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 201)) {
             togglemodalshow(false);
@@ -67,7 +67,7 @@ const AddUserModal = ({
         });
     } else {
       setSubmitting(true)
-      putData(`/user/${userobj.id}`, values)
+      putData(`/${currentInstitute}/users/${userobj.id}`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
@@ -109,63 +109,64 @@ const AddUserModal = ({
               <Form>
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="firstName"
+                    htmlfor="userFirstName"
                     labelText="First Name"
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText name="firstName" placeholder="First Name" />
+                  <FieldTypeText name="userFirstName" placeholder="First Name" />
                   <FieldErrorMessage
-                    errors={errors.firstName}
-                    touched={touched.firstName}
+                    errors={errors.userFirstName}
+                    touched={touched.userFirstName}
                     msgText="Firstname is required"
                   />
                 </div>
 
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="lastName"
+                    htmlfor="userLastName"
                     labelText="Last Name"
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText name="lastName" placeholder="Last Name" />
+                  <FieldTypeText name="userLastName" placeholder="Last Name" />
                   <FieldErrorMessage
-                    errors={errors.lastName}
-                    touched={touched.lastName}
+                    errors={errors.userLastName}
+                    touched={touched.userLastName}
                     msgText="Lastname is required"
                   />
                 </div>
 
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="email"
+                    htmlfor="userEmail"
                     labelText="Email"
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText name="email" placeholder="Email" />
+                  <FieldTypeText name="userEmail" placeholder="Email" />
                   <FieldErrorMessage
-                    errors={errors.email}
-                    touched={touched.email}
+                    errors={errors.userEmail}
+                    touched={touched.userEmail}
                     msgText="Email is required"
                   />
                 </div>
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="country"
+                    htmlfor="userCountry"
                     labelText="Country"
                     required="required"
                   />
                   <FieldTypeSelect
-                    name="country"
+                    name="userCountry"
                     options={CountryList}
                     setcurrentvalue={setValues}
                     currentformvalue={values}
+                    selectDefaultLabel={"Country"}
                   />
                   <FieldErrorMessage
-                    errors={errors.country}
-                    touched={touched.country}
+                    errors={errors.userCountry}
+                    touched={touched.userCountry}
                     msgText="Please select country"
                   />
                 </div>

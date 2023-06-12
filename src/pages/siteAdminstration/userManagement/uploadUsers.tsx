@@ -16,7 +16,7 @@ const UploadNewUsers = ({
   onHide,
   setUploadModalShow,
   updateAddRefresh,
-  courseid,
+  currentInstitute
 }: any) => {
   const [uploadResponse, setUploadresponse] = React.useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -25,9 +25,8 @@ const UploadNewUsers = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     setUploadresponse("");
-    postData(`/user/upload`, {}, values.file)
+    postData(`/${currentInstitute}/users/upload`, {}, values.file)
       .then((res: any) => {
-        console.log("res", res);
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {

@@ -22,6 +22,7 @@ const UserManagementTable = ({
   toggleModalShow,
   editHandlerById,
   apiStatus,
+  currentInstitute
 }: any) => {
   console.log(apiStatus);
   const tableColumn = [
@@ -29,15 +30,15 @@ const UserManagementTable = ({
       Header: "Name",
       accessor: "name",
       Cell: ({ row }: any) =>
-        `${row.original.firstName} ${row.original.lastName}`,
+        `${row.original.userFirstName} ${row.original.userLastName}`,
     },
     {
       Header: "Email",
-      accessor: "email",
+      accessor: "userEmail",
     },
     {
       Header: "Country",
-      Cell: ({row} :any) => (searchCountryNameById(row.original.country))
+      Cell: ({row} :any) => (searchCountryNameById(row.original.userCountry))
     },
     {
       Header: "Actions",
@@ -48,13 +49,11 @@ const UserManagementTable = ({
               className="fa-solid fa-pen"
               onClick={() =>
                 editHandler({
-                  id: row.original.id,
-                  username: row.original.username,
-                  password: row.original.password,
-                  firstname: row.original.firstName,
-                  lastname: row.original.lastName,
-                  email: row.original.email,
-                  country: row.original.country,
+                  id: row.original.userId,
+                  userFirstName: row.original.userFirstName,
+                  userLastName: row.original.userLastName,
+                  userEmail: row.original.userEmail,
+                  userCountry: row.original.userCountry,
                 })
               }
             ></i>
@@ -62,7 +61,7 @@ const UserManagementTable = ({
           <Link to="">
             <i
               className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.id)}
+              onClick={() => deleteHandler(row.original.userId)}
             ></i>
           </Link>
         </span>
@@ -87,7 +86,7 @@ const UserManagementTable = ({
   useEffect(()=>{
     if (onDeleteAction === "Yes") {
       refreshdata(false);
-      let endPoint = `/user/${deleteId}`;
+      let endPoint = `/${currentInstitute}/users/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
           if (res.status === 200) {
@@ -140,22 +139,18 @@ const UserManagementTable = ({
   // edit event handler === >>>
   const editHandler = ({
     id,
-    username,
-    password,
-    firstname,
-    lastname,
-    email,
-    country,
+    userFirstName,
+    userLastName,
+    userEmail,
+    userCountry,
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
-      username,
-      password,
-      firstname,
-      lastname,
-      email,
-      country,
+      userFirstName,
+      userLastName,
+      userEmail,
+      userCountry,
     });
     // refreshDepartmentData();
   };
