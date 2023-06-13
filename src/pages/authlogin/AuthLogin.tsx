@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
-import "sweetalert2/src/sweetalert2.scss";
 import UserContext from "../../features/context/user/user";
 import config from "../../utils/config";
 import { createAxiosInstance } from "../../adapters/microservices/utils";

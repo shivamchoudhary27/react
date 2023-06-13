@@ -23,7 +23,8 @@ const EnrolUserTable = ({
   setEditCategoryValues,
   refreshcategories,
   cleanFormValues,
-  apiStatus
+  apiStatus,
+  name
 }: any) => {
   const navigate = useNavigate();
 
@@ -72,7 +73,7 @@ const EnrolUserTable = ({
           {
             (row.original.coursename !== undefined) &&
 
-            <Link to={`/courseenrollment/${programId}/${row.original.id}/${row.original.coursename}`}>
+            <Link to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}>
               <Button>Enrol Users</Button>
               {/* <i className="fa-solid fa-pen" onClick={() => enrolToCourses(row.original.id)}></i> */}
             </Link>

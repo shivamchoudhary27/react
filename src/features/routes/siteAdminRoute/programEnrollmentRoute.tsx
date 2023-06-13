@@ -19,8 +19,8 @@ const ProgramEnrollmentRoute = () => {
     <Route path="/manageprogramenrollment/:programid/:programname" key="manageprogramenrollment" element={<ManageProgramEnrollment />} />,
     <Route path="/enrolusertoprogram/:programid/:userid/:name" key="enrolusertoprogram" element={<EnrolUserToProgram />} />,
     <Route path="/enrolusers/:id/:name" key="enrolusers" element={<EnrolUsers />} />,
-    <Route path="/courseenrollment/:programid/:courseid/:coursename" key="courseenrollment" element={<CourseEnrollment />}/>,
-    <Route path="/managegroups/:programid/:courseid/:coursename" key="managegroups" element={<ManageGroups />} />,
+    <Route path="/courseenrollment/:programid/:name/:courseid/:coursename" key="courseenrollment" element={<CourseEnrollment />}/>,
+    <Route path="/managegroups/:programid/:name/:courseid/:coursename" key="managegroups" element={<ManageGroups />} />,
   ]
 }
 

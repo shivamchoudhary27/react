@@ -18,7 +18,7 @@ import "./style.scss";
 
 const CourseEnrollment = () => {
   const navigate = useNavigate();
-  const { programid, courseid, coursename } = useParams();
+  const { programid, name, courseid, coursename } = useParams();
   const parsedCourseid = parseInt(courseid);
   const dummyData = {
     items: [],
@@ -194,7 +194,7 @@ const CourseEnrollment = () => {
   const DISCIPLINE_BUTTONS = (
     <>
       <div className="site-button-group mb-3">
-        <Button variant="primary" size="sm" onClick={() => navigate(`/managegroups/${programid}/${courseid}/${coursename}`)}>
+        <Button variant="primary" size="sm" onClick={() => navigate(`/managegroups/${programid}/${name}/${courseid}/${coursename}`)}>
           Manage Groups
         </Button>{" "}
         <Button variant="primary" size="sm" onClick={openAddDiscipline}>
@@ -224,15 +224,14 @@ const CourseEnrollment = () => {
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Program Enrollment", path: "/programenrollment" },
-              { name: "Manage Program Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
-              { name: programName, path: `/enrolusers/${programid}/${programName}` },
+              { name: name, path: `/enrolusers/${programid}/${name}`},
               { name: coursename, path: "" },       
             ]}
           />
         <div className="contentarea-wrapper mt-3">
           <Container fluid>
           <PageTitle 
-            pageTitle ={`Course: ${coursename}`} gobacklink = {`/enrolusers/${programid}/${programName}`}
+            pageTitle ={`Course: ${coursename}`} gobacklink = {`/enrolusers/${programid}/${name}`}
           />
             {DISCIPLINE_BUTTONS}
             {DISCIPLINE_TABLE_COMPONENT}
