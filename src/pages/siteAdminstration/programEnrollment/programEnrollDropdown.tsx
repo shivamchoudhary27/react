@@ -8,7 +8,7 @@ const ProgramEnrollDropdown = ({updateDepartment}: any) => {
 
   // department API call === >>>
   useEffect(() => {
-    makeGetDataRequest('/departments', filters, setDepartmentData);
+    makeGetDataRequest('/1/departments', filters, setDepartmentData);
   }, []);
 
   const getCurrentValue = (e : any) => {
