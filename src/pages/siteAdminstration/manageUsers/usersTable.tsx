@@ -1,10 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { deleteData } from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -78,6 +80,11 @@ const UsersTable = ({
       columns,
       data,
     });
+    const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
 
   // edit event handler === >>>
   const createEditLink = (id: number) => {
@@ -97,28 +104,60 @@ const UsersTable = ({
     editHandlerById(id, email, roleNo, role);
   };
 
-  const deleteHandler = (userid: number) => {
-    if (window.confirm("Are you sure to delete this user?")) {
+  useEffect(()=>{
+    if (onDeleteAction === "Yes") {
       refreshdata(false);
-      let endPoint = `/program/${programid}/enrol-user/${userid}`;
+      let endPoint = `/program/${programid}/enrol-user/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
           console.log(res);
           if (res.status === 200) {
             refreshdata(true);
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Deleted successfully!",
+              alertBoxColor: "success",
+            });
           } else if (res.status === 500) {
-            window.alert("Unable to delete, some error occured");
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete, some error occured",
+              alertBoxColor: "success",
+            });
           }
         })
         .catch((result: any) => {
           if (result.response.status === 400) {
-            window.alert(result.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: result.response.data.message,
+              alertBoxColor: "success",
+            });
           } else if (result.response.status === 500) {
-            window.alert(result.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: result.response.data.message,
+              alertBoxColor: "success",
+            });
           }
         });
     }
+    setOnDeleteAction("");
+  }, [onDeleteAction])
+
+  const deleteHandler = (userid: number) => {
+    refreshdata(false);
+    setShowDeleteModal(true);
+    setDeleteId(userid);
   };
+
+  // getting onDelete Modal Action === >>>
+  const deleteActionResponse = (action: string) => {
+    console.log(action);
+    setOnDeleteAction(action);
+    setShowDeleteModal(false);
+  };
+
   return (
     <React.Fragment>
       <div className="table-wrapper mt-3">
@@ -156,6 +195,19 @@ const UsersTable = ({
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
+      <DeleteAlert
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        deleteActionResponse={deleteActionResponse}
+        modalHeading="User"
+      />
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
     </React.Fragment>
   );
 };
