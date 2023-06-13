@@ -7,7 +7,6 @@ import Tags from '../../../pages/siteAdminstration/tags'
 import AddProgram from '../../../pages/siteAdminstration/addProgram'
 import ManageCategory from '../../../pages/siteAdminstration/manageCategory'
 import CourseManagment from '../../../pages/siteAdminstration/manageCourse'
-import AddCourseForm from '../../../pages/siteAdminstration/manageCourse/form'
 import Preview from '../../../pages/siteAdminstration/manageProgram/preview'
 
 const ProgramManagementRoute = () => {
@@ -20,7 +19,6 @@ const ProgramManagementRoute = () => {
     <Route path="/addprogram/:id" key="addprogram" element={<AddProgram />} />,
     <Route path="/managecategory/:id/:name" key="managecategory" element={<ManageCategory />} />,
     <Route path="/managecourses/:id/:name" key="managecourses" element={<CourseManagment />} />,
-    <Route path="/courseform/:progid/:catid/:courseid" key="courseform" element={<AddCourseForm />} />,
     <Route path="/programpreview/:id" key="programpreview" element={<Preview />} />,
   ];
 };

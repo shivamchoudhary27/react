@@ -30,26 +30,6 @@ const TimeTable = () => {
     pageSize: pagination.PERPAGE,
   });
 
-  // useEffect(() => {
-  //   if (refreshOnDelete === true)
-  //     makeGetDataRequest(
-  //       "/departments",
-  //       filterUpdate,
-  //       setDepartmentData,
-  //       setApiStatus
-  //     );
-  // }, [refreshOnDelete]);
-
-  // // get programs API call === >>>
-  // useEffect(() => {
-  //   makeGetDataRequest(
-  //     "/departments",
-  //     filterUpdate,
-  //     setDepartmentData,
-  //     setApiStatus
-  //   );
-  // }, [refreshData, filterUpdate]);
-
   const refreshToggle = () => {
     setRefreshData(!refreshData);
   };

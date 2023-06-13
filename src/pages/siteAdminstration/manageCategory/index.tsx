@@ -2,19 +2,17 @@ import React, { useState, useEffect } from "react";
 import HeaderTabs from "../../headerTabs";
 import Footer from "../../newFooter";
 import Header from "../../newHeader";
-// import Sidebar from "../../sidebar";
-import { Container, Button } from "react-bootstrap";
-import CategoryTable from "./categoryTable";
-import Addcategory from "./addcategory";
-import { useNavigate, useParams } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import CategoryTable from "./table";
+import Addcategory from "./addCategory";
+import { useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
 } from "./utils";
-// import { pagination } from "../../../utils/pagination";
-import CategoryModal from "./categoryModal";
+import CategoryModal from "./form";
 import Alert from "react-bootstrap/Alert";
 import { alertMsgProps } from "../manageCourse/type";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
@@ -23,7 +21,6 @@ import Errordiv from "../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../widgets/skeleton/table";
 
 const ManageCategory = () => {
-  const navigate = useNavigate();
   const { id, name } = useParams();
   const [categoryData, setCategoryData] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);

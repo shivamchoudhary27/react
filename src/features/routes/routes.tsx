@@ -30,10 +30,8 @@ import StudentDashboard from '../../pages/studentDashboard/dashboard';
 import TeacherDashboard from '../../pages/teacherDashboard/dashboard';
 import CalenderConfig from '../../pages/siteAdminstration/calenderConfig';
 import Tags from '../../pages/siteAdminstration/tags';
-import AddCourseForm from '../../pages/siteAdminstration/manageCourse/form';
 import EnrolUserToProgram from '../../pages/siteAdminstration/manageUsers/addUsers';
 import UserManagement from '../../pages/siteAdminstration/userManagement';
-import AddUsersForm from '../../pages/siteAdminstration/userManagement/form/addUsersForm';
 import SignUpNew from '../../pages/signupNew';
 import EnrolUsers from '../../pages/siteAdminstration/enrolment/enrolUser';
 import CourseEnrollment from '../../pages/siteAdminstration/enrolment/courseenrollment';
@@ -59,7 +57,6 @@ export default function CustomRoutes() {
           <Route path="/calenderconfig" element={<CalenderConfig />} />
           <Route path='/preview' element={<Preview />} />
           <Route path='/usermanagement' element={<UserManagement />} />
-          <Route path='/addusersform/:userid' element={<AddUsersForm />} />
           <Route path="/programenrollment" element={<ProgramEnrollment />} />
           <Route path="/managegroups/:programid/:courseid/:coursename" element={<ManageGroups />} />
           <Route path="/enrolusertoprogram/:programid/:userid/:name" element={<EnrolUserToProgram />} />
@@ -72,7 +69,6 @@ export default function CustomRoutes() {
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />
           <Route path="/tags" element={<Tags />} />
-          <Route path="/courseform/:progid/:catid/:courseid" element={<AddCourseForm />} />
           <Route path="/manageprogram" element={<ManageProgram />} />
           <Route path="/programpreview/:id" element={<Preview />} />
           <Route path="/addprogram/:id" element={<AddProgram />} />
