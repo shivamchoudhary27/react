@@ -1,12 +1,12 @@
 import { Field } from "formik";
-
+import cx from "classnames";
 const FieldTypeText = ({
   id,
   name,
   placeholder,
   type = "text",
-  className = "form-control",
-  disabled
+  className,
+  disabled,
 }: any) => {
   return (
     <>
@@ -14,7 +14,7 @@ const FieldTypeText = ({
         id={id}
         name={name}
         type={type}
-        className={className}
+        className={cx("form-control", className)}
         placeholder={placeholder}
         disabled={disabled}
       />

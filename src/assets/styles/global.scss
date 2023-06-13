@@ -69,7 +69,7 @@ a, a:visited {
 }
 label {
     font-weight: 500;
-    font-size: 14px;
+    // font-size: 14px;
 }
 .badge {
     border-radius: 0.75rem;
@@ -224,3 +224,30 @@ label {
     background: #555;
 }
 /**** Custom Scrollbar End ****/
+
+.tabStep-indicator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    background: #E8ECF1;
+    box-shadow: inset 5px 5px 4px rgba(174, 174, 192, 0.2), inset -5px -5px 4px rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    .step {
+        flex: 1;
+        padding: 10px;
+        text-align: center;
+        color: #7D7D7D;
+    }
+    .step.active {
+        border: 2px solid #0E74EA;
+        color: #000;
+        border-radius: 50px;
+    }
+}
+.tabStep-content {
+    margin-bottom: 20px;
+}
+.tabStep-footer {
+    display: flex;
+    justify-content: center;
+}

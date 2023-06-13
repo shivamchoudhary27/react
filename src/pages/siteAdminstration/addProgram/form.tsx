@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
+import { Container, Row, Col } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import {
@@ -205,7 +206,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             isSubmitting
           }) => (
             <Form>
-              <div className="step-indicator">
+              <div className="tabStep-indicator">
                 {steps.map((label, index) => (
                   <div key={index} className={`step ${index === step ? 'active' : ''}`}>
                     {label}
@@ -215,141 +216,132 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
 
               {/*** Step 1 ***/}
               {step === 0 && (
-              <>
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="department"
-                    labelText="Department"
-                    required="required"
-                  />
-                  <FieldTypeSelect
-                    name="department"
-                    options={departmentName.items}
-                    setcurrentvalue={setValues}
-                    currentformvalue={values}
-                  />
-                  <FieldErrorMessage
-                    errors={errors.department}
-                    touched={touched.department}
-                    msgText="Please select Department"
-                  />
-                </div>
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="programName"
-                    labelText="Program Name"
-                    required="required"
-                  />
-                  <FieldTypeText name="programName" placeholder="Program Name" />
-                  <FieldErrorMessage
-                    errors={errors.programName}
-                    touched={touched.programName}
-                    msgText="Program Name required atleast 1 characters"
-                  />
-                </div>
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="programCode"
-                    labelText="Program Code"
-                    required="required"
-                  />
-                  <FieldTypeText name="programCode" placeholder="Program Code" />
-                  <FieldErrorMessage
-                    errors={errors.programCode}
-                    touched={touched.programCode}
-                    msgText="Program Code required alteast 1 characters"
-                  />
-                </div>
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="discipline"
-                    labelText="Discipline"
-                    required="required"
-                  />
-                  <FieldTypeSelect
-                    name="discipline"
-                    options={disciplineName.items}
-                    setcurrentvalue={setValues}
-                    currentformvalue={values}
-                  />
-                  <FieldErrorMessage
-                    errors={errors.discipline}
-                    touched={touched.discipline}
-                    msgText="Please select Discipline"
-                  />
-                </div>
-           
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="programtype"
-                    labelText="Program Type "
-                    required="required"
-                  />
-                  <FieldTypeSelect
-                    name="programtype"
-                    options={programTypeId.items}
-                    setcurrentvalue={setValues}
-                    currentformvalue={values}
-                  />
-                  <FieldErrorMessage
-                    errors={errors.programtype}
-                    touched={touched.programtype}
-                    msgText="Please select Program Type"
-                  />
-                </div>
-                {values.isBatchYearRequired === true && (
-                  <div className="mb-3">
+              <div className="tabStep-content">
+                <Row className="gy-3">                  
+                  <Col md={4}>
                     <FieldLabel
-                      htmlfor="batchYear"
-                      labelText="Batch Year"
+                      htmlfor="programName"
+                      labelText="Program Name"
+                      required="required"
+                    />
+                    <FieldTypeText name="programName" placeholder="Program Name" />
+                    <FieldErrorMessage
+                      errors={errors.programName}
+                      touched={touched.programName}
+                      msgText="Program name required atleast 1 characters"
+                    />
+                  </Col>
+                  <Col md={4}>
+                    <FieldLabel
+                      htmlfor="programCode"
+                      labelText="Program Code"
+                      required="required"
+                    />
+                    <FieldTypeText name="programCode" placeholder="Program Code" />
+                    <FieldErrorMessage
+                      errors={errors.programCode}
+                      touched={touched.programCode}
+                      msgText="Program code required alteast 1 characters"
+                    />
+                  </Col>
+                  <Col md={4}>
+                    <FieldLabel
+                      htmlfor="durationValue"
+                      labelText="Duration"
+                      required="required"
+                    />
+                    <div className="d-flex">
+                      <FieldTypeText className="me-2" type="number" name="durationValue" placeholder="#duration" />                      
+                      <FieldTypeSelect
+                        name="durationUnit"
+                        options={durationType}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                        emptyOption={true}
+                      />
+                    </div>
+                    <FieldErrorMessage
+                      errors={errors.durationValue}
+                      touched={touched.durationValue}
+                      msgText="Duration must in positive number and non decimal"
+                    />                    
+                  </Col>
+                  <Col md={4}>
+                    <FieldLabel
+                      htmlfor="department"
+                      labelText="Department"
                       required="required"
                     />
                     <FieldTypeSelect
-                      name="batchYear"
-                      options={batchYearOptions}
+                      name="department"
+                      options={departmentName.items}
                       setcurrentvalue={setValues}
                       currentformvalue={values}
                     />
                     <FieldErrorMessage
-                      errors={errors.batchYear}
-                      touched={touched.batchYear}
-                      msgText="Batch Year must in number"
+                      errors={errors.department}
+                      touched={touched.department}
+                      msgText="Please select department"
                     />
-                  </div>
-                )}
-                  <div className="mb-3">
+                  </Col>
+                  <Col md={4}>
                     <FieldLabel
-                      htmlfor="modeOfStudy"
-                      labelText="Mode Of Study"
+                      htmlfor="discipline"
+                      labelText="Discipline"
                       required="required"
                     />
-                    <label className="mx-3">
-                      <input
-                        type="radio"
-                        name="modeOfStudy"
-                        value="fulltime"
-                        onChange={handleChange}
-                        checked={values.modeOfStudy === 'fulltime' ? true : false}
-                      />{" "}
-                      Full Time
-                    </label>
-                    <label>
-                      <input
-                        type="radio"
-                        name="modeOfStudy"
-                        value="parttime"
-                        onChange={handleChange}
-                        checked={values.modeOfStudy === 'parttime' ? true : false}
-                      />{" "}
-                      Part Time
-                    </label>
-                    <FieldErrorMessage
-                      errors={errors.mode}
-                      touched={touched.mode}
-                      msgText="Please select Program Mode"
+                    <FieldTypeSelect
+                      name="discipline"
+                      options={disciplineName.items}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
                     />
-                  </div>                  
-                  <div className="mb-3">
+                    <FieldErrorMessage
+                      errors={errors.discipline}
+                      touched={touched.discipline}
+                      msgText="Please select discipline"
+                    />
+                  </Col>
+            
+                  <Col md={4}>
+                    <FieldLabel
+                      htmlfor="programtype"
+                      labelText="Program Type "
+                      required="required"
+                    />
+                    <FieldTypeSelect
+                      name="programtype"
+                      options={programTypeId.items}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                    />
+                    <FieldErrorMessage
+                      errors={errors.programtype}
+                      touched={touched.programtype}
+                      msgText="Please select program type"
+                    />
+                  </Col>
+                  {values.isBatchYearRequired === true && (
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="batchYear"
+                        labelText="Batch Year"
+                        required="required"
+                      />
+                      <FieldTypeSelect
+                        name="batchYear"
+                        options={batchYearOptions}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                      />
+                      <FieldErrorMessage
+                        errors={errors.batchYear}
+                        touched={touched.batchYear}
+                        msgText="Batch Year must in number"
+                      />
+                    </Col>
+                  )}                  
+                  <Col md={4}>
                     <FieldLabel
                       htmlfor="tags"
                       labelText="Tags"
@@ -358,94 +350,107 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       name="tags"
                       options={tags.items}
                     />
-                  </div>
-                  <div className="mb-3">
+                  </Col>                    
+                  <Col md={4}>
                     <FieldLabel
-                      htmlfor="durationValue"
-                      labelText="Duration"
+                      htmlfor="modeOfStudy"
+                      labelText="Mode Of Study"
                       required="required"
                     />
-                    <FieldTypeText type="number" name="durationValue" placeholder="#duration" />
+                    <div>
+                      <label className="me-3">
+                        <input
+                          type="radio"
+                          name="modeOfStudy"
+                          value="fulltime"
+                          onChange={handleChange}
+                          checked={values.modeOfStudy === 'fulltime' ? true : false}
+                        />{" "}
+                        Full Time
+                      </label>
+                      <label>
+                        <input
+                          type="radio"
+                          name="modeOfStudy"
+                          value="parttime"
+                          onChange={handleChange}
+                          checked={values.modeOfStudy === 'parttime' ? true : false}
+                        />{" "}
+                        Part Time
+                      </label>
+                    </div>
                     <FieldErrorMessage
-                      errors={errors.durationValue}
-                      touched={touched.durationValue}
-                      msgText="Duration must in positive number and non decimal"
+                      errors={errors.mode}
+                      touched={touched.mode}
+                      msgText="Please select Program Mode"
                     />
-                    <FieldTypeSelect
-                      name="durationUnit"
-                      options={durationType}
-                      setcurrentvalue={setValues}
-                      currentformvalue={values}
-                      emptyOption={true}
-                    />
-                  </div>
-                </>
+                  </Col>
+                </Row>
+              </div>
               )}
 
               {/*** Step 2 ***/}
               {step === 1 && (
-                <>
-                  <div className="mb-3">
+                <Row className="gy-4">
+                  <Col md={6}>
                     <FieldLabel htmlfor="objective" labelText="Objective" />
                     <TinymceEditor name="objective" handleChange={handleChange} />
-                  </div>
-                  <div className="mb-3">
+                  </Col>
+                  <Col md={6}>
                     <FieldLabel
                       htmlfor="description"
                       labelText="Learning outcome"
                     />
                     <TinymceEditor name="description" handleChange={handleChange} />
-                  </div>
-                  <FieldLabel htmlfor="metatitle" labelText="Program meta Fields" />
-                  <div className="card p-3 mb-3">
-                    {inputFieldArr.map((el: any, index: number) => {
-                      return (
-                        <div key={index}>
-                          <div className="mb-3">
-                            <FieldLabel
-                              htmlfor={`meta[${index}][title]`}
-                              labelText="Title"
-                            />
-                            <FieldTypeText
-                              name={`meta[${index}][title]`}
-                              placeholder="Title"
-                            />
-                          </div>
+                  </Col>
+                  <Col md={12}>
+                    <FieldLabel htmlfor="metatitle" labelText="Program meta fields" />
+                    <div className="card p-3 mb-3">
+                      {inputFieldArr.map((el: any, index: number) => {
+                        return (
+                          <div key={index}>
+                            <div className="mb-3">
+                              <FieldLabel
+                                htmlfor={`meta[${index}][title]`}
+                                labelText="Title"
+                              />
+                              <FieldTypeText
+                                name={`meta[${index}][title]`}
+                                placeholder="Title"
+                              />
+                            </div>
 
-                          <div className="mb-3">
-                            <FieldLabel
-                              htmlfor={`meta[${index}][description]`}
-                              labelText="Description"
-                            />
-                            <TinymceEditor
-                              name={`meta[${index}][description]`}
-                              handleChange={handleChange}
-                            />
+                            <div className="mb-3">
+                              <FieldLabel
+                                htmlfor={`meta[${index}][description]`}
+                                labelText="Description"
+                              />
+                              <TinymceEditor
+                                name={`meta[${index}][description]`}
+                                handleChange={handleChange}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                    <div>
-                      <CustomButton
-                        type="button"
-                        variant="primary"
-                        onClick={addFieldHandler}
-                        btnText="+ Add more"
-                      />{" "}
-                      <CustomButton
-                        type="button"
-                        variant="outline-secondary"
-                        onClick={removeBlockHandler}
-                        btnText="Remove"
-                      />
+                        );
+                      })}
+                      <div>
+                        <CustomButton
+                          type="button"
+                          variant="primary"
+                          onClick={addFieldHandler}
+                          btnText="+ Add more"
+                        />{" "}
+                        <CustomButton
+                          type="button"
+                          variant="outline-secondary"
+                          onClick={removeBlockHandler}
+                          btnText="Remove"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    role="group"
-                    aria-labelledby="checkbox-group"
-                    className="mb-3"
-                  >
-                    <div>
+                  </Col>
+                  <Col md={12}>
+                    <div className="mb-3">
                       <FieldTypeCheckbox
                         name="programaccessinfo"
                         value="fullaccess"
@@ -459,11 +464,11 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         checkboxLabel="Published"
                       />
                     </div>
-                  </div>
-                </>
+                  </Col>
+                </Row>
               )}
 
-              <div className="button-group">
+              <div className="tabStep-footer">
                 {isSubmitting === false && step > 0 && (
                   <button type="button" className="btn btn-outline-secondary me-3" onClick={handlePreviousStep}>
                     Previous
