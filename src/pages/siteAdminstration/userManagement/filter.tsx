@@ -1,32 +1,26 @@
 import React from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 
 const initialValues = {
-  name: "",
-  email: "",
-  firstName: "",
-  lastName: "",
+  userEmail: "",
+  userFirstName: "",
 }
 
 const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
-  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
       let newRequest = {
-        firstName: values.name,
-        email: values.email,
+        userFirstName: values.userFirstName,
+        userEmail: values.userEmail, 
       }
       updatefilters(newRequest);
     },
     onReset: () => {
       formik.setValues({
-        firstName: "",
-        lastName: "",
-        email: "",
-        name:""
+        userFirstName: "",
+        userEmail: "",
       });
       updatefilters(initialValues, true);
     }
@@ -42,11 +36,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
               <input
                 className="form-control"
                 id="name"
-                name="name"
+                name="userFirstName"
                 type="text"
                 placeholder="Firstname / Surname"
                 onChange={formik.handleChange}
-                value={formik.values.name}
+                value={formik.values.userFirstName}
               />
             </div>
             <div className="col-auto">
@@ -54,11 +48,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
               <input
                 className="form-control"
                 id="email"
-                name="email"
+                name="userEmail"
                 type="text"
                 placeholder="Email"
                 onChange={formik.handleChange}
-                value={formik.values.email}
+                value={formik.values.userEmail}
               />
             </div>
             <div className="col-auto">
