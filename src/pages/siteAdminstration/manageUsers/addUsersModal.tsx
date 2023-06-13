@@ -9,13 +9,14 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import { useParams } from "react-router-dom";
 import { putData, postData } from "../../../adapters/microservices";
 import * as Yup from "yup";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
-    userEmail: Yup.string().required(),
-    roleNumber:Yup.string().required(),
-    role:Yup.string().required(),
-  });
+  userEmail: Yup.string().required(),
+  roleNumber: Yup.string().required(),
+  role: Yup.string().required(),
+});
 
 const roleData = [
   { id: "manager", name: "Manager" },
@@ -29,7 +30,7 @@ const AddUsersModal = ({
   onHide,
   addusersmodalshow,
   usersdataobj,
-  refreshToggle
+  refreshToggle,
 }: any) => {
   const InitialValues = {
     userEmail: usersdataobj.email,
@@ -40,12 +41,14 @@ const AddUsersModal = ({
   const { programid, userid } = useParams();
   const parsedProgramid = parseInt(programid);
 
-
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, action: any) => {
     if (usersdataobj.id !== 0) {
       console.log(JSON.stringify(values));
-      putData(`/program/${parsedProgramid}/enrol-user/${usersdataobj.id}`, values)
+      putData(
+        `/program/${parsedProgramid}/enrol-user/${usersdataobj.id}`,
+        values
+      )
         .then((res: any) => {
           console.log(res);
           if (res.data !== "" && res.status === 200) {
@@ -174,21 +177,31 @@ const AddUsersModal = ({
                   />
                 </div>
 
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
-                    variant="primary"
-                    // isSubmitting={isSubmitting}
-                    btnText={usersdataobj.id === 0 ? "Save" : "Update"}
-                  />{" "}
-                  {usersdataobj.id === 0 && (
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
                     <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  )}
-                </div>
+                      type="submit"
+                      variant="primary"
+                      isSubmitting={isSubmitting}
+                      btnText={usersdataobj.id === 0 ? "Submit" : "Update"}
+                    />{" "}
+                    {usersdataobj.id === 0 && (
+                      <CustomButton
+                        type="reset"
+                        btnText="Reset"
+                        variant="outline-secondary"
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <LoadingButton
+                    variant="primary"
+                    btnText={
+                      usersdataobj.id === 0 ? "Submitting..." : "Updating..."
+                    }
+                    className="modal-buttons"
+                  />
+                )}
               </Form>
             )}
           </Formik>
