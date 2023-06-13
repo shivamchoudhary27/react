@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
-// import { Data } from "./rawData";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import { deleteData } from "../../../../adapters/microservices";

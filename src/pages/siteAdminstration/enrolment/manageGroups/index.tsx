@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
-// import Sidebar from "../../../sidebar";
 import { Container, Button } from "react-bootstrap";
-import ManageGroupTable from "./manageGroupTable";
-import GroupModal from "./groupModal";
-import { useParams, useNavigate } from "react-router-dom";
+import ManageGroupTable from "./table";
+import GroupModal from "./form";
+import { useParams } from "react-router-dom";
 import { getData } from "../../../../adapters/microservices/index";
 import BuildPagination from "../../../../widgets/pagination";
 import { pagination } from "../../../../utils/pagination";
@@ -15,7 +14,6 @@ import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 
 const ManageGroups = () => {
-  const navigate = useNavigate()
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },

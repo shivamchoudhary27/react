@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 
-const Addcategory = ({ latestparentweight, toggleModalShow, setFormParentValue, setFormWeightValue }: any) => {
+interface Props {
+  latestparentweight: any 
+  toggleModalShow: any 
+  setFormParentValue: any
+  setFormWeightValue: any
+}
+const Addcategory = ({ latestparentweight, toggleModalShow, setFormParentValue, setFormWeightValue }: Props) => {
   
   const toAddWeight = latestparentweight;
   const parent = 0;

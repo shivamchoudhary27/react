@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
-import { Container, Button } from "react-bootstrap";
-import CourseTable from "./courseTable";
-import { useNavigate, useParams } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import CourseTable from "./table";
+import { useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
@@ -15,12 +14,11 @@ import {
 import { setHasChildProp, resetManageCourseObj } from "./local";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import CourseModal from "./courseModal";
+import CourseModal from "./form";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 
 const CourseManagment = () => {
-  const navigate = useNavigate();
   const { id, name } = useParams();
   const [categoryData, setCategoryData] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);

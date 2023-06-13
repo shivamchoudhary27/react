@@ -39,7 +39,7 @@ const TagsModal = ({
       setSubmitting(true);
       addTagsData(endPoint, values)
         .then((res: any) => {
-          if (res.data != "") {
+          if (res.data !== "") {
             togglemodalshow(false);
             setSubmitting(false);
             updateAddRefresh();

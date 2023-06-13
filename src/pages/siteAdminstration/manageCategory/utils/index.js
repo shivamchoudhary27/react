@@ -6,7 +6,6 @@ export const getLatestWeightForCategory = (id, fullArray) => {
        }
     }
 
-
     return ++weight;
 }
 
