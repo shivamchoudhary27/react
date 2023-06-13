@@ -133,8 +133,7 @@ const EnrolUsers = () => {
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Programs Enrollment", path: "/programenrollment" },
-              { name: name, path: `/manageprogramenrollment/${id}/${name}` },
-              { name: "Courses", path: "" },       
+              { name: name, path: "" },    
             ]}
           />
       <div className="contentarea-wrapper mt-3">          
@@ -155,6 +154,7 @@ const EnrolUsers = () => {
                 refreshcategories={refreshToggle}
                 cleanFormValues={cleanFormValues}
                 apiStatus={apiStatus}
+                name={name}
               />
             )}
           </Container>

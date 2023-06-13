@@ -20,7 +20,7 @@ const ManageGroups = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const { courseid, programid, coursename } = useParams();
+  const { courseid,name, programid, coursename } = useParams();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
   const [manageGroupList, setManageGroupList] = useState<any>(dummyData);
@@ -131,16 +131,15 @@ const ManageGroups = () => {
             routes={[
               { name: "Site Administration", path: "/siteadmin" },
               { name: "Program Enrollment", path: "/programenrollment" },
-              { name: "Manage Program Enrolment", path: `/manageprogramenrollment/${programid}/${programName}` },
-              { name: programName, path: `/enrolusers/${programid}/${programName}` },
-              { name: coursename, path: `/courseenrollment/${programid}/${courseid}/${coursename}` },
+              { name: name, path: `/enrolusers/${programid}/${name}`},
+              { name: coursename, path: `/courseenrollment/${programid}/${name}/${courseid}/${coursename}` },
               { name: "Manage Groups", path: "" },
             ]}
           />
       <div className="contentarea-wrapper mt-3">
           <Container fluid>
           <PageTitle 
-            pageTitle = "Manage Group" gobacklink = {`/courseenrollment/${programid}/${courseid}/${coursename}`}
+            pageTitle = "Manage Group" gobacklink = {`/courseenrollment/${programid}/${name}/${courseid}/${coursename}`}
           />
             <Add_Groups_Btn />
             <GroupModal
