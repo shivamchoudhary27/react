@@ -1,25 +1,25 @@
 import React from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useFormik } from "formik";
 
 const initialValues = {
   name: "",
 }
 
-const Filter = ({openAddProgramType} : any) => {
+const Filter = ({openAddProgramType, updateinputfilters} : any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
       let newRequest = {
         name: values.name,
       }
-      // updatefilters(newRequest);
+      updateinputfilters(newRequest.name);
     },
     onReset: () => {
       formik.setValues({
         name: "",
       });
-      // updatefilters(initialValues, true);
+      updateinputfilters(initialValues.name);
     }
   });
 

@@ -3,8 +3,8 @@ import { Button } from "react-bootstrap";
 import { useFormik } from "formik";
 
 const initialValues = {
-  userEmail: "",
-  userFirstName: "",
+  name: "",
+  email: "",
 }
 
 const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
@@ -12,15 +12,15 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
     initialValues: initialValues,
     onSubmit: (values) => {
       let newRequest = {
-        userFirstName: values.userFirstName,
-        userEmail: values.userEmail, 
+        name: values.name,
+        email: values.email, 
       }
       updatefilters(newRequest);
     },
     onReset: () => {
       formik.setValues({
-        userFirstName: "",
-        userEmail: "",
+        name: "",
+        email: "",
       });
       updatefilters(initialValues, true);
     }
@@ -36,11 +36,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
               <input
                 className="form-control"
                 id="name"
-                name="userFirstName"
+                name="name"
                 type="text"
                 placeholder="Firstname / Surname"
                 onChange={formik.handleChange}
-                value={formik.values.userFirstName}
+                value={formik.values.name}
               />
             </div>
             <div className="col-auto">
@@ -48,11 +48,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
               <input
                 className="form-control"
                 id="email"
-                name="userEmail"
+                name="email"
                 type="text"
                 placeholder="Email"
                 onChange={formik.handleChange}
-                value={formik.values.userEmail}
+                value={formik.values.email}
               />
             </div>
             <div className="col-auto">

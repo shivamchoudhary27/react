@@ -109,20 +109,9 @@ const ProgramType = () => {
   };
 
   const updateInputFilters = (inputvalues: any) => {
-    if (inputvalues.code !== "") {
-      setFilterUpdate({
-        ...filterUpdate,
-        name: inputvalues.name,
-        programCode: inputvalues.code,
-        pageNumber: 0,
-      });
-    } else {
-      let updatedState = { ...filterUpdate, pageNumber: 0 };
-      updatedState.name = inputvalues.name;
-      if (updatedState.programCode) delete updatedState.programCode;
-      setFilterUpdate(updatedState);
-    }
+    setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
   };
+  
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const ADDPROGRAM_MODAL_COMPONENT = (
     <AddProgramModal

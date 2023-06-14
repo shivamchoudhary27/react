@@ -4,7 +4,7 @@ import { pagination } from "../../../utils/pagination";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-import AddTags from "./filters";
+import Filters from "./filters";
 import TagsModal from "./form";
 import TagsTable from "./table";
 import BuildPagination from "../../../widgets/pagination";
@@ -114,7 +114,7 @@ const Tags = () => {
             </div>
           </div>
           <PageTitle pageTitle={`Tags`} gobacklink="/manageprogram" />          
-          <AddTags
+          <Filters
             toggleModalShow={toggleModalShow}
             setTagObj={setTagObj}
             updateInputFilters={updateInputFilters}
