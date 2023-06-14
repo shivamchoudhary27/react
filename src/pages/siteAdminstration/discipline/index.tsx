@@ -82,6 +82,10 @@ const Discipline = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  const updateInputFilters = (inputvalues: any) => {
+    setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
+  };
+
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DISCIPLINE_TABLE_COMPONENT = (
     <DiciplineTable
@@ -105,34 +109,6 @@ const Discipline = () => {
       currentInstitute={currentInstitute}
     />
   );
-
-  const DISCIPLINE_BUTTONS = (
-    <div className="filter-wrapper">
-      <form>
-        <Row className="align-items-center gx-3">
-          <Col className="col-auto">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Name"
-              // onChange={(e) => setSearchValue(e.target.value)}
-              // value={searchValue}
-            />
-          </Col>
-          <Col className="col-auto">
-            <Button variant="primary" className="me-2">
-              Filter
-            </Button>{" "}
-            <Button variant="outline-secondary">Reset</Button>
-          </Col>
-        </Row>
-      </form>
-      <Button variant="primary" onClick={openAddDiscipline}>
-        Add Discipline
-      </Button>
-    </div>
-  );
-  // <<< ==== END COMPONENTS ==== >>>
 
   return (
     <>
@@ -159,6 +135,7 @@ const Discipline = () => {
           <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />          
           <Filters
             openAddDiscipline={openAddDiscipline}
+            updateInputFilters={updateInputFilters}
           />
           {/* {DISCIPLINE_BUTTONS} */}
           {DISCIPLINE_TABLE_COMPONENT}

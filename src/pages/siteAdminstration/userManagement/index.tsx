@@ -89,21 +89,20 @@ const UserManagement = () => {
   const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
       let updatedState = { ...filterUpdate, pageNumber: 0 };
-      if (updatedState.userFirstName !== undefined) delete updatedState.userFirstName;
-      if (updatedState.userLastName !== undefined) delete updatedState.userLastName;
-      if (updatedState.userEmail !== undefined) delete updatedState.userEmail;
+      if (updatedState.name !== undefined) delete updatedState.name;
+      if (updatedState.email !== undefined) delete updatedState.email;
 
       setFilterUpdate(updatedState);
     } else {
-      const { userFirstName, userEmail } = newFilterRequest;
+      const { name, email } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
         pageNumber: 0,
         ...newFilterRequest,
       };
 
-      if (userEmail === "") delete updatedState.userEmail;
-      if (userFirstName === "") delete updatedState.userFirstName;
+      if (email === "") delete updatedState.email;
+      if (name === "") delete updatedState.name;
 
       setFilterUpdate(updatedState);
     }
