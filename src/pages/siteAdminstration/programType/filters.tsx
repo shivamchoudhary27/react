@@ -25,7 +25,6 @@ const Filter = ({openAddProgramType, updateinputfilters} : any) => {
 
   return (
     <React.Fragment>
-      {/* Institute : <InstituteFilter updateCurrentInstitute={updateCurrentInstitute}/> */}
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <div className="row">

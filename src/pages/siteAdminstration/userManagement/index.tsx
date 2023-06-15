@@ -13,7 +13,6 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -35,8 +34,6 @@ const UserManagement = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.currentInstitute);
-  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
-  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   // get programs API call === >>>
   useEffect(() => {
@@ -148,14 +145,6 @@ const UserManagement = () => {
     });
     // setRefreshData(false);
   };
-
-  const updateCurrentInstitute = (instituteId : number) => {
-    // setCurrentInstitute(instituteId);
-  }
-
-  const updateInstituteName = (instituteName : string) => {
-    // setCurrentInstituteName(instituteName)
-  }
 
   return (
     <React.Fragment>

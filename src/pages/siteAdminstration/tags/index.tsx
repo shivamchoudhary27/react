@@ -12,8 +12,6 @@ import BuildPagination from "../../../widgets/pagination";
 import { getData as getTagsData } from "../../../adapters/microservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const Tags = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -28,12 +26,6 @@ const Tags = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.currentInstitute);
-  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
-  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
-
-  const updateInstituteName = (instituteName : string) => {
-    // setCurrentInstituteName(instituteName)
-  }
 
   const getTags = () => {
     setApiStatus("started")
@@ -89,10 +81,6 @@ const Tags = () => {
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
-
-  const updateCurrentInstitute = (instituteId : number) => {
-    // setCurrentInstitute(instituteId);
-  }
 
   return (
     <>

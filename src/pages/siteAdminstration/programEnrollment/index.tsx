@@ -11,7 +11,6 @@ import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -25,8 +24,6 @@ const ProgramEnrollment = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.currentInstitute);
-  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
-  // const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   // get programs API call === >>>
   useEffect(() => {
@@ -58,14 +55,6 @@ const ProgramEnrollment = () => {
       setFilterUpdate(updatedState);
     }
   };
-
-  const updateInstituteName = (instituteName : string) => {
-    // setCurrentInstituteName(instituteName)
-  }
-
-  const updateCurrentInstitute = (instituteId : number) => {
-    // setCurrentInstitute(instituteId);
-  }
 
   return (
     <>

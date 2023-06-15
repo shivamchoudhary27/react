@@ -314,6 +314,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       options={programTypeId.items}
                       setcurrentvalue={setValues}
                       currentformvalue={values}
+                      selectDefaultLabel="Program Type"
                     />
                     <FieldErrorMessage
                       errors={errors.programtype}

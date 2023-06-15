@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import NotificationOverlay from "../../widgets/notifications";
@@ -21,13 +21,6 @@ const Header = () => {
   const fullname = userCtx.userInfo.fullname.toString() ?? '';
   const userpictureurl = userCtx.userInfo.userpictureurl.toString() ?? '';
 
-  const updateCurrentInstitute = () => {
-  }
-
-  const updateInstituteName = () => {
-
-  }
-
   const logout = () => {
     userCtx.logout();
     navigate("/");
@@ -39,13 +32,13 @@ const Header = () => {
         <img className="bl-logo" src={logo} alt="Ballistic Learning Pvt Ltd" />
       </Link>
       <div className="row gx-2 me-2">
-            <div className="col-auto">
-              <label className="col-form-label">Institute: </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
-            </div>
-          </div>
+        <div className="col-auto">
+          <label className="col-form-label">Institute: </label>
+        </div>
+        <div className="col-auto">
+          <InstituteFilter />
+        </div>
+      </div>
       <Nav as="ul" className="sh-toolbar">
         <Nav.Item as="li">
           <img src={searchIcon} alt="Search" />

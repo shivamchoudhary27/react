@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getData } from "../../../../adapters/microservices";
 import ACTIONSLIST from "../../../../store/actions";
 
-const InstituteFilter = ({updateCurrentInstitute, updateInstituteName}: any) => {
+const InstituteFilter = () => {
   const dispatch = useDispatch();
   const currentInstitute = useSelector(state => state.currentInstitute);
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}};
@@ -28,14 +28,15 @@ const InstituteFilter = ({updateCurrentInstitute, updateInstituteName}: any) => 
 
   useEffect(() => {
     if (institutes.items.length > 0) {
-      // console.log('currentInstitute', currentInstitute)
       // const setValue = (currentInstitute === 0) ? 0 : institutes.items[0].id;
       // updateCurrentInstitute(setValue);
       if (currentInstitute === 0) {
         setSelectedValue(institutes.items[0].id);
         dispatch({type: ACTIONSLIST.updateCurrentInstitute, instituteId: institutes.items[0].id});
+        localStorage.setItem("institute", institutes.items[0].id);
       } else {
         setSelectedValue(currentInstitute);
+        localStorage.setItem("institute", currentInstitute);
       }
       // updateInstituteName(institutes.items[0].name);
     }
@@ -45,7 +46,7 @@ const InstituteFilter = ({updateCurrentInstitute, updateInstituteName}: any) => 
     const selectedOption = e.target.options[e.target.selectedIndex];
     setSelectedValue(e.target.value);
     dispatch({type: ACTIONSLIST.updateCurrentInstitute, instituteId: e.target.value});
-    updateCurrentInstitute(e.target.value);
+    // updateCurrentInstitute(e.target.value);
     // updateInstituteName(selectedOption.innerText);
     localStorage.setItem("institute", e.target.value);
   }
