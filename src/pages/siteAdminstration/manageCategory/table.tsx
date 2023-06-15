@@ -6,6 +6,12 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { getLatestWeightForCategory } from "./utils";
 import { deleteData as deleteCategoryData, putData, postData } from "../../../adapters/microservices";
 import { getDragnDropAction, getItemsToUpdate, updateWeights } from './local';
+import moveIcon from "../../../assets/images/icons/move-action.svg";
+import plusIcon from "../../../assets/images/icons/plus-action.svg";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -30,7 +36,7 @@ const CategoryTable = ({
     {
       Header: "",
       accessor: "icon",
-      Cell: ({ row }: any) => <i className="fa-solid fa-grip-lines"></i>,
+      Cell: ({ row }: any) => <img src={moveIcon} alt="Move category" />,
     },
     {
       Header: "Categories",
@@ -48,14 +54,14 @@ const CategoryTable = ({
       },
     },
     {
-      Header: "Add Sub category",
+      Header: "Add Subcategory",
       accessor: "subCategory",
       Cell: ({ row }: any) => (
         <>
           {row.original.courses.length === 0
           &&
-          <Link to="" onClick={() => addSubCategoryHandler(row.original.id)}>
-            <i className="fa-solid fa-square-plus"></i>
+          <Link className="action-icons small-icon" to="" onClick={() => addSubCategoryHandler(row.original.id)}>
+            <img src={plusIcon} alt="Add Subcategory" />
           </Link>
           }
         </>
@@ -70,23 +76,18 @@ const CategoryTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to="">
-            <i className="fa-solid fa-pen"
-              onClick={() => {
+          <Link className="action-icons" to="">
+            <img src={editIcon} alt="Edit" onClick={() => {
                 editHandler(row.original.id, row.original.name, row.original.weight, row.original.parent);
-              }}
-            ></i>
+              }} />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-trash"
-              onClick={() => {
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" onClick={() => {
                 deleteHandler(row.original.id);
-              }}
-            ></i>
+              }} />
           </Link>
-          <Link to="">
-            <i className="fa-solid fa-eye"></i>
+          <Link className="action-icons" to="">
+            <img src={showIcon} alt="Show" />
           </Link>
         </span>
       ),

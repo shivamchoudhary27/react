@@ -107,7 +107,7 @@ const CategoryModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {parent > 0 ? "Add Sub-Category" : "Add Category"}
+            {parent > 0 ? "Add subcategory" : "Add Category"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

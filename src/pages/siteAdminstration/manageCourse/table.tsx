@@ -11,6 +11,12 @@ import {
 } from "../../../adapters/microservices";
 import { getDragnDropAction, getItemsToUpdate, updateWeights } from "./local";
 import { useNavigate } from "react-router-dom";
+import moveIcon from "../../../assets/images/icons/move-action.svg";
+import plusIcon from "../../../assets/images/icons/plus-action.svg";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -34,17 +40,7 @@ const CourseTable = ({
   editHandlerById,
 }: any) => {
 
-  const tableColumn = [
-    {
-      Header: "",
-      accessor: "icon",
-      Cell: ({ row }: any) => {
-        row.original.courseid !== undefined && (
-          <i className="fa-solid fa-grip-lines"></i>
-        );
-      },
-      draggable: false,
-    },
+  const tableColumn = [    
     {
       Header: "Categories",
       accessor: "name",
@@ -63,7 +59,17 @@ const CourseTable = ({
     },
     {
       Header: "Courses",
-      accessor: "coursename",
+      // accessor: "coursename",
+      Cell: ({ row }: any) => (
+        <>
+          {row.original.coursename !== undefined && (
+            <>
+              <img src={moveIcon} className="me-3" alt="Move course" /> 
+              {row.original.coursename}
+            </>      
+          )}
+        </>
+      ),
       draggable: true,
     },
     {
@@ -72,13 +78,10 @@ const CourseTable = ({
         <span style={actionsStyle}>
           {row.original.coursename !== undefined ? (
             <>
-              <Link
-                to=""
+              <Link className="action-icons" to=""
                 // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
               >
-                <i
-                  className="fa-solid fa-pen"
-                  onClick={() =>
+                <img src={editIcon} alt="Edit" onClick={() =>
                     editHandler({
                       id: row.original.coursedetails.id,
                       name: row.original.coursename,
@@ -87,25 +90,21 @@ const CourseTable = ({
                       description: row.original.coursedetails.description,
                       published: row.original.coursedetails.published
                     })
-                  }
-                ></i>
+                  } />                
               </Link>
-              <Link to="">
-                <i
-                  className="fa-solid fa-trash"
-                  onClick={() => {
+              <Link className="action-icons" to="">
+                <img src={deleteIcon} alt="Delete" onClick={() => {
                     deleteHandler(row.original.courseid);
-                  }}
-                ></i>
+                  }} />
               </Link>
-              <Link to="">
-                <i className="fa-solid fa-eye"></i>
+              <Link className="action-icons" to="">
+                <img src={showIcon} alt="Show" />
               </Link>
             </>
           ) : (
             row.original.haschild !== undefined &&
             row.original.haschild === false && (
-              <Button onClick={
+              <Button variant="link" size="sm" onClick={
                 () =>
                 editHandler({
                   id: 0,
@@ -115,7 +114,11 @@ const CourseTable = ({
                   description: "",
                   published: false
                 })
-              }>Add course</Button>
+              }>
+                  <span className="action-icons small-icon">
+                    <img src={plusIcon} alt="Add Course" /> Add Course
+                  </span>
+                </Button>
             )
           )}
         </span>
