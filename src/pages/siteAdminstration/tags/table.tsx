@@ -7,10 +7,10 @@ import { deleteData as deleteTagData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
-import editIcon from "../../../assets/images/icons/edit-action.png";
-import deleteIcon from "../../../assets/images/icons/delete-action.png";
-import showIcon from "../../../assets/images/icons/show-action.png";
-import hideIcon from "../../../assets/images/icons/hide-action.png";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
 
 const rawData = [
   {
