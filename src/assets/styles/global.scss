@@ -8,7 +8,7 @@ body {
 body.authBody {
     background-color: #EDF6F8;
 }
-a, a:visited {
+a, a:visited, .btn-link {
     color: #1B609D;
     text-decoration: none;
     &:hover {
@@ -56,6 +56,12 @@ a, a:visited {
     }
     &:hover {
         background-color: rgba(27, 96, 157, 0.05);
+    }
+    &.small-icon {
+        padding: 5px 10px;
+        img {
+            width: auto;
+        }
     }
 }
 /**** Button End ****/
