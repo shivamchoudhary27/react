@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { Container } from "react-bootstrap";
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { pagination } from "../../../utils/pagination";
@@ -25,15 +26,16 @@ const ProgramType = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const currentInstitute = useSelector(state => state.currentInstitute);
+  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
   const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
+    // setCurrentInstituteName(instituteName)
   }
 
   const updateCurrentInstitute = (instituteId : number) => {
-    setCurrentInstitute(instituteId);
+    // setCurrentInstitute(instituteId);
   }
 
   // get programs API call === >>>
@@ -150,14 +152,6 @@ const ProgramType = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <div className="row gx-2 mb-3 align-items-center justify-content-center">
-            <div className="col-auto">
-              <label className="col-form-label">Institute: </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
-            </div>
-          </div>
           <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />          
           <Filters
             openAddProgramType={openAddProgramType}

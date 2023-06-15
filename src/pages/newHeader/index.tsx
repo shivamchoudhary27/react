@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useContext, useState } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import NotificationOverlay from "../../widgets/notifications";
@@ -9,6 +8,7 @@ import "./style.scss";
 import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import searchIcon from "../../assets/images/icons/search-icon.svg";
+import InstituteFilter from "../siteAdminstration/institute/instituteGlobalFilter";
 
 if (config.WSTOKEN === '') {
   config.WSTOKEN = localStorage.getItem('token');
@@ -21,6 +21,13 @@ const Header = () => {
   const fullname = userCtx.userInfo.fullname.toString() ?? '';
   const userpictureurl = userCtx.userInfo.userpictureurl.toString() ?? '';
 
+  const updateCurrentInstitute = () => {
+  }
+
+  const updateInstituteName = () => {
+
+  }
+
   const logout = () => {
     userCtx.logout();
     navigate("/");
@@ -31,7 +38,14 @@ const Header = () => {
       <Link to="/studentdashboard" className="me-auto site-logo">
         <img className="bl-logo" src={logo} alt="Ballistic Learning Pvt Ltd" />
       </Link>
-
+      <div className="row gx-2 me-2">
+            <div className="col-auto">
+              <label className="col-form-label">Institute: </label>
+            </div>
+            <div className="col-auto">
+              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
+            </div>
+          </div>
       <Nav as="ul" className="sh-toolbar">
         <Nav.Item as="li">
           <img src={searchIcon} alt="Search" />

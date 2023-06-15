@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
 import Header from "../../newHeader";
@@ -26,11 +27,12 @@ const Tags = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const currentInstitute = useSelector(state => state.currentInstitute);
+  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
   const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
+    // setCurrentInstituteName(instituteName)
   }
 
   const getTags = () => {
@@ -89,7 +91,7 @@ const Tags = () => {
   };
 
   const updateCurrentInstitute = (instituteId : number) => {
-    setCurrentInstitute(instituteId);
+    // setCurrentInstitute(instituteId);
   }
 
   return (
@@ -105,14 +107,6 @@ const Tags = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <div className="row gx-2 mb-3 align-items-center justify-content-center">
-            <div className="col-auto">
-              <label className="col-form-label">Institute: </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
-            </div>
-          </div>
           <PageTitle pageTitle={`Tags`} gobacklink="/manageprogram" />          
           <Filters
             toggleModalShow={toggleModalShow}

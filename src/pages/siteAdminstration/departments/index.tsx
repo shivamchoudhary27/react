@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
@@ -28,7 +29,7 @@ const Departments = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const currentInstitute = useSelector(state => state.currentInstitute);
   const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   const updateInstituteName = (instituteName : string) => {
@@ -47,6 +48,7 @@ const Departments = () => {
 
   // get programs API call === >>>
   useEffect(() => {
+    console.log('effect runubug');
     if (currentInstitute > 0)
     makeGetDataRequest(
       `/${currentInstitute}/departments`,
@@ -89,7 +91,7 @@ const Departments = () => {
   };
 
   const updateCurrentInstitute = (instituteId : number) => {
-    setCurrentInstitute(instituteId);
+    // setCurrentInstitute(instituteId);
   }
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
@@ -141,14 +143,6 @@ const Departments = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <div className="row gx-2 mb-3 align-items-center justify-content-center">
-            <div className="col-auto">
-              <label className="col-form-label">Institute : </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
-            </div>
-          </div>
           <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />          
           <Filters
             toggleModalShow={toggleModalShow}
