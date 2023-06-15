@@ -7,12 +7,12 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
-import manageCategoryIcon from "../../../assets/images/icons/manage-category.png";
-import manageCoursesIcon from "../../../assets/images/icons/manage-courses.png";
-import editIcon from "../../../assets/images/icons/edit-action.png";
-import deleteIcon from "../../../assets/images/icons/delete-action.png";
-import showIcon from "../../../assets/images/icons/show-action.png";
-import hideIcon from "../../../assets/images/icons/hide-action.png";
+import manageCategoryIcon from "../../../assets/images/icons/manage-category-action.svg";
+import manageCoursesIcon from "../../../assets/images/icons/manage-courses-action.svg";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
