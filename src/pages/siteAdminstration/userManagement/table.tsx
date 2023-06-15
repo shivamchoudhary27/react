@@ -103,18 +103,20 @@ const UserManagementTable = ({
           }
         })
         .catch((result: any) => {
+          console.log(result)
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
-              message: result.response.data.message,
+              message: result.response.message,
               alertBoxColor: "danger",
             });
           } else if (result.response.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: result.response.data.message,
+              message: "Unable to delete, some error occured",
               alertBoxColor: "danger",
             });
+            refreshdata(true);
           }
         });
     }
