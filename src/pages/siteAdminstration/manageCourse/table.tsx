@@ -286,7 +286,7 @@ const CourseTable = ({
     <>
       <div className="table-wrapper mt-3">
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
-          <Table borderless striped hover {...getTableProps()}>
+          <Table borderless striped {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup, index) => (
                 <tr {...headerGroup.getHeaderGroupProps()} key={index}>

@@ -7,6 +7,10 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -47,26 +51,21 @@ const UsersTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link
+            className="action-icons" 
             to=""
             // to={createEditLink(row.original.userId)}
           >
-            <i
-              className="fa-solid fa-pen"
-              onClick={() =>
+            <img src={editIcon} alt="Edit" onClick={() =>
                 editHandler(
                   row.original.userId,
                   row.original.userEmail,
                   row.original.roleNumber,
                   row.original.role
                 )
-              }
-            ></i>
+              } />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.userId)}
-            ></i>
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
           </Link>
         </span>
       ),
@@ -161,7 +160,7 @@ const UsersTable = ({
   return (
     <React.Fragment>
       <div className="table-wrapper mt-3">
-        <Table borderless striped hover {...getTableProps()}>
+        <Table borderless striped {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

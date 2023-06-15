@@ -4,7 +4,7 @@ import { Table } from "react-bootstrap";
 const Module_Table = ({ Field }: any) => {
   return (
     <>
-      <Table borderless striped hover>
+      <Table borderless striped>
         <thead>
           <tr>
             <th>Events</th>

@@ -206,7 +206,7 @@ const UserManagementTable = ({
   return (
     <React.Fragment>
       <div className="table-wrapper mt-3">
-        <Table borderless striped hover {...getTableProps}>
+        <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

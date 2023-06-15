@@ -5,6 +5,7 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
+import usersIcon from "../../../assets/images/icons/manage-users-action.svg";
 
 const tableColumn = [
   {
@@ -23,8 +24,8 @@ const tableColumn = [
     Header: "Manage Users",
     accessor: "manage_users",
     Cell: ({ row }: any) => (
-      <Link to={`/manageprogramenrollment/${row.original.id}/${row.original.name}`}>
-        <i className="fa fa-users"></i>
+      <Link className="action-icons" to={`/manageprogramenrollment/${row.original.id}/${row.original.name}`}>
+        <img src={usersIcon} alt="Manage Users" />
       </Link>
     ),
   },
@@ -41,7 +42,7 @@ const ProgramEnrollTable = ({ enrollmentData, apiStatus }: any) => {
   return (
     <>
       <div className="table-wrapper mt-3">
-        <Table borderless striped hover {...getTableProps()}>
+        <Table borderless striped {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

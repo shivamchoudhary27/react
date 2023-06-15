@@ -12,6 +12,7 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -44,13 +45,10 @@ const DepartmentTable = ({
     {
       Header: "Manage Programs",
       Cell: ({ row }: any) => {
-        <Link to="">
-          <i
-            className="fa-solid fa-pen"
-            onClick={() =>
+        <Link className="action-icons" to="">
+          <img src={programIcon} alt="Manage Program" onClick={() =>
               console.log(`Navigate to setting page. Id - ${row.id}`)
-            }
-          ></i>
+            } />
         </Link>;
       },
     },
@@ -154,7 +152,7 @@ const DepartmentTable = ({
   return (
     <>
       <div className="table-wrapper mt-3">
-        <Table borderless striped hover {...getTableProps}>
+        <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

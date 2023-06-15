@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
+import plusIcon from "../../../../assets/images/icons/plus-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -72,12 +73,9 @@ const EnrolUserTable = ({
         <span style={actionsStyle}>
           {
             (row.original.coursename !== undefined) &&
-
-            <Link to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}>
-              <Button>Enrol Users</Button>
-              {/* <i className="fa-solid fa-pen" onClick={() => enrolToCourses(row.original.id)}></i> */}
+            <Link className="action-icons small-icon" to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}>
+                <img src={plusIcon} alt="Add Course" /> Enrol Users            
             </Link>
-
           }
         </span>
       ),
@@ -105,7 +103,7 @@ const EnrolUserTable = ({
   return (
     <>
       <div className="table-wrapper mt-3">
-          <Table borderless striped hover {...getTableProps()}>
+          <Table borderless striped {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup, index) => (
                 <tr {...headerGroup.getHeaderGroupProps()} key={index}>

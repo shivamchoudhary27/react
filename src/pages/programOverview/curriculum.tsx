@@ -7,7 +7,7 @@ const Curriculum = () => {
         <div className="m-3">
             <h4>Curriculum</h4>
         </div>
-      <Table borderless striped hover>
+      <Table borderless striped>
         <thead>
           <tr>
             <th>Semister I</th>
