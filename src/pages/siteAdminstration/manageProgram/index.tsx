@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
 import { Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { getData } from "../../../adapters/microservices";
@@ -26,7 +27,8 @@ const ManageProgram = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const currentInstitute = useSelector(state => state.currentInstitute);
+  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
   const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   const getProgramData = (endPoint : string, filters : any) => {
@@ -117,14 +119,6 @@ const ManageProgram = () => {
       />      
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <div className="row gx-2 mb-3 align-items-center justify-content-center">
-            <div className="col-auto">
-              <label className="col-form-label">Institute: </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
-            </div>
-          </div>
           <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />          
           <div className="site-button-group mb-3">
             <Button

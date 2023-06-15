@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -33,7 +34,8 @@ const UserManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const [currentInstitute, setCurrentInstitute] = useState<any>(0);
+  const currentInstitute = useSelector(state => state.currentInstitute);
+  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
   const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   // get programs API call === >>>
@@ -148,11 +150,11 @@ const UserManagement = () => {
   };
 
   const updateCurrentInstitute = (instituteId : number) => {
-    setCurrentInstitute(instituteId);
+    // setCurrentInstitute(instituteId);
   }
 
   const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
+    // setCurrentInstituteName(instituteName)
   }
 
   return (
@@ -167,14 +169,6 @@ const UserManagement = () => {
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <div className="row gx-2 mb-3 align-items-center justify-content-center">
-            <div className="col-auto">
-              <label className="col-form-label">Institute : </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter updateCurrentInstitute={updateCurrentInstitute} updateInstituteName={updateInstituteName}/>
-            </div>
-          </div>
           <PageTitle pageTitle="User Management" gobacklink="/siteadmin" />
           <Filter
             updatefilters={updateSearchFilters}
