@@ -12,7 +12,6 @@ import AddProgramModal from "./form";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import Filters from "./filters";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const ProgramType = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -27,16 +26,6 @@ const ProgramType = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.currentInstitute);
-  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
-  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
-
-  const updateInstituteName = (instituteName : string) => {
-    // setCurrentInstituteName(instituteName)
-  }
-
-  const updateCurrentInstitute = (instituteId : number) => {
-    // setCurrentInstitute(instituteId);
-  }
 
   // get programs API call === >>>
   useEffect(() => {
@@ -157,7 +146,6 @@ const ProgramType = () => {
             openAddProgramType={openAddProgramType}
             updateDepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
-            updateCurrentInstitute={updateCurrentInstitute}
           />
           {/* {PROGRAM_TYPE_BUTTON} */}
           {ADDPROGRAM_MODAL_COMPONENT}

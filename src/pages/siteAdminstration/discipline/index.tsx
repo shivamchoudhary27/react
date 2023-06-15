@@ -13,7 +13,6 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const Discipline = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -33,15 +32,6 @@ const Discipline = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.currentInstitute);
-  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
-
-  const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
-  }
-
-  const updateCurrentInstitute = (instituteId : number) => {
-    // setCurrentInstitute(instituteId);
-  }
 
   // get programs API call === >>>
   useEffect(() => {

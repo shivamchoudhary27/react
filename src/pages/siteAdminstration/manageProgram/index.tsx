@@ -12,7 +12,6 @@ import ManageFilter from "./manageFilter";
 import ManageTable from "./manageTable";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
@@ -28,8 +27,6 @@ const ManageProgram = () => {
     pageSize: pagination.PERPAGE,
   });
   const currentInstitute = useSelector(state => state.currentInstitute);
-  // const [currentInstitute, setCurrentInstitute] = useState<any>(0);
-  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
 
   const getProgramData = (endPoint : string, filters : any) => {
     setApiStatus("started")
@@ -53,6 +50,7 @@ const ManageProgram = () => {
 
   // get programs API call === >>>
   useEffect(() => {
+    if (currentInstitute > 0)
     getProgramData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshData, filterUpdate, currentInstitute]);
   
@@ -98,14 +96,6 @@ const ManageProgram = () => {
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
-
-  const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
-  }
-  
-  const updateCurrentInstitute = (instituteId : number) => {
-    setCurrentInstitute(instituteId);
-  }
 
   return (
     <>

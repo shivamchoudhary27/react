@@ -13,7 +13,6 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
-import InstituteFilter from "../institute/instituteGlobalFilter";
 
 const Departments = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -30,11 +29,6 @@ const Departments = () => {
     pageSize: pagination.PERPAGE,
   });
   const currentInstitute = useSelector(state => state.currentInstitute);
-  const [currentInstitueName, setCurrentInstituteName] = useState<string>('');
-
-  const updateInstituteName = (instituteName : string) => {
-    setCurrentInstituteName(instituteName)
-  }
 
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
@@ -89,22 +83,6 @@ const Departments = () => {
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
-
-  const updateCurrentInstitute = (instituteId : number) => {
-    // setCurrentInstitute(instituteId);
-  }
-
-  // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
-  // const DEPARTMENT_FILTER_COMPONENT = (
-  //   <Filter
-  //     // departmentData={departmentData}
-  //     toggleModalShow={toggleModalShow}
-  //     resetDepartmentForm={resetDepartmentForm}
-  //     // setDepartmentData={setDepartmentData}
-  //     // refreshDepartmentData={refreshToggle}
-  //     updateInputFilters={updateInputFilters}
-  //   />
-  // );
 
   const DEPARTMENT_TABLE_COMPONENT = (
     <DepartmentTable
