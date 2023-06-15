@@ -7,6 +7,9 @@ import { deleteData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import gearIcon from "../../../../assets/images/icons/info-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -65,10 +68,8 @@ const UserManagementTable = ({
               }
             ></i>
           </Link>
-          <Link to={""}>
-            <i
-              className="fa-solid fa-pen"
-              onClick={() =>
+          <Link className="action-icons" to={""}>
+            <img src={editIcon} alt="Edit" onClick={() =>
                 editHandler({
                   id: row.original.id,
                   name: row.original.name,
@@ -78,14 +79,10 @@ const UserManagementTable = ({
                   webServiceToken: row.original.webServiceToken,
                   locked: row.original.locked,
                 })
-              }
-            ></i>
+              } />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.id)}
-            ></i>
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
         </span>
       ),

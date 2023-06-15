@@ -3,6 +3,9 @@ import { useTable } from "react-table";
 import { Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { usersRawData } from "./data";
+import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import infoIcon from "../../../../assets/images/icons/info-action.svg";
+import gearIcon from "../../../../assets/images/icons/info-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -46,14 +49,14 @@ const UserTable = () => {
           <Button variant="success" size="sm" disabled>
             Active
           </Button>
-          <Link to="">
-            <i className="fa-solid fa-circle-info"></i>
+          <Link className="action-icons" to="">
+            <img src={infoIcon} alt="Info" />
           </Link>
-          <Link to="">
+          <Link className="action-icons" to="">
             <i className="fa-solid fa-gear"></i>
           </Link>
-          <Link to="">
-            <i className="fa-solid fa-trash"></i>
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" />
           </Link>
         </span>
       ),
