@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import { deleteData } from "../../../../adapters/microservices";
 import Errordiv from "../../../../widgets/alert/errordiv";
+import editIcon from "../../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -39,26 +43,20 @@ const ManageGroupTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to="">
-            <i
-              className="fa-solid fa-pen"
-              onClick={() =>
+          <Link className="action-icons" to="">
+            <img src={editIcon} alt="Edit" onClick={() =>
                 editHandler({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
                 })
-              }
-            ></i>
+              } />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.id)}
-            ></i>
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
-          <Link to="">
-            <i className="fa-solid fa-eye"></i>
+          <Link className="action-icons" to="">
+            <img src={showIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -107,7 +105,7 @@ const ManageGroupTable = ({
   return (
     <React.Fragment>
       <div className="table-wrapper mt-3">
-        <Table borderless striped hover {...getTableProps}>
+        <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>
