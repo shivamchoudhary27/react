@@ -7,12 +7,17 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import manageCategoryIcon from "../../../assets/images/icons/manage-category.png";
+import manageCoursesIcon from "../../../assets/images/icons/manage-courses.png";
+import editIcon from "../../../assets/images/icons/edit-action.png";
+import deleteIcon from "../../../assets/images/icons/delete-action.png";
+import showIcon from "../../../assets/images/icons/show-action.png";
+import hideIcon from "../../../assets/images/icons/hide-action.png";
 
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
   justifyContent: "space-evenly",
-  alignItems: "center",
 };
 
 const ManageTable = ({
@@ -43,8 +48,8 @@ const ManageTable = ({
       Header: "Manage Categories",
       // accessor: "categories",
       Cell: ({ row }: any) => (
-        <Link to={`/managecategory/${row.original.id}/${row.original.name}`}>
-          <i className="fa-solid fa-code-branch"></i>
+        <Link className="action-icons" to={`/managecategory/${row.original.id}/${row.original.name}`}>
+          <img src={manageCategoryIcon} alt="Manage Categories" />
         </Link>
       ),
     },
@@ -52,8 +57,8 @@ const ManageTable = ({
       Header: "Manage Courses",
       accessor: "manage_courses",
       Cell: ({ row }: any) => (
-        <Link to={`/managecourses/${row.original.id}/${row.original.name}`}>
-          <i className="fa-solid fa-copy"></i>
+        <Link className="action-icons" to={`/managecourses/${row.original.id}/${row.original.name}`}>
+          <img src={manageCoursesIcon} alt="Manage Courses" />
         </Link>
       ),
     },
@@ -61,22 +66,16 @@ const ManageTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to={createEditLink(row.original.id, row.original.instituteId)}>
-            <i className="fa-solid fa-pen"></i>
+          <Link className="action-icons" to={createEditLink(row.original.id, row.original.instituteId)}>
+            <img src={editIcon} alt="Edit" />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-trash"
-              onClick={() =>
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" onClick={() =>
                 deleteHandler(row.original.id, row.original.instituteId)
-              }
-            ></i>
+              } />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-eye"
-              // onClick={() => showToggleHandler(row.original.id)}
-            ></i>
+          <Link className="action-icons" to="">
+            <img src={showIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -159,7 +158,7 @@ const ManageTable = ({
   return (
     <>
       <div className="table-wrapper mt-3">
-        <Table borderless striped hover {...getTableProps()}>
+        <Table borderless striped {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

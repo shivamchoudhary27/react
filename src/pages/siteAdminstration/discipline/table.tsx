@@ -9,6 +9,10 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import editIcon from "../../../assets/images/icons/edit-action.png";
+import deleteIcon from "../../../assets/images/icons/delete-action.png";
+import showIcon from "../../../assets/images/icons/show-action.png";
+import hideIcon from "../../../assets/images/icons/hide-action.png";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -50,29 +54,20 @@ const DiciplineTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to="">
-            <i
-              className="fa-solid fa-pen"
-              onClick={() =>
+          <Link className="action-icons" to="">            
+            <img src={editIcon} alt="Edit" onClick={() =>
                 editHandler({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
                 })
-              }
-            ></i>
+              } />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-trash"
-              onClick={() => deleteHandler(row.original.id)}
-            ></i>
+          <Link className="action-icons" to="">
+            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
-          <Link to="">
-            <i
-              className="fa-solid fa-eye"
-              // onClick={() => showToggleHandler(row.original.id)}
-            ></i>
+          <Link className="action-icons" to="">
+            <img src={showIcon} alt="Show" />
           </Link>
         </span>
       ),
