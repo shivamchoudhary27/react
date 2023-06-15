@@ -15,7 +15,7 @@ import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
-  userEmail: Yup.string().email().required(""),
+  userEmail: Yup.string().trim().email().required(""),
 });
 
 const DiciplineModal = ({

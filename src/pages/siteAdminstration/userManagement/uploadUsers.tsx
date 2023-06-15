@@ -42,11 +42,15 @@ const UploadNewUsers = ({
                 (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
             );
           }
-          setSubmitting(false);
+          setTimeout(()=>{
+            setUploadModalShow(false);
+            setUploadresponse("");
+          },3000)
           setUploadresponse(responseMsg);
-          resetForm();
+          setSubmitting(false);
           updateAddRefresh();
           setShowAlert(false);
+          resetForm();
         }
       })
       .catch((err: any) => {

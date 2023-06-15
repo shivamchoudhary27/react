@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Tabs, Tab, Container, Row, Col } from "react-bootstrap";
-import Card_Component from "./cardComp";
+import CourseListComp from "./cardComp";
 import FilterProgramDropdown from "./filterDropdown";
 
 const ProgramCertification = () => {
@@ -11,7 +11,7 @@ const ProgramCertification = () => {
         <h3>My Courses</h3>
         <FilterProgramDropdown />
       </div>
-      <Card_Component />
+      <CourseListComp />
     </Container>
   );
 };

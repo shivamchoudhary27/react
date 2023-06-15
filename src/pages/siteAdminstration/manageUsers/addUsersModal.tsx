@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import { putData, postData } from "../../../adapters/microservices";
 import * as Yup from "yup";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -37,12 +38,14 @@ const AddUsersModal = ({
     roleNumber: usersdataobj.roleNo,
     role: usersdataobj.role,
   };
-
   const { programid, userid } = useParams();
   const parsedProgramid = parseInt(programid);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: {}, action: any) => {
+  const handleFormData = (values: {}, {setSubmitting}: any) => {
+    setSubmitting(true);
     if (usersdataobj.id !== 0) {
       console.log(JSON.stringify(values));
       putData(
@@ -54,30 +57,47 @@ const AddUsersModal = ({
           if (res.data !== "" && res.status === 200) {
             // navigate(gobackLink);
             addusersmodalshow(false);
+            setSubmitting(false);
             refreshToggle();
           }
         })
         .catch((err: any) => {
           console.log(err);
+          setSubmitting(false);
           if (err.response.status === 400) {
-            window.alert(err.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "danger",
+            });
           }
         });
     } else {
+      setSubmitting(true);
       postData(`program/${parsedProgramid}/enrol-user`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
             // navigate(gobackLink);
             addusersmodalshow(false);
+            setSubmitting(false);
             refreshToggle();
           }
         })
         .catch((err: any) => {
+          setSubmitting(false);
           if (err.response.status === 400) {
-            window.alert(err.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "danger",
+            });
           }
           if (err.response.status === 404) {
-            window.alert(err.response.data.message);
+            setShowAlert(true);
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "danger",
+            });
           }
         });
     }
@@ -205,6 +225,13 @@ const AddUsersModal = ({
               </Form>
             )}
           </Formik>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>
