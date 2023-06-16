@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import { deleteData as deleteProgramData } from "../../../adapters/microservices";
+import { deleteData as deleteProgramData, putData } from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
@@ -46,7 +46,6 @@ const ManageTable = ({
     },
     {
       Header: "Manage Categories",
-      // accessor: "categories",
       Cell: ({ row }: any) => (
         <Link className="action-icons" to={`/managecategory/${row.original.id}/${row.original.name}`}>
           <img src={manageCategoryIcon} alt="Manage Categories" />
@@ -74,8 +73,11 @@ const ManageTable = ({
                 deleteHandler(row.original.id, row.original.instituteId)
               } />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleProgramPublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -141,6 +143,19 @@ const ManageTable = ({
     }
     setOnDeleteAction("");
   }, [onDeleteAction]);
+
+  const toggleProgramPublished = (programPacket: any) => { 
+    programPacket.published = !programPacket.published;
+    let endPoint = `/${currentInstitute}/programs/${programPacket.id}`;
+    putData(endPoint, programPacket)
+      .then((res: any) => {
+
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        programPacket.published = !programPacket.published
+      });
+  }
 
   const deleteHandler = (id: number, instituteId: number) => {
     refreshOnDelete(false);
