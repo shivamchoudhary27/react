@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { usersRawData } from "./data";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import infoIcon from "../../../../assets/images/icons/info-action.svg";
-import gearIcon from "../../../../assets/images/icons/info-action.svg";
+import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -53,7 +53,7 @@ const UserTable = () => {
             <img src={infoIcon} alt="Info" />
           </Link>
           <Link className="action-icons" to="">
-            <i className="fa-solid fa-gear"></i>
+            <img src={gearIcon} alt="Setting" />
           </Link>
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" />

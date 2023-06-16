@@ -62,6 +62,9 @@ const UserManagementTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
           </Link>
+          <Link className="action-icons" to="">
+            <img src={showIcon} alt="Show" />
+          </Link>
         </span>
       ),
     },
