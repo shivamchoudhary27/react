@@ -47,7 +47,7 @@ const TagsTable = ({
 
   const tableColumn = [
     {
-      Header: "#Tags Name",
+      Header: "Tags Name",
       accessor: "name",
     },
     {
