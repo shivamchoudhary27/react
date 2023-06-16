@@ -1,8 +1,9 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { useDispatch } from 'react-redux';
 import { deleteData as deleteDepartmentData } from "../../../adapters/microservices";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
@@ -11,8 +12,8 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -38,19 +39,17 @@ const DepartmentTable = ({
     },
     {
       Header: "Program Attached",
-      Cell: () => {
-        <span>{2}</span>;
-      },
+      Cell: () => (
+        <span>{""}</span>
+      ),
     },
     {
       Header: "Manage Programs",
-      Cell: ({ row }: any) => {
-        <Link className="action-icons" to="">
-          <img src={programIcon} alt="Manage Program" onClick={() =>
-              console.log(`Navigate to setting page. Id - ${row.id}`)
-            } />
-        </Link>;
-      },
+      Cell: ({ row }: any) => (
+        <Link className="action-icons" to="" onClick={() => manageDepartmentPrograms(row.original.id)}>
+          <img src={programIcon} alt="Manage Program" />
+        </Link>
+      ),
     },
     {
       Header: "Actions",
@@ -80,6 +79,8 @@ const DepartmentTable = ({
       columns,
       data,
     });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -94,7 +95,6 @@ const DepartmentTable = ({
   };
 
   useEffect(() => {
-    console.log("id: " + deleteId + "------");
     if (onDeleteAction === "Yes") {
       let endPoint = `${currentInstitute}/departments/${deleteId}`;
       deleteDepartmentData(endPoint)
@@ -134,6 +134,11 @@ const DepartmentTable = ({
     }
     setOnDeleteAction("");
   }, [onDeleteAction]);
+
+  const manageDepartmentPrograms = (id: number) => {
+    dispatch({type: ACTIONSLIST.currentDepartmentFilterId, departmentId: id});
+    setTimeout(() => {navigate('/manageprogram')}, 400)
+  }
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {

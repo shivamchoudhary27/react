@@ -1,6 +1,7 @@
 const ACTIONSLIST = {
    currentInstitute : 'currentInsitute',
-   updateCurrentInstitute : 'updateCurrentInstitute' 
+   updateCurrentInstitute : 'updateCurrentInstitute',
+   currentDepartmentFilterId : 'currentDepartmentFilterId',
 }
 
 export default ACTIONSLIST;

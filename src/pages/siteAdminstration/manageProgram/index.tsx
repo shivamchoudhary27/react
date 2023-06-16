@@ -20,8 +20,9 @@ const ManageProgram = () => {
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState("");
+  const selectedDepartment = useSelector(state => state.currentDepartmentFilterId);
   const [filterUpdate, setFilterUpdate] = useState<any>({
-    departmentId: "",
+    departmentId: selectedDepartment,
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
