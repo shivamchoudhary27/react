@@ -9,7 +9,7 @@ import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import gearIcon from "../../../../assets/images/icons/info-action.svg";
+import gearIcon from "../../../assets/images/icons/setting-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -53,9 +53,8 @@ const UserManagementTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to="">
-            <i className="fa-solid fa-gear"
-              onClick={() =>
+          <Link className="action-icons" to="">
+            <img src={gearIcon} alt="Setting" onClick={() =>
                 configEditHandler({
                   id: row.original.id,
                   name: row.original.name,
@@ -65,8 +64,7 @@ const UserManagementTable = ({
                   webServiceToken: row.original.webServiceToken,
                   locked: row.original.locked,
                 })
-              }
-            ></i>
+              } />
           </Link>
           <Link className="action-icons" to={""}>
             <img src={editIcon} alt="Edit" onClick={() =>
