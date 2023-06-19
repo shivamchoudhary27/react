@@ -62,7 +62,7 @@ const UserFilter = ({
           onReset={formik.handleReset}
         >
           <Row className="g-2">
-            <Col className="col-auto">
+            <Col>
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
@@ -74,7 +74,7 @@ const UserFilter = ({
                 value={formik.values.name}
               />
             </Col>
-            <Col className="col-auto">
+            <Col>
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -86,7 +86,7 @@ const UserFilter = ({
                 value={formik.values.email}
               />
             </Col>
-            <Col className="col-auto">
+            <Col>
               <label htmlFor="roleNumber" hidden>Role number</label>
               <input
                 className="form-control"
@@ -98,7 +98,7 @@ const UserFilter = ({
                 value={formik.values.roleNumber}
               />
             </Col>
-            <Col className="col-auto">
+            <Col>
               <Button variant="primary" type="submit" className="me-2">
                 Filter
               </Button>{" "}

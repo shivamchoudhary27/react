@@ -32,10 +32,10 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
       <div className="filter-wrapper mt-2">        
         <form onSubmit={handleSearch}>
           <Row className="align-items-center g-2">
-            <Col className="col-auto">
+            <Col>
             <ManageDropdown updatedepartment={updatedepartment} currentInstitute={currentInstitute}/>
             </Col>
-            <Col className="col-auto">
+            <Col>
               <input
                 type="text"
                 className="form-control"
@@ -44,7 +44,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
                 value={inputName}
               />
             </Col>
-            <Col className="col-auto">
+            <Col>
               <input
                 type="text"
                 className="form-control"
@@ -53,7 +53,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
                 value={inputCode}
               />
             </Col>
-            <Col className="col-auto">
+            <Col>
               <Button variant="primary" type="submit" className="me-2" onClick={() => getInputValues()}>
                 Filter
               </Button>{" "}

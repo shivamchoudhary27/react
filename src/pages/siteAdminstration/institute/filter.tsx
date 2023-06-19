@@ -32,8 +32,8 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
     <React.Fragment>
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <div className="row g-2">
-            <div className="col-auto">
+          <Row className="g-2">
+            <Col>
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
@@ -44,8 +44,8 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 onChange={formik.handleChange}
                 value={formik.values.name}
               />
-            </div>
-            <div className="col-auto">
+            </Col>
+            <Col>
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -56,12 +56,12 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 onChange={formik.handleChange}
                 value={formik.values.shortCode}
               />
-            </div>
-            <div className="col-auto">
-            <Button variant="primary" type="submit" className="me-2">Filter</Button>
-            <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
-            </div>
-          </div>          
+            </Col>
+            <Col>
+              <Button variant="primary" type="submit" className="me-2">Filter</Button>
+              <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+            </Col>
+          </Row>          
         </form>
         <div className="site-button-group">
           <Button variant="primary" onClick={openAddUserModal}>Add Institute</Button>{" "}
