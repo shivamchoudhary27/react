@@ -1,4 +1,4 @@
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import "./style.scss";
 
@@ -30,8 +30,8 @@ const ManageFilter = ({ updateinputfilters }: any) => {
         onSubmit={formik.handleSubmit}
         onReset={formik.handleReset}
       >
-        <div className="row g-2">
-          <div className="col-auto">
+        <Row className="g-2">
+          <Col>
             <input
               className="form-control"
               id="name"
@@ -41,8 +41,8 @@ const ManageFilter = ({ updateinputfilters }: any) => {
               onChange={formik.handleChange}
               value={formik.values.name}
             />
-          </div>
-          <div className="col-auto">
+          </Col>
+          <Col>
             <input
               className="form-control"
               id="email"
@@ -52,8 +52,8 @@ const ManageFilter = ({ updateinputfilters }: any) => {
               onChange={formik.handleChange}
               value={formik.values.email}
             />
-          </div>
-          <div className="col-auto">
+          </Col>
+          <Col>
             <Button variant="primary" type="submit" className="me-2">
               Filter
             </Button>
@@ -64,8 +64,8 @@ const ManageFilter = ({ updateinputfilters }: any) => {
             >
               Reset
             </Button>
-          </div>
-        </div>
+          </Col>
+        </Row>
       </form>
       {/* </div>
       </div> */}
