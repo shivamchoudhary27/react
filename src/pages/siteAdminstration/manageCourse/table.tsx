@@ -284,7 +284,7 @@ const CourseTable = ({
 
   return (
     <>
-      <div className="table-wrapper mt-3">
+      <div className="table-responsive table-wrapper mt-3">
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
           <Table borderless striped {...getTableProps()}>
             <thead>

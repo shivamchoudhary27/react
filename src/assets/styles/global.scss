@@ -16,13 +16,6 @@ a, a:visited, .btn-link {
     }
 }
 
-/**** Headings Start ****/
-.page-title {
-    border-bottom: 1px solid #ddd;
-}
-/**** Headings End ****/
-
-
 /**** Button / Link Start ****/
 .btn-primary, .btn-primary:active, .btn-primary:visited {
     background-color: #1B609D;
@@ -129,38 +122,6 @@ label {
 }
 /**** Grid End ****/
 
-/**** Block Start ****/
-.mitblock {
-    background-color: #fff;
-    border-radius: 1rem;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
-    padding: 1.25rem;
-}
-.mitblock-title {
-    font-size: 18px;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 30px;
-}
-.mitblock-body {
-    margin-top: 1.5rem;
-    .container-fluid {
-        max-width: 100%;
-    }
-}
-/**** Block End ****/
-
-/**** Component Heading with Filter Start ****/
-.mitcomponet-heading {
-    margin-bottom: 30px;
-    h3 {
-        margin-bottom: 0;
-    }
-}
-/**** Component Heading with Filter End ****/
-
 /**** Table Start ****/
 .table  {
     --bs-table-striped-bg: rgba(36, 117, 160, 0.05);
@@ -194,24 +155,6 @@ label {
 }
 /**** Table End ****/
 
-/**** Filter Start ****/
-.filter-wrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(27, 96, 157, 0.05);
-    padding: 1rem;
-}
-.site-button-group {
-    button {
-        margin-right: 0.25px;
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-}
-/**** Filter End ****/
-
 /**** Modal Start ****/
 .modal {
     --bs-modal-header-padding: 0.75rem 1.5rem;
@@ -243,6 +186,7 @@ label {
 /**** Custom Scrollbar Start ****/
 ::-webkit-scrollbar {
     width: 4px;
+    height: 4px;
 }  
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
@@ -283,3 +227,59 @@ label {
     justify-content: center;
 }
 /**** Tab End ****/
+
+/**** Block Start ****/
+.mitblock {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+    padding: 1.25rem;
+}
+.mitblock-title {
+    font-size: 18px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 30px;
+}
+.mitblock-body {
+    margin-top: 1.5rem;
+    .container-fluid {
+        max-width: 100%;
+    }
+}
+/**** Block End ****/
+
+/**** Headings Start ****/
+.page-title {
+    border-bottom: 1px solid #ddd;
+}
+/**** Headings End ****/
+
+/**** Filter Start ****/
+.filter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(27, 96, 157, 0.05);
+    padding: 1rem;
+}
+.site-button-group {
+    button {
+        margin-right: 0.25px;
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+}
+/**** Filter End ****/
+
+/**** Component Heading with Filter Start ****/
+.mitcomponet-heading {
+    margin-bottom: 30px;
+    h3 {
+        margin-bottom: 0;
+    }
+}
+/**** Component Heading with Filter End ****/

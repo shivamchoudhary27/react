@@ -38,7 +38,7 @@ const Filter = ({
     <>
       <div className="filter-wrapper">
         <form onSubmit={handleSearch}>
-          <Row className="align-items-center gx-3">
+          <Row className="align-items-center g-2">
             <Col className="col-auto">
               <input
                 type="text"

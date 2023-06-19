@@ -7,11 +7,11 @@
   .box {
     width: 35%;
     height: 240px;
-    margin: 10px;
+    margin: 1%;
     transition: all 0.5s ease;
   }
   .box.middle {
-    width: 25%;
+    width: 24%;
   }
   .box.middle:hover {
     width: 35%;
@@ -21,13 +21,13 @@
   }
   
   &.row2 > div:nth-child(odd) {
-    width: 25%;
+    width: 24%;
   }
   &.row2 > div:nth-child(even) {
-    width: 45%;
+    width: 46%;
   }
   .box.row2box:hover ~ .box:not(.row2box) {
-    width: 45%;
+    width: 46%;
   }
   .box.row2box:hover {
     width: 35%;
@@ -81,4 +81,39 @@
       box-shadow: 5px 5px 11px #959595;
     }
   }
+}
+
+// `md` applies to small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {  
+  .administration-box {
+    max-width: 100%;
+    .box {
+      width: 31% !important;
+    }
+    .default-item {
+      img {
+        max-height: 140px;
+      }
+      &.institute-management img {
+        max-height: 160px;
+      }
+    }
+  }
+}
+// `sm` applies to x-small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {
+  .administration-box {
+    flex-direction: column;
+    .box {
+      width: 100% !important;
+      margin: 1% 0 !important;
+      height: 180px;
+    }
+    .default-item {
+      border-radius: 20px;
+      .card-title {
+        margin: 20px;
+      }
+    }
+  }  
 }

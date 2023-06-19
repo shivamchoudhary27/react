@@ -27,7 +27,7 @@ const Filter = ({openAddProgramType, updateinputfilters} : any) => {
     <React.Fragment>
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <div className="row">
+          <div className="row g-2">
             <div className="col-auto">
               <label htmlFor="name" hidden>Name</label>
               <input

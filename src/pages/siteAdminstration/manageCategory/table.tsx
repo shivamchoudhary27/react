@@ -225,7 +225,7 @@ const CategoryTable = ({
   return (
     <>
       {/* {categoryData.length === 0 && <TableSkeleton numberOfRows={5} numberOfColumns={4} />} */}
-      <div className="table-wrapper mt-3">
+      <div className="table-responsive table-wrapper mt-3">
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
           <Table borderless striped {...getTableProps()}>
             <thead>

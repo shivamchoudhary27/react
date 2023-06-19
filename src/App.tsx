@@ -4,6 +4,7 @@ import 'bootstrap/dist/js/bootstrap.min';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import './assets/styles/global.scss';
+import './assets/styles/global-responsive.scss';
 // import './widgets/components.css';
 import NewCustomRoutes from './features/routes';
 
