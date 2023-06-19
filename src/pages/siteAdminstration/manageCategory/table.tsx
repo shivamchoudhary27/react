@@ -34,11 +34,6 @@ const CategoryTable = ({
 
   const tableColumn = [
     {
-      Header: "",
-      accessor: "icon",
-      Cell: ({ row }: any) => <img src={moveIcon} alt="Move category" />,
-    },
-    {
       Header: "Categories",
       accessor: "name",
       Cell: ({ row }: any) => {
@@ -48,7 +43,7 @@ const CategoryTable = ({
               paddingLeft: setLevelPadding(row.original.level),
             }}
           >
-            {row.values.name}
+            <img src={moveIcon} alt="Move category" className="me-3" />{row.values.name}
           </div>
         );
       },
