@@ -61,7 +61,7 @@ const UserFilter = ({
           onSubmit={formik.handleSubmit}
           onReset={formik.handleReset}
         >
-          <Row>
+          <Row className="g-2">
             <Col className="col-auto">
               <label htmlFor="name" hidden>Name</label>
               <input

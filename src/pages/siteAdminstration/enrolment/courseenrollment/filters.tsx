@@ -30,7 +30,7 @@ const ManageFilter = ({ updateinputfilters }: any) => {
         onSubmit={formik.handleSubmit}
         onReset={formik.handleReset}
       >
-        <div className="row gx-3">
+        <div className="row g-2">
           <div className="col-auto">
             <input
               className="form-control"

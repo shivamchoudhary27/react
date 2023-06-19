@@ -31,7 +31,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
     <>
       <div className="filter-wrapper mt-2">        
         <form onSubmit={handleSearch}>
-          <Row className="align-items-center gx-3">
+          <Row className="align-items-center g-2">
             <Col className="col-auto">
             <ManageDropdown updatedepartment={updatedepartment} currentInstitute={currentInstitute}/>
             </Col>
@@ -61,7 +61,9 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
             </Col>
           </Row>
         </form>
-        <Button variant="primary" onClick={handleAddProgram}>Add Program</Button>
+        <div className="site-button-group">
+          <Button variant="primary" onClick={handleAddProgram}>Add Program</Button>
+        </div>        
       </div>
     </>
   );

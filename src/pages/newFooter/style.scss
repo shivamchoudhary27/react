@@ -4,11 +4,19 @@
     margin-top: 2.5rem;
     padding: 0.5rem 0;
     display: flex;
-    justify-content: center;
+    justify-content: center;    
     .list-group-item {
         border: none;
         background: none;
         color: #fff;
         font-size: 12px;
+    }
+}
+// `md` applies to small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) { 
+    .site-footer {
+        .list-group-horizontal {
+            flex-wrap: wrap;
+        }
     }
 }
