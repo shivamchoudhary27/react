@@ -3,7 +3,7 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
-import { deleteData as deleteTagData } from "../../../adapters/microservices";
+import { putData, deleteData as deleteTagData } from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
@@ -11,18 +11,6 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
-
-const rawData = [
-  {
-    name: "Mobile",
-  },
-  {
-    name: "Trending",
-  },
-  {
-    name: "Courses",
-  },
-];
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -39,12 +27,6 @@ const TagsTable = ({
   apiStatus,
   currentInstitute,
 }: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
-
   const tableColumn = [
     {
       Header: "Tags Name",
@@ -62,8 +44,11 @@ const TagsTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleTagsPublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -78,11 +63,32 @@ const TagsTable = ({
       columns,
       data,
     });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
+  const [forceRender, setForceRender] = useState(false);
 
   const editHandler = ({ id, name }: any) => {
     toggleModalShow(true);
     editHandlerById({ id, name });
   };
+
+  const toggleTagsPublished = (tagPacket: any) => { 
+    tagPacket.published = !tagPacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `/${currentInstitute}/tags/${tagPacket.id}`;
+    putData(endPoint, tagPacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        tagPacket.published = !tagPacket.published
+        setForceRender(prevState => !prevState);
+      });
+  }
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {

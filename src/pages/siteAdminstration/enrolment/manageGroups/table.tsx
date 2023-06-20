@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../../widgets/skeleton/table";
-import { deleteData } from "../../../../adapters/microservices";
+import { putData, deleteData } from "../../../../adapters/microservices";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
@@ -24,7 +24,8 @@ const ManageGroupTable = ({
   setModalShow,
   editHandlerById,
   refreshGroupData,
-  apiStatus
+  apiStatus,
+  currentInstitute
 }: any) => {
   const tableColumn = [
     {
@@ -55,8 +56,11 @@ const ManageGroupTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleGroupPublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -71,6 +75,7 @@ const ManageGroupTable = ({
       columns,
       data,
     });
+  const [forceRender, setForceRender] = useState(false);
 
   // update event handler
   const editHandler = ({id, name, description}: any) => {
@@ -78,6 +83,21 @@ const ManageGroupTable = ({
     editHandlerById({id, name, description});
     refreshGroupData()
   };
+
+  const toggleGroupPublished = (tagPacket: any) => { 
+    tagPacket.published = !tagPacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `/${currentInstitute}/tags/${tagPacket.id}`;
+    putData(endPoint, tagPacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        tagPacket.published = !tagPacket.published
+        setForceRender(prevState => !prevState);
+      });
+  }
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {

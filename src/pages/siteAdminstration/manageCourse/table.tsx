@@ -39,7 +39,6 @@ const CourseTable = ({
   openAddCourseModal,
   editHandlerById,
 }: any) => {
-
   const tableColumn = [    
     {
       Header: "Categories",
@@ -164,7 +163,7 @@ const CourseTable = ({
       putData(endPoint, updateCourseData)
         .then((res: any) => {
           if (res.status === 200) {
-            window.alert("Update successul");
+            window.alert("Update successful");
             setUpdateCourse({ data: {}, status: "nutral" });
             refreshcategories();
           }

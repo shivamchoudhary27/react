@@ -29,7 +29,7 @@ const Departments = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector((state : any) => state.currentInstitute);
 
   const getDepartmentData = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
     setApiStatus("started")
