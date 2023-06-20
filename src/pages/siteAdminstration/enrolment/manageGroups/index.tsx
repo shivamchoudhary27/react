@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
@@ -37,6 +38,7 @@ const ManageGroups = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
+  const currentInstitute = useSelector((state : any) => state.currentInstitute);
 
   // fetch all manage group data
   useEffect(() => {
@@ -61,7 +63,7 @@ const ManageGroups = () => {
 
   useEffect(() => {
     makeGetDataRequest(
-      "/programs",
+      `${currentInstitute}/programs`,
       { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
       setProgramData, setApiStatus
     );
@@ -156,6 +158,7 @@ const ManageGroups = () => {
               editHandlerById={editHandlerById}
               refreshGroupData={refreshToggle}
               apiStatus={apiStatus}
+              currentInstitute={currentInstitute}
             />
             <BuildPagination
               totalpages={manageGroupList.pager.totalPages}

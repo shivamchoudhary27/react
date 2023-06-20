@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 import { pagination } from "../../../../utils/pagination";
 import { Container, Button, Row, Col } from "react-bootstrap";
@@ -47,6 +48,7 @@ const CourseEnrollment = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
+  const currentInstitute = useSelector((state : any) => state.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -56,11 +58,10 @@ const CourseEnrollment = () => {
       setDiciplineData, setApiStatus
     );
     makeGetDataRequest(
-      "/programs",
+      `${currentInstitute}/programs`,
       { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
       setProgramData, setApiStatus
     );
-    // makeGetDataRequest(`program/${programid}/enrol-user`, filterUpdate, setProgramUsers);
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
