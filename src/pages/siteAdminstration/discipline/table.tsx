@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { deleteData as deleteDisciplineData } from "../../../adapters/microservices";
+import { putData, deleteData as deleteDisciplineData } from "../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
@@ -30,12 +30,6 @@ const DiciplineTable = ({
   apiStatus,
   currentInstitute,
 }: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
-
   // custom react table column === >>>
   const tableColumn = [
     {
@@ -48,7 +42,7 @@ const DiciplineTable = ({
     },
     {
       Header: "Program Attached",
-      accessor: "",
+      accessor: "totalPrograms",
     },
     {
       Header: "Actions",
@@ -66,8 +60,11 @@ const DiciplineTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleDisciplinePublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -82,6 +79,12 @@ const DiciplineTable = ({
       columns,
       data,
     });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
+  const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
   const editHandler = ({ id, name, description }: any) => {
@@ -89,6 +92,21 @@ const DiciplineTable = ({
     editHandlerById({ id, name, description });
     refreshDisciplineData();
   };
+
+  const toggleDisciplinePublished = (disciplinePacket: any) => { 
+    disciplinePacket.published = !disciplinePacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `/${currentInstitute}/disciplines/${disciplinePacket.id}`;
+    putData(endPoint, disciplinePacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        disciplinePacket.published = !disciplinePacket.published
+        setForceRender(prevState => !prevState);
+      });
+  }
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {

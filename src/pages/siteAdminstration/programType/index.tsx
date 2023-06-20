@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
 import { Container } from "react-bootstrap";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 import Header from "../../newHeader";
@@ -25,19 +25,40 @@ const ProgramType = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector((state : any) => state.currentInstitute);
+
+  const getProgramTypeData = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
+    setApiStatus("started")
+    getData(endPoint, filters)
+    .then((result : any) => {
+        if (result.data !== "" && result.status === 200) {
+            // Merge the programCounts into the items objects
+            result.data.items.forEach((item : any) => {
+              const index = result.data.programCounts.findIndex((packet : any) => packet.programtypeId === item.id);
+              if (index > -1) {
+                item.totalPrograms = result.data.programCounts[index].totalPrograms;
+              }
+            });
+            setData(result.data);
+        }
+        setApiStatus("finished")
+    })
+    .catch((err : any) => {
+        console.log(err);
+        setApiStatus("finished")
+    });
+  }
 
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0)
-    makeGetDataRequest(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
+    getProgramTypeData(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
   }, [refreshData, filterUpdate, currentInstitute]);
 
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
-      makeGetDataRequest(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
+    getProgramTypeData(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
   }, [refreshOnDelete]);
-
 
   const refreshToggle = () => {
     let newBool = refreshData === true ? false : true;

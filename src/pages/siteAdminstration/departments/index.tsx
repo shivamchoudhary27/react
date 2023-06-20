@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from 'react-redux';
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+// import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { getData } from "../../../adapters/microservices";
 import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
 import Header from "../../newHeader";
@@ -30,9 +31,31 @@ const Departments = () => {
   });
   const currentInstitute = useSelector(state => state.currentInstitute);
 
+  const getDepartmentData = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
+    setApiStatus("started")
+    getData(endPoint, filters)
+    .then((result : any) => {
+        if (result.data !== "" && result.status === 200) {
+            // Merge the programCounts into the items objects
+            result.data.items.forEach((item : any) => {
+              const index = result.data.programCounts.findIndex((packet : any) => packet.departmentId === item.id);
+              if (index > -1) {
+                item.totalPrograms = result.data.programCounts[index].totalPrograms;
+              }
+            });
+            setData(result.data);
+        }
+        setApiStatus("finished")
+    })
+    .catch((err : any) => {
+        console.log(err);
+        setApiStatus("finished")
+    });
+  }
+
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
-      makeGetDataRequest(
+    getDepartmentData(
         `/${currentInstitute}/departments`,
         filterUpdate,
         setDepartmentData,
@@ -42,9 +65,8 @@ const Departments = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    console.log('effect runubug');
     if (currentInstitute > 0)
-    makeGetDataRequest(
+    getDepartmentData(
       `/${currentInstitute}/departments`,
       filterUpdate,
       setDepartmentData,
