@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useDispatch } from 'react-redux';
-import { deleteData as deleteDepartmentData } from "../../../adapters/microservices";
+import { putData, deleteData as deleteDepartmentData } from "../../../adapters/microservices";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../store/actions";
 
@@ -39,9 +40,7 @@ const DepartmentTable = ({
     },
     {
       Header: "Program Attached",
-      Cell: () => (
-        <span>{""}</span>
-      ),
+      accessor: "totalPrograms"
     },
     {
       Header: "Manage Programs",
@@ -63,8 +62,11 @@ const DepartmentTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleDepartmentPublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -86,6 +88,7 @@ const DepartmentTable = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
   const [deleteId, setDeleteId] = useState(0);
+  const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
   const editHandler = ({ id, name }: any) => {
@@ -93,6 +96,21 @@ const DepartmentTable = ({
     editHandlerById({ id, name });
     refreshDepartmentData();
   };
+
+  const toggleDepartmentPublished = (departmentPacket: any) => { 
+    departmentPacket.published = !departmentPacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `/${currentInstitute}/departments/${departmentPacket.id}`;
+    putData(endPoint, departmentPacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        departmentPacket.published = !departmentPacket.published
+        setForceRender(prevState => !prevState);
+      });
+  }
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {

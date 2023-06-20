@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { deleteData as deleteProgramData } from "../../../adapters/microservices";
+import { putData, deleteData as deleteProgramData } from "../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
@@ -29,12 +29,7 @@ const ProgramTable = ({
   apiStatus,
   currentInstitute,
 }: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
-
+  
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -66,22 +61,31 @@ const ProgramTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
           </Link>{" "}
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleProgramtypePublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
     },
   ];
-
+  
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => programTypeData, [programTypeData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    });
+  useTable({
+    columns,
+    data,
+  });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
+  const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
   const editHandler = ({ id, name, description, batchYearRequired }: any) => {
@@ -89,6 +93,21 @@ const ProgramTable = ({
     editHandlerById({ id, name, description, batchYearRequired });
     refreshProgramData();
   };
+
+  const toggleProgramtypePublished = (programtypePacket: any) => { 
+    programtypePacket.published = !programtypePacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `/${currentInstitute}/program-types/${programtypePacket.id}`;
+    putData(endPoint, programtypePacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        programtypePacket.published = !programtypePacket.published;
+        setForceRender(prevState => !prevState);
+      });
+  }
 
   useEffect(() => {
     console.log(onDeleteAction)
