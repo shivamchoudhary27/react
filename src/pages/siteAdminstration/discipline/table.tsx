@@ -54,6 +54,7 @@ const DiciplineTable = ({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
+                  published: row.original.published
                 })
               } />
           </Link>
@@ -87,9 +88,9 @@ const DiciplineTable = ({
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description }: any) => {
+  const editHandler = ({ id, name, description, published }: any) => {
     toggleModalShow(true);
-    editHandlerById({ id, name, description });
+    editHandlerById({ id, name, description, published });
     refreshDisciplineData();
   };
 

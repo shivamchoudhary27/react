@@ -55,6 +55,7 @@ const ProgramTable = ({
                   name: row.original.name,
                   description: row.original.description,
                   batchYearRequired: row.original.isBatchYearRequired,
+                  published: row.original.published
                 })
               } />
           </Link>{" "}
@@ -88,9 +89,9 @@ const ProgramTable = ({
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description, batchYearRequired }: any) => {
+  const editHandler = ({ id, name, description, batchYearRequired, published }: any) => {
     toggleModalShow(true);
-    editHandlerById({ id, name, description, batchYearRequired });
+    editHandlerById({ id, name, description, batchYearRequired, published });
     refreshProgramData();
   };
 

@@ -13,6 +13,7 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
@@ -28,6 +29,7 @@ const DepartmentModal = ({
   onHide,
   currentInstitute,
 }: any) => {
+  console.log(departmentobj)
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
@@ -35,6 +37,7 @@ const DepartmentModal = ({
   const initialValues = {
     name: departmentobj.name,
     description: "",
+    published: departmentobj.published
   };
 
   // custom Obj & handle form data === >>>
@@ -127,6 +130,7 @@ const DepartmentModal = ({
           initialValues={initialValues}
           validationSchema={departmentSchema}
           onSubmit={(values, action) => {
+            console.log(values)
             handleFormData(values, action);
           }}
         >
@@ -162,6 +166,17 @@ const DepartmentModal = ({
                   errors={errors.description}
                   touched={touched.description}
                   msgText="Please Enter description"
+                />
+              </div>
+              <div className="mb-3">
+                <FieldTypeCheckbox
+                  name="published"
+                  checkboxLabel="Published"
+                />{" "}
+                <FieldErrorMessage
+                  errors=""
+                  touched=""
+                  msgText="Please Check required field"
                 />
               </div>
               {isSubmitting === false ? (

@@ -75,6 +75,7 @@ const ProgramType = () => {
     name,
     description,
     batchYearRequired,
+    published
   }: any) => {
     console.log(batchYearRequired);
     setProgramTypeObj({
@@ -82,6 +83,7 @@ const ProgramType = () => {
       name: name,
       description: description,
       batchYearRequired: batchYearRequired,
+      published: published
     });
   };
 
@@ -103,6 +105,7 @@ const ProgramType = () => {
       name: "",
       description: "",
       BatchYearRequired: false,
+      published: false
     });
     setRefreshData(false);
   };

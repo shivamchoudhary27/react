@@ -87,13 +87,13 @@ const Departments = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name }: any) => {
-    setDepartmentObj({ id: id, name: name });
+  const editHandlerById = ({ id, name, published }: any) => {
+    setDepartmentObj({ id: id, name: name, published: published });
   };
 
   // handle reset Form after SAVE data === >>>
   const resetDepartmentForm = () => {
-    setDepartmentObj({ id: 0, name: "" });
+    setDepartmentObj({ id: 0, name: "", published: false });
     setRefreshData(false);
   };
 

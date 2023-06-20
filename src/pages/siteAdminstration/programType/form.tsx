@@ -41,6 +41,7 @@ const AddProgramModal = ({
     name: programtypeobj.name,
     description: programtypeobj.description,
     isBatchYearRequired: programtypeobj.batchYearRequired,
+    published: programtypeobj.published
   };
 
   // custom Obj & handle form data === >>>
@@ -180,7 +181,17 @@ const AddProgramModal = ({
                   msgText="Please Check required field"
                 />
               </div>
-
+              <div className="mb-3">
+                <FieldTypeCheckbox
+                  name="published"
+                  checkboxLabel="Published"
+                />{" "}
+                <FieldErrorMessage
+                  errors=""
+                  touched=""
+                  msgText="Please Check required field"
+                />
+              </div>
               {isSubmitting === false ? (
                 <div className="modal-buttons">
                   <Custom_Button
