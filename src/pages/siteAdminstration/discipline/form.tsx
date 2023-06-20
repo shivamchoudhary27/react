@@ -13,6 +13,7 @@ import Custom_Button from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -35,6 +36,7 @@ const DiciplineModal = ({
   const initialValues = {
     name: disciplineobj.name,
     description: disciplineobj.description,
+    published: disciplineobj.published
   };
 
   // custom Obj & handle form data === >>>
@@ -153,6 +155,18 @@ const DiciplineModal = ({
                   errors={errors.description}
                   touched={touched.description}
                   msgText="Description required atleast 1 character"
+                />
+              </div>
+
+              <div className="mb-3">
+                <FieldTypeCheckbox
+                  name="published"
+                  checkboxLabel="Published"
+                />{" "}
+                <FieldErrorMessage
+                  errors=""
+                  touched=""
+                  msgText="Please Check required field"
                 />
               </div>
 

@@ -22,6 +22,7 @@ const Discipline = () => {
   const [disciplineObj, setDisciplineObj] = useState({
     name: "",
     description: "",
+    published: false
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -76,8 +77,8 @@ const Discipline = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({ id, name, description }: any) => {
-    setDisciplineObj({ id: id, name: name, description: description });
+  const editHandlerById = ({ id, name, description, published }: any) => {
+    setDisciplineObj({ id: id, name: name, description: description, published: published });
   };
 
   // handle modal hide & show functionality === >>>
@@ -88,7 +89,7 @@ const Discipline = () => {
   // handle to open Add Discipline modal === >>>
   const openAddDiscipline = () => {
     toggleModalShow(true);
-    setDisciplineObj({ id: 0, name: "", description: "" });
+    setDisciplineObj({ id: 0, name: "", description: "", published: false });
     setRefreshData(false);
   };
 
