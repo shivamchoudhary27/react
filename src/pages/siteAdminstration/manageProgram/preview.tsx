@@ -36,6 +36,8 @@ const Preview = () => {
     }
   }, [instituteId]);
 
+  console.log(currentProgram)
+
   const previewMetafields = (metaData : Array<any>) => {
     return (
       <ul>
@@ -92,7 +94,8 @@ const Preview = () => {
                      <li key={Math.random()}><strong>Mode of study</strong> : {el.modeOfStudy} </li>
                      <li key={Math.random()}><strong>Description</strong> : <div dangerouslySetInnerHTML={{ __html: el.description }}/> </li>
                      <li key={Math.random()}><strong>Learning outcome</strong> : <div dangerouslySetInnerHTML={{ __html: el.objective }}/> </li>
-                     <li key={Math.random()}><strong>Duration</strong> : {el.duration} </li>
+                     <li key={Math.random()}><strong>Duration</strong> : {el.durationValue} </li>
+                     <li key={Math.random()}><strong>Duration Unit</strong> : {el.durationUnit} </li>
                      <li key={Math.random()}><strong>full lifetime access</strong> : {el.fullLifeTimeAccess ? 'Yes' : 'No'} </li>
                      <li key={Math.random()}><strong>Published</strong> : {el.published ? 'Yes' : 'No'} </li>
                      <li key={Math.random()}><strong>Tags</strong> : 
