@@ -38,7 +38,7 @@ const TagsTable = ({
         <span style={actionsStyle}>
           <Link className="action-icons" to="">
             <img src={editIcon} alt="Edit" onClick={() =>
-                editHandler({ id: row.original.id, name: row.original.name })
+                editHandler({ id: row.original.id, name: row.original.name, published: row.original.published })
               } />
           </Link>
           <Link className="action-icons" to="">
@@ -70,9 +70,9 @@ const TagsTable = ({
   const [deleteId, setDeleteId] = useState(0);
   const [forceRender, setForceRender] = useState(false);
 
-  const editHandler = ({ id, name }: any) => {
+  const editHandler = ({ id, name, published }: any) => {
     toggleModalShow(true);
-    editHandlerById({ id, name });
+    editHandlerById({ id, name, published });
   };
 
   const toggleTagsPublished = (tagPacket: any) => { 

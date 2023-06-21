@@ -5,6 +5,7 @@ import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 import * as Yup from "yup";
 import {
   postData as addTagsData,
@@ -29,6 +30,7 @@ const TagsModal = ({
 }: any) => {
   const initialValues = {
     name: tagObj.name,
+    published: tagObj.published
   };
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -109,6 +111,18 @@ const TagsModal = ({
                     msgText="Tag Name required atleast 1 character"
                   />
                 </div>
+
+                <div className="mb-3">
+                <FieldTypeCheckbox
+                  name="published"
+                  checkboxLabel="Published"
+                />{" "}
+                <FieldErrorMessage
+                  errors=""
+                  touched=""
+                  msgText="Please Check required field"
+                />
+              </div>
 
                 {isSubmitting === false ? (
                   <div className="modal-buttons">
