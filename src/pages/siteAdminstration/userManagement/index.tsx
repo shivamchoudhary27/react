@@ -25,6 +25,7 @@ const UserManagement = () => {
     userLastName: "",
     userEmail: "",
     userCountry: "",
+    enabled: false
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -123,6 +124,7 @@ const UserManagement = () => {
     userLastName,
     userEmail,
     userCountry,
+    enabled
   }: any) => {
     setUserObj({
       id: id,
@@ -130,6 +132,7 @@ const UserManagement = () => {
       userLastName: userLastName,
       userEmail: userEmail,
       userCountry: userCountry,
+      enabled: enabled
     });
   };
 
@@ -142,6 +145,7 @@ const UserManagement = () => {
       userLastName: "",
       userEmail: "",
       userCountry: "",
+      enabled: false
     });
     // setRefreshData(false);
   };

@@ -56,6 +56,7 @@ const UserManagementTable = ({
                   userLastName: row.original.userLastName,
                   userEmail: row.original.userEmail,
                   userCountry: row.original.userCountry,
+                  enabled: row.original.enabled
                 })
               } />
           </Link>
@@ -165,6 +166,7 @@ const UserManagementTable = ({
     userLastName,
     userEmail,
     userCountry,
+    enabled
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
@@ -173,6 +175,7 @@ const UserManagementTable = ({
       userLastName,
       userEmail,
       userCountry,
+      enabled
     });
     // refreshDepartmentData();
   };

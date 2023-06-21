@@ -12,6 +12,7 @@ import { postData, putData } from "../../../adapters/coreservices";
 // import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 const AddUserModal = ({
   show,
@@ -19,7 +20,7 @@ const AddUserModal = ({
   userobj,
   togglemodalshow,
   updateAddRefresh,
-  currentInstitute
+  currentInstitute,
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -29,12 +30,15 @@ const AddUserModal = ({
     userLastName: userobj.userLastName,
     userEmail: userobj.userEmail,
     userCountry: userobj.userCountry,
+    enabled: userobj.enabled,
     // shouldValidatePassword: userobj.id > 0 ? false : true,
   };
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    userEmail: Yup.string().email("Invalid email").required("Email is required"),
+    userEmail: Yup.string()
+      .email("Invalid email")
+      .required("Email is required"),
     userFirstName: Yup.string().min(1).trim().required(),
     userLastName: Yup.string().min(1).trim().required(),
     userCountry: Yup.string().required(),
@@ -44,7 +48,7 @@ const AddUserModal = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     if (userobj.id === 0) {
-      console.log('in here post')
+      console.log("in here post");
       postData(`/${currentInstitute}/users`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 201)) {
@@ -66,7 +70,7 @@ const AddUserModal = ({
           }
         });
     } else {
-      setSubmitting(true)
+      setSubmitting(true);
       putData(`/${currentInstitute}/users/${userobj.id}`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 200)) {
@@ -114,7 +118,10 @@ const AddUserModal = ({
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText name="userFirstName" placeholder="First Name" />
+                  <FieldTypeText
+                    name="userFirstName"
+                    placeholder="First Name"
+                  />
                   <FieldErrorMessage
                     errors={errors.userFirstName}
                     touched={touched.userFirstName}
@@ -168,6 +175,18 @@ const AddUserModal = ({
                     errors={errors.userCountry}
                     touched={touched.userCountry}
                     msgText="Please select country"
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <FieldTypeCheckbox
+                    name="enabled"
+                    checkboxLabel="Enable"
+                  />{" "}
+                  <FieldErrorMessage
+                    errors=""
+                    touched=""
+                    msgText="Please Check required field"
                   />
                 </div>
 

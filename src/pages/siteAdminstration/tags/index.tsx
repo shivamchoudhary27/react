@@ -19,7 +19,7 @@ const Tags = () => {
   const [allTags, setAllTags] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(false);
   const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
-  const [tagObj, setTagObj] = useState({ id: "", name: "" });
+  const [tagObj, setTagObj] = useState({ id: "", name: "",published: false });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -66,8 +66,8 @@ const Tags = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name }: any) => {
-    setTagObj({ id: id, name: name });
+  const editHandlerById = ({ id, name, published }: any) => {
+    setTagObj({ id: id, name: name, published: published });
   };
 
   const updateDeleteRefresh = (status: boolean) => {
