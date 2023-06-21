@@ -39,8 +39,7 @@ const ManageCategory = () => {
   });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    // pageSize: pagination.PERPAGE,
-    pageSize: 100,
+    pageSize: 200,
   });
 
   const getCategoriesData = () => {

@@ -38,7 +38,7 @@ const CourseManagment = () => {
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
-    pageSize: 100,
+    pageSize: 300,
   });
   const [addCourseModal, setAddCourseModal] = useState(false);
   const [courseObj, setCourseObj] = useState({

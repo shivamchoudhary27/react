@@ -81,13 +81,16 @@ const CategoryTable = ({
                 deleteHandler(row.original.id);
               }} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleCategoryPublished(row.original)
+          }}
+          >
+            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
     },
-  ];
+  ]; 
 
   const [selectedData, setSelectedData] = useState<any>(categoryData);
   const columns = useMemo(() => tableColumn, []);
@@ -99,6 +102,7 @@ const CategoryTable = ({
     });
   const [updateSource, setUpdateSource] = useState<any>({data: {}, status : 'raw'});
   const [newWeightsItems, setNewWeightsItems] = useState<any>({data: {}, status : 'raw'});
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     if (updateSource.status === 'updated' && newWeightsItems.status === 'updated') {
@@ -108,6 +112,21 @@ const CategoryTable = ({
     }
   }, [updateSource, newWeightsItems]);
 
+  const toggleCategoryPublished = (categoryPacket: any) => { 
+    categoryPacket.published = !categoryPacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `${id}/category/${categoryPacket.id}`;
+    putData(endPoint, categoryPacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        categoryPacket.published = !categoryPacket.published
+        setForceRender(prevState => !prevState);
+      });
+  }
+  
   // Drag & Drop handler method === >>
   const handleDragEnd = (results: any) => {
     if (!results.destination) return;
@@ -135,6 +154,7 @@ const CategoryTable = ({
     setUpdateSource({data: updateSrcProperties, status : 'updated'});  // update source parent and weight
     generateFilterMetadata(catShifting, toMoved)
   };
+  
 
   const generateFilterMetadata = (source: number, destination : number) => {
     const sourceObj = categoryData[source]
@@ -179,8 +199,8 @@ const CategoryTable = ({
 
   // category Table Elements Delete handler === >>
   const deleteHandler = (delID: number) => {
-    updatedeleterefresh(false);
     if (window.confirm('Are you sure to delete this category?')) {
+      updatedeleterefresh(false);
       const endPoint = `${id}/category/${delID}`;
       deleteCategoryData(endPoint)
       .then((res: any) => {
