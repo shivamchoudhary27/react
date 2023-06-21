@@ -96,8 +96,11 @@ const CourseTable = ({
                     deleteHandler(row.original.courseid);
                   }} />
               </Link>
-              <Link className="action-icons" to="">
-                <img src={showIcon} alt="Show" />
+              <Link className="action-icons" to="" onClick={() => {
+                toggleCoursePublished(row.original)
+              }}
+              >
+                <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
               </Link>
             </>
           ) : (
@@ -146,6 +149,7 @@ const CourseTable = ({
     data: { coursedetail: "", category: 0 },
     status: "nutral",
   });
+  const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
     if (updatecourse.status === "updating") {
@@ -176,10 +180,27 @@ const CourseTable = ({
     }
   }, [updatecourse]);
 
-  const addCourseHandler = () => {
-    // let path = `/courseform/${programId}/${catID}`;
-    // navigate(`/courseform/${programId}/${catID}/0`, {state: catName});
-  };
+  const toggleCoursePublished = (coursePacket: any) => { 
+    let updateCourseData = {
+      name: coursePacket.coursedetail.name,
+      courseCode: coursePacket.coursedetail.courseCode,
+      description: coursePacket.coursedetail.description,
+      published: !coursePacket.coursedetail.published,
+      category: { id: coursePacket.catid },
+    };
+    // coursePacket.published = !coursePacket.published;
+    setForceRender(prevState => !prevState);
+    let endPoint = `${programId}/course/${coursePacket.courseid}`;
+    putData(endPoint, updateCourseData)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        // coursePacket.published = !coursePacket.published
+        // setForceRender(prevState => !prevState);
+      });
+  }
 
   // category Table Elements Update handler === >>
   const editHandler = ({
