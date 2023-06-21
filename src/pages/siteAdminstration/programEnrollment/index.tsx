@@ -21,6 +21,7 @@ const ProgramEnrollment = () => {
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    published: true
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.currentInstitute);

@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
-import { deleteData } from "../../../adapters/coreservices";
+import { putData, deleteData } from "../../../adapters/coreservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 import { searchCountryNameById } from "../../../globals/getCountry";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
@@ -62,8 +62,11 @@ const UserManagementTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
+          <Link className="action-icons" to="" onClick={() => {
+            toggleUserEnabled(row.original)
+          }}
+          >
+            <img src={row.original.enabled !== false ? showIcon : hideIcon} alt="Show" />
           </Link>
         </span>
       ),
@@ -83,6 +86,22 @@ const UserManagementTable = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
   const [deleteId, setDeleteId] = useState(0);
+  const [forceRender, setForceRender] = useState(false);
+
+  const toggleUserEnabled = (userPacket: any) => { 
+    userPacket.enabled = !userPacket.enabled;
+    setForceRender(prevState => !prevState);
+    let endPoint = `/${currentInstitute}/users/${userPacket.userId}`;
+    putData(endPoint, userPacket)
+      .then((res: any) => {
+        setForceRender(prevState => !prevState);
+      })
+      .catch((err: any) => {
+        window.alert('Action failed due to some error');
+        userPacket.enabled = !userPacket.enabled
+        setForceRender(prevState => !prevState);
+      });
+  }
 
   useEffect(()=>{
     if (onDeleteAction === "Yes") {

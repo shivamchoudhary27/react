@@ -33,7 +33,7 @@ const UserManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector((state : any) => state.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {
