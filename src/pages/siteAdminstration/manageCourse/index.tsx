@@ -117,20 +117,6 @@ const CourseManagment = () => {
     setAddCourseModal(status);
   };
 
-  // // handle to open Add Course modal === >>>
-  // const openAddCourseModal = () => {
-  //   setAddCourseModal(true);
-  //   setCourseObj({
-  //     id: "",
-  //     name: "",
-  //     courseCode: "",
-  //     category: "",
-  //     description: "",
-  //     published: false,
-  //   });
-  //   // setRefreshData(false);
-  // };
-
   // handle to Edit Course modal === >>>
   const editHandlerById = ({
     id,

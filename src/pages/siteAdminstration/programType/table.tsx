@@ -29,7 +29,7 @@ const ProgramTable = ({
   apiStatus,
   currentInstitute,
 }: any) => {
-  
+
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -42,7 +42,7 @@ const ProgramTable = ({
     },
     {
       Header: "Program Attached",
-      accessor: "",
+      accessor: "totalPrograms",
     },
     {
       Header: "Actions",
@@ -59,8 +59,11 @@ const ProgramTable = ({
                 })
               } />
           </Link>{" "}
-          <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
+          <Link className={`action-icons ${row.original.totalPrograms > 0 ? '' : 'delete-disabled'}`} to="">
+            <img 
+              src={deleteIcon} alt="Delete" 
+              onClick={() => row.original.totalPrograms < 1 ? deleteHandler(row.original.id) : null} 
+            />
           </Link>{" "}
           <Link className="action-icons" to="" onClick={() => {
             toggleProgramtypePublished(row.original)
@@ -111,7 +114,6 @@ const ProgramTable = ({
   }
 
   useEffect(() => {
-    console.log(onDeleteAction)
     if (onDeleteAction === "Yes") {
       let endpoint = `/${currentInstitute}/program-types/${deleteId}`;
       deleteProgramData(endpoint)
@@ -163,7 +165,6 @@ const ProgramTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };

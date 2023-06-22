@@ -21,3 +21,11 @@ export const getChildren = (parent, arr) => {
              .sort((a,b) => a.weight - b.weight)
              .reduce((acc, child) => [...acc, child, ...getChildren(child, arr)], []);
  }
+
+export const setHasChildProp = (data) => {
+   const newArray = data.map(obj => {
+       const hasChild = data.some(item => item.parent === obj.id);
+       return { ...obj, haschild: hasChild };
+     });
+   return newArray;
+}

@@ -50,6 +50,8 @@ const ManageGroups = () => {
           const matchingGroup = res.data.groupUserCounts.find((group : any) => group.groupId === item.id);
           if (matchingGroup) {
             return { ...item, totalMembers: matchingGroup.totalMembers };
+          } else {
+            return { ...item, totalMembers: 0 };
           }
           return item;
         });

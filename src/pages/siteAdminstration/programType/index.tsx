@@ -34,7 +34,8 @@ const ProgramType = () => {
         if (result.data !== "" && result.status === 200) {
             // Merge the programCounts into the items objects
             result.data.items.forEach((item : any) => {
-              const index = result.data.programCounts.findIndex((packet : any) => packet.programtypeId === item.id);
+              const index = result.data.programCounts.findIndex((packet : any) => packet.programTypeId === item.id);
+              item.totalPrograms = 0;
               if (index > -1) {
                 item.totalPrograms = result.data.programCounts[index].totalPrograms;
               }

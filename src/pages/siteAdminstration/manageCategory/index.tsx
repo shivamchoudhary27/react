@@ -11,6 +11,7 @@ import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
+  setHasChildProp
 } from "./utils";
 import CategoryModal from "./form";
 import Alert from "react-bootstrap/Alert";
@@ -74,10 +75,10 @@ const ManageCategory = () => {
   useEffect(() => {
     if (categoryData.length > 0) {
       const convertedResult = categoryData
-        .filter((item) => item.parent === 0)
-        .sort((a, b) => a.weight - b.weight)
+        .filter((item: any) => item.parent === 0)
+        .sort((a: any, b: any) => a.weight - b.weight)
         .reduce(
-          (acc, item) => [...acc, item, ...getChildren(item, categoryData)],
+          (acc: any, item: any) => [...acc, item, ...getChildren(item, categoryData)],
           []
         );
 
@@ -87,7 +88,17 @@ const ManageCategory = () => {
           updateCategoryLevels(convertedResult, item.id, 2);
         }
       });
-      setSortedCategories(convertedResult);
+      const hasChildPropAdded = setHasChildProp(convertedResult);
+      const canBeDeletedPropAdded = hasChildPropAdded.map((packet : any) => {
+        if (packet.haschild === true) {
+          const childPackets = hasChildPropAdded.filter((child : any) => child.parent === packet.id);
+          packet.canBeDeleted = !childPackets.some((child : any) => child.courses.length > 0);
+        } else {
+          packet.canBeDeleted = (packet.courses.length > 0) ? false : true;
+        }
+        return packet;
+      });
+      setSortedCategories(canBeDeletedPropAdded);
     }
   }, [categoryData]);
 

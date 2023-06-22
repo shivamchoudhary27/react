@@ -78,7 +78,10 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   useEffect(() => {
     if (instituteId > 0)
     generateAcademicYears();
-    const apiFilters = { pageNumber: 0, pageSize: 100 };
+    let apiFilters = { pageNumber: 0, pageSize: 100 };
+    if (!(programid > 0)) {
+      apiFilters.published = true;
+    }
     makeGetDataRequest(`/${instituteId}/departments`, apiFilters, setDepartmentName);
     makeGetDataRequest(`/${instituteId}/disciplines`, apiFilters, setDisciplineName);
     makeGetDataRequest(`/${instituteId}/program-types`, apiFilters, setProgramTypeId);

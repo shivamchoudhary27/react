@@ -39,6 +39,7 @@ const Departments = () => {
             // Merge the programCounts into the items objects
             result.data.items.forEach((item : any) => {
               const index = result.data.programCounts.findIndex((packet : any) => packet.departmentId === item.id);
+              item.totalPrograms = 0;
               if (index > -1) {
                 item.totalPrograms = result.data.programCounts[index].totalPrograms;
               }
