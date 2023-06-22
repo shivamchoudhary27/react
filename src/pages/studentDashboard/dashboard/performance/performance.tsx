@@ -42,28 +42,34 @@ const PerformanceOverview = () => {
       });
   }, [id]);
 
-  console.log(userPerformance);
-
   const data = [
     {
       icon: avGreadeIcon,
       title: "Av. Grade",
       value:
-        (userPerformance.grades.usergrade / userPerformance.grades.maxgrades) *
-          100 +
-        " %",
+        userPerformance.grades.usergrade !== 0
+          ? (userPerformance.grades.usergrade /
+              userPerformance.grades.maxgrades) *
+              100 +
+            " %"
+          : 0 + "%",
       progressValue:
-        (userPerformance.grades.usergrade / userPerformance.grades.maxgrades) *
-        100,
+        userPerformance.grades.usergrade !== 0
+          ? (userPerformance.grades.usergrade /
+              userPerformance.grades.maxgrades) *
+            100
+          : 0,
     },
     {
       icon: badgesIcon,
       title: "Badges",
       value: `${userPerformance.badges.userbadges} / ${userPerformance.badges.totalbadges}`,
       progressValue:
-        (userPerformance.badges.userbadges /
-          userPerformance.badges.totalbadges) *
-        100,
+        userPerformance.badges.userbadges !== 0
+          ? (userPerformance.badges.userbadges /
+              userPerformance.badges.totalbadges) *
+            100
+          : 0,
     },
     {
       icon: certificateIcon,

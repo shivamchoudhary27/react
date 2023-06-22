@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./style.scss";
 import calendarIcon from "../../../../assets/images/icons/calendar-black.svg";
 import { getData } from "../../../../adapters";
+import Errordiv from "../../../../widgets/alert/errordiv";
 
 const ScheduleTable = () => {
   const id = localStorage.getItem("userid");
@@ -39,19 +40,25 @@ const ScheduleTable = () => {
                 key={index}
               >
                 <div className="align-self-start me-3">
-                  <img src={calendarIcon} alt="Schedule Icon" />  
+                  <img src={calendarIcon} alt="Schedule Icon" />
                 </div>
                 <div className="tsb-info">
-                  <h6>{val.name.charAt(0).toUpperCase() + val.name.slice(1)}</h6>
+                  <h6>
+                    {val.name.charAt(0).toUpperCase() + val.name.slice(1)}
+                  </h6>
                   <p>{el.name}</p>
                   <span>{val.venue}</span>
                 </div>
                 <span className={`badge tsb-button ${sessionMode[val.mode]}`}>
-                  {sessionMode[val.mode].charAt(0).toUpperCase() + sessionMode[val.mode].slice(1)}
+                  {sessionMode[val.mode].charAt(0).toUpperCase() +
+                    sessionMode[val.mode].slice(1)}
                 </span>
               </div>
             ))
           )
+        )}
+        {courseSession.length === 0 && (
+          <Errordiv msg="No session available!" cstate />
         )}
       </div>
     </>
