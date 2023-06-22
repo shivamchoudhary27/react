@@ -53,9 +53,12 @@ const ManageGroupTable = ({
                 })
               } />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
-          </Link>
+          <Link className={`action-icons ${row.original.totalMembers > 0 ? '' : 'delete-disabled'}`} to="">
+            <img 
+              src={deleteIcon} alt="Delete" 
+              onClick={() => row.original.totalMembers < 1 ? deleteHandler(row.original.id) : null} 
+            />
+          </Link>{" "}
           <Link className="action-icons" to="" onClick={() => {
             toggleGroupPublished(row.original)
           }}

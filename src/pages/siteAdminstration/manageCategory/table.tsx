@@ -31,7 +31,6 @@ const CategoryTable = ({
   refreshcategories,
   cleanFormValues,
 }: any) => {
-
   const tableColumn = [
     {
       Header: "Categories",
@@ -76,11 +75,12 @@ const CategoryTable = ({
                 editHandler(row.original.id, row.original.name, row.original.weight, row.original.parent);
               }} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => {
-                deleteHandler(row.original.id);
-              }} />
-          </Link>
+          <Link className={`action-icons ${row.original.canBeDeleted !== false ? '' : 'delete-disabled'}`} to="">
+            <img 
+              src={deleteIcon} alt="Delete" 
+              onClick={() => row.original.canBeDeleted !== false ? deleteHandler(row.original.id) : null} 
+            />
+          </Link>{" "}
           <Link className="action-icons" to="" onClick={() => {
             toggleCategoryPublished(row.original)
           }}
