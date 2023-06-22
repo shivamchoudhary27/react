@@ -53,7 +53,7 @@ const InstituteFilter = () => {
 
   return (
     <select 
-      className="form-control"
+      className="form-select"
       value={selectedValue} 
       onChange={getCurrentValue}>
       {institutes.items.map((el: any, index: number) => (
