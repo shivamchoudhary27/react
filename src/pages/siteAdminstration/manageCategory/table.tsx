@@ -30,6 +30,7 @@ const CategoryTable = ({
   setEditCategoryValues,
   refreshcategories,
   cleanFormValues,
+  getDeleteCategoryID
 }: any) => {
   const tableColumn = [
     {
@@ -78,7 +79,7 @@ const CategoryTable = ({
           <Link className={`action-icons ${row.original.canBeDeleted !== false ? '' : 'delete-disabled'}`} to="">
             <img 
               src={deleteIcon} alt="Delete" 
-              onClick={() => row.original.canBeDeleted !== false ? deleteHandler(row.original.id) : null} 
+              onClick={() => row.original.canBeDeleted !== false ? getDeleteCategoryID(row.original.id) : null} 
             />
           </Link>{" "}
           <Link className="action-icons" to="" onClick={() => {
@@ -199,23 +200,23 @@ const CategoryTable = ({
 
   // category Table Elements Delete handler === >>
   const deleteHandler = (delID: number) => {
-    if (window.confirm('Are you sure to delete this category?')) {
-      updatedeleterefresh(false);
-      const endPoint = `${id}/category/${delID}`;
-      deleteCategoryData(endPoint)
-      .then((res: any) => {
-        if (res.status === 200) {
-          console.log(res.data);
-          updatedeleterefresh(true);
-        } else if (res.status === 500) {
-          window.alert('Unable to delete, this category might have come courses');
-        } 
-      }).catch((result : any) => {
-        if (result.response.status === 500) {
-          window.alert('Unable to delete, this category might have come courses');
-        }            
-      });
-    }
+    // if (window.confirm('Are you sure to delete this category?')) {
+    //   updatedeleterefresh(false);
+    //   const endPoint = `${id}/category/${delID}`;
+    //   deleteCategoryData(endPoint)
+    //   .then((res: any) => {
+    //     if (res.status === 200) {
+    //       console.log(res.data);
+    //       updatedeleterefresh(true);
+    //     } else if (res.status === 500) {
+    //       window.alert('Unable to delete, this category might have come courses');
+    //     } 
+    //   }).catch((result : any) => {
+    //     if (result.response.status === 500) {
+    //       window.alert('Unable to delete, this category might have come courses');
+    //     }            
+    //   });
+    // }
   };
 
   // category Table Elements hide/show toggle handler === >>

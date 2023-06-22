@@ -6,6 +6,7 @@ import { postData } from "../../../adapters/coreservices";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -97,7 +98,11 @@ const UploadNewUsers = ({
                       setFieldValue("file", event.currentTarget.files[0]);
                     }}
                   />
-                  <ErrorMessage name="file" />
+                  <FieldErrorMessage
+                    errors={errors.file}
+                    touched={touched.file}
+                    msgText="File is required"
+                  />
                 </div>
                 {isSubmitting === false ? (
                   <div className="modal-buttons">

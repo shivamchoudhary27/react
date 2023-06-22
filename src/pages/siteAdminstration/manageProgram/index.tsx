@@ -138,7 +138,7 @@ const ManageProgram = () => {
               size="sm"
               onClick={() => navigate("/tags")}
             >
-              Add Tags
+              Tags
             </Button>
           </div>
           <ManageFilter
