@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const EnrolCourseFilter = ({ togglemodalshow }: any) => {
@@ -13,26 +13,26 @@ const EnrolCourseFilter = ({ togglemodalshow }: any) => {
       <div className="filter-wrapper">
         <div className="filter-form">
           <form>
-            <div className="row g-3 align-items-center">
-              <div className="col-auto">
+            <Row className="g-2 align-items-center">
+              <Col>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="First Name / Surname"
                 />
-              </div>
-              <div className="col-auto">
+              </Col>
+              <Col>
                 <input
                   type="email"
                   className="form-control"
                   placeholder="Email"
                 />
-              </div>
-              <div className="col-auto">
+              </Col>
+              <Col>
                 <Button variant="outline-secondary">Filter</Button>{" "}
                 <Button variant="outline-secondary">Reset</Button>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </form>
         </div>
         <div className="mt-2">
