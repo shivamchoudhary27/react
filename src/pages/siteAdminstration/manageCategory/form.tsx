@@ -155,7 +155,7 @@ const CategoryModal = ({
                 {/* {editCategory.id != 0 && (
                   <div>
                     <FieldLabel htmlfor="parent" labelText="Parent" />
-                    <select className="form-control mb-3">
+                    <select className="form-select mb-3">
                       <option>0</option>
                       <option>1</option>
                       <option>2</option>

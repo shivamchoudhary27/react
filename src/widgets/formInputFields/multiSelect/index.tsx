@@ -4,7 +4,7 @@ const FieldMultiSelect = ({
     name,
     options,
     as="select",
-    className="form-control",
+    className="form-select",
 }: any) => {
 
   return (

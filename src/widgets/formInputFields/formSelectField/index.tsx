@@ -6,7 +6,7 @@ const FieldTypeSelect = ({
     setcurrentvalue,
     currentformvalue,
     as="select",
-    className="form-control",
+    className="form-select",
     emptyOption=false,
     selectDefaultLabel=""
 }: any) => {
