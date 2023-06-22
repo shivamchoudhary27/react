@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.scss";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import ProgramEnrollDropdown from "./programEnrollDropdown";
 import { useNavigate } from "react-router-dom";
 
@@ -24,11 +24,11 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
       <div className="filter-wrapper">
         <div className="filter-form">
           <form>
-            <div className="row g-3 align-items-center">
-              <div className="col-auto">
+            <Row className="g-2 align-items-center">
+              <Col>
                 <ProgramEnrollDropdown updateDepartment={updateDepartment} />
-              </div>
-              <div className="col-auto">
+              </Col>
+              <Col>
                 <input
                   type="text"
                   className="form-control"
@@ -36,8 +36,8 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
                   onChange={(e) => setInputName(e.target.value)}
                   value={inputName}
                 />
-              </div>
-              <div className="col-auto">
+              </Col>
+              <Col>
                 <input
                   type="text"
                   className="form-control"
@@ -45,8 +45,8 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
                   onChange={(e) => setInputCode(e.target.value)}
                   value={inputCode}
                 />
-              </div>
-              <div className="col-auto">
+              </Col>
+              <Col>
                 <Button
                   variant="primary" className="me-2"
                   onClick={() => getInputValues()}
@@ -59,8 +59,8 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
                 >
                   Reset
                 </Button>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </form>
         </div>
       </div>
