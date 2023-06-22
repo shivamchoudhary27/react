@@ -125,7 +125,7 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.userFirstName}
                     touched={touched.userFirstName}
-                    msgText="Firstname is required"
+                    msgText="First Name is required"
                   />
                 </div>
 
@@ -140,7 +140,7 @@ const AddUserModal = ({
                   <FieldErrorMessage
                     errors={errors.userLastName}
                     touched={touched.userLastName}
-                    msgText="Lastname is required"
+                    msgText="Last Name is required"
                   />
                 </div>
 
