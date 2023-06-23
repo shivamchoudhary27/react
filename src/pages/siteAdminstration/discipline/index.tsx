@@ -27,7 +27,6 @@ const Discipline = () => {
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
-    departmentId: "",
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
