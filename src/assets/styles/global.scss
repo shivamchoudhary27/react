@@ -56,6 +56,10 @@ a, a:visited, .btn-link {
             width: auto;
         }
     }
+    &.disabled {
+        opacity: 0.25;
+        cursor: default;
+    }
 }
 /**** Button End ****/
 

@@ -53,7 +53,7 @@ const ManageGroupTable = ({
                 })
               } />
           </Link>
-          <Link className={`action-icons ${row.original.totalMembers > 0 ? '' : 'delete-disabled'}`} to="">
+          <Link className={`action-icons ${row.original.totalMembers > 0 ? 'delete-disabled' : ''}`} to="">
             <img 
               src={deleteIcon} alt="Delete" 
               onClick={() => row.original.totalMembers < 1 ? deleteHandler(row.original.id) : null} 

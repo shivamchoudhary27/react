@@ -59,7 +59,7 @@ const DepartmentTable = ({
                 editHandler({ id: row.original.id, name: row.original.name, published: row.original.published })
               } />
           </Link>
-          <Link className={`action-icons ${row.original.totalPrograms > 0 ? '' : 'delete-disabled'}`} to="">
+          <Link className={`action-icons ${row.original.totalPrograms > 0 ? 'disabled' : ''}`} to="">
             <img 
               src={deleteIcon} alt="Delete" 
               onClick={() => row.original.totalPrograms < 1 ? deleteHandler(row.original.id) : null} 
