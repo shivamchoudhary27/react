@@ -38,6 +38,7 @@ const CourseTable = ({
   toggleCourseModal,
   openAddCourseModal,
   editHandlerById,
+  getDeleteCourseID
 }: any) => {
   const tableColumn = [    
     {
@@ -93,7 +94,7 @@ const CourseTable = ({
               </Link>
               <Link className="action-icons" to="">
                 <img src={deleteIcon} alt="Delete" onClick={() => {
-                    deleteHandler(row.original.courseid);
+                    getDeleteCourseID(row.original.courseid);
                   }} />
               </Link>
               <Link className="action-icons" to="" onClick={() => {
