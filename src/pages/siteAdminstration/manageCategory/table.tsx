@@ -76,7 +76,7 @@ const CategoryTable = ({
                 editHandler(row.original.id, row.original.name, row.original.weight, row.original.parent);
               }} />
           </Link>
-          <Link className={`action-icons ${row.original.canBeDeleted !== false ? '' : 'delete-disabled'}`} to="">
+          <Link className={`action-icons ${row.original.canBeDeleted !== false ? '' : 'disabled'}`} to="">
             <img 
               src={deleteIcon} alt="Delete" 
               onClick={() => row.original.canBeDeleted !== false ? getDeleteCategoryID(row.original.id) : null} 
