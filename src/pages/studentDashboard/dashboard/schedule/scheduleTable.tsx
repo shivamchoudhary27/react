@@ -8,13 +8,15 @@ const ScheduleTable = () => {
   const id = localStorage.getItem("userid");
   const [courseSession, setCourseSession] = useState([]);
   const sessionMode = ["", "offline", "online", "lab", "hybrid"];
+  const timestamp = Math.floor(Date.now() / 1000);
 
   useEffect(() => {
     const query = {
       wsfunction: "mod_attendance_get_courses_with_today_sessions",
       // id,
       userid: id,
-      date: 1686873600,
+      // date: 1686873600,
+      date: timestamp,
     };
 
     getData(query)
@@ -28,6 +30,8 @@ const ScheduleTable = () => {
         console.log(err);
       });
   }, []);
+
+  console.log(courseSession)
 
   return (
     <>

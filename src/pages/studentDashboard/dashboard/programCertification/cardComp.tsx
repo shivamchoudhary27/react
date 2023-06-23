@@ -38,7 +38,7 @@ const CourseListComp = () => {
               </div>
               <div className="mlcard-title">
                 <h5>{item.fullname}</h5>
-                <span className="my-progress">{`${item.progress}%`}</span>
+                <span className="my-progress">{item.progress !== null ? `${item.progress}%` : 0 + "%"}</span>
               </div>
               <div className="mlcard-info">
                 <div>

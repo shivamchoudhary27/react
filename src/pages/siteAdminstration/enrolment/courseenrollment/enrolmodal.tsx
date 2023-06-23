@@ -14,8 +14,8 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 
 // Formik Yup Validation === >>>
-const diciplineSchema = Yup.object({
-  userEmail: Yup.string().trim().email().required(""),
+const Schema = Yup.object({
+  userEmail: Yup.string().trim().email().required(),
 });
 
 const DiciplineModal = ({
@@ -144,7 +144,7 @@ const DiciplineModal = ({
       <Modal.Body>
         <Formik
           initialValues={initialValues}
-          validationSchema={diciplineSchema}
+          validationSchema={Schema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
             action.resetForm();
