@@ -106,6 +106,10 @@ const CategoryTable = ({
   const [forceRender, setForceRender] = useState(false);
 
   useEffect(() => {
+    if (categoryData.length > 0) setSelectedData(categoryData)
+  }, [categoryData])
+
+  useEffect(() => {
     if (updateSource.status === 'updated' && newWeightsItems.status === 'updated') {
       const mergedItems = [...newWeightsItems.data, updateSource.data];
       console.log('mergedItems', mergedItems);

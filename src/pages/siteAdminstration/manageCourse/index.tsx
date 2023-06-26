@@ -227,22 +227,23 @@ const CourseManagment = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
+          <CourseTable
+            categoryData={sortedCategories}
+            modalShow={modalShow}
+            toggleModalShow={toggleModalShow}
+            programId={id}
+            setFormParentValue={setFormParentValue}
+            setFormWeightValue={setFormWeightValue}
+            updatedeleterefresh={updateDeleteRefresh}
+            setEditCategoryValues={setEditCategoryValues}
+            refreshcategories={refreshToggle}
+            cleanFormValues={cleanFormValues}
+            toggleCourseModal={toggleCourseModal}
+            editHandlerById={editHandlerById}   
+            getDeleteCourseID={getDeleteCourseID}           
+          />
           {sortedCategories.length > 0 ? (
-            <CourseTable
-              categoryData={sortedCategories}
-              modalShow={modalShow}
-              toggleModalShow={toggleModalShow}
-              programId={id}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              updatedeleterefresh={updateDeleteRefresh}
-              setEditCategoryValues={setEditCategoryValues}
-              refreshcategories={refreshToggle}
-              cleanFormValues={cleanFormValues}
-              toggleCourseModal={toggleCourseModal}
-              editHandlerById={editHandlerById}   
-              getDeleteCourseID={getDeleteCourseID}           
-            />
+            <></>
             ) : apiStatus === "started" && categoryData.length === 0 ? (
               <TableSkeleton numberOfRows={5} numberOfColumns={4} />
             ) : apiStatus === "finished" && categoryData.length === 0 && (

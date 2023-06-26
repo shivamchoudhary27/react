@@ -225,20 +225,21 @@ const ManageCategory = () => {
             pageTitle="Manage categories"
             gobacklink="/manageprogram"
           />
+          <CategoryTable
+            categoryData={sortedCategories}
+            modalShow={modalShow}
+            toggleModalShow={toggleModalShow}
+            id={id}
+            setFormParentValue={setFormParentValue}
+            setFormWeightValue={setFormWeightValue}
+            updatedeleterefresh={updateDeleteRefresh}
+            setEditCategoryValues={setEditCategoryValues}
+            refreshcategories={refreshToggle}
+            cleanFormValues={cleanFormValues}
+            getDeleteCategoryID={getDeleteCategoryID}
+          />
           {sortedCategories.length > 0 ? (
-            <CategoryTable
-              categoryData={sortedCategories}
-              modalShow={modalShow}
-              toggleModalShow={toggleModalShow}
-              id={id}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              updatedeleterefresh={updateDeleteRefresh}
-              setEditCategoryValues={setEditCategoryValues}
-              refreshcategories={refreshToggle}
-              cleanFormValues={cleanFormValues}
-              getDeleteCategoryID={getDeleteCategoryID}
-            />
+            <></>
           ) : apiStatus === "started" && sortedCategories.length === 0 ? (
             <TableSkeleton numberOfRows={5} numberOfColumns={4} />
           ) : apiStatus === "finished" && sortedCategories.length === 0 && (
