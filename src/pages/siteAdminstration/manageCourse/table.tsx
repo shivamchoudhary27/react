@@ -138,19 +138,15 @@ const CourseTable = ({
       columns,
       data,
     });
-  const [updateSource, setUpdateSource] = useState<any>({
-    data: {},
-    status: "raw",
-  });
-  const [newWeightsItems, setNewWeightsItems] = useState<any>({
-    data: {},
-    status: "raw",
-  });
   const [updatecourse, setUpdateCourse] = useState<any>({
     data: { coursedetail: "", category: 0 },
     status: "nutral",
   });
   const [forceRender, setForceRender] = useState(false);
+
+  useEffect(() => {
+    if (categoryData.length > 0) setSelectedData(categoryData)
+  }, [categoryData])
 
   useEffect(() => {
     if (updatecourse.status === "updating") {
