@@ -45,6 +45,8 @@ const step1Schema = Yup.object({
   .integer('Number must be an integer')
   .positive('Number must be positive')
   .required('Number is required'),
+  objective: Yup.string().required(), 
+  description: Yup.string().required(),
 });
 
 // Step 2 validation schema
@@ -399,10 +401,20 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   <Col md={6}>
                     <FieldLabel htmlfor="description" labelText="Description" />
                     <TinymceEditor name="description" handleChange={handleChange} />
+                    <FieldErrorMessage
+                      errors={errors.description}
+                      touched={touched.description}
+                      msgText="Description Required"
+                    />
                   </Col>
                   <Col md={6}>
                     <FieldLabel htmlfor="objective" labelText="Objective" />
                     <TinymceEditor name="objective" handleChange={handleChange} />
+                    <FieldErrorMessage
+                      errors={errors.objective}
+                      touched={touched.objective}
+                      msgText="Objective Required"
+                    />
                   </Col>
                   <Col md={12}>
                     <FieldLabel htmlfor="metatitle" labelText="Program meta fields" />
