@@ -75,8 +75,9 @@ const CourseEnrollment = () => {
       const role = diciplineData.userRoles[item.userEmail];
       if (role) {
         return { ...item, userRole: role };
+      } else {
+        return { ...item, userRole: "" }; 
       }
-      return item;
     });
     setFinalTableData(updatedItems);
     // setDiciplineData({...diciplineData, items : updatedItems})
