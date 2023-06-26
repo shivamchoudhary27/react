@@ -57,12 +57,12 @@ const step1Schema = Yup.object({
   .integer('Number must be an integer')
   .positive('Number must be positive')
   .required('Number is required'),
-  objective: Yup.string().required(), 
-  description: Yup.string().required(),
 });
 
 // Step 2 validation schema
 const step2Schema = Yup.object({
+  objective: Yup.string().required(), 
+  description: Yup.string().required(),
 });
 
 const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
