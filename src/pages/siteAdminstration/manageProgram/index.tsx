@@ -110,7 +110,7 @@ const ManageProgram = () => {
       />      
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
-          <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />          
+          <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />
           <div className="site-button-group mb-3">
             <Button
               variant="primary"
