@@ -34,11 +34,23 @@ const steps = ['Step 1', 'Step 2'];
 
 // Step 1 validation schema
 const step1Schema = Yup.object({
-  department: Yup.string().required(),
+  department: Yup.string().required().test(
+    'Please select a department',
+    'Please select a department',
+    (value) => value !== '0'
+  ),
   programName: Yup.string().min(1).trim().required(),
   programCode: Yup.string().min(1).trim().required(),
-  discipline: Yup.string().required(),
-  programtype: Yup.string().required(),
+  discipline: Yup.string().required().test(
+    'Please select a discipline',
+    'Please select a discipline',
+    (value) => value !== '0'
+  ),
+  programtype: Yup.string().required().test(
+    'Please select a program type',
+    'Please select a program type',
+    (value) => value !== '0'
+  ),
   batchYear: Yup.string().required(),
   durationValue: Yup
   .number()
