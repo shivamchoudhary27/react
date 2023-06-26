@@ -20,6 +20,8 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -130,7 +132,7 @@ const CategoryTable = ({
       ),
     },
   ];
-
+  const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState<any>(categoryData);
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => selectedData, [selectedData]);
@@ -191,9 +193,12 @@ const CategoryTable = ({
     let catShifting = results.source.index;
     let toMoved = results.destination.index;
     if (categoryData[catShifting].level < categoryData[toMoved].level) {
-      window.alert(
-        "Can not move parent to child level, leaving it's children categories orphaned"
-      );
+      dispatch({
+        type: ACTIONSLIST.mitGlobalAlert,
+        alertMsg:
+          "Can not move parent to child level, leaving it's children categories orphaned",
+        status: true,
+      });
       return; // in progress....  (has to be well defined the logic, can not move to only it's own child)
     }
 
@@ -290,21 +295,24 @@ const CategoryTable = ({
           if (result.response.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, this category might have come courses",
+              message:
+                "Unable to delete, this category might have come courses",
               alertBoxColor: "danger",
             });
           }
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, this category might have come courses",
+              message:
+                "Unable to delete, this category might have come courses",
               alertBoxColor: "danger",
             });
           }
           if (result.response.status === 404) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, this category might have come courses",
+              message:
+                "Unable to delete, this category might have come courses",
               alertBoxColor: "danger",
             });
           }

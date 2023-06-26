@@ -15,6 +15,7 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../store/actions";
+// import { useSelector, useDispatch } from "react-redux";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -101,6 +102,9 @@ const DepartmentTable = ({
   };
 
   const toggleDepartmentPublished = (departmentPacket: any) => { 
+
+    dispatch({type: ACTIONSLIST.mitGlobalAlert, alertMsg: "Hello", status : true})
+
     departmentPacket.published = !departmentPacket.published;
     setForceRender(prevState => !prevState);
     let endPoint = `/${currentInstitute}/departments/${departmentPacket.id}`;
