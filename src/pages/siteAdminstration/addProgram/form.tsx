@@ -395,17 +395,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
 
               {/*** Step 2 ***/}
               {step === 1 && (
-                <Row className="gy-4">
+                <Row className="gy-4">                  
+                  <Col md={6}>
+                    <FieldLabel htmlfor="description" labelText="Description" />
+                    <TinymceEditor name="description" handleChange={handleChange} />
+                  </Col>
                   <Col md={6}>
                     <FieldLabel htmlfor="objective" labelText="Objective" />
                     <TinymceEditor name="objective" handleChange={handleChange} />
-                  </Col>
-                  <Col md={6}>
-                    <FieldLabel
-                      htmlfor="description"
-                      labelText="Learning outcome"
-                    />
-                    <TinymceEditor name="description" handleChange={handleChange} />
                   </Col>
                   <Col md={12}>
                     <FieldLabel htmlfor="metatitle" labelText="Program meta fields" />

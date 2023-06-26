@@ -5,7 +5,8 @@ import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import { Button, Container } from "react-bootstrap";
+import PageTitle from "../../../widgets/pageTitle";
+import { Button, Container, Row, Col } from "react-bootstrap";
 
 const Preview = () => {
   const { id } = useParams();
@@ -77,32 +78,30 @@ const Preview = () => {
             ]}
           />
       <div className="contentarea-wrapper mt-4">
-        <Container fluid className="administration-wrapper">          
-          <h3>Program Preview</h3>
-          <Button variant="outline-secondary" onClick={()=> navigate('/manageprogram')}>Go back</Button>
-          <hr />
+        <Container fluid>
+          <PageTitle pageTitle={`Program Preview`} gobacklink="/manageprogram" />
           <div>
             {currentProgram.data.map((el : any) => (
                 <div key={el.id}>
                     <ul>
                      <li key={Math.random()}><strong>Name</strong> : {el.name} </li>
-                     <li key={Math.random()}><strong>Program code</strong> : {el.programCode} </li>
-                     <li key={Math.random()}><strong>Department</strong> : {el.department.name} </li>
                      <li key={Math.random()}><strong>Discipline</strong> : {el.discipline.name} </li>
-                     <li key={Math.random()}><strong>Programtype</strong> : {el.programType.name} </li>
-                     <li key={Math.random()}><strong>Batch year</strong> : {el.batchYear} </li>
-                     <li key={Math.random()}><strong>Mode of study</strong> : {el.modeOfStudy} </li>
                      <li key={Math.random()}><strong>Description</strong> : <div dangerouslySetInnerHTML={{ __html: el.description }}/> </li>
-                     <li key={Math.random()}><strong>Learning outcome</strong> : <div dangerouslySetInnerHTML={{ __html: el.objective }}/> </li>
                      <li key={Math.random()}><strong>Duration</strong> : {el.durationValue} </li>
                      <li key={Math.random()}><strong>Duration Unit</strong> : {el.durationUnit} </li>
-                     <li key={Math.random()}><strong>full lifetime access</strong> : {el.fullLifeTimeAccess ? 'Yes' : 'No'} </li>
+                     <li key={Math.random()}><strong>Program Code</strong> : {el.programCode} </li>
+                     <li key={Math.random()}><strong>Department</strong> : {el.department.name} </li>                     
+                     <li key={Math.random()}><strong>Program Type</strong> : {el.programType.name} </li>
+                     <li key={Math.random()}><strong>Batch Year</strong> : {el.batchYear} </li>
+                     <li key={Math.random()}><strong>Mode of Study</strong> : {el.modeOfStudy} </li>                     
+                     <li key={Math.random()}><strong>Full lifetime access</strong> : {el.fullLifeTimeAccess ? 'Yes' : 'No'} </li>
                      <li key={Math.random()}><strong>Published</strong> : {el.published ? 'Yes' : 'No'} </li>
-                     <li key={Math.random()}><strong>Tags</strong> : 
-                        {(el.tags.length > 0) ? previewTagfields(el.tags) : 'No Tags are attached to this program'} 
-                     </li>
+                     <li key={Math.random()}><strong>Objective</strong> : <div dangerouslySetInnerHTML={{ __html: el.objective }}/> </li>                     
                      <li key={Math.random()}><strong>Metafields</strong> : 
-                        {(el.metaFields.length > 0) ? previewMetafields(el.metaFields) : 'No Meta data Available'} 
+                        {(el.metaFields.length > 0) ? previewMetafields(el.metaFields) : '--'} 
+                     </li>
+                     <li key={Math.random()}><strong>Tags</strong> : 
+                        {(el.tags.length > 0) ? previewTagfields(el.tags) : '--'} 
                      </li>
                     </ul>
                 </div>
