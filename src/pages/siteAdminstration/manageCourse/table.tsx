@@ -17,6 +17,10 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import Errordiv from "../../../widgets/alert/errordiv";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -38,7 +42,8 @@ const CourseTable = ({
   toggleCourseModal,
   openAddCourseModal,
   editHandlerById,
-  getDeleteCourseID
+  getDeleteCourseID,
+  apiStatus
 }: any) => {
   const tableColumn = [    
     {
@@ -94,7 +99,7 @@ const CourseTable = ({
               </Link>
               <Link className="action-icons" to="">
                 <img src={deleteIcon} alt="Delete" onClick={() => {
-                    getDeleteCourseID(row.original.courseid);
+                    deleteHandler(row.original.courseid);
                   }} />
               </Link>
               <Link className="action-icons" to="" onClick={() => {
@@ -143,6 +148,11 @@ const CourseTable = ({
     status: "nutral",
   });
   const [forceRender, setForceRender] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState(0);
 
   useEffect(() => {
     if (categoryData.length > 0) setSelectedData(categoryData)
@@ -255,29 +265,61 @@ const CourseTable = ({
   };
 
   // category Table Elements Delete handler === >>
-  const deleteHandler = (courseID: number) => {
+  useEffect(()=>{
     updatedeleterefresh(false);
-    if (window.confirm("Are you sure to delete this course?")) {
-      const endPoint = `${programId}/course/${courseID}`;
+    if (onDeleteAction === "Yes") {
+      const endPoint = `${programId}/course/${deleteId}`;
       deleteCategoryData(endPoint)
         .then((res: any) => {
           if (res.status === 200) {
             // console.log(res.data);
             updatedeleterefresh(true);
-          } else if (res.status === 500) {
-            window.alert(
-              "Unable to delete, this course might have come courses"
-            );
+            setShowAlert(true);
+            setAlertMsg({
+              message: "deleted successfully",
+              alertBoxColor: "success",
+            });
           }
         })
         .catch((result: any) => {
           if (result.response.status === 500) {
-            window.alert(
-              "Unable to delete, this course might have come courses"
-            );
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete, this course might have come courses",
+              alertBoxColor: "danger",
+            });
+          }
+          if (result.response.status === 400) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete",
+              alertBoxColor: "danger",
+            });
+          }
+          if (result.response.status === 404) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete",
+              alertBoxColor: "danger",
+            });
           }
         });
     }
+    setOnDeleteAction("");
+  }, [onDeleteAction]);
+
+  // delete event handler === >>>
+  const deleteHandler = (courseID: number) => {
+    updatedeleterefresh(false);
+    setShowDeleteModal(true);
+    setDeleteId(courseID);
+  };
+
+  // getting onDelete Modal Action === >>>
+  const deleteActionResponse = (action: string) => {
+    console.log(action);
+    setOnDeleteAction(action);
+    setShowDeleteModal(false);
   };
 
   // category Table Elements hide/show toggle handler === >>
@@ -301,6 +343,13 @@ const CourseTable = ({
 
   return (
     <>
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
       <div className="table-responsive table-wrapper mt-3">
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
           <Table borderless striped {...getTableProps()}>
@@ -371,7 +420,19 @@ const CourseTable = ({
             </Droppable>
           </Table>
         </DragDropContext>
+        {apiStatus === "started" && selectedData.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
+        {apiStatus === "finished" && selectedData.length === 0 && (
+          <Errordiv msg="No record found!" cstate className="mt-3" />
+        )}
       </div>
+      <DeleteAlert
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        deleteActionResponse={deleteActionResponse}
+        modalHeading="Course"
+      />
     </>
   );
 };

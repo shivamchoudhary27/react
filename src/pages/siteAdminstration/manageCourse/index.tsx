@@ -5,7 +5,7 @@ import HeaderTabs from "../../headerTabs";
 import { Container } from "react-bootstrap";
 import CourseTable from "./table";
 import { useParams } from "react-router-dom";
-import { getData as getCategoryData, deleteData as deleteCategoryData} from "../../../adapters/microservices/index";
+import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
@@ -15,9 +15,6 @@ import { setHasChildProp, resetManageCourseObj } from "./local";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import CourseModal from "./form";
-import TableSkeleton from "../../../widgets/skeleton/table";
-import Errordiv from "../../../widgets/alert/errordiv";
-import DeleteAlert from "../../../widgets/alert/deleteAlert";
 
 const CourseManagment = () => {
   const { id, name } = useParams();
@@ -50,11 +47,6 @@ const CourseManagment = () => {
     description: "",
     published: false,
   });
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
 
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
@@ -171,48 +163,6 @@ const CourseManagment = () => {
     setEditCategory({ id: 0, name: "", weight: 0, parent: 0 });
   };
 
-  /// category Table Elements Delete handler === >>
-  useEffect(()=>{
-    if (onDeleteAction === "Yes") {
-      updateDeleteRefresh(false);
-      const endPoint = `${id}/course/${deleteId}`;
-      deleteCategoryData(endPoint)
-      .then((res: any) => {
-        if (res.status === 200) {
-          console.log(res.data);
-          updateDeleteRefresh(true);
-          setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
-            });
-        } 
-      }).catch((result : any) => {
-        if (result.response.status === 500) {
-          setShowAlert(true);
-            setAlertMsg({
-              message: "Unable to delete, this course",
-              alertBoxColor: "danger",
-            });
-        }            
-      });
-    }
-    setOnDeleteAction("");
-  }, [onDeleteAction])
-
-  const getDeleteCourseID = (courseID: any) => {
-    updateDeleteRefresh(false);
-    setDeleteId(courseID)
-    setShowDeleteModal(true);
-  }
-
-  // getting onDelete Modal Action === >>>
-  const deleteActionResponse = (action: string) => {
-    console.log(action);
-    setOnDeleteAction(action);
-    setShowDeleteModal(false);
-  };
-
   return (
     <>
       <Header />
@@ -239,22 +189,9 @@ const CourseManagment = () => {
             refreshcategories={refreshToggle}
             cleanFormValues={cleanFormValues}
             toggleCourseModal={toggleCourseModal}
-            editHandlerById={editHandlerById}   
-            getDeleteCourseID={getDeleteCourseID}           
+            editHandlerById={editHandlerById}
+            apiStatus={apiStatus}      
           />
-          {sortedCategories.length > 0 ? (
-            <></>
-            ) : apiStatus === "started" && categoryData.length === 0 ? (
-              <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-            ) : apiStatus === "finished" && categoryData.length === 0 && (
-              <Errordiv msg="No record found!" cstate className="mt-3" />
-            )}
-            <DeleteAlert
-              show={showDeleteModal}
-              onHide={() => setShowDeleteModal(false)}
-              deleteActionResponse={deleteActionResponse}
-              modalHeading="Course"
-            />
         </Container>
         <CourseModal
           show={addCourseModal}
