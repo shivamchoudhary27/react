@@ -4,9 +4,9 @@ import { Formik, Form } from "formik";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
+import { postData, putData } from "../../../../adapters/coreservices";
 
 const initialValues = {
   email: "",
@@ -17,8 +17,17 @@ const userFormSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
 });
 
-const AssignInstituteModal = ({ show, onHide }: any) => {
+const AssignInstituteModal = ({
+  show,
+  onHide,
+  userobj,
+  togglemodalshow,
+  updateAddRefresh,
+  currentInstitute,
+}: any) => {
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleCheckboxChange = (checkboxId) => {
     if (selectedCheckboxes.includes(checkboxId)) {
@@ -27,6 +36,48 @@ const AssignInstituteModal = ({ show, onHide }: any) => {
       );
     } else {
       setSelectedCheckboxes([...selectedCheckboxes, checkboxId]);
+    }
+  };
+
+  // handle Form CRUD operations === >>>
+  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+    setSubmitting(true);
+    if (userobj.id === 0) {
+      console.log("in here post");
+      postData(`/${currentInstitute}/users`, values)
+        .then((res: any) => {
+          if ((res.data !== "", res.status === 201)) {
+            togglemodalshow(false);
+            updateAddRefresh();
+            setSubmitting(false);
+            resetForm();
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+          if (err.response.status === 404) {
+            setSubmitting(false);
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${err.response.data.message}. Please Sign up with a new email`,
+              alertBoxColor: "danger",
+            });
+          }
+        });
+    } else {
+      setSubmitting(true);
+      putData(`/${currentInstitute}/users/${userobj.id}`, values)
+        .then((res: any) => {
+          if ((res.data !== "", res.status === 200)) {
+            togglemodalshow(false);
+            updateAddRefresh();
+            setSubmitting(false);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setSubmitting(true);
+        });
     }
   };
 
@@ -49,7 +100,7 @@ const AssignInstituteModal = ({ show, onHide }: any) => {
             initialValues={initialValues}
             validationSchema={userFormSchema}
             onSubmit={(values, action) => {
-              console.log(values);
+              handleFormData(values, action);
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (

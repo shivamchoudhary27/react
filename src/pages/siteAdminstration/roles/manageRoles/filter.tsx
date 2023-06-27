@@ -7,7 +7,7 @@ const initialValues = {
   //   email: "",
 };
 
-const Filter = ({ updatefilters, toggleModalShow }: any) => {
+const Filter = ({ updatefilters, toggleModalShow, openAddRoleModal }: any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -73,7 +73,7 @@ const Filter = ({ updatefilters, toggleModalShow }: any) => {
         </form>
         <div className="site-button-group">
           <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "}
-          <Button variant="primary">Add Role</Button>{" "}
+          <Button variant="primary" onClick={openAddRoleModal}>Add Role</Button>{" "}
         </div>
       </div>
     </React.Fragment>
