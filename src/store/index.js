@@ -12,15 +12,16 @@ const counterReducer = (state = initialState, action) => {
     if (action.type === ACTIONSLIST.updateCurrentInstitute) {
         return {
             currentInstitute: action.instituteId,
-            currentDepartmentFilterId: state.currentDepartmentFilterId
+            currentDepartmentFilterId: state.currentDepartmentFilterId,
+            mitGlobalAlert: state.mitGlobalAlert
         }
     } else if (action.type === ACTIONSLIST.currentDepartmentFilterId) {
         return {
             currentDepartmentFilterId: action.departmentId,
             currentInstitute: state.currentInstitute,
+            mitGlobalAlert: state.mitGlobalAlert
         }
     } else if (action.type === ACTIONSLIST.mitGlobalAlert) {
-        console.log('updating alert condition')
         return {
             currentInstitute: state.currentInstitute,
             currentDepartmentFilterId: state.currentDepartmentFilterId,

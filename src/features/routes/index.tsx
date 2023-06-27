@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ProtectedRoutes } from './ProtectedRoutes';
 import Video from '../../pages/courses/video';
 import Startattempt from '../../pages/courses/quiz';
@@ -22,6 +22,8 @@ import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
+import MitGlobalAlert from '../../widgets/mitGlobalAlert/mitGlobalAlert';
+// import { Navigate, Outlet } from 'react-router-dom';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -29,29 +31,33 @@ export default function NewCustomRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/studentdashboard" />} />
-        <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/studentdashboard" />} />
-        <Route path='/authlogin' element={<AuthLogin />} />
-        <Route path="/signupnew" element={<SignUpNew />} />
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          {UserManagementRoute()}
-          {ProgramManagementRoute()}
-          {ProgramEnrollmentRoute()}
-          {CalenderManagementRoute()}
-          {StudentDashRoutes()}
-          {TeacherDashRoutes()}
-          <Route path='/programoverview' element={<ProgramOverview />} />
-          <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
-          <Route path="/mod/video/report" element={<Report />} />
-          <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />
-          <Route path="/mod/video/:id/:courseid" element={<Video />} />
-          <Route path="/mod/attempt/quiz/:instance/:attemptid/:courseid" element={<Attempt />} />
-          <Route path="/catalogue" element={<Catalogue />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element={<Review />} />
-          <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/studentdashboard" />} />
-        </Route>
+        {/* <Route element={<><Outlet /><MitGlobalAlert /></>}> 
+         * create a new component for global imports
+        */}  
+          <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/studentdashboard" />} />
+          <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/studentdashboard" />} />
+          <Route path='/authlogin' element={<AuthLogin />} />
+          <Route path="/signupnew" element={<SignUpNew />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            {UserManagementRoute()}
+            {ProgramManagementRoute()}
+            {ProgramEnrollmentRoute()}
+            {CalenderManagementRoute()}
+            {StudentDashRoutes()}
+            {TeacherDashRoutes()}
+            <Route path='/programoverview' element={<ProgramOverview />} />
+            <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
+            <Route path="/mod/video/report" element={<Report />} />
+            <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />
+            <Route path="/mod/video/:id/:courseid" element={<Video />} />
+            <Route path="/mod/attempt/quiz/:instance/:attemptid/:courseid" element={<Attempt />} />
+            <Route path="/catalogue" element={<Catalogue />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element={<Review />} />
+            <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/studentdashboard" />} />
+          </Route>
+        {/* </Route> */}
       </Routes>
     </BrowserRouter>
   );
