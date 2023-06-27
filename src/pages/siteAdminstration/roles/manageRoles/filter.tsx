@@ -1,32 +1,29 @@
 import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   name: "",
-  email: "",
-}
+  //   email: "",
+};
 
-const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
-  const navigate = useNavigate();
-
+const Filter = ({ updatefilters, toggleModalShow }: any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
       let newRequest = {
         name: values.name,
-        email: values.email, 
-      }
+        // email: values.email,
+      };
       updatefilters(newRequest);
     },
     onReset: () => {
       formik.setValues({
         name: "",
-        email: "",
+        // email: "",
       });
       updatefilters(initialValues, true);
-    }
+    },
   });
 
   return (
@@ -35,18 +32,20 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <label htmlFor="name" hidden>Name</label>
+              <label htmlFor="name" hidden>
+                Name
+              </label>
               <input
                 className="form-control"
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Firstname / Surname"
+                placeholder="Name"
                 onChange={formik.handleChange}
                 value={formik.values.name}
               />
             </Col>
-            <Col>
+            {/* <Col>
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -57,17 +56,24 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
-            </Col>
+            </Col> */}
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
-              <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+              <Button variant="primary" type="submit" className="me-2">
+                Filter
+              </Button>
+              <Button
+                variant="outline-secondary"
+                type="reset"
+                onClick={formik.handleReset}
+              >
+                Reset
+              </Button>
             </Col>
-          </Row>          
+          </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={()=>navigate("/manageroles")}>Manage Roles</Button>{" "}
-          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-          <Button variant="primary" onClick={openAddUserModal}>Add User</Button>{" "}
+          <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "}
+          <Button variant="primary">Add Role</Button>{" "}
         </div>
       </div>
     </React.Fragment>

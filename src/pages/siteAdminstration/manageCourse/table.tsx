@@ -195,14 +195,24 @@ const CourseTable = ({
       putData(endPoint, updateCourseData)
         .then((res: any) => {
           if (res.status === 200) {
-            window.alert("Update successful");
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg:
+                "Update successfull",
+              status: true,
+            });
             setUpdateCourse({ data: {}, status: "nutral" });
             refreshcategories();
           }
         })
         .catch((err: any) => {
           console.log(err);
-          window.alert("Some error occurred!");
+          dispatch({
+            type: ACTIONSLIST.mitGlobalAlert,
+            alertMsg:
+              "Some error occurred!",
+            status: true,
+          });
           setUpdateCourse({ data: {}, status: "nutral" });
         });
     }
