@@ -45,6 +45,22 @@ const UserManagementTable = ({
       Cell: ({row} :any) => (searchCountryNameById(row.original.userCountry))
     },
     {
+      Header: "Role",
+      accessor: "",
+    },
+    {
+      Header: "Assign Role",
+      Cell: ({ row }: any) => (
+        <Link className="action-icons" to="/assignroles">
+          Assign Roles
+        </Link>
+      ),
+    },
+    {
+      Header: "Last access",
+      accessor: "",
+    },
+    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
