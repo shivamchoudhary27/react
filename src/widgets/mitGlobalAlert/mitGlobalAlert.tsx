@@ -5,12 +5,12 @@ import ACTIONSLIST from "../../store/actions";
 
 const MitGlobalAlert = () => {
   const dispatch = useDispatch();
-  const mitGlobalAlert = useSelector((state) => state.mitGlobalAlert);
+  let mitGlobalAlert = useSelector((state : any) => state.mitGlobalAlert);
 
-  const deleteHandler = () => {
+  const closeAlert = () => {
     dispatch({
       type: ACTIONSLIST.mitGlobalAlert,
-      alertMsg: "Hello",
+      alertMsg: "",
       status: false,
     });
   };
@@ -29,7 +29,7 @@ const MitGlobalAlert = () => {
         </Modal.Header>
         <Modal.Body>{mitGlobalAlert.msg}</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={deleteHandler}>
+          <Button variant="primary" onClick={closeAlert}>
             Okay
           </Button>
         </Modal.Footer>

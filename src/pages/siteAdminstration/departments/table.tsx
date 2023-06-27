@@ -102,18 +102,15 @@ const DepartmentTable = ({
   };
 
   const toggleDepartmentPublished = (departmentPacket: any) => { 
-
-    dispatch({type: ACTIONSLIST.mitGlobalAlert, alertMsg: "Hello", status : true})
-
     departmentPacket.published = !departmentPacket.published;
     setForceRender(prevState => !prevState);
     let endPoint = `/${currentInstitute}/departments/${departmentPacket.id}`;
     putData(endPoint, departmentPacket)
-      .then((res: any) => {
-        setForceRender(prevState => !prevState);
-      })
-      .catch((err: any) => {
-        window.alert('Action failed due to some error');
+    .then((res: any) => {
+      setForceRender(prevState => !prevState);
+    })
+    .catch((err: any) => {
+        dispatch({type: ACTIONSLIST.mitGlobalAlert, alertMsg: "Action failed due to some error", status : true})
         departmentPacket.published = !departmentPacket.published
         setForceRender(prevState => !prevState);
       });
