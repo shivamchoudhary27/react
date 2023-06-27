@@ -29,7 +29,6 @@ const DepartmentModal = ({
   onHide,
   currentInstitute,
 }: any) => {
-  console.log(departmentobj)
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
@@ -63,7 +62,6 @@ const DepartmentModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    setSubmitting(true);
     let endPoint = `/${currentInstitute}/departments`;
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)

@@ -21,6 +21,8 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -43,9 +45,9 @@ const CourseTable = ({
   openAddCourseModal,
   editHandlerById,
   getDeleteCourseID,
-  apiStatus
+  apiStatus,
 }: any) => {
-  const tableColumn = [    
+  const tableColumn = [
     {
       Header: "Categories",
       accessor: "name",
@@ -69,9 +71,9 @@ const CourseTable = ({
         <>
           {row.original.coursename !== undefined && (
             <>
-              <img src={moveIcon} className="me-3" alt="Move course" /> 
+              <img src={moveIcon} className="me-3" alt="Move course" />
               {row.original.coursename}
-            </>      
+            </>
           )}
         </>
       ),
@@ -83,50 +85,69 @@ const CourseTable = ({
         <span style={actionsStyle}>
           {row.original.coursename !== undefined ? (
             <>
-              <Link className="action-icons" to=""
+              <Link
+                className="action-icons"
+                to=""
                 // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
               >
-                <img src={editIcon} alt="Edit" onClick={() =>
+                <img
+                  src={editIcon}
+                  alt="Edit"
+                  onClick={() =>
                     editHandler({
                       id: row.original.coursedetails.id,
                       name: row.original.coursename,
                       courseCode: row.original.coursedetails.courseCode,
                       category: row.original.catid,
                       description: row.original.coursedetails.description,
-                      published: row.original.coursedetails.published
+                      published: row.original.coursedetails.published,
                     })
-                  } />                
+                  }
+                />
               </Link>
               <Link className="action-icons" to="">
-                <img src={deleteIcon} alt="Delete" onClick={() => {
+                <img
+                  src={deleteIcon}
+                  alt="Delete"
+                  onClick={() => {
                     deleteHandler(row.original.courseid);
-                  }} />
+                  }}
+                />
               </Link>
-              <Link className="action-icons" to="" onClick={() => {
-                toggleCoursePublished(row.original)
-              }}
+              <Link
+                className="action-icons"
+                to=""
+                onClick={() => {
+                  toggleCoursePublished(row.original);
+                }}
               >
-                <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
+                <img
+                  src={row.original.published !== false ? showIcon : hideIcon}
+                  alt="Show"
+                />
               </Link>
             </>
           ) : (
             row.original.haschild !== undefined &&
             row.original.haschild === false && (
-              <Button variant="link" size="sm" onClick={
-                () =>
-                editHandler({
-                  id: 0,
-                  name: "",
-                  courseCode: "",
-                  category: row.original.id,
-                  description: "",
-                  published: false
-                })
-              }>
-                  <span className="action-icons small-icon">
-                    <img src={plusIcon} alt="Add Course" /> Add Course
-                  </span>
-                </Button>
+              <Button
+                variant="link"
+                size="sm"
+                onClick={() =>
+                  editHandler({
+                    id: 0,
+                    name: "",
+                    courseCode: "",
+                    category: row.original.id,
+                    description: "",
+                    published: false,
+                  })
+                }
+              >
+                <span className="action-icons small-icon">
+                  <img src={plusIcon} alt="Add Course" /> Add Course
+                </span>
+              </Button>
             )
           )}
         </span>
@@ -134,7 +155,7 @@ const CourseTable = ({
       draggable: false,
     },
   ];
-
+  const dispatch = useDispatch();
   const [selectedData, setSelectedData] = useState<any>(categoryData);
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => selectedData, [selectedData]);
@@ -155,8 +176,8 @@ const CourseTable = ({
   const [deleteId, setDeleteId] = useState(0);
 
   useEffect(() => {
-    if (categoryData.length > 0) setSelectedData(categoryData)
-  }, [categoryData])
+    if (categoryData.length > 0) setSelectedData(categoryData);
+  }, [categoryData]);
 
   useEffect(() => {
     if (updatecourse.status === "updating") {
@@ -187,7 +208,7 @@ const CourseTable = ({
     }
   }, [updatecourse]);
 
-  const toggleCoursePublished = (coursePacket: any) => { 
+  const toggleCoursePublished = (coursePacket: any) => {
     let updateCourseData = {
       name: coursePacket.coursedetail.name,
       courseCode: coursePacket.coursedetail.courseCode,
@@ -196,18 +217,18 @@ const CourseTable = ({
       category: { id: coursePacket.catid },
     };
     // coursePacket.published = !coursePacket.published;
-    setForceRender(prevState => !prevState);
+    setForceRender((prevState) => !prevState);
     let endPoint = `${programId}/course/${coursePacket.courseid}`;
     putData(endPoint, updateCourseData)
       .then((res: any) => {
-        setForceRender(prevState => !prevState);
+        setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        window.alert('Action failed due to some error');
+        window.alert("Action failed due to some error");
         // coursePacket.published = !coursePacket.published
         // setForceRender(prevState => !prevState);
       });
-  }
+  };
 
   // category Table Elements Update handler === >>
   const editHandler = ({
@@ -216,7 +237,7 @@ const CourseTable = ({
     courseCode,
     category,
     description,
-    published
+    published,
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -226,7 +247,7 @@ const CourseTable = ({
       courseCode,
       category,
       description,
-      published
+      published,
     });
   };
 
@@ -242,9 +263,12 @@ const CourseTable = ({
       categoryData[toMoved].haschild !== undefined &&
       categoryData[toMoved].haschild === true
     ) {
-      window.alert(
-        "Course can be moved to only categories that have no children category after"
-      );
+      dispatch({
+        type: ACTIONSLIST.mitGlobalAlert,
+        alertMsg:
+          "Course can be moved to only categories that have no children category after",
+        status: true,
+      });
       return;
     }
     // if
@@ -265,7 +289,7 @@ const CourseTable = ({
   };
 
   // category Table Elements Delete handler === >>
-  useEffect(()=>{
+  useEffect(() => {
     updatedeleterefresh(false);
     if (onDeleteAction === "Yes") {
       const endPoint = `${programId}/course/${deleteId}`;

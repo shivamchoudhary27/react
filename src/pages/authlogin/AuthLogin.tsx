@@ -5,9 +5,12 @@ import UserContext from "../../features/context/user/user";
 import config from "../../utils/config";
 import { createAxiosInstance } from "../../adapters/microservices/utils";
 import NewLoader from "../../widgets/loader";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../store/actions";
 
 const AuthLogin = () => {
   const error = null;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
   const [authCode, setAuthCode] = useState("");
@@ -59,7 +62,7 @@ const AuthLogin = () => {
                 // });
                 navigate("/studentdashboard");         
               } else {
-                window.alert('Failed to get auth token');
+                dispatch({type: ACTIONSLIST.mitGlobalAlert, alertMsg: "Failed to get auth token", status : true})
               }
           }).catch((error) => {
             console.error(error);

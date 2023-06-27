@@ -7,11 +7,13 @@ import './assets/styles/global.scss';
 import './assets/styles/global-responsive.scss';
 // import './widgets/components.css';
 import NewCustomRoutes from './features/routes';
+import MitGlobalAlert from './widgets/mitGlobalAlert/mitGlobalAlert';
 
 function App() {
   return (
     <UserContextProvider>
       <NewCustomRoutes />
+      <MitGlobalAlert />
     </UserContextProvider>
   );
 }
