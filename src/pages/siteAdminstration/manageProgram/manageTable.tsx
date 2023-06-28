@@ -13,6 +13,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -83,7 +85,7 @@ const ManageTable = ({
       ),
     },
   ];
-
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => programData, [programData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -152,7 +154,12 @@ const ManageTable = ({
 
       })
       .catch((err: any) => {
-        window.alert('Action failed due to some error');
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg:
+            "Action failed due to some error",
+          status: true,
+        });
         programPacket.published = !programPacket.published
       });
   }

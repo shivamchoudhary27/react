@@ -13,6 +13,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -76,6 +78,7 @@ const DiciplineTable = ({
   ];
 
   // react table custom variable decleration === >>>
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => diciplineData, [diciplineData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -106,7 +109,12 @@ const DiciplineTable = ({
         setForceRender(prevState => !prevState);
       })
       .catch((err: any) => {
-        window.alert('Action failed due to some error');
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg:
+            "Action failed due to some error",
+          status: true,
+        });
         disciplinePacket.published = !disciplinePacket.published
         setForceRender(prevState => !prevState);
       });

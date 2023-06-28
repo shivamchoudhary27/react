@@ -15,6 +15,9 @@ import { postData, putData } from '../../../adapters/microservices';
 import { pagination } from '../../../utils/pagination';
 import { makeGetDataRequest } from '../../../features/api_calls/getdata';
 import PageTitle from '../../../widgets/pageTitle';
+import { useDispatch } from 'react-redux';
+import ACTIONSLIST from '../../../store/actions';
+import TimerAlertBox from '../../../widgets/alert/timerAlert';
 
 const roleData = [
   {id:"manager", name: "Manager"},
@@ -30,6 +33,7 @@ const dummyInitValues = {
 };
 
 const EnrolUserToProgram = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { programid, userid, name } = useParams();
   const parsedProgramid = parseInt(programid);
@@ -43,6 +47,8 @@ const EnrolUserToProgram = () => {
   };
   const [intialValues, setInitialvalues] = useState({});
   const gobackLink = `/manageprogramenrollment/${parsedProgramid}/${name}`;
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   useEffect(() => {
     if (parsedUserid > 0) {
@@ -71,12 +77,28 @@ const EnrolUserToProgram = () => {
         console.log(res);
         if (res.status === 200) {
           navigate(gobackLink);
+          dispatch({
+            type: ACTIONSLIST.mitGlobalAlert,
+            alertMsg:
+              "Update Successfull",
+            status: true,
+          });
         }
       })
       .catch((err: any) => {
         console.log(err);
         if (err.response.status === 400) {
-          window.alert(err.response.data.message);
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
+        }else{
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
         }
       });
     } else {
@@ -84,14 +106,34 @@ const EnrolUserToProgram = () => {
       .then((res: any) => {
         if (res.status === 201) {
           navigate(gobackLink);
+          dispatch({
+            type: ACTIONSLIST.mitGlobalAlert,
+            alertMsg:
+              "User created successfully",
+            status: true,
+          });
         }
       })
       .catch((err: any) => {
         if (err.response.status === 400) {
-          window.alert(err.response.data.message);
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
         }
         if (err.response.status === 404) {
-          window.alert(err.response.data.message);
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
+        }else{
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
         }
       });
     }
@@ -115,7 +157,7 @@ const EnrolUserToProgram = () => {
             <Formik
               enableReinitialize={true}
               initialValues={intialValues}
-              onSubmit={(values, action) => {handleFormData(values)}}
+              onSubmit={(values, action) => {handleFormData(values, action)}}
             >
               {({ errors, touched, isSubmitting, setValues, values }) => (
                 <Form>
@@ -199,6 +241,13 @@ const EnrolUserToProgram = () => {
             </Formik>
            </Container>
       </div>
+      <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
       <Footer />   
     </React.Fragment>
   )

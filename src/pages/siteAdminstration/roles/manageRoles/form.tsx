@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
@@ -7,6 +7,10 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { postData, putData } from "../../../../adapters/coreservices";
+import { pagination } from "../../../../utils/pagination";
+import { getData } from "../../../../adapters/microservices";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../../store/actions";
 
 const initialValues = {
   email: "",
@@ -25,9 +29,15 @@ const AssignInstituteModal = ({
   updateAddRefresh,
   currentInstitute,
 }: any) => {
+  const dispatch = useDispatch();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [instituteList, setInstituteList] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
 
   const handleCheckboxChange = (checkboxId) => {
     if (selectedCheckboxes.includes(checkboxId)) {
@@ -38,6 +48,26 @@ const AssignInstituteModal = ({
       setSelectedCheckboxes([...selectedCheckboxes, checkboxId]);
     }
   };
+
+  // get institute list === >>>
+  useEffect(() => {
+    getData("/institutes", filterUpdate)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          if (result.data.items.length < 1) {
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg: "No data available for this request",
+              status: true,
+            });
+          }
+          setInstituteList(result.data);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }, []);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
@@ -129,7 +159,7 @@ const AssignInstituteModal = ({
                     star="*"
                   />
                   <div style={{ overflow: "auto", height: "150px" }}>
-                    {options.map((option, index) => (
+                    {instituteList.items.map((option: any) => (
                       <div key={option.id}>
                         <label>
                           <input
@@ -138,7 +168,7 @@ const AssignInstituteModal = ({
                             checked={selectedCheckboxes.includes(option.id)}
                             onChange={() => handleCheckboxChange(option.id)}
                           />{" "}
-                          {option.label}
+                          {option.name}
                         </label>
                       </div>
                     ))}{" "}

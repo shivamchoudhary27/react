@@ -12,6 +12,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -26,7 +28,7 @@ const UserManagementTable = ({
   toggleModalShow,
   editHandlerById,
   apiStatus,
-  currentInstitute
+  currentInstitute,
 }: any) => {
   console.log(apiStatus);
   const tableColumn = [
@@ -42,7 +44,7 @@ const UserManagementTable = ({
     },
     {
       Header: "Country",
-      Cell: ({row} :any) => (searchCountryNameById(row.original.userCountry))
+      Cell: ({ row }: any) => searchCountryNameById(row.original.userCountry),
     },
     {
       Header: "Role",
@@ -65,25 +67,39 @@ const UserManagementTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link className="action-icons" to={""}>
-            <img src={editIcon} alt="Edit" onClick={() =>
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
                 editHandler({
                   id: row.original.userId,
                   userFirstName: row.original.userFirstName,
                   userLastName: row.original.userLastName,
                   userEmail: row.original.userEmail,
                   userCountry: row.original.userCountry,
-                  enabled: row.original.enabled
+                  enabled: row.original.enabled,
                 })
-              } />
+              }
+            />
           </Link>
           <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() => deleteHandler(row.original.userId)}
+            />
           </Link>
-          <Link className="action-icons" to="" onClick={() => {
-            toggleUserEnabled(row.original)
-          }}
+          <Link
+            className="action-icons"
+            to=""
+            onClick={() => {
+              toggleUserEnabled(row.original);
+            }}
           >
-            <img src={row.original.enabled !== false ? showIcon : hideIcon} alt="Show" />
+            <img
+              src={row.original.enabled !== false ? showIcon : hideIcon}
+              alt="Show"
+            />
           </Link>
         </span>
       ),
@@ -91,6 +107,7 @@ const UserManagementTable = ({
   ];
 
   // react table custom variable decleration === >>>
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => userdata, [userdata]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -98,29 +115,33 @@ const UserManagementTable = ({
       columns,
       data,
     });
-    const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
   const [deleteId, setDeleteId] = useState(0);
   const [forceRender, setForceRender] = useState(false);
 
-  const toggleUserEnabled = (userPacket: any) => { 
+  const toggleUserEnabled = (userPacket: any) => {
     userPacket.enabled = !userPacket.enabled;
-    setForceRender(prevState => !prevState);
+    setForceRender((prevState) => !prevState);
     let endPoint = `/${currentInstitute}/users/${userPacket.userId}`;
     putData(endPoint, userPacket)
       .then((res: any) => {
-        setForceRender(prevState => !prevState);
+        setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        window.alert('Action failed due to some error');
-        userPacket.enabled = !userPacket.enabled
-        setForceRender(prevState => !prevState);
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg: "Action failed due to some error",
+          status: true,
+        });
+        userPacket.enabled = !userPacket.enabled;
+        setForceRender((prevState) => !prevState);
       });
-  }
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (onDeleteAction === "Yes") {
       refreshdata(false);
       let endPoint = `/${currentInstitute}/users/${deleteId}`;
@@ -142,7 +163,7 @@ const UserManagementTable = ({
           }
         })
         .catch((result: any) => {
-          console.log(result)
+          console.log(result);
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
@@ -160,7 +181,7 @@ const UserManagementTable = ({
         });
     }
     setOnDeleteAction("");
-  }, [onDeleteAction])
+  }, [onDeleteAction]);
 
   const deleteHandler = (userid: number) => {
     refreshdata(false);
@@ -182,7 +203,7 @@ const UserManagementTable = ({
     userLastName,
     userEmail,
     userCountry,
-    enabled
+    enabled,
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
@@ -191,7 +212,7 @@ const UserManagementTable = ({
       userLastName,
       userEmail,
       userCountry,
-      enabled
+      enabled,
     });
     // refreshDepartmentData();
   };

@@ -8,6 +8,9 @@ import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaF
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { postData, putData } from "../../../../adapters/microservices";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../../store/actions";
+import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -23,28 +26,12 @@ const GroupModal = ({
   groupObj,
   refreshGroupData,
 }: any) => {
+  const dispatch = useDispatch();
   // Initial values of react table === >>>
   const initialValues = {
     name: groupObj.name,
     description: groupObj.description,
   };
-
-  // custom Obj & handle form data === >>>
-  let formTitleHandle = {
-    btnTitle: "",
-    titleHeading: "",
-  };
-  if (groupObj.id === 0) {
-    formTitleHandle = {
-      btnTitle: "Save",
-      titleHeading: "Add Group",
-    };
-  } else {
-    formTitleHandle = {
-      btnTitle: "Update",
-      titleHeading: "Update Group",
-    };
-  }
 
   const handleSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
     let endPoint = `/${courseid}/group`;
@@ -62,9 +49,17 @@ const GroupModal = ({
           console.log(err);
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
-              window.alert(err.response.data.userEmail);
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg: err.response.data.userEmail,
+                status: true,
+              });
             } else {
-              window.alert(err.response.data.message);
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg: err.response.data.message,
+                status: true,
+              });
             }
           }
         });
@@ -82,9 +77,17 @@ const GroupModal = ({
           console.log(err);
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
-              window.alert(err.response.data.userEmail);
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg: err.response.data.userEmail,
+                status: true,
+              });
             } else {
-              window.alert(err.response.data.message);
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg: err.response.data.message,
+                status: true,
+              });
             }
           }
         });
@@ -101,7 +104,7 @@ const GroupModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {formTitleHandle.titleHeading}
+            {groupObj.id === 0 ? "Add Group" : "Update Group"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -133,7 +136,7 @@ const GroupModal = ({
                   <FieldLabel
                     htmlfor="description"
                     labelText="Description"
-                    // required="required"  
+                    // required="required"
                   />
                   <FieldTypeTextarea
                     name="description"
@@ -146,21 +149,30 @@ const GroupModal = ({
                     msgText="Please Enter description"
                   />
                 </div>
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
-                    variant="primary"
-                    //   isSubmitting={isSubmitting}
-                    btnText={formTitleHandle.btnTitle}
-                  />{" "}
-                  {formTitleHandle.btnTitle === "Save" && (
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
                     <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  )}
-                </div>
+                      type="submit"
+                      variant="primary"
+                      btnText={groupObj.id === 0 ? "Submit" : "Update"}
+                    />{" "}
+                    {groupObj.id === 0 && (
+                      <CustomButton
+                        type="reset"
+                        btnText="Reset"
+                        variant="outline-secondary"
+                      />
+                    )}
+                  </div>
+                ) : (
+                  <LoadingButton
+                    variant="primary"
+                    btnText={
+                      groupObj.id === 0 ? "Submitting..." : "Updating..."
+                    }
+                    className="modal-buttons"
+                  />
+                )}
               </Form>
             )}
           </Formik>

@@ -11,7 +11,6 @@ export const makeGetDataRequest = (endPoint : string, filters : any, setData : a
         .then((result : any) => {
             if (result.data !== "" && result.status === 200) {
                 if (result.data.items.length < 1) {
-                    // window.alert('No data available for this request');
                 }
                 setData(result.data);
             }

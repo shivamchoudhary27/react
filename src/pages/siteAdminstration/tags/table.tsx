@@ -3,7 +3,10 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
-import { putData, deleteData as deleteTagData } from "../../../adapters/microservices";
+import {
+  putData,
+  deleteData as deleteTagData,
+} from "../../../adapters/microservices";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
@@ -11,6 +14,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -37,18 +42,36 @@ const TagsTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link className="action-icons" to="">
-            <img src={editIcon} alt="Edit" onClick={() =>
-                editHandler({ id: row.original.id, name: row.original.name, published: row.original.published })
-              } />
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
+                editHandler({
+                  id: row.original.id,
+                  name: row.original.name,
+                  published: row.original.published,
+                })
+              }
+            />
           </Link>
           <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() => deleteHandler(row.original.id)}
+            />
           </Link>
-          <Link className="action-icons" to="" onClick={() => {
-            toggleTagsPublished(row.original)
-          }}
+          <Link
+            className="action-icons"
+            to=""
+            onClick={() => {
+              toggleTagsPublished(row.original);
+            }}
           >
-            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
+            <img
+              src={row.original.published !== false ? showIcon : hideIcon}
+              alt="Show"
+            />
           </Link>
         </span>
       ),
@@ -56,6 +79,7 @@ const TagsTable = ({
   ];
 
   // react table custom variable decleration === >>>
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => allTags, [allTags]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -75,20 +99,24 @@ const TagsTable = ({
     editHandlerById({ id, name, published });
   };
 
-  const toggleTagsPublished = (tagPacket: any) => { 
+  const toggleTagsPublished = (tagPacket: any) => {
     tagPacket.published = !tagPacket.published;
-    setForceRender(prevState => !prevState);
+    setForceRender((prevState) => !prevState);
     let endPoint = `/${currentInstitute}/tags/${tagPacket.id}`;
     putData(endPoint, tagPacket)
       .then((res: any) => {
-        setForceRender(prevState => !prevState);
+        setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        window.alert('Action failed due to some error');
-        tagPacket.published = !tagPacket.published
-        setForceRender(prevState => !prevState);
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg: "Action failed due to some error",
+          status: true,
+        });
+        tagPacket.published = !tagPacket.published;
+        setForceRender((prevState) => !prevState);
       });
-  }
+  };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
@@ -99,8 +127,7 @@ const TagsTable = ({
             updateDeleteRefresh(true);
             setShowAlert(true);
             setAlertMsg({
-              message:
-                "Deleted successfully",
+              message: "Deleted successfully",
               alertBoxColor: "success",
             });
           } else if (res.status === 500) {

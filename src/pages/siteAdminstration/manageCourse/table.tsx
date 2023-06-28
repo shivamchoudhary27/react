@@ -234,7 +234,12 @@ const CourseTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        window.alert("Action failed due to some error");
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg:
+            "Action failed due to some error",
+          status: true,
+        });
         // coursePacket.published = !coursePacket.published
         // setForceRender(prevState => !prevState);
       });

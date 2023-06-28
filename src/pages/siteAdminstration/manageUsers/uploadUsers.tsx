@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import * as Yup from "yup";
 import { postData } from "../../../adapters/microservices";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -16,11 +18,12 @@ const UploadUsersEnrollment = ({
   updateAddRefresh,
   programid,
 }: any) => {
-  const [submitBtn, setSubmitBtn] = React.useState("Submit");
   const [uploadResponse, setUploadresponse] = React.useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    setSubmitBtn("Submitting...");
+    setSubmitting(true);
     setUploadresponse("");
     postData(`/csv/program-user-erol/${programid}`, {}, values.file)
       .then((res: any) => {
@@ -45,12 +48,15 @@ const UploadUsersEnrollment = ({
           updateAddRefresh();
           setSubmitting(false);
         }
-        setSubmitBtn("Submit");
       })
       .catch((err: any) => {
         console.log("error", err);
-        window.alert("Some error occurred");
-        setSubmitBtn("Submit");
+        setSubmitting(false);
+        setShowAlert(true);
+        setAlertMsg({
+          message: "Some error occurred",
+          alertBoxColor: "danger",
+        });
       });
   };
 
@@ -75,7 +81,7 @@ const UploadUsersEnrollment = ({
               handleFormData(values, action);
             }}
           >
-            {({ values, setFieldValue, errors, touched }) => (
+            {({ values, setFieldValue, isSubmitting, errors, touched }) => (
               <Form>
                 <div className="mb-3">
                   <label htmlFor="file">Upload a csv file:</label>
@@ -94,15 +100,30 @@ const UploadUsersEnrollment = ({
                     msgText="File is required"
                   />
                 </div>
-                <div className="modal-buttons">
-                  <button className="btn btn-primary" type="submit">
-                    {submitBtn}
-                  </button>
-                </div>
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
+                    <button className="btn btn-primary" type="submit">
+                      Upload
+                    </button>
+                  </div>
+                ) : (
+                  <LoadingButton
+                    variant="primary"
+                    btnText="Uploading..."
+                    className="modal-buttons"
+                  />
+                )}
               </Form>
             )}
           </Formik>
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>

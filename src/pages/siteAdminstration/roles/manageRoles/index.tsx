@@ -12,8 +12,11 @@ import { pagination } from "../../../../utils/pagination";
 import { useSelector } from "react-redux";
 import { getData } from "../../../../adapters/coreservices";
 import AddRole from "./addRole";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../../store/actions";
 
 const ManageRoles = () => {
+  const dispatch = useDispatch();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<any>(dummyData);
   const [modalShow, setModalShow] = useState(false);
@@ -22,7 +25,7 @@ const ManageRoles = () => {
     id: 0,
     name: "",
     description: "",
-    published: false
+    published: false,
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -36,11 +39,15 @@ const ManageRoles = () => {
   // get programs API call === >>>
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0) {
-      getData(`/${currentInstitute}/users`, filterUpdate)
+      getData(`/${currentInstitute}/roles`, filterUpdate)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length < 1) {
-              window.alert("No data available for this request");
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg: "No data available for this request",
+                status: true,
+              });
             }
             setUserData(result.data);
           }
@@ -54,11 +61,15 @@ const ManageRoles = () => {
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0) setApiStatus("started");
-    getData(`/${currentInstitute}/users`, filterUpdate)
+    getData(`/${currentInstitute}/roles`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
-            // window.alert("No data available for this request");
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg: "No data available for this request",
+              status: true,
+            });
           }
           setUserData(result.data);
         }
@@ -115,7 +126,7 @@ const ManageRoles = () => {
       id: id,
       name: name,
       description: description,
-      published: published
+      published: published,
     });
   };
 
@@ -126,7 +137,7 @@ const ManageRoles = () => {
       id: 0,
       name: "",
       description: "",
-      published: false
+      published: false,
     });
     // setRefreshData(false);
   };
@@ -149,7 +160,14 @@ const ManageRoles = () => {
             toggleModalShow={toggleModalShow}
             openAddRoleModal={openAddRoleModal}
           />
-          <RolesTable />
+          <RolesTable
+           userData={userData.items}
+           currentInstitute={currentInstitute}
+           refreshOnDeleteToggle={refreshOnDeleteToggle}
+           apiStatus={apiStatus}
+           editHandlerById={editHandlerById}
+           setAddRoleModalShow={setAddRoleModalShow}
+          />
         </Container>
       </div>
       <AssignInstituteModal

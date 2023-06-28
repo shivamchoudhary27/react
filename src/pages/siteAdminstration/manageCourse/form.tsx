@@ -14,6 +14,8 @@ import { getChildren, updateCategoryLevels } from "./utils";
 import { setHasChildProp } from "./local";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -31,6 +33,7 @@ const CourseModal = ({
   toggleCourseModal,
   refreshcategories,
 }: any) => {
+  const dispatch = useDispatch();
   const [courseDetail, setCourseDetails] = useState({});
   const [categorieslist, setCategoriesList] = useState([]);
   const [filteredCategories, setFilterCategories] = useState([]);
@@ -115,7 +118,12 @@ const CourseModal = ({
       postData(endPoint, requestData)
         .then((res: any) => {
           if (res.status === 201) {
-            // window.alert('Course created successfully');
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg:
+                "Course created successfully",
+              status: true,
+            });
           }
           toggleCourseModal(false);
           setSubmitting(false);
@@ -135,7 +143,12 @@ const CourseModal = ({
       putData(endPoint, requestData)
         .then((res: any) => {
           if (res.status === 200) {
-            // window.alert("Update succesful");
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg:
+                "Update successfull",
+              status: true,
+            });
           }
           toggleCourseModal(false);
           setSubmitting(true);
