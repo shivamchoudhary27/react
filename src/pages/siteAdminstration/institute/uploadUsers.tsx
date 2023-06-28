@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { postData } from "../../../adapters/coreservices";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const validationSchema = Yup.object().shape({
-  file: Yup.mixed().required('File is required'),
+  file: Yup.mixed().required("File is required"),
 });
 
 const UploadNewUsers = ({
@@ -13,27 +15,31 @@ const UploadNewUsers = ({
   onHide,
   setUploadModalShow,
   updateAddRefresh,
-  courseid
+  courseid,
 }: any) => {
-
-  const [submitBtn, setSubmitBtn] = React.useState('Submit');
-  const [uploadResponse, setUploadresponse] = React.useState('');
+  const [uploadResponse, setUploadresponse] = React.useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    setSubmitBtn('Submitting...')
-    setUploadresponse('');
+    setSubmitting(true);
+    setUploadresponse("");
     postData(`/user/upload`, {}, values.file)
-      .then((res : any) => {
-        console.log('res', res);
+      .then((res: any) => {
+        console.log("res", res);
         if (res.status === 200) {
-          let responseMsg = '';
+          let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
-            responseMsg += `<strong>Success :</strong> <p>Total rows processed : ${res.data.total_rows_processed} </p>`
+            responseMsg += `<strong>Success :</strong> <p>Total rows processed : ${res.data.total_rows_processed} </p>`;
           }
-          if (res.data.rows_not_processed !== undefined && Object.keys(res.data.rows_not_processed).length > 0) {
-            responseMsg += `<strong>Error :</strong>`
+          if (
+            res.data.rows_not_processed !== undefined &&
+            Object.keys(res.data.rows_not_processed).length > 0
+          ) {
+            responseMsg += `<strong>Error :</strong>`;
             Object.entries(res.data.rows_not_processed).map(
-              ([key, value]) => (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
+              ([key, value]) =>
+                (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
             );
           }
           setUploadresponse(responseMsg);
@@ -41,15 +47,18 @@ const UploadNewUsers = ({
           updateAddRefresh();
           setSubmitting(false);
         }
-        setSubmitBtn('Submit')
       })
-      .catch((err : any) => {
-        console.log('error', err);
-        window.alert('Some error occurred');
-        setSubmitBtn('Submit')
+      .catch((err: any) => {
+        console.log("error", err);
+        setSubmitting(false);
+        setShowAlert(true);
+        setAlertMsg({
+          message: "Some error occurred",
+          alertBoxColor: "danger",
+        });
       });
   };
-  
+
   return (
     <React.Fragment>
       <Modal
@@ -64,37 +73,52 @@ const UploadNewUsers = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Formik
+          <Formik
             initialValues={{ file: null }}
             validationSchema={validationSchema}
             onSubmit={(values, action) => {
               handleFormData(values, action);
             }}
-        >
-            {({ values, setFieldValue, errors, touched }) => (
-            <Form>
-              <div className="mb-3">
-                <label htmlFor="file">Upload a csv file:</label>
-                <input
-                  className="form-control"
-                  id="file"
-                  name="file"
-                  type="file"
-                  onChange={(event) => {
-                  setFieldValue('file', event.currentTarget.files[0]);
-                  }}
-                />
-                <ErrorMessage name="file" />
-              </div>
-              <div className="modal-buttons">
-                <button className="btn btn-primary" type="submit">
-                  {submitBtn}
-                </button>
-              </div>
-            </Form>
+          >
+            {({ values, setFieldValue, isSubmitting, errors, touched }) => (
+              <Form>
+                <div className="mb-3">
+                  <label htmlFor="file">Upload a csv file:</label>
+                  <input
+                    className="form-control"
+                    id="file"
+                    name="file"
+                    type="file"
+                    onChange={(event) => {
+                      setFieldValue("file", event.currentTarget.files[0]);
+                    }}
+                  />
+                  <ErrorMessage name="file" />
+                </div>
+                {isSubmitting === false ? (
+                  <div className="modal-buttons">
+                    <button className="btn btn-primary" type="submit">
+                      Upload
+                    </button>
+                  </div>
+                ) : (
+                  <LoadingButton
+                    variant="primary"
+                    btnText="Uploading..."
+                    className="modal-buttons"
+                  />
+                )}
+              </Form>
             )}
-        </Formik>
-        <div dangerouslySetInnerHTML={{ __html: uploadResponse }}/>
+          </Formik>
+          <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
+          <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         </Modal.Body>
       </Modal>
     </React.Fragment>

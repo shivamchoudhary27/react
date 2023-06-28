@@ -18,6 +18,8 @@ import FieldTypeSelect from "../../../../widgets/form_input_fields/form_select_f
 import * as Yup from "yup";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "../utils";
 import { setHasChildProp, resetManageCourseObj } from '../local';
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../../../store/actions";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -26,6 +28,7 @@ const formSchema = Yup.object({
 });
 
 const AddCourseForm = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const { progid, catid, courseid } = useParams();
@@ -66,7 +69,12 @@ const AddCourseForm = () => {
                 category:catid
               })
             } else {
-              window.alert('No course details were found for requested course ');
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg:
+                  "No course details were found for requested course",
+                status: true,
+              });
             }
           }
         })
@@ -124,7 +132,12 @@ const AddCourseForm = () => {
       const endPoint = `${progid}/course`;
       addCourseData(endPoint, requestData).then((res)=>{
         if(res.status === 201){
-          window.alert('Course created successfully');
+          dispatch({
+            type: ACTIONSLIST.mitGlobalAlert,
+            alertMsg:
+              "Course created successfully",
+            status: true,
+          });
           navigate(`/managecourses/${progid}/course`);
         }
       }).catch((err)=>{
@@ -136,12 +149,22 @@ const AddCourseForm = () => {
       putData(endPoint, requestData)
         .then((res) => {
           if (res.status === 200) {
-            window.alert('Update successul');
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg:
+                "Update successfull",
+              status: true,
+            });
             navigate(`/managecourses/${progid}/course`);
           }
         })
         .catch((err) => {
-          window.alert("Some error occurred!");
+          dispatch({
+            type: ACTIONSLIST.mitGlobalAlert,
+            alertMsg:
+              "Some error occurred!",
+            status: true,
+          });
         });
     }
     // resetForm();

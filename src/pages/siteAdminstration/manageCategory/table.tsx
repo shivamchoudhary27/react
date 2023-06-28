@@ -180,7 +180,12 @@ const CategoryTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        window.alert("Action failed due to some error");
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg:
+            "Action failed due to some error",
+          status: true,
+        });
         categoryPacket.published = !categoryPacket.published;
         setForceRender((prevState) => !prevState);
       });
@@ -243,6 +248,12 @@ const CategoryTable = ({
       })
       .catch((err: any) => {
         console.log(err);
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg:
+            "Some error occurred!",
+          status: true,
+        });
       });
   };
 
@@ -259,7 +270,12 @@ const CategoryTable = ({
         refreshcategories();
       })
       .catch((err: any) => {
-        window.alert("Some error occurred!");
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg:
+            "Some error occurred!",
+          status: true,
+        });
       });
   };
 

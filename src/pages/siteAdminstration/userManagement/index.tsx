@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -13,19 +13,22 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 const UserManagement = () => {
+  const dispatch = useDispatch();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const [userObj, setUserObj] = useState({
-    id : 0,
+    id: 0,
     userFirstName: "",
     userLastName: "",
     userEmail: "",
     userCountry: "",
-    enabled: false
+    enabled: false,
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -34,7 +37,7 @@ const UserManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state : any) => state.currentInstitute);
+  const currentInstitute = useSelector((state: any) => state.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -43,7 +46,11 @@ const UserManagement = () => {
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length < 1) {
-              window.alert("No data available for this request");
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg: "No data available for this request",
+                status: true,
+              });
             }
             setUserData(result.data);
           }
@@ -56,13 +63,16 @@ const UserManagement = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    if (currentInstitute > 0)
-    setApiStatus("started");
+    if (currentInstitute > 0) setApiStatus("started");
     getData(`/${currentInstitute}/users`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
-            // window.alert("No data available for this request");
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg: "No data available for this request",
+              status: true,
+            });
           }
           setUserData(result.data);
         }
@@ -124,7 +134,7 @@ const UserManagement = () => {
     userLastName,
     userEmail,
     userCountry,
-    enabled
+    enabled,
   }: any) => {
     setUserObj({
       id: id,
@@ -132,7 +142,7 @@ const UserManagement = () => {
       userLastName: userLastName,
       userEmail: userEmail,
       userCountry: userCountry,
-      enabled: enabled
+      enabled: enabled,
     });
   };
 
@@ -145,7 +155,7 @@ const UserManagement = () => {
       userLastName: "",
       userEmail: "",
       userCountry: "",
-      enabled: false
+      enabled: false,
     });
     // setRefreshData(false);
   };

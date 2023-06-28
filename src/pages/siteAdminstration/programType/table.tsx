@@ -1,5 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { putData, deleteData as deleteProgramData } from "../../../adapters/microservices";
+import {
+  putData,
+  deleteData as deleteProgramData,
+} from "../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
@@ -12,6 +15,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -29,7 +34,6 @@ const ProgramTable = ({
   apiStatus,
   currentInstitute,
 }: any) => {
-
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -48,42 +52,63 @@ const ProgramTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">            
-            <img src={editIcon} alt="Edit" onClick={() =>
+          <Link className="action-icons" to="">
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
                 editHandler({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
                   batchYearRequired: row.original.isBatchYearRequired,
-                  published: row.original.published
+                  published: row.original.published,
                 })
-              } />
-          </Link>{" "}
-          <Link className={`action-icons ${row.original.totalPrograms > 0 ? 'disabled' : ''}`} to="">
-            <img 
-              src={deleteIcon} alt="Delete" 
-              onClick={() => row.original.totalPrograms < 1 ? deleteHandler(row.original.id) : null} 
+              }
             />
           </Link>{" "}
-          <Link className="action-icons" to="" onClick={() => {
-            toggleProgramtypePublished(row.original)
-          }}
+          <Link
+            className={`action-icons ${
+              row.original.totalPrograms > 0 ? "disabled" : ""
+            }`}
+            to=""
           >
-            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() =>
+                row.original.totalPrograms < 1
+                  ? deleteHandler(row.original.id)
+                  : null
+              }
+            />
+          </Link>{" "}
+          <Link
+            className="action-icons"
+            to=""
+            onClick={() => {
+              toggleProgramtypePublished(row.original);
+            }}
+          >
+            <img
+              src={row.original.published !== false ? showIcon : hideIcon}
+              alt="Show"
+            />
           </Link>
         </span>
       ),
     },
   ];
-  
+
   // react table custom variable decleration === >>>
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => programTypeData, [programTypeData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-  useTable({
-    columns,
-    data,
-  });
+    useTable({
+      columns,
+      data,
+    });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -92,26 +117,36 @@ const ProgramTable = ({
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description, batchYearRequired, published }: any) => {
+  const editHandler = ({
+    id,
+    name,
+    description,
+    batchYearRequired,
+    published,
+  }: any) => {
     toggleModalShow(true);
     editHandlerById({ id, name, description, batchYearRequired, published });
     refreshProgramData();
   };
 
-  const toggleProgramtypePublished = (programtypePacket: any) => { 
+  const toggleProgramtypePublished = (programtypePacket: any) => {
     programtypePacket.published = !programtypePacket.published;
-    setForceRender(prevState => !prevState);
+    setForceRender((prevState) => !prevState);
     let endPoint = `/${currentInstitute}/program-types/${programtypePacket.id}`;
     putData(endPoint, programtypePacket)
       .then((res: any) => {
-        setForceRender(prevState => !prevState);
+        setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        window.alert('Action failed due to some error');
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg: "Action failed due to some error",
+          status: true,
+        });
         programtypePacket.published = !programtypePacket.published;
-        setForceRender(prevState => !prevState);
+        setForceRender((prevState) => !prevState);
       });
-  }
+  };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {

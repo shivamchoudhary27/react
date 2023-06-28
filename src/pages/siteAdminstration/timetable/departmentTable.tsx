@@ -11,6 +11,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -25,9 +27,9 @@ const DepartmentTable = ({
   toggleModalShow,
   refreshDepartmentData,
   refreshOnDelete,
-  apiStatus
+  apiStatus,
 }: any) => {
-  console.log(departmentData)
+  console.log(departmentData);
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -58,15 +60,27 @@ const DepartmentTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link className="action-icons" to="">
-            <img src={editIcon} alt="Edit" onClick={() =>
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
                 editHandler({ id: row.original.id, name: row.original.name })
-              } />
+              }
+            />
           </Link>
           <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() => deleteHandler(row.original.id)}
+            />
           </Link>
           <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" onClick={() => showToggleHandler(row.original.id)} />
+            <img
+              src={showIcon}
+              alt="Show"
+              onClick={() => showToggleHandler(row.original.id)}
+            />
           </Link>
         </span>
       ),
@@ -74,6 +88,7 @@ const DepartmentTable = ({
   ];
 
   // react table custom variable decleration === >>>
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => departmentData, [departmentData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -92,21 +107,35 @@ const DepartmentTable = ({
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
     refreshOnDelete(false);
-    if (window.confirm('Are you sure to delete this department?')) {
+    if (window.confirm("Are you sure to delete this department?")) {
       let endPoint = `/departments/${id}`;
-      deleteDepartmentData(endPoint).then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          refreshOnDelete(true);
-        } else if (res.status === 500) {
-          window.alert('Unable to delete, some error occurred');
-        }
-      }).catch((result : any) => {
-        if (result.response.status === 400) {
-          window.alert(result.response.data.message);
-        } else {
-          window.alert(result.response.data.message);
-        }      
-      });
+      deleteDepartmentData(endPoint)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            refreshOnDelete(true);
+          } else if (res.status === 500) {
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg: "Unable to delete, some error occurred",
+              status: true,
+            });
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 400) {
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg: result.response.data.message,
+              status: true,
+            });
+          } else {
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg: result.response.data.message,
+              status: true,
+            });
+          }
+        });
     }
   };
 

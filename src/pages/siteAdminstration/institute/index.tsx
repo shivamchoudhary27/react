@@ -13,8 +13,11 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
 import ConfigModal from "./configModal";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
 
 const InstituteManagement = () => {
+  const dispatch = useDispatch();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
@@ -43,7 +46,12 @@ const InstituteManagement = () => {
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length < 1) {
-              window.alert("No data available for this request");
+              dispatch({
+                type: ACTIONSLIST.mitGlobalAlert,
+                alertMsg:
+                  "No data available for this request",
+                status: true,
+              });
             }
             setUserData(result.data);
           }
@@ -61,7 +69,12 @@ const InstituteManagement = () => {
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
-            // window.alert("No data available for this request");
+            dispatch({
+              type: ACTIONSLIST.mitGlobalAlert,
+              alertMsg:
+                "No data available for this request",
+              status: true,
+            });
           }
           setUserData(result.data);
         }
