@@ -29,7 +29,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
 
   return (
     <>
-      <div className="filter-wrapper mt-2">        
+      <div className="filter-wrapper mt-2 input-styles">        
         <form onSubmit={handleSearch}>
           <Row className="align-items-center g-2">
             <Col>

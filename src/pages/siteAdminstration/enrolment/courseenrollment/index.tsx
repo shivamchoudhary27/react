@@ -196,13 +196,13 @@ const CourseEnrollment = () => {
   const DISCIPLINE_BUTTONS = (
     <>
       <div className="site-button-group mb-3">
-        <Button variant="primary" size="sm" onClick={() => navigate(`/managegroups/${programid}/${name}/${courseid}/${coursename}`)}>
+        <Button variant="secondary" size="sm" onClick={() => navigate(`/managegroups/${programid}/${name}/${courseid}/${coursename}`)}>
           Manage Groups
         </Button>{" "}
-        <Button variant="primary" size="sm" onClick={openAddDiscipline}>
+        <Button variant="secondary" size="sm" onClick={openAddDiscipline}>
           Enrol User
         </Button>{" "}
-        <Button variant="primary" size="sm" onClick={toggleUploadModal}>Upload Users</Button>{" "}
+        <Button variant="secondary" size="sm" onClick={toggleUploadModal}>Upload Users</Button>{" "}
       </div>   
       <div className="">
         First Name {" "}
