@@ -46,13 +46,13 @@ const UserFilter = ({
   return (
     <React.Fragment>
       <div className="site-button-group mb-3">
-        <Button variant="primary" size="sm" onClick={toggleModalShow}>
+        <Button variant="secondary" size="sm" onClick={toggleModalShow}>
           Upload Users
         </Button>{" "}
-        <Button variant="primary" size="sm" onClick={AddUsersModalShow}>
+        <Button variant="secondary" size="sm" onClick={AddUsersModalShow}>
           Add Users
         </Button>{" "}
-        <Button variant="primary" size="sm" onClick={toEnrolProgramCourses}>
+        <Button variant="secondary" size="sm" onClick={toEnrolProgramCourses}>
           Enroll Users to Courses
         </Button>
       </div>

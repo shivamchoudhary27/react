@@ -170,7 +170,7 @@ const ManageCategory = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle
-            pageTitle="Manage categories"
+            pageTitle="Manage Categories"
             gobacklink="/manageprogram"
           />
           <CategoryTable
