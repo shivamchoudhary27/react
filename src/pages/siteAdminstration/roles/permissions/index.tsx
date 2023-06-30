@@ -62,7 +62,7 @@ const Permission = () => {
             pageTitle={`Role Permissions : ${roleName}`}
             gobacklink="/manageroles"
           />
-          <Filter />
+          {/* <Filter /> */}
           <RolePermissionTable 
             permissionData={permissionData}
             roleId={roleId}
