@@ -4,7 +4,7 @@ import "./style.scss"
 
 const Footer = () => {
     return (
-        <div className="site-footer">
+        <div className="site-footer mt-auto">
             <ul className="list-group list-group-horizontal">
                 <li className="list-group-item">FAQ's</li>
                 <li className="list-group-item">Terms & Conditions</li>

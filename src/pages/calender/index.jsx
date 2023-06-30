@@ -100,7 +100,7 @@ export default function ReactBigCalendar() {
           { name: "Calender Management", path: "/calenderconfig" },
           {name: "Calender", path: ""}
         ]} />
-        <div className="contentarea-wrapper mt-3">
+        <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
           <PageTitle pageTitle="Calender" gobacklink="" />
             <Row>

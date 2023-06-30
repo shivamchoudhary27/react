@@ -138,7 +138,7 @@ const ManageGroups = () => {
               { name: "Manage Groups", path: "" },
             ]}
           />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
           <PageTitle 
             pageTitle = "Manage Group" gobacklink = {`/courseenrollment/${programid}/${name}/${courseid}/${coursename}`}

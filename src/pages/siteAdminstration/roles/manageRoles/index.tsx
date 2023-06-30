@@ -149,7 +149,7 @@ const ManageRoles = () => {
           { name: "Manage Roles", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Manage Roles" gobacklink="/usermanagement" />
           <Filter

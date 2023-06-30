@@ -170,7 +170,7 @@ const UserManagement = () => {
           { name: "User Management", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="User Management" gobacklink="/siteadmin" />
           <Filter
