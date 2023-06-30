@@ -72,44 +72,44 @@ const RolePermissionTable = ({permissionData, roleId}) => {
 
   return (
     <React.Fragment>
-      <table className="table">
-        {
-          moduleList.map((module) => (
-            data.some((packetItem) => packetItem.module === module.id) && 
-            <React.Fragment>              
-                <thead>
-                  <tr>
-                    <th>{module.name}</th>
-                    <th>
+      {moduleList.map((module) => (
+        data.some((packetItem) => packetItem.module === module.id) && 
+        <React.Fragment>
+          <div className='table-responsive admin-table-wrapper'>
+            <table className="table mb-4">
+              <thead>
+                <tr>
+                  <th>{module.name}</th>
+                  <th>
+                    <input
+                      type="checkbox"
+                      checked={isAllSelected(module.id)}
+                      onChange={() => toggleAll(module.id)}
+                    />
+                    Check All
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {data
+                .filter(item => item.module === module.id)
+                .map(item => (
+                  <tr key={item.id}>
+                    <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
+                    <td>
                       <input
                         type="checkbox"
-                        checked={isAllSelected(module.id)}
-                        onChange={() => toggleAll(module.id)}
+                        checked={item.permitted}
+                        onChange={() => togglePermitted(item.id)}
                       />
-                      Check All
-                    </th>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                {data
-                  .filter(item => item.module === module.id)
-                  .map(item => (
-                    <tr key={item.id}>
-                      <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={item.permitted}
-                          onChange={() => togglePermitted(item.id)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-            </React.Fragment>
-          ))
-        }
-      </table>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </React.Fragment>
+      ))}
       <div style={{textAlign:"center"}}>
         { isSubmitting === false ? (
           <CustomButton
