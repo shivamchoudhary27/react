@@ -26,7 +26,6 @@ const AddUserModal = ({
   const initialValues = {
     name: userobj.name,
     description: userobj.description,
-    published: userobj.published,
   };
 
   // Formik Yup validation === >>>
@@ -39,7 +38,6 @@ const AddUserModal = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     if (userobj.id === 0) {
-      console.log("in here post");
       postData(`/${currentInstitute}/roles`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 201)) {
@@ -133,7 +131,7 @@ const AddUserModal = ({
                     msgText="Please Enter description"
                   />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldTypeCheckbox
                     name="published"
                     checkboxLabel="Published"
@@ -143,7 +141,7 @@ const AddUserModal = ({
                     touched=""
                     msgText="Please Check required field"
                   />
-                </div>
+                </div> */}
                 {isSubmitting === false ? (
                   <div className="modal-buttons">
                     <CustomButton

@@ -31,7 +31,7 @@ const ManageRoles = () => {
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    pageSize: pagination.PERPAGE,
+    pageSize: pagination.PERPAGE * 10,
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.currentInstitute);
@@ -97,20 +97,16 @@ const ManageRoles = () => {
     if (reset === true) {
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       if (updatedState.name !== undefined) delete updatedState.name;
-      if (updatedState.email !== undefined) delete updatedState.email;
 
       setFilterUpdate(updatedState);
     } else {
-      const { name, email } = newFilterRequest;
+      const { name } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
         pageNumber: 0,
         ...newFilterRequest,
       };
-
-      if (email === "") delete updatedState.email;
       if (name === "") delete updatedState.name;
-
       setFilterUpdate(updatedState);
     }
   };
@@ -159,6 +155,7 @@ const ManageRoles = () => {
           <Filter
             toggleModalShow={toggleModalShow}
             openAddRoleModal={openAddRoleModal}
+            updateSearchFilters={updateSearchFilters}
           />
           <RolesTable
            userData={userData.items}

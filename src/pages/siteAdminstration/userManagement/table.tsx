@@ -49,6 +49,7 @@ const UserManagementTable = ({
     {
       Header: "Role",
       accessor: "",
+      Cell: () => `In progress`,
     },
     {
       Header: "Assign Role",
@@ -57,10 +58,6 @@ const UserManagementTable = ({
           Assign Roles
         </Link>
       ),
-    },
-    {
-      Header: "Last access",
-      accessor: "",
     },
     {
       Header: "Actions",

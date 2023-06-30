@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 
@@ -7,7 +8,8 @@ const initialValues = {
   //   email: "",
 };
 
-const Filter = ({ updatefilters, toggleModalShow, openAddRoleModal }: any) => {
+const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any) => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -15,16 +17,20 @@ const Filter = ({ updatefilters, toggleModalShow, openAddRoleModal }: any) => {
         name: values.name,
         // email: values.email,
       };
-      updatefilters(newRequest);
+      updateSearchFilters(newRequest);
     },
     onReset: () => {
       formik.setValues({
         name: "",
         // email: "",
       });
-      updatefilters(initialValues, true);
+      updateSearchFilters(initialValues, true);
     },
   });
+
+  const manageauthorities = () => {
+    navigate("/manageauthorities");
+  }
 
   return (
     <React.Fragment>
@@ -72,6 +78,7 @@ const Filter = ({ updatefilters, toggleModalShow, openAddRoleModal }: any) => {
           </Row>
         </form>
         <div className="site-button-group">
+          <Button variant="primary" onClick={manageauthorities}>Manage Authorities</Button>{" "}
           <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "}
           <Button variant="primary" onClick={openAddRoleModal}>Add Role</Button>{" "}
         </div>

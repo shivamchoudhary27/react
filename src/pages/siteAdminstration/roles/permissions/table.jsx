@@ -63,7 +63,7 @@ const RolePermissionTable = ({permissionData, roleId}) => {
       <table className="table">
         <thead>
           <tr>
-            <th>user</th>
+            <th>User</th>
             <th>
               <input
                 type="checkbox"
@@ -79,7 +79,7 @@ const RolePermissionTable = ({permissionData, roleId}) => {
             .filter(item => item.module === 'user')
             .map(item => (
               <tr key={item.id}>
-                <td>{item.name}</td>
+                <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
                 <td>
                   <input
                     type="checkbox"
@@ -92,13 +92,14 @@ const RolePermissionTable = ({permissionData, roleId}) => {
         </tbody>
         <thead>
           <tr>
-            <th>Program Management</th>
+            <th>Program</th>
             <th>
               <input
                 type="checkbox"
                 checked={isAllSelected('program')}
                 onChange={() => toggleAll('program')}
                 />
+                Check All
             </th>
           </tr>
         </thead>
@@ -107,7 +108,7 @@ const RolePermissionTable = ({permissionData, roleId}) => {
             .filter(item => item.module === 'program')
             .map(item => (
               <tr key={item.id}>
-                <td>{item.name}</td>
+                <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
                 <td>
                   <input
                     type="checkbox"
@@ -120,13 +121,14 @@ const RolePermissionTable = ({permissionData, roleId}) => {
         </tbody>
         <thead>
           <tr>
-            <th>Enrol Management</th>
+            <th>Course</th>
             <th>
               <input
                 type="checkbox"
                 checked={isAllSelected('course')}
                 onChange={() => toggleAll('course')}
                 />
+              Check All
             </th>
           </tr>
         </thead>
@@ -135,7 +137,7 @@ const RolePermissionTable = ({permissionData, roleId}) => {
             .filter(item => item.module === 'course')
             .map(item => (
               <tr key={item.id}>
-                <td>{item.name}</td>
+                <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
                 <td>
                   <input
                     type="checkbox"

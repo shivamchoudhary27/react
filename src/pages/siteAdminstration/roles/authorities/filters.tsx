@@ -3,23 +3,26 @@ import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 
 const initialValues = {
-  name: "",
+  module: "",
 }
 
 const Filter = ({  toggleModalShow,
   resetDepartmentForm,
+  departmentData,
+  setDepartmentData,
+  refreshDepartmentData,
   updateInputFilters,} : any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
       let newRequest = {
-        name: values.name,
+        module: values.module,
       }
-      updateInputFilters(newRequest.name)
+      updateInputFilters(newRequest.module)
     },
     onReset: () => {
       formik.setValues({
-        name: "",
+        module: "",
       });
       updateInputFilters("")
     }
@@ -40,12 +43,12 @@ const Filter = ({  toggleModalShow,
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
-                id="name"
-                name="name"
+                id="module"
+                name="module"
                 type="text"
-                placeholder="Name"
+                placeholder="Module"
                 onChange={formik.handleChange}
-                value={formik.values.name}
+                value={formik.values.module}
               />
             </Col>
             <Col>
@@ -55,7 +58,7 @@ const Filter = ({  toggleModalShow,
           </Row>          
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddDepartment}>Add Department</Button>{" "}
+          <Button variant="primary" onClick={openAddDepartment}>Add Authority</Button>{" "}
         </div>
       </div>
     </React.Fragment>
