@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
@@ -9,9 +10,40 @@ import Filter from "./filter";
 import UserManagement from "./userManagement";
 import ProgramManagement from "./programManagement";
 import ProgramEnrolment from "./programEnrolment";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
+import RolePermissionTable from "./table";
+import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { pagination } from "../../../../utils/pagination";
 
 const Permission = () => {
+  const { roleId, roleName } = useParams();
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const [authorityList, setAuthorityList] = useState<any>(dummyData);
+  const [roleAuthorities, setRoleAuthorities] = useState<any>([]);
+  const [permissionData, setPermissionData] = useState<any>([]);
+  const [apiStatus, setApiStatus] = useState("");
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE * 10,
+  });
+  
+  useEffect(() => {
+    makeGetDataRequest(`/authorities`, filterUpdate, setAuthorityList, setApiStatus, "core-service");
+    makeGetDataRequest(`/${roleId}/authorities`, filterUpdate, setRoleAuthorities, setApiStatus, "core-service");
+  }, []);
+
+  useEffect(() => {
+    if (authorityList.items.length > 0) {
+        const packetSet = new Set(roleAuthorities.map((rolePacket : any) => rolePacket.id));
+
+        const updatedArray = authorityList.items.map((authority : any) => {
+          const isPresent = packetSet.has(authority.id);
+          return { ...authority, permitted: isPresent };
+        });
+
+        setPermissionData(updatedArray);
+    }
+  }, [authorityList, roleAuthorities]);
+
   return (
     <React.Fragment>
       <Header />
@@ -21,32 +53,23 @@ const Permission = () => {
           { name: "Site Administration", path: "/siteadmin" },
           { name: "User Management", path: "/usermanagement" },
           { name: "Manage Roles", path: "/manageroles" },
-          { name: "Set Permission", path: "" },
+          { name: "Role Permissions", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle
-            pageTitle="Permission : Role Name"
+            pageTitle={`Role Permissions : ${roleName}`}
             gobacklink="/manageroles"
           />
           <Filter />
-          <UserManagement />
+          <RolePermissionTable 
+            permissionData={permissionData}
+            roleId={roleId}
+          />
+          {/* <UserManagement />
           <ProgramManagement />
-          <ProgramEnrolment />
-          <div style={{textAlign:"center"}}>
-            <CustomButton
-              btnText="Save Permissions"
-              type="submit"
-              variant="primary"
-              disabled=""
-            />{" "}
-            <CustomButton
-              type="reset"
-              btnText="Cancle"
-              variant="outline-secondary"
-            />
-          </div>
+          <ProgramEnrolment /> */}
         </Container>
       </div>
       <Footer />

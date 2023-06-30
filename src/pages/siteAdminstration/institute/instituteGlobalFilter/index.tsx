@@ -16,8 +16,8 @@ const InstituteFilter = () => {
     getData('/institutes', filters)
     .then((result : any) => {
         if (result.status === 200 && result.data !== "" ) {
-          // const filteredArray = result.data.items.filter((obj :any) => obj.locked !== false);
-          // result.data.items = filteredArray
+          const filteredArray = result.data.items.filter((obj :any) => obj.locked !== false);
+          result.data.items = filteredArray
           setInstitutes(result.data);
         }
     })
