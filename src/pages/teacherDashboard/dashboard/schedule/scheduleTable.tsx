@@ -8,7 +8,7 @@ const ScheduleTable = () => {
     <>
       <div className="mitblock-body">
           {tableData.map((item, index) => (
-            <div className="d-flex align-items-center tsb-row mb-2" key={index}>
+            <div className="d-flex align-items-center tsb-row mb-3" key={index}>
               <div className="align-self-start me-3">
                 <img src={calendarIcon} alt="Schedule Icon" />
               </div>

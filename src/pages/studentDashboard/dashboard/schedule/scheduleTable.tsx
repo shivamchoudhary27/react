@@ -40,7 +40,7 @@ const ScheduleTable = () => {
           item.attendance_instances.map((el: any) =>
             el.today_sessions.map((val: any) => (
               <div
-                className="d-flex align-items-center tsb-row mb-2"
+                className="d-flex align-items-center tsb-row mb-3"
                 key={index}
               >
                 <div className="align-self-start me-3">

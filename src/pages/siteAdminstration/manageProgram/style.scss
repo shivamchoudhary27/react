@@ -1,5 +1,79 @@
-.container-wrapper{
+.program-title {
     display: flex;
-    justify-content: space-between;
+    font-weight: 600;
+    span {
+        background-color: #0F7FEF;
+        display: inline-block;
+        width: 0.15rem;
+        margin: 0 10px;
+    }
+}
+.key-information {
+    margin-bottom: 30px;
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 5px 0 0 0;
+        padding: 10px 20px;
+        box-shadow: 3px 3px 10px 0px rgba(166, 171, 189, 0.5);
+        border: 0.5px solid;
+        border-image-source: linear-gradient(92.15deg, rgba(203, 203, 203, 0.4) 57.13%, rgba(255, 255, 255, 0) 107.54%);
+        li {
+            margin:5px 30px 5px 0;
+        }
+        strong {
+            font-weight: 500;
+        }
+    }
+}
+.program-tags {
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 5px 0 0 0;
+        padding: 10px 20px;
+        box-shadow: 3px 3px 10px 0px rgba(166, 171, 189, 0.5);
+        border: 0.5px solid;
+        border-image-source: linear-gradient(92.15deg, rgba(203, 203, 203, 0.4) 57.13%, rgba(255, 255, 255, 0) 107.54%);
+        li {
+            margin:5px 30px 5px 0;
+        }
+    }
+}
+.curriculum-step {
+    table th {
+        width: 50%;
+    }
+    h5 {
+        display: flex;
+        justify-content: space-between;
+        select {
+            width: auto;
+        }
+    }
+}
+.instructor-list {
+    display: flex;
     align-items: center;
+    margin-top: 10px;
+    h6 {
+        margin-bottom: 0.25rem;
+    }
+    p {
+        margin-bottom: 0;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        img {
+            width: 18px;
+            margin-right: 5px;
+        }
+        .campus-icon {
+            width: 14px;
+            margin-right: 7px;
+            margin-left: 2px;
+        }
+    }
 }

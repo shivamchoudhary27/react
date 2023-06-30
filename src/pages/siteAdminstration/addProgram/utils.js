@@ -6,7 +6,7 @@ export const initialValues = {
     programtype: "",
     discipline: "",
     batchYear: getCurrentBatchYear(),
-    modeOfStudy: "fulltime",
+    modeOfStudy: "Full time",
     durationValue: 0,
     durationUnit : 'day',
     objective: "",
@@ -46,8 +46,8 @@ export const addMetaFields = (fieldsCount) => {
 
 //provided fields for modeofstudy in program 
 // export const modeStudy = [
-//    { name: "Full Time", value : "fulltime"},
-//    { name: "Part Time", value : "parttime"},
+//    { name: "Full time", value : "Full time"},
+//    { name: "Part time", value : "Part time"},
 // ];
 
 // the api required structure for program which will later be updated in generateProgramDataObject()
