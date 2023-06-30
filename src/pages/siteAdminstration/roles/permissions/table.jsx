@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { postData } from '../../../../adapters/coreservices';
 import CustomButton from '../../../../widgets/formInputFields/buttons';
 import { LoadingButton } from '../../../../widgets/formInputFields/buttons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const moduleList = [
+  {id: "user", name: "User"},
+  {id: "course", name: "Course"},
+  {id: "category", name: "Category"},
+  {id: "program", name: "Program"},
+  {id: "institute", name: "Institute"},
+  {id: "group", name: "Group"},
+  {id: "tag", name: "Tag"},
+];
+
 const RolePermissionTable = ({permissionData, roleId}) => {
-  
+  const navigate = useNavigate();
   const [data, setData] = useState(permissionData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -47,6 +58,7 @@ const RolePermissionTable = ({permissionData, roleId}) => {
     .then((res) => {
       console.log(res)
       if (res.status === 200) {
+        navigate("/manageroles");
         //handle various respponses 
       }
       setIsSubmitting(false)
@@ -61,110 +73,52 @@ const RolePermissionTable = ({permissionData, roleId}) => {
   return (
     <React.Fragment>
       <table className="table">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>
-              <input
-                type="checkbox"
-                checked={isAllSelected('user')}
-                onChange={() => toggleAll('user')}
-              />
-              Check All
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data
-            .filter(item => item.module === 'user')
-            .map(item => (
-              <tr key={item.id}>
-                <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={item.permitted}
-                    onChange={() => togglePermitted(item.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-        <thead>
-          <tr>
-            <th>Program</th>
-            <th>
-              <input
-                type="checkbox"
-                checked={isAllSelected('program')}
-                onChange={() => toggleAll('program')}
-                />
-                Check All
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data
-            .filter(item => item.module === 'program')
-            .map(item => (
-              <tr key={item.id}>
-                <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={item.permitted}
-                    onChange={() => togglePermitted(item.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-        <thead>
-          <tr>
-            <th>Course</th>
-            <th>
-              <input
-                type="checkbox"
-                checked={isAllSelected('course')}
-                onChange={() => toggleAll('course')}
-                />
-              Check All
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data
-            .filter(item => item.module === 'course')
-            .map(item => (
-              <tr key={item.id}>
-                <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={item.permitted}
-                    onChange={() => togglePermitted(item.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
+        {
+          moduleList.map((module) => (
+            data.some((packetItem) => packetItem.module === module.id) && 
+            <React.Fragment>              
+                <thead>
+                  <tr>
+                    <th>{module.name}</th>
+                    <th>
+                      <input
+                        type="checkbox"
+                        checked={isAllSelected(module.id)}
+                        onChange={() => toggleAll(module.id)}
+                      />
+                      Check All
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                {data
+                  .filter(item => item.module === module.id)
+                  .map(item => (
+                    <tr key={item.id}>
+                      <td>{" " + item.name.charAt(0).toUpperCase() + item.name.slice(1)}</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={item.permitted}
+                          onChange={() => togglePermitted(item.id)}
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+            </React.Fragment>
+          ))
+        }
       </table>
       <div style={{textAlign:"center"}}>
         { isSubmitting === false ? (
-          <React.Fragment>
-            <CustomButton
-              btnText="Save Permissions"
-              type="submit"
-              variant="primary"
-              disabled=""
-              onClick={savePermissions}
-            />{" "}
-            {/* <CustomButton
-              type="reset"
-              btnText="Cancel"
-              variant="outline-secondary"
-            /> */}
-          </React.Fragment>
+          <CustomButton
+            btnText="Save Permissions"
+            type="submit"
+            variant="primary"
+            disabled=""
+            onClick={savePermissions}
+          />
         ) : (
           <LoadingButton
             variant="primary"
