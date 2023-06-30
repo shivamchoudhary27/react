@@ -6,12 +6,12 @@ import editIcon from "../../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../../assets/images/icons/hide-action.svg";
-import { deleteData } from "../../../../adapters/microservices";
+import { deleteData, putData } from "../../../../adapters/coreservices";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../../store/actions";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import { putData } from "../../../../adapters/microservices";
+// import { putData } from "../../../../adapters/microservices";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -40,7 +40,7 @@ const RolesTable = ({
     {
       Header: "Permission",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to="/permission">
+        <Link className="action-icons" to={`/rolepermissions/${row.original.id}/${row.original.name}`}>
           View Permission
         </Link>
       ),
@@ -70,7 +70,7 @@ const RolesTable = ({
               onClick={() => deleteHandler(row.original.id)}
             />
           </Link>
-          <Link
+          {/* <Link
             className="action-icons"
             to=""
             onClick={() => toggleRolePublished(row.original)}
@@ -79,7 +79,7 @@ const RolesTable = ({
               src={row.original.enabled !== false ? showIcon : hideIcon}
               alt="Show"
             />
-          </Link>
+          </Link> */}
         </span>
       ),
     },

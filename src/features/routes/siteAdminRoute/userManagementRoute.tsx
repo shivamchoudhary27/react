@@ -10,7 +10,7 @@ const UserManagementRoute = () => {
   return [
     <Route key="usermanagement" path='/usermanagement' element={<UserManagement />} />,
     <Route key="manageroles" path='/manageroles' element={<ManageRoles />} />,
-    <Route key="permission" path='/permission' element={<Permission />} />,
+    <Route key="rolepermissions" path='/rolepermissions/:roleId/:roleName' element={<Permission />} />,
     <Route key="assignroles" path='/assignroles' element={<AssignRoles />} />,
     <Route key="institute" path='/institute' element={<InstituteManagement />} />,
   ]
