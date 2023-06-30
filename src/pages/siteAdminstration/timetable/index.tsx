@@ -106,7 +106,7 @@ const TimeTable = () => {
           { name: "Timetable Management", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
           {DEPARTMENT_FILTER_COMPONENT}

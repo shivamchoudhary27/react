@@ -136,7 +136,7 @@ const EnrolUsers = () => {
               { name: name, path: "" },    
             ]}
           />
-      <div className="contentarea-wrapper mt-3">          
+      <div className="contentarea-wrapper mt-3 mb-5">          
           <Container fluid>
           <PageTitle 
             pageTitle = {`Program: <span>${name}</span>`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}

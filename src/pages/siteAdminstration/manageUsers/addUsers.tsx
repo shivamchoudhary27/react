@@ -151,7 +151,7 @@ const EnrolUserToProgram = () => {
                 { name: "Add Users", path: "" },       
               ]}
             />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
           <PageTitle pageTitle="Add Users" gobacklink={gobackLink} />
             <Formik

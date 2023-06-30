@@ -142,7 +142,7 @@ const Departments = () => {
           { name: "Department", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />          
           <Filters

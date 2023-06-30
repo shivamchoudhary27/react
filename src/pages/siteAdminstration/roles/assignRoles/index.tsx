@@ -19,7 +19,7 @@ const AssignRoles = () => {
           { name: "Assign Roles", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
             pageTitle="Assign Roles (In progress)"

@@ -17,13 +17,13 @@ const CalenderConfig = () => {
           { name: "Site Administration", path: "/siteadmin" },
           { name: "Timetable", path: "/timetable" },
           { name: "Events color", path: "" }
-        ]} />
-      <div className="contentarea-wrapper mt-3">
-          <Container fluid>
-            <PageTitle pageTitle="Events Color" gobacklink="/timetable" />
-            <div className="contentarea-wrapper mt-3">{<Module_List />}</div>
-          </Container>
-        </div>
+        ]} />      
+      <div className="contentarea-wrapper mt-3 mb-5">
+        <Container fluid>
+          <PageTitle pageTitle="Events Color" gobacklink="/timetable" />
+          {<Module_List />}
+        </Container>
+      </div>
       <Footer />
     </React.Fragment>
   );

@@ -108,7 +108,7 @@ const ManageProgram = () => {
           { name: "Manage Program", path: "" },
         ]}
       />      
-      <div className="contentarea-wrapper mt-3">
+      <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />
           <div className="site-button-group mb-3">
