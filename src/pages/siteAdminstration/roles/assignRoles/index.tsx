@@ -22,7 +22,7 @@ const AssignRoles = () => {
       <div className="contentarea-wrapper mt-3">
         <Container fluid>
           <PageTitle
-            pageTitle="Assign Roles"
+            pageTitle="Assign Roles (In progress)"
             gobacklink="/usermanagement"
           />
           <Filter />
