@@ -178,7 +178,7 @@ const RolesTable = ({
         setShowAlert={setShowAlert}
         showAlert={showAlert}
       />
-      <div className="table-responsive table-wrapper mt-3">
+      <div className="table-responsive admin-table-wrapper mt-3">
         <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (

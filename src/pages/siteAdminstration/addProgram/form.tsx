@@ -380,21 +380,21 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         <input
                           type="radio"
                           name="modeOfStudy"
-                          value="fulltime"
+                          value="Full time"
                           onChange={handleChange}
-                          checked={values.modeOfStudy === 'fulltime' ? true : false}
+                          checked={values.modeOfStudy === 'Full time' ? true : false}
                         />{" "}
-                        Full Time
+                        Full time
                       </label>
                       <label>
                         <input
                           type="radio"
                           name="modeOfStudy"
-                          value="parttime"
+                          value="Partvtime"
                           onChange={handleChange}
-                          checked={values.modeOfStudy === 'parttime' ? true : false}
+                          checked={values.modeOfStudy === 'Part time' ? true : false}
                         />{" "}
-                        Part Time
+                        Part time
                       </label>
                     </div>
                     <FieldErrorMessage
@@ -479,7 +479,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldTypeCheckbox
                         name="programaccessinfo"
                         value="fullaccess"
-                        checkboxLabel="Full life time access"
+                        checkboxLabel="Lifetime Access"
                       />
                     </div>
                     <div>

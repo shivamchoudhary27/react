@@ -82,7 +82,7 @@ const Coursecataloguecard = ({
                   <li><strong>Duration:</strong> 3 Year</li>
                   <li><strong>Programme Code:</strong> ST3113</li>
                   <li><strong>Course Type:</strong> Bachelor Degree</li>
-                  <li><strong>Mode of Study:</strong> Full Time</li>
+                  <li><strong>Mode of study:</strong> Full time</li>
                 </ul>
               </div>
 

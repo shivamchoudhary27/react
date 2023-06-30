@@ -136,21 +136,21 @@ label {
     thead tr {
             background-color: #0F80EF;
             background-image: url('../images/table-head-bg.svg');
-            background-repeat: repeat;
-            th:last-child {
-                width: 14%;
-                text-align: center;
-            }
+            background-repeat: repeat;            
     }
     th {
         font-weight: 500;
         color: #fff;
         text-shadow: 0px -2px 5px rgba(0, 0, 0, 0.25), 0px 2px 5px rgba(0, 0, 0, 0.25);
     }
-    tbody tr {
-        td:last-child {
-            text-align: center;
-        }
+}
+.admin-table-wrapper {
+    th:last-child {
+        width: 14%;
+        text-align: center;
+    }
+    td:last-child {
+        text-align: center;
     }
 }
 .table-hover>tbody>tr:hover>* {
@@ -210,7 +210,7 @@ label {
     background: #E8ECF1;
     box-shadow: inset 5px 5px 4px rgba(174, 174, 192, 0.2), inset -5px -5px 4px rgba(255, 255, 255, 0.3);
     border-radius: 50px;
-    .step {
+    .step, a {
         flex: 1;
         padding: 10px;
         text-align: center;
