@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
@@ -10,6 +10,8 @@ const initialValues = {
 
 const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any) => {
   const navigate = useNavigate();
+  const [timeoutId, setTimeoutId] = useState<any>(null);
+
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
@@ -22,16 +24,35 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
     onReset: () => {
       formik.setValues({
         name: "",
-        // email: "",
       });
       updateSearchFilters(initialValues, true);
-    },
+    }
   });
+
+  // Event handler for permission input change with debounce
+  const handlePermissionChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+
+    // Clear previous timeout, if any
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      let newRequest = {
+        name: event.target.value,
+      };
+      updateSearchFilters(newRequest);
+    }, 700); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+  };
 
   const manageauthorities = () => {
     navigate("/manageauthorities");
   }
-
+  
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
@@ -47,7 +68,7 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
                 name="name"
                 type="text"
                 placeholder="Name"
-                onChange={formik.handleChange}
+                onChange={handlePermissionChange}
                 value={formik.values.name}
               />
             </Col>
