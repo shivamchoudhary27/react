@@ -1,37 +1,56 @@
-import React from "react";
+import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
+import { filterConfig } from "../../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
-  //   email: "",
 };
 
 const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any) => {
   const navigate = useNavigate();
+  const [timeoutId, setTimeoutId] = useState<any>(null);
+
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       let newRequest = {
         name: values.name,
-        // email: values.email,
       };
       updateSearchFilters(newRequest);
     },
     onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       formik.setValues({
         name: "",
-        // email: "",
       });
       updateSearchFilters(initialValues, true);
-    },
+    }
   });
+
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+
+    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      let newRequest = {
+        name: event.target.value,
+      };
+      updateSearchFilters(newRequest);
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+  };
 
   const manageauthorities = () => {
     navigate("/manageauthorities");
   }
-
+  
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
@@ -47,22 +66,10 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
                 name="name"
                 type="text"
                 placeholder="Name"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.name}
               />
             </Col>
-            {/* <Col>
-              <label htmlFor="email" hidden>Email</label>
-              <input
-                className="form-control"
-                id="email"
-                name="email"
-                type="text"
-                placeholder="Email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-            </Col> */}
             <Col>
               <Button variant="primary" type="submit" className="me-2">
                 Filter

@@ -30,7 +30,6 @@ const UserManagementTable = ({
   apiStatus,
   currentInstitute,
 }: any) => {
-  console.log(apiStatus);
   const tableColumn = [
     {
       Header: "Name",

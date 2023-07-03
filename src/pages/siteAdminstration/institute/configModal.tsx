@@ -18,7 +18,6 @@ const Schema = Yup.object({
 });
 
 const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh }: any) => {
-  console.log(userobj);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 

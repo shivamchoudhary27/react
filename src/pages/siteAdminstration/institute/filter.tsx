@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { filterConfig } from "../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
@@ -9,10 +9,11 @@ const initialValues = {
 }
 
 const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
-  const navigate = useNavigate();
+  const [timeoutId, setTimeoutId] = useState<any>(null);
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       let newRequest = {
         name: values.name,
         shortCode: values.shortCode,
@@ -20,6 +21,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
       updatefilters(newRequest);
     },
     onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       formik.setValues({
         shortCode: "",
         name:""
@@ -27,6 +29,25 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
       updatefilters(initialValues, true);
     }
   });
+
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+
+    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      let newRequest = {
+        name: event.target.name === 'name' ? event.target.value : formik.values.name,
+        shortCode: event.target.name === 'shortCode' ? event.target.value : formik.values.shortCode,
+      };
+      updatefilters(newRequest);
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+  };
+
 
   return (
     <React.Fragment>
@@ -41,7 +62,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 name="name"
                 type="text"
                 placeholder="Institute Name"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.name}
               />
             </Col>
@@ -53,7 +74,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 name="shortCode"
                 type="text"
                 placeholder="Short Code"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.shortCode}
               />
             </Col>

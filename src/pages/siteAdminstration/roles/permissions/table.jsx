@@ -125,25 +125,27 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus }) => {
         <TableSkeleton numberOfRows={5} numberOfColumns={4} />
       )}
       {apiStatus === "finished" && permissionData.length === 0 && (
-        <Errordiv msg="No record found!" cstate className="mt-3" />
+        <Errordiv msg="No permission record found!" cstate className="mt-3" />
       )}
-      <div style={{ textAlign: "center" }}>
-        {isSubmitting === false ? (
-          <CustomButton
+      {apiStatus === "finished" && permissionData.length > 0 && (
+        <div style={{ textAlign: "center" }}>
+          {isSubmitting === false ? (
+            <CustomButton
             btnText="Save Permissions"
             type="submit"
             variant="primary"
             disabled=""
             onClick={savePermissions}
-          />
-        ) : (
-          <LoadingButton
-            variant="primary"
-            btnText="Saving Permissions..."
-            className="modal-buttons"
-          />
-        )}
-      </div>
+            />
+            ) : (
+              <LoadingButton
+              variant="primary"
+              btnText="Saving Permissions..."
+              className="modal-buttons"
+              />
+          )}
+        </div>
+      )}
     </React.Fragment>
   );
 };
