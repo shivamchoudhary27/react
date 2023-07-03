@@ -66,6 +66,7 @@ const Permission = () => {
           <RolePermissionTable 
             permissionData={permissionData}
             roleId={roleId}
+            apiStatus={apiStatus}
           />
           {/* <UserManagement />
           <ProgramManagement />
