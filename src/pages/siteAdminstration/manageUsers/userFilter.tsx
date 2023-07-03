@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./style.scss";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
+import { filterConfig } from "../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
@@ -20,15 +21,17 @@ const UserFilter = ({
   const navigate = useNavigate();
   const { programid } = useParams();
   const parsedProgramid = parseInt(programid);
+  const [timeoutId, setTimeoutId] = useState<any>(null);
   const addUserLink = `/enrolusertoprogram/${parsedProgramid}/0/${programname}`;
-
+  
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      console.log(values);
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       updateinputfilters(values, false);
     },
     onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
         email: "",
@@ -37,6 +40,25 @@ const UserFilter = ({
       updateinputfilters({}, true);
     },
   });
+
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+    
+    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      let newRequest = {
+        name: event.target.name === 'name' ? event.target.value : formik.values.name,
+        email: event.target.name === 'email' ? event.target.value : formik.values.email,
+        roleNumber: event.target.name === 'roleNumber' ? event.target.value : formik.values.roleNumber,
+      };
+      updateinputfilters(newRequest, false);
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+  };
 
   const toEnrolProgramCourses = () => {
     const enrollToCourses = `/enrolusers/${parsedProgramid}/${programname}`;
@@ -70,7 +92,7 @@ const UserFilter = ({
                 name="name"
                 type="text"
                 placeholder="Fullname"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.name}
               />
             </Col>
@@ -82,7 +104,7 @@ const UserFilter = ({
                 name="email"
                 type="text"
                 placeholder="Email"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.email}
               />
             </Col>
@@ -94,7 +116,7 @@ const UserFilter = ({
                 name="roleNumber"
                 type="text"
                 placeholder="Role number"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.roleNumber}
               />
             </Col>

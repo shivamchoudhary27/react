@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import "./style.scss";
 import { Button, Row, Col } from "react-bootstrap";
 import ProgramEnrollDropdown from "./programEnrollDropdown";
-import { useNavigate } from "react-router-dom";
 
 const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
-  const navigate = useNavigate();
   const [inputName, setInputName] = useState("");
   const [inputCode, setInputCode] = useState("");
 
@@ -20,7 +18,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
   };
 
   return (
-    <>
+    <React.Fragment>
       <div className="filter-wrapper">
         <div className="filter-form">
           <form>
@@ -64,7 +62,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
           </form>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

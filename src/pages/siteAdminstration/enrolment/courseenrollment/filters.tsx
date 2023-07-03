@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
+import { filterConfig } from "../../../../utils/filterTimeout";
 import "./style.scss";
 
 const initialValues = {
@@ -8,12 +10,15 @@ const initialValues = {
 };
 
 const ManageFilter = ({ updateinputfilters }: any) => {
+  const [timeoutId, setTimeoutId] = useState<any>(null);
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       updateinputfilters(values, false);
     },
     onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
         email: "",
@@ -22,10 +27,26 @@ const ManageFilter = ({ updateinputfilters }: any) => {
     },
   });
 
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+
+    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      let newRequest = {
+        name: event.target.name === 'name' ? event.target.value : formik.values.name,
+        email: event.target.name === 'email' ? event.target.value : formik.values.email,
+      };
+      updateinputfilters(newRequest, false);
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+  };
+
   return (
     <>
-      {/* <div className="filter-wrapper">
-        <div className="filter-form"> */}
       <form
         onSubmit={formik.handleSubmit}
         onReset={formik.handleReset}
@@ -38,7 +59,7 @@ const ManageFilter = ({ updateinputfilters }: any) => {
               name="name"
               type="text"
               placeholder="Fullname"
-              onChange={formik.handleChange}
+              onChange={handleFilterChange}
               value={formik.values.name}
             />
           </Col>
@@ -49,7 +70,7 @@ const ManageFilter = ({ updateinputfilters }: any) => {
               name="email"
               type="text"
               placeholder="Email"
-              onChange={formik.handleChange}
+              onChange={handleFilterChange}
               value={formik.values.email}
             />
           </Col>
@@ -67,8 +88,6 @@ const ManageFilter = ({ updateinputfilters }: any) => {
           </Col>
         </Row>
       </form>
-      {/* </div>
-      </div> */}
     </>
   );
 };

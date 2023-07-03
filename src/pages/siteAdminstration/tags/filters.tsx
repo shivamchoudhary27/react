@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState} from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
+import { filterConfig } from "../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
 }
 
 const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
+  const [timeoutId, setTimeoutId] = useState<any>(null);
   const addTagsHandler = () => {
     toggleModalShow(true);
     setTagObj({ id: 0, name: "" });
@@ -14,12 +16,11 @@ const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      let newRequest = {
-        name: values.name,
-      }
-      updateInputFilters(newRequest.name);
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      updateInputFilters(values.name);
     },
     onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
@@ -27,9 +28,22 @@ const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
     }
   });
 
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+
+    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      updateInputFilters(event.target.value);
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+  };
+
   return (
     <React.Fragment>
-      {/* Institute : <InstituteFilter updateCurrentInstitute={updateCurrentInstitute}/> */}
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
@@ -41,7 +55,7 @@ const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
                 name="name"
                 type="text"
                 placeholder="Name"
-                onChange={formik.handleChange}
+                onChange={handleFilterChange}
                 value={formik.values.name}
               />
             </Col>

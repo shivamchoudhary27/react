@@ -2,10 +2,10 @@ import React, { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
+import { filterConfig } from "../../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
-  //   email: "",
 };
 
 const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any) => {
@@ -15,13 +15,14 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       let newRequest = {
         name: values.name,
-        // email: values.email,
       };
       updateSearchFilters(newRequest);
     },
     onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
@@ -29,14 +30,11 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
     }
   });
 
-  // Event handler for permission input change with debounce
-  const handlePermissionChange = (event : any) => {
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
     formik.handleChange(event); // Update formik values
 
-    // Clear previous timeout, if any
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
+    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
@@ -44,7 +42,7 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
         name: event.target.value,
       };
       updateSearchFilters(newRequest);
-    }, 700); // Adjust the delay (in milliseconds) as per your needs
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
   };
@@ -68,22 +66,10 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
                 name="name"
                 type="text"
                 placeholder="Name"
-                onChange={handlePermissionChange}
+                onChange={handleFilterChange}
                 value={formik.values.name}
               />
             </Col>
-            {/* <Col>
-              <label htmlFor="email" hidden>Email</label>
-              <input
-                className="form-control"
-                id="email"
-                name="email"
-                type="text"
-                placeholder="Email"
-                onChange={formik.handleChange}
-                value={formik.values.email}
-              />
-            </Col> */}
             <Col>
               <Button variant="primary" type="submit" className="me-2">
                 Filter
