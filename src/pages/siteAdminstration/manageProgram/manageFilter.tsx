@@ -1,65 +1,97 @@
 import { useState } from "react";
+import { useFormik } from "formik";
 import "./style.scss";
 import { Button, Row, Col } from "react-bootstrap";
 import ManageDropdown from "./manageDropdown";
 import { useNavigate } from "react-router-dom";
+import { filterConfig } from "../../../utils/filterTimeout";
 
 const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute } : any) => {
-  const [inputName, setInputName] = useState("");
-  const [inputCode, setInputCode] = useState("");
   const navigate = useNavigate();
-  
+  const [timeoutId, setTimeoutId] = useState<any>(null);
+  const initialValues = {
+    name: "",
+    code: "",
+  }
+
   const handleAddProgram = () => {
     navigate(`/addprogram/0?institute=${currentInstitute}`);
   };
 
-  const handleSearch = (e: any) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: initialValues,
+    onSubmit: (values) => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      let newRequest = {
+        name: values.name,
+        code: values.code, 
+      }
+      updateinputfilters(newRequest);
+    },
+    onReset: () => {
+      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      formik.setValues({
+        name: "",
+        code: "",
+      });
+      updateinputfilters(initialValues);
+    }
+  });
+
+  // Event handler for filter input change with debounce
+  const handleFilterChange = (event : any) => {
+    formik.handleChange(event); // Update formik values
+
+    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+
+    // Set a new timeout to trigger updatefilters after a delay
+    const newTimeoutId = setTimeout(() => {
+      let newRequest = {
+        name: event.target.name === 'name' ? event.target.value : formik.values.name,
+        code: event.target.name === 'code' ? event.target.value : formik.values.code,
+      };
+      updateinputfilters(newRequest);
+    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+
+    setTimeoutId(newTimeoutId); // Update the timeout ID in state
   };
-
-  const handleReset = () => {
-    updateinputfilters({name: "", code: ""});
-    setInputName("");
-    setInputCode("");
-  };
-
-  const getInputValues = () => {
-    updateinputfilters({name: inputName, code: inputCode});
-  }
-
   return (
     <>
-      <div className="filter-wrapper mt-2 input-styles">        
-        <form onSubmit={handleSearch}>
-          <Row className="align-items-center g-2">
+      <div className="filter-wrapper mt-2 input-styles">  
+        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+          <Row className="g-2">
             <Col>
-            <ManageDropdown updatedepartment={updatedepartment} currentInstitute={currentInstitute}/>
+              <ManageDropdown updatedepartment={updatedepartment} currentInstitute={currentInstitute}/>
             </Col>
             <Col>
+              <label htmlFor="name" hidden>Program Name</label>
               <input
-                type="text"
                 className="form-control"
+                id="name"
+                name="name"
+                type="text"
                 placeholder="Program Name"
-                onChange={(e) => setInputName(e.target.value)}
-                value={inputName}
+                onChange={handleFilterChange}
+                value={formik.values.name}
               />
             </Col>
             <Col>
+              <label htmlFor="code" hidden>Program Code</label>
               <input
-                type="text"
                 className="form-control"
+                id="code"
+                name="code"
+                type="text"
                 placeholder="Program Code"
-                onChange={(e) => setInputCode(e.target.value)}
-                value={inputCode}
+                onChange={handleFilterChange}
+                value={formik.values.code}
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2" onClick={() => getInputValues()}>
-                Filter
-              </Button>{" "}
-              <Button variant="outline-secondary" onClick={() => handleReset()}>Reset</Button>
+              <Button variant="primary" type="submit" className="me-2">Filter</Button>
+              <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
-          </Row>
+          </Row>          
         </form>
         <div className="site-button-group">
           <Button variant="primary" onClick={handleAddProgram}>Add Program</Button>
