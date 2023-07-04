@@ -85,7 +85,6 @@ const DepartmentTable = ({
 
   // edit event handler === >>>
   const editHandler = ({ id, name, module }: any) => {
-    console.log('editing btn',id,name,module )
     toggleModalShow(true);
     editHandlerById({ id, name, module });
     refreshDepartmentData();
@@ -97,7 +96,6 @@ const DepartmentTable = ({
       deleteDepartmentData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            console.log(deleteId + ": deleted------");
             refreshOnDelete(true);
             setShowAlert(true);
             setAlertMsg({
@@ -113,7 +111,6 @@ const DepartmentTable = ({
           }
         })
         .catch((result: any) => {
-          console.log(result);
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
@@ -141,7 +138,6 @@ const DepartmentTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };

@@ -166,7 +166,6 @@ const CategoryTable = ({
       newWeightsItems.status === "updated"
     ) {
       const mergedItems = [...newWeightsItems.data, updateSource.data];
-      console.log("mergedItems", mergedItems);
       saveUpdatedCategoriesOrder(mergedItems);
     }
   }, [updateSource, newWeightsItems]);
@@ -242,7 +241,6 @@ const CategoryTable = ({
     postData(endPoint, items)
       .then((res: any) => {
         if (res.status === 200) {
-          console.log("categories bulk sort update", res);
           refreshcategories();
         }
       })
@@ -298,7 +296,6 @@ const CategoryTable = ({
       deleteCategoryData(endPoint)
         .then((res: any) => {
           if (res.status === 200) {
-            console.log(res.data);
             setShowAlert(true);
             setAlertMsg({
               message: "Deleted successfully!",
@@ -401,7 +398,6 @@ const CategoryTable = ({
                   {...getTableBodyProps()}
                 >
                   {rows.map((row, index) => {
-                    // console.log(row);
                     prepareRow(row);
                     return (
                       <Draggable

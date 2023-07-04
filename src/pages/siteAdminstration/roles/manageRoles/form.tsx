@@ -55,11 +55,6 @@ const AssignInstituteModal = ({
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: "No data available for this request",
-              status: true,
-            });
           }
           setInstituteList(result.data);
         }
@@ -73,7 +68,6 @@ const AssignInstituteModal = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     if (userobj.id === 0) {
-      console.log("in here post");
       postData(`/${currentInstitute}/users`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 201)) {
@@ -84,7 +78,6 @@ const AssignInstituteModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           if (err.response.status === 404) {
             setSubmitting(false);
             setShowAlert(true);

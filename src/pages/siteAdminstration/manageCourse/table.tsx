@@ -181,7 +181,6 @@ const CourseTable = ({
 
   useEffect(() => {
     if (updatecourse.status === "updating") {
-      console.log(updatecourse);
       let updatingcourseid = updatecourse.data.coursedetail.id;
       let updateCourseData = {
         name: updatecourse.data.coursedetail.name,
@@ -195,12 +194,6 @@ const CourseTable = ({
       putData(endPoint, updateCourseData)
         .then((res: any) => {
           if (res.status === 200) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg:
-                "Update successfull",
-              status: true,
-            });
             setUpdateCourse({ data: {}, status: "nutral" });
             refreshcategories();
           }
@@ -311,7 +304,6 @@ const CourseTable = ({
       deleteCategoryData(endPoint)
         .then((res: any) => {
           if (res.status === 200) {
-            // console.log(res.data);
             updatedeleterefresh(true);
             setShowAlert(true);
             setAlertMsg({
@@ -356,14 +348,13 @@ const CourseTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };
 
   // category Table Elements hide/show toggle handler === >>
   const showToggleHandler = (id: number) => {
-    console.log(id);
+    // console.log(id);
   };
 
   // handle to add new sub category === >>
@@ -411,7 +402,6 @@ const CourseTable = ({
                   {...getTableBodyProps()}
                 >
                   {rows.map((row, index) => {
-                    // console.log(row);
                     prepareRow(row);
                     return (
                       <Draggable
@@ -423,11 +413,6 @@ const CourseTable = ({
                         }
                       >
                         {(provided, snapshot) => (
-                          // <tr
-                          //   ref={provided.innerRef}
-                          //   {...provided.draggableProps}
-                          //   {...row.getRowProps()}
-                          // >
                           <tr
                             {...row.getRowProps()}
                             ref={provided.innerRef}

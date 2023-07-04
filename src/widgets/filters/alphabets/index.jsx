@@ -9,7 +9,6 @@ function EnglishLetterFilter({getalphabet}) {
   function handleLetterClick(letter) {
     setSelectedLetter(letter);
     // props.onLetterSelect(letter);
-    // console.log(letter);
     getalphabet(letter);
   }
 

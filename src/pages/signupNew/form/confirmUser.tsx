@@ -44,7 +44,6 @@ const ConfirmUserForm = () => {
     let endPoint = `/user/confirmUser?token=${requestToken}`;
     postData(endPoint, values)
       .then((res: any) => {
-        console.log("setpassword", res);
         if (res.status === 200) {
           setAlertStatus(true);
           resetForm();

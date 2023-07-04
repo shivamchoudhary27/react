@@ -21,7 +21,6 @@ const ScheduleTable = () => {
 
     getData(query)
       .then((res) => {
-        console.log(res);
         if (res.status === 200 && res.data !== "") {
           setCourseSession(res.data);
         }
@@ -30,8 +29,6 @@ const ScheduleTable = () => {
         console.log(err);
       });
   }, []);
-
-  console.log(courseSession)
 
   return (
     <>

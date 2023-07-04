@@ -118,12 +118,6 @@ const CourseModal = ({
       postData(endPoint, requestData)
         .then((res: any) => {
           if (res.status === 201) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg:
-                "Course created successfully",
-              status: true,
-            });
           }
           toggleCourseModal(false);
           setSubmitting(false);
@@ -143,12 +137,6 @@ const CourseModal = ({
       putData(endPoint, requestData)
         .then((res: any) => {
           if (res.status === 200) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg:
-                "Update successfull",
-              status: true,
-            });
           }
           toggleCourseModal(false);
           setSubmitting(true);

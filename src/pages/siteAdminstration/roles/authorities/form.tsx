@@ -59,7 +59,6 @@ const DepartmentModal = ({
     };
   }
 
-  console.log(initialValues, 'inthe form');
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     let endPoint = `/authorities`;
@@ -128,7 +127,6 @@ const DepartmentModal = ({
           initialValues={initialValues}
           validationSchema={departmentSchema}
           onSubmit={(values, action) => {
-            console.log(values)
             handleFormData(values, action);
           }}
         >

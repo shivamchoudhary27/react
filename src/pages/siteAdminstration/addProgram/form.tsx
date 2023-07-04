@@ -159,7 +159,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         })
         .catch((err: any) => {
-          console.log(err);
           actions.setSubmitting(false)
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
@@ -189,7 +188,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         })
         .catch((err: any) => {
-          console.log(err);
           actions.setSubmitting(false)
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(

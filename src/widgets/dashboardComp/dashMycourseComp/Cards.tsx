@@ -60,7 +60,6 @@ function MyCourseCard(props: MyCourseCardType) {
                     breakLoop = true;
                     break;
                   } else if (val.modname === "resource") {
-                    console.log(`/mod/video/${val.id}/${courseid}`);
                     localStorage.setItem(resumeCourseKey, val.id + "-" + val.modname);
                     navigate(`/mod/video/${val.instance}/${courseid}`);
                     breakLoop = true;

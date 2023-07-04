@@ -18,7 +18,6 @@ function Header(props: { pageHeading: string; welcomeIcon: boolean; }){
   // const res = useUserinfo();
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
-  // console.log(userCtx);
   const userid = userCtx.userInfo.userid ?? 0;
   const fullname = userCtx.userInfo.fullname ?? '';
   const userpictureurl = userCtx.userInfo.userpictureurl ?? '';

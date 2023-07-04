@@ -18,7 +18,6 @@ const moduleList = [
 ];
 
 const RolePermissionTable = ({ permissionData, roleId, apiStatus }) => {
-  console.log(apiStatus);
   const navigate = useNavigate();
   const [data, setData] = useState(permissionData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,7 +60,6 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus }) => {
     );
     postData(`/${roleId}/authorities`, permittedAuthorities)
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           navigate("/manageroles");
           //handle various respponses

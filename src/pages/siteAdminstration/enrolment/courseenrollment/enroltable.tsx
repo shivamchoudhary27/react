@@ -104,7 +104,6 @@ const DiciplineTable = ({
       let endpoint = `/course/${courseid}/enrol-user/${deleteId}`;
       deleteDisciplineData(endpoint)
         .then((res: any) => {
-          console.log(res);
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
             setShowAlert(true);
@@ -121,7 +120,6 @@ const DiciplineTable = ({
           }
         })
         .catch((result: any) => {
-          console.log(result);
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
@@ -149,7 +147,6 @@ const DiciplineTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };

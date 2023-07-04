@@ -26,7 +26,6 @@ const UploadNewUsers = ({
     setUploadresponse("");
     postData(`/user/upload`, {}, values.file)
       .then((res: any) => {
-        console.log("res", res);
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
@@ -49,7 +48,6 @@ const UploadNewUsers = ({
         }
       })
       .catch((err: any) => {
-        console.log("error", err);
         setSubmitting(false);
         setShowAlert(true);
         setAlertMsg({

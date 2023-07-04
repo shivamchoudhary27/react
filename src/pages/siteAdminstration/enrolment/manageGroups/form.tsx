@@ -46,7 +46,6 @@ const GroupModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
               dispatch({
@@ -74,7 +73,6 @@ const GroupModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
               dispatch({

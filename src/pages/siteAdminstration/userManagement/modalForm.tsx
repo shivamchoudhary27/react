@@ -48,7 +48,6 @@ const AddUserModal = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     if (userobj.id === 0) {
-      console.log("in here post");
       postData(`/${currentInstitute}/users`, values)
         .then((res: any) => {
           if ((res.data !== "", res.status === 201)) {
@@ -106,7 +105,6 @@ const AddUserModal = ({
             validationSchema={userFormSchema}
             onSubmit={(values, action) => {
               handleFormData(values, action);
-              console.log(values);
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
