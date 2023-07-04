@@ -29,6 +29,7 @@ const RolesTable = ({
   apiStatus,
   editHandlerById,
   setAddRoleModalShow,
+  getRoleId
 }: any) => {
   const tableColumn = [
     {

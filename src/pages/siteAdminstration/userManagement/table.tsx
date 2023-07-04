@@ -53,7 +53,7 @@ const UserManagementTable = ({
     {
       Header: "Assign Role",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to="/assignroles">
+        <Link className="action-icons" to={`/assignroles/${row.original.userId}`}>
           Assign Roles
         </Link>
       ),

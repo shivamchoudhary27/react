@@ -2,11 +2,14 @@ import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 
-const initialValues = {
-    email: "",
-};
 
-const Filter = ({ updatefilters, toggleModalShow }: any) => {
+const Filter = ({ updatefilters, toggleModalShow, findUserData }: any) => {
+  console.log("infilter comp---", findUserData.userEmail)
+  const initialValues = {
+      // email: findUserData.userEmail,
+      email:"hii"
+  };
+
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {

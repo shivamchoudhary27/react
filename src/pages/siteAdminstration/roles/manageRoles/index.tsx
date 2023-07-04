@@ -131,7 +131,7 @@ const ManageRoles = () => {
       published: false,
     });
     // setRefreshData(false);
-  };
+  }; 
 
   return (
     <React.Fragment>
