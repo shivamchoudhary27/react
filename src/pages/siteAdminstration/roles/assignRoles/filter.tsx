@@ -1,28 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
+import { getData } from "../../../../adapters/coreservices";
 
-
-const Filter = ({ updatefilters, toggleModalShow, findUserData }: any) => {
-  console.log("infilter comp---", findUserData.userEmail)
+const Filter = ({ validateFilterEmail, currentInstitute, userData }: any) => {
+  const navigate = useNavigate();
+  const [validateEmail, setValidateEmail] = useState("");
+  const [validatedUser, setValidatedUser] = useState({});
   const initialValues = {
-      // email: findUserData.userEmail,
-      email:"hii"
+    email: userData
   };
+
+  useEffect(() => {
+    if (validateEmail !== "")
+    getData(`/${currentInstitute}/users`, {pageNumber: 0, pageSize: 1, email: validateEmail})
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        if (result.data.items.length === 1) {
+          setValidatedUser(result.data.items[0]);
+          navigate(`/assignroles/${result.data.items[0].userId}`)
+        } else {
+          setValidatedUser({});
+        }
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+  }, [validateEmail])
 
   const formik = useFormik({
     initialValues: initialValues,
+    enableReinitialize: true,
     onSubmit: (values) => {
-      let newRequest = {
-        email: values.email,
-      };
-      updatefilters(newRequest);
+      setValidateEmail(values.email);
     },
     onReset: () => {
       formik.setValues({
         email: "",
       });
-      updatefilters(initialValues, true);
+      setValidateEmail("");
     },
   });
 
