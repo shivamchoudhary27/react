@@ -68,11 +68,11 @@ const UserManagement = () => {
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length < 1) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: "No data available for this request",
-              status: true,
-            });
+            // dispatch({
+            //   type: ACTIONSLIST.mitGlobalAlert,
+            //   alertMsg: "No data available for this request",
+            //   status: true,
+            // });
           }
           setUserData(result.data);
         }
