@@ -29,7 +29,6 @@ const DepartmentTable = ({
   refreshOnDelete,
   apiStatus,
 }: any) => {
-  console.log(departmentData);
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -141,7 +140,7 @@ const DepartmentTable = ({
 
   // hide show toggle event handler === >>>
   const showToggleHandler = (id: number) => {
-    console.log(id);
+    // console.log(id);
   };
 
   return (

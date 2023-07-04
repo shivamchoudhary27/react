@@ -67,7 +67,6 @@ export const setHasChildProp = (data) => {
 }
 
 export const resetManageCourseObj = (sortedCategoryData) => {
-    console.log(sortedCategoryData);
     const cloneObj = sortedCategoryData;
     for (let i = 0; i < cloneObj.length; i++) {
         for (let j = 0; j < cloneObj[i].courses.length; j++) {

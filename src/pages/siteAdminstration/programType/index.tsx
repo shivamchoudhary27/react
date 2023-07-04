@@ -78,7 +78,6 @@ const ProgramType = () => {
     batchYearRequired,
     published
   }: any) => {
-    console.log(batchYearRequired);
     setProgramTypeObj({
       id: id,
       name: name,

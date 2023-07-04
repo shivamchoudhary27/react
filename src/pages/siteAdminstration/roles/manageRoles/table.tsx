@@ -135,7 +135,6 @@ const RolesTable = ({
       deleteData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            console.log(deleteId + ": deleted------");
             refreshOnDeleteToggle(true);
             setShowAlert(true);
             setAlertMsg({
@@ -158,7 +157,6 @@ const RolesTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    console.log(id);
     refreshOnDeleteToggle(false);
     setShowDeleteModal(true);
     setDeleteId(id);
@@ -166,7 +164,6 @@ const RolesTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };

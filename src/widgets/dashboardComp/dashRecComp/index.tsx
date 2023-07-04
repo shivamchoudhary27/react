@@ -22,7 +22,6 @@ function DashRecCourse() {
     getData(query)
       .then(res => {
         if (res.data.errorcode) {
-          // console.log(res.data.errorcode);
           setShow(true);
         }
         if (show === false) {
@@ -40,7 +39,6 @@ function DashRecCourse() {
   };
   if (course !== undefined && recommendedCourses.status !== 200 && show === false) {
     const totalcourses = Object.keys(course).length;
-    // console.log(totalcourses);
     const recommendedLength = totalcourses < 4 ? totalcourses : 4;
     let recommended: any[] = [];
     for (let i = 0, j = 0; j < recommendedLength; i += 1) {

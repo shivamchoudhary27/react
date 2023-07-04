@@ -35,7 +35,6 @@ import UserManagement from '../../pages/siteAdminstration/userManagement';
 import SignUpNew from '../../pages/signupNew';
 import EnrolUsers from '../../pages/siteAdminstration/enrolment/enrolUser';
 import CourseEnrollment from '../../pages/siteAdminstration/enrolment/courseenrollment';
-// import FileUploadForm from '../../widgets/form_input_fields/fileupload/example2';
 import ManageGroups from '../../pages/siteAdminstration/enrolment/manageGroups';
 
 export default function CustomRoutes() {
@@ -64,7 +63,6 @@ export default function CustomRoutes() {
           <Route path="/managecourses/:id/:name" element={<CourseManagment />} />
           <Route path="/enrolusers/:id/:name" element={<EnrolUsers />} />
           <Route path="/courseenrollment/:programid/:courseid/:coursename" element={<CourseEnrollment />}/>
-          {/* <Route path="/fileuploadtest" element={<FileUploadForm />} /> */}
           <Route path="/department" element={<Departments />} />
           <Route path="/programtype" element={<ProgramType />} />
           <Route path="/discipline" element={<Discipline />} />

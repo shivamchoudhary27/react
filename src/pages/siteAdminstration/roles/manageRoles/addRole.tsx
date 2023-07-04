@@ -93,7 +93,6 @@ const AddUserModal = ({
             initialValues={initialValues}
             validationSchema={userFormSchema}
             onSubmit={(values, action) => {
-              console.log(values);
               handleFormData(values, action);
             }}
           >

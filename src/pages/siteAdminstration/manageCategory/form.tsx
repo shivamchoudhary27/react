@@ -54,7 +54,6 @@ const CategoryModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           setSubmitting(false);
           if(err.response.status === 500){
             setShowAlert(true);

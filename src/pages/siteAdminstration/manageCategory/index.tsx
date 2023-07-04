@@ -60,7 +60,6 @@ const ManageCategory = () => {
   // Get category Data from API === >>
   useEffect(() => {
     if (deleteRefresh === true) {
-      console.log("set to refresh");
       getCategoriesData();
     }
   }, [deleteRefresh]);

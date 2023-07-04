@@ -70,7 +70,6 @@ const Report = () => {
         let courseVideos = resource.filter((i: any) => {
             return i.course === selectedCourse;
         });
-        console.log(courseVideos);
         setVideos(courseVideos);
     }
     function videoLinkBtn(videoId: React.Key | null | undefined, videoUrl: any, videoName: any, courseid: any, vidKey: string) {

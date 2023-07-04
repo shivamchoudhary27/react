@@ -126,18 +126,11 @@ const AddCourseForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values, { setSubmitting, resetForm }) => {
-    console.log('form values after submission', values);
     let requestData =  {...values, category: {id: values.category}} 
     if (parsedCourseid === 0) {
       const endPoint = `${progid}/course`;
       addCourseData(endPoint, requestData).then((res)=>{
         if(res.status === 201){
-          dispatch({
-            type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg:
-              "Course created successfully",
-            status: true,
-          });
           navigate(`/managecourses/${progid}/course`);
         }
       }).catch((err)=>{
@@ -149,12 +142,6 @@ const AddCourseForm = () => {
       putData(endPoint, requestData)
         .then((res) => {
           if (res.status === 200) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg:
-                "Update successfull",
-              status: true,
-            });
             navigate(`/managecourses/${progid}/course`);
           }
         })

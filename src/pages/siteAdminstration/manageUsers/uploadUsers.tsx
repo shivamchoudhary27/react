@@ -27,7 +27,6 @@ const UploadUsersEnrollment = ({
     setUploadresponse("");
     postData(`/csv/program-user-erol/${programid}`, {}, values.file)
       .then((res: any) => {
-        console.log("res", res);
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {

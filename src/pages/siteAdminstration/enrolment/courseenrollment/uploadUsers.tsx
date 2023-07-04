@@ -27,7 +27,6 @@ const UploadCourseUsersEnrollment = ({
     setUploadresponse("");
     postData(`/csv/course-user-erol/${courseid}`, {}, values.file)
       .then((res: any) => {
-        console.log("res", res);
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
@@ -50,7 +49,6 @@ const UploadCourseUsersEnrollment = ({
         }
       })
       .catch((err: any) => {
-        console.log("error", err);
         setSubmitting(false);
         setShowAlert(true);
         setAlertMsg({

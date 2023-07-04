@@ -128,7 +128,6 @@ const DepartmentModal = ({
           initialValues={initialValues}
           validationSchema={departmentSchema}
           onSubmit={(values, action) => {
-            console.log(values)
             handleFormData(values, action);
           }}
         >

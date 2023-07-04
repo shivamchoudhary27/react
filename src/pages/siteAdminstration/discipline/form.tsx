@@ -83,7 +83,6 @@ const DiciplineModal = ({
       setSubmitting(true);
       putDesciplineData(endPoint, values)
         .then((res: any) => {
-          console.log(values, res);
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             setSubmitting(false);

@@ -92,7 +92,7 @@ const EnrolUserTable = ({
     });
 
   const enrolToCourses = (courseid : number) => {
-    console.log(courseid);
+    // console.log(courseid);
   }
 
   const setLevelPadding = (level : number) => {
@@ -120,14 +120,8 @@ const EnrolUserTable = ({
                   {...getTableBodyProps()}
                 >
                   {rows.map((row, index) => {
-                    // console.log(row);
                     prepareRow(row);
                     return (
-                          // <tr
-                          //   ref={provided.innerRef}
-                          //   {...provided.draggableProps}
-                          //   {...row.getRowProps()}
-                          // >
                           <tr
                             {...row.getRowProps()}
                           >

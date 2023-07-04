@@ -30,7 +30,6 @@ const Module_List = () => {
       <Formik
         initialValues={initialColors}
         onSubmit={(values) => {
-          console.log(values);
           Swal.fire({
             position: "center",
             icon: "success",

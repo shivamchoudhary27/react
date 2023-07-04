@@ -43,7 +43,6 @@ const ResetPasswordForm = () => {
     let endPoint = `/user/resetPassword?token=${requestToken}`;
     putData(endPoint, values)
       .then((res: any) => {
-        console.log("resetpassowrd", res);
         if (res.status === 200) {
           setAlertStatus(true);
           setAlertMsg({

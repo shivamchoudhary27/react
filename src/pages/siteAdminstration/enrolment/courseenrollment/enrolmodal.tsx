@@ -88,7 +88,6 @@ const DiciplineModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           setSubmitting(false);
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
@@ -119,7 +118,6 @@ const DiciplineModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           setShowAlert(true);
           setAlertMsg({
             message: err.response.data.message,

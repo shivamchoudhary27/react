@@ -47,13 +47,11 @@ const AddUsersModal = ({
   const handleFormData = (values: {}, {setSubmitting}: any) => {
     setSubmitting(true);
     if (usersdataobj.id !== 0) {
-      console.log(JSON.stringify(values));
       putData(
         `/program/${parsedProgramid}/enrol-user/${usersdataobj.id}`,
         values
       )
         .then((res: any) => {
-          console.log(res);
           if (res.data !== "" && res.status === 200) {
             // navigate(gobackLink);
             addusersmodalshow(false);
@@ -62,7 +60,6 @@ const AddUsersModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           setSubmitting(false);
           if (err.response.status === 400) {
             setShowAlert(true);
@@ -122,7 +119,6 @@ const AddUsersModal = ({
             initialValues={InitialValues}
             validationSchema={Schema}
             onSubmit={(values, action) => {
-              console.log(values);
               handleFormData(values, action);
             }}
           >

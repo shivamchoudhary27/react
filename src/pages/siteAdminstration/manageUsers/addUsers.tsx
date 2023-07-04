@@ -71,18 +71,10 @@ const EnrolUserToProgram = () => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, action: any) => {
     if (parsedUserid > 0) {
-      console.log(JSON.stringify(values));
       putData(`/program/${parsedProgramid}/enrol-user/${parsedUserid}`, values)
       .then((res: any) => {
-        console.log(res);
         if (res.status === 200) {
           navigate(gobackLink);
-          dispatch({
-            type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg:
-              "Update Successfull",
-            status: true,
-          });
         }
       })
       .catch((err: any) => {

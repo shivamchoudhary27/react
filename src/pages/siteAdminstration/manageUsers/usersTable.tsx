@@ -109,7 +109,6 @@ const UsersTable = ({
       let endPoint = `/program/${programid}/enrol-user/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
-          console.log(res);
           if (res.status === 200) {
             refreshdata(true);
             setShowAlert(true);
@@ -152,7 +151,6 @@ const UsersTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };

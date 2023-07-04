@@ -17,7 +17,6 @@ const CourseListComp = () => {
     axios
       .get(url)
       .then((res: any) => {
-        console.log(res.data);
         setCoursesList(res.data);
       })
       .catch((err) => {
@@ -25,7 +24,6 @@ const CourseListComp = () => {
       });
   }, []);
 
-  console.log(coursesList);
 
   return (
     <React.Fragment>

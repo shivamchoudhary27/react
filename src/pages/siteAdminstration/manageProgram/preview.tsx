@@ -81,7 +81,6 @@ const Preview = () => {
   const handleRating = (getRatingCount: any) => {
     setNewRating(getRatingCount);
   };
-  console.log(newRating);
 
   return (
     <>

@@ -47,7 +47,6 @@ const EnrolUserModal = ({ show, onHide, togglemodalshow }: any) => {
             initialValues={initialValues}
             validationSchema={Schema}
             onSubmit={(values, action) => {
-              console.log(values, action);
             }}
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
