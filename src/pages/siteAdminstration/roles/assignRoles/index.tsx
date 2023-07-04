@@ -11,14 +11,15 @@ import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
 import RolesDataRender from "./rolesDataRender";
 import { useParams } from "react-router-dom";
+import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 
 const AssignRoles = () => {
   const { userId } = useParams();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [rolesData, setRolesData] = useState<any>(dummyData);
-  const [userData, setUserData] = useState<any>(dummyData);
-  const [refreshData, setRefreshData] = useState(true);
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
+  const [userRoles, setUserRoles] = useState<any>([]);
+  const [assignRoles, setAssignRoles] = useState<any>([]);
+  const [userData, setUserData] = useState<any>("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
@@ -26,49 +27,42 @@ const AssignRoles = () => {
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.currentInstitute);
   const [findUserData, setFindUserData] = useState<any>([]);
-
-  // get programs API call === >>>
+  
   useEffect(() => {
-    if (currentInstitute > 0) setApiStatus("started");
-    getData(`/${currentInstitute}/roles`, filterUpdate)
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          if (result.data.items.length < 1) {
-          }
-          setRolesData(result.data);
-        }
-        setApiStatus("finished");
-      })
-      .catch((err: any) => {
-        console.log(err);
-        setApiStatus("finished");
-      });
-  }, [refreshData, filterUpdate, currentInstitute]);
-
-  // get programs API call === >>>
-  useEffect(() => {
-    if (currentInstitute > 0) setApiStatus("started");
-    getData(`/${currentInstitute}/users`, filterUpdate)
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          if (result.data.items.length < 1) {
-          }
-          setUserData(result.data);
-        }
-        setApiStatus("finished");
-      })
-      .catch((err: any) => {
-        console.log(err);
-        setApiStatus("finished");
-      });
-  }, [refreshData, filterUpdate, currentInstitute]);
+    makeGetDataRequest(`/${currentInstitute}/roles`, filterUpdate, setRolesData, setApiStatus, "core-service");
+    makeGetDataRequest(`/${currentInstitute}/${userId}/user-roles`, filterUpdate, setUserRoles, setApiStatus, "core-service");
+  }, []);
 
   useEffect(() => {
-    const findData = userData.items.find((elem: any) => (elem.userId === parseInt(userId)));
-    if(findData != undefined){
-      setFindUserData(findData)
+    if (rolesData.items.length > 0) {
+        const packetSet = new Set(userRoles.map((rolePacket : any) => rolePacket.id));
+
+        const updatedArray = rolesData.items.map((authority : any) => {
+          const isPresent = packetSet.has(authority.id);
+          return { ...authority, assigned: isPresent };
+        });
+
+        setAssignRoles(updatedArray);
     }
-  }, [userId, userData]);
+  }, [rolesData, userRoles]);
+
+  // get programs API call === >>>
+  useEffect(() => {
+    if (currentInstitute > 0) setApiStatus("started");
+    getData(`/${currentInstitute}/users`, {pageNumber: 0, pageSize: 1, userId: userId})
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          if (result.data.items.length === 1) {
+            setUserData(result.data.items[0].userEmail);
+          }
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  }, [currentInstitute]);
 
   return (
     <React.Fragment>
@@ -87,8 +81,8 @@ const AssignRoles = () => {
             pageTitle="Assign Roles (In progress)"
             gobacklink="/usermanagement"
           />
-          <Filter findUserData={findUserData} />
-          <RolesDataRender rolesData={rolesData.items} />
+          <Filter userData={userData} currentInstitute={currentInstitute} setUserData={setUserData}/>
+          <RolesDataRender assignRoles={assignRoles} currentInstitute={currentInstitute} apiStatus={apiStatus}/>
         </Container>
       </div>
       <Footer />
