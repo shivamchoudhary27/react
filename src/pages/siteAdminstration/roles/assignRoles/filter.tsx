@@ -25,23 +25,24 @@ const Filter = ({
   const dispatch = useDispatch();
   const [validateInputEmail, setValidateEmail] = useState(userData);
   const [validatedUser, setValidatedUser] = useState({});
-  const initialValues = {
-    email: userData,
-  };
+  const [initialValues, setInititalvalues] = useState({email: userData});
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
+  useEffect(() => {
+    setInititalvalues({email: userData})
+  }, [userData]);
 
   useEffect(() => {
     if (validateInputEmail !== "") {
       getData(`/${currentInstitute}/users`, {
         pageNumber: 0,
-        pageSize: 1,
+        pageSize: 100,
         email: validateInputEmail,
       })
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length === 1) {
-              setValidatedUser(result.data.items[0]);
               navigate(`/assignroles/${result.data.items[0].userId}`);
               getValidateUser(false);
             } else {
@@ -51,7 +52,7 @@ const Filter = ({
                 alertBoxColor: "danger",
               });
               getValidateUser(true);
-              setValidatedUser({});
+              navigate(`/assignroles/`);
             }
           }
         })
@@ -69,6 +70,7 @@ const Filter = ({
     initialValues: initialValues,
     validationSchema,
     enableReinitialize: true,
+    
     onSubmit: (values) => {
       setValidateEmail(values.email);
     },
@@ -76,16 +78,20 @@ const Filter = ({
       formik.setValues({
         email: "",
       });
-      setValidateEmail(initialValues.email);
-      setShowAlert(false);
-      // navigate(`/assignroles/`);
     },
   });
+
+  const handleReset = () => {
+    setValidateEmail("");
+    setInititalvalues({email: ""})
+    setShowAlert(false);
+    navigate(`/assignroles/`);
+  }
 
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+        <form onSubmit={formik.handleSubmit}>
           <Row className="g-2">
             <Col>
               <label htmlFor="name" hidden>
@@ -113,7 +119,7 @@ const Filter = ({
               <Button
                 variant="outline-secondary"
                 type="reset"
-                onClick={formik.handleReset}
+                onClick={handleReset}
               >
                 Reset
               </Button>
