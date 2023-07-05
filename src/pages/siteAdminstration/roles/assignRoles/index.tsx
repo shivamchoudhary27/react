@@ -26,30 +26,48 @@ const AssignRoles = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.currentInstitute);
-  const [findUserData, setFindUserData] = useState<any>([]);
-  
+  const [btnHideStatus, setBtnHideStatus] = useState(false);
+
   useEffect(() => {
-    makeGetDataRequest(`/${currentInstitute}/roles`, filterUpdate, setRolesData, setApiStatus, "core-service");
-    makeGetDataRequest(`/${currentInstitute}/${userId}/user-roles`, filterUpdate, setUserRoles, setApiStatus, "core-service");
-  }, []);
+    makeGetDataRequest(
+      `/${currentInstitute}/roles`,
+      filterUpdate,
+      setRolesData,
+      setApiStatus,
+      "core-service"
+    );
+    makeGetDataRequest(
+      `/${currentInstitute}/${userId}/user-roles`,
+      filterUpdate,
+      setUserRoles,
+      setApiStatus,
+      "core-service"
+    );
+  }, [userId]);
 
   useEffect(() => {
     if (rolesData.items.length > 0) {
-        const packetSet = new Set(userRoles.map((rolePacket : any) => rolePacket.id));
+      const packetSet = new Set(
+        userRoles.map((rolePacket: any) => rolePacket.id)
+      );
 
-        const updatedArray = rolesData.items.map((authority : any) => {
-          const isPresent = packetSet.has(authority.id);
-          return { ...authority, assigned: isPresent };
-        });
+      const updatedArray = rolesData.items.map((authority: any) => {
+        const isPresent = packetSet.has(authority.id);
+        return { ...authority, assigned: isPresent };
+      });
 
-        setAssignRoles(updatedArray);
+      setAssignRoles(updatedArray);
     }
   }, [rolesData, userRoles]);
 
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0) setApiStatus("started");
-    getData(`/${currentInstitute}/users`, {pageNumber: 0, pageSize: 1, userId: userId})
+    getData(`/${currentInstitute}/users`, {
+      pageNumber: 0,
+      pageSize: 1,
+      userId: userId,
+    })
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length === 1) {
@@ -62,7 +80,11 @@ const AssignRoles = () => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [currentInstitute]);
+  }, []);
+
+  const getValidateUser = (status: boolean) => {
+    setBtnHideStatus(status)
+  }
 
   return (
     <React.Fragment>
@@ -81,8 +103,19 @@ const AssignRoles = () => {
             pageTitle="Assign Roles (In progress)"
             gobacklink="/usermanagement"
           />
-          <Filter userData={userData} currentInstitute={currentInstitute} setUserData={setUserData}/>
-          <RolesDataRender assignRoles={assignRoles} currentInstitute={currentInstitute} apiStatus={apiStatus}/>
+          <Filter
+            userData={userData}
+            currentInstitute={currentInstitute}
+            setUserData={setUserData}
+            getValidateUser={getValidateUser}
+          />
+          <RolesDataRender
+            assignRoles={assignRoles}
+            currentInstitute={currentInstitute}
+            apiStatus={apiStatus}
+            userId={userId}
+            btnHideStatus={btnHideStatus}
+          />
         </Container>
       </div>
       <Footer />
