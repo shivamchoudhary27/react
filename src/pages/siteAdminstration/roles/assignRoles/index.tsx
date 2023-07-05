@@ -15,6 +15,7 @@ import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 
 const AssignRoles = () => {
   const { userId } = useParams();
+  // const userIdValue = userId || 0;
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [rolesData, setRolesData] = useState<any>(dummyData);
   const [userRoles, setUserRoles] = useState<any>([]);
@@ -27,7 +28,7 @@ const AssignRoles = () => {
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.currentInstitute);
   const [btnHideStatus, setBtnHideStatus] = useState(false);
-
+// console.log('userId', userId)
   useEffect(() => {
     makeGetDataRequest(
       `/${currentInstitute}/roles`,
@@ -36,13 +37,17 @@ const AssignRoles = () => {
       setApiStatus,
       "core-service"
     );
-    makeGetDataRequest(
-      `/${currentInstitute}/${userId}/user-roles`,
-      filterUpdate,
-      setUserRoles,
-      setApiStatus,
-      "core-service"
-    );
+    if (userId !== undefined) {
+      makeGetDataRequest(
+        `/${currentInstitute}/${userId}/user-roles`,
+        filterUpdate,
+        setUserRoles,
+        setApiStatus,
+        "core-service"
+      );
+    } else {
+      setUserRoles([]);
+    }
   }, [userId]);
 
   useEffect(() => {
@@ -55,31 +60,32 @@ const AssignRoles = () => {
         const isPresent = packetSet.has(authority.id);
         return { ...authority, assigned: isPresent };
       });
-
       setAssignRoles(updatedArray);
     }
   }, [rolesData, userRoles]);
 
   // get programs API call === >>>
   useEffect(() => {
-    if (currentInstitute > 0) setApiStatus("started");
-    getData(`/${currentInstitute}/users`, {
-      pageNumber: 0,
-      pageSize: 1,
-      userId: userId,
-    })
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          if (result.data.items.length === 1) {
-            setUserData(result.data.items[0].userEmail);
-          }
-        }
-        setApiStatus("finished");
+    if (currentInstitute > 0 && userId !== undefined) {
+      setApiStatus("started");
+      getData(`/${currentInstitute}/users`, {
+        pageNumber: 0,
+        pageSize: 1,
+        userId: userId,
       })
-      .catch((err: any) => {
-        console.log(err);
-        setApiStatus("finished");
-      });
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            if (result.data.items.length === 1) {
+              setUserData(result.data.items[0].userEmail);
+            }
+          }
+          setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setApiStatus("finished");
+        });
+    }
   }, []);
 
   const getValidateUser = (status: boolean) => {
@@ -100,7 +106,7 @@ const AssignRoles = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
-            pageTitle="Assign Roles (In progress)"
+            pageTitle="Assign Roles"
             gobacklink="/usermanagement"
           />
           <Filter
