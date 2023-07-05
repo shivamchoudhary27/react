@@ -1,17 +1,38 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
+import { getData } from "../../../adapters/coreservices";
 import { useNavigate } from "react-router-dom";
 import { filterConfig } from "../../../utils/filterTimeout";
+import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 
 const initialValues = {
   name: "",
   email: "",
+  roleId: ""
 }
 
 const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
+  const currentInstitute = useSelector((state: any) => state.currentInstitute);
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
+  const [roleFilter, setRolesFilter] = useState<any>([]);
+
+  // get programs API call === >>>
+  useEffect(() => {
+    // if (currentInstitute > 0) {
+      getData(`/${currentInstitute}/roles`, {pageNumber: 0, pageSize: 100})
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            setRolesFilter(result.data.items)
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    // }
+  }, []);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -20,6 +41,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
       let newRequest = {
         name: values.name,
         email: values.email, 
+        roleId: values.roleId
       }
       updatefilters(newRequest);
     },
@@ -28,11 +50,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
       formik.setValues({
         name: "",
         email: "",
+        roleId: ""
       });
       updatefilters(initialValues, true);
     }
   });
-
   
   // Event handler for filter input change with debounce
   const handleFilterChange = (event : any) => {
@@ -45,9 +67,10 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
       let newRequest = {
         name: event.target.name === 'name' ? event.target.value : formik.values.name,
         email: event.target.name === 'email' ? event.target.value : formik.values.email,
+        roleId: event.target.name === 'roleId' ? event.target.value : formik.values.roleId,
       };
       updatefilters(newRequest);
-    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+    }, filterConfig.timeoutNumber);
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
   };
@@ -80,6 +103,22 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
                 onChange={handleFilterChange}
                 value={formik.values.email}
               />
+            </Col>
+            <Col>
+              <label htmlFor="roleId" hidden>Role</label>
+              <select 
+                className="form-select" 
+                name="roleId" 
+                onChange={handleFilterChange} 
+                value={formik.values.roleId}
+              >
+                <option value="">All Roles</option>                
+                {roleFilter.map((role: any) => (
+                  <option key={role.id} value={role.id}>
+                    {role.name}
+                  </option>
+                ))}
+              </select>
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">Filter</Button>

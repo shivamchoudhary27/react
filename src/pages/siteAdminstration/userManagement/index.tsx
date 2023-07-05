@@ -91,10 +91,10 @@ const UserManagement = () => {
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       if (updatedState.name !== undefined) delete updatedState.name;
       if (updatedState.email !== undefined) delete updatedState.email;
-
+      if (updatedState.roleId !== undefined) delete updatedState.roleId;
       setFilterUpdate(updatedState);
     } else {
-      const { name, email } = newFilterRequest;
+      const { name, email, roleId } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
         pageNumber: 0,
@@ -103,6 +103,7 @@ const UserManagement = () => {
 
       if (email === "") delete updatedState.email;
       if (name === "") delete updatedState.name;
+      if (roleId === "") delete updatedState.roleId;
 
       setFilterUpdate(updatedState);
     }
