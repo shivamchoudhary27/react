@@ -151,6 +151,7 @@ const ManageRoles = () => {
             toggleModalShow={toggleModalShow}
             openAddRoleModal={openAddRoleModal}
             updateSearchFilters={updateSearchFilters}
+            currentInstitute={currentInstitute}
           />
           <RolesTable
            userData={userData.items}

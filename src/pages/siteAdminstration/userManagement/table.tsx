@@ -46,12 +46,12 @@ const UserManagementTable = ({
       Cell: ({ row }: any) => searchCountryNameById(row.original.userCountry),
     },
     {
-      Header: "Role",
+      Header: "Roles",
       accessor: "",
-      Cell: () => `In progress`,
+      Cell: ({ row }: any) => row.original.roles.map((role: any) => role.name).join(", "),
     },
     {
-      Header: "Assign Role",
+      Header: "Assign Roles",
       Cell: ({ row }: any) => (
         <Link className="action-icons" to={`/assignroles/${row.original.userId}`}>
           Assign Roles
@@ -159,7 +159,6 @@ const UserManagementTable = ({
           }
         })
         .catch((result: any) => {
-          console.log(result);
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
