@@ -3,35 +3,71 @@ import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { getData } from "../../../../adapters/coreservices";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../../store/actions";
+import TimerAlertBox from "../../../../widgets/alert/timerAlert";
+import * as Yup from "yup";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
-const Filter = ({ validateFilterEmail, currentInstitute, userData }: any) => {
+const validationSchema = Yup.object({
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+});
+
+const Filter = ({
+  validateFilterEmail,
+  currentInstitute,
+  userData,
+  getValidateUser,
+}: any) => {
   const navigate = useNavigate();
-  const [validateEmail, setValidateEmail] = useState("");
+  const dispatch = useDispatch();
+  const [validateInputEmail, setValidateEmail] = useState(userData);
   const [validatedUser, setValidatedUser] = useState({});
   const initialValues = {
-    email: userData
+    email: userData,
   };
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   useEffect(() => {
-    if (validateEmail !== "")
-    getData(`/${currentInstitute}/users`, {pageNumber: 0, pageSize: 1, email: validateEmail})
-    .then((result: any) => {
-      if (result.data !== "" && result.status === 200) {
-        if (result.data.items.length === 1) {
-          setValidatedUser(result.data.items[0]);
-          navigate(`/assignroles/${result.data.items[0].userId}`)
-        } else {
-          setValidatedUser({});
-        }
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
-  }, [validateEmail])
+    if (validateInputEmail !== "") {
+      getData(`/${currentInstitute}/users`, {
+        pageNumber: 0,
+        pageSize: 1,
+        email: validateInputEmail,
+      })
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            if (result.data.items.length === 1) {
+              setValidatedUser(result.data.items[0]);
+              navigate(`/assignroles/${result.data.items[0].userId}`);
+              getValidateUser(false);
+            } else {
+              setShowAlert(true);
+              setAlertMsg({
+                message: "Email not found",
+                alertBoxColor: "danger",
+              });
+              getValidateUser(true);
+              setValidatedUser({});
+            }
+          }
+        })
+        .catch((err: any) => {
+          // dispatch({
+          //   type: ACTIONSLIST.mitGlobalAlert,
+          //   alertMsg: "Action failed due to some error",
+          //   status: true,
+          // });
+        });
+    }
+  }, [validateInputEmail]);
 
   const formik = useFormik({
     initialValues: initialValues,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
       setValidateEmail(values.email);
@@ -40,7 +76,8 @@ const Filter = ({ validateFilterEmail, currentInstitute, userData }: any) => {
       formik.setValues({
         email: "",
       });
-      setValidateEmail("");
+      setValidateEmail(initialValues.email);
+      setShowAlert(false);
     },
   });
 
@@ -62,10 +99,15 @@ const Filter = ({ validateFilterEmail, currentInstitute, userData }: any) => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
+              <FieldErrorMessage
+                touched={formik.touched.email}
+                errors={formik.errors.email}
+                msgText={formik.errors.email}
+              />
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">
-                Filter
+                Search Email
               </Button>
               <Button
                 variant="outline-secondary"
@@ -78,6 +120,13 @@ const Filter = ({ validateFilterEmail, currentInstitute, userData }: any) => {
           </Row>
         </form>
       </div>
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
     </React.Fragment>
   );
 };
