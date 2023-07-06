@@ -11,6 +11,7 @@ import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
+import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 
 const AddUserModal = ({
   show,
@@ -26,6 +27,7 @@ const AddUserModal = ({
   const initialValues = {
     name: userobj.name,
     description: userobj.description,
+    contextType:userobj.contextType
   };
 
   // Formik Yup validation === >>>
@@ -50,12 +52,12 @@ const AddUserModal = ({
         .catch((err: any) => {
           console.log(err);
           // if (err.response.status === 404) {
-            setSubmitting(false);
-            setShowAlert(true);
-            setAlertMsg({
-              message: `${err.message}. Please try again!`,
-              alertBoxColor: "danger",
-            });
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: `${err.message}. Please try again!`,
+            alertBoxColor: "danger",
+          });
           // }
         });
     } else {
@@ -96,7 +98,7 @@ const AddUserModal = ({
               handleFormData(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {({ errors, touched, isSubmitting, setValues, values }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -130,6 +132,32 @@ const AddUserModal = ({
                     msgText="Please Enter description"
                   />
                 </div>
+
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="description"
+                    labelText="Select Context"
+                    // required="required"
+                  />
+                  <FieldTypeSelect
+                    name="contextType"
+                    options={[
+                      // {id:},
+                      { id: "institute", name: "Institute" },
+                      { id: "program", name: "Program" },
+                      { id: "department", name: "Department" },
+                    ]}
+                    setcurrentvalue={setValues}
+                    currentformvalue={values}
+                    emptyOption={false}
+                  />
+                  <FieldErrorMessage
+                    errors={errors.contextType}
+                    touched={touched.contextType}
+                    msgText="Please Enter description"
+                  />
+                </div>
+
                 {/* <div className="mb-3">
                   <FieldTypeCheckbox
                     name="published"
@@ -167,13 +195,13 @@ const AddUserModal = ({
               </Form>
             )}
           </Formik>
-        <TimerAlertBox
-          alertMsg={alertMsg.message}
-          className="mt-3"
-          variant={alertMsg.alertBoxColor}
-          setShowAlert={setShowAlert}
-          showAlert={showAlert}
-        />
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>
@@ -181,3 +209,9 @@ const AddUserModal = ({
 };
 
 export default AddUserModal;
+
+const options = [
+  { option: "option1" },
+  { option: "option1" },
+  { option: "option1" },
+];

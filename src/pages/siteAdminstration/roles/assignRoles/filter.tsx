@@ -88,6 +88,16 @@ const Filter = ({
     navigate(`/assignroles/`);
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowAlert(false);
+    }, 6000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [showAlert]);
+
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
@@ -111,6 +121,7 @@ const Filter = ({
                 errors={formik.errors.email}
                 msgText={formik.errors.email}
               />
+              {showAlert !== false && <span>Email not found</span>}
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">
@@ -127,13 +138,13 @@ const Filter = ({
           </Row>
         </form>
       </div>
-      <TimerAlertBox
+      {/* <TimerAlertBox
         alertMsg={alertMsg.message}
         className="mt-3"
         variant={alertMsg.alertBoxColor}
         setShowAlert={setShowAlert}
         showAlert={showAlert}
-      />
+      /> */}
     </React.Fragment>
   );
 };
