@@ -106,7 +106,7 @@ const AssignRoles = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
-            pageTitle="Assign Roles"
+            pageTitle={`Assign Roles: ${userData}`}
             gobacklink="/usermanagement"
           />
           <Filter

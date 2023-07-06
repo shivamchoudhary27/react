@@ -25,6 +25,7 @@ const ManageRoles = () => {
     id: 0,
     name: "",
     description: "",
+    contextType: "",
     published: false,
   });
   const [refreshData, setRefreshData] = useState(true);
@@ -112,11 +113,12 @@ const ManageRoles = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name, description, published }: any) => {
+  const editHandlerById = ({ id, name, description, contextType, published }: any) => {
     setUserObj({
       id: id,
       name: name,
       description: description,
+      contextType: contextType,
       published: published,
     });
   };
@@ -128,6 +130,7 @@ const ManageRoles = () => {
       id: 0,
       name: "",
       description: "",
+      contextType: "",
       published: false,
     });
     // setRefreshData(false);

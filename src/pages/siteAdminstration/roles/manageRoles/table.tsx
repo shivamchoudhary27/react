@@ -22,7 +22,7 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const RolesTable = ({
+const   RolesTable = ({
   userData,
   refreshOnDeleteToggle,
   currentInstitute,
@@ -49,6 +49,10 @@ const RolesTable = ({
       ),
     },
     {
+      Header: "Context Type",
+      accessor: "contextType",
+    },
+    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
@@ -61,6 +65,7 @@ const RolesTable = ({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
+                  contextType: row.original.contextType,
                   published: row.original.published,
                 })
               }
@@ -124,10 +129,10 @@ const RolesTable = ({
   };
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description, published }: any) => {
+  const editHandler = ({ id, name, description, contextType, published }: any) => {
     setAddRoleModalShow(true);
     refreshOnDeleteToggle(true);
-    editHandlerById({ id, name, description, published });
+    editHandlerById({ id, name, description, contextType, published });
   };
 
   useEffect(() => {
