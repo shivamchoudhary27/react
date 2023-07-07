@@ -86,7 +86,7 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
         </form>
         <div className="site-button-group">
           <Button variant="primary" onClick={manageauthorities}>Manage Authorities</Button>{" "}
-          <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "}
+          {/* <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "} */}
           <Button variant="primary" onClick={openAddRoleModal}>Add Role</Button>{" "}
         </div>
       </div>

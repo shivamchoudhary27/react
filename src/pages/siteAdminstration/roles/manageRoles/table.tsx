@@ -227,7 +227,7 @@ const   RolesTable = ({
         show={showDeleteModal}
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
-        modalHeading="Department"
+        modalHeading="Role"
       />
     </React.Fragment>
   );

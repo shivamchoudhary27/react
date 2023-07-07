@@ -9,6 +9,7 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
   const [roleAssignment, setRoleAssignment] = useState<any>(assignRoles);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [handleContextIds, setHandleContextIds] = useState<any>(selectedContextIds);
+  const [toggleContextsView, setToggleContextsView] = useState<any>([])
 
   useEffect(() => {
     setRoleAssignment(assignRoles);
@@ -18,7 +19,20 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
     setHandleContextIds(selectedContextIds);
   }, [selectedContextIds]);
 
-  const toggleRoleAssignment = (roleId: number) => {
+  const toggleRoleAssignment = (roleId: number, contextType: any, element: any) => {
+    // if (contextType !== null) {
+    //   const packetIndex = toggleContextsView.findIndex(packet => packet.id === roleId);
+    //   // const checked = element.target.checked;
+
+    //   if (packetIndex !== -1) {
+    //     const updatedPackets = [...toggleContextsView];
+    //     updatedPackets[packetIndex].display = element.target.checked;
+    //     setToggleContextsView(updatedPackets);
+    //   } else {
+    //     setToggleContextsView(prevPackets => [...prevPackets, { id: roleId, display: element.target.checked }]);
+    //   }
+    //   // setToggleContextsView()
+    // }
     const updatedData = roleAssignment.map((item: any) => {
       if (item.id === roleId) {
         return { ...item, assigned: !item.assigned };
@@ -69,20 +83,50 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
     });
   }
 
-  const passContextTypeCheckStatus = (contextType: string, id: number) => {
+  const getCurrentDisplayValue = (roleId: number) => {
+    // const packetIndex = toggleContextsView.findIndex(packet => packet.id === roleId);
+   
+    // console.log(roleId)
+   
+    // if (packetIndex !== -1) {
+    //   return "none"
+    // } else {
+    //   // console.log('toggleContextsView', toggleContextsView)
+    //   return toggleContextsView[packetIndex].display !== true ? 'none' : 'block'
+    //   // return ''
+    // }
      // if using this method, then first update setHandleContextIds with selectedContextIds
   } 
 
-  const getRoleContextElements = (contextType: any) => {
+  const getRoleContextElements = (contextType: any, roleId: number, assigned: boolean) => {
+
+    // setToggleContextsView(prevPackets => [...prevPackets, { 
+    //   id: roleId, 
+    //   display: assigned
+    // }]);
+
+    // console.log('contextType', contextType)
+
     if (contextType === null) return false;
     return (
-      <div className="form-check" style={{ paddingLeft: "4rem" }}>
-        <p><i>Please set context type where this role can operate</i></p>
-        <h5>{`Select ${contextType.charAt(0).toUpperCase() + contextType.slice(1)}`}</h5>
+      <div className="form-check" 
+        style={{ 
+          paddingLeft: "4rem", 
+          // display: getCurrentDisplayValue(roleId) 
+        }}>
+        <p style={{fontSize:"15px"}}><i>Please set context type where this role can operate</i></p>
+        <h6 style={{
+          color:"#1B609D", 
+          backgroundColor: "rgba(27, 96, 157, 0.05)", 
+          display:"inline",
+          padding:"5px",
+        }}>
+          {`Select ${contextType.charAt(0).toUpperCase() + contextType.slice(1)} : `}
+        </h6>
         {roleContextDatas[`${contextType}s`].items.map((item: any, index: number) => (
-          <div key={index}>
+          <div key={index} style={{color:"#2D4356", fontSize:"15px"}}>
             <input
-              className="form-check-input"
+              className="form-check-input me-2"
               type="checkbox"
               checked={handleContextIds[contextType].includes(item.id)}
               // checked={passContextTypeCheckStatus(contextType, item.id)}
@@ -100,16 +144,21 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
       <div className="mt-3">
         {roleAssignment.map((item: any, index: number) => (
           <React.Fragment>
-            <div className="form-check" key={item.id}>
+            <div className="form-check" key={item.id} 
+            style={{
+              color:"#222", 
+              fontSize:"18px", 
+              fontWeight: "500",
+            }}>
               <input
-                className="form-check-input"
+                className="form-check-input me-2"
                 type="checkbox"
                 checked={item.assigned}
-                onChange={() => toggleRoleAssignment(item.id)}
+                onChange={(e) => toggleRoleAssignment(item.id, item.contextType, e)}
               />{" "}
               {item.name}
             </div>
-            {getRoleContextElements(item.contextType)}
+            {getRoleContextElements(item.contextType, item.id, item.assigned)}
           </React.Fragment>
 
         ))}
