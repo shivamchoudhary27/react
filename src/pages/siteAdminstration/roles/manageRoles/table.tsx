@@ -164,10 +164,14 @@ const RolesTable = ({
           }
         })
         .catch((result: any) => {
-          console.log(result);
+          console.log(result.response.status === 400);
+          let errMsg = "Unable to delete, some error occurred."
+          if (result.response.status === 400) {
+            errMsg = result.response.data.message
+          }
           dispatch({
             type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg: "Unable to delete, some error occurred.",
+            alertMsg: errMsg,
             status: true,
           });
         });
