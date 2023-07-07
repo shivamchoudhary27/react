@@ -129,7 +129,7 @@ const AssignRoles = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
-            pageTitle={`Assign Roles: ${userSelectedEmail}`}
+            pageTitle={`Assign Roles${userSelectedEmail !== "" ? ": " + userSelectedEmail : ""}`}
             gobacklink="/usermanagement"
           />
           <Filter
