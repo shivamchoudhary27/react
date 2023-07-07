@@ -26,7 +26,7 @@ const AssignRoles = () => {
   const [rolesData, setRolesData] = useState<any>(dummyData);
   const [userRoles, setUserRoles] = useState<any>([]);
   const [assignRoles, setAssignRoles] = useState<any>([]);
-  const [userData, setUserData] = useState<any>("");
+  const [userSelectedEmail, setUserSelectedEmail] = useState<any>("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
@@ -99,7 +99,7 @@ const AssignRoles = () => {
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length === 1) {
-              setUserData(result.data.items[0].userEmail);
+              setUserSelectedEmail(result.data.items[0].userEmail);
             }
           }
           setApiStatus("finished");
@@ -129,13 +129,13 @@ const AssignRoles = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
-            pageTitle={`Assign Roles: ${userData}`}
+            pageTitle={`Assign Roles: ${userSelectedEmail}`}
             gobacklink="/usermanagement"
           />
           <Filter
-            userData={userData}
+            userSelectedEmail={userSelectedEmail}
             currentInstitute={currentInstitute}
-            setUserData={setUserData}
+            setUserSelectedEmail={setUserSelectedEmail}
             getValidateUser={getValidateUser}
           />
           <RolesDataRender
