@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import Module_Table from "./moduleTable";
+import ModuleTable from "./moduleTable";
 import { Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
@@ -19,7 +19,7 @@ const initialValues = {
   book: "#FF7B7B",
 };
 
-const Module_List = () => {
+const ModuleList = () => {
   const initialColors =
     (localStorage.getItem("event-colors") !== null)
       ? JSON.parse(localStorage.getItem("event-colors"))
@@ -43,7 +43,7 @@ const Module_List = () => {
       >
         {() => (
           <Form>
-            <Module_Table Field={Field} />
+            <ModuleTable Field={Field} />
             <div className="text-center mt-4"><Button type="submit">Save</Button></div>
           </Form>
         )}
@@ -52,4 +52,4 @@ const Module_List = () => {
   );
 };
 
-export default Module_List;
+export default ModuleList;
