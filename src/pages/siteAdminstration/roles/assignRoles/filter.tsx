@@ -4,8 +4,6 @@ import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { getData } from "../../../../adapters/coreservices";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../../store/actions";
-import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import * as Yup from "yup";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
@@ -18,20 +16,15 @@ const validationSchema = Yup.object({
 const Filter = ({
   validateFilterEmail,
   currentInstitute,
-  userData,
+  userSelectedEmail,
   getValidateUser,
+  setUserSelectedEmail,
 }: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [validateInputEmail, setValidateEmail] = useState(userData);
-  const [validatedUser, setValidatedUser] = useState({});
-  const [initialValues, setInititalvalues] = useState({email: userData});
+  const [validateInputEmail, setValidateEmail] = useState(userSelectedEmail);
+  const [initialValues, setInititalvalues] = useState({ email: "" });
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-
-  useEffect(() => {
-    setInititalvalues({email: userData})
-  }, [userData]);
 
   useEffect(() => {
     if (validateInputEmail !== "") {
@@ -44,14 +37,12 @@ const Filter = ({
           if (result.data !== "" && result.status === 200) {
             if (result.data.items.length === 1) {
               navigate(`/assignroles/${result.data.items[0].userId}`);
+              setUserSelectedEmail(result.data.items[0].userEmail);
               getValidateUser(false);
             } else {
               setShowAlert(true);
-              setAlertMsg({
-                message: "Email not found",
-                alertBoxColor: "danger",
-              });
               getValidateUser(true);
+              setUserSelectedEmail("");
               navigate(`/assignroles/`);
             }
           }
@@ -70,7 +61,7 @@ const Filter = ({
     initialValues: initialValues,
     validationSchema,
     enableReinitialize: true,
-    
+
     onSubmit: (values) => {
       setValidateEmail(values.email);
     },
@@ -78,15 +69,13 @@ const Filter = ({
       formik.setValues({
         email: "",
       });
+      setValidateEmail("");
+      setInititalvalues({ email: "" });
+      setUserSelectedEmail("");
+      setShowAlert(false);
+      navigate(`/assignroles/`);
     },
   });
-
-  const handleReset = () => {
-    setValidateEmail("");
-    setInititalvalues({email: ""})
-    setShowAlert(false);
-    navigate(`/assignroles/`);
-  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -121,7 +110,11 @@ const Filter = ({
                 errors={formik.errors.email}
                 msgText={formik.errors.email}
               />
-              {showAlert !== false && <span>Email not found</span>}
+              {showAlert !== false && (
+                <p className="error-message">
+                  <i className="fa fa-circle-exclamation"></i> Email not found
+                </p>
+              )}
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">
@@ -130,7 +123,7 @@ const Filter = ({
               <Button
                 variant="outline-secondary"
                 type="reset"
-                onClick={handleReset}
+                onClick={formik.handleReset}
               >
                 Reset
               </Button>
@@ -138,13 +131,6 @@ const Filter = ({
           </Row>
         </form>
       </div>
-      {/* <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      /> */}
     </React.Fragment>
   );
 };
