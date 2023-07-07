@@ -51,6 +51,10 @@ const   RolesTable = ({
     {
       Header: "Context Type",
       accessor: "contextType",
+      Cell: ({ row }: any) => (
+        (row.original.contextType !== null) && 
+        row.original.contextType.charAt(0).toUpperCase() + row.original.contextType.slice(1)
+      )
     },
     {
       Header: "Actions",

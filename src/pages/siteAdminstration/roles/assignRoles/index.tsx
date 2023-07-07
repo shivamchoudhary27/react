@@ -9,14 +9,20 @@ import Filter from "./filter";
 import { useSelector } from "react-redux";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
-import RolesDataRender from "./rolesDataRender";
+import RolesDataRender from "./assignRoles";
 import { useParams } from "react-router-dom";
 import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
 
+type ContextIdsTemplate = {
+  institute: number[];
+  department: number[];
+  program: number[];
+};
+
 const AssignRoles = () => {
   const { userId } = useParams();
-  // const userIdValue = userId || 0;
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 }};
+  const contextIdsTemplate: ContextIdsTemplate = { institute: [], department: [], program: []};
   const [rolesData, setRolesData] = useState<any>(dummyData);
   const [userRoles, setUserRoles] = useState<any>([]);
   const [assignRoles, setAssignRoles] = useState<any>([]);
@@ -28,7 +34,11 @@ const AssignRoles = () => {
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.currentInstitute);
   const [btnHideStatus, setBtnHideStatus] = useState(false);
-// console.log('userId', userId)
+  const [institutes, setInstitutes] = useState<any>(dummyData);
+  const [departments, setDepartments] = useState<any>(dummyData);
+  const [programs, setPrograms] = useState<any>(dummyData);
+  const [selectedContextIds, setSelectedContextIds] = useState<any>(contextIdsTemplate);
+  
   useEffect(() => {
     makeGetDataRequest(
       `/${currentInstitute}/roles`,
@@ -37,6 +47,10 @@ const AssignRoles = () => {
       setApiStatus,
       "core-service"
     );
+    makeGetDataRequest(`/institutes`, filterUpdate, setInstitutes, setApiStatus);
+    makeGetDataRequest(`/${currentInstitute}/departments`, filterUpdate, setDepartments, setApiStatus);
+    makeGetDataRequest(`/${currentInstitute}/programs`, filterUpdate, setPrograms, setApiStatus);
+
     if (userId !== undefined) {
       makeGetDataRequest(
         `/${currentInstitute}/${userId}/user-roles`,
@@ -52,14 +66,23 @@ const AssignRoles = () => {
 
   useEffect(() => {
     if (rolesData.items.length > 0) {
-      const packetSet = new Set(
-        userRoles.map((rolePacket: any) => rolePacket.id)
-      );
-
+      // const packetSet = new Set(
+      //   userRoles.map((rolePacket: any) => rolePacket.id)
+      // );
       const updatedArray = rolesData.items.map((authority: any) => {
-        const isPresent = packetSet.has(authority.id);
-        return { ...authority, assigned: isPresent };
+        const isPresent = userRoles.find((role: any) => role.id === authority.id);
+        // const isPresent = packetSet.has(authority.id);
+        if (authority.contextType !== null && isPresent !== undefined) {
+          // contextIdsTemplate[authority.contextType].push(isPresent.id)
+          contextIdsTemplate[authority.contextType].push(...isPresent.contextIds);
+        }
+        return { 
+          ...authority, 
+          assigned: isPresent ? true : false, 
+          contextIds: isPresent ? isPresent.contextIds : []
+        };
       });
+      setSelectedContextIds(contextIdsTemplate)
       setAssignRoles(updatedArray);
     }
   }, [rolesData, userRoles]);
@@ -121,6 +144,8 @@ const AssignRoles = () => {
             apiStatus={apiStatus}
             userId={userId}
             btnHideStatus={btnHideStatus}
+            roleContextDatas={{institutes, departments, programs}}
+            selectedContextIds={selectedContextIds}
           />
         </Container>
       </div>
