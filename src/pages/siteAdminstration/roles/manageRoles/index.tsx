@@ -14,28 +14,32 @@ import { getData } from "../../../../adapters/coreservices";
 import AddRole from "./addRole";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../../store/actions";
+import { IUserData, IUserObj, ICurrentInstitute } from "./interfaces";
 
 const ManageRoles = () => {
   const dispatch = useDispatch();
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [userData, setUserData] = useState<any>(dummyData);
-  const [modalShow, setModalShow] = useState(false);
-  const [addRoleModalShow, setAddRoleModalShow] = useState(false);
-  const [userObj, setUserObj] = useState({
+  const dummyData: IUserData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const [userData, setUserData] = useState<IUserData>(dummyData);
+  const [modalShow, setModalShow] = useState<boolean>(false);
+  const [addRoleModalShow, setAddRoleModalShow] = useState<boolean>(false);
+  const [userObj, setUserObj] = useState<IUserObj>({
     id: 0,
     name: "",
     description: "",
     contextType: "",
     published: false,
   });
-  const [refreshData, setRefreshData] = useState(true);
+  const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
   });
-  const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state: any) => state.currentInstitute);
+  const [apiStatus, setApiStatus] = useState<string>("");
+  const currentInstitute = useSelector((state: ICurrentInstitute) => state.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -81,7 +85,7 @@ const ManageRoles = () => {
     setRefreshData(!refreshData);
   };
 
-  const refreshOnDeleteToggle = (value: boolean) => {
+  const refreshOnDeleteToggle = (value: boolean): void => {
     setRefreshOnDelete(value);
   };
 
@@ -89,7 +93,11 @@ const ManageRoles = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  const updateSearchFilters = (newFilterRequest: any, reset = false) => {
+  const updateSearchFilters = (
+    newFilterRequest: { name: string },
+    reset: boolean = false
+  ): void => {
+    console.log(newFilterRequest);
     if (reset === true) {
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       if (updatedState.name !== undefined) delete updatedState.name;
@@ -113,7 +121,13 @@ const ManageRoles = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name, description, contextType, published }: any) => {
+  const editHandlerById = ({
+    id,
+    name,
+    description,
+    contextType,
+    published,
+  }: IUserObj) => {
     setUserObj({
       id: id,
       name: name,
@@ -134,7 +148,7 @@ const ManageRoles = () => {
       published: false,
     });
     // setRefreshData(false);
-  }; 
+  };
 
   return (
     <React.Fragment>
@@ -157,12 +171,12 @@ const ManageRoles = () => {
             currentInstitute={currentInstitute}
           />
           <RolesTable
-           userData={userData.items}
-           currentInstitute={currentInstitute}
-           refreshOnDeleteToggle={refreshOnDeleteToggle}
-           apiStatus={apiStatus}
-           editHandlerById={editHandlerById}
-           setAddRoleModalShow={setAddRoleModalShow}
+            userData={userData.items}
+            currentInstitute={currentInstitute}
+            refreshOnDeleteToggle={refreshOnDeleteToggle}
+            apiStatus={apiStatus}
+            editHandlerById={editHandlerById}
+            setAddRoleModalShow={setAddRoleModalShow}
           />
         </Container>
       </div>

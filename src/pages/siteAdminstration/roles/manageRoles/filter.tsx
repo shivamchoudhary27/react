@@ -4,6 +4,10 @@ import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../../utils/filterTimeout";
 
+interface IInitialValues{
+  name: string
+}
+
 const initialValues = {
   name: "",
 };
@@ -14,7 +18,7 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
+    onSubmit: (values: IInitialValues) => {
       if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       let newRequest = {
         name: values.name,
@@ -31,7 +35,7 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event : any) => {
+  const handleFilterChange = (event : any): void => {
     formik.handleChange(event); // Update formik values
 
     if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
@@ -47,7 +51,7 @@ const Filter = ({ updateSearchFilters, toggleModalShow, openAddRoleModal }: any)
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
   };
 
-  const manageauthorities = () => {
+  const manageauthorities = (): void => {
     navigate("/manageauthorities");
   }
   

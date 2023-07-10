@@ -11,6 +11,7 @@ import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../../store/actions";
+import { IAlertMsg } from "./interfaces";
 
 const initialValues = {
   email: "",
@@ -20,6 +21,19 @@ const initialValues = {
 const userFormSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
 });
+
+interface IInstituteList {
+  createdTime: string;
+  id: number;
+  instanceUrl: string;
+  lastModifiedTime: string;
+  locked: boolean;
+  name: string;
+  shortCode: string;
+  userEmail: string;
+  userId: number;
+  webServiceToken: string;
+}
 
 const AssignInstituteModal = ({
   show,
@@ -31,9 +45,12 @@ const AssignInstituteModal = ({
 }: any) => {
   const dispatch = useDispatch();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
-  const [instituteList, setInstituteList] = useState([]);
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [instituteList, setInstituteList] = useState<IInstituteList[]>([]);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+    message: "",
+    alertBoxColor: "",
+  });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
