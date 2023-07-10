@@ -14,6 +14,7 @@ import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 // import { putData } from "../../../../adapters/microservices";
+import { IUserData, IUserObj, IAlertMsg } from "./interfaces";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -22,14 +23,14 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const   RolesTable = ({
+const RolesTable = ({
   userData,
   refreshOnDeleteToggle,
   currentInstitute,
   apiStatus,
   editHandlerById,
   setAddRoleModalShow,
-  getRoleId
+  getRoleId,
 }: any) => {
   const tableColumn = [
     {
@@ -43,7 +44,10 @@ const   RolesTable = ({
     {
       Header: "Permission",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to={`/rolepermissions/${row.original.id}/${row.original.name}`}>
+        <Link
+          className="action-icons"
+          to={`/rolepermissions/${row.original.id}/${row.original.name}`}
+        >
           View Permission
         </Link>
       ),
@@ -51,10 +55,10 @@ const   RolesTable = ({
     {
       Header: "Context Type",
       accessor: "contextType",
-      Cell: ({ row }: any) => (
-        (row.original.contextType !== null) && 
-        row.original.contextType.charAt(0).toUpperCase() + row.original.contextType.slice(1)
-      )
+      Cell: ({ row }: any) =>
+        row.original.contextType !== null &&
+        row.original.contextType.charAt(0).toUpperCase() +
+          row.original.contextType.slice(1),
     },
     {
       Header: "Actions",
@@ -106,12 +110,12 @@ const   RolesTable = ({
       columns,
       data,
     });
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
-  const [forceRender, setForceRender] = useState(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [onDeleteAction, setOnDeleteAction] = useState<string>("");
+  const [deleteId, setDeleteId] = useState<number>(0);
+  const [forceRender, setForceRender] = useState<boolean>(false);
 
   const toggleRolePublished = (rolePacket: any) => {
     rolePacket.published = !rolePacket.published;
@@ -133,7 +137,13 @@ const   RolesTable = ({
   };
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description, contextType, published }: any) => {
+  const editHandler = ({
+    id,
+    name,
+    description,
+    contextType,
+    published,
+  }: IUserObj) => {
     setAddRoleModalShow(true);
     refreshOnDeleteToggle(true);
     editHandlerById({ id, name, description, contextType, published });

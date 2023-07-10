@@ -13,33 +13,43 @@ import positionIcon from "../../../assets/images/icons/degree.svg";
 import campusIcon from "../../../assets/images/icons/campus.svg";
 import StarRating from "../../../widgets/rating";
 
+interface ICurrentProgram {
+  data: [];
+  status: boolean;
+  id: string | undefined;
+}
+
+interface IApiParams {
+  pageNumber: number;
+  pageSize: number;
+  Id: string | undefined;
+}
+
 const Preview = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation().search;
-  const [currentProgram, setCurrentProgram] = useState<any>({
+  const [currentProgram, setCurrentProgram] = useState<ICurrentProgram>({
     data: [],
     status: false,
     id: id,
   });
   const [instituteId, setInstituteId] = useState<number | string | null>(0);
-  const [newRating, setNewRating] = useState(0);
+  const [newRating, setNewRating] = useState<number>(0);
+  const [ratingProgress, setRatingProgress] = useState<number>(0);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location);
-    let instituteParam = parseInt(urlParams.get("institute"));
+    let instituteParam: number = parseInt(urlParams.get("institute"));
     setInstituteId(instituteParam);
   }, [location]);
 
   useEffect(() => {
     if (
-      instituteId !== undefined &&
-      instituteId > 0 &&
-      id !== undefined &&
-      id > 0
+      instituteId !== undefined && instituteId > 0 && id !== undefined && id > 0
     ) {
-      let programsEndPoint = `${instituteId}/programs`;
-      const apiParams = {
+      let programsEndPoint: string = `${instituteId}/programs`;
+      const apiParams: IApiParams = {
         pageNumber: 0,
         pageSize: 5,
         Id: id,
@@ -81,6 +91,11 @@ const Preview = () => {
   const handleRating = (getRatingCount: any) => {
     setNewRating(getRatingCount);
   };
+
+  useEffect(()=>{
+    let x = (newRating * 20)
+    setRatingProgress(x)
+  }, [newRating])
 
   return (
     <>
@@ -276,24 +291,37 @@ const Preview = () => {
                   </div>
                   <div className="po-section studentfeedback-step mt-5">
                     <h5 id="po-studentfeedback">Student Feedback</h5>
+                    <h1>{`${newRating}.0`}</h1>
                     <StarRating
                       totalStars={5}
                       currentRating={newRating}
                       onStarClick={handleRating}
                     />
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      Harum fuga inventore unde deleniti nostrum nihil ducimus
-                      quod reprehenderit? Laboriosam aperiam vel fugit natus nam
-                      libero quos facilis eligendi harum, ab beatae voluptate
-                      accusamus provident quam explicabo, fugiat officiis
-                      tenetur sint. Ad, itaque! Culpa perferendis blanditiis
-                      sint vel, cumque consectetur commodi!Lorem ipsum dolor sit
-                      amet, consectetur adipisicing elit. Harum fuga inventore
-                      unde deleniti nostrum nihil ducimus quod reprehenderit?
-                    </p>
+                    <p>Program Rating</p>
                   </div>
                 </div>
+
+                {[1, 2, 3, 4, 5].map((elem) => (
+                  <div className="my-2">
+                    <div
+                      className="progress"
+                      role="progressbar"
+                      aria-label="Basic example"
+                    >
+                      <div
+                        className="progress-bar"
+                        style={{ width: `${ratingProgress}%` }}
+                      ></div>
+                    </div>
+                    <StarRating
+                      totalStars={5}
+                      currentRating={newRating}
+                      onStarClick={handleRating}
+                    />
+                    <p>{`${ratingProgress}%`}</p>
+                  </div>
+                ))}
+
                 <div className="program-tags mt-5">
                   {el.tags.length > 0 ? previewTagfields(el.tags) : ""}
                 </div>

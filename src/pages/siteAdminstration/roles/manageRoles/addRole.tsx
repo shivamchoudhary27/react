@@ -12,6 +12,16 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
+import { IAlertMsg, IUserObj } from "./interfaces";
+
+interface IAddUserModal{
+  show: any;
+  onHide: any;
+  userobj: any,
+  setaddrolemodalshow: any;
+  updateAddRefresh: any;
+  currentInstitute: any;
+}
 
 const AddUserModal = ({
   show,
@@ -20,11 +30,17 @@ const AddUserModal = ({
   setaddrolemodalshow,
   updateAddRefresh,
   currentInstitute,
-}: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+}: IAddUserModal) => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
 
-  const initialValues = {
+  interface IInitialValues{
+    name: string,
+    description: string,
+    contextType: string,
+  }
+
+  const initialValues: IInitialValues = {
     name: userobj.name,
     description: userobj.description,
     contextType:userobj.contextType
@@ -37,11 +53,13 @@ const AddUserModal = ({
   });
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+  const handleFormData = (values: IInitialValues, { setSubmitting, resetForm }: any) => {
+    console.log(values)
     setSubmitting(true);
     if (userobj.id === 0) {
       postData(`/${currentInstitute}/roles`, values)
         .then((res: any) => {
+          console.log(res)
           if ((res.data !== "", res.status === 201)) {
             setaddrolemodalshow(false);
             updateAddRefresh();
