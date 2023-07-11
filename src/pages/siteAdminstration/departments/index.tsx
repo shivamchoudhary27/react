@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 // import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { getData } from "../../../adapters/microservices";
 import { Container } from "react-bootstrap";
@@ -14,49 +14,68 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
+import { ICurrentInstitute, IDepartmentObj, IFilterUpdate } from "./type/interface";
+
+interface IDummyData {
+  items: [];
+  pager: { totalElements: number; totalPages: number };
+}
 
 const Departments = () => {
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [departmentData, setDepartmentData] = useState<any>(dummyData);
-  const [modalShow, setModalShow] = useState(false);
-  const [departmentObj, setDepartmentObj] = useState({});
+  const dummyData: IDummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const [departmentData, setDepartmentData] = useState<IDummyData>(dummyData);
+  const [modalShow, setModalShow] = useState<boolean>(false);
+  const [departmentObj, setDepartmentObj] = useState<IDepartmentObj>({});
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [refreshData, setRefreshData] = useState(true);
-  const [apiStatus, setApiStatus] = useState("");
-  const [filterUpdate, setFilterUpdate] = useState<any>({
+  const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [apiStatus, setApiStatus] = useState<string>("");
+  const [filterUpdate, setFilterUpdate] = useState<IFilterUpdate>({
     departmentId: "",
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute = useSelector((state : any) => state.currentInstitute);
+  const currentInstitute: number = useSelector(
+    (state: ICurrentInstitute) => state.currentInstitute
+  );
 
-  const getDepartmentData = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
-    setApiStatus("started")
+  const getDepartmentData = (
+    endPoint: string,
+    filters: any,
+    setData: any,
+    setApiStatus: (params: string) => void
+  ) => {
+    setApiStatus("started");
     getData(endPoint, filters)
-    .then((result : any) => {
+      .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-            // Merge the programCounts into the items objects
-            result.data.items.forEach((item : any) => {
-              const index = result.data.programCounts.findIndex((packet : any) => packet.departmentId === item.id);
-              item.totalPrograms = 0;
-              if (index > -1) {
-                item.totalPrograms = result.data.programCounts[index].totalPrograms;
-              }
-            });
-            setData(result.data);
+          // Merge the programCounts into the items objects
+          result.data.items.forEach((item: any) => {
+            const index = result.data.programCounts.findIndex(
+              (packet: any) => packet.departmentId === item.id
+            );
+            item.totalPrograms = 0;
+            if (index > -1) {
+              item.totalPrograms =
+                result.data.programCounts[index].totalPrograms;
+            }
+          });
+          setData(result.data);
         }
-        setApiStatus("finished")
-    })
-    .catch((err : any) => {
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished")
-    });
-  }
+        setApiStatus("finished");
+      });
+  };
 
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
-    getDepartmentData(
+      getDepartmentData(
         `/${currentInstitute}/departments`,
         filterUpdate,
         setDepartmentData,
@@ -67,12 +86,12 @@ const Departments = () => {
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0)
-    getDepartmentData(
-      `/${currentInstitute}/departments`,
-      filterUpdate,
-      setDepartmentData,
-      setApiStatus
-    );
+      getDepartmentData(
+        `/${currentInstitute}/departments`,
+        filterUpdate,
+        setDepartmentData,
+        setApiStatus
+      );
   }, [refreshData, filterUpdate, currentInstitute]);
 
   const refreshToggle = () => {
@@ -130,7 +149,6 @@ const Departments = () => {
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
-
   return (
     <>
       <Header />
@@ -144,12 +162,12 @@ const Departments = () => {
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />          
+          <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />
           <Filters
             toggleModalShow={toggleModalShow}
             refreshDepartmentData={refreshToggle}
             setDepartmentData={setDepartmentData}
-            updateInputFilters={updateInputFilters} 
+            updateInputFilters={updateInputFilters}
             resetDepartmentForm={resetDepartmentForm}
             // updateDepartment={updateDepartmentFilter}
             // updateinputfilters={updateInputFilters}

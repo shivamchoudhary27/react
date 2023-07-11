@@ -14,6 +14,7 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+import { IDepartmentModal, IAlertMsg } from "./type/interface";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
@@ -21,22 +22,31 @@ const departmentSchema = Yup.object({
   // description: Yup.string().max(100).required(),
 });
 
-const DepartmentModal = ({
+const DepartmentModal: React.FunctionComponent<IDepartmentModal> = ({
   departmentobj,
   togglemodalshow,
   refreshdepartmentdata,
   show,
   onHide,
   currentInstitute,
-}: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+}: IDepartmentModal) => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+    message: "",
+    alertBoxColor: "",
+  });
 
   // Initial values of react table === >>>
-  const initialValues = {
+  interface IInitilaValues {
+    name: string;
+    description: string;
+    published: boolean;
+  }
+
+  const initialValues: IInitilaValues = {
     name: departmentobj.name,
     description: "",
-    published: departmentobj.published
+    published: departmentobj.published,
   };
 
   // custom Obj & handle form data === >>>
@@ -61,8 +71,8 @@ const DepartmentModal = ({
   }
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let endPoint = `/${currentInstitute}/departments`;
+  const handleFormData = (values: IInitilaValues, { setSubmitting, resetForm }: any) => {
+    let endPoint: string = `/${currentInstitute}/departments`;
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)
         .then((res: any) => {
@@ -166,10 +176,7 @@ const DepartmentModal = ({
                 />
               </div>
               <div className="mb-3">
-                <FieldTypeCheckbox
-                  name="published"
-                  checkboxLabel="Published"
-                />{" "}
+                <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
                 <FieldErrorMessage
                   errors=""
                   touched=""
@@ -195,7 +202,9 @@ const DepartmentModal = ({
               ) : (
                 <LoadingButton
                   variant="primary"
-                  btnText={departmentobj.id === 0 ? "Submitting..." : "Updating..."}
+                  btnText={
+                    departmentobj.id === 0 ? "Submitting..." : "Updating..."
+                  }
                   className="modal-buttons"
                 />
               )}

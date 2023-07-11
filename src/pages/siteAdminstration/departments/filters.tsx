@@ -2,39 +2,46 @@ import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { IFilter } from "./type/interface";
 
-const initialValues = {
+interface IInitialValues {
+  name: string;
+};
+
+const initialValues: IInitialValues = {
   name: "",
-}
+};
 
-const Filter = ({  toggleModalShow,
+const Filter: React.FunctionComponent<IFilter> = ({
+  toggleModalShow,
   resetDepartmentForm,
-  updateInputFilters,} : any) => {
-  const [timeoutId, setTimeoutId] = useState<any>(null);
+  updateInputFilters,
+}: IFilter) => {
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
-      let newRequest = {
+    onSubmit: (values: IInitialValues) => {
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
+      let newRequest: IInitialValues = {
         name: values.name,
-      }
-      updateInputFilters(newRequest.name)
+      };
+      updateInputFilters(newRequest.name);
     },
     onReset: () => {
-      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
-      updateInputFilters("")
-    }
+      updateInputFilters("");
+    },
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event : any) => {
+  const handleFilterChange = (event: any) => {
     formik.handleChange(event); // Update formik values
 
-    if (timeoutId) clearTimeout(timeoutId);     // Clear previous timeout, if any
+    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
@@ -49,14 +56,16 @@ const Filter = ({  toggleModalShow,
     toggleModalShow(true);
     resetDepartmentForm(true);
   };
-  
+
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <label htmlFor="name" hidden>Name</label>
+              <label htmlFor="name" hidden>
+                Name
+              </label>
               <input
                 className="form-control"
                 id="name"
@@ -68,13 +77,23 @@ const Filter = ({  toggleModalShow,
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
-              <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+              <Button variant="primary" type="submit" className="me-2">
+                Filter
+              </Button>
+              <Button
+                variant="outline-secondary"
+                type="reset"
+                onClick={formik.handleReset}
+              >
+                Reset
+              </Button>
             </Col>
-          </Row>          
+          </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddDepartment}>Add Department</Button>{" "}
+          <Button variant="primary" onClick={openAddDepartment}>
+            Add Department
+          </Button>{" "}
         </div>
       </div>
     </React.Fragment>

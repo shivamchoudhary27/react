@@ -12,18 +12,18 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-import { IAlertMsg, IUserObj } from "./interfaces";
+import { IAlertMsg, IUserObj } from "./types/interface";
 
 interface IAddUserModal{
-  show: any;
-  onHide: any;
-  userobj: any,
-  setaddrolemodalshow: any;
-  updateAddRefresh: any;
-  currentInstitute: any;
+  show: boolean;
+  onHide: () => void;
+  userobj: IUserObj,
+  setaddrolemodalshow: (params: boolean) => void;
+  updateAddRefresh: () => void;
+  currentInstitute: number;
 }
 
-const AddUserModal = ({
+const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
   show,
   onHide,
   userobj,

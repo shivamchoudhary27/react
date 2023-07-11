@@ -1,6 +1,9 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
-import { putData, deleteData as deleteDepartmentData } from "../../../adapters/microservices";
+import { useDispatch } from "react-redux";
+import {
+  putData,
+  deleteData as deleteDepartmentData,
+} from "../../../adapters/microservices";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,6 +19,7 @@ import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../store/actions";
 // import { useSelector, useDispatch } from "react-redux";
+import { IAlertMsg, IDepartmentTable, IDepartmentObj } from "./type/interface";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -24,7 +28,7 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const DepartmentTable = ({
+const DepartmentTable: React.FunctionComponent<IDepartmentTable> = ({
   departmentData,
   editHandlerById,
   toggleModalShow,
@@ -32,7 +36,7 @@ const DepartmentTable = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
-}: any) => {
+}: IDepartmentTable) => {
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -41,12 +45,16 @@ const DepartmentTable = ({
     },
     {
       Header: "Program Attached",
-      accessor: "totalPrograms"
+      accessor: "totalPrograms",
     },
     {
       Header: "Manage Programs",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to="" onClick={() => manageDepartmentPrograms(row.original.id)}>
+        <Link
+          className="action-icons"
+          to=""
+          onClick={() => manageDepartmentPrograms(row.original.id)}
+        >
           <img src={programIcon} alt="Manage Program" />
         </Link>
       ),
@@ -56,21 +64,45 @@ const DepartmentTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link className="action-icons" to="">
-            <img src={editIcon} alt="Edit" onClick={() =>
-                editHandler({ id: row.original.id, name: row.original.name, published: row.original.published })
-              } />
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
+                editHandler({
+                  id: row.original.id,
+                  name: row.original.name,
+                  published: row.original.published,
+                })
+              }
+            />
           </Link>
-          <Link className={`action-icons ${row.original.totalPrograms > 0 ? 'disabled' : ''}`} to="">
-            <img 
-              src={deleteIcon} alt="Delete" 
-              onClick={() => row.original.totalPrograms < 1 ? deleteHandler(row.original.id) : null} 
+          <Link
+            className={`action-icons ${
+              row.original.totalPrograms > 0 ? "disabled" : ""
+            }`}
+            to=""
+          >
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() =>
+                row.original.totalPrograms < 1
+                  ? deleteHandler(row.original.id)
+                  : null
+              }
             />
           </Link>{" "}
-          <Link className="action-icons" to="" onClick={() => {
-            toggleDepartmentPublished(row.original)
-          }}
+          <Link
+            className="action-icons"
+            to=""
+            onClick={() => {
+              toggleDepartmentPublished(row.original);
+            }}
           >
-            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
+            <img
+              src={row.original.published !== false ? showIcon : hideIcon}
+              alt="Show"
+            />
           </Link>
         </span>
       ),
@@ -87,38 +119,42 @@ const DepartmentTable = ({
     });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
-  const [forceRender, setForceRender] = useState(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [onDeleteAction, setOnDeleteAction] = useState<string>("");
+  const [deleteId, setDeleteId] = useState<number>(0);
+  const [forceRender, setForceRender] = useState<boolean>(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, published }: any) => {
+  const editHandler = ({ id, name, published }: IDepartmentObj) => {
     toggleModalShow(true);
     editHandlerById({ id, name, published });
     refreshDepartmentData();
   };
 
-  const toggleDepartmentPublished = (departmentPacket: any) => { 
+  const toggleDepartmentPublished = (departmentPacket: any) => {
     departmentPacket.published = !departmentPacket.published;
-    setForceRender(prevState => !prevState);
+    setForceRender((prevState) => !prevState);
     let endPoint = `/${currentInstitute}/departments/${departmentPacket.id}`;
     putData(endPoint, departmentPacket)
-    .then((res: any) => {
-      setForceRender(prevState => !prevState);
-    })
-    .catch((err: any) => {
-        dispatch({type: ACTIONSLIST.mitGlobalAlert, alertMsg: "Action failed due to some error", status : true})
-        departmentPacket.published = !departmentPacket.published
-        setForceRender(prevState => !prevState);
+      .then((res: any) => {
+        setForceRender((prevState) => !prevState);
+      })
+      .catch((err: any) => {
+        dispatch({
+          type: ACTIONSLIST.mitGlobalAlert,
+          alertMsg: "Action failed due to some error",
+          status: true,
+        });
+        departmentPacket.published = !departmentPacket.published;
+        setForceRender((prevState) => !prevState);
       });
-  }
+  };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endPoint = `${currentInstitute}/departments/${deleteId}`;
+      let endPoint: string = `${currentInstitute}/departments/${deleteId}`;
       deleteDepartmentData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -156,9 +192,11 @@ const DepartmentTable = ({
   }, [onDeleteAction]);
 
   const manageDepartmentPrograms = (id: number) => {
-    dispatch({type: ACTIONSLIST.currentDepartmentFilterId, departmentId: id});
-    setTimeout(() => {navigate('/manageprogram')}, 400)
-  }
+    dispatch({ type: ACTIONSLIST.currentDepartmentFilterId, departmentId: id });
+    setTimeout(() => {
+      navigate("/manageprogram");
+    }, 400);
+  };
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
