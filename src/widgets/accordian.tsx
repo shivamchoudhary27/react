@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import videoIcon from '../assets/images/activity-icon/video-icon.png';
-import quizIcon from '../assets/images/activity-icon/quiz-icon.png';
+import videoIcon from '../assets/images/activityIconOld/video-icon.png';
+import quizIcon from '../assets/images/activityIconOld/quiz-icon.png';
 import UserContext from '../features/context/user/user';
 const style = {
   borderRadius: '0px'
