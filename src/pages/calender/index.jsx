@@ -12,6 +12,7 @@ import { getEventColor, initialColors} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
 import PageTitle from "../../widgets/pageTitle";
 import BreadcrumbComponent from "../../widgets/breadcrumb";
+import './style.scss';
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -96,14 +97,15 @@ export default function ReactBigCalendar() {
       <Header />
       <HeaderTabs activeTab="calender"/>
       <BreadcrumbComponent routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Calender Management", path: "/calenderconfig" },
           {name: "Calender", path: ""}
         ]} />
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
           <PageTitle pageTitle="Calender" gobacklink="" />
             <Row>
+              <Col md={2}>
+                <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
+              </Col>
               <Col md={10}>
                 {selectedEvent && <Modal />}
                 <Calendar
@@ -138,10 +140,7 @@ export default function ReactBigCalendar() {
                     </Button>
                   </Modal.Footer>
                 </Modal>
-              </Col>
-              <Col md={2}>
-                <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
-              </Col>
+              </Col>              
             </Row>
           </Container>
         </div>

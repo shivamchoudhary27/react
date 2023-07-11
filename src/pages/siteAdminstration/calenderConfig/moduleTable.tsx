@@ -1,25 +1,19 @@
 import React from "react";
-import { Table } from "react-bootstrap";
+import { Table, Container, Row, Col } from "react-bootstrap";
 
 const Module_Table = ({ Field }: any) => {
   return (
     <>
-      <Table borderless striped>
-        <thead>
-          <tr>
-            <th>Events</th>
-            <th>Color</th>
-          </tr>
-        </thead>
-        <tbody>
+      <Container fluid>
+        <Row>
           {event_type.map((el, index) => (
             <CALENDER_MODULES el={el} key={index} Field={Field} />
           ))}
           {module_data.map((el, index) => (
             <CALENDER_MODULES el={el} key={index} Field={Field} />
           ))}
-        </tbody>
-      </Table>
+        </Row>
+      </Container>
     </>
   );
 };
@@ -27,27 +21,16 @@ const Module_Table = ({ Field }: any) => {
 export default Module_Table;
 
 const CALENDER_MODULES = ({ el, Field }: any) => (
-  <tr>
-    <td>
-      <span className={el.icon}></span> {el.label}
-    </td>
-    <td>
-      <div className="mb-3">
+    <Col md="2">
+      <div className="d-flex flex-column align-items-center justify-content-center mb-4 events-color-items">
+        <span className={`${el.icon}`}></span> 
+        <h5>{el.label}</h5>
         <Field id={el.label} type="color" name={el.label} />
       </div>
-    </td>
-  </tr>
+    </Col>
 );
 
-const event_type = [
-  {
-    label: "user",
-    icon: "fa-solid fa-user",
-  },
-  {
-    label: "course",
-    icon: "fa-solid fa-graduation-cap",
-  },
+const event_type = [  
   {
     label: "site",
     icon: "fa-solid fa-file",
@@ -56,19 +39,23 @@ const event_type = [
     label: "category",
     icon: "fa-solid fa-sitemap",
   },
+  {
+    label: "course",
+    icon: "fa-solid fa-graduation-cap",
+  },
+  {
+    label: "user",
+    icon: "fa-solid fa-user",
+  },  
 ];
 
-const module_data = [
+const module_data = [  
   {
-    label: "attendance",
-    icon: "fa-solid fa-file",
-  },  
-  {
-    label: "forum",
+    label: "quiz",
     icon: "fa-solid fa-file",
   },
   {
-    label: "quiz",
+    label: "assignment",
     icon: "fa-solid fa-file",
   },
   {
@@ -76,7 +63,11 @@ const module_data = [
     icon: "fa-solid fa-briefcase",
   },
   {
-    label: "assignment",
+    label: "attendance",
+    icon: "fa-solid fa-file",
+  },  
+  {
+    label: "forum",
     icon: "fa-solid fa-file",
   },
   {
