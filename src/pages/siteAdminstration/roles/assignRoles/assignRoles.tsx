@@ -72,24 +72,18 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
   const getRoleContextElements = (contextType: any, roleId: number, assigned: boolean) => {
     if (contextType === null) return false;
     return (
-      <div className="form-check theDivToControl" 
+      <div className="theDivToControl" 
         style={{
-          paddingLeft: "4rem", 
           display: assigned ? 'block' : 'none'
         }}>
-        <p style={{fontSize:"15px"}}><i>Please set context type where this role can operate</i></p>
-        <h6 style={{
-          color:"#1B609D", 
-          backgroundColor: "rgba(27, 96, 157, 0.05)", 
-          display:"inline",
-          padding:"5px",
-        }}>
-          {`Select ${contextType.charAt(0).toUpperCase() + contextType.slice(1)} : `}
-        </h6>
+        <p><i>Please set context type where this role can operate</i></p>
+        <span className="context-legend">
+          {`Select ${contextType.charAt(0).toUpperCase() + contextType.slice(1)}: `}
+        </span>
         {roleContextDatas[`${contextType}s`].items.map((item: any, index: number) => (
-          <div key={index} style={{color:"#2D4356", fontSize:"15px"}}>
+          <div key={index}>
             <input
-              className="form-check-input me-2"
+              className="form-check-input me-1"
               type="checkbox"
               checked={handleContextIds[contextType].includes(item.id)}
               onChange={(e) => handleContextTypeIds(contextType, item.id, e)}
@@ -103,28 +97,23 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
 
   return (
     <React.Fragment>
-      <div className="mt-3">
+      <div className="assign-roles">
         {roleAssignment.map((item: any, index: number) => (
           <React.Fragment>
-            <div className="form-check" key={item.id} 
-            style={{
-              color:"#222", 
-              fontSize:"18px", 
-              fontWeight: "500",
-            }}>
+            <h5 className="role-name" key={item.id}>
               <input
-                className="form-check-input me-2"
+                className="form-check-input me-1"
                 type="checkbox"
                 checked={item.assigned}
                 onChange={(e) => toggleRoleAssignment(item.id, item.contextType, e)}
               />{" "}
               {item.name}
-            </div>
+            </h5>
             {getRoleContextElements(item.contextType, item.id, item.assigned)}
           </React.Fragment>
         ))}
         {apiStatus === "finished" && roleAssignment.length > 0 && btnHideStatus === false && (
-          <div style={{ textAlign: "center" }}>
+          <div className="text-center">
             {isSubmitting === false ? (
               <CustomButton
                 btnText="Save"
