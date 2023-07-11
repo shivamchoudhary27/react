@@ -8,7 +8,7 @@ import { faTurnUp } from '@fortawesome/free-solid-svg-icons';
 const PageTitle = ({pageTitle, gobacklink}:any) => {
     const navigate = useNavigate();
     return (
-      <h3 className="sitepage-title">
+      <h1 className="sitepage-title">
         <div dangerouslySetInnerHTML={{ __html: pageTitle }}></div>
         {
           gobacklink !== "" && 
@@ -20,7 +20,7 @@ const PageTitle = ({pageTitle, gobacklink}:any) => {
             Go Back <FontAwesomeIcon className="ms-1" icon={faTurnUp} /> 
           </Button>
         }
-      </h3>
+      </h1>
     );
   };
   

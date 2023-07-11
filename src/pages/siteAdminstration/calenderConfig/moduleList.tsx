@@ -6,17 +6,17 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 
 const initialValues = {
-  user: "#395B64",
+  site: "#DC0000",
+  category: "#7BE7FF",
   course: "#95BDFF",
-  site: "#698269",
-  category: "#AA5656",
-  attendance: "#81B214",
-  forum: "#E4C988",
-  quiz: "#820000",
-  workshop: "#4E6C50",
-  assignment: "#CB1C8D",
-  page: "#460C68",
-  book: "#C27664",
+  user: "#395B64",
+  attendance: "#12862C",
+  forum: "#F16913",
+  quiz: "#454849",
+  workshop: "#880A0A",
+  assignment: "#A61826",
+  page: "#A9A9A9",
+  book: "#FF7B7B",
 };
 
 const Module_List = () => {
@@ -44,7 +44,7 @@ const Module_List = () => {
         {() => (
           <Form>
             <Module_Table Field={Field} />
-            <div className="text-center mt-3"><Button type="submit">Save</Button></div>
+            <div className="text-center mt-4"><Button type="submit">Save</Button></div>
           </Form>
         )}
       </Formik>

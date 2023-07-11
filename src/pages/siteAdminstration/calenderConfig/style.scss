@@ -1,5 +1,14 @@
-.site-heading{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.events-color-items {
+    text-transform: capitalize;
+    font-size: 28px;
+    background-color: #E7F4FE;
+    padding: 15px;
+    border-radius: 10px;
+    .fa-solid {
+        margin-bottom: 0.5rem;
+    }
+    input {
+        width: 80%;
+        cursor: pointer;
+    }
 }
