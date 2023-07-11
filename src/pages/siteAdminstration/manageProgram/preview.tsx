@@ -12,6 +12,7 @@ import userPixDefault from "../../../assets/images/user-pix.svg";
 import positionIcon from "../../../assets/images/icons/degree.svg";
 import campusIcon from "../../../assets/images/icons/campus.svg";
 import StarRating from "../../../widgets/rating";
+import ReviewAndRating from "./review&Rating";
 
 interface ICurrentProgram {
   data: [];
@@ -36,7 +37,6 @@ const Preview = () => {
   });
   const [instituteId, setInstituteId] = useState<number | string | null>(0);
   const [newRating, setNewRating] = useState<number>(0);
-  const [ratingProgress, setRatingProgress] = useState<number>(0);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location);
@@ -91,11 +91,6 @@ const Preview = () => {
   const handleRating = (getRatingCount: any) => {
     setNewRating(getRatingCount);
   };
-
-  useEffect(()=>{
-    let x = (newRating * 20)
-    setRatingProgress(x)
-  }, [newRating])
 
   return (
     <>
@@ -289,39 +284,11 @@ const Preview = () => {
                       </Col>
                     </Row>
                   </div>
-                  <div className="po-section studentfeedback-step mt-5">
-                    <h5 id="po-studentfeedback">Student Feedback</h5>
-                    <h1>{`${newRating}.0`}</h1>
-                    <StarRating
-                      totalStars={5}
-                      currentRating={newRating}
-                      onStarClick={handleRating}
-                    />
-                    <p>Program Rating</p>
-                  </div>
                 </div>
-
-                {[1, 2, 3, 4, 5].map((elem) => (
-                  <div className="my-2">
-                    <div
-                      className="progress"
-                      role="progressbar"
-                      aria-label="Basic example"
-                    >
-                      <div
-                        className="progress-bar"
-                        style={{ width: `${ratingProgress}%` }}
-                      ></div>
-                    </div>
-                    <StarRating
-                      totalStars={5}
-                      currentRating={newRating}
-                      onStarClick={handleRating}
-                    />
-                    <p>{`${ratingProgress}%`}</p>
-                  </div>
-                ))}
-
+                <ReviewAndRating 
+                  newRating={newRating}
+                  handleRating={handleRating}
+                />
                 <div className="program-tags mt-5">
                   {el.tags.length > 0 ? previewTagfields(el.tags) : ""}
                 </div>
