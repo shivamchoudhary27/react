@@ -13,7 +13,7 @@ import CustomButton from '../../../widgets/formInputFields/buttons';
 import FieldTypeSelect from '../../../widgets/formInputFields/formSelectField';
 import { postData, putData } from '../../../adapters/microservices';
 import { pagination } from '../../../utils/pagination';
-import { makeGetDataRequest } from '../../../features/api_calls/getdata';
+import { makeGetDataRequest } from '../../../features/apiCalls/getdata';
 import PageTitle from '../../../widgets/pageTitle';
 import { useDispatch } from 'react-redux';
 import ACTIONSLIST from '../../../store/actions';

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import ACTIONSLIST from "../../../store/actions";
 
 const ManageDropdown = ({ updatedepartment, currentInstitute } : any) => {

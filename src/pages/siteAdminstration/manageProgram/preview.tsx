@@ -37,6 +37,9 @@ const Preview = () => {
   });
   const [instituteId, setInstituteId] = useState<number | string | null>(0);
   const [newRating, setNewRating] = useState<number>(0);
+  const [ratingProgress, setRatingProgress] = useState<number>(0);
+  const [categoryData, setCategoryData] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location);
@@ -61,6 +64,26 @@ const Preview = () => {
       });
     }
   }, [instituteId]);
+
+  const getCategoriesData = () => {
+    const endPoint = `/${id}/category`;
+    getProgramData(endPoint, {pageNumber: 0, pageSize: 100})
+      .then((res: any) => { 
+        if (res.data !== "" && res.status === 200) {
+          setCategoryData(res.data.items);
+        }
+        // setApiStatus("finished")
+      })
+      .catch((err: any) => {
+        console.log(err);
+        // setApiStatus("finished")
+      });
+  }
+  
+  // Get category Data from API === >>
+  useEffect(() => {
+    getCategoriesData();
+  }, [id]);
 
   const previewMetafields = (metaData: Array<any>) => {
     return (

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 
 const ProgramEnrollDropdown = ({updateDepartment}: any) => {
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}

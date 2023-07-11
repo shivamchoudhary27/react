@@ -33,7 +33,7 @@ const CALENDER_MODULES = ({ el, Field }: any) => (
     </td>
     <td>
       <div className="mb-3">
-        <Field id={el.label} name={el.label} className="form-control" />
+        <Field id={el.label} type="color" name={el.label} />
       </div>
     </td>
   </tr>
