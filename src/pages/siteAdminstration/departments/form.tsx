@@ -14,7 +14,7 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import { IDepartmentModal, IAlertMsg } from "./type/interface";
+import { IDepartmentModal, IAlertMsg } from "./types/interface";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
