@@ -14,7 +14,7 @@ import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 // import { putData } from "../../../../adapters/microservices";
-import { IUserData, IUserObj, IAlertMsg } from "./interfaces";
+import { IUserData, IUserObj, IAlertMsg, IRoleTable } from "./types/interface";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -23,7 +23,7 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const RolesTable = ({
+const RolesTable: React.FunctionComponent<IRoleTable> = ({
   userData,
   refreshOnDeleteToggle,
   currentInstitute,
@@ -31,7 +31,7 @@ const RolesTable = ({
   editHandlerById,
   setAddRoleModalShow,
   getRoleId,
-}: any) => {
+}: IRoleTable) => {
   const tableColumn = [
     {
       Header: "Role Name",
@@ -111,7 +111,10 @@ const RolesTable = ({
       data,
     });
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+    message: "",
+    alertBoxColor: "",
+  });
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [onDeleteAction, setOnDeleteAction] = useState<string>("");
   const [deleteId, setDeleteId] = useState<number>(0);
@@ -165,9 +168,9 @@ const RolesTable = ({
         })
         .catch((result: any) => {
           console.log(result.response.status === 400);
-          let errMsg = "Unable to delete, some error occurred."
+          let errMsg = "Unable to delete, some error occurred.";
           if (result.response.status === 400) {
-            errMsg = result.response.data.message
+            errMsg = result.response.data.message;
           }
           dispatch({
             type: ACTIONSLIST.mitGlobalAlert,

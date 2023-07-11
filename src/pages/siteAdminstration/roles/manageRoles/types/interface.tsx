@@ -33,3 +33,19 @@ export interface IAlertMsg {
   message: string;
   alertBoxColor: string;
 }
+
+export interface IFilter {
+  updateSearchFilters: (params: { name: string }, params2?: boolean) => void;
+  toggleModalShow: (params: boolean) => void;
+  openAddRoleModal: () => void;
+}
+
+export interface IRoleTable {
+  userData: any;
+  refreshOnDeleteToggle: (params: boolean) => void;
+  currentInstitute: number;
+  apiStatus: string;
+  editHandlerById: IUserObj;
+  setAddRoleModalShow: (params: boolean) => void;
+  getRoleId: any;
+}

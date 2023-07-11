@@ -11,7 +11,7 @@ import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../../store/actions";
-import { IAlertMsg } from "./interfaces";
+import { IAlertMsg, IUserObj } from "./types/interface";
 
 const initialValues = {
   email: "",
@@ -35,14 +35,24 @@ interface IInstituteList {
   webServiceToken: string;
 }
 
-const AssignInstituteModal = ({
+interface IAssignInstituteModal{
+  show: boolean;
+  onHide: () => void;
+  userobj: IUserObj;
+  togglemodalshow: (params: boolean) => void;
+  updateAddRefresh: () => void;
+  currentInstitute: number;
+}
+
+const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
   show,
   onHide,
   userobj,
   togglemodalshow,
   updateAddRefresh,
   currentInstitute,
-}: any) => {
+}: IAssignInstituteModal) => {
+  
   const dispatch = useDispatch();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [instituteList, setInstituteList] = useState<IInstituteList[]>([]);

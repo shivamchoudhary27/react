@@ -14,9 +14,11 @@ import { getData } from "../../../../adapters/coreservices";
 import AddRole from "./addRole";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../../store/actions";
-import { IUserData, IUserObj, ICurrentInstitute } from "./interfaces";
+import { IUserData, IUserObj, ICurrentInstitute } from "./types/interface";
 
-const ManageRoles = () => {
+interface IProps {}
+
+const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
   const dispatch = useDispatch();
   const dummyData: IUserData = {
     items: [],
@@ -39,7 +41,9 @@ const ManageRoles = () => {
     pageSize: pagination.PERPAGE * 10,
   });
   const [apiStatus, setApiStatus] = useState<string>("");
-  const currentInstitute = useSelector((state: ICurrentInstitute) => state.currentInstitute);
+  const currentInstitute: number = useSelector(
+    (state: ICurrentInstitute) => state.currentInstitute
+  );
 
   // get programs API call === >>>
   useEffect(() => {
@@ -127,7 +131,7 @@ const ManageRoles = () => {
     description,
     contextType,
     published,
-  }: IUserObj) => {
+  }: IUserObj): void => {
     setUserObj({
       id: id,
       name: name,
@@ -168,7 +172,6 @@ const ManageRoles = () => {
             toggleModalShow={toggleModalShow}
             openAddRoleModal={openAddRoleModal}
             updateSearchFilters={updateSearchFilters}
-            currentInstitute={currentInstitute}
           />
           <RolesTable
             userData={userData.items}
@@ -186,6 +189,7 @@ const ManageRoles = () => {
         togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
         currentInstitute={currentInstitute}
+        userobj={userObj}
       />
       <AddRole
         show={addRoleModalShow}
