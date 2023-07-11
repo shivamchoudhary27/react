@@ -7,7 +7,7 @@ import ProgramEnrollTable from "./programEnrollTable";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";

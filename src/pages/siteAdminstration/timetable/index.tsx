@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
 import Header from "../../newHeader";

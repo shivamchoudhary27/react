@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import { Container, Row, Col } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import {
   postData as postProgramData,
   putData as updateProgramData,

@@ -11,7 +11,7 @@ import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
 import RolesDataRender from "./assignRoles";
 import { useParams } from "react-router-dom";
-import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import "./style.scss"
 
 type ContextIdsTemplate = {

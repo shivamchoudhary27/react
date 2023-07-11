@@ -7,7 +7,7 @@ import { Container } from "react-bootstrap";
 import UserFilter from "./userFilter";
 import UsersTable from "./usersTable";
 import UploadUsersEnrollment from "./uploadUsers";
-import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import { pagination } from "../../../utils/pagination";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";

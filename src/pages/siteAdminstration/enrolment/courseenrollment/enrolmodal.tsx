@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form } from "formik";
 import { postData, putData } from "../../../../adapters/microservices";
-import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import { pagination } from "../../../../utils/pagination";
 import * as Yup from "yup";
 import FieldLabel from "../../../../widgets/formInputFields/labels";

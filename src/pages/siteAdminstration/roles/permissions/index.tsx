@@ -11,7 +11,7 @@ import UserManagement from "./userManagement";
 import ProgramManagement from "./programManagement";
 import ProgramEnrolment from "./programEnrolment";
 import RolePermissionTable from "./table";
-import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import { pagination } from "../../../../utils/pagination";
 
 const Permission = () => {

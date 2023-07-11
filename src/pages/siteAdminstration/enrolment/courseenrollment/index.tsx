@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import { pagination } from "../../../../utils/pagination";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import Header from "../../../newHeader";

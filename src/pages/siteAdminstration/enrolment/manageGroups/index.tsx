@@ -12,7 +12,7 @@ import BuildPagination from "../../../../widgets/pagination";
 import { pagination } from "../../../../utils/pagination";
 import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import { makeGetDataRequest } from "../../../../features/api_calls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 const ManageGroups = () => {
   const dummyData = {
