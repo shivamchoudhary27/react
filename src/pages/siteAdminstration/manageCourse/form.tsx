@@ -16,6 +16,7 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../store/actions";
+import FieldTypeFile from "../../../widgets/formInputFields/formFileField";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -245,6 +246,14 @@ const CourseModal = ({
                   />
                 </div>
                 <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="file"
+                    labelText="Add File"
+                    // required="required"
+                  />
+                  <FieldTypeFile name="file" />
+                </div>
+                <div className="mb-3">
                   <FieldTypeCheckbox
                     name="published"
                     checkboxLabel="Published"
@@ -284,12 +293,12 @@ const CourseModal = ({
             )}
           </Formik>
           <TimerAlertBox
-          alertMsg={alertMsg.message}
-          className="mt-3"
-          variant={alertMsg.alertBoxColor}
-          setShowAlert={setShowAlert}
-          showAlert={showAlert}
-        />
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>
