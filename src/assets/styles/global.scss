@@ -48,7 +48,7 @@ a, a:visited, .btn-link {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.20);
     border-radius: 5px;
     display: inline-block;
-    padding: 5px;
+    padding: 5px 6px;
     img {
         width: 24px;
     }
@@ -95,31 +95,33 @@ label {
 .badge {
     border-radius: 0.75rem;
 }
-.form-check-input {    
+.form-check-input, input[type="checkbox"] {
+    margin-top: 0;
+    margin-right: 0.25rem;
+    box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
     &:checked {
         background-color: #0A5599;
         border-color: #0A5599;
+        box-shadow: none;
     }
 }
-// .input-styles {
-    input, .form-control {
-        outline: 0;
-        border-radius: 30px;
-        padding: 7px 15px;
-        border-radius: 6px;
-        border: 0.5px solid rgba(255, 255, 255, 0.80);
-        background: #FFF;
-        box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
-    }
-    input:focus, .form-control:focus {
-        box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
-    }
-    .form-select {
-        border-radius: 6px;
-        border: 0.5px solid rgba(255, 255, 255, 0.80);
-        box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
-    }
-// }
+input[type="text"], input[type="password"], .form-control {
+    outline: 0;
+    border-radius: 30px;
+    padding: 7px 15px;
+    border-radius: 6px;
+    border: 0.5px solid rgba(255, 255, 255, 0.80);
+    background: #FFF;
+    box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
+}
+input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
+    box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
+}
+.form-select {
+    border-radius: 6px;
+    border: 0.5px solid rgba(255, 255, 255, 0.80);
+    box-shadow: 2.5px 2.5px 5px 0px #CFD0D2 inset, -2.5px -2.5px 5px 0px #EBEBEB inset;
+}
 /**** Form End ****/
 
 
