@@ -29,6 +29,7 @@ const Discipline = () => {
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [diciplineData, setDiciplineData] = useState<IDummyData>(dummyData);
   const [disciplineObj, setDisciplineObj] = useState<IDisciplineObj>({
+    id: 0,
     name: "",
     description: "",
     published: false,
@@ -106,7 +107,7 @@ const Discipline = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({ id, name, description, published }: any) => {
+  const editHandlerById = ({ id, name, description, published }: IDisciplineObj) => {
     setDisciplineObj({
       id: id,
       name: name,
