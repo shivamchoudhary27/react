@@ -19,7 +19,7 @@ import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../store/actions";
 // import { useSelector, useDispatch } from "react-redux";
-import { IAlertMsg, IDepartmentTable, IDepartmentObj } from "./type/interface";
+import { IAlertMsg, IDepartmentTable, IDepartmentObj } from "./types/interface";
 
 // Actions btns styling === >>>
 const actionsStyle = {

@@ -1,12 +1,20 @@
 import { Button, Spinner } from "react-bootstrap";
 
-const CustomButton = ({
+interface ICustomButton {
+  variant?: string | undefined;
+  type?: "button" | "submit" | "reset" | undefined;
+  isSubmitting?: boolean | undefined;
+  btnText: string | undefined;
+  onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+}
+
+const CustomButton: React.FunctionComponent<ICustomButton> = ({
   variant,
   type,
   isSubmitting,
   btnText,
   onClick,
-}: any) => {
+}: ICustomButton) => {
   return (
     <Button
       variant={variant}
@@ -19,7 +27,17 @@ const CustomButton = ({
   );
 };
 
-export const LoadingButton = ({variant="primary", btnText, className}: any) => {
+interface ILoadingButton {
+  variant?: string | undefined;
+  btnText: string | undefined;
+  className?: string | undefined;
+}
+
+export const LoadingButton: React.FunctionComponent<ILoadingButton> = ({
+  variant = "primary",
+  btnText,
+  className,
+}: ILoadingButton) => {
   return (
     <div className={className}>
       <Button variant={variant} disabled>

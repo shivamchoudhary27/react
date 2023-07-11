@@ -1,12 +1,20 @@
 import React, { useEffect } from "react";
 import { Alert } from "react-bootstrap";
 
-const TimerAlertBox = ({
+interface ITimerAlertBox {
+  alertMsg: string;
+  variant: string;
+  setShowAlert: (params: boolean) => void;
+  showAlert: boolean;
+  className?: string;
+}
+
+const TimerAlertBox: React.FunctionComponent<ITimerAlertBox> = ({
   alertMsg,
   variant,
   setShowAlert,
   showAlert,
-}: any) => {
+}: ITimerAlertBox) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAlert(false);
@@ -22,7 +30,7 @@ const TimerAlertBox = ({
       <div>
         {showAlert && (
           <Alert
-            style={{textAlign:"center"}}
+            style={{ textAlign: "center" }}
             variant={variant}
             onClick={() => setShowAlert(false)}
             // dismissible

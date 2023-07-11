@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
-import { IFilter } from "./type/interface";
+import { IFilter } from "./types/interface";
 
 interface IInitialValues {
   name: string;

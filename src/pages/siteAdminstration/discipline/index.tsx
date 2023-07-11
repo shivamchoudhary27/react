@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 // import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
@@ -14,58 +14,87 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
+import {
+  IDummyData,
+  IDisciplineObj,
+  IFilterUpdate,
+  ICurrentInstitute,
+} from "./types/interface";
 
 const Discipline = () => {
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [modalShow, setModalShow] = useState(false);
-  const [diciplineData, setDiciplineData] = useState<any>(dummyData);
-  const [disciplineObj, setDisciplineObj] = useState({
+  const dummyData: IDummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const [modalShow, setModalShow] = useState<boolean>(false);
+  const [diciplineData, setDiciplineData] = useState<IDummyData>(dummyData);
+  const [disciplineObj, setDisciplineObj] = useState<IDisciplineObj>({
     name: "",
     description: "",
-    published: false
+    published: false,
   });
-  const [refreshData, setRefreshData] = useState(true);
+  const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({
+  const [filterUpdate, setFilterUpdate] = useState<IFilterUpdate>({
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const [apiStatus, setApiStatus] = useState<string>("");
+  const currentInstitute: number = useSelector(
+    (state: ICurrentInstitute) => state.currentInstitute
+  );
 
-  const getDisciplineData = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
-    setApiStatus("started")
+  const getDisciplineData = (
+    endPoint: string,
+    filters: any,
+    setData: any,
+    setApiStatus: (params: string) => void
+  ) => {
+    setApiStatus("started");
     getData(endPoint, filters)
-    .then((result : any) => {
+      .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-            // Merge the programCounts into the items objects
-            result.data.items.forEach((item : any) => {
-              const index = result.data.programCounts.findIndex((packet : any) => packet.disciplineId === item.id);
-              item.totalPrograms = 0;
-              if (index > -1) {
-                item.totalPrograms = result.data.programCounts[index].totalPrograms;
-              }
-            });
-            setData(result.data);
+          // Merge the programCounts into the items objects
+          result.data.items.forEach((item: any) => {
+            const index = result.data.programCounts.findIndex(
+              (packet: any) => packet.disciplineId === item.id
+            );
+            item.totalPrograms = 0;
+            if (index > -1) {
+              item.totalPrograms =
+                result.data.programCounts[index].totalPrograms;
+            }
+          });
+          setData(result.data);
         }
-        setApiStatus("finished")
-    })
-    .catch((err : any) => {
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished")
-    });
-  }
+        setApiStatus("finished");
+      });
+  };
 
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0)
-    getDisciplineData(`/${currentInstitute}/disciplines`, filterUpdate, setDiciplineData, setApiStatus);
+      getDisciplineData(
+        `/${currentInstitute}/disciplines`,
+        filterUpdate,
+        setDiciplineData,
+        setApiStatus
+      );
   }, [refreshData, filterUpdate, currentInstitute]);
 
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
-    getDisciplineData(`/${currentInstitute}/disciplines`, filterUpdate, setDiciplineData, setApiStatus);
+      getDisciplineData(
+        `/${currentInstitute}/disciplines`,
+        filterUpdate,
+        setDiciplineData,
+        setApiStatus
+      );
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
@@ -78,7 +107,12 @@ const Discipline = () => {
 
   // get id, name from discipline table === >>>
   const editHandlerById = ({ id, name, description, published }: any) => {
-    setDisciplineObj({ id: id, name: name, description: description, published: published });
+    setDisciplineObj({
+      id: id,
+      name: name,
+      description: description,
+      published: published,
+    });
   };
 
   // handle modal hide & show functionality === >>>
@@ -139,7 +173,7 @@ const Discipline = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           {/* <PageTitle pageTitle={`${currentInstitueName}: Discipline`} gobacklink="/manageprogram" />           */}
-          <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />          
+          <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />
           <Filters
             openAddDiscipline={openAddDiscipline}
             updateInputFilters={updateInputFilters}

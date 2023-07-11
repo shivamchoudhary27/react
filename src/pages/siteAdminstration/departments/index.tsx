@@ -14,7 +14,7 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
-import { ICurrentInstitute, IDepartmentObj, IFilterUpdate } from "./type/interface";
+import { ICurrentInstitute, IDepartmentObj, IFilterUpdate } from "./types/interface";
 
 interface IDummyData {
   items: [];
@@ -107,7 +107,7 @@ const Departments = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name, published }: any) => {
+  const editHandlerById = ({ id, name, published }: IDepartmentObj) => {
     setDepartmentObj({ id: id, name: name, published: published });
   };
 

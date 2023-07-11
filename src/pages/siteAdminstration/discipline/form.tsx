@@ -9,11 +9,12 @@ import * as Yup from "yup";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import Custom_Button from "../../../widgets/formInputFields/buttons";
+import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+import { IInitialValues, IDisciplineModal, IAlertMsg } from "./types/interface";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -21,19 +22,19 @@ const diciplineSchema = Yup.object({
   description: Yup.string().min(1).required(),
 });
 
-const DiciplineModal = ({
+const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
   disciplineobj,
   togglemodalshow,
   refreshDisciplineData,
   show,
   onHide,
   currentInstitute,
-}: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+}: IDisciplineModal) => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
 
   // Initial values of react table === >>>
-  const initialValues = {
+  const initialValues: IInitialValues = {
     name: disciplineobj.name,
     description: disciplineobj.description,
     published: disciplineobj.published
@@ -57,9 +58,9 @@ const DiciplineModal = ({
   }
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+  const handleFormData = (values: IInitialValues, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    let endPoint = `/${currentInstitute}/disciplines`;
+    let endPoint: string = `/${currentInstitute}/disciplines`;
     if (disciplineobj.id === 0) {
       addDisciplineData(endPoint, values)
         .then((res: any) => {
@@ -171,14 +172,14 @@ const DiciplineModal = ({
 
               {isSubmitting === false ? (
                 <div className="modal-buttons">
-                  <Custom_Button
+                  <CustomButton
                     type="submit"
                     variant="primary"
                     isSubmitting={isSubmitting}
                     btnText={formTitles.btnTitle}
                   />{" "}
                   {formTitles.btnTitle === "Submit" && (
-                    <Custom_Button
+                    <CustomButton
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"

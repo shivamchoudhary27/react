@@ -1,10 +1,13 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { putData, deleteData as deleteDisciplineData } from "../../../adapters/microservices";
+import {
+  putData,
+  deleteData as deleteDisciplineData,
+} from "../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
-import Swal from "sweetalert2";
-import "sweetalert2/src/sweetalert2.scss";
+// import Swal from "sweetalert2";
+// import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
@@ -15,6 +18,7 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../store/actions";
+import { IDisciplineObj, IAlertMsg, IDiciplineTable } from "./types/interface";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -23,7 +27,7 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const DiciplineTable = ({
+const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
   diciplineData,
   editHandlerById,
   toggleModalShow,
@@ -31,7 +35,7 @@ const DiciplineTable = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
-}: any) => {
+}: IDiciplineTable) => {
   // custom react table column === >>>
   const tableColumn = [
     {
@@ -50,27 +54,47 @@ const DiciplineTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">            
-            <img src={editIcon} alt="Edit" onClick={() =>
+          <Link className="action-icons" to="">
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
                 editHandler({
                   id: row.original.id,
                   name: row.original.name,
                   description: row.original.description,
-                  published: row.original.published
+                  published: row.original.published,
                 })
-              } />
+              }
+            />
           </Link>
-          <Link className={`action-icons ${row.original.totalPrograms > 0 ? 'disabled' : ''}`} to="">
-            <img 
-              src={deleteIcon} alt="Delete" 
-              onClick={() => row.original.totalPrograms < 1 ? deleteHandler(row.original.id) : null} 
+          <Link
+            className={`action-icons ${
+              row.original.totalPrograms > 0 ? "disabled" : ""
+            }`}
+            to=""
+          >
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() =>
+                row.original.totalPrograms < 1
+                  ? deleteHandler(row.original.id)
+                  : null
+              }
             />
           </Link>{" "}
-          <Link className="action-icons" to="" onClick={() => {
-            toggleDisciplinePublished(row.original)
-          }}
+          <Link
+            className="action-icons"
+            to=""
+            onClick={() => {
+              toggleDisciplinePublished(row.original);
+            }}
           >
-            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
+            <img
+              src={row.original.published !== false ? showIcon : hideIcon}
+              alt="Show"
+            />
           </Link>
         </span>
       ),
@@ -86,43 +110,42 @@ const DiciplineTable = ({
       columns,
       data,
     });
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [onDeleteAction, setOnDeleteAction] = useState<string>("");
+  const [deleteId, setDeleteId] = useState<number>(0);
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description, published }: any) => {
+  const editHandler = ({ id, name, description, published }: IDisciplineObj) => {
     toggleModalShow(true);
     editHandlerById({ id, name, description, published });
     refreshDisciplineData();
   };
 
-  const toggleDisciplinePublished = (disciplinePacket: any) => { 
+  const toggleDisciplinePublished = (disciplinePacket: any) => {
     disciplinePacket.published = !disciplinePacket.published;
-    setForceRender(prevState => !prevState);
-    let endPoint = `/${currentInstitute}/disciplines/${disciplinePacket.id}`;
+    setForceRender((prevState) => !prevState);
+    let endPoint: string = `/${currentInstitute}/disciplines/${disciplinePacket.id}`;
     putData(endPoint, disciplinePacket)
       .then((res: any) => {
-        setForceRender(prevState => !prevState);
+        setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
         dispatch({
           type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg:
-            "Action failed due to some error",
+          alertMsg: "Action failed due to some error",
           status: true,
         });
-        disciplinePacket.published = !disciplinePacket.published
-        setForceRender(prevState => !prevState);
+        disciplinePacket.published = !disciplinePacket.published;
+        setForceRender((prevState) => !prevState);
       });
-  }
+  };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endpoint = `${currentInstitute}/disciplines/${deleteId}`;
+      let endpoint: string = `${currentInstitute}/disciplines/${deleteId}`;
       deleteDisciplineData(endpoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
