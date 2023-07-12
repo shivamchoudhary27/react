@@ -32,7 +32,7 @@ const EnrolUsersCourse = () => {
               { name: "Manage program Enrollment", path: "" },
             ]}
           /> */}
-      <div className="contentarea-wrapper mt-4">
+      <div className="contentarea-wrapper mt-4 mb-5">
           <Container fluid>          
             <EnrolCourseFilter togglemodalshow={toggleModalShow} />
             <hr />

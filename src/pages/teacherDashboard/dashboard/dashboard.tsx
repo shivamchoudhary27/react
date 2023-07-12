@@ -15,7 +15,7 @@ const DashboardTeacher = () => {
           </Row>
         </Container>
       </div>
-      <div className="dashboard-bottomPanel mt-4">
+      <div className="dashboard-bottomPanel mt-4 mb-5">
         <MyCourses />
       </div>
     </>
