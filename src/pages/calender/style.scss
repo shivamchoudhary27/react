@@ -1,0 +1,79 @@
+.events-keys {
+    box-shadow: 2px 5px 19px 0px rgba(0, 0, 0, 0.09);
+    border-radius: 0.5rem;
+    .mitblock-body {
+        margin-top: 1rem;
+    }
+    .event-keys-item {
+        display: block;
+        position: relative;
+        padding-left: 2rem;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-weight: 400;
+        &.showall {
+            font-weight: 500;
+        }
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+            &:checked ~ .checkmark {
+                border-color: #000;
+            }
+            &:checked ~ .checkmark:after {
+                display: block;
+            }
+        }
+        .checkmark {
+            position: absolute;
+            top: 1px;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            border: 2px solid #ccc;
+            border-radius: 3px;
+            &:after {
+                content: "";
+                position: absolute;
+                display: none;
+            }
+            &:after {
+                left: 6px;
+                top: 3px;
+                width: 5px;
+                height: 10px;
+                border: solid #000;
+                border-width: 0 2px 3px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+            }
+        }
+    }
+}
+.rbc-toolbar .rbc-toolbar-label {
+    font-size: 18px;
+    font-weight: 600;
+}
+.rbc-event, .rbc-day-slot .rbc-background-event {
+    background-color: rgba(49, 116, 173, 0.08);
+    border: 1px solid #3174ad;
+    color: #212529;
+}
+.rbc-month-view, .rbc-month-row + .rbc-month-row {
+    border-color: #F1F1F1;
+}
+.rbc-date-cell {
+    text-align: left;
+    padding-left: 5px;
+    .rbc-button-link {
+        font-weight: 500;
+    }    
+}

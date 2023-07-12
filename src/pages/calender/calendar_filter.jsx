@@ -54,24 +54,25 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
   const eventCheckboxes = () => {
     return (
       <>
-        <div>
+        <label className="event-keys-item showall">
+          Show All/None
           <input type="checkbox" name="showall" value="showall"
             onChange={(e) => {handleChecked(e)}}
             checked={showAllCheck}
           /> {" "}
-          Show All/none
-        </div>
+          <span className="checkmark"></span>
+        </label>
         { (typeof events === "object" && events !== null) 
           &&
-          Object.entries(events).map(([key, value]) => (
-            <div key={key}> 
-              <ColorBox colorValue={value}/>
+          Object.entries(events).map(([key, value]) => (            
+            <label className="event-keys-item" key={key}>
+              {" " + key.charAt(0).toUpperCase() + key.slice(1)}
               <input type="checkbox" name={key} value={value} 
                 checked={isChecked.includes(key) && 'checked'}
                 onChange={(e) => {handleChecked(e)}}
               />
-              {" " + key.charAt(0).toUpperCase() + key.slice(1)}
-            </div>
+              <span className="checkmark" style={{ borderColor: `${value}` }}></span>
+            </label>
           ))
         }
       </>
@@ -79,14 +80,10 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
   }
 
   return (
-    <Accordion defaultActiveKey={['0']} alwaysOpen>
-      <Accordion.Item eventKey="0">
-        <Accordion.Header>Events key</Accordion.Header>
-        <Accordion.Body>
-          {eventCheckboxes()}
-        </Accordion.Body>
-      </Accordion.Item>
-    </Accordion>
+    <div className="mitblock events-keys">
+        <h3 className="mitblock-title">Key</h3>
+        <div className="mitblock-body">{eventCheckboxes()}</div>
+    </div>
   );
 }
 

@@ -8,7 +8,7 @@ import Header from "../newHeader";
 import Footer from "../newFooter";
 import HeaderTabs from "../headerTabs";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
-import { getEventColor, initialColors} from "./local/utils";
+import { getEventColor, initialColors, hexToRGB} from "./local/utils";
 import CalendarFilters from "./calendar_filter";
 import PageTitle from "../../widgets/pageTitle";
 import BreadcrumbComponent from "../../widgets/breadcrumb";
@@ -101,28 +101,52 @@ export default function ReactBigCalendar() {
         ]} />
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-          <PageTitle pageTitle="Calender" gobacklink="" />
+          <PageTitle pageTitle="" gobacklink="" />
             <Row>
               <Col md={2}>
                 <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
               </Col>
               <Col md={10}>
+                <Row className="mt-3 mt-sm-0 mb-3 justify-content-end d-none">
+                  <Col className="col-auto">
+                    <label>Semester</label>
+                    <select
+                      className="form-select"
+                      defaultValue="Semester 3"
+                      >
+                      <option value="1">Semester 3</option>
+                      <option value="2">Semester 2</option>
+                      <option value="3">Semester 1</option>
+                    </select>
+                  </Col>
+                  <Col className="col-auto">
+                    <label>Courses</label>
+                    <select
+                      className="form-select"
+                      defaultValue="All"
+                      >
+                      <option value="1">All</option>
+                      <option value="2">Course 1</option>
+                      <option value="3">Course 2</option>
+                    </select>
+                  </Col>
+                </Row>
+
                 {selectedEvent && <Modal />}
                 <Calendar
-                  views={["day", "agenda", "work_week", "month"]}
-                  selectable
+                  views={["day", "work_week", "month"]}
+                  // selectable
                   localizer={localizer}
                   defaultDate={new Date()}
                   defaultView="month"
                   events={filteredEvents}
                   style={{ height: "100vh" }}
-                  BackgroundWrapper = "red"
                   // onSelectSlot={(e) => handleSelect(e)}
                   onSelectEvent={handleSelectEvent}
                   eventPropGetter={(myEventsList) => {
-                    const backgroundColor = myEventsList.colorEvento ? myEventsList.colorEvento : 'blue';
-                    const color = myEventsList.color ? myEventsList.color : 'white';
-                    return { style: { backgroundColor, color}}
+                    const currentEventColor = myEventsList.colorEvento ? myEventsList.colorEvento : '#3174ad';
+                    const backgroundColor = hexToRGB(currentEventColor, 0.08)                    
+                    return { style: { backgroundColor, "border-color": currentEventColor}}
                   }}
                 />
                 <Modal show={showModal} onHide={() => setShowModal(false)}>

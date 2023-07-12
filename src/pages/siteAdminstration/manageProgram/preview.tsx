@@ -126,7 +126,7 @@ const Preview = () => {
           { name: "Program Preview", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-4">
+      <div className="contentarea-wrapper mt-4 mb-5">
         <Container fluid>
           <PageTitle pageTitle={``} gobacklink="/manageprogram" />
           {currentProgram.data.map((el: any) => (
