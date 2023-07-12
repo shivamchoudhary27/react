@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import StarRating from "../../../widgets/rating";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
+import Review from "./review";
 
 interface IProps {
   newRating: number;
   handleRating: (params: any) => void;
 }
 
-const ReviewAndRating: React.FunctionComponent<IProps> = ({
+const RatingComp: React.FunctionComponent<IProps> = ({
   newRating,
   handleRating,
 }: IProps) => {
@@ -68,8 +69,9 @@ const ReviewAndRating: React.FunctionComponent<IProps> = ({
         newRating={newRating}
         handleRating={handleRating}
       />
+      <Review />
     </React.Fragment>
   );
 };
 
-export default ReviewAndRating;
+export default RatingComp;

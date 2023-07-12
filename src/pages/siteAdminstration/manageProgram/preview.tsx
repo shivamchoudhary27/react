@@ -12,7 +12,7 @@ import userPixDefault from "../../../assets/images/user-pix.svg";
 import positionIcon from "../../../assets/images/icons/degree.svg";
 import campusIcon from "../../../assets/images/icons/campus.svg";
 import StarRating from "../../../widgets/rating";
-import ReviewAndRating from "./review&Rating";
+import RatingComp from "./ratingComp";
 
 interface ICurrentProgram {
   data: [];
@@ -308,7 +308,7 @@ const Preview = () => {
                     </Row>
                   </div>
                 </div>
-                <ReviewAndRating 
+                <RatingComp 
                   newRating={newRating}
                   handleRating={handleRating}
                 />
