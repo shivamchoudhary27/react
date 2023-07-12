@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-import Module_List from "./moduleList";
+import ModuleList from "./moduleList";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import "./style.scss";
@@ -21,7 +21,7 @@ const CalenderConfig = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Events Color" gobacklink="/timetable" />
-          {<Module_List />}
+          {<ModuleList />}
         </Container>
       </div>
       <Footer />
