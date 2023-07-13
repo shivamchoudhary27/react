@@ -13,6 +13,9 @@ import positionIcon from "../../../assets/images/icons/degree.svg";
 import campusIcon from "../../../assets/images/icons/campus.svg";
 import StarRating from "../../../widgets/rating";
 import RatingComp from "./ratingComp";
+import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
+import { setHasChildProp, resetManageCourseObj } from './local';
+import CurriculumTable from "./curriculumTable";
 
 interface ICurrentProgram {
   data: [];
@@ -38,8 +41,43 @@ const Preview = () => {
   const [instituteId, setInstituteId] = useState<number | string | null>(0);
   const [newRating, setNewRating] = useState<number>(0);
   const [ratingProgress, setRatingProgress] = useState<number>(0);
-  const [categoryData, setCategoryData] = useState([]);
-  const [curriculum, setCurriculum] = useState([]);
+  const [programData, setProgramData] = useState([]);
+  const [curriculumDropdown, setCurriculumDropdown] = useState([]);
+  const [curriculumData, setCurriculumData] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState(0);
+  const [apiStatus, setApiStatus] = useState("");
+
+  const getCurrentValue = (e : any) => {
+    console.log(e.target.value)
+    setSelectedProgram(e.target.value);
+  }
+
+  useEffect(() => {
+    if (selectedProgram > 0 && programData.length > 0) {
+      const convertedResult = programData.filter(item => item.id == selectedProgram)
+      .sort((a,b) => a.weight - b.weight)
+      .reduce((acc, item) => [...acc, item, ...getChildren(item, programData)], []);
+      
+      convertedResult.forEach(item => {
+        if (item.parent === 0) {
+          item.level = 1;
+          updateCategoryLevels(convertedResult, item.id, 2);
+        }
+      });
+      const hasChildPropAdded = setHasChildProp(convertedResult);
+      const courseObjAdded = resetManageCourseObj(hasChildPropAdded)
+      courseObjAdded.shift();
+      setCurriculumData(courseObjAdded);
+    }
+  }, [selectedProgram, programData]);
+
+  useEffect(() => {
+    if (programData.length > 0) {
+      const parentCats = programData.filter((packet: any) => packet.parent === 0);
+      setCurriculumDropdown(parentCats);
+      setSelectedProgram(parentCats[0].id);
+    }
+  }, [programData])
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location);
@@ -70,13 +108,11 @@ const Preview = () => {
     getProgramData(endPoint, {pageNumber: 0, pageSize: 100})
       .then((res: any) => { 
         if (res.data !== "" && res.status === 200) {
-          setCategoryData(res.data.items);
+          setProgramData(res.data.items);
         }
-        // setApiStatus("finished")
       })
       .catch((err: any) => {
         console.log(err);
-        // setApiStatus("finished")
       });
   }
   
@@ -84,6 +120,7 @@ const Preview = () => {
   useEffect(() => {
     getCategoriesData();
   }, [id]);
+  
 
   const previewMetafields = (metaData: Array<any>) => {
     return (
@@ -198,7 +235,7 @@ const Preview = () => {
                   data-bs-spy="scroll"
                   data-bs-target="#tabStep-indicator"
                   data-bs-offset="0"
-                  tabindex="0"
+                  tabIndex={0}
                 >
                   <div className="po-section objective-step mt-5">
                     <h5 id="po-objective">Objective</h5>
@@ -210,13 +247,21 @@ const Preview = () => {
                   <div className="po-section curriculum-step mt-5">
                     <h5 id="po-curriculum">
                       Curriculum
-                      <select className="form-select">
-                        <option>Semester 1</option>
-                        <option>Semester 2</option>
+                      <select
+                        className="form-select"
+                        value={selectedProgram} 
+                        onChange={getCurrentValue}>
+                        {curriculumDropdown.map((el: any, index: number) => (
+                          <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
+                        ))}
                       </select>
                     </h5>
                     <div className="table-responsive">
-                      <Table borderless striped>
+                      <CurriculumTable
+                        categoryData={curriculumData}
+                        apiStatus={apiStatus}
+                      />
+                      {/* <Table borderless striped>
                         <thead>
                           <tr>
                             <th>Semester 1</th>
@@ -233,7 +278,7 @@ const Preview = () => {
                             <td>Course 4</td>
                           </tr>
                         </tbody>
-                      </Table>
+                      </Table> */}
                     </div>
                   </div>
                   <div className="po-section instructor-step mt-5">
