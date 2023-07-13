@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import { getCalendarEvents } from "../../adapters";
+import { getCalendarEvents, getData } from "../../adapters";
 import moment from "moment";
 import events from "./events.js";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -52,11 +52,15 @@ export default function ReactBigCalendar() {
 
             calEvents.map((i, index) => {
               calEvents[index].title = calEvents[index].name;
+              calEvents[index].url = "";
               let timeStart = calEvents[index].timestart * 1000;
               let timeEnd = (calEvents[index].timestart + calEvents[index].timeduration) * 1000;
               calEvents[index].start = new Date(timeStart);
               calEvents[index].end = new Date(timeEnd);
 
+              const hours = calEvents[index].start.getHours().toString().padStart(2, '0');
+              const minutes = calEvents[index].start.getMinutes().toString().padStart(2, '0');
+              calEvents[index].startingTime = `${hours}:${minutes}`;
               if (calEvents[index].modulename !== null) {
                 calEvents[index].colorEvento = getEventColor(calEvents[index].modulename, colorConfig);
               } else {
@@ -73,6 +77,27 @@ export default function ReactBigCalendar() {
   }, []);
 
   const handleSelectEvent = (event) => {
+    if (event.url === "") {
+      const query = {
+        wsfunction: 'core_calendar_get_calendar_event_by_id',
+        eventid: event.id
+      };
+      getData(query)
+        .then(res => {
+          if (res.status === 200 && res.data.event.url !== undefined) {
+            for (let i = 0; i < eventsData.length; i++) {
+              if (eventsData[i].id === event.id) {
+                eventsData[i].url = res.data.event.url;
+                break;
+              }
+            }
+            setEventsData([...eventsData]); 
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
     setSelectedEvent(event);
     setShowModal(true);
   };
@@ -91,6 +116,13 @@ export default function ReactBigCalendar() {
     if (value === true) setFilteredEvents(eventsData);
     else setFilteredEvents([]);
   }
+
+  const CustomEvent = ({ event }) => (
+    <React.Fragment>
+      <i>{event.startingTime}</i>
+      {event.title}
+    </React.Fragment>
+  );
 
   return (
     <React.Fragment>      
@@ -140,6 +172,9 @@ export default function ReactBigCalendar() {
                   defaultDate={new Date()}
                   defaultView="month"
                   events={filteredEvents}
+                  components={{
+                    event: CustomEvent, // Use the custom Event component
+                  }}
                   style={{ height: "100vh" }}
                   // onSelectSlot={(e) => handleSelect(e)}
                   onSelectEvent={handleSelectEvent}
@@ -154,9 +189,14 @@ export default function ReactBigCalendar() {
                     <Modal.Title>{selectedEvent?.title}</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    {selectedEvent?.description && <p>{selectedEvent.description}</p>}
-                    <p>{moment(selectedEvent?.start).format('LLL')}</p>
-                    <p>{moment(selectedEvent?.end).format('LLL')}</p>
+                    {selectedEvent?.description ? <p>{selectedEvent.description}</p> : <p>Description..</p>}
+                    <p>Start: {moment(selectedEvent?.start).format('dddd, DD MMM, h:mm A')}</p>
+                    <p>End: {moment(selectedEvent?.end).format('dddd, DD MMM, h:mm A')}</p>
+                    <a href={selectedEvent?.url ? selectedEvent.url : ""}>
+                      <Button>
+                        Go To Event
+                      </Button>
+                    </a>
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>
