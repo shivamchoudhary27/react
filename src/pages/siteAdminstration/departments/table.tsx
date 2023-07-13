@@ -19,7 +19,7 @@ import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../store/actions";
 // import { useSelector, useDispatch } from "react-redux";
-import { IAlertMsg, IDepartmentTable, IDepartmentObj } from "./types/interface";
+import { TypeModalShow,TypeAlertMsg, TypeDepartmentTable, TypeDepartmentObj } from "./types/type";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -28,7 +28,7 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const DepartmentTable: React.FunctionComponent<IDepartmentTable> = ({
+const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
   departmentData,
   editHandlerById,
   toggleModalShow,
@@ -36,7 +36,7 @@ const DepartmentTable: React.FunctionComponent<IDepartmentTable> = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
-}: IDepartmentTable) => {
+}: TypeDepartmentTable) => {
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -120,14 +120,14 @@ const DepartmentTable: React.FunctionComponent<IDepartmentTable> = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<TypeAlertMsg>({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState<TypeModalShow>(false);
   const [onDeleteAction, setOnDeleteAction] = useState<string>("");
   const [deleteId, setDeleteId] = useState<number>(0);
   const [forceRender, setForceRender] = useState<boolean>(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, published }: IDepartmentObj) => {
+  const editHandler = ({ id, name, published }: TypeDepartmentObj) => {
     toggleModalShow(true);
     editHandlerById({ id, name, published });
     refreshDepartmentData();

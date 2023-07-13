@@ -6,7 +6,6 @@ import {
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
-import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
@@ -17,6 +16,12 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../store/actions";
+import {
+  IAlertMsg,
+  IProgramTypeObj,
+  IProgramTable,
+  IProgramtypePacket,
+} from "./types/interface";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -33,7 +38,7 @@ const ProgramTable = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
-}: any) => {
+}: IProgramTable) => {
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -109,11 +114,14 @@ const ProgramTable = ({
       columns,
       data,
     });
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+    message: "",
+    alertBoxColor: "",
+  });
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
+  const [onDeleteAction, setOnDeleteAction] = useState<string>("");
+  const [deleteId, setDeleteId] = useState<number>(0);
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
@@ -123,16 +131,18 @@ const ProgramTable = ({
     description,
     batchYearRequired,
     published,
-  }: any) => {
+  }: IProgramTypeObj) => {
     toggleModalShow(true);
     editHandlerById({ id, name, description, batchYearRequired, published });
     refreshProgramData();
   };
 
-  const toggleProgramtypePublished = (programtypePacket: any) => {
+  const toggleProgramtypePublished = (
+    programtypePacket: IProgramtypePacket
+  ) => {
     programtypePacket.published = !programtypePacket.published;
     setForceRender((prevState) => !prevState);
-    let endPoint = `/${currentInstitute}/program-types/${programtypePacket.id}`;
+    let endPoint: string = `/${currentInstitute}/program-types/${programtypePacket.id}`;
     putData(endPoint, programtypePacket)
       .then((res: any) => {
         setForceRender((prevState) => !prevState);
@@ -150,7 +160,7 @@ const ProgramTable = ({
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endpoint = `/${currentInstitute}/program-types/${deleteId}`;
+      let endpoint: string = `/${currentInstitute}/program-types/${deleteId}`;
       deleteProgramData(endpoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {

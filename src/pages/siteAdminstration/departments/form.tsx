@@ -14,7 +14,20 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import { IDepartmentModal, IAlertMsg } from "./types/interface";
+import { TypeDepartmentModal, TypeAlertMsg } from "./types/type";
+
+type TypeEndPoint = string;
+type TypeShowAlert = boolean;
+type TypeInitilaValues = {
+  name: string;
+  description: string;
+  published: boolean;
+};
+type TypeFormTitles = {
+  titleHeading: string;
+  btnTitle: string;
+  description: string;
+};
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
@@ -22,35 +35,29 @@ const departmentSchema = Yup.object({
   // description: Yup.string().max(100).required(),
 });
 
-const DepartmentModal: React.FunctionComponent<IDepartmentModal> = ({
+const DepartmentModal: React.FunctionComponent<TypeDepartmentModal> = ({
   departmentobj,
   togglemodalshow,
   refreshdepartmentdata,
   show,
   onHide,
   currentInstitute,
-}: IDepartmentModal) => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+}: TypeDepartmentModal) => {
+  const [showAlert, setShowAlert] = useState<TypeShowAlert>(false);
+  const [alertMsg, setAlertMsg] = useState<TypeAlertMsg>({
     message: "",
     alertBoxColor: "",
   });
 
   // Initial values of react table === >>>
-  interface IInitilaValues {
-    name: string;
-    description: string;
-    published: boolean;
-  }
-
-  const initialValues: IInitilaValues = {
+  const initialValues: TypeInitilaValues = {
     name: departmentobj.name,
     description: "",
     published: departmentobj.published,
   };
 
   // custom Obj & handle form data === >>>
-  let formTitles = {
+  let formTitles: TypeFormTitles = {
     titleHeading: "",
     btnTitle: "",
     description: "",
@@ -71,8 +78,11 @@ const DepartmentModal: React.FunctionComponent<IDepartmentModal> = ({
   }
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: IInitilaValues, { setSubmitting, resetForm }: any) => {
-    let endPoint: string = `/${currentInstitute}/departments`;
+  const handleFormData = (
+    values: TypeInitilaValues,
+    { setSubmitting, resetForm }: any
+  ) => {
+    let endPoint: TypeEndPoint = `/${currentInstitute}/departments`;
     if (departmentobj.id === 0) {
       addDepartmentData(endPoint, values)
         .then((res: any) => {

@@ -1,12 +1,19 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 
-const DeleteAlert = ({
+interface IDeleteAlert {
+  show: boolean;
+  onHide: () => void;
+  deleteActionResponse: (params: string) => void;
+  modalHeading: string;
+}
+
+const DeleteAlert: React.FunctionComponent<IDeleteAlert> = ({
   show,
   onHide,
   deleteActionResponse,
   modalHeading,
-}: any) => {
+}: IDeleteAlert) => {
   const deleteHandler = (e: any) => {
     if (e.type === "click") {
       deleteActionResponse(e.target.innerHTML);

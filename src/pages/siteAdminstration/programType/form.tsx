@@ -15,6 +15,7 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import Custom_Button from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import { IAlertMsg, IAddProgramModal } from "./types/interface";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({
@@ -25,19 +26,26 @@ const programTypeSchema = Yup.object({
   //   .oneOf([true], "Please Check the required field"),
 });
 
-const AddProgramModal = ({
+const AddProgramModal: React.FunctionComponent<IAddProgramModal> = ({
   programtypeobj,
   togglemodalshow,
   refreshprogramdata,
   show,
   onHide,
   currentInstitute,
-}: any) => {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+}: IAddProgramModal) => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+
+  interface IInitialValues{
+    name: string;
+    description: string;
+    isBatchYearRequired: boolean;
+    published: boolean;
+  }
 
   // Initial values of react table === >>>
-  const initialValues = {
+  const initialValues: IInitialValues = {
     name: programtypeobj.name,
     description: programtypeobj.description,
     isBatchYearRequired: programtypeobj.batchYearRequired,

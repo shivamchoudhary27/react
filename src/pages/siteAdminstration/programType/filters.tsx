@@ -2,16 +2,21 @@ import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { IFilter } from "./types/interface";
 
-const initialValues = {
+interface IInitialValues{
+  name: string
+}
+
+const initialValues: IInitialValues = {
   name: "",
 }
 
-const Filter = ({openAddProgramType, updateinputfilters} : any) => {
-  const [timeoutId, setTimeoutId] = useState<any>(null);
+const Filter: React.FunctionComponent<IFilter> = ({openAddProgramType, updateinputfilters} : IFilter) => {
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
+    onSubmit: (values: IInitialValues) => {
       if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       updateinputfilters(values.name);
     },
@@ -31,7 +36,7 @@ const Filter = ({openAddProgramType, updateinputfilters} : any) => {
     if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
 
     // Set a new timeout to trigger updatefilters after a delay
-    const newTimeoutId = setTimeout(() => {
+    const newTimeoutId: NodeJS.Timeout = setTimeout(() => {
       updateinputfilters(event.target.value);
     }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 

@@ -15,7 +15,7 @@ import {
   addExtraMetaDataToInitialValues,
   addMetaFields,
   generateAcademicYears,
-  durationTypeObj
+  durationTypeObj,
 } from "./utils";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
@@ -27,41 +27,47 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import FieldMultiSelect from "../../../widgets/formInputFields/multiSelect";
 import * as Yup from "yup";
-import './style.scss';
+import "./style.scss";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import axios from "axios";
 
-const steps = ['Step 1', 'Step 2'];
+const steps = ["Step 1", "Step 2"];
 
 // Step 1 validation schema
 const step1Schema = Yup.object({
-  department: Yup.string().required().test(
-    'Please select a department',
-    'Please select a department',
-    (value) => value !== '0'
-  ),
+  department: Yup.string()
+    .required()
+    .test(
+      "Please select a department",
+      "Please select a department",
+      (value) => value !== "0"
+    ),
   programName: Yup.string().min(1).trim().required(),
   programCode: Yup.string().min(1).trim().required(),
-  discipline: Yup.string().required().test(
-    'Please select a discipline',
-    'Please select a discipline',
-    (value) => value !== '0'
-  ),
-  programtype: Yup.string().required().test(
-    'Please select a program type',
-    'Please select a program type',
-    (value) => value !== '0'
-  ),
+  discipline: Yup.string()
+    .required()
+    .test(
+      "Please select a discipline",
+      "Please select a discipline",
+      (value) => value !== "0"
+    ),
+  programtype: Yup.string()
+    .required()
+    .test(
+      "Please select a program type",
+      "Please select a program type",
+      (value) => value !== "0"
+    ),
   batchYear: Yup.string().required(),
-  durationValue: Yup
-  .number()
-  .integer('Number must be an integer')
-  .positive('Number must be positive')
-  .required('Number is required'),
+  durationValue: Yup.number()
+    .integer("Number must be an integer")
+    .positive("Number must be positive")
+    .required("Number is required"),
 });
 
 // Step 2 validation schema
 const step2Schema = Yup.object({
-  objective: Yup.string().required(), 
+  objective: Yup.string().required(),
   description: Yup.string().required(),
 });
 
@@ -87,23 +93,34 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   const handlePreviousStep = () => {
     setStep(step - 1);
   };
-  
+
   // fetch Department & Discipline list ===== >>>
   useEffect(() => {
-    if (instituteId > 0)
-    generateAcademicYears();
+    if (instituteId > 0) generateAcademicYears();
     let apiFilters = { pageNumber: 0, pageSize: 100 };
     if (!(programid > 0)) {
       apiFilters.published = true;
     }
-    makeGetDataRequest(`/${instituteId}/departments`, apiFilters, setDepartmentName);
-    makeGetDataRequest(`/${instituteId}/disciplines`, apiFilters, setDisciplineName);
-    makeGetDataRequest(`/${instituteId}/program-types`, apiFilters, setProgramTypeId);
+    makeGetDataRequest(
+      `/${instituteId}/departments`,
+      apiFilters,
+      setDepartmentName
+    );
+    makeGetDataRequest(
+      `/${instituteId}/disciplines`,
+      apiFilters,
+      setDisciplineName
+    );
+    makeGetDataRequest(
+      `/${instituteId}/program-types`,
+      apiFilters,
+      setProgramTypeId
+    );
     makeGetDataRequest(`/${instituteId}/tags`, apiFilters, setTags);
   }, [instituteId]);
 
   useEffect(() => {
-    const valuesPacket = { ...initialformvalues }
+    const valuesPacket = { ...initialformvalues };
     let addedValues = addExtraMetaDataToInitialValues(
       valuesPacket,
       programTypeId.items,
@@ -127,7 +144,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     }
   };
 
-  function _handleSubmit(values : any, actions : any) {
+  function _handleSubmit(values: any, actions: any) {
+    console.log("form input data---", values);
     if (step === 1) {
       _submitForm(values, actions);
     } else {
@@ -137,13 +155,13 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     }
   }
 
-  const _submitForm = (values : any, actions : any) => {
+  const _submitForm = (values: any, actions: any) => {
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
-    
+
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
-      actions.setSubmitting(true)
+      actions.setSubmitting(true);
       postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
@@ -159,7 +177,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         })
         .catch((err: any) => {
-          actions.setSubmitting(false)
+          actions.setSubmitting(false);
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -172,7 +190,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         });
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
-      actions.setSubmitting(true)
+      actions.setSubmitting(true);
       updateProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -188,7 +206,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         })
         .catch((err: any) => {
-          actions.setSubmitting(false)
+          actions.setSubmitting(false);
           if (err.response.status === 400) {
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -203,6 +221,12 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     // navigate("/manageprogram", { state: values });
   };
 
+  let Api =
+    "https://api.microlearning.ballisticlearning.com/learning-service/api/v1/1/programs?departmentId=&name=&pageNumber=0&pageSize=10";
+  useEffect(() => {
+    axios.get(Api).then((res) => console.log(res));
+  }, []);
+
   return (
     <>
       <div>
@@ -210,7 +234,9 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           enableReinitialize={true}
           initialValues={initValues}
           onSubmit={_handleSubmit}
-          validationSchema={step === 0 ? step1Schema : step === 1 && step2Schema}
+          validationSchema={
+            step === 0 ? step1Schema : step === 1 && step2Schema
+          }
         >
           {({
             values,
@@ -218,12 +244,15 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             touched,
             setValues,
             handleChange,
-            isSubmitting
+            isSubmitting,
           }) => (
             <Form>
               <div className="tabStep-indicator">
                 {steps.map((label, index) => (
-                  <div key={index} className={`step ${index === step ? 'active' : ''}`}>
+                  <div
+                    key={index}
+                    className={`step ${index === step ? "active" : ""}`}
+                  >
                     {label}
                   </div>
                 ))}
@@ -231,186 +260,198 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
 
               {/*** Step 1 ***/}
               {step === 0 && (
-              <div className="tabStep-content">
-                <Row className="gy-3">                  
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="programName"
-                      labelText="Program Name"
-                      required="required"
-                    />
-                    <FieldTypeText name="programName" placeholder="Program Name" />
-                    <FieldErrorMessage
-                      errors={errors.programName}
-                      touched={touched.programName}
-                      msgText="Program name required atleast 1 characters"
-                    />
-                  </Col>
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="programCode"
-                      labelText="Program Code"
-                      required="required"
-                    />
-                    <FieldTypeText name="programCode" placeholder="Program Code" />
-                    <FieldErrorMessage
-                      errors={errors.programCode}
-                      touched={touched.programCode}
-                      msgText="Program code required alteast 1 characters"
-                    />
-                  </Col>
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="durationValue"
-                      labelText="Duration"
-                      required="required"
-                    />
-                    <div className="d-flex">
-                      <FieldTypeText className="me-2" type="number" name="durationValue" placeholder="#duration" />                      
-                      <FieldTypeSelect
-                        name="durationUnit"
-                        options={durationType}
-                        setcurrentvalue={setValues}
-                        currentformvalue={values}
-                        emptyOption={true}
-                      />
-                    </div>
-                    <FieldErrorMessage
-                      errors={errors.durationValue}
-                      touched={touched.durationValue}
-                      msgText="Duration must in positive number and non decimal"
-                    />                    
-                  </Col>
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="department"
-                      labelText="Department"
-                      required="required"
-                    />
-                    <FieldTypeSelect
-                      name="department"
-                      options={departmentName.items}
-                      setcurrentvalue={setValues}
-                      currentformvalue={values}
-                    />
-                    <FieldErrorMessage
-                      errors={errors.department}
-                      touched={touched.department}
-                      msgText="Please select department"
-                    />
-                  </Col>
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="discipline"
-                      labelText="Discipline"
-                      required="required"
-                    />
-                    <FieldTypeSelect
-                      name="discipline"
-                      options={disciplineName.items}
-                      setcurrentvalue={setValues}
-                      currentformvalue={values}
-                    />
-                    <FieldErrorMessage
-                      errors={errors.discipline}
-                      touched={touched.discipline}
-                      msgText="Please select discipline"
-                    />
-                  </Col>
-            
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="programtype"
-                      labelText="Program Type "
-                      required="required"
-                    />
-                    <FieldTypeSelect
-                      name="programtype"
-                      options={programTypeId.items}
-                      setcurrentvalue={setValues}
-                      currentformvalue={values}
-                      selectDefaultLabel="Program Type"
-                    />
-                    <FieldErrorMessage
-                      errors={errors.programtype}
-                      touched={touched.programtype}
-                      msgText="Please select program type"
-                    />
-                  </Col>
-                  {values.isBatchYearRequired === true && (
+                <div className="tabStep-content">
+                  <Row className="gy-3">
                     <Col md={4}>
                       <FieldLabel
-                        htmlfor="batchYear"
-                        labelText="Batch Year"
+                        htmlfor="programName"
+                        labelText="Program Name"
+                        required="required"
+                      />
+                      <FieldTypeText
+                        name="programName"
+                        placeholder="Program Name"
+                      />
+                      <FieldErrorMessage
+                        errors={errors.programName}
+                        touched={touched.programName}
+                        msgText="Program name required atleast 1 characters"
+                      />
+                    </Col>
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="programCode"
+                        labelText="Program Code"
+                        required="required"
+                      />
+                      <FieldTypeText
+                        name="programCode"
+                        placeholder="Program Code"
+                      />
+                      <FieldErrorMessage
+                        errors={errors.programCode}
+                        touched={touched.programCode}
+                        msgText="Program code required alteast 1 characters"
+                      />
+                    </Col>
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="durationValue"
+                        labelText="Duration"
+                        required="required"
+                      />
+                      <div className="d-flex">
+                        <FieldTypeText
+                          className="me-2"
+                          type="number"
+                          name="durationValue"
+                          placeholder="#duration"
+                        />
+                        <FieldTypeSelect
+                          name="durationUnit"
+                          options={durationType}
+                          setcurrentvalue={setValues}
+                          currentformvalue={values}
+                          emptyOption={true}
+                        />
+                      </div>
+                      <FieldErrorMessage
+                        errors={errors.durationValue}
+                        touched={touched.durationValue}
+                        msgText="Duration must in positive number and non decimal"
+                      />
+                    </Col>
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="department"
+                        labelText="Department"
                         required="required"
                       />
                       <FieldTypeSelect
-                        name="batchYear"
-                        options={batchYearOptions}
+                        name="department"
+                        options={departmentName.items}
                         setcurrentvalue={setValues}
                         currentformvalue={values}
                       />
                       <FieldErrorMessage
-                        errors={errors.batchYear}
-                        touched={touched.batchYear}
-                        msgText="Batch Year must in number"
+                        errors={errors.department}
+                        touched={touched.department}
+                        msgText="Please select department"
                       />
                     </Col>
-                  )}                  
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="tags"
-                      labelText="Tags"
-                    />
-                    <FieldMultiSelect
-                      name="tags"
-                      options={tags.items}
-                    />
-                  </Col>                    
-                  <Col md={4}>
-                    <FieldLabel
-                      htmlfor="modeOfStudy"
-                      labelText="Mode Of Study"
-                      required="required"
-                    />
-                    <div>
-                      <label className="me-3">
-                        <input
-                          type="radio"
-                          name="modeOfStudy"
-                          value="Full time"
-                          onChange={handleChange}
-                          checked={values.modeOfStudy === 'Full time' ? true : false}
-                        />{" "}
-                        Full time
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="modeOfStudy"
-                          value="Partvtime"
-                          onChange={handleChange}
-                          checked={values.modeOfStudy === 'Part time' ? true : false}
-                        />{" "}
-                        Part time
-                      </label>
-                    </div>
-                    <FieldErrorMessage
-                      errors={errors.mode}
-                      touched={touched.mode}
-                      msgText="Please select Program Mode"
-                    />
-                  </Col>
-                </Row>
-              </div>
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="discipline"
+                        labelText="Discipline"
+                        required="required"
+                      />
+                      <FieldTypeSelect
+                        name="discipline"
+                        options={disciplineName.items}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                      />
+                      <FieldErrorMessage
+                        errors={errors.discipline}
+                        touched={touched.discipline}
+                        msgText="Please select discipline"
+                      />
+                    </Col>
+
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="programtype"
+                        labelText="Program Type "
+                        required="required"
+                      />
+                      <FieldTypeSelect
+                        name="programtype"
+                        options={programTypeId.items}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                        selectDefaultLabel="Program Type"
+                      />
+                      <FieldErrorMessage
+                        errors={errors.programtype}
+                        touched={touched.programtype}
+                        msgText="Please select program type"
+                      />
+                    </Col>
+                    {values.isBatchYearRequired === true && (
+                      <Col md={4}>
+                        <FieldLabel
+                          htmlfor="batchYear"
+                          labelText="Batch Year"
+                          required="required"
+                        />
+                        <FieldTypeSelect
+                          name="batchYear"
+                          options={batchYearOptions}
+                          setcurrentvalue={setValues}
+                          currentformvalue={values}
+                        />
+                        <FieldErrorMessage
+                          errors={errors.batchYear}
+                          touched={touched.batchYear}
+                          msgText="Batch Year must in number"
+                        />
+                      </Col>
+                    )}
+                    <Col md={4}>
+                      <FieldLabel htmlfor="tags" labelText="Tags" />
+                      <FieldMultiSelect name="tags" options={tags.items} />
+                    </Col>
+                    <Col md={4}>
+                      <FieldLabel
+                        htmlfor="modeOfStudy"
+                        labelText="Mode Of Study"
+                        required="required"
+                      />
+                      <div>
+                        <label className="me-3">
+                          <input
+                            type="radio"
+                            name="modeOfStudy"
+                            value="Full time"
+                            onChange={handleChange}
+                            checked={
+                              values.modeOfStudy === "Full time" ? true : false
+                            }
+                          />{" "}
+                          Full time
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="modeOfStudy"
+                            value="Partvtime"
+                            onChange={handleChange}
+                            checked={
+                              values.modeOfStudy === "Part time" ? true : false
+                            }
+                          />{" "}
+                          Part time
+                        </label>
+                      </div>
+                      <FieldErrorMessage
+                        errors={errors.mode}
+                        touched={touched.mode}
+                        msgText="Please select Program Mode"
+                      />
+                    </Col>
+                  </Row>
+                </div>
               )}
 
               {/*** Step 2 ***/}
               {step === 1 && (
-                <Row className="gy-4">                  
+                <Row className="gy-4">
                   <Col md={6}>
                     <FieldLabel htmlfor="description" labelText="Description" />
-                    <TinymceEditor name="description" handleChange={handleChange} />
+                    <TinymceEditor
+                      name="description"
+                      handleChange={handleChange}
+                    />
                     <FieldErrorMessage
                       errors={errors.description}
                       touched={touched.description}
@@ -419,7 +460,10 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   </Col>
                   <Col md={6}>
                     <FieldLabel htmlfor="objective" labelText="Objective" />
-                    <TinymceEditor name="objective" handleChange={handleChange} />
+                    <TinymceEditor
+                      name="objective"
+                      handleChange={handleChange}
+                    />
                     <FieldErrorMessage
                       errors={errors.objective}
                       touched={touched.objective}
@@ -427,7 +471,10 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     />
                   </Col>
                   <Col md={12}>
-                    <FieldLabel htmlfor="metatitle" labelText="Program meta fields" />
+                    <FieldLabel
+                      htmlfor="metatitle"
+                      labelText="Program meta fields"
+                    />
                     <div className="card p-3 mb-3">
                       {inputFieldArr.map((el: any, index: number) => {
                         return (
@@ -493,21 +540,25 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
 
               <div className="tabStep-footer">
                 {isSubmitting === false && step > 0 && (
-                  <button type="button" className="btn btn-outline-secondary me-3" onClick={handlePreviousStep}>
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary me-3"
+                    onClick={handlePreviousStep}
+                  >
                     Previous
                   </button>
                 )}
                 {step < steps.length - 1 && (
-                  <button 
-                    disabled={isSubmitting} 
-                    type="submit" 
-                    className="btn btn-outline-secondary" 
+                  <button
+                    disabled={isSubmitting}
+                    type="submit"
+                    className="btn btn-outline-secondary"
                   >
                     Next
                   </button>
                 )}
-                {step === steps.length - 1 && (
-                  isSubmitting === false ? (
+                {step === steps.length - 1 &&
+                  (isSubmitting === false ? (
                     <div className="text-center">
                       <CustomButton
                         type="submit"
@@ -518,11 +569,12 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   ) : (
                     <LoadingButton
                       variant="primary"
-                      btnText={programid.id == 0 ? "Submitting..." : "Updating..."}
+                      btnText={
+                        programid.id == 0 ? "Submitting..." : "Updating..."
+                      }
                       className="modal-buttons"
                     />
-                  )
-                )}
+                  ))}
               </div>
             </Form>
           )}

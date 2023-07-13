@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
 import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
@@ -12,57 +12,85 @@ import AddProgramModal from "./form";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import Filters from "./filters";
+import { IDummyData, IFilterUpdate, IProgramTypeObj, ICurrentInstitute } from "./types/interface";
 
 const ProgramType = () => {
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [modalShow, setModalShow] = useState(false);
-  const [programTypeData, setProgramTypeData] = useState<any>(dummyData);
-  const [programTypeObj, setProgramTypeObj] = useState({});
-  const [refreshData, setRefreshData] = useState(true);
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<any>({
+  const dummyData: IDummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const [programTypeObj, setProgramTypeObj] = useState<IProgramTypeObj>({
+    id: 0,
+    name: "",
+    description: "",
+    batchYearRequired: false,
+    published: false,
+  });
+  const [filterUpdate, setFilterUpdate] = useState<IFilterUpdate>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state : any) => state.currentInstitute);
+  const [modalShow, setModalShow] = useState<boolean>(false);
+  const [programTypeData, setProgramTypeData] = useState<IDummyData>(dummyData);
+  const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
+  const [apiStatus, setApiStatus] = useState<string>("");
+  const currentInstitute: number = useSelector((state: ICurrentInstitute) => state.currentInstitute);
 
-  const getProgramTypeData = (endPoint : string, filters : any, setData : any, setApiStatus?:any) => {
-    setApiStatus("started")
+  const getProgramTypeData = (
+    endPoint: string,
+    filters: any,
+    setData: any,
+    setApiStatus: any
+  ) => {
+    setApiStatus("started");
     getData(endPoint, filters)
-    .then((result : any) => {
+      .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-            // Merge the programCounts into the items objects
-            result.data.items.forEach((item : any) => {
-              const index = result.data.programCounts.findIndex((packet : any) => packet.programTypeId === item.id);
-              item.totalPrograms = 0;
-              if (index > -1) {
-                item.totalPrograms = result.data.programCounts[index].totalPrograms;
-              }
-            });
-            setData(result.data);
+          // Merge the programCounts into the items objects
+          result.data.items.forEach((item: any) => {
+            const index = result.data.programCounts.findIndex(
+              (packet: any) => packet.programTypeId === item.id
+            );
+            item.totalPrograms = 0;
+            if (index > -1) {
+              item.totalPrograms =
+                result.data.programCounts[index].totalPrograms;
+            }
+          });
+          setData(result.data);
         }
-        setApiStatus("finished")
-    })
-    .catch((err : any) => {
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished")
-    });
-  }
+        setApiStatus("finished");
+      });
+  };
 
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0)
-    getProgramTypeData(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
+      getProgramTypeData(
+        `/${currentInstitute}/program-types`,
+        filterUpdate,
+        setProgramTypeData,
+        setApiStatus
+      );
   }, [refreshData, filterUpdate, currentInstitute]);
 
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0)
-    getProgramTypeData(`/${currentInstitute}/program-types`, filterUpdate, setProgramTypeData, setApiStatus);
+      getProgramTypeData(
+        `/${currentInstitute}/program-types`,
+        filterUpdate,
+        setProgramTypeData,
+        setApiStatus
+      );
   }, [refreshOnDelete]);
 
   const refreshToggle = () => {
-    let newBool = refreshData === true ? false : true;
+    let newBool: boolean = refreshData === true ? false : true;
     setRefreshData(newBool);
   };
 
@@ -76,14 +104,14 @@ const ProgramType = () => {
     name,
     description,
     batchYearRequired,
-    published
-  }: any) => {
+    published,
+  }: IProgramTypeObj) => {
     setProgramTypeObj({
       id: id,
       name: name,
       description: description,
       batchYearRequired: batchYearRequired,
-      published: published
+      published: published,
     });
   };
 
@@ -104,8 +132,8 @@ const ProgramType = () => {
       id: 0,
       name: "",
       description: "",
-      BatchYearRequired: false,
-      published: false
+      batchYearRequired: false,
+      published: false,
     });
     setRefreshData(false);
   };
@@ -123,10 +151,10 @@ const ProgramType = () => {
     });
   };
 
-  const updateInputFilters = (inputvalues: any) => {
+  const updateInputFilters = (inputvalues: string) => {
     setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
   };
-  
+
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const ADDPROGRAM_MODAL_COMPONENT = (
     <AddProgramModal
@@ -165,7 +193,7 @@ const ProgramType = () => {
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />          
+          <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />
           <Filters
             openAddProgramType={openAddProgramType}
             updateDepartment={updateDepartmentFilter}

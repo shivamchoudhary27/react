@@ -23,6 +23,7 @@ import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
 import MitGlobalAlert from '../../widgets/mitGlobalAlert/mitGlobalAlert';
+import PageNotFound from '../../pages/404';
 // import { Navigate, Outlet } from 'react-router-dom';
 
 export default function NewCustomRoutes() {
@@ -55,7 +56,8 @@ export default function NewCustomRoutes() {
             <Route path="/catalogue" element={<Catalogue />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/mod/quiz/review/:attemptid/:quizid/:courseid" element={<Review />} />
-            <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/studentdashboard" />} />
+            {/* <Route path="*" element={localStorage.getItem('loggedIn') === 'false' ? <Navigate to="/" /> : <Navigate to="/studentdashboard" />} /> */}
+            <Route path='*' element={<PageNotFound />} />
           </Route>
         {/* </Route> */}
       </Routes>
