@@ -247,11 +247,11 @@ const CourseModal = ({
                 </div>
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="file"
-                    labelText="Add File"
+                    htmlfor="courseimage"
+                    labelText="Course Image"
                     // required="required"
                   />
-                  <FieldTypeFile name="file" />
+                  <FieldTypeFile name="courseimage" />
                 </div>
                 <div className="mb-3">
                   <FieldTypeCheckbox
