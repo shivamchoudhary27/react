@@ -14,32 +14,41 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
-import { ICurrentInstitute, IDepartmentObj, IFilterUpdate } from "./types/interface";
-
-interface IDummyData {
-  items: [];
-  pager: { totalElements: number; totalPages: number };
-}
+import {
+  TypeDummyData,
+  TypeModalShow,
+  TypeRefreshOnDelete,
+  TypeRefreshData,
+  TypeApiStatus,
+  CurrentInstitute,
+  TypeCurrentInstitute,
+  TypeDepartmentObj,
+  TypeFilterUpdate,
+} from "./types/type";
 
 const Departments = () => {
-  const dummyData: IDummyData = {
+  const dummyData: TypeDummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [departmentData, setDepartmentData] = useState<IDummyData>(dummyData);
-  const [modalShow, setModalShow] = useState<boolean>(false);
-  const [departmentObj, setDepartmentObj] = useState<IDepartmentObj>({});
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [refreshData, setRefreshData] = useState<boolean>(true);
-  const [apiStatus, setApiStatus] = useState<string>("");
-  const [filterUpdate, setFilterUpdate] = useState<IFilterUpdate>({
+  const [departmentData, setDepartmentData] =
+    useState<TypeDummyData>(dummyData);
+  const [modalShow, setModalShow] = useState<TypeModalShow>(false);
+  const [departmentObj, setDepartmentObj] = useState<TypeDepartmentObj>(
+    {} as TypeDepartmentObj
+  );
+  const [refreshOnDelete, setRefreshOnDelete] =
+    useState<TypeRefreshOnDelete>(false);
+  const [refreshData, setRefreshData] = useState<TypeRefreshData>(true);
+  const [apiStatus, setApiStatus] = useState<TypeApiStatus>("");
+  const [filterUpdate, setFilterUpdate] = useState<TypeFilterUpdate>({
     departmentId: "",
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute: number = useSelector(
-    (state: ICurrentInstitute) => state.currentInstitute
+  const currentInstitute: CurrentInstitute = useSelector(
+    (state: TypeCurrentInstitute) => state.currentInstitute
   );
 
   const getDepartmentData = (
@@ -107,7 +116,7 @@ const Departments = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name, published }: IDepartmentObj) => {
+  const editHandlerById = ({ id, name, published }: TypeDepartmentObj) => {
     setDepartmentObj({ id: id, name: name, published: published });
   };
 
@@ -166,7 +175,7 @@ const Departments = () => {
           <Filters
             toggleModalShow={toggleModalShow}
             refreshDepartmentData={refreshToggle}
-            setDepartmentData={setDepartmentData}
+            // setDepartmentData={setDepartmentData}
             updateInputFilters={updateInputFilters}
             resetDepartmentForm={resetDepartmentForm}
             // updateDepartment={updateDepartmentFilter}

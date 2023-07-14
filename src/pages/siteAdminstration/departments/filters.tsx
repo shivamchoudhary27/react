@@ -2,28 +2,28 @@ import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
-import { IFilter } from "./types/interface";
+import { TypeFilter } from "./types/type";
 
-interface IInitialValues {
+type TypeInitialValues = {
   name: string;
 };
 
-const initialValues: IInitialValues = {
+const initialValues: TypeInitialValues = {
   name: "",
 };
 
-const Filter: React.FunctionComponent<IFilter> = ({
+const Filter: React.FunctionComponent<TypeFilter> = ({
   toggleModalShow,
   resetDepartmentForm,
   updateInputFilters,
-}: IFilter) => {
+}: TypeFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values: IInitialValues) => {
+    onSubmit: (values: TypeInitialValues) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      let newRequest: IInitialValues = {
+      let newRequest: TypeInitialValues = {
         name: values.name,
       };
       updateInputFilters(newRequest.name);
