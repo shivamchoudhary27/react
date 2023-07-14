@@ -19,7 +19,7 @@ const StarRating = ({ totalStars, currentRating, onStarClick }: any) => {
 
   return (
     <React.Fragment>
-      <div className="star-rating">{stars}</div>
+      <div className="star-rating mx-2">{stars}</div>
     </React.Fragment>
   );
 };

@@ -119,7 +119,7 @@ export default function ReactBigCalendar() {
 
   const CustomEvent = ({ event }) => (
     <React.Fragment>
-      <i>{event.startingTime}</i>
+      <span style={{ backgroundColor: event.colorEvento}}>{event.startingTime}</span>
       {event.title}
     </React.Fragment>
   );
@@ -137,6 +137,8 @@ export default function ReactBigCalendar() {
             <Row>
               <Col md={2}>
                 <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
+                
+
               </Col>
               <Col md={10}>
                 <Row className="mt-3 mt-sm-0 mb-3 justify-content-end d-none">
@@ -194,15 +196,10 @@ export default function ReactBigCalendar() {
                     <p>End: {moment(selectedEvent?.end).format('dddd, DD MMM, h:mm A')}</p>
                     <a href={selectedEvent?.url ? selectedEvent.url : ""}>
                       <Button>
-                        Go To Event
+                        View Details
                       </Button>
                     </a>
                   </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
                 </Modal>
               </Col>              
             </Row>

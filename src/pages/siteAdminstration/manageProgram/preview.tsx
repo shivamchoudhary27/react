@@ -228,7 +228,7 @@ const Preview = () => {
                     Instructor
                   </a>
                   <a href="#po-studentfeedback" className="step">
-                    Student Feedback
+                    Review and Rating
                   </a>
                 </div>
                 <div
@@ -260,25 +260,7 @@ const Preview = () => {
                       <CurriculumTable
                         categoryData={curriculumData}
                         apiStatus={apiStatus}
-                      />
-                      {/* <Table borderless striped>
-                        <thead>
-                          <tr>
-                            <th>Semester 1</th>
-                            <th>Semester 2</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Course 1</td>
-                            <td>Course 3</td>
-                          </tr>
-                          <tr>
-                            <td>Course 2</td>
-                            <td>Course 4</td>
-                          </tr>
-                        </tbody>
-                      </Table> */}
+                      />                      
                     </div>
                   </div>
                   <div className="po-section instructor-step mt-5">
