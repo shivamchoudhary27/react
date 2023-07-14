@@ -13,6 +13,8 @@ import CalendarFilters from "./calendar_filter";
 import PageTitle from "../../widgets/pageTitle";
 import BreadcrumbComponent from "../../widgets/breadcrumb";
 import './style.scss';
+import singleUser from "../../assets/images/icons/single-user.svg";
+import multiUser from "../../assets/images/icons/multi-user.svg";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -142,11 +144,17 @@ export default function ReactBigCalendar() {
                   <h3 className="mitblock-title">Meet With</h3>
                   <div className="mitblock-body">
                     <div className="input-group flex-nowrap">
-                      <span className="input-group-text"><i class="fas fa-users"></i></span>
+                      <span className="input-group-text"><img src={multiUser} alt="Meet With" /></span>
                       <input type="text" className="form-control" placeholder="Search for people" aria-label="Search for people" />
+                    </div>
+                    <div className="meet-people">
+                      <img src={singleUser} alt="User Icon" />
+                      Renu Deswal
+                      <i class="fas fa-times ms-auto"></i>
                     </div>
                   </div>
                 </div>
+
               </Col>
               <Col md={10}>
                 <Row className="mt-3 mt-sm-0 mb-3 justify-content-end d-none">
