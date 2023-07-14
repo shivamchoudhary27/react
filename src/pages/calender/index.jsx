@@ -138,7 +138,15 @@ export default function ReactBigCalendar() {
               <Col md={2}>
                 <CalendarFilters events={colorConfig} filters={filterEvents} showAllNone={showAllNone}/>
                 
-
+                <div className="mitblock meet-with mt-3">
+                  <h3 className="mitblock-title">Meet With</h3>
+                  <div className="mitblock-body">
+                    <div className="input-group flex-nowrap">
+                      <span className="input-group-text"><i class="fas fa-users"></i></span>
+                      <input type="text" className="form-control" placeholder="Search for people" aria-label="Search for people" />
+                    </div>
+                  </div>
+                </div>
               </Col>
               <Col md={10}>
                 <Row className="mt-3 mt-sm-0 mb-3 justify-content-end d-none">
