@@ -54,7 +54,6 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: IInitialValues, { setSubmitting, resetForm }: any) => {
-    console.log(values)
     setSubmitting(true);
     if (userobj.id === 0) {
       postData(`/${currentInstitute}/roles`, values)
@@ -168,6 +167,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
                     setcurrentvalue={setValues}
                     currentformvalue={values}
                     emptyOption={false}
+                    selectDefaultLabel="Context Type"
                   />
                   <FieldErrorMessage
                     errors={errors.contextType}
