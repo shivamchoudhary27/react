@@ -1,6 +1,5 @@
 .events-keys {
-    box-shadow: 2px 5px 19px 0px rgba(0, 0, 0, 0.09);
-    border-radius: 0.5rem;
+    box-shadow: none;
     .mitblock-body {
         margin-top: 1rem;
     }
@@ -57,6 +56,10 @@
             }
         }
     }
+}
+.meet-with {
+    box-shadow: 2px 5px 19px 0px rgba(0, 0, 0, 0.09);
+    border-radius: 0.5rem;
 }
 .rbc-event, .rbc-day-slot .rbc-background-event {
     background-color: rgba(49, 116, 173, 0.08);
