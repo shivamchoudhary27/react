@@ -94,9 +94,9 @@ const Filter: React.FunctionComponent<IFilter> = ({
           </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={manageauthorities}>
+          {/* <Button variant="primary" onClick={manageauthorities}>
             Manage Authorities
-          </Button>{" "}
+          </Button>{" "} */}
           {/* <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "} */}
           <Button variant="primary" onClick={openAddRoleModal}>
             Add Role

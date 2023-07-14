@@ -145,7 +145,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   };
 
   function _handleSubmit(values: any, actions: any) {
-    console.log("form input data---", values);
     if (step === 1) {
       _submitForm(values, actions);
     } else {
@@ -221,11 +220,11 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     // navigate("/manageprogram", { state: values });
   };
 
-  let Api =
-    "https://api.microlearning.ballisticlearning.com/learning-service/api/v1/1/programs?departmentId=&name=&pageNumber=0&pageSize=10";
-  useEffect(() => {
-    axios.get(Api).then((res) => console.log(res));
-  }, []);
+  // let Api =
+  //   "https://api.microlearning.ballisticlearning.com/learning-service/api/v1/1/programs?departmentId=&name=&pageNumber=0&pageSize=10";
+  // useEffect(() => {
+  //   axios.get(Api).then((res) => console.log(res));
+  // }, []);
 
   return (
     <>
