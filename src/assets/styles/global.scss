@@ -135,6 +135,9 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
 .container-fluid {
     max-width: 98%;
 }
+.container-fluid .container-fluid {
+    max-width: 100%;
+}
 /**** Grid End ****/
 
 /**** Table Start ****/

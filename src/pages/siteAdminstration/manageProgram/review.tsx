@@ -7,32 +7,21 @@ type Props = {};
 const Review = (props: Props) => {
   return (
     <React.Fragment>
-      <div>
-        <Container>
-          {data.map((elem, index) => (
-            <Row key={index}>
-              <Col md={3}>
-                <div
-                  className={elem.icon}
-                  style={{ fontSize: "50px", display: "inline-block" }}
-                ></div>
-                <div style={{ display: "inline-block" }}>
-                  <p>{elem.time}</p>
-                  <h5>{elem.title}</h5>
-                </div>
-              </Col>
-              <Col md={9}>
-                <div style={{ display: "inline-block" }}>
-                  {/* {elem.rating} */}
-                  <StarRating totalStars="5" />
-                  <p>{elem.description}</p>
-                </div>
-              </Col>
-              <hr />
-            </Row>
-          ))}
-        </Container>
-      </div>
+      {data.map((elem, index) => (
+        <Row key={index}>
+          <Col className="col-auto d-flex">
+            <div className={elem.icon} style={{ fontSize: "50px", marginRight: "10px"}}></div>
+            <div>
+              <small>{elem.time}</small>
+              <h6>{elem.title}</h6>
+            </div>
+          </Col>
+          <Col>
+            <StarRating totalStars="5" />
+            <p>{elem.description}</p>
+          </Col>
+        </Row>
+      ))}
     </React.Fragment>
   );
 };
@@ -43,7 +32,7 @@ const data = [
   {
     icon: "fa-solid fa-circle-user",
     time: "a week ago",
-    title: "Paul N",
+    title: "Gautam Das",
     rating: "4.5",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -51,8 +40,8 @@ const data = [
   {
     icon: "fa-solid fa-circle-user",
     time: "a week ago",
-    title: "Paul N",
-    rating: "4.5",
+    title: "Vishal Jain",
+    rating: "4.0",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
   },

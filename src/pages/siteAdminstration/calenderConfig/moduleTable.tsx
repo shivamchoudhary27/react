@@ -16,16 +16,14 @@ const ModuleTable = ({ Field }: any) => {
 
   return (
     <>
-      <Container fluid>
-        <Row>
-          {event_type.map((el, index) => (
-            <CALENDER_MODULES el={el} key={index} Field={Field} />
-          ))}
-          {module_data.map((el, index) => (
-            <CALENDER_MODULES el={el} key={index} Field={Field} />
-          ))}
-        </Row>
-      </Container>
+      <Row>
+        {event_type.map((el, index) => (
+          <CALENDER_MODULES el={el} key={index} Field={Field} />
+        ))}
+        {module_data.map((el, index) => (
+          <CALENDER_MODULES el={el} key={index} Field={Field} />
+        ))}
+      </Row>
     </>
   );
 };
