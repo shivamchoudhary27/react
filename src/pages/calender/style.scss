@@ -60,6 +60,29 @@
 .meet-with {
     box-shadow: 2px 5px 19px 0px rgba(0, 0, 0, 0.09);
     border-radius: 0.5rem;
+    .mitblock-body {
+        display: flex;
+        flex-direction: column;
+    }
+    .meet-people {
+        display: flex;
+        border: 2px solid #0C67C0;
+        border-radius: 10px;
+        padding: 5px 15px;
+        margin-top: 10px;
+        align-items: center;
+        &:hover {
+            border-color: #000;
+            cursor: pointer;
+            .fas {
+                color: #0C67C0;
+            }
+        }
+        img {
+            width: 16px;
+            margin-right: 5px;
+        }
+    }
 }
 .rbc-event, .rbc-day-slot .rbc-background-event {
     background-color: rgba(49, 116, 173, 0.08);

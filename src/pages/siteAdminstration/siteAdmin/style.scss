@@ -43,8 +43,8 @@
     border-radius: 30px;
     background: #D9ECFF;
     &:hover {
-      color: #000;
-      background: linear-gradient(113.18deg, #118CF4 16.67%, #1558B3 94.82%);
+      color: #fff;
+      background: linear-gradient(113.18deg, #1558B3 16.67%, #118CF4 94.82%);
       box-shadow: 5px 5px 11px #959595;
     }
     img {
@@ -70,14 +70,14 @@
   &.row1 .box:nth-child(even) .default-item {
     background: #A6D0F9;
     &:hover {
-      background: linear-gradient(113.18deg, #118CF4 16.67%, #1558B3 94.82%);
+      background: linear-gradient(113.18deg, #1558B3 16.67%, #118CF4 94.82%);
       box-shadow: 5px 5px 11px #959595;
     }
   }
   &.row2 .box:nth-child(odd) .default-item {
     background: #A6D0F9;
     &:hover {
-      background: linear-gradient(113.18deg, #118CF4 16.67%, #1558B3 94.82%);
+      background: linear-gradient(113.18deg, #1558B3 16.67%, #118CF4 94.82%);
       box-shadow: 5px 5px 11px #959595;
     }
   }
