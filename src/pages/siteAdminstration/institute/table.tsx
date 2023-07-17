@@ -18,7 +18,17 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const UserManagementTable = ({
+type UserManagementTableProps = {
+  userdata: any[];
+  refreshdata: (params: boolean) => void;
+  toggleModalShow: (params: boolean) => void;
+  editHandlerById: any;
+  apiStatus: string;
+  configModalShow: (params: boolean) => void;
+  editConfigHandler: any;
+};
+
+const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = ({
   userdata,
   refreshdata,
   toggleModalShow,
@@ -26,7 +36,7 @@ const UserManagementTable = ({
   apiStatus,
   configModalShow,
   editConfigHandler,
-}: any) => {
+}: UserManagementTableProps) => {
   const tableColumn = [
     {
       Header: "Name",
@@ -53,7 +63,10 @@ const UserManagementTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link className="action-icons" to="">
-            <img src={gearIcon} alt="Setting" onClick={() =>
+            <img
+              src={gearIcon}
+              alt="Setting"
+              onClick={() =>
                 configEditHandler({
                   id: row.original.id,
                   name: row.original.name,
@@ -63,10 +76,14 @@ const UserManagementTable = ({
                   webServiceToken: row.original.webServiceToken,
                   locked: row.original.locked,
                 })
-              } />
+              }
+            />
           </Link>
           <Link className="action-icons" to={""}>
-            <img src={editIcon} alt="Edit" onClick={() =>
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
                 editHandler({
                   id: row.original.id,
                   name: row.original.name,
@@ -76,10 +93,15 @@ const UserManagementTable = ({
                   webServiceToken: row.original.webServiceToken,
                   locked: row.original.locked,
                 })
-              } />
+              }
+            />
           </Link>
           <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.id)} />
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() => deleteHandler(row.original.id)}
+            />
           </Link>
         </span>
       ),
@@ -94,13 +116,13 @@ const UserManagementTable = ({
       columns,
       data,
     });
-    const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
   const [deleteId, setDeleteId] = useState(0);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (onDeleteAction === "Yes") {
       refreshdata(false);
       let endPoint = `/institutes/${deleteId}`;
@@ -138,7 +160,7 @@ const UserManagementTable = ({
         });
     }
     setOnDeleteAction("");
-  }, [onDeleteAction])
+  }, [onDeleteAction]);
 
   const deleteHandler = (userid: number) => {
     refreshdata(false);

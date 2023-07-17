@@ -2,11 +2,20 @@ export type TypeModalShow = boolean;
 export type TypeRefreshOnDelete = boolean;
 export type TypeRefreshData = boolean;
 export type TypeApiStatus = string;
+export type TypeEndPoint = string;
+export type TypeShowAlert = boolean;
 export type CurrentInstitute = number;
+
 export type TypeDummyData = {
   items: any[];
   pager: { totalElements: number; totalPages: number };
 }
+
+export type TypeFormTitles = {
+  titleHeading: string;
+  btnTitle: string;
+  description: string;
+};
 
 export type TypeDepartmentObj = {
   id: number;
