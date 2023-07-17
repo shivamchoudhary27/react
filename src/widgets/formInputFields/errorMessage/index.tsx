@@ -5,7 +5,7 @@ const FieldErrorMessage = ({ errors, touched, msgText }: any) => {
     <>
       {errors && touched ? (
         <p className="error-message">
-          <i className="fa fa-circle-exclamation"></i> {msgText}
+          <i className="fa fa-circle-exclamation"></i> {errors}
         </p>
       ) : null}
     </>

@@ -178,10 +178,13 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         .catch((err: any) => {
           actions.setSubmitting(false);
           if (err.response.status === 400) {
+            if (err.response.data.errorCode === "PROGRAM_CODE_ALREADY_EXIST") {
+              setStep(0);
+              actions.setErrors({'programCode': err.response.data.message})
+            }
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
             );
-            alert(error_Msg);
           } else if (err.response.status === 500) {
             alert(`${err.response.data.error}, 500!`);
             navigate("/manageprogram", { state: values });
@@ -207,10 +210,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         .catch((err: any) => {
           actions.setSubmitting(false);
           if (err.response.status === 400) {
+            if (err.response.data.errorCode === "PROGRAM_CODE_ALREADY_EXIST") {
+              setStep(0);
+              actions.setErrors({'programCode': err.response.data.message})
+            }
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
             );
-            alert(error_Msg);
+            // alert(error_Msg);
           } else if (err.response.status === 500) {
             alert(`${err.response.data.error}, 500!`);
             navigate("/manageprogram", { state: values });
@@ -219,6 +226,10 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     }
     // navigate("/manageprogram", { state: values });
   };
+
+  const handleEmailChange = (e) => {
+    console.log('chinag -sdfd-', e.target.value)
+  }
 
   // let Api =
   //   "https://api.microlearning.ballisticlearning.com/learning-service/api/v1/1/programs?departmentId=&name=&pageNumber=0&pageSize=10";
@@ -244,6 +255,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             setValues,
             handleChange,
             isSubmitting,
+            setErrors,
+            handleBlur
           }) => (
             <Form>
               <div className="tabStep-indicator">
@@ -286,11 +299,12 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldTypeText
                         name="programCode"
                         placeholder="Program Code"
+                        // onChange={handleEmailChange}
+                        onBlur={(e) =>handleEmailChange(e)}
                       />
                       <FieldErrorMessage
                         errors={errors.programCode}
                         touched={touched.programCode}
-                        msgText="Program code required alteast 1 characters"
                       />
                     </Col>
                     <Col md={4}>
