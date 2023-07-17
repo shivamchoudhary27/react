@@ -119,7 +119,7 @@ export default function ReactBigCalendar() {
     else setFilteredEvents([]);
   }
 
-  const CustomEvent = ({ event }) => (
+  const CustomEventTitle = ({ event }) => (
     <React.Fragment>
       <span style={{ backgroundColor: event.colorEvento}}>{event.startingTime}</span>
       {event.title}
@@ -191,7 +191,7 @@ export default function ReactBigCalendar() {
                   defaultView="month"
                   events={filteredEvents}
                   components={{
-                    event: CustomEvent, // Use the custom Event component
+                    event: CustomEventTitle, // Use the custom Event component
                   }}
                   style={{ height: "100vh" }}
                   // onSelectSlot={(e) => handleSelect(e)}
@@ -199,7 +199,7 @@ export default function ReactBigCalendar() {
                   eventPropGetter={(myEventsList) => {
                     const currentEventColor = myEventsList.colorEvento ? myEventsList.colorEvento : '#3174ad';
                     const backgroundColor = hexToRGB(currentEventColor, 0.08)                    
-                    return { style: { backgroundColor, "border-color": currentEventColor}}
+                    return { style: { backgroundColor, "borderColor": currentEventColor}}
                   }}
                 />
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -207,7 +207,10 @@ export default function ReactBigCalendar() {
                     <Modal.Title>{selectedEvent?.title}</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
-                    {selectedEvent?.description ? <p>{selectedEvent.description}</p> : <p>Description..</p>}
+                    {
+                      selectedEvent?.description &&
+                      <div dangerouslySetInnerHTML={{ __html: selectedEvent.description }} />
+                    }
                     <p>Start: {moment(selectedEvent?.start).format('dddd, DD MMM, h:mm A')}</p>
                     <p>End: {moment(selectedEvent?.end).format('dddd, DD MMM, h:mm A')}</p>
                     <a href={selectedEvent?.url ? selectedEvent.url : ""}>
