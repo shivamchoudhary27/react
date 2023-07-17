@@ -19,7 +19,7 @@ import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../store/actions";
 // import { useSelector, useDispatch } from "react-redux";
-import { TypeModalShow,TypeAlertMsg, TypeDepartmentTable, TypeDepartmentObj } from "./types/type";
+import { TypeModalShow,TypeAlertMsg, TypeDepartmentTable, TypeDepartmentObj, TypeShowAlert } from "./types/type";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -119,7 +119,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
     });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<TypeShowAlert>(false);
   const [alertMsg, setAlertMsg] = useState<TypeAlertMsg>({ message: "", alertBoxColor: "" });
   const [showDeleteModal, setShowDeleteModal] = useState<TypeModalShow>(false);
   const [onDeleteAction, setOnDeleteAction] = useState<string>("");

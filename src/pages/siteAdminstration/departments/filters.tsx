@@ -38,7 +38,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event: any) => {
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     formik.handleChange(event); // Update formik values
 
     if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any

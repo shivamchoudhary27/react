@@ -14,19 +14,18 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import { TypeDepartmentModal, TypeAlertMsg } from "./types/type";
+import {
+  TypeDepartmentModal,
+  TypeAlertMsg,
+  TypeShowAlert,
+  TypeEndPoint,
+  TypeFormTitles,
+} from "./types/type";
 
-type TypeEndPoint = string;
-type TypeShowAlert = boolean;
 type TypeInitilaValues = {
   name: string;
   description: string;
   published: boolean;
-};
-type TypeFormTitles = {
-  titleHeading: string;
-  btnTitle: string;
-  description: string;
 };
 
 // Formik Yup validation === >>>

@@ -2,17 +2,23 @@ import React, { useState } from "react";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { TypeFilter } from "./types/type";
 
-const initialValues = {
+type TypeInitialValues = {
+  name: string;
+  shortCode: string;
+}
+
+const initialValues: TypeInitialValues = {
   name: "",
   shortCode: "",
 }
 
-const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
-  const [timeoutId, setTimeoutId] = useState<any>(null);
+const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploadModal, openAddUserModal} : TypeFilter) => {
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
+    onSubmit: (values: TypeInitialValues) => {
       if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
       let newRequest = {
         name: values.name,
@@ -31,7 +37,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event : any) => {
+  const handleFilterChange = (event : React.ChangeEvent<HTMLInputElement>): void => {
     formik.handleChange(event); // Update formik values
 
     if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any

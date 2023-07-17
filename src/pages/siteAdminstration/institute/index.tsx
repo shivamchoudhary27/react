@@ -15,15 +15,24 @@ import AddUserModal from "./modalForm";
 import ConfigModal from "./configModal";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../store/actions";
+import { 
+  TypeDummyData, 
+  TypeUserObj, 
+  TypeModalShow, 
+  TypeUploadModalShow, 
+  TypeFilteUpdate,
+  TypeApiStatus
+} from "./types/type";
 
 const InstituteManagement = () => {
   const dispatch = useDispatch();
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [userData, setUserData] = useState<any>(dummyData);
-  const [uploadModalShow, setUploadModalShow] = useState(false);
-  const [modalShow, setModalShow] = useState(false);
+  const dummyData: TypeDummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const [userData, setUserData] = useState<TypeDummyData>(dummyData);
+  const [uploadModalShow, setUploadModalShow] = useState<TypeUploadModalShow>(false);
+  const [modalShow, setModalShow] = useState<TypeModalShow>(false);
   const [configModal, setConfigModal] = useState(false);
-  const [userObj, setUserObj] = useState({
+  const [userObj, setUserObj] = useState<TypeUserObj>({
+    id: 0,
     name: "",
     userEmail: "",
     shortCode: "",
@@ -37,7 +46,7 @@ const InstituteManagement = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [apiStatus, setApiStatus] = useState("");
+  const [apiStatus, setApiStatus] = useState<TypeApiStatus>("");
 
   // get programs API call === >>>
   useEffect(() => {
@@ -141,7 +150,7 @@ const InstituteManagement = () => {
       webServiceToken: webServiceToken,
       locked: locked,
     });
-  }
+  };
 
   // get id, name from the department table === >>>
   const editHandlerById = ({
@@ -226,7 +235,7 @@ const InstituteManagement = () => {
         togglemodalshow={toggleModalShow}
         updateAddRefresh={refreshToggle}
       />
-      <ConfigModal 
+      <ConfigModal
         show={configModal}
         onHide={() => configModalShow(false)}
         userobj={userObj}
