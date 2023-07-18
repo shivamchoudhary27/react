@@ -16,7 +16,7 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const tagsSchema = Yup.object({
-  name: Yup.string().min(1).required(),
+  name: Yup.string().min(1).trim().required("Tag name is required"),
   // description: Yup.string().max(100).required(),
 });
 

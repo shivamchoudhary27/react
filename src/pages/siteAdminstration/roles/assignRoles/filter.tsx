@@ -9,7 +9,7 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 
 const validationSchema = Yup.object({
   email: Yup.string()
-    .email("Invalid email address")
+    .email("Invalid email")
     .required("Email is required"),
 });
 

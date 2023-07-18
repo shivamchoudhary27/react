@@ -18,7 +18,7 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
-  name: Yup.string().min(1).required(),
+  name: Yup.string().min(1).required("Category name is required"),
   // description: Yup.string().max(100).required(),
 });
 

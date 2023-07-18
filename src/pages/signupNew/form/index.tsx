@@ -25,11 +25,31 @@ const SignupForm = () => {
   };
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    email: Yup.string().email().required(),
-    firstName: Yup.string().min(1).trim().required(),
-    lastName: Yup.string().min(1).trim().required(),
-    country: Yup.string().required(),
-    recaptcha: Yup.string().required(),
+    email: Yup.string().email().required("Email is required"),
+    firstName: Yup.string()
+      .min(1)
+      .test(
+        "character-allowed",
+        "Only specific characters are allowed",
+        function (value) {
+          return /^[A-Za-z]+$/.test(value);
+        }
+      )
+      .trim()
+      .required("First name is required"),
+    lastName: Yup.string()
+      .min(1)
+      .test(
+        "character-allowed",
+        "Only specific characters are allowed",
+        function (value) {
+          return /^[A-Za-z]+$/.test(value);
+        }
+      )
+      .trim()
+      .required("Last name is required"),
+    country: Yup.string().required("Country is required"),
+    recaptcha: Yup.string().required("Recaptcha is required"),
   });
 
   // handle Form CRUD operations === >>>
@@ -53,7 +73,7 @@ const SignupForm = () => {
             setAlertStatus(true);
             setAlertMsg({
               message: "Some error occurred, Please try again",
-              alertBoxColor: "alert-warning"
+              alertBoxColor: "alert-warning",
             });
           }
         })
@@ -61,14 +81,15 @@ const SignupForm = () => {
           if (err.response.status === 404) {
             setAlertStatus(true);
             setAlertMsg({
-              message: "This user already exists. Please Sign up with a new email",
-              alertBoxColor: "alert-warning"
+              message:
+                "This user already exists. Please Sign up with a new email",
+              alertBoxColor: "alert-warning",
             });
           } else {
             setAlertStatus(true);
             setAlertMsg({
               message: "Some error occurred, Please try again!",
-              alertBoxColor: "alert-danger"
+              alertBoxColor: "alert-danger",
             });
           }
         });
@@ -142,10 +163,7 @@ const SignupForm = () => {
                 className="form-label"
                 star="*"
               />
-              <FieldTypeText 
-                name="email" 
-                placeholder="Email"
-              />
+              <FieldTypeText name="email" placeholder="Email" />
               <FieldErrorMessage
                 errors={errors.email}
                 touched={touched.email}

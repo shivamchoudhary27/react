@@ -20,9 +20,9 @@ import FieldTypeFile from "../../../widgets/formInputFields/formFileField";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
-  name: Yup.string().trim().required(),
-  courseCode: Yup.string().trim().required(),
-  category: Yup.string().required(),
+  name: Yup.string().trim().required("Course name is required"),
+  courseCode: Yup.string().trim().required("Course code is required"),
+  category: Yup.string().required("Select category"),
   // description: Yup.string().max(100).required(),
 });
 

@@ -7,6 +7,7 @@ import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import {
   postData as postProgramData,
   putData as updateProgramData,
+  getData
 } from "../../../adapters/microservices";
 import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
 import {
@@ -29,36 +30,34 @@ import FieldMultiSelect from "../../../widgets/formInputFields/multiSelect";
 import * as Yup from "yup";
 import "./style.scss";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import axios from "axios";
+import { useSelector } from "react-redux";
+import { pagination } from "../../../utils/pagination";
 
 const steps = ["Step 1", "Step 2"];
 
 // Step 1 validation schema
 const step1Schema = Yup.object({
+  programName: Yup.string().min(1).trim().required("Program name is required"),
+  programCode: Yup.string().min(1).trim().required("Program code is required"),
   department: Yup.string()
-    .required()
+    .required("Department is required")
     .test(
-      "Please select a department",
       "Please select a department",
       (value) => value !== "0"
     ),
-  programName: Yup.string().min(1).trim().required(),
-  programCode: Yup.string().min(1).trim().required(),
   discipline: Yup.string()
-    .required()
-    .test(
-      "Please select a discipline",
-      "Please select a discipline",
-      (value) => value !== "0"
-    ),
+  .test(
+    "Please select a discipline",
+    (value) => value !== "0"
+    )
+    .required("Discipline is required"),
   programtype: Yup.string()
-    .required()
+    .required("Program type is required")
     .test(
-      "Please select a program type",
       "Please select a program type",
       (value) => value !== "0"
     ),
-  batchYear: Yup.string().required(),
+  batchYear: Yup.string().required("Batch year is required"),
   durationValue: Yup.number()
     .integer("Number must be an integer")
     .positive("Number must be positive")
@@ -67,8 +66,8 @@ const step1Schema = Yup.object({
 
 // Step 2 validation schema
 const step2Schema = Yup.object({
-  objective: Yup.string().required(),
-  description: Yup.string().required(),
+  objective: Yup.string().required("Objective is required"),
+  description: Yup.string().required("Description is required"),
 });
 
 const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
@@ -85,6 +84,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   const [step, setStep] = useState(0);
   const batchYearOptions = generateAcademicYears();
   const durationType = durationTypeObj();
+  const selectedDepartment = useSelector(state => state.currentDepartmentFilterId);
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    departmentId: selectedDepartment,
+    name: "",
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
+  const currentInstitute = useSelector(state => state.currentInstitute);
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -148,9 +155,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     if (step === 1) {
       _submitForm(values, actions);
     } else {
-      actions.setTouched({});
       actions.setSubmitting(false);
-      handleNextStep();
+      filterProgramCode(`/${currentInstitute}/programs`, values.programCode, actions)
     }
   }
 
@@ -226,16 +232,35 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     }
     // navigate("/manageprogram", { state: values });
   };
-
-  const handleEmailChange = (e) => {
-    console.log('chinag -sdfd-', e.target.value)
+  
+  const filterProgramCode = (endPoint : string, programCode: any, actions: any) => {
+    getData(endPoint, { pageNumber: 0, pageSize: 10, programCode})
+    .then((result : any) => {
+        if (result.data !== "" && result.status === 200) {       
+          if(result.data.items.length > 0){
+                if (programid == 0) {
+                  actions.setErrors({'programCode': 'This program code is already used in other program'})
+                } else {
+                  const filteredCode = result.data.items.filter((item: any)=>{
+                    return item.programCode === programCode && item.id != programid
+                  })
+                  if (filteredCode.length > 0) {
+                    actions.setErrors({'programCode': 'This program code is already used in other program'})
+                  } else {
+                    actions.setTouched({});
+                    handleNextStep();                   
+                  }
+                }
+            }else{
+              actions.setTouched({});
+              handleNextStep(); 
+            }
+        }
+    })
+    .catch((err : any) => {
+        console.log(err);
+    });
   }
-
-  // let Api =
-  //   "https://api.microlearning.ballisticlearning.com/learning-service/api/v1/1/programs?departmentId=&name=&pageNumber=0&pageSize=10";
-  // useEffect(() => {
-  //   axios.get(Api).then((res) => console.log(res));
-  // }, []);
 
   return (
     <>
@@ -255,8 +280,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             setValues,
             handleChange,
             isSubmitting,
-            setErrors,
-            handleBlur
           }) => (
             <Form>
               <div className="tabStep-indicator">
@@ -278,7 +301,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldLabel
                         htmlfor="programName"
                         labelText="Program Name"
-                        required="required"
                       />
                       <FieldTypeText
                         name="programName"
@@ -287,7 +309,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldErrorMessage
                         errors={errors.programName}
                         touched={touched.programName}
-                        msgText="Program name required atleast 1 characters"
                       />
                     </Col>
                     <Col md={4}>
@@ -299,8 +320,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldTypeText
                         name="programCode"
                         placeholder="Program Code"
-                        // onChange={handleEmailChange}
-                        onBlur={(e) =>handleEmailChange(e)}
                       />
                       <FieldErrorMessage
                         errors={errors.programCode}
@@ -331,14 +350,12 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldErrorMessage
                         errors={errors.durationValue}
                         touched={touched.durationValue}
-                        msgText="Duration must in positive number and non decimal"
                       />
                     </Col>
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="department"
                         labelText="Department"
-                        required="required"
                       />
                       <FieldTypeSelect
                         name="department"
@@ -349,7 +366,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldErrorMessage
                         errors={errors.department}
                         touched={touched.department}
-                        msgText="Please select department"
                       />
                     </Col>
                     <Col md={4}>
@@ -367,7 +383,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldErrorMessage
                         errors={errors.discipline}
                         touched={touched.discipline}
-                        msgText="Please select discipline"
                       />
                     </Col>
 
@@ -387,7 +402,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldErrorMessage
                         errors={errors.programtype}
                         touched={touched.programtype}
-                        msgText="Please select program type"
                       />
                     </Col>
                     {values.isBatchYearRequired === true && (
@@ -406,7 +420,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         <FieldErrorMessage
                           errors={errors.batchYear}
                           touched={touched.batchYear}
-                          msgText="Batch Year must in number"
                         />
                       </Col>
                     )}
@@ -449,7 +462,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <FieldErrorMessage
                         errors={errors.mode}
                         touched={touched.mode}
-                        msgText="Please select Program Mode"
                       />
                     </Col>
                   </Row>
@@ -468,7 +480,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <FieldErrorMessage
                       errors={errors.description}
                       touched={touched.description}
-                      msgText="Description Required"
                     />
                   </Col>
                   <Col md={6}>
@@ -480,7 +491,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <FieldErrorMessage
                       errors={errors.objective}
                       touched={touched.objective}
-                      msgText="Objective Required"
                     />
                   </Col>
                   <Col md={12}>

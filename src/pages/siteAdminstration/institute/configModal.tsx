@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -13,11 +13,25 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const Schema = Yup.object({
-  instanceUrl: Yup.string().trim().url().required(),
-  webServiceToken: Yup.string().trim().min(20).required(),
+  instanceUrl: Yup.string()
+    .nullable()
+    .trim()
+    .url("Must be a proper valid url")
+    .required("Instance url is required"),
+  webServiceToken: Yup.string()
+    .nullable()
+    .trim()
+    .min(20)
+    .required("Webservice token is required"),
 });
 
-const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh }: any) => {
+const ConfigModal = ({
+  show,
+  onHide,
+  userobj,
+  configModalShow,
+  updateAddRefresh,
+}: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
@@ -32,7 +46,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    setSubmitting(true)
+    setSubmitting(true);
     putData(`/institutes/${userobj.id}`, values)
       .then((res: any) => {
         if ((res.data !== "", res.status === 200)) {
@@ -52,6 +66,13 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
           });
       });
   };
+
+  const handleReset = (setValues: any) => {
+    setValues({
+      instanceUrl: "",
+      webServiceToken: ""
+    })
+  } 
 
   return (
     <React.Fragment>
@@ -75,7 +96,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
               handleFormData(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting, setValues, values }) => (
+            {({ errors, touched, isSubmitting, setValues, values, resetForm }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -120,29 +141,33 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
                   </div>
                 ) : (
                   <span>
-                    <i className="fa-solid fa-square-check"></i> Institute configuration is locked
+                    <i className="fa-solid fa-square-check"></i> Institute
+                    configuration is locked
                   </span>
                 )}
-                {userobj.locked === false && (
-                  isSubmitting === false ?
-                  <div className="modal-buttons">
-                    <CustomButton
-                      type="submit"
+                {userobj.locked === false &&
+                  (isSubmitting === false ? (
+                    <div className="modal-buttons">
+                      <CustomButton
+                        type="submit"
+                        variant="primary"
+                        isSubmitting={isSubmitting}
+                        btnText="Submit"
+                      />{" "}
+                      <CustomButton
+                        type="reset"
+                        variant="outline-secondary"
+                        btnText="Reset"
+                        onClick={()=>handleReset(setValues)}
+                      />
+                    </div>
+                  ) : (
+                    <LoadingButton
                       variant="primary"
-                      isSubmitting={isSubmitting}
-                      btnText="Submit"
-                    />{" "}
-                    <CustomButton
-                      type="reset"
-                      variant="outline-secondary"
-                      btnText="Reset"
+                      btnText="Submitting..."
+                      className="modal-buttons"
                     />
-                  </div> : <LoadingButton
-                  variant="primary"
-                  btnText="Submitting..."
-                  className="modal-buttons"
-                />
-                )}
+                  ))}
                 <Errordiv
                   msg="Note: Once locked, configuration can not be changed later"
                   cstate
@@ -157,7 +182,7 @@ const ConfigModal = ({ show, onHide, userobj, configModalShow, updateAddRefresh 
             variant={alertMsg.alertBoxColor}
             setShowAlert={setShowAlert}
             showAlert={showAlert}
-        />
+          />
         </Modal.Body>
       </Modal>
     </React.Fragment>

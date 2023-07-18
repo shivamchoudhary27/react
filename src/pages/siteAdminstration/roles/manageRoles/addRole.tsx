@@ -48,7 +48,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    name: Yup.string().min(1).trim().required(),
+    name: Yup.string().min(1).trim().required("Name is required"),
     // description: Yup.string().required(),
   });
 
