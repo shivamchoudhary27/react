@@ -14,9 +14,9 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
-  userEmail: Yup.string().required(),
-  roleNumber: Yup.string().required(),
-  role: Yup.string().required(),
+  userEmail: Yup.string().email("Invalid email").required("Email is required"),
+  roleNumber: Yup.string().required("Role number is required"),
+  role: Yup.string().required("Role is required"),
 });
 
 const roleData = [

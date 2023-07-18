@@ -39,9 +39,21 @@ const AddUserModal = ({
     userEmail: Yup.string()
       .email("Invalid email")
       .required("Email is required"),
-    userFirstName: Yup.string().min(1).trim().required(),
-    userLastName: Yup.string().min(1).trim().required(),
-    userCountry: Yup.string().required(),
+    userFirstName: Yup.string()
+      .min(3, "First name must be at least 1 characters")
+      .test('character-allowed', 'Only specific characters are allowed', function (value) {
+        return /^[A-Za-z]+$/.test(value);
+      })
+      .trim()
+      .required("First name is required"),
+    userLastName: Yup.string()
+      .min(1, "Last name must be at least 1 characters")
+      .test('character-allowed', 'Only specific characters are allowed', function (value) {
+        return /^[A-Za-z]+$/.test(value);
+      })
+      .trim()
+      .required("Last name is required"),
+    userCountry: Yup.string().required("Country is required"),
   });
 
   // handle Form CRUD operations === >>>
@@ -177,10 +189,7 @@ const AddUserModal = ({
                 </div>
 
                 <div className="mb-3">
-                  <FieldTypeCheckbox
-                    name="enabled"
-                    checkboxLabel="Enable"
-                  />{" "}
+                  <FieldTypeCheckbox name="enabled" checkboxLabel="Enable" />{" "}
                   <FieldErrorMessage
                     errors=""
                     touched=""

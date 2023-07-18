@@ -49,6 +49,8 @@ const ManageProgram = () => {
     });
   }
 
+  console.log(programData)
+
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0)

@@ -31,11 +31,11 @@ const AddUserModal = ({
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
-    name: Yup.string().trim().required(),
+    name: Yup.string().trim().required("Name is required"),
     userEmail: Yup.string()
       .email("Invalid email")
       .required("Email is required"),
-    shortCode: Yup.string().trim().required(),
+    shortCode: Yup.string().trim().required("Short code is required"),
     // lastName: Yup.string().min(1).trim().required(),
   });
 

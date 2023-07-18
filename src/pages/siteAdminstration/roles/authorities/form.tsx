@@ -13,7 +13,7 @@ import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
-  name: Yup.string().min(1).required(),
+  name: Yup.string().min(1).trim().required("Name is required"),
 });
 
 const DepartmentModal = ({

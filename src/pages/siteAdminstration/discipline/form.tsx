@@ -18,8 +18,8 @@ import { IInitialValues, IDisciplineModal, IAlertMsg } from "./types/interface";
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
-  name: Yup.string().min(1).required(),
-  description: Yup.string().min(1).required(),
+  name: Yup.string().min(1).trim().required("Discipline name is required"),
+  description: Yup.string().min(1).required("Description is required"),
 });
 
 const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({

@@ -30,7 +30,7 @@ type TypeInitilaValues = {
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
-  name: Yup.string().min(1).required(),
+  name: Yup.string().min(1).trim().required("Department name is required"),
   // description: Yup.string().max(100).required(),
 });
 

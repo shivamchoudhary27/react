@@ -19,8 +19,8 @@ import { IAlertMsg, IAddProgramModal } from "./types/interface";
 
 // Formik Yup validation === >>>
 const programTypeSchema = Yup.object({
-  name: Yup.string().min(1).required(),
-  description: Yup.string().min(1).required(),
+  name: Yup.string().min(1).trim().required("Name is required"),
+  description: Yup.string().min(1).required("Description is required"),
   // isBatchYearRequired: Yup.bool()
   //   .required("Please Check")
   //   .oneOf([true], "Please Check the required field"),
