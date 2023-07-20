@@ -405,7 +405,7 @@ const CourseTable = ({
                     prepareRow(row);
                     return (
                       <Draggable
-                        draggableId={`drag-id-${row.original.id.toString()}`}
+                        draggableId={`drag-id-${row.id.toString()}`}
                         index={index}
                         key={row.id.toString()}
                         isDragDisabled={
