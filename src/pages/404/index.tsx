@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import CustomButton from "../../widgets/formInputFields/buttons";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../features/context/user/user";
+import Header from "../newHeader";
+import Footer from "../newFooter";
 
 type Props = {};
 
@@ -12,9 +14,10 @@ const PageNotFound = (props: Props) => {
   const navigate = useNavigate();
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
-  console.log(isLoggedIn);
+
   return (
     <React.Fragment>
+      <Header showRightNavs={false} />
       <div
         style={{
           width: "100%",
@@ -42,6 +45,7 @@ const PageNotFound = (props: Props) => {
           />
         </div>
       </div>
+      <Footer />
     </React.Fragment>
   );
 };
