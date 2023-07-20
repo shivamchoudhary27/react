@@ -23,7 +23,7 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
       `<!doctype html><body>${htmlString}`,
       "text/html"
     ).body.textContent;
-    if (htmlString == "&nbsp;") {
+    if (htmlString === "&nbsp;") {
       return "-";
     } else {
       return decodedString;

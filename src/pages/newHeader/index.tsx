@@ -14,7 +14,7 @@ if (config.WSTOKEN === '') {
   config.WSTOKEN = localStorage.getItem('token');
 }
 
-const Header = () => {
+const Header = ({showRightNavs = true} : any) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const userid = userCtx.userInfo.userid ?? 0;
@@ -31,34 +31,38 @@ const Header = () => {
       <Link to="/studentdashboard" className="me-auto site-logo">
         <img className="bl-logo" src={logo} alt="Ballistic Learning Pvt Ltd" />
       </Link>
-      <div className="row gx-2 me-2">
-        <div className="col-auto">
-          <label className="col-form-label">Institute: </label>
-        </div>
-        <div className="col-auto">
-          <InstituteFilter />
-        </div>
-      </div>
-      <Nav as="ul" className="sh-toolbar">
-        <Nav.Item as="li">
-          <img src={searchIcon} alt="Search" />
-        </Nav.Item>
-        <Nav.Item as="li" className="sh-notification">
-          <NotificationOverlay userid={userid} />
-        </Nav.Item>
-      </Nav>
+      { showRightNavs !== false && 
+        <React.Fragment>
+          <div className="row gx-2 me-2">
+            <div className="col-auto">
+              <label className="col-form-label">Institute: </label>
+            </div>
+            <div className="col-auto">
+              <InstituteFilter />
+            </div>
+          </div>
+          <Nav as="ul" className="sh-toolbar">
+            <Nav.Item as="li">
+              <img src={searchIcon} alt="Search" />
+            </Nav.Item>
+            <Nav.Item as="li" className="sh-notification">
+              <NotificationOverlay userid={userid} />
+            </Nav.Item>
+          </Nav>
 
-      <Dropdown>
-        <Dropdown.Toggle variant="link" id="dropdown-user-menu" className="p-0">
-          <span className="rounded-circle user-profile-pix">
-            <img className="img-fluid" src={userpictureurl} alt={fullname} />
-          </span>
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item href="#/action-2" >{fullname}</Dropdown.Item>
-          <Dropdown.Item href="#/action-2" onClick={logout}>Logout</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          <Dropdown>
+            <Dropdown.Toggle variant="link" id="dropdown-user-menu" className="p-0">
+              <span className="rounded-circle user-profile-pix">
+                <img className="img-fluid" src={userpictureurl} alt={fullname} />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-2" >{fullname}</Dropdown.Item>
+              <Dropdown.Item href="#/action-2" onClick={logout}>Logout</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </React.Fragment>
+      }
     </header>
   );
 }
