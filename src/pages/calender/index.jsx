@@ -15,6 +15,8 @@ import BreadcrumbComponent from "../../widgets/breadcrumb";
 import './style.scss';
 import singleUser from "../../assets/images/icons/single-user.svg";
 import multiUser from "../../assets/images/icons/multi-user.svg";
+import eventsDate from "../../assets/images/icons/calendar-black.svg";
+import eventsTime from "../../assets/images/icons/clock.svg";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -202,7 +204,7 @@ export default function ReactBigCalendar() {
                     return { style: { backgroundColor, "borderColor": currentEventColor}}
                   }}
                 />
-                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal className="cal-events-modal" show={showModal} onHide={() => setShowModal(false)}>
                   <Modal.Header closeButton>
                     <Modal.Title>{selectedEvent?.title}</Modal.Title>
                   </Modal.Header>
@@ -211,13 +213,39 @@ export default function ReactBigCalendar() {
                       selectedEvent?.description &&
                       <div dangerouslySetInnerHTML={{ __html: selectedEvent.description }} />
                     }
-                    <p>Start: {moment(selectedEvent?.start).format('dddd, DD MMM, h:mm A')}</p>
-                    <p>End: {moment(selectedEvent?.end).format('dddd, DD MMM, h:mm A')}</p>
-                    <a href={selectedEvent?.url ? selectedEvent.url : ""}>
-                      <Button>
-                        View Details
-                      </Button>
-                    </a>
+                    <Row className="mt-3 mb-4 gx-4">
+                      <Col sm={6}>
+                        <div className="start-date">
+                          <strong>Start Date</strong>
+                          <div className="small mt-2 mb-1">
+                            <img src={eventsDate} alt="Date" />
+                            {moment(selectedEvent?.start).format('dddd, MMMM DD')}
+                          </div>
+                          <div className="small">
+                            <img src={eventsTime} alt="Time" />
+                            {moment(selectedEvent?.start).format('h:mm A')}
+                          </div>
+                        </div>                        
+                      </Col>
+                      <Col sm={6}>
+                        <div className="end-date">
+                          <strong>End Date</strong>
+                          <div className="small mt-2 mb-1">
+                            <img src={eventsDate} alt="Date" />
+                            {moment(selectedEvent?.end).format('dddd, MMMM DD')}
+                          </div>
+                          <div className="small">
+                            <img src={eventsTime} alt="Time" />
+                            {moment(selectedEvent?.end).format('h:mm A')}
+                          </div>
+                        </div>                        
+                      </Col>
+                    </Row>
+                    <div className="text-center mb-3">
+                      <a href={selectedEvent?.url ? selectedEvent.url : ""}>
+                        <Button size="sm">See Details</Button>
+                      </a>
+                    </div>                    
                   </Modal.Body>
                 </Modal>
               </Col>              

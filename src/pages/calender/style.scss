@@ -84,6 +84,22 @@
         }
     }
 }
+.cal-events-modal {
+    .start-date {
+        background-color: rgba(17, 143, 246, 0.13);
+    }
+    .end-date {
+        background-color: rgba(163, 163, 163, 0.2);
+    }
+    .start-date, .end-date {
+        padding: 15px;
+        border-radius: 15px;
+        img {
+            width: 16px;
+            margin-right: 5px;
+        }
+    }
+}
 .rbc-event, .rbc-day-slot .rbc-background-event {
     background-color: rgba(49, 116, 173, 0.08);
     border: 2px solid #3174ad;
