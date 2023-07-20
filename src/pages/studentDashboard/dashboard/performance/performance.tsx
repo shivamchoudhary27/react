@@ -48,16 +48,16 @@ const PerformanceOverview = () => {
       title: "Av. Grade",
       value:
         userPerformance.grades.usergrade !== 0
-          ? (userPerformance.grades.usergrade /
+          ? ((userPerformance.grades.usergrade /
               userPerformance.grades.maxgrades) *
-              100 +
+              100).toFixed(2) +
             " %"
           : 0 + "%",
       progressValue:
         userPerformance.grades.usergrade !== 0
-          ? (userPerformance.grades.usergrade /
+          ? ((userPerformance.grades.usergrade /
               userPerformance.grades.maxgrades) *
-            100
+            100).toFixed(2)
           : 0,
     },
     {

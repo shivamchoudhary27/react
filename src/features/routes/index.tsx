@@ -24,6 +24,7 @@ import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
 import MitGlobalAlert from '../../widgets/mitGlobalAlert/mitGlobalAlert';
 import PageNotFound from '../../pages/404';
+import GradeBook from '../../pages/gradeBook';
 // import { Navigate, Outlet } from 'react-router-dom';
 
 export default function NewCustomRoutes() {
@@ -47,6 +48,7 @@ export default function NewCustomRoutes() {
             {CalenderManagementRoute()}
             {StudentDashRoutes()}
             {TeacherDashRoutes()}
+            <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/programoverview' element={<ProgramOverview />} />
             <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
             <Route path="/mod/video/report" element={<Report />} />
