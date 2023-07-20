@@ -32,7 +32,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Link>             
                 </Nav.Item>
                 <Nav.Item as="li">
-                    <Link to="" className={activeTab === 'gradebook' ? 'active-tab' : ''}>
+                    <Link to="/gradebook" className={activeTab === 'gradebook' ? 'active-tab' : ''}>
                         <img src={gradeboolIcon} alt="Gradebook" />
                         <span>Gradebook</span>
                     </Link>             
