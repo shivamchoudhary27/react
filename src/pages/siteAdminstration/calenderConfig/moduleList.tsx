@@ -6,17 +6,17 @@ import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 
 const initialValues = {
-  site: "#7A9D54",
-  category: "#461959",
-  course: "#1D5D9B",
-  user: "#A1CCD1",
-  attendance: "#35A29F",
-  forum: "#A076F9",
-  quiz: "#A78295",
-  workshop: "#FF9B9B",
-  assignment: "#E7B10A",
-  page: "#A76F6F",
-  book: "#2B2730",
+  site: "#0E79EC",
+  category: "#166EE6",
+  course: "#0C62E2",
+  user: "#1089F3",
+  quiz: "#0D71E9",
+  assignment: "#0E6DE7",
+  workshop: "#0C67E5",
+  attendance: "#0C65E3",
+  forum: "#317FE9",  
+  page: "#70A9F1",
+  book: "#00000",
 };
 
 const ModuleList = () => {
