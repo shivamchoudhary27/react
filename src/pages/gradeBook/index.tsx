@@ -17,6 +17,7 @@ type Props = {};
 const GradeBook = (props: Props) => {
   const dummyData = {tabledata: []}
   const [gradebookData, setGradebookData] = useState<any>(dummyData);
+  const [coursesList, setCoursesList] = useState<any>([]);
   const id = localStorage.getItem("userid");
   const [apiStatus, setApiStatus] = useState("");
 
@@ -36,7 +37,21 @@ const GradeBook = (props: Props) => {
     })
   }, []);
 
-  // console.log(gradebookData)
+  // https://demo.learn.ballisticlearning.com/webservice/rest/server.php?wstoken=7243942b15e0ffe89c1cf7c432863232&wsfunction=core_enrol_get_users_courses &moodlewsrestformat=json&userid=${id}
+
+  useEffect(()=>{
+    const query = {
+      wsfunction: "core_enrol_get_users_courses",
+      userid: id,
+    };
+    getData(query).then((res) => {
+      if(res.data !== "" && res.status === 200){
+        setCoursesList(res.data)
+      }
+    }).catch((err)=>{
+      console.log(err)
+    })
+  }, [])
 
   return (
     <React.Fragment>
@@ -46,7 +61,7 @@ const GradeBook = (props: Props) => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Gradebook`} gobacklink="" />
-          <Filter />
+          <Filter coursesList={coursesList} />
           <GradeTable gradebookData={gradebookData.tabledata} apiStatus={apiStatus} />
         </Container>
       </div>

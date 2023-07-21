@@ -3,38 +3,32 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeGetDataRequest } from "../../features/apiCalls/getdata";
 import ACTIONSLIST from "../../store/actions";
 
-const FilterDropdown = ({ updatedepartment, currentInstitute, name } : any) => {
-  const dispatch = useDispatch();
-  const selectedDepartment = useSelector(state => state.currentDepartmentFilterId);
-  const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
-  const [departmentData, setDepartmentData] = useState<any>(dummyData);
-  const filters = {pageNumber: 0, pageSize : 30};
+const FilterDropdown = ({ currentInstitute, name, options } : any) => {
   const [selectedValue, setSelectedValue] = useState('');
   
   // department API call === >>>
-  useEffect(() => {
-    if (currentInstitute > 0)
-    makeGetDataRequest(`/${currentInstitute}/departments`, filters, setDepartmentData);
-  }, [currentInstitute]);
+  // useEffect(() => {
+  //   if (currentInstitute > 0)
+  //   makeGetDataRequest(`/${currentInstitute}/departments`, filters, setDepartmentData);
+  // }, [currentInstitute]);
 
   useEffect(() => {
-    if (departmentData.items.length > 0) {
-      setSelectedValue(selectedDepartment);
+    if (options !== undefined && options.length > 0) {
+      setSelectedValue(options);
     }
-  }, [departmentData]);
+  }, [options]);
 
   const getCurrentValue = (e : any) => {
-    updatedepartment(e.target.value);
+    console.log("updated value--------- id:", e.target.value)
     setSelectedValue(e.target.value);
-    dispatch({type: ACTIONSLIST.currentDepartmentFilterId, departmentId: ""});
   }
 
   return (
     <>
       <select className="form-select" onChange={getCurrentValue} value={selectedValue} >
         <option value="">{name}</option>
-        {departmentData.items.map((el: any, index: number) => (
-            <option key={index} value={el.id}>{el.name}</option>
+        {options !== undefined && options.map((el: any, index: number) => (
+            <option key={index} value={el.id}>{el.fullname}</option>
         ))}
       </select>
     </>
