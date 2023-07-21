@@ -15,7 +15,7 @@ const ManageFilter = ({ updatedepartment, updateinputfilters, currentInstitute }
   }
 
   const handleAddProgram = () => {
-    navigate(`/addprogram/0?institute=${currentInstitute}`);
+    navigate(`/addprogram/0`);
   };
 
   const formik = useFormik({

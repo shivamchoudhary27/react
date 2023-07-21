@@ -28,7 +28,7 @@ const AuthLogin = () => {
       
       setTimeout(() => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
-        console.log(VERIFY_URL);
+        console.log('VERIFY_URL', VERIFY_URL);
 
         var requestOptions: any = {
           method: 'GET',

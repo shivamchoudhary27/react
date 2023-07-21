@@ -8,8 +8,8 @@ import BuildPagination from "../../../widgets/pagination";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-import ManageFilter from "./manageFilter";
-import ManageTable from "./manageTable";
+import ManageFilter from "./filter";
+import ManageTable from "./table";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 
