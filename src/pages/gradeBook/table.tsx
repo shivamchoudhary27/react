@@ -34,11 +34,6 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
     {
       Header: "Grade item",
       Cell: ({ row }: any) => {
-        console.log(
-          decodeHtmlEntities(
-            row.original.itemname !== undefined && row.original.itemname.content
-          )
-        );
         return decodeHtmlEntities(
           row.original.itemname !== undefined && row.original.itemname.content
         );

@@ -6,11 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { filterConfig } from "../../utils/filterTimeout";
 import FilterDropdown from "./filterDropdown";
 
-const Filter = ({
-  updatedepartment,
-  updateinputfilters,
-  currentInstitute,
-}: any) => {
+const Filter = ({ updateinputfilters, currentInstitute, coursesList }: any) => {
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const initialValues = {
@@ -46,15 +42,20 @@ const Filter = ({
             <Col>
               <FilterDropdown
                 name="All Semesters"
-                updatedepartment={updatedepartment}
-                currentInstitute={currentInstitute}
+                // currentInstitute={currentInstitute}
+                options={[
+                  { id: 1, fullname: "Semester I" },
+                  { id: 2, fullname: "Semester II" },
+                  { id: 3, fullname: "Semester III" },
+                  { id: 4, fullname: "Semester IV" },
+                ]}
               />
             </Col>
             <Col>
               <FilterDropdown
-              name= "All Courses"
-                updatedepartment={updatedepartment}
-                currentInstitute={currentInstitute}
+                name="All Courses"
+                options={coursesList}
+                // currentInstitute={currentInstitute}
               />
             </Col>
           </Row>
