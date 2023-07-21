@@ -34,44 +34,63 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
     {
       Header: "Grade item",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(row.original.itemname.content);
+        console.log(
+          decodeHtmlEntities(
+            row.original.itemname !== undefined && row.original.itemname.content
+          )
+        );
+        return decodeHtmlEntities(
+          row.original.itemname !== undefined && row.original.itemname.content
+        );
       },
     },
     {
       Header: "Calculated weight",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(row.original.weight.content);
+        return decodeHtmlEntities(
+          row.original.weight !== undefined && row.original.weight.content
+        );
       },
     },
     {
       Header: "Grade",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(row.original.grade.content);
+        return decodeHtmlEntities(
+          row.original.grade !== undefined && row.original.grade.content
+        );
       },
     },
     {
       Header: "Range",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(row.original.range.content);
+        return decodeHtmlEntities(
+          row.original.range !== undefined && row.original.range.content
+        );
       },
     },
     {
       Header: "Percentage",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(row.original.percentage.content);
+        return decodeHtmlEntities(
+          row.original.percentage !== undefined &&
+            row.original.percentage.content
+        );
       },
     },
     {
       Header: "Feedback",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(row.original.feedback.content);
+        return decodeHtmlEntities(
+          row.original.feedback !== undefined && row.original.feedback.content
+        );
       },
     },
     {
       Header: "Contribution to course total",
       Cell: ({ row }: any) => {
         return decodeHtmlEntities(
-          row.original.contributiontocoursetotal.content
+          row.original.contributiontocoursetotal !== undefined &&
+            row.original.contributiontocoursetotal.content
         );
       },
     },

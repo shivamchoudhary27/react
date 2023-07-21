@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeGetDataRequest } from "../../features/apiCalls/getdata";
 import ACTIONSLIST from "../../store/actions";
 
-const FilterDropdown = ({ updatedepartment, currentInstitute } : any) => {
+const FilterDropdown = ({ updatedepartment, currentInstitute, name } : any) => {
   const dispatch = useDispatch();
   const selectedDepartment = useSelector(state => state.currentDepartmentFilterId);
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
@@ -32,7 +32,7 @@ const FilterDropdown = ({ updatedepartment, currentInstitute } : any) => {
   return (
     <>
       <select className="form-select" onChange={getCurrentValue} value={selectedValue} >
-        <option value="">All Semester</option>
+        <option value="">{name}</option>
         {departmentData.items.map((el: any, index: number) => (
             <option key={index} value={el.id}>{el.name}</option>
         ))}
