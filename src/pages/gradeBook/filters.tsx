@@ -45,12 +45,14 @@ const Filter = ({
           <Row className="g-2">
             <Col>
               <FilterDropdown
+                name="All Semesters"
                 updatedepartment={updatedepartment}
                 currentInstitute={currentInstitute}
               />
             </Col>
             <Col>
               <FilterDropdown
+              name= "All Courses"
                 updatedepartment={updatedepartment}
                 currentInstitute={currentInstitute}
               />
