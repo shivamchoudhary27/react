@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Table, Container, Col } from "react-bootstrap";
-import StarRating from "../../../widgets/rating";
+import StarRating from "../../../../../widgets/rating";
 
 type Props = {};
 

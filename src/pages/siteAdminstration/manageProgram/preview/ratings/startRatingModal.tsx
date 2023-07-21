@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import StarRating from "../../../widgets/rating";
+import StarRating from "../../../../../widgets/rating";
 
 interface IProps {
   show: boolean;

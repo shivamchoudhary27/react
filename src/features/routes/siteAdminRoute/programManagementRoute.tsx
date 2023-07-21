@@ -4,10 +4,10 @@ import Departments from '../../../pages/siteAdminstration/departments'
 import Discipline from '../../../pages/siteAdminstration/discipline'
 import ProgramType from '../../../pages/siteAdminstration/programType'
 import Tags from '../../../pages/siteAdminstration/tags'
-import AddProgram from '../../../pages/siteAdminstration/addProgram'
+import AddProgram from '../../../pages/siteAdminstration/manageProgram/addProgram'
 import ManageCategory from '../../../pages/siteAdminstration/manageCategory'
 import CourseManagment from '../../../pages/siteAdminstration/manageCourse'
-import Preview from '../../../pages/siteAdminstration/manageProgram/preview'
+import Preview from '../../../pages/siteAdminstration/manageProgram/preview/'
 
 const ProgramManagementRoute = () => {
   return [

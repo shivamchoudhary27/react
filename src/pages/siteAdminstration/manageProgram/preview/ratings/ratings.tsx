@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import StarRating from "../../../widgets/rating";
-import CustomButton from "../../../widgets/formInputFields/buttons";
+import StarRating from "../../../../../widgets/rating";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
 import Review from "./review";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 interface IProps {
   newRating: number;
   handleRating: (params: any) => void;
+}
+
+const calculateNetRating = (ratingArray: number[]) => {
+  const total = ratingArray.reduce((accumulator : number, currentValue: number) => accumulator + currentValue, 0);
+  return (total / ratingArray.length).toFixed(1);
 }
 
 const RatingComp: React.FunctionComponent<IProps> = ({
@@ -16,10 +21,13 @@ const RatingComp: React.FunctionComponent<IProps> = ({
 }: IProps) => {
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [ratingProgress, setRatingProgress] = useState<number>(0);
+  const [ratingPercentages, setRatingPercentages] = useState([4, 3, 4, 3, 5]);
+  const [netRating, setNetRating] = useState(calculateNetRating(ratingPercentages))
 
   const giveRatingHandler = () => {
     setModalShow(true);
   };
+
 
   useEffect(() => {
     let getRatingCount = newRating * 20;
@@ -32,11 +40,10 @@ const RatingComp: React.FunctionComponent<IProps> = ({
         <h5 id="po-studentfeedback">Review and Rating</h5>
         <Row className="mt-4">
           <Col md="2" className="text-center">
-            <h2>{`${newRating}.0`}</h2>
+            <h2>{`${netRating}`}</h2>
             <StarRating
               totalStars={5}
-              currentRating={newRating}
-              onStarClick={handleRating}
+              currentRating={netRating}
             />
             <CustomButton
               type="button"
@@ -55,15 +62,15 @@ const RatingComp: React.FunctionComponent<IProps> = ({
                 >
                   <div
                     className="progress-bar"
-                    style={{ width: `${ratingProgress}%` }}
+                    style={{ width: `${((ratingPercentages[index])/5) * 100}%` }}
                   ></div>
                 </div>
                 <StarRating
                   totalStars={5}
-                  currentRating={newRating}
-                  onStarClick={handleRating}
+                  currentRating={ratingPercentages[index]}
+                  // onStarClick={handleRating}
                 />
-                <span>{`${ratingProgress}%`}</span>
+                <span>{`${((ratingPercentages[index])/5) * 100}%`}</span>
               </div>
             ))}
           </Col>

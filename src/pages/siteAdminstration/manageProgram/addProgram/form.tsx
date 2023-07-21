@@ -3,13 +3,13 @@ import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import { Container, Row, Col } from "react-bootstrap";
 import { Formik, Form } from "formik";
-import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import {
   postData as postProgramData,
   putData as updateProgramData,
   getData
-} from "../../../adapters/microservices";
-import TinymceEditor from "../../../widgets/editor/tinyMceEditor";
+} from "../../../../adapters/microservices";
+import TinymceEditor from "../../../../widgets/editor/tinyMceEditor";
 import {
   addMetaInputField,
   generateProgramDataObject,
@@ -18,20 +18,20 @@ import {
   generateAcademicYears,
   durationTypeObj,
 } from "./utils";
-import FieldLabel from "../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
+import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import FieldMultiSelect from "../../../widgets/formInputFields/multiSelect";
+import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
 import * as Yup from "yup";
 import "./style.scss";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import { useSelector } from "react-redux";
-import { pagination } from "../../../utils/pagination";
+import { pagination } from "../../../../utils/pagination";
 
 const steps = ["Step 1", "Step 2"];
 

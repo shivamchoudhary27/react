@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
-import TableSkeleton from "../../../widgets/skeleton/table";
-import Errordiv from "../../../widgets/alert/errordiv";
+import TableSkeleton from "../../../../../widgets/skeleton/table";
+import Errordiv from "../../../../../widgets/alert/errordiv";
 
 const CurriculumTable = ({
   categoryData,

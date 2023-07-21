@@ -1,33 +1,25 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { getData as getProgramData } from "../../../adapters/microservices";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
+import { useSelector } from 'react-redux';
+import { getData as getProgramData } from "../../../../adapters/microservices";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
 import { Container } from "react-bootstrap";
 import AddProgramForm from "./form";
 import { useParams } from "react-router-dom";
 import { initialValues, generateIinitialValues } from "./utils";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import PageTitle from "../../../../widgets/pageTitle";
 import "./style.scss";
 
 const AddProgram = () => {
   const { id } = useParams();
-  const location = useLocation().search;
   const [currentProgram, setCurrentProgram] = useState<any>({
     data: {},
     status: false,
     id: id,
   });
-  const [instituteId, setInstituteId] = useState<number | string | null>(0);
-  const pagetitle = id > 0 ? "Update program" : "Add program";
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location);
-    let instituteParam = parseInt(urlParams.get("institute"))
-    setInstituteId(instituteParam);
-  }, [location]);
+  const instituteId = useSelector((state: any) => state.currentInstitute);
 
   useEffect(() => {
     if (instituteId !== undefined && instituteId > 0 && id !== undefined && id > 0) {

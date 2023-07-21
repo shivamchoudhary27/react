@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
-import { useLocation, useParams, useNavigate } from "react-router-dom";
-import { getData as getProgramData } from "../../../adapters/microservices";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
+import { useSelector } from 'react-redux';
+import { useParams } from "react-router-dom";
+import { getData as getProgramData } from "../../../../adapters/microservices";
+import Header from "../../../newHeader";
+import Footer from "../../../newFooter";
+import HeaderTabs from "../../../headerTabs";
+import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import PageTitle from "../../../../widgets/pageTitle";
 import { Table, Button, Image, Container, Row, Col } from "react-bootstrap";
-import programImage from "../../../assets/images/course-default.jpg";
-import userPixDefault from "../../../assets/images/user-pix.svg";
-import positionIcon from "../../../assets/images/icons/degree.svg";
-import campusIcon from "../../../assets/images/icons/campus.svg";
-import StarRating from "../../../widgets/rating";
-import RatingComp from "./ratingComp";
-import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
-import { setHasChildProp, resetManageCourseObj } from './local';
-import CurriculumTable from "./curriculumTable";
+import programImage from "../../../../assets/images/course-default.jpg";
+import userPixDefault from "../../../../assets/images/user-pix.svg";
+import positionIcon from "../../../../assets/images/icons/degree.svg";
+import campusIcon from "../../../../assets/images/icons/campus.svg";
+import RatingComp from "./ratings/ratings";
+import Curriculum from "./curriculum";
 
 interface ICurrentProgram {
   data: [];
@@ -31,59 +29,14 @@ interface IApiParams {
 
 const Preview = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation().search;
   const [currentProgram, setCurrentProgram] = useState<ICurrentProgram>({
     data: [],
     status: false,
     id: id,
   });
-  const [instituteId, setInstituteId] = useState<number | string | null>(0);
+  const instituteId = useSelector((state: any) => state.currentInstitute);
   const [newRating, setNewRating] = useState<number>(0);
   const [ratingProgress, setRatingProgress] = useState<number>(0);
-  const [programData, setProgramData] = useState([]);
-  const [curriculumDropdown, setCurriculumDropdown] = useState([]);
-  const [curriculumData, setCurriculumData] = useState([]);
-  const [selectedProgram, setSelectedProgram] = useState(0);
-  const [apiStatus, setApiStatus] = useState("");
-
-  const getCurrentValue = (e : any) => {
-    console.log(e.target.value)
-    setSelectedProgram(e.target.value);
-  }
-
-  useEffect(() => {
-    if (selectedProgram > 0 && programData.length > 0) {
-      const convertedResult = programData.filter(item => item.id == selectedProgram)
-      .sort((a,b) => a.weight - b.weight)
-      .reduce((acc, item) => [...acc, item, ...getChildren(item, programData)], []);
-      
-      convertedResult.forEach(item => {
-        if (item.parent === 0) {
-          item.level = 1;
-          updateCategoryLevels(convertedResult, item.id, 2);
-        }
-      });
-      const hasChildPropAdded = setHasChildProp(convertedResult);
-      const courseObjAdded = resetManageCourseObj(hasChildPropAdded)
-      courseObjAdded.shift();
-      setCurriculumData(courseObjAdded);
-    }
-  }, [selectedProgram, programData]);
-
-  useEffect(() => {
-    if (programData.length > 0) {
-      const parentCats = programData.filter((packet: any) => packet.parent === 0);
-      setCurriculumDropdown(parentCats);
-      setSelectedProgram(parentCats[0].id);
-    }
-  }, [programData])
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location);
-    let instituteParam: number = parseInt(urlParams.get("institute"));
-    setInstituteId(instituteParam);
-  }, [location]);
 
   useEffect(() => {
     if (
@@ -102,31 +55,12 @@ const Preview = () => {
       });
     }
   }, [instituteId]);
-
-  const getCategoriesData = () => {
-    const endPoint = `/${id}/category`;
-    getProgramData(endPoint, {pageNumber: 0, pageSize: 100})
-      .then((res: any) => { 
-        if (res.data !== "" && res.status === 200) {
-          setProgramData(res.data.items);
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
-  }
   
-  // Get category Data from API === >>
-  useEffect(() => {
-    getCategoriesData();
-  }, [id]);
-  
-
   const previewMetafields = (metaData: Array<any>) => {
     return (
       <>
         {metaData.map((el: any, index: number) => (
-          <div className="mt-5">
+          <div className="mt-5" key={index}>
             <h5>{el.title}</h5>
             <div dangerouslySetInnerHTML={{ __html: el.description }} />
           </div>
@@ -244,25 +178,8 @@ const Preview = () => {
                       ? previewMetafields(el.metaFields)
                       : ""}
                   </div>
-                  <div className="po-section curriculum-step mt-5">
-                    <h5 id="po-curriculum">
-                      Curriculum
-                      <select
-                        className="form-select"
-                        value={selectedProgram} 
-                        onChange={getCurrentValue}>
-                        {curriculumDropdown.map((el: any, index: number) => (
-                          <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
-                        ))}
-                      </select>
-                    </h5>
-                    <div className="table-responsive">
-                      <CurriculumTable
-                        categoryData={curriculumData}
-                        apiStatus={apiStatus}
-                      />                      
-                    </div>
-                  </div>
+                  {/* Curriculum component */}
+                  <Curriculum programId={id}/>
                   <div className="po-section instructor-step mt-5">
                     <h5 id="po-instructor">Instructor</h5>
                     <Row>
@@ -335,7 +252,7 @@ const Preview = () => {
                     </Row>
                   </div>
                 </div>
-                <RatingComp 
+                <RatingComp
                   newRating={newRating}
                   handleRating={handleRating}
                 />

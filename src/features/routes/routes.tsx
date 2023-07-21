@@ -16,7 +16,7 @@ import Departments from '../../pages/siteAdminstration/departments';
 import ProgramType from '../../pages/siteAdminstration/programType';
 import Discipline from '../../pages/siteAdminstration/discipline';
 import ManageProgram from '../../pages/siteAdminstration/manageProgram';
-import AddProgram from '../../pages/siteAdminstration/addProgram';
+import AddProgram from '../../pages/siteAdminstration/manageProgram/addProgram';
 import ManageProgramEnrollment from '../../pages/siteAdminstration/manageUsers';
 import Home from '../../pages/home/Home';
 import AuthLogin from '../../pages/authlogin/AuthLogin';

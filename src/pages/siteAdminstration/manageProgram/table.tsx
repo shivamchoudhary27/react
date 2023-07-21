@@ -100,11 +100,11 @@ const ManageTable = ({
   const [deleteId, setDeleteId] = useState({ id: 0, instituteId: 0 });
 
   const createPreviewLink = (id: number, instituteId: number) => {
-    return `/programpreview/${id}?institute=${instituteId}`;
+    return `/programpreview/${id}`;
   };
 
   const createEditLink = (id: number, instituteId: number) => {
-    return `/addprogram/${id}?institute=${instituteId}`;
+    return `/addprogram/${id}`;
   };
 
   useEffect(() => {

@@ -11,10 +11,20 @@ type Props = {
 
 const GradeTable = ({ gradebookData, apiStatus }: Props) => {
   const [gradebookObj, setgradebookObj] = useState<any>([]);
+  console.log(gradebookData);
 
   useEffect(() => {
     const getSlicedData = gradebookData.slice(1);
-    setgradebookObj(getSlicedData);
+    const strippedPacket = getSlicedData.filter((item) => {
+      for (const key in item) {
+        if (Array.isArray(item[key]) && item[key].length === 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+    });
+    setgradebookObj(strippedPacket);
   }, [gradebookData]);
 
   const decodeHtmlEntities = (htmlString: any) => {
@@ -34,59 +44,64 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
     {
       Header: "Grade item",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.itemname !== undefined && row.original.itemname.content
-        );
+        const itemname = row.original.itemname;
+        return itemname && itemname.content ? (
+          <div dangerouslySetInnerHTML={{ __html: itemname.content }} />
+        ) : null;
       },
     },
     {
       Header: "Calculated weight",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.weight !== undefined && row.original.weight.content
-        );
+        const weight = row.original.weight;
+        return weight && weight.content ? (
+          <div dangerouslySetInnerHTML={{ __html: weight.content }} />
+        ) : null;
       },
     },
     {
       Header: "Grade",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.grade !== undefined && row.original.grade.content
-        );
+        const grade = row.original.grade;
+        return grade && grade.content ? (
+          <div dangerouslySetInnerHTML={{ __html: grade.content }} />
+        ) : null;
       },
     },
     {
       Header: "Range",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.range !== undefined && row.original.range.content
-        );
+        const range = row.original.range;
+        return range && range.content ? (
+          <div dangerouslySetInnerHTML={{ __html: range.content }} />
+        ) : null;
       },
     },
     {
       Header: "Percentage",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.percentage !== undefined &&
-            row.original.percentage.content
-        );
+        const percentage = row.original.percentage;
+        return percentage && percentage.content ? (
+          <div dangerouslySetInnerHTML={{ __html: percentage.content }} />
+        ) : null;
       },
     },
     {
       Header: "Feedback",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.feedback !== undefined && row.original.feedback.content
-        );
+        const feedback = row.original.feedback;
+        return feedback && feedback.content ? (
+          <div dangerouslySetInnerHTML={{ __html: feedback.content }} />
+        ) : null;
       },
     },
     {
       Header: "Contribution to course total",
       Cell: ({ row }: any) => {
-        return decodeHtmlEntities(
-          row.original.contributiontocoursetotal !== undefined &&
-            row.original.contributiontocoursetotal.content
-        );
+        const contributiontocoursetotal = row.original.contributiontocoursetotal;
+        return contributiontocoursetotal && contributiontocoursetotal.content ? (
+          <div dangerouslySetInnerHTML={{ __html: contributiontocoursetotal.content }} />
+        ) : null;
       },
     },
   ];

@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.scss";
 
-const StarRating = ({ totalStars, currentRating, onStarClick }: any) => {
+const StarRating = ({ totalStars, currentRating, onStarClick = () => {} }: any) => {
   const stars = [];
 
   // Generate an array of star elements
@@ -18,9 +18,7 @@ const StarRating = ({ totalStars, currentRating, onStarClick }: any) => {
   }
 
   return (
-    <React.Fragment>
-      <div className="star-rating mx-2">{stars}</div>
-    </React.Fragment>
+    <div className="star-rating mx-2">{stars}</div>
   );
 };
 
