@@ -4,9 +4,9 @@ import "./style.scss";
 import { Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { filterConfig } from "../../utils/filterTimeout";
-import FilterDropdown from "./filterDropdown";
+import { SemesterFilterDropdown, CourseFilterDropdown } from "./filterDropdown";
 
-const Filter = ({ updateinputfilters, currentInstitute, coursesList }: any) => {
+const Filter = ({ updateinputfilters, currentInstitute, coursesList, getCourseId }: any) => {
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const initialValues = {
@@ -40,21 +40,22 @@ const Filter = ({ updateinputfilters, currentInstitute, coursesList }: any) => {
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <FilterDropdown
+              <SemesterFilterDropdown
                 name="All Semesters"
                 // currentInstitute={currentInstitute}
                 options={[
-                  { id: 1, fullname: "Semester I" },
-                  { id: 2, fullname: "Semester II" },
-                  { id: 3, fullname: "Semester III" },
-                  { id: 4, fullname: "Semester IV" },
+                  { id: 1, name: "Semester I" },
+                  { id: 2, name: "Semester II" },
+                  { id: 3, name: "Semester III" },
+                  { id: 4, name: "Semester IV" },
                 ]}
               />
             </Col>
             <Col>
-              <FilterDropdown
+              <CourseFilterDropdown
                 name="All Courses"
                 options={coursesList}
+                getCourseId={getCourseId}
                 // currentInstitute={currentInstitute}
               />
             </Col>
