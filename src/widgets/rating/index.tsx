@@ -18,7 +18,7 @@ const StarRating = ({ totalStars, currentRating, onStarClick = () => {} }: any) 
   }
 
   return (
-    <div className="star-rating mx-2">{stars}</div>
+    <div className="star-rating">{stars}</div>
   );
 };
 

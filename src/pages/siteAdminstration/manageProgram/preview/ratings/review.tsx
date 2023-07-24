@@ -8,7 +8,7 @@ const Review = (props: Props) => {
   return (
     <React.Fragment>
       {data.map((elem, index) => (
-        <Row key={index}>
+        <Row className="mt-3 d-none" key={index}>
           <Col className="col-auto d-flex">
             <div className={elem.icon} style={{ fontSize: "50px", marginRight: "10px"}}></div>
             <div>
