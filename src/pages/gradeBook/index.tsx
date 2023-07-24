@@ -20,13 +20,14 @@ const GradeBook = (props: Props) => {
   const [coursesList, setCoursesList] = useState<any>([]);
   const id = localStorage.getItem("userid");
   const [apiStatus, setApiStatus] = useState("");
+  const [courseId, setCourseId] = useState<any>('')
 
   useEffect(() => {
     setApiStatus("started");
     const query = {
       wsfunction: "gradereport_user_get_grades_table",
       userid: id,
-      courseid: 9,
+      courseid: courseId == '' ? 21 : courseId, //coursesList.length > 0 && coursesList[0].id
     };
     getData(query).then((res) => {
       if(res.data !== "" && res.status === 200){
@@ -35,9 +36,7 @@ const GradeBook = (props: Props) => {
     }).catch((err)=>{
       console.log(err)
     })
-  }, []);
-
-  // https://demo.learn.ballisticlearning.com/webservice/rest/server.php?wstoken=7243942b15e0ffe89c1cf7c432863232&wsfunction=core_enrol_get_users_courses &moodlewsrestformat=json&userid=${id}
+  }, [courseId]);
 
   useEffect(()=>{
     const query = {
@@ -53,6 +52,10 @@ const GradeBook = (props: Props) => {
     })
   }, [])
 
+  const getCourseId = (courseId: string) => {
+    setCourseId(courseId)
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -61,7 +64,7 @@ const GradeBook = (props: Props) => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Gradebook`} gobacklink="" />
-          <Filter coursesList={coursesList} />
+          <Filter coursesList={coursesList} getCourseId={getCourseId} />
           <GradeTable gradebookData={gradebookData.tabledata} apiStatus={apiStatus} />
         </Container>
       </div>
