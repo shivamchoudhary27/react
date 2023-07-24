@@ -161,7 +161,7 @@ const Preview = () => {
                   <a href="#po-instructor" className="step">
                     Instructor
                   </a>
-                  <a href="#po-studentfeedback" className="step">
+                  <a href="#po-reviewrating" className="step">
                     Review and Rating
                   </a>
                 </div>

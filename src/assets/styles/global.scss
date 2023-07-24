@@ -131,6 +131,10 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
 /**** Progress Start ****/
 .progress {
     --bs-progress-height: 0.4rem;
+    --bs-progress-bg: #d9d9d9;
+}
+.progress-bar {
+    background: linear-gradient(269.92deg, #0F4C81 1.69%, #1270C4 99.93%);
 }
 /**** Progress End ****/
 

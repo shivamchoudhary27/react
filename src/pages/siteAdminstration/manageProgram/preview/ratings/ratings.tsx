@@ -4,6 +4,7 @@ import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
 import Review from "./review";
 import { Row, Col } from "react-bootstrap";
+import "./style.scss";
 
 interface IProps {
   newRating: number;
@@ -36,11 +37,11 @@ const RatingComp: React.FunctionComponent<IProps> = ({
 
   return (
     <React.Fragment>
-      <div className="po-section studentfeedback-step mt-5">
-        <h5 id="po-studentfeedback">Review and Rating</h5>
+      <div className="po-section reviewrating-step mt-5">
+        <h5 id="po-reviewrating">Review and Rating</h5>
         <Row className="mt-4">
-          <Col md="2" className="text-center">
-            <h2>{`${netRating}`}</h2>
+          <Col md="2" className="text-center por-left">
+            <h2 className="rating-count">{`${netRating}`}</h2>
             <StarRating
               totalStars={5}
               currentRating={netRating}
@@ -52,7 +53,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({
               onClick={giveRatingHandler}
             />
           </Col>
-          <Col md="10">
+          <Col md="10" className=" por-right">
             {[1, 2, 3, 4, 5].map((elem, index) => (
               <div className="mb-2 d-flex align-items-center" key={index}>
                 <div
@@ -70,7 +71,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({
                   currentRating={ratingPercentages[index]}
                   // onStarClick={handleRating}
                 />
-                <span>{`${((ratingPercentages[index])/5) * 100}%`}</span>
+                <strong className="ms-2">{`${((ratingPercentages[index])/5) * 100}%`}</strong>
               </div>
             ))}
           </Col>

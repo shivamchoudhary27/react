@@ -27,11 +27,13 @@ const StartRatingModal: React.FunctionComponent<IProps> = ({
           <Modal.Title id="contained-modal-title-vcenter">Rating</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <StarRating
-            totalStars={5}
-            currentRating={newRating}
-            onStarClick={handleRating}
-          />
+          <div className="starrating-modal">
+            <StarRating
+              totalStars={5}
+              currentRating={newRating}
+              onStarClick={handleRating}
+            />
+          </div>          
         </Modal.Body>
       </Modal>
     </React.Fragment>
