@@ -25,7 +25,7 @@ const Tags = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
 
   const getTags = () => {
     setApiStatus("started")

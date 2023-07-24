@@ -6,7 +6,7 @@ import config from "../../utils/config";
 import { createAxiosInstance } from "../../adapters/microservices/utils";
 import NewLoader from "../../widgets/loader";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../store/actions";
+import { globalAlertActions } from "../../store/slices/globalAlerts";
 
 const AuthLogin = () => {
   const error = null;
@@ -62,7 +62,7 @@ const AuthLogin = () => {
                 // });
                 navigate("/studentdashboard");         
               } else {
-                dispatch({type: ACTIONSLIST.mitGlobalAlert, alertMsg: "Failed to get auth token", status : true})
+                dispatch(globalAlertActions.globalAlert({alertMsg: "Failed to get auth token", status : true}))
               }
           }).catch((error) => {
             console.error(error);

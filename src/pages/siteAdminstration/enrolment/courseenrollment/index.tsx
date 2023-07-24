@@ -48,7 +48,7 @@ const CourseEnrollment = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state : any) => state.currentInstitute);
+  const currentInstitute = useSelector((state : any) => state.globalFilters.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {

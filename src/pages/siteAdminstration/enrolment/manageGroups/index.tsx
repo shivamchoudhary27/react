@@ -38,7 +38,7 @@ const ManageGroups = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state : any) => state.currentInstitute);
+  const currentInstitute = useSelector((state : any) => state.globalFilters.currentInstitute);
 
   // fetch all manage group data
   useEffect(() => {

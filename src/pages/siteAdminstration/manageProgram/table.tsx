@@ -14,7 +14,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -154,12 +154,7 @@ const ManageTable = ({
 
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg:
-            "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
         programPacket.published = !programPacket.published
       });
   }

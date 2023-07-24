@@ -14,7 +14,7 @@ const initialValues = {
 }
 
 const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
-  const currentInstitute = useSelector((state: any) => state.currentInstitute);
+  const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const [roleFilter, setRolesFilter] = useState<any>([]);

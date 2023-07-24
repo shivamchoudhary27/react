@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { getData } from "../../../../adapters/coreservices";
-import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
@@ -21,7 +20,6 @@ const Filter = ({
   setUserSelectedEmail,
 }: any) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [validateInputEmail, setValidateEmail] = useState(userSelectedEmail);
   const [initialValues, setInititalvalues] = useState({ email: "" });
   const [showAlert, setShowAlert] = useState(false);
@@ -48,11 +46,7 @@ const Filter = ({
           }
         })
         .catch((err: any) => {
-          // dispatch({
-          //   type: ACTIONSLIST.mitGlobalAlert,
-          //   alertMsg: "Action failed due to some error",
-          //   status: true,
-          // });
+          console.log(err)
         });
     }
   }, [validateInputEmail]);

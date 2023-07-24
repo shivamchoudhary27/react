@@ -48,7 +48,7 @@ const Departments = () => {
     pageSize: pagination.PERPAGE,
   });
   const currentInstitute: CurrentInstitute = useSelector(
-    (state: TypeCurrentInstitute) => state.currentInstitute
+    (state: TypeCurrentInstitute) => state.globalFilters.currentInstitute
   );
 
   const getDepartmentData = (

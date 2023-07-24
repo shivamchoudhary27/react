@@ -10,7 +10,7 @@ import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../../store/actions";
+import { globalAlertActions } from "../../../../store/slices/globalAlerts";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 
@@ -126,11 +126,10 @@ const ManageGroupTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({
+          alertMsg: "Action failed due to some error", 
+          status: true
+        }))
         tagPacket.published = !tagPacket.published;
         setForceRender((prevState) => !prevState);
       });
@@ -153,23 +152,20 @@ const ManageGroupTable = ({
         })
         .catch((result: any) => {
           if (result.response.status === 400) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: result.response.data.message,
-              status: true,
-            });
+            dispatch(globalAlertActions.globalAlert({
+              alertMsg: result.response.data.message, 
+              status: true
+            }))
           } else if (result.response.status === 500) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: "Unable to delete, some error occurred",
-              status: true,
-            });
+            dispatch(globalAlertActions.globalAlert({
+              alertMsg: "Unable to delete, some error occurred", 
+              status: true
+            }))
           } else {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: result.response.data.message,
-              status: true,
-            });
+            dispatch(globalAlertActions.globalAlert({
+              alertMsg: result.response.data.message, 
+              status: true
+            }))
           }
         });
     }

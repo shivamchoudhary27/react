@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useDispatch } from 'react-redux';
 import { putData, deleteData as deleteDepartmentData } from "../../../../adapters/coreservices";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
@@ -15,7 +14,6 @@ import showIcon from "../../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../../assets/images/icons/manage-program-action.svg";
 import ACTIONSLIST from "../../../../store/actions";
-// import { useSelector, useDispatch } from "react-redux";
 
 // Actions btns styling === >>>
 const actionsStyle = {

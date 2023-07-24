@@ -84,14 +84,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   const [step, setStep] = useState(0);
   const batchYearOptions = generateAcademicYears();
   const durationType = durationTypeObj();
-  const selectedDepartment = useSelector(state => state.currentDepartmentFilterId);
+  const selectedDepartment = useSelector(state => state.globalFilters.currentDepartmentFilterId);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: selectedDepartment,
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
 
   const handleNextStep = () => {
     setStep(step + 1);

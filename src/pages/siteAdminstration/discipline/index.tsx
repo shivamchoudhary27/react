@@ -43,7 +43,7 @@ const Discipline = () => {
   });
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
-    (state: ICurrentInstitute) => state.currentInstitute
+    (state: ICurrentInstitute) => state.globalFilters.currentInstitute
   );
 
   const getDisciplineData = (

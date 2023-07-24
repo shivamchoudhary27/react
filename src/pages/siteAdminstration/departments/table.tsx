@@ -1,5 +1,7 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { globalFilterActions } from "../../../store/slices/globalFilters";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 import {
   putData,
   deleteData as deleteDepartmentData,
@@ -17,8 +19,6 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import programIcon from "../../../assets/images/icons/manage-program-action.svg";
-import ACTIONSLIST from "../../../store/actions";
-// import { useSelector, useDispatch } from "react-redux";
 import { TypeModalShow,TypeAlertMsg, TypeDepartmentTable, TypeDepartmentObj, TypeShowAlert } from "./types/type";
 
 // Actions btns styling === >>>
@@ -142,11 +142,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
         departmentPacket.published = !departmentPacket.published;
         setForceRender((prevState) => !prevState);
       });
@@ -192,7 +188,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
   }, [onDeleteAction]);
 
   const manageDepartmentPrograms = (id: number) => {
-    dispatch({ type: ACTIONSLIST.currentDepartmentFilterId, departmentId: id });
+    dispatch(globalFilterActions.currentDepartment(id));
     setTimeout(() => {
       navigate("/manageprogram");
     }, 400);

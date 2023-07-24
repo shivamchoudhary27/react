@@ -14,8 +14,6 @@ import { getChildren, updateCategoryLevels } from "./utils";
 import { setHasChildProp } from "./local";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
 import FieldTypeFile from "../../../widgets/formInputFields/formFileField";
 
 // Formik Yup validation === >>>
@@ -34,7 +32,6 @@ const CourseModal = ({
   toggleCourseModal,
   refreshcategories,
 }: any) => {
-  const dispatch = useDispatch();
   const [courseDetail, setCourseDetails] = useState({});
   const [categorieslist, setCategoriesList] = useState([]);
   const [filteredCategories, setFilterCategories] = useState([]);

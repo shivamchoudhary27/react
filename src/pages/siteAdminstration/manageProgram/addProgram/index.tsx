@@ -19,7 +19,7 @@ const AddProgram = () => {
     status: false,
     id: id,
   });
-  const instituteId = useSelector((state: any) => state.currentInstitute);
+  const instituteId = useSelector((state: any) => state.globalFilters.currentInstitute);
 
   useEffect(() => {
     if (instituteId !== undefined && instituteId > 0 && id !== undefined && id > 0) {

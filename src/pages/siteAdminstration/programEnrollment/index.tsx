@@ -24,7 +24,7 @@ const ProgramEnrollment = () => {
     // published: true
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {

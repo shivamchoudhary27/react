@@ -20,14 +20,14 @@ const ManageProgram = () => {
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState("");
-  const selectedDepartment = useSelector(state => state.currentDepartmentFilterId);
+  const selectedDepartment = useSelector(state => state.globalFilters.currentDepartmentFilterId);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: selectedDepartment,
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute = useSelector(state => state.currentInstitute);
+  const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
 
   const getProgramData = (endPoint : string, filters : any) => {
     setApiStatus("started")

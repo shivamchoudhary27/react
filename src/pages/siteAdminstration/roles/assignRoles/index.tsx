@@ -33,7 +33,7 @@ const AssignRoles = () => {
     pageSize: pagination.PERPAGE * 10,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state: any) => state.currentInstitute);
+  const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
   const [btnHideStatus, setBtnHideStatus] = useState(false);
   const [institutes, setInstitutes] = useState<any>(dummyData);
   const [departments, setDepartments] = useState<any>(dummyData);

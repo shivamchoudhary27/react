@@ -15,8 +15,6 @@ import { postData, putData } from '../../../adapters/microservices';
 import { pagination } from '../../../utils/pagination';
 import { makeGetDataRequest } from '../../../features/apiCalls/getdata';
 import PageTitle from '../../../widgets/pageTitle';
-import { useDispatch } from 'react-redux';
-import ACTIONSLIST from '../../../store/actions';
 import TimerAlertBox from '../../../widgets/alert/timerAlert';
 
 const roleData = [
@@ -33,7 +31,6 @@ const dummyInitValues = {
 };
 
 const EnrolUserToProgram = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { programid, userid, name } = useParams();
   const parsedProgramid = parseInt(programid);
@@ -98,12 +95,6 @@ const EnrolUserToProgram = () => {
       .then((res: any) => {
         if (res.status === 201) {
           navigate(gobackLink);
-          dispatch({
-            type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg:
-              "User created successfully",
-            status: true,
-          });
         }
       })
       .catch((err: any) => {

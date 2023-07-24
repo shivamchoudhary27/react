@@ -12,7 +12,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -113,26 +113,14 @@ const DepartmentTable = ({
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
           } else if (res.status === 500) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: "Unable to delete, some error occurred",
-              status: true,
-            });
+            dispatch(globalAlertActions.globalAlert({alertMsg: "Unable to delete, some error occurred", status: true}))
           }
         })
         .catch((result: any) => {
           if (result.response.status === 400) {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: result.response.data.message,
-              status: true,
-            });
+            dispatch(globalAlertActions.globalAlert({alertMsg: result.response.data.message, status: true}))
           } else {
-            dispatch({
-              type: ACTIONSLIST.mitGlobalAlert,
-              alertMsg: result.response.data.message,
-              status: true,
-            });
+            dispatch(globalAlertActions.globalAlert({alertMsg: result.response.data.message, status: true}))
           }
         });
     }

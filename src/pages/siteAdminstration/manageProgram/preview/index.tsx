@@ -34,7 +34,7 @@ const Preview = () => {
     status: false,
     id: id,
   });
-  const instituteId = useSelector((state: any) => state.currentInstitute);
+  const instituteId = useSelector((state: any) => state.globalFilters.currentInstitute);
   const [newRating, setNewRating] = useState<number>(0);
   const [ratingProgress, setRatingProgress] = useState<number>(0);
 

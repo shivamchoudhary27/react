@@ -42,7 +42,7 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
   });
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
-    (state: ICurrentInstitute) => state.currentInstitute
+    (state: ICurrentInstitute) => state.globalFilters.currentInstitute
   );
 
   // get programs API call === >>>

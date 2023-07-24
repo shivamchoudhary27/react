@@ -21,7 +21,7 @@ import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -179,12 +179,7 @@ const CategoryTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg:
-            "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
         categoryPacket.published = !categoryPacket.published;
         setForceRender((prevState) => !prevState);
       });
@@ -197,12 +192,11 @@ const CategoryTable = ({
     let catShifting = results.source.index;
     let toMoved = results.destination.index;
     if (categoryData[catShifting].level < categoryData[toMoved].level) {
-      dispatch({
-        type: ACTIONSLIST.mitGlobalAlert,
-        alertMsg:
-          "Can not move parent to child level, leaving it's children categories orphaned",
-        status: true,
-      });
+      dispatch(globalAlertActions.globalAlert({
+        alertMsg: "Can not move parent to child level, leaving it's children categories orphaned", 
+        status: true
+      }))
+
       return; // in progress....  (has to be well defined the logic, can not move to only it's own child)
     }
 
@@ -246,12 +240,7 @@ const CategoryTable = ({
       })
       .catch((err: any) => {
         console.log(err);
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg:
-            "Some error occurred!",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Some error occurred!", status: true}))
       });
   };
 
@@ -268,12 +257,7 @@ const CategoryTable = ({
         refreshcategories();
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg:
-            "Some error occurred!",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Some error occurred!", status: true}))
       });
   };
 
