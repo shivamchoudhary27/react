@@ -2,12 +2,10 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import "./style.scss";
 import { Button, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { filterConfig } from "../../utils/filterTimeout";
 import { SemesterFilterDropdown, CourseFilterDropdown } from "./filterDropdown";
 
-const Filter = ({ updateinputfilters, currentInstitute, coursesList, getCourseId }: any) => {
-  const navigate = useNavigate();
+const Filter = ({ updateinputfilters, currentInstitute, coursesList, getCourseId, courseId }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const initialValues = {
     name: "",
@@ -42,7 +40,6 @@ const Filter = ({ updateinputfilters, currentInstitute, coursesList, getCourseId
             <Col>
               <SemesterFilterDropdown
                 name="All Semesters"
-                // currentInstitute={currentInstitute}
                 options={[
                   { id: 1, name: "Semester I" },
                   { id: 2, name: "Semester II" },
@@ -56,7 +53,7 @@ const Filter = ({ updateinputfilters, currentInstitute, coursesList, getCourseId
                 name="All Courses"
                 options={coursesList}
                 getCourseId={getCourseId}
-                // currentInstitute={currentInstitute}
+                courseId={courseId}
               />
             </Col>
           </Row>

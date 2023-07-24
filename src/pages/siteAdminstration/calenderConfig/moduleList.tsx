@@ -17,6 +17,7 @@ const initialValues = {
   forum: "#317FE9",  
   page: "#70A9F1",
   book: "#00000",
+  bigbluebuttonbn: '#5d8bd0',
 };
 
 const ModuleList = () => {

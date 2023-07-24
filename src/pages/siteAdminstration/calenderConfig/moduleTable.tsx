@@ -11,6 +11,7 @@ import UserIcon from '../../../assets/images/activityIcons/user.svg';
 import CategoryIcon from '../../../assets/images/activityIcons/category.svg';
 import SiteIcon from '../../../assets/images/activityIcons/site.svg';
 import CourseIcon from '../../../assets/images/activityIcons/course.svg';
+import BigblueBtnIcon from '../../../assets/images/activityIcons/bigbluebutton.svg'
 
 const ModuleTable = ({ Field }: any) => {
 
@@ -99,5 +100,10 @@ const module_data = [
     label: "book",
     icon: "fa-solid fa-book",
     image: BookIcon
+  },
+  {
+    label: "bigbluebuttonbn",
+    icon: "fa-solid fa-book",
+    image: BigblueBtnIcon
   },
 ];
