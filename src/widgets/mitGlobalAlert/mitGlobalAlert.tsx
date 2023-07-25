@@ -1,18 +1,14 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import ACTIONSLIST from "../../store/actions";
+import { globalAlertActions } from "../../store/slices/globalAlerts";
 
 const MitGlobalAlert = () => {
   const dispatch = useDispatch();
-  let mitGlobalAlert = useSelector((state : any) => state.mitGlobalAlert);
+  const mitGlobalAlert = useSelector((state : any) => state.globalAlerts.mitGlobalAlert);
 
   const closeAlert = () => {
-    dispatch({
-      type: ACTIONSLIST.mitGlobalAlert,
-      alertMsg: "",
-      status: false,
-    });
+    dispatch(globalAlertActions.globalAlert({alertMsg: "", status: false}))
   };
 
   return (

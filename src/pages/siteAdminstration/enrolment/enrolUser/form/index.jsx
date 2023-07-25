@@ -19,7 +19,7 @@ import * as Yup from "yup";
 import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "../utils";
 import { setHasChildProp, resetManageCourseObj } from '../local';
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../../../store/actions";
+import { globalAlertActions } from "../../../../../store/slices/globalAlerts";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -69,12 +69,9 @@ const AddCourseForm = () => {
                 category:catid
               })
             } else {
-              dispatch({
-                type: ACTIONSLIST.mitGlobalAlert,
-                alertMsg:
-                  "No course details were found for requested course",
-                status: true,
-              });
+              dispatch(globalAlertActions.globalAlert({
+                alertMsg: "No course details were found for requested course", status: true
+              }))
             }
           }
         })
@@ -146,12 +143,9 @@ const AddCourseForm = () => {
           }
         })
         .catch((err) => {
-          dispatch({
-            type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg:
-              "Some error occurred!",
-            status: true,
-          });
+          dispatch(globalAlertActions.globalAlert({
+            alertMsg: "Some error occurred!", status: true
+          }))
         });
     }
     // resetForm();

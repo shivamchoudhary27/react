@@ -35,7 +35,7 @@ const ProgramType = () => {
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState<string>("");
-  const currentInstitute: number = useSelector((state: ICurrentInstitute) => state.currentInstitute);
+  const currentInstitute: number = useSelector((state: ICurrentInstitute) => state.globalFilters.currentInstitute);
 
   const getProgramTypeData = (
     endPoint: string,

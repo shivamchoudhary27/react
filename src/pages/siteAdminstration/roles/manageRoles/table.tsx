@@ -9,7 +9,7 @@ import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import { deleteData, putData } from "../../../../adapters/coreservices";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../../store/actions";
+import { globalAlertActions } from "../../../../store/slices/globalAlerts";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
@@ -129,11 +129,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
         rolePacket.published = !rolePacket.published;
         setForceRender((prevState) => !prevState);
       });
@@ -172,11 +168,8 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
           if (result.response.status === 400) {
             errMsg = result.response.data.message
           }
-          dispatch({
-            type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg: errMsg,
-            status: true,
-          });
+          dispatch(globalAlertActions.globalAlert({alertMsg: errMsg, status: true}))
+
         });
     }
     setOnDeleteAction("");

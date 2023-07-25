@@ -13,11 +13,8 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
-import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
 
 const UserManagement = () => {
-  const dispatch = useDispatch();
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
@@ -37,7 +34,7 @@ const UserManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state: any) => state.currentInstitute);
+  const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
 
   // get programs API call === >>>
   useEffect(() => {

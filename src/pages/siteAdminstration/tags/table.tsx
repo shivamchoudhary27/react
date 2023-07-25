@@ -15,7 +15,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -108,11 +108,7 @@ const TagsTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Some error occurred!", status: true}))
         tagPacket.published = !tagPacket.published;
         setForceRender((prevState) => !prevState);
       });

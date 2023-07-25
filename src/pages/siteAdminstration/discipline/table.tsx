@@ -17,7 +17,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 import { IDisciplineObj, IAlertMsg, IDiciplineTable } from "./types/interface";
 
 // Actions btns styling === >>>
@@ -133,11 +133,7 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
+        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
         disciplinePacket.published = !disciplinePacket.published;
         setForceRender((prevState) => !prevState);
       });

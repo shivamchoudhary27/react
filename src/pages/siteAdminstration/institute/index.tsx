@@ -13,9 +13,7 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
 import ConfigModal from "./configModal";
-import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
-import { 
+import {
   TypeDummyData, 
   TypeUserObj, 
   TypeModalShow, 
@@ -25,7 +23,6 @@ import {
 } from "./types/type";
 
 const InstituteManagement = () => {
-  const dispatch = useDispatch();
   const dummyData: TypeDummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [userData, setUserData] = useState<TypeDummyData>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState<TypeUploadModalShow>(false);

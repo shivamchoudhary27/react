@@ -9,8 +9,6 @@ import * as Yup from "yup";
 import { postData, putData } from "../../../../adapters/coreservices";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
-import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../../store/actions";
 import { IAlertMsg, IUserObj } from "./types/interface";
 
 const initialValues = {
@@ -53,7 +51,6 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
   currentInstitute,
 }: IAssignInstituteModal) => {
   
-  const dispatch = useDispatch();
   const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
   const [instituteList, setInstituteList] = useState<IInstituteList[]>([]);
   const [showAlert, setShowAlert] = useState<boolean>(false);

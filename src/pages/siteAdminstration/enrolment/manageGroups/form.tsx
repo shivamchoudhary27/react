@@ -9,7 +9,7 @@ import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
 import { postData, putData } from "../../../../adapters/microservices";
 import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../../store/actions";
+import { globalAlertActions } from "../../../../store/slices/globalAlerts";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
@@ -48,17 +48,9 @@ const GroupModal = ({
         .catch((err: any) => {
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
-              dispatch({
-                type: ACTIONSLIST.mitGlobalAlert,
-                alertMsg: err.response.data.userEmail,
-                status: true,
-              });
+              dispatch(globalAlertActions.globalAlert({alertMsg: err.response.data.userEmail, status: true}))
             } else {
-              dispatch({
-                type: ACTIONSLIST.mitGlobalAlert,
-                alertMsg: err.response.data.message,
-                status: true,
-              });
+              dispatch(globalAlertActions.globalAlert({alertMsg: err.response.data.message, status: true}))
             }
           }
         });
@@ -75,17 +67,9 @@ const GroupModal = ({
         .catch((err: any) => {
           if (err.response.status === 404 || err.response.status === 400) {
             if (err.response.data.userEmail !== undefined) {
-              dispatch({
-                type: ACTIONSLIST.mitGlobalAlert,
-                alertMsg: err.response.data.userEmail,
-                status: true,
-              });
+              dispatch(globalAlertActions.globalAlert({alertMsg: err.response.data.userEmail, status: true}))
             } else {
-              dispatch({
-                type: ACTIONSLIST.mitGlobalAlert,
-                alertMsg: err.response.data.message,
-                status: true,
-              });
+              dispatch(globalAlertActions.globalAlert({alertMsg: err.response.data.message, status: true}))
             }
           }
         });
