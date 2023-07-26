@@ -19,6 +19,7 @@ import UserManagementRoute from './siteAdminRoute/userManagementRoute';
 import ProgramManagementRoute from './siteAdminRoute/programManagementRoute';
 import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
+import CoPoManagementRoute from './siteAdminRoute/copoManagement';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
@@ -46,6 +47,7 @@ export default function NewCustomRoutes() {
             {ProgramManagementRoute()}
             {ProgramEnrollmentRoute()}
             {CalenderManagementRoute()}
+            {CoPoManagementRoute()}
             {StudentDashRoutes()}
             {TeacherDashRoutes()}
             <Route path='/gradebook' element={<GradeBook />} />
