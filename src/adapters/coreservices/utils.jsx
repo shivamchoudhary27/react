@@ -5,7 +5,7 @@ const axiosConfig = {
    axiosInstance : null
 };
 
-const createAxiosInstance = (ACCESS_TOKEN) => {
+const createAxiosInstance = () => {
     const instance = axios.create({
         baseURL: config.CORE_SERVICE_URL,
         headers: {

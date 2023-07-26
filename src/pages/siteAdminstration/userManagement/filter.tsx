@@ -13,7 +13,7 @@ const initialValues = {
   roleId: ""
 }
 
-const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
+const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermissions} : any) => {
   const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
@@ -128,8 +128,12 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal} : any) => {
         </form>
         <div className="site-button-group">
           <Button variant="primary" onClick={()=>navigate("/manageroles")}>Manage Roles</Button>{" "}
-          <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-          <Button variant="primary" onClick={openAddUserModal}>Add User</Button>{" "}
+          {userPermissions.canAdd &&
+            <React.Fragment>
+              <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
+              <Button variant="primary" onClick={openAddUserModal}>Add User</Button>{" "}
+            </React.Fragment>
+          }
         </div>
       </div>
     </React.Fragment>

@@ -70,8 +70,9 @@ const AssignRoles = () => {
       // const packetSet = new Set(
       //   userRoles.map((rolePacket: any) => rolePacket.id)
       // );
+      
       const updatedArray = rolesData.items.map((authority: any) => {
-        const isPresent = userRoles.find((role: any) => role.id === authority.id);
+        const isPresent = userRoles.roles.find((role: any) => role.id === authority.id);
         // const isPresent = packetSet.has(authority.id);
         if (authority.contextType !== null && isPresent !== undefined) {
           // contextIdsTemplate[authority.contextType].push(isPresent.id)

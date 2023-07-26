@@ -35,7 +35,10 @@ const UserManagement = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
-
+  const userAuthorities = useSelector(
+    (state: any) => state.userAuthorities.permissions.user
+  );
+  
   // get programs API call === >>>
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0) {
@@ -165,20 +168,26 @@ const UserManagement = () => {
             updatefilters={updateSearchFilters}
             toggleUploadModal={toggleUploadModal}
             openAddUserModal={openAddUserModal}
+            userPermissions={userAuthorities}
           />
-          <UserManagementTable
-            userdata={userData.items}
-            refreshdata={refreshOnDeleteToggle}
-            editHandlerById={editHandlerById}
-            toggleModalShow={toggleModalShow}
-            apiStatus={apiStatus}
-            currentInstitute={currentInstitute}
-          />
-          <BuildPagination
-            totalpages={userData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
+          {userAuthorities.canView === true &&
+            <React.Fragment>
+              <UserManagementTable
+                userdata={userData.items}
+                refreshdata={refreshOnDeleteToggle}
+                editHandlerById={editHandlerById}
+                toggleModalShow={toggleModalShow}
+                apiStatus={apiStatus}
+                currentInstitute={currentInstitute}
+                userPermissions={userAuthorities}
+              />
+              <BuildPagination
+                totalpages={userData.pager.totalPages}
+                activepage={filterUpdate.pageNumber}
+                getrequestedpage={newPageRequest}
+              />
+            </React.Fragment>
+          }
         </Container>
       </div>
       <UploadNewUsers

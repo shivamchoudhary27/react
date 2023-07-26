@@ -7,6 +7,8 @@ import { createAxiosInstance } from "../../adapters/microservices/utils";
 import NewLoader from "../../widgets/loader";
 import { useDispatch } from "react-redux";
 import { globalAlertActions } from "../../store/slices/globalAlerts";
+import { userAuthoritiesActions } from "../../store/slices/userRoles";
+
 
 const AuthLogin = () => {
   const error = null;
@@ -53,6 +55,34 @@ const AuthLogin = () => {
                 config.OAUTH2_ACCESS_TOKEN = result.access_token;               
                 
                 userCtx.setUserToken(config.WSTOKEN);
+
+                /*
+                 * hit api here for collecting user roles and permission data
+                 * replace this packet with user-role api and with autority packet
+                 */
+                const currentUserPermissions = [
+                  "view course",
+                  "VIEW_USER",
+                  "Create groups",
+                  "DELETE_PROGRAM",
+                  "CREATE_PROGRAM",
+                  "View groups",
+                  "update course",
+                  "delete course",
+                  "create course",
+                  "UPDATE_PROGRAM",
+                  "VIEW_PROGRAM",
+                  // "UPDATE_USER",
+                  "DELETE_USER"
+                ];
+
+                dispatch(userAuthoritiesActions.updateUserAuthorities(currentUserPermissions));
+                localStorage.setItem('userAuthorities', JSON.stringify(currentUserPermissions));
+
+                /*
+                 * end user role handling
+                 */
+
                 // Swal.fire({
                 //   position: "center",
                 //   icon: "success",
