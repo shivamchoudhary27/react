@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
@@ -29,6 +30,7 @@ const UserManagementTable = ({
   editHandlerById,
   apiStatus,
   currentInstitute,
+  userPermissions
 }: any) => {
   const tableColumn = [
     {
@@ -62,41 +64,49 @@ const UserManagementTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to={""}>
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.userId,
-                  userFirstName: row.original.userFirstName,
-                  userLastName: row.original.userLastName,
-                  userEmail: row.original.userEmail,
-                  userCountry: row.original.userCountry,
-                  enabled: row.original.enabled,
-                })
-              }
-            />
-          </Link>
-          <Link className="action-icons" to="">
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() => deleteHandler(row.original.userId)}
-            />
-          </Link>
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleUserEnabled(row.original);
-            }}
-          >
-            <img
-              src={row.original.enabled !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+          {userPermissions.canEdit &&
+            <Link className="action-icons" to={""}>
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.userId,
+                    userFirstName: row.original.userFirstName,
+                    userLastName: row.original.userLastName,
+                    userEmail: row.original.userEmail,
+                    userCountry: row.original.userCountry,
+                    enabled: row.original.enabled,
+                  })
+                }
+              />
+            </Link>
+          }
+          
+          {userPermissions.canDelete &&
+            <Link className="action-icons" to="">
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() => deleteHandler(row.original.userId)}
+              />
+            </Link>
+          }
+
+          {userPermissions.canEdit &&
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleUserEnabled(row.original);
+              }}
+            >
+              <img
+                src={row.original.enabled !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          }
         </span>
       ),
     },
