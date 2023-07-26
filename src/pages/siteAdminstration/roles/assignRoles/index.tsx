@@ -25,7 +25,7 @@ const AssignRoles = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 }};
   const contextIdsTemplate: ContextIdsTemplate = { institute: [], department: [], program: []};
   const [rolesData, setRolesData] = useState<any>(dummyData);
-  const [userRoles, setUserRoles] = useState<any>([]);
+  const [userRoles, setUserRoles] = useState<any>({roles: [], authorities: []});
   const [assignRoles, setAssignRoles] = useState<any>([]);
   const [userSelectedEmail, setUserSelectedEmail] = useState<any>("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
