@@ -39,7 +39,7 @@ export const AdminRawData = [
     {
       title: "CO / PO <br>Management",
       image: copomanagement,
-      link: "#",
+      link: "/copomanagement",
       classname: "copo-management",
       boxclassname: "",    
     },
