@@ -1,11 +1,11 @@
 import { AxiosRequestConfig } from 'axios';
 import { axiosConfig, 
-    createAxiosInstance
+    createCoreAxiosInstance
  } from "./utils";
 
-const ACCESS_TOKEN = ""; 
+const ACCESS_TOKEN = sessionStorage.getItem("access_token") ?? localStorage.getItem("access_token"); 
 
-createAxiosInstance(ACCESS_TOKEN); // to reset the instance if app is refreshed
+createCoreAxiosInstance(ACCESS_TOKEN); // to reset the instance if app is refreshed
 
 export const getData = (endPoint: string, params : any) => {
     const instance = axiosConfig.axiosInstance;

@@ -5,14 +5,15 @@ const axiosConfig = {
    axiosInstance : null
 };
 
-const createAxiosInstance = () => {
+const createCoreAxiosInstance = (ACCESS_TOKEN) => {
     const instance = axios.create({
         baseURL: config.CORE_SERVICE_URL,
         headers: {
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
             "Content-Type": "application/json",
         },
     });
     axiosConfig.axiosInstance = instance;
 }
 
-export { createAxiosInstance, axiosConfig };
+export { createCoreAxiosInstance, axiosConfig };
