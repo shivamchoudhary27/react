@@ -15,7 +15,7 @@ const initialState = {
     authorities: getAuthorities,
     permissions: {
         user: updateEntityPermissions(
-            {view: "VIEW_USER"},
+            {view: "VIEW_USER", add:"CREATE_USER", edit:"UPDATE_USER", remove:"DELETE_USER"},
             getAuthorities
         ),
         program: updateEntityPermissions(
@@ -32,7 +32,7 @@ const userAuthoritiesSlice = createSlice({
         updateUserAuthorities (state, action) {
             state.authorities = action.payload;
             const userPermissions = updateEntityPermissions(
-                {view: "VIEW_USER"},
+                {view: "VIEW_USER", add:"CREATE_USER", edit:"UPDATE_USER", remove:"DELETE_USER"},
                 action.payload
             );
             const programPermissions = updateEntityPermissions(
