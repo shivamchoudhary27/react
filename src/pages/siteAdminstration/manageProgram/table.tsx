@@ -2,7 +2,10 @@ import { useMemo, useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import { deleteData as deleteProgramData, putData } from "../../../adapters/microservices";
+import {
+  deleteData as deleteProgramData,
+  putData,
+} from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
@@ -27,6 +30,7 @@ const ManageTable = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
+  programPermissions,
 }: any) => {
   const tableColumn = [
     {
@@ -49,7 +53,10 @@ const ManageTable = ({
     {
       Header: "Manage Categories",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to={`/managecategory/${row.original.id}/${row.original.name}`}>
+        <Link
+          className="action-icons"
+          to={`/managecategory/${row.original.id}/${row.original.name}`}
+        >
           <img src={manageCategoryIcon} alt="Manage Categories" />
         </Link>
       ),
@@ -58,7 +65,10 @@ const ManageTable = ({
       Header: "Manage Courses",
       accessor: "manage_courses",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to={`/managecourses/${row.original.id}/${row.original.name}`}>
+        <Link
+          className="action-icons"
+          to={`/managecourses/${row.original.id}/${row.original.name}`}
+        >
           <img src={manageCoursesIcon} alt="Manage Courses" />
         </Link>
       ),
@@ -67,20 +77,39 @@ const ManageTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to={createEditLink(row.original.id, row.original.instituteId)}>
-            <img src={editIcon} alt="Edit" />
-          </Link>
-          <Link className="action-icons" to="">
-            <img src={deleteIcon} alt="Delete" onClick={() =>
-                deleteHandler(row.original.id, row.original.instituteId)
-              } />
-          </Link>
-          <Link className="action-icons" to="" onClick={() => {
-            toggleProgramPublished(row.original)
-          }}
-          >
-            <img src={row.original.published !== false ? showIcon : hideIcon} alt="Show" />
-          </Link>
+          {programPermissions.canEdit && (
+            <Link
+              className="action-icons"
+              to={createEditLink(row.original.id, row.original.instituteId)}
+            >
+              <img src={editIcon} alt="Edit" />
+            </Link>
+          )}
+          {programPermissions.canDelete && (
+            <Link className="action-icons" to="">
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() =>
+                  deleteHandler(row.original.id, row.original.instituteId)
+                }
+              />
+            </Link>
+          )}
+          {programPermissions.canEdit && (
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleProgramPublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          )}
         </span>
       ),
     },
@@ -146,18 +175,21 @@ const ManageTable = ({
     setOnDeleteAction("");
   }, [onDeleteAction]);
 
-  const toggleProgramPublished = (programPacket: any) => { 
+  const toggleProgramPublished = (programPacket: any) => {
     programPacket.published = !programPacket.published;
     let endPoint = `/${currentInstitute}/programs/${programPacket.id}`;
     putData(endPoint, programPacket)
-      .then((res: any) => {
-
-      })
+      .then((res: any) => {})
       .catch((err: any) => {
-        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
-        programPacket.published = !programPacket.published
+        dispatch(
+          globalAlertActions.globalAlert({
+            alertMsg: "Action failed due to some error",
+            status: true,
+          })
+        );
+        programPacket.published = !programPacket.published;
       });
-  }
+  };
 
   const deleteHandler = (id: number, instituteId: number) => {
     refreshOnDelete(false);

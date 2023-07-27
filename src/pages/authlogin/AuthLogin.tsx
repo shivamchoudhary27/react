@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import UserContext from "../../features/context/user/user";
 import config from "../../utils/config";
 import { createAxiosInstance } from "../../adapters/microservices/utils";
+import { createCoreAxiosInstance } from "../../adapters/coreservices/utils";
 import NewLoader from "../../widgets/loader";
 import { useDispatch } from "react-redux";
 import { globalAlertActions } from "../../store/slices/globalAlerts";
 import { userAuthoritiesActions } from "../../store/slices/userRoles";
-
+import { getData } from "../../adapters/coreservices";
 
 const AuthLogin = () => {
   const error = null;
@@ -24,6 +25,12 @@ const AuthLogin = () => {
     const params = Object.fromEntries(urlSearchParams.entries());
     setAuthCode(params.code);
   }, []);
+
+  // useEffect(()=>{
+  //   getData('/user-info', {}).then((res: any)=>{
+  //     console.log(res.data.authorities[1])
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (authCode !== "") {
@@ -50,6 +57,7 @@ const AuthLogin = () => {
                 });
 
                 createAxiosInstance(result.access_token);
+                createCoreAxiosInstance(result.access_token);
                 // config.WSTOKEN = config.ADMIN_MOODLE_TOKEN;
                 config.WSTOKEN = result.access_token;
                 config.OAUTH2_ACCESS_TOKEN = result.access_token;               
@@ -60,20 +68,21 @@ const AuthLogin = () => {
                  * hit api here for collecting user roles and permission data
                  * replace this packet with user-role api and with autority packet
                  */
+
                 const currentUserPermissions = [
                   "view course",
-                  "VIEW_USER",
                   "Create groups",
-                  "DELETE_PROGRAM",
-                  "CREATE_PROGRAM",
                   "View groups",
                   "update course",
                   "delete course",
                   "create course",
-                  "UPDATE_PROGRAM",
                   "VIEW_PROGRAM",
-                  // "UPDATE_USER",
-                  "DELETE_USER"
+                  "CREATE_PROGRAM",
+                  "UPDATE_PROGRAM",
+                  "DELETE_PROGRAM",
+                  "VIEW_USER",
+                  "UPDATE_USER",
+                  "DELETE_USER",
                 ];
 
                 dispatch(userAuthoritiesActions.updateUserAuthorities(currentUserPermissions));

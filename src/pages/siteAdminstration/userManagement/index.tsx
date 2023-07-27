@@ -13,6 +13,7 @@ import UploadNewUsers from "./uploadUsers";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -170,7 +171,8 @@ const UserManagement = () => {
             openAddUserModal={openAddUserModal}
             userPermissions={userAuthorities}
           />
-          {userAuthorities.canView === true &&
+          {!userAuthorities.canView ?
+            <Errordiv msg="You don't have permission to view users." cstate className="mt-3" /> :
             <React.Fragment>
               <UserManagementTable
                 userdata={userData.items}

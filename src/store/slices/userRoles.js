@@ -35,7 +35,12 @@ const userAuthoritiesSlice = createSlice({
                 {view: "VIEW_USER", add:"CREATE_USER", edit:"UPDATE_USER", remove:"DELETE_USER"},
                 action.payload
             );
+            const programPermissions = updateEntityPermissions(
+                {view: "VIEW_PROGRAM", add:"CREATE_PROGRAM", edit:"UPDATE_PROGRAM", remove:"DELETE_PROGRAM"},
+                action.payload
+            );
             state.permissions.user = userPermissions;
+            state.permissions.program = programPermissions;
         },
     }
 })
