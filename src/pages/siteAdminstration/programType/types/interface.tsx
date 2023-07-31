@@ -37,6 +37,7 @@ export interface IProgramTable {
   refreshOnDelete: (params: boolean) => void;
   apiStatus: string;
   currentInstitute: number;
+  programtypePermissions: any;
 }
 
 export interface IProgramtypePacket {
@@ -51,7 +52,7 @@ export interface IProgramtypePacket {
 }
 
 export interface IAddProgramModal {
-  programtypeobj:IProgramTypeObj;
+  programtypeobj: IProgramTypeObj;
   togglemodalshow: (params: boolean) => void;
   refreshprogramdata: () => void;
   show: boolean;
@@ -59,7 +60,8 @@ export interface IAddProgramModal {
   currentInstitute: number;
 }
 
-export interface IFilter{
+export interface IFilter {
   openAddProgramType: () => void;
   updateinputfilters: (params: string) => void;
+  programtypePermissions: any;
 }

@@ -4,36 +4,40 @@ import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { IFilter } from "./types/interface";
 
-interface IInitialValues{
-  name: string
+interface IInitialValues {
+  name: string;
 }
 
 const initialValues: IInitialValues = {
   name: "",
-}
+};
 
-const Filter: React.FunctionComponent<IFilter> = ({openAddProgramType, updateinputfilters} : IFilter) => {
+const Filter: React.FunctionComponent<IFilter> = ({
+  openAddProgramType,
+  updateinputfilters,
+  programtypePermissions,
+}: IFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values: IInitialValues) => {
-      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       updateinputfilters(values.name);
     },
     onReset: () => {
-      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
       updateinputfilters(initialValues.name);
-    }
+    },
   });
-  
+
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event : any) => {
+  const handleFilterChange = (event: any) => {
     formik.handleChange(event); // Update formik values
 
-    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId: NodeJS.Timeout = setTimeout(() => {
@@ -49,7 +53,9 @@ const Filter: React.FunctionComponent<IFilter> = ({openAddProgramType, updateinp
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <label htmlFor="name" hidden>Name</label>
+              <label htmlFor="name" hidden>
+                Name
+              </label>
               <input
                 className="form-control"
                 id="name"
@@ -61,13 +67,27 @@ const Filter: React.FunctionComponent<IFilter> = ({openAddProgramType, updateinp
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
-              <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+              <Button variant="primary" type="submit" className="me-2">
+                Filter
+              </Button>
+              <Button
+                variant="outline-secondary"
+                type="reset"
+                onClick={formik.handleReset}
+              >
+                Reset
+              </Button>
             </Col>
-          </Row>          
+          </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddProgramType}>Add Program Type</Button>{" "}
+          {
+            (programtypePermissions.canAdd === true && (
+              <Button variant="primary" onClick={openAddProgramType}>
+                Add Program Type
+              </Button>
+            ))
+          }{" "}
         </div>
       </div>
     </React.Fragment>

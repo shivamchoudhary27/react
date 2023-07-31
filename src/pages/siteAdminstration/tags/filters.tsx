@@ -1,13 +1,18 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
-}
+};
 
-const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
+const Filters = ({
+  toggleModalShow,
+  setTagObj,
+  updateInputFilters,
+  userPermissions,
+}: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const addTagsHandler = () => {
     toggleModalShow(true);
@@ -16,23 +21,23 @@ const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       updateInputFilters(values.name);
     },
     onReset: () => {
-      if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
       updateInputFilters(initialValues.name);
-    }
+    },
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event : any) => {
+  const handleFilterChange = (event: any) => {
     formik.handleChange(event); // Update formik values
 
-    if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
+    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
@@ -48,7 +53,9 @@ const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <label htmlFor="name" hidden>Name</label>
+              <label htmlFor="name" hidden>
+                Name
+              </label>
               <input
                 className="form-control"
                 id="name"
@@ -60,13 +67,25 @@ const Filters = ({ toggleModalShow, setTagObj, updateInputFilters }: any) => {
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
-              <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
+              <Button variant="primary" type="submit" className="me-2">
+                Filter
+              </Button>
+              <Button
+                variant="outline-secondary"
+                type="reset"
+                onClick={formik.handleReset}
+              >
+                Reset
+              </Button>
             </Col>
-          </Row>          
+          </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={addTagsHandler}>Add Tags</Button>{" "}
+          {userPermissions.canAdd === true && (
+            <Button variant="primary" onClick={addTagsHandler}>
+              Add Tags
+            </Button>
+          )}{" "}
         </div>
       </div>
     </React.Fragment>

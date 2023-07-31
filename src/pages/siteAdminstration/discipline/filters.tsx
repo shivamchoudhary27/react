@@ -11,12 +11,17 @@ const initialValues: IInitialValues = {
   name: "",
 };
 
-interface IFilter{
+interface IFilter {
   openAddDiscipline: (params: boolean) => void;
   updateInputFilters: (params: string) => void;
+  disciplinePermissions: any;
 }
 
-const Filter: React.FunctionComponent<IFilter> = ({ openAddDiscipline, updateInputFilters }: IFilter) => {
+const Filter: React.FunctionComponent<IFilter> = ({
+  openAddDiscipline,
+  updateInputFilters,
+  disciplinePermissions,
+}: IFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
@@ -81,9 +86,11 @@ const Filter: React.FunctionComponent<IFilter> = ({ openAddDiscipline, updateInp
           </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddDiscipline}>
-            Add Discipline
-          </Button>{" "}
+          {disciplinePermissions.canAdd === true && (
+            <Button variant="primary" onClick={openAddDiscipline}>
+              Add Discipline
+            </Button>
+          )}{" "}
         </div>
       </div>
     </React.Fragment>

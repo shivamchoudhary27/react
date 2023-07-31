@@ -36,6 +36,9 @@ const ProgramType = () => {
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector((state: ICurrentInstitute) => state.globalFilters.currentInstitute);
+  const userAuthorities = useSelector(
+    (state: any) => state.userAuthorities.permissions.programtype
+  );
 
   const getProgramTypeData = (
     endPoint: string,
@@ -177,6 +180,7 @@ const ProgramType = () => {
       refreshOnDelete={refreshOnDeleteToggle}
       apiStatus={apiStatus}
       currentInstitute={currentInstitute}
+      programtypePermissions={userAuthorities}
     />
   );
 
@@ -198,6 +202,7 @@ const ProgramType = () => {
             openAddProgramType={openAddProgramType}
             updateDepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
+            programtypePermissions={userAuthorities}
           />
           {/* {PROGRAM_TYPE_BUTTON} */}
           {ADDPROGRAM_MODAL_COMPONENT}

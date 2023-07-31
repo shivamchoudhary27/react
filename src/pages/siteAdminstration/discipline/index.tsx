@@ -20,6 +20,7 @@ import {
   IFilterUpdate,
   ICurrentInstitute,
 } from "./types/interface";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const Discipline = () => {
   const dummyData: IDummyData = {
@@ -44,6 +45,9 @@ const Discipline = () => {
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
     (state: ICurrentInstitute) => state.globalFilters.currentInstitute
+  );
+  const userAuthorities = useSelector(
+    (state: any) => state.userAuthorities.permissions.discipline
   );
 
   const getDisciplineData = (
@@ -107,7 +111,12 @@ const Discipline = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({ id, name, description, published }: IDisciplineObj) => {
+  const editHandlerById = ({
+    id,
+    name,
+    description,
+    published,
+  }: IDisciplineObj) => {
     setDisciplineObj({
       id: id,
       name: name,
@@ -146,6 +155,7 @@ const Discipline = () => {
       refreshOnDelete={refreshOnDeleteToggle}
       apiStatus={apiStatus}
       currentInstitute={currentInstitute}
+      disciplinePermissions={userAuthorities}
     />
   );
 
@@ -178,9 +188,18 @@ const Discipline = () => {
           <Filters
             openAddDiscipline={openAddDiscipline}
             updateInputFilters={updateInputFilters}
+            disciplinePermissions={userAuthorities}
           />
           {/* {DISCIPLINE_BUTTONS} */}
-          {DISCIPLINE_TABLE_COMPONENT}
+          {!userAuthorities.canView ? (
+            <Errordiv
+              msg="You don't have permission to view discipline."
+              cstate
+              className="mt-3"
+            />
+          ) : (
+            DISCIPLINE_TABLE_COMPONENT
+          )}
           <BuildPagination
             totalpages={diciplineData.pager.totalPages}
             activepage={filterUpdate.pageNumber}
