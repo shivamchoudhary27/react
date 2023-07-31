@@ -31,6 +31,7 @@ const TagsTable = ({
   editHandlerById,
   apiStatus,
   currentInstitute,
+  userPermissions,
 }: any) => {
   const tableColumn = [
     {
@@ -41,38 +42,44 @@ const TagsTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  published: row.original.published,
-                })
-              }
-            />
-          </Link>
-          <Link className="action-icons" to="">
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() => deleteHandler(row.original.id)}
-            />
-          </Link>
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleTagsPublished(row.original);
-            }}
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+          {userPermissions.canEdit === true && (
+            <Link className="action-icons" to="">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    published: row.original.published,
+                  })
+                }
+              />
+            </Link>
+          )}
+          {userPermissions.canDelete === true && (
+            <Link className="action-icons" to="">
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() => deleteHandler(row.original.id)}
+              />
+            </Link>
+          )}
+          {userPermissions.canEdit === true && (
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleTagsPublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          )}
         </span>
       ),
     },
@@ -108,7 +115,12 @@ const TagsTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch(globalAlertActions.globalAlert({alertMsg: "Some error occurred!", status: true}))
+        dispatch(
+          globalAlertActions.globalAlert({
+            alertMsg: "Some error occurred!",
+            status: true,
+          })
+        );
         tagPacket.published = !tagPacket.published;
         setForceRender((prevState) => !prevState);
       });

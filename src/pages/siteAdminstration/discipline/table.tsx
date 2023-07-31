@@ -35,6 +35,7 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
+  disciplinePermissions,
 }: IDiciplineTable) => {
   // custom react table column === >>>
   const tableColumn = [
@@ -54,48 +55,54 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  description: row.original.description,
-                  published: row.original.published,
-                })
-              }
-            />
-          </Link>
-          <Link
-            className={`action-icons ${
-              row.original.totalPrograms > 0 ? "disabled" : ""
-            }`}
-            to=""
-          >
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() =>
-                row.original.totalPrograms < 1
-                  ? deleteHandler(row.original.id)
-                  : null
-              }
-            />
-          </Link>{" "}
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleDisciplinePublished(row.original);
-            }}
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+          {disciplinePermissions.canEdit === true && (
+            <Link className="action-icons" to="">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    description: row.original.description,
+                    published: row.original.published,
+                  })
+                }
+              />
+            </Link>
+          )}
+          {disciplinePermissions.canDelete === true && (
+            <Link
+              className={`action-icons ${
+                row.original.totalPrograms > 0 ? "disabled" : ""
+              }`}
+              to=""
+            >
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() =>
+                  row.original.totalPrograms < 1
+                    ? deleteHandler(row.original.id)
+                    : null
+                }
+              />
+            </Link>
+          )}{" "}
+          {disciplinePermissions.canEdit === true && (
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleDisciplinePublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          )}
         </span>
       ),
     },
@@ -111,14 +118,22 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
       data,
     });
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+    message: "",
+    alertBoxColor: "",
+  });
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [onDeleteAction, setOnDeleteAction] = useState<string>("");
   const [deleteId, setDeleteId] = useState<number>(0);
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, description, published }: IDisciplineObj) => {
+  const editHandler = ({
+    id,
+    name,
+    description,
+    published,
+  }: IDisciplineObj) => {
     toggleModalShow(true);
     editHandlerById({ id, name, description, published });
     refreshDisciplineData();
@@ -133,7 +148,12 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch(globalAlertActions.globalAlert({alertMsg: "Action failed due to some error", status: true}))
+        dispatch(
+          globalAlertActions.globalAlert({
+            alertMsg: "Action failed due to some error",
+            status: true,
+          })
+        );
         disciplinePacket.published = !disciplinePacket.published;
         setForceRender((prevState) => !prevState);
       });

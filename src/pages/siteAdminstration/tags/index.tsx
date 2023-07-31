@@ -26,6 +26,9 @@ const Tags = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
+  const userAuthorities = useSelector(
+    (state: any) => state.userAuthorities.permissions.tag
+  );
 
   const getTags = () => {
     setApiStatus("started")
@@ -100,6 +103,7 @@ const Tags = () => {
             toggleModalShow={toggleModalShow}
             setTagObj={setTagObj}
             updateInputFilters={updateInputFilters}
+            userPermissions={userAuthorities}
           />
           <TagsModal
             show={modalShow}
@@ -116,6 +120,7 @@ const Tags = () => {
             editHandlerById={editHandlerById}
             apiStatus={apiStatus}
             currentInstitute={currentInstitute}
+            userPermissions={userAuthorities}
           />
           <BuildPagination
             totalpages={allTags.pager.totalPages}

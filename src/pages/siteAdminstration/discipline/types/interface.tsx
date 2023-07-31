@@ -50,4 +50,5 @@ export interface IDiciplineTable {
   refreshOnDelete: (params: boolean) => void;
   apiStatus: string;
   currentInstitute: number;
+  disciplinePermissions: any;
 }

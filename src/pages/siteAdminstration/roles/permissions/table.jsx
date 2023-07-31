@@ -17,6 +17,8 @@ const moduleList = [
   { id: "role", name: "Role" },
   { id: "enrolment", name: "Enrolment" },
   { id: "group", name: "Group" },
+  {id: "enrolment", name: "enrolment"},
+  {id: "role", name: "role"},
   { id: "tag", name: "Tag" },
 ];
 

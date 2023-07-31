@@ -30,6 +30,7 @@ const ManageGroupTable = ({
   refreshGroupData,
   apiStatus,
   currentInstitute,
+  userPermissions,
 }: any) => {
   const tableColumn = [
     {
@@ -48,47 +49,53 @@ const ManageGroupTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  description: row.original.description,
-                })
-              }
-            />
-          </Link>
-          <Link
-            className={`action-icons ${
-              row.original.totalMembers > 0 ? "delete-disabled" : ""
-            }`}
-            to=""
-          >
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() =>
-                row.original.totalMembers < 1
-                  ? deleteHandler(row.original.id)
-                  : null
-              }
-            />
-          </Link>{" "}
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleGroupPublished(row.original);
-            }}
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+          {userPermissions.canEdit === true && (
+            <Link className="action-icons" to="">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    description: row.original.description,
+                  })
+                }
+              />
+            </Link>
+          )}
+          {userPermissions.canDelete === true && (
+            <Link
+              className={`action-icons ${
+                row.original.totalMembers > 0 ? "delete-disabled" : ""
+              }`}
+              to=""
+            >
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() =>
+                  row.original.totalMembers < 1
+                    ? deleteHandler(row.original.id)
+                    : null
+                }
+              />
+            </Link>
+          )}{" "}
+          {userPermissions.canEdit === true && (
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleGroupPublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          )}
         </span>
       ),
     },
@@ -126,17 +133,19 @@ const ManageGroupTable = ({
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
-        dispatch(globalAlertActions.globalAlert({
-          alertMsg: "Action failed due to some error", 
-          status: true
-        }))
+        dispatch(
+          globalAlertActions.globalAlert({
+            alertMsg: "Action failed due to some error",
+            status: true,
+          })
+        );
         tagPacket.published = !tagPacket.published;
         setForceRender((prevState) => !prevState);
       });
   };
 
   // delete event handler === >>>
-  useEffect(()=>{
+  useEffect(() => {
     if (onDeleteAction === "Yes") {
       let endPoint = `/${courseid}/group/${deleteId}`;
       deleteData(endPoint)
@@ -152,25 +161,31 @@ const ManageGroupTable = ({
         })
         .catch((result: any) => {
           if (result.response.status === 400) {
-            dispatch(globalAlertActions.globalAlert({
-              alertMsg: result.response.data.message, 
-              status: true
-            }))
+            dispatch(
+              globalAlertActions.globalAlert({
+                alertMsg: result.response.data.message,
+                status: true,
+              })
+            );
           } else if (result.response.status === 500) {
-            dispatch(globalAlertActions.globalAlert({
-              alertMsg: "Unable to delete, some error occurred", 
-              status: true
-            }))
+            dispatch(
+              globalAlertActions.globalAlert({
+                alertMsg: "Unable to delete, some error occurred",
+                status: true,
+              })
+            );
           } else {
-            dispatch(globalAlertActions.globalAlert({
-              alertMsg: result.response.data.message, 
-              status: true
-            }))
+            dispatch(
+              globalAlertActions.globalAlert({
+                alertMsg: result.response.data.message,
+                status: true,
+              })
+            );
           }
         });
     }
     setOnDeleteAction("");
-  }, [onDeleteAction])
+  }, [onDeleteAction]);
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {

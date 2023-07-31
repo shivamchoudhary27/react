@@ -19,18 +19,12 @@ const AuthLogin = () => {
   const [authCode, setAuthCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const redirectUri = config.REDIRECT_URI;
-  
+
   useEffect(() => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const params = Object.fromEntries(urlSearchParams.entries());
     setAuthCode(params.code);
-  }, []);
-
-  // useEffect(()=>{
-  //   getData('/user-info', {}).then((res: any)=>{
-  //     console.log(res.data.authorities[1])
-  //   })
-  // }, [])
+  }, []); 
 
   useEffect(() => {
     if (authCode !== "") {
@@ -69,24 +63,33 @@ const AuthLogin = () => {
                  * replace this packet with user-role api and with autority packet
                  */
 
-                const currentUserPermissions = [
-                  "view course",
-                  "Create groups",
-                  "View groups",
-                  "update course",
-                  "delete course",
-                  "create course",
-                  "VIEW_PROGRAM",
-                  "CREATE_PROGRAM",
-                  "UPDATE_PROGRAM",
-                  "DELETE_PROGRAM",
-                  "VIEW_USER",
-                  "UPDATE_USER",
-                  "DELETE_USER",
-                ];
+                getData('/user-info', {}).then((res: any)=>{
+                  if(res.data !== "" && res.status === 200){
+                    console.log("role-----", res.data.authorities[1])
+                    res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
+                    res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
+                  }
+                  // navigate("/studentdashboard");         
+                })
 
-                dispatch(userAuthoritiesActions.updateUserAuthorities(currentUserPermissions));
-                localStorage.setItem('userAuthorities', JSON.stringify(currentUserPermissions));
+                // const currentUserPermissions = [
+                //   "view course",
+                //   "Create groups",
+                //   "View groups",
+                //   "update course",
+                //   "delete course",
+                //   "create course",
+                //   "VIEW_PROGRAM",
+                //   "CREATE_PROGRAM",
+                //   "UPDATE_PROGRAM",
+                //   "DELETE_PROGRAM",
+                //   "VIEW_USER",
+                //   "UPDATE_USER",
+                //   "DELETE_USER",
+                // ];
+
+                // dispatch(userAuthoritiesActions.updateUserAuthorities(currentUserPermissions));
+                // localStorage.setItem('userAuthorities', JSON.stringify(currentUserPermissions));
 
                 /*
                  * end user role handling
@@ -99,6 +102,7 @@ const AuthLogin = () => {
                 //   showConfirmButton: false,
                 //   timer: 1500,
                 // });
+
                 navigate("/studentdashboard");         
               } else {
                 dispatch(globalAlertActions.globalAlert({alertMsg: "Failed to get auth token", status : true}))

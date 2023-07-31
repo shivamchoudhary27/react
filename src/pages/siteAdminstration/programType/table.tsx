@@ -38,6 +38,7 @@ const ProgramTable = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
+  programtypePermissions,
 }: IProgramTable) => {
   // custom react table Column === >>>
   const tableColumn = [
@@ -57,49 +58,55 @@ const ProgramTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  description: row.original.description,
-                  batchYearRequired: row.original.isBatchYearRequired,
-                  published: row.original.published,
-                })
-              }
-            />
-          </Link>{" "}
-          <Link
-            className={`action-icons ${
-              row.original.totalPrograms > 0 ? "disabled" : ""
-            }`}
-            to=""
-          >
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() =>
-                row.original.totalPrograms < 1
-                  ? deleteHandler(row.original.id)
-                  : null
-              }
-            />
-          </Link>{" "}
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleProgramtypePublished(row.original);
-            }}
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+          {programtypePermissions.canEdit === true && (
+            <Link className="action-icons" to="">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    description: row.original.description,
+                    batchYearRequired: row.original.isBatchYearRequired,
+                    published: row.original.published,
+                  })
+                }
+              />
+            </Link>
+          )}{" "}
+          {programtypePermissions.canDelete === true && (
+            <Link
+              className={`action-icons ${
+                row.original.totalPrograms > 0 ? "disabled" : ""
+              }`}
+              to=""
+            >
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() =>
+                  row.original.totalPrograms < 1
+                    ? deleteHandler(row.original.id)
+                    : null
+                }
+              />
+            </Link>
+          )}{" "}
+          {programtypePermissions.canEdit === true && (
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleProgramtypePublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          )}
         </span>
       ),
     },
