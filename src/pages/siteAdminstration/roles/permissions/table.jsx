@@ -12,7 +12,10 @@ const moduleList = [
   { id: "course", name: "Course" },
   { id: "category", name: "Category" },
   { id: "program", name: "Program" },
+  { id: "department", name: "Department" },
   { id: "institute", name: "Institute" },
+  { id: "role", name: "Role" },
+  { id: "enrolment", name: "Enrolment" },
   { id: "group", name: "Group" },
   { id: "tag", name: "Tag" },
 ];
