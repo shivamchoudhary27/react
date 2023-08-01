@@ -9,16 +9,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const moduleList = [
   { id: "user", name: "User" },
-  { id: "course", name: "Course" },
-  { id: "category", name: "Category" },
-  { id: "program", name: "Program" },
-  { id: "department", name: "Department" },
   { id: "institute", name: "Institute" },
+  { id: "department", name: "Department" },
+  { id: "program", name: "Program" },
+  { id: "category", name: "Category" },
+  { id: "course", name: "Course" },
   { id: "role", name: "Role" },
   { id: "enrolment", name: "Enrolment" },
   { id: "group", name: "Group" },
-  {id: "enrolment", name: "enrolment"},
-  {id: "role", name: "role"},
   { id: "tag", name: "Tag" },
 ];
 

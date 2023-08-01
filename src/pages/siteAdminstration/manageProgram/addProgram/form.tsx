@@ -62,6 +62,7 @@ const step1Schema = Yup.object({
     .integer("Number must be an integer")
     .positive("Number must be positive")
     .required("Number is required"),
+  // file: Yup.mixed().required("File is required"),
 });
 
 // Step 2 validation schema
@@ -159,15 +160,15 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       filterProgramCode(`/${currentInstitute}/programs`, values.programCode, actions)
     }
   }
-
+  
   const _submitForm = (values: any, actions: any) => {
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
-
+    
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
       actions.setSubmitting(true);
-      postProgramData(endPoint, programValues)
+      postProgramData(endPoint, programValues, values.file)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
             Swal.fire({
@@ -199,7 +200,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
       actions.setSubmitting(true);
-      updateProgramData(endPoint, programValues)
+      updateProgramData(endPoint, programValues, values.file)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             Swal.fire({
@@ -280,6 +281,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             setValues,
             handleChange,
             isSubmitting,
+            setFieldValue
           }) => (
             <Form>
               <div className="tabStep-indicator">
@@ -385,6 +387,18 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         touched={touched.discipline}
                       />
                     </Col>
+                    {/* 
+                      update labels
+                    */}
+                    <input
+                      className="form-control"
+                      id="file"
+                      name="file"
+                      type="file"
+                      onChange={(event) => {
+                        setFieldValue("file", event.currentTarget.files[0]);
+                      }}
+                    />
 
                     <Col md={4}>
                       <FieldLabel
