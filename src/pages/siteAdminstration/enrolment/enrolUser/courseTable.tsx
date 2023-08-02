@@ -91,6 +91,8 @@ const EnrolUserTable = ({
       data,
     });
 
+    console.log("categoryData----",categoryData)
+
   const enrolToCourses = (courseid : number) => {
     // console.log(courseid);
   }
@@ -138,12 +140,12 @@ const EnrolUserTable = ({
                   })}
                 </tbody>
           </Table>
-          {apiStatus === "started" && categoryData.length === 0 && (
+          {/* {apiStatus === "started" && selectedData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && categoryData.length === 0 && (
+        {apiStatus === "finished" && selectedData.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
-        )}
+        )} */}
       </div>
     </>
   );
