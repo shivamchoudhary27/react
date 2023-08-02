@@ -153,6 +153,7 @@ const UserManagementTable = ({
       let endPoint = `/${currentInstitute}/users/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
+          // console.log("delet data------",res)
           if (res.status === 200) {
             refreshdata(true);
             setShowAlert(true);
@@ -169,6 +170,8 @@ const UserManagementTable = ({
           }
         })
         .catch((result: any) => {
+          // console.log("delete data------",result)
+
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({

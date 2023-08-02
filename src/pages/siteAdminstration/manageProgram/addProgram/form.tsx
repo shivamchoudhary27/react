@@ -32,6 +32,7 @@ import "./style.scss";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import { useSelector } from "react-redux";
 import { pagination } from "../../../../utils/pagination";
+import UploadImage from "./uploadImage";
 
 const steps = ["Step 1", "Step 2"];
 
@@ -162,6 +163,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   }
   
   const _submitForm = (values: any, actions: any) => {
+    console.log(values)
     let programValues = generateProgramDataObject(values);
     let error_Msg = "";
     
@@ -201,7 +203,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       let endPoint = `/${instituteId}/programs/${programid}`;
       actions.setSubmitting(true);
       updateProgramData(endPoint, programValues, values.file)
-        .then((res: any) => {
+      .then((res: any) => {
+          console.log("update-----", res)
           if (res.data !== "" && res.status === 200) {
             Swal.fire({
               icon: "success",
@@ -387,18 +390,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         touched={touched.discipline}
                       />
                     </Col>
-                    {/* 
-                      update labels
-                    */}
-                    <input
-                      className="form-control"
-                      id="file"
-                      name="file"
-                      type="file"
-                      onChange={(event) => {
-                        setFieldValue("file", event.currentTarget.files[0]);
-                      }}
-                    />
 
                     <Col md={4}>
                       <FieldLabel
@@ -564,6 +555,16 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         checkboxLabel="Lifetime Access"
                       />
                     </div>
+                    {/* <input
+                      className="form-control"
+                      id="file"
+                      name="file"
+                      type="file"
+                      onChange={(event) => {
+                        setFieldValue("file", event.currentTarget.files[0]);
+                      }}
+                    /> */}
+                    <UploadImage />
                     <div>
                       <FieldTypeCheckbox
                         name="programaccessinfo"

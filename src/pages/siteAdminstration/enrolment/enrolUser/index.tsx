@@ -7,9 +7,15 @@ import { Container, Button } from "react-bootstrap";
 import EnrolUserTable from "./courseTable";
 import { useNavigate, useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../../adapters/microservices/index";
-import { getLatestWeightForCategory, updateCategoryLevels, getChildren } from "./utils";
-import { setHasChildProp, resetManageCourseObj } from './local';
+import {
+  getLatestWeightForCategory,
+  updateCategoryLevels,
+  getChildren,
+} from "./utils";
+import { setHasChildProp, resetManageCourseObj } from "./local";
 import PageTitle from "../../../../widgets/pageTitle";
+import TableSkeleton from "../../../../widgets/skeleton/table";
+import Errordiv from "../../../../widgets/alert/errordiv";
 
 const EnrolUsers = () => {
   const navigate = useNavigate();
@@ -22,29 +28,34 @@ const EnrolUsers = () => {
   const [modalShow, setModalShow] = useState(false);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
-  const [editCategory, setEditCategory] = useState<any>({id: 0, name: "", weight: 0, parent: 0});
+  const [editCategory, setEditCategory] = useState<any>({
+    id: 0,
+    name: "",
+    weight: 0,
+    parent: 0,
+  });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
     pageSize: 100,
   });
   const [apiStatus, setApiStatus] = useState("");
-  
+
   const getCategoriesData = () => {
-    setApiStatus("started")
+    setApiStatus("started");
     const endPoint = `/${id}/category`;
     getCategoryData(endPoint, filterUpdate)
-      .then((res: any) => { 
+      .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCategoryData(res.data.items);
         }
-        setApiStatus("finished")
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished")
+        setApiStatus("finished");
       });
-  }
+  };
 
   // Get category Data from API === >>
   useEffect(() => {
@@ -52,7 +63,7 @@ const EnrolUsers = () => {
       getCategoriesData();
     }
   }, [deleteRefresh]);
-  
+
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
@@ -60,11 +71,15 @@ const EnrolUsers = () => {
 
   useEffect(() => {
     if (categoryData.length > 0) {
-      const convertedResult = categoryData.filter(item => item.parent === 0)
-                            .sort((a,b) => a.weight - b.weight)
-                            .reduce((acc, item) => [...acc, item, ...getChildren(item, categoryData)], []);
-      
-      convertedResult.forEach(item => {
+      const convertedResult = categoryData
+        .filter((item) => item.parent === 0)
+        .sort((a, b) => a.weight - b.weight)
+        .reduce(
+          (acc, item) => [...acc, item, ...getChildren(item, categoryData)],
+          []
+        );
+
+      convertedResult.forEach((item) => {
         if (item.parent === 0) {
           item.level = 1;
           updateCategoryLevels(convertedResult, item.id, 2);
@@ -84,7 +99,6 @@ const EnrolUsers = () => {
     }
   }, [categoryData]);
 
-
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
@@ -94,7 +108,7 @@ const EnrolUsers = () => {
     setModalShow(false);
     setFormWeight(0);
     setFormParent(0);
-  }
+  };
 
   // handle to re-rendering of category table === >>
   const refreshToggle = (status: boolean) => {
@@ -105,60 +119,68 @@ const EnrolUsers = () => {
   const updateDeleteRefresh = (status: boolean) => {
     setDeleteRefresh(status);
     setSortedCategories([]);
-  }
+  };
 
-  const setFormParentValue = (value : number) => {
+  const setFormParentValue = (value: number) => {
     setFormParent(value);
-  }
+  };
 
-  const setFormWeightValue = (value : number) => {
+  const setFormWeightValue = (value: number) => {
     setFormWeight(value);
-  }
+  };
 
-  const setEditCategoryValues = (catInfo : any) => {
+  const setEditCategoryValues = (catInfo: any) => {
     setEditCategory(catInfo);
-    setFormWeight(catInfo.weight)
+    setFormWeight(catInfo.weight);
     setFormParent(catInfo.parent);
-  }
-  
+  };
+
   const cleanFormValues = () => {
-    setEditCategory({id: 0, name: "", weight: 0, parent: 0});
-  }
+    setEditCategory({ id: 0, name: "", weight: 0, parent: 0 });
+  };
 
   return (
     <>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Programs Enrollment", path: "/programenrollment" },
-              { name: name, path: "" },    
-            ]}
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Programs Enrollment", path: "/programenrollment" },
+          { name: name, path: "" },
+        ]}
+      />
+      <div className="contentarea-wrapper mt-3 mb-5">
+        <Container fluid>
+          <PageTitle
+            pageTitle={`Program: <span>${name}</span>`}
+            gobacklink={`/manageprogramenrollment/${id}/${name}`}
           />
-      <div className="contentarea-wrapper mt-3 mb-5">          
-          <Container fluid>
-          <PageTitle 
-            pageTitle = {`Program: <span>${name}</span>`} gobacklink = {`/manageprogramenrollment/${id}/${name}`}
-          />
-            {sortedCategories.length !== 0 && (
-              <EnrolUserTable
-                categoryData={sortedCategories}
-                modalShow={modalShow}
-                toggleModalShow={toggleModalShow}
-                programId={id}
-                setFormParentValue={setFormParentValue}
-                setFormWeightValue={setFormWeightValue}
-                updatedeleterefresh={updateDeleteRefresh}
-                setEditCategoryValues={setEditCategoryValues}
-                refreshcategories={refreshToggle}
-                cleanFormValues={cleanFormValues}
-                apiStatus={apiStatus}
-                name={name}
-              />
-            )}
-          </Container>
-        </div>
+          {sortedCategories.length !== 0 ? (
+            <EnrolUserTable
+              categoryData={sortedCategories}
+              modalShow={modalShow}
+              toggleModalShow={toggleModalShow}
+              programId={id}
+              setFormParentValue={setFormParentValue}
+              setFormWeightValue={setFormWeightValue}
+              updatedeleterefresh={updateDeleteRefresh}
+              setEditCategoryValues={setEditCategoryValues}
+              refreshcategories={refreshToggle}
+              cleanFormValues={cleanFormValues}
+              apiStatus={apiStatus}
+              name={name}
+            />
+          ) : (
+            (apiStatus === "started" && sortedCategories.length === 0 && (
+              <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+            )) ||
+            (apiStatus === "finished" && sortedCategories.length === 0 && (
+              <Errordiv msg="No record found!" cstate className="mt-3" />
+            ))
+          )}
+        </Container>
+      </div>
       <Footer />
     </>
   );
