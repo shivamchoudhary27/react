@@ -36,7 +36,7 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
       ?{...chosenRole, contextIds: handleContextIds[chosenRole.contextType]}
       :{...chosenRole}
     ));
-    console.log('saving role packet', newAssignedRoles)
+
     setIsSubmitting(true);
     postData(`/${currentInstitute}/${userId}/user-roles`, newAssignedRoles)
       .then((res: any) => {
@@ -99,7 +99,7 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
     <React.Fragment>
       <div className="assign-roles">
         {roleAssignment.map((item: any, index: number) => (
-          <React.Fragment>
+          <React.Fragment key={item.id}>
             <h5 className="role-name" key={item.id}>
               <input
                 className="form-check-input me-1"

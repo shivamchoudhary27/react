@@ -4,7 +4,7 @@ import CoPoManagement from '../../../pages/siteAdminstration/copoManagement'
 
 const CoPoManagementRoute = () => {
   return [
-    <Route path='/copomanagement' element={<CoPoManagement />} />
+    <Route key='copomanagement' path='/copomanagement' element={<CoPoManagement />} />
   ]
 }
 
