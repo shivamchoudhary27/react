@@ -17,6 +17,7 @@ export const initialValues = {
     programaccessinfo: [],
     isBatchYearRequired: false,
     tags: [],
+    file: null
 };
 
 // a set of fields to be added or removed within the program form
@@ -66,7 +67,8 @@ const programData = {
     department: {id: '' },
     discipline: {id: ''},
     metaFields: [{title: '', description: ''}],
-    tags: [{id: ""}]
+    tags: [{id: ""}],
+    file: null
 }
 
 // to convert program formdata to api required structure after the form submission
@@ -123,6 +125,7 @@ export const generateIinitialValues = (apiData) => {
             isBatchYearRequired: apiData.programType.batchYearRequired ?? false,
             meta: apiData.metaFields,
             tags: apiData.tags.map(obj => obj.id),
+            file: null
         }
        return setInitialValues;
     }  else {

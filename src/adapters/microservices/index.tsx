@@ -10,22 +10,22 @@ export const getData = (endPoint: string, params : any) => {
     return instance.get(endPoint, { params });
 };
 
-export const postData = (endPoint: string, requestData: any, file?: File) => {
+export const postData = (endPoint: string, requestData: any, file?: File, component: string = '') => {
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
     
-    if (file) {
+    if (file || component === 'program') {
         const {formData, headers} = handleFileFields(data, file)
         return instance.post(endPoint, formData, { headers });
     }
     return instance.post(endPoint, data);
 };
 
-export const putData = (endPoint: string, requestData: any, file?: File) => {
+export const putData = (endPoint: string, requestData: any, file?: File, component: string = '') => {
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
-   
-    if (file) {
+    
+    if (file || component === 'program') {
         const {formData, headers} = handleFileFields(data, file);
         return instance.put(endPoint, formData, { headers });
     }
@@ -47,7 +47,7 @@ function handleFileFields (data: any ,file: File) {
     const formData = new FormData();
     formData.append('file', file);
     Object.entries(data).forEach(([key, value]) => {
-       formData.append(key, value);
+       formData.append(key, JSON.stringify(value));
     });
 
     return {formData, headers}

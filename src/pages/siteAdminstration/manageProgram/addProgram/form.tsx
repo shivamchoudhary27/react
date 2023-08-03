@@ -163,14 +163,15 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   }
   
   const _submitForm = (values: any, actions: any) => {
-    console.log(values)
     let programValues = generateProgramDataObject(values);
+    let programImage = values.file;
+    delete programValues?.file;
     let error_Msg = "";
-    
+
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
       actions.setSubmitting(true);
-      postProgramData(endPoint, programValues, values.file)
+      postProgramData(endPoint, {program: programValues}, programImage, 'program')
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
             Swal.fire({
@@ -202,7 +203,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
       actions.setSubmitting(true);
-      updateProgramData(endPoint, programValues, values.file)
+      updateProgramData(endPoint, {program: programValues}, programImage, 'program')
       .then((res: any) => {
           console.log("update-----", res)
           if (res.data !== "" && res.status === 200) {
@@ -555,7 +556,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         checkboxLabel="Lifetime Access"
                       />
                     </div>
-                    {/* <input
+                    <input
                       className="form-control"
                       id="file"
                       name="file"
@@ -563,8 +564,9 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       onChange={(event) => {
                         setFieldValue("file", event.currentTarget.files[0]);
                       }}
-                    /> */}
-                    <UploadImage />
+                      multiple
+                    />
+                    {/* <UploadImage /> */}
                     <div>
                       <FieldTypeCheckbox
                         name="programaccessinfo"
