@@ -172,7 +172,8 @@ const UserManagement = () => {
             userPermissions={userAuthorities}
           />
           {!userAuthorities.user.canView ?
-            <Errordiv msg="You don't have permission to view users." cstate className="mt-3" /> :
+            <Errordiv msg="You don't have permission to view users." cstate className="mt-3" /> 
+           :
             <React.Fragment>
               <UserManagementTable
                 userdata={userData.items}

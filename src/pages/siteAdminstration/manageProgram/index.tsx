@@ -40,7 +40,7 @@ const ManageProgram = () => {
   const programAuthorities = useSelector(
     (state: any) => state.userAuthorities.permissions
   );
-
+  
   const getProgramData = (endPoint: string, filters: any) => {
     setApiStatus("started");
     getData(endPoint, filters)
@@ -126,7 +126,7 @@ const ManageProgram = () => {
         <Container fluid>
           <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />
           <div className="site-button-group mb-3">
-            {!programAuthorities.department.canView &&
+            {programAuthorities.department.canView &&
               <Button
                 variant="secondary"
                 size="sm"
@@ -135,7 +135,7 @@ const ManageProgram = () => {
                 Department
               </Button>            
             }
-            {!programAuthorities.programtype.canView &&
+            {programAuthorities.programtype.canView &&
               <Button
               variant="secondary"
               size="sm"
@@ -144,7 +144,7 @@ const ManageProgram = () => {
                 Program Type
               </Button>
             }
-            {!programAuthorities.discipline.canView && 
+            {programAuthorities.discipline.canView && 
               <Button
               variant="secondary"
               size="sm"
