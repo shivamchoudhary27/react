@@ -221,13 +221,3 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
 };
 
 export default AssignInstituteModal;
-
-const options = [
-  { id: 1, label: "Option 1" },
-  { id: 2, label: "Option 2" },
-  { id: 3, label: "Option 3" },
-  { id: 4, label: "Option 4" },
-  { id: 5, label: "Option 5" },
-  { id: 6, label: "Option 6" },
-  { id: 7, label: "Option 7" },
-];

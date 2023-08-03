@@ -163,6 +163,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
                       { id: "institute", name: "Institute" },
                       { id: "program", name: "Program" },
                       { id: "department", name: "Department" },
+                      { id: "course", name: "Course" },
                     ]}
                     setcurrentvalue={setValues}
                     currentformvalue={values}
@@ -227,9 +228,3 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
 };
 
 export default AddUserModal;
-
-const options = [
-  { option: "option1" },
-  { option: "option1" },
-  { option: "option1" },
-];
