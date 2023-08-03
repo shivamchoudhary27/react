@@ -52,7 +52,7 @@ const Departments = () => {
     (state: TypeCurrentInstitute) => state.globalFilters.currentInstitute
   );
   const departmentPermission = useSelector(
-    (state: any) => state.userAuthorities.department
+    (state: any) => state.userAuthorities.permissions.department
   );
 
   const getDepartmentData = (

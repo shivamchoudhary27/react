@@ -92,7 +92,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
           </Row>
         </form>
         <div className="site-button-group">
-          {!permissions.canAdd && 
+          {permissions.canAdd && 
             <Button variant="primary" onClick={openAddDepartment}>
               Add Department
             </Button>

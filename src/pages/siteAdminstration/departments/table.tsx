@@ -64,7 +64,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {!permissions.canEdit && 
+          {permissions.canEdit && 
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -79,7 +79,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
               />
             </Link>
           }
-          {!permissions.canDelete && 
+          {permissions.canDelete && 
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -97,7 +97,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
               />
             </Link>
           }
-          {!permissions.canEdit && 
+          {permissions.canEdit && 
             <Link
               className="action-icons"
               to=""
