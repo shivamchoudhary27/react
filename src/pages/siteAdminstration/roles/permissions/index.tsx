@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
@@ -25,6 +26,9 @@ const Permission = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
   });
+  const rolePermissions = useSelector(
+    (state: any) => state.userAuthorities.permissions.role
+  );
   
   useEffect(() => {
     makeGetDataRequest(`/authorities`, filterUpdate, setAuthorityList, setApiStatus, "core-service");
@@ -67,6 +71,7 @@ const Permission = () => {
             permissionData={permissionData}
             roleId={roleId}
             apiStatus={apiStatus}
+            rolePermissions={rolePermissions}
           />
           {/* <UserManagement />
           <ProgramManagement />

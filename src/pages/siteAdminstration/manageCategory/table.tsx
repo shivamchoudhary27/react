@@ -42,6 +42,7 @@ const CategoryTable = ({
   cleanFormValues,
   getDeleteCategoryID,
   apiStatus,
+  categoryPermission
 }: any) => {
   const tableColumn = [
     {
@@ -65,7 +66,7 @@ const CategoryTable = ({
       accessor: "subCategory",
       Cell: ({ row }: any) => (
         <>
-          {row.original.courses.length === 0 && (
+          {categoryPermission.canAdd && row.original.courses.length === 0 && (
             <Link
               className="action-icons small-icon"
               to=""
@@ -86,48 +87,54 @@ const CategoryTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
+          {categoryPermission.canEdit &&
+            <Link className="action-icons" to="">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() => {
+                  editHandler(
+                    row.original.id,
+                    row.original.name,
+                    row.original.weight,
+                    row.original.parent
+                  );
+                }}
+              />
+            </Link>
+          }
+          {categoryPermission.canDelete &&
+            <Link
+              className={`action-icons ${
+                row.original.canBeDeleted !== false ? "" : "disabled"
+              }`}
+              to=""
+            >
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() =>
+                  row.original.canBeDeleted !== false
+                    ? deleteHandler(row.original.id)
+                    : null
+                }
+              />
+            </Link>
+          }
+          {categoryPermission.canEdit &&
+            <Link
+              className="action-icons"
+              to=""
               onClick={() => {
-                editHandler(
-                  row.original.id,
-                  row.original.name,
-                  row.original.weight,
-                  row.original.parent
-                );
+                toggleCategoryPublished(row.original);
               }}
-            />
-          </Link>
-          <Link
-            className={`action-icons ${
-              row.original.canBeDeleted !== false ? "" : "disabled"
-            }`}
-            to=""
-          >
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() =>
-                row.original.canBeDeleted !== false
-                  ? deleteHandler(row.original.id)
-                  : null
-              }
-            />
-          </Link>{" "}
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleCategoryPublished(row.original);
-            }}
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          }
         </span>
       ),
     },

@@ -31,6 +31,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
   editHandlerById,
   setAddRoleModalShow,
   getRoleId,
+  rolePermissions
 }: IRoleTable) => {
   const tableColumn = [
     {
@@ -64,28 +65,32 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to={""}>
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  description: row.original.description,
-                  contextType: row.original.contextType,
-                  published: row.original.published,
-                })
-              }
-            />
-          </Link>
-          <Link className="action-icons" to="">
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() => deleteHandler(row.original.id)}
-            />
-          </Link>
+          {rolePermissions.canEdit && 
+            <Link className="action-icons" to={""}>
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    description: row.original.description,
+                    contextType: row.original.contextType,
+                    published: row.original.published,
+                  })
+                }
+              />
+            </Link>
+          }
+          {rolePermissions.canDelete &&
+            <Link className="action-icons" to="">
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() => deleteHandler(row.original.id)}
+              />
+            </Link>
+          }
           {/* <Link
             className="action-icons"
             to=""

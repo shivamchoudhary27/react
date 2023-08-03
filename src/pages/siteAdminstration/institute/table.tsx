@@ -36,6 +36,7 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
   apiStatus,
   configModalShow,
   editConfigHandler,
+  permissions
 }: UserManagementTableProps) => {
   const tableColumn = [
     {
@@ -62,47 +63,53 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={gearIcon}
-              alt="Setting"
-              onClick={() =>
-                configEditHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  userEmail: row.original.userEmail,
-                  shortCode: row.original.shortCode,
-                  instanceUrl: row.original.instanceUrl,
-                  webServiceToken: row.original.webServiceToken,
-                  locked: row.original.locked,
-                })
-              }
-            />
-          </Link>
-          <Link className="action-icons" to={""}>
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  userEmail: row.original.userEmail,
-                  shortCode: row.original.shortCode,
-                  instanceUrl: row.original.instanceUrl,
-                  webServiceToken: row.original.webServiceToken,
-                  locked: row.original.locked,
-                })
-              }
-            />
-          </Link>
-          <Link className="action-icons" to="">
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() => deleteHandler(row.original.id)}
-            />
-          </Link>
+          {permissions.canEdit && 
+            <>
+              <Link className="action-icons" to="">
+                <img
+                  src={gearIcon}
+                  alt="Setting"
+                  onClick={() =>
+                    configEditHandler({
+                      id: row.original.id,
+                      name: row.original.name,
+                      userEmail: row.original.userEmail,
+                      shortCode: row.original.shortCode,
+                      instanceUrl: row.original.instanceUrl,
+                      webServiceToken: row.original.webServiceToken,
+                      locked: row.original.locked,
+                    })
+                  }
+                  />
+              </Link>
+              <Link className="action-icons" to={""}>
+                <img
+                  src={editIcon}
+                  alt="Edit"
+                  onClick={() =>
+                    editHandler({
+                      id: row.original.id,
+                      name: row.original.name,
+                      userEmail: row.original.userEmail,
+                      shortCode: row.original.shortCode,
+                      instanceUrl: row.original.instanceUrl,
+                      webServiceToken: row.original.webServiceToken,
+                      locked: row.original.locked,
+                    })
+                  }
+                  />
+              </Link>
+            </>
+          }
+          {permissions.canDelete &&
+            <Link className="action-icons" to="">
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() => deleteHandler(row.original.id)}
+                />
+            </Link>
+          }
         </span>
       ),
     },

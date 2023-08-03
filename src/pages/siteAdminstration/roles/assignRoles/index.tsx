@@ -61,7 +61,7 @@ const AssignRoles = () => {
         "core-service"
       );
     } else {
-      setUserRoles([]);
+      setUserRoles({roles: [], authorities: []});
     }
   }, [userId]);
 

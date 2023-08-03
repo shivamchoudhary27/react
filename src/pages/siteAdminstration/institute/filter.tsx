@@ -14,7 +14,7 @@ const initialValues: TypeInitialValues = {
   shortCode: "",
 }
 
-const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploadModal, openAddUserModal} : TypeFilter) => {
+const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploadModal, openAddUserModal, permissions} : TypeFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
@@ -91,7 +91,9 @@ const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploa
           </Row>          
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddUserModal}>Add Institute</Button>{" "}
+          {permissions.canAdd &&
+            <Button variant="primary" onClick={openAddUserModal}>Add Institute</Button>
+          }
         </div>
       </div>
     </React.Fragment>

@@ -16,6 +16,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
   toggleModalShow,
   resetDepartmentForm,
   updateInputFilters,
+  permissions
 }: TypeFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
@@ -91,9 +92,11 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
           </Row>
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={openAddDepartment}>
-            Add Department
-          </Button>{" "}
+          {!permissions.canAdd && 
+            <Button variant="primary" onClick={openAddDepartment}>
+              Add Department
+            </Button>
+          }
         </div>
       </div>
     </React.Fragment>

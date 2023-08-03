@@ -38,7 +38,7 @@ const ManageProgram = () => {
     (state) => state.globalFilters.currentInstitute
   );
   const programAuthorities = useSelector(
-    (state: any) => state.userAuthorities.permissions.program
+    (state: any) => state.userAuthorities.permissions
   );
 
   const getProgramData = (endPoint: string, filters: any) => {
@@ -63,8 +63,6 @@ const ManageProgram = () => {
         setApiStatus("finished");
       });
   };
-
-  console.log(programData);
 
   // get programs API call === >>>
   useEffect(() => {
@@ -128,27 +126,33 @@ const ManageProgram = () => {
         <Container fluid>
           <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />
           <div className="site-button-group mb-3">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => navigate("/department")}
-            >
-              Department
-            </Button>{" "}
-            <Button
+            {!programAuthorities.department.canView &&
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => navigate("/department")}
+              >
+                Department
+              </Button>            
+            }
+            {!programAuthorities.programtype.canView &&
+              <Button
               variant="secondary"
               size="sm"
               onClick={() => navigate("/programtype")}
-            >
-              Program Type
-            </Button>{" "}
-            <Button
+              >
+                Program Type
+              </Button>
+            }
+            {!programAuthorities.discipline.canView && 
+              <Button
               variant="secondary"
               size="sm"
               onClick={() => navigate("/discipline")}
-            >
-              Discipline
-            </Button>{" "}
+              >
+                Discipline
+              </Button>
+            }
             <Button
               variant="secondary"
               size="sm"
@@ -161,9 +165,9 @@ const ManageProgram = () => {
             updatedepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
             currentInstitute={currentInstitute}
-            programPermissions={programAuthorities}
+            programPermissions={programAuthorities.program}
           />
-          {!programAuthorities.canView ? (
+          {!programAuthorities.program.canView ? (
             <Errordiv
               msg="You don't have permission to view programs."
               cstate
@@ -177,7 +181,7 @@ const ManageProgram = () => {
                 refreshOnDelete={refreshOnDeleteToggle}
                 apiStatus={apiStatus}
                 currentInstitute={currentInstitute}
-                programPermissions={programAuthorities}
+                programPermissions={programAuthorities.program}
               />
               <BuildPagination
                 totalpages={programData.pager.totalPages}

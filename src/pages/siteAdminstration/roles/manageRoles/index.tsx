@@ -43,6 +43,9 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
     (state: ICurrentInstitute) => state.globalFilters.currentInstitute
+  ); 
+  const rolePermissions = useSelector(
+    (state: any) => state.userAuthorities.permissions.role
   );
 
   // get programs API call === >>>
@@ -172,15 +175,19 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
             toggleModalShow={toggleModalShow}
             openAddRoleModal={openAddRoleModal}
             updateSearchFilters={updateSearchFilters}
+            rolePermissions={rolePermissions}
           />
-          <RolesTable
-            userData={userData.items}
-            currentInstitute={currentInstitute}
-            refreshOnDeleteToggle={refreshOnDeleteToggle}
-            apiStatus={apiStatus}
-            editHandlerById={editHandlerById}
-            setAddRoleModalShow={setAddRoleModalShow}
-          />
+          {rolePermissions.canView &&
+            <RolesTable
+              userData={userData.items}
+              currentInstitute={currentInstitute}
+              refreshOnDeleteToggle={refreshOnDeleteToggle}
+              apiStatus={apiStatus}
+              editHandlerById={editHandlerById}
+              setAddRoleModalShow={setAddRoleModalShow}
+              rolePermissions={rolePermissions}
+            />
+          }
         </Container>
       </div>
       <AssignInstituteModal

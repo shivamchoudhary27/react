@@ -17,6 +17,7 @@ const Filter: React.FunctionComponent<IFilter> = ({
   updateSearchFilters,
   toggleModalShow,
   openAddRoleModal,
+  rolePermissions
 }: IFilter) => {
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
@@ -98,9 +99,11 @@ const Filter: React.FunctionComponent<IFilter> = ({
             Manage Authorities
           </Button>{" "} */}
           {/* <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "} */}
-          <Button variant="primary" onClick={openAddRoleModal}>
-            Add Role
-          </Button>{" "}
+          {rolePermissions.canAdd &&
+            <Button variant="primary" onClick={openAddRoleModal}>
+              Add Role
+            </Button>
+          }
         </div>
       </div>
     </React.Fragment>

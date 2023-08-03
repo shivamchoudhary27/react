@@ -36,6 +36,7 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
   refreshOnDelete,
   apiStatus,
   currentInstitute,
+  permissions,
 }: TypeDepartmentTable) => {
   // custom react table Column === >>>
   const tableColumn = [
@@ -63,47 +64,53 @@ const DepartmentTable: React.FunctionComponent<TypeDepartmentTable> = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  published: row.original.published,
-                })
-              }
-            />
-          </Link>
-          <Link
-            className={`action-icons ${
-              row.original.totalPrograms > 0 ? "disabled" : ""
-            }`}
-            to=""
-          >
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() =>
-                row.original.totalPrograms < 1
-                  ? deleteHandler(row.original.id)
-                  : null
-              }
-            />
-          </Link>{" "}
-          <Link
-            className="action-icons"
-            to=""
-            onClick={() => {
-              toggleDepartmentPublished(row.original);
-            }}
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link>
+          {!permissions.canEdit && 
+            <Link className="action-icons" to="">
+              <img
+                src={editIcon}
+                alt="Edit"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    published: row.original.published,
+                  })
+                }
+              />
+            </Link>
+          }
+          {!permissions.canDelete && 
+            <Link
+              className={`action-icons ${
+                row.original.totalPrograms > 0 ? "disabled" : ""
+              }`}
+              to=""
+            >
+              <img
+                src={deleteIcon}
+                alt="Delete"
+                onClick={() =>
+                  row.original.totalPrograms < 1
+                    ? deleteHandler(row.original.id)
+                    : null
+                }
+              />
+            </Link>
+          }
+          {!permissions.canEdit && 
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleDepartmentPublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          }
         </span>
       ),
     },

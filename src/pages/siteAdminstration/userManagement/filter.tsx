@@ -127,12 +127,14 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
           </Row>          
         </form>
         <div className="site-button-group">
-          <Button variant="primary" onClick={()=>navigate("/manageroles")}>Manage Roles</Button>{" "}
-          {userPermissions.canAdd &&
-            <React.Fragment>
-              <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-              <Button variant="primary" onClick={openAddUserModal}>Add User</Button>{" "}
-            </React.Fragment>
+          {userPermissions.role.canView && 
+            <Button variant="primary" onClick={()=>navigate("/manageroles")}>Manage Roles</Button>
+          } 
+          {userPermissions.user.canUpload && 
+            <Button variant="primary" onClick={toggleUploadModal}>Upload Users</Button>
+          }
+          {userPermissions.user.canAdd &&
+            <Button variant="primary" onClick={openAddUserModal}>Add User</Button>
           }
         </div>
       </div>
