@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import HeaderTabs from "../../headerTabs";
 import Footer from "../../newFooter";
 import Header from "../../newHeader";
@@ -40,6 +41,9 @@ const ManageCategory = () => {
     pageNumber: 0,
     pageSize: 200,
   });
+  const categoryPermission = useSelector(
+    (state: any) => state.userAuthorities.permissions.course
+  );
 
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
@@ -172,19 +176,22 @@ const ManageCategory = () => {
             pageTitle="Manage Categories"
             gobacklink="/manageprogram"
           />
-          <CategoryTable
-            categoryData={sortedCategories}
-            modalShow={modalShow}
-            toggleModalShow={toggleModalShow}
-            id={id}
-            setFormParentValue={setFormParentValue}
-            setFormWeightValue={setFormWeightValue}
-            updatedeleterefresh={updateDeleteRefresh}
-            setEditCategoryValues={setEditCategoryValues}
-            refreshcategories={refreshToggle}
-            cleanFormValues={cleanFormValues}
-            apiStatus={apiStatus}
-          />
+          {categoryPermission.canView &&
+            <CategoryTable
+              categoryData={sortedCategories}
+              modalShow={modalShow}
+              toggleModalShow={toggleModalShow}
+              id={id}
+              setFormParentValue={setFormParentValue}
+              setFormWeightValue={setFormWeightValue}
+              updatedeleterefresh={updateDeleteRefresh}
+              setEditCategoryValues={setEditCategoryValues}
+              refreshcategories={refreshToggle}
+              cleanFormValues={cleanFormValues}
+              apiStatus={apiStatus}
+              categoryPermission={categoryPermission}
+            />
+          }
 
           <Addcategory
             latestparentweight={parentWeight}

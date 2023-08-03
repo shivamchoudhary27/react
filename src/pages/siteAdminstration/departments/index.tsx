@@ -14,6 +14,7 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
 import Filters from "./filters";
+import Errordiv from "../../../widgets/alert/errordiv";
 import {
   TypeDummyData,
   TypeModalShow,
@@ -49,6 +50,9 @@ const Departments = () => {
   });
   const currentInstitute: CurrentInstitute = useSelector(
     (state: TypeCurrentInstitute) => state.globalFilters.currentInstitute
+  );
+  const departmentPermission = useSelector(
+    (state: any) => state.userAuthorities.department
   );
 
   const getDepartmentData = (
@@ -144,6 +148,7 @@ const Departments = () => {
       refreshOnDelete={refreshOnDeleteToggle}
       apiStatus={apiStatus}
       currentInstitute={currentInstitute}
+      permissions={departmentPermission}
     />
   );
 
@@ -178,16 +183,27 @@ const Departments = () => {
             // setDepartmentData={setDepartmentData}
             updateInputFilters={updateInputFilters}
             resetDepartmentForm={resetDepartmentForm}
+            permissions={departmentPermission}
             // updateDepartment={updateDepartmentFilter}
             // updateinputfilters={updateInputFilters}
             // updateCurrentInstitute={updateCurrentInstitute}
           />
-          {DEPARTMENT_TABLE_COMPONENT}
-          <BuildPagination
-            totalpages={departmentData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
+          {!departmentPermission.canView ? (
+            <Errordiv
+              msg="You don't have permission to view deparments."
+              cstate
+              className="mt-3"
+            />
+          ) : (
+            <>
+              {DEPARTMENT_TABLE_COMPONENT}
+              <BuildPagination
+                totalpages={departmentData.pager.totalPages}
+                activepage={filterUpdate.pageNumber}
+                getrequestedpage={newPageRequest}
+              />
+            </>
+          )}
           {DEPARTMENT_MODAL_COMPONENT}
         </Container>
       </div>

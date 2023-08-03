@@ -46,6 +46,7 @@ const CourseTable = ({
   editHandlerById,
   getDeleteCourseID,
   apiStatus,
+  coursePermission
 }: any) => {
   const tableColumn = [
     {
@@ -85,49 +86,56 @@ const CourseTable = ({
         <span style={actionsStyle}>
           {row.original.coursename !== undefined ? (
             <>
-              <Link
+              {coursePermission.canEdit &&
+                <Link
                 className="action-icons"
-                to=""
-                // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
-              >
-                <img
-                  src={editIcon}
-                  alt="Edit"
-                  onClick={() =>
-                    editHandler({
-                      id: row.original.coursedetails.id,
-                      name: row.original.coursename,
-                      courseCode: row.original.coursedetails.courseCode,
-                      category: row.original.catid,
-                      description: row.original.coursedetails.description,
-                      published: row.original.coursedetails.published,
-                    })
-                  }
-                />
-              </Link>
-              <Link className="action-icons" to="">
-                <img
-                  src={deleteIcon}
-                  alt="Delete"
+                  to=""
+                  // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
+                >
+                  <img
+                    src={editIcon}
+                    alt="Edit"
+                    onClick={() =>
+                      editHandler({
+                        id: row.original.coursedetails.id,
+                        name: row.original.coursename,
+                        courseCode: row.original.coursedetails.courseCode,
+                        category: row.original.catid,
+                        description: row.original.coursedetails.description,
+                        published: row.original.coursedetails.published,
+                      })
+                    }
+                    />
+                </Link>
+              }
+              {coursePermission.canDelete &&
+                <Link className="action-icons" to="">
+                  <img
+                    src={deleteIcon}
+                    alt="Delete"
+                    onClick={() => {
+                      deleteHandler(row.original.courseid);
+                    }}
+                    />
+                </Link>
+              }
+              {coursePermission.canEdit &&
+                <Link
+                className="action-icons"
+                  to=""
                   onClick={() => {
-                    deleteHandler(row.original.courseid);
+                    toggleCoursePublished(row.original);
                   }}
-                />
-              </Link>
-              <Link
-                className="action-icons"
-                to=""
-                onClick={() => {
-                  toggleCoursePublished(row.original);
-                }}
-              >
-                <img
-                  src={row.original.published !== false ? showIcon : hideIcon}
-                  alt="Show"
-                />
-              </Link>
+                  >
+                  <img
+                    src={row.original.published !== false ? showIcon : hideIcon}
+                    alt="Show"
+                    />
+                </Link>
+              }
             </>
           ) : (
+            coursePermission.canEdit &&
             row.original.haschild !== undefined &&
             row.original.haschild === false && (
               <Button

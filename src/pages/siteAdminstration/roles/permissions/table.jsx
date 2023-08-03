@@ -20,7 +20,7 @@ const moduleList = [
   { id: "tag", name: "Tag" },
 ];
 
-const RolePermissionTable = ({ permissionData, roleId, apiStatus }) => {
+const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermissions }) => {
   const navigate = useNavigate();
   const [data, setData] = useState(permissionData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -128,7 +128,7 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus }) => {
       {apiStatus === "finished" && permissionData.length === 0 && (
         <Errordiv msg="No permission record found!" cstate className="mt-3" />
       )}
-      {apiStatus === "finished" && permissionData.length > 0 && (
+      {rolePermissions.canUpdateAuthority && apiStatus === "finished" && permissionData.length > 0 && (
         <div style={{ textAlign: "center" }}>
           {isSubmitting === false ? (
             <CustomButton

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -30,7 +31,7 @@ const InstituteManagement = () => {
   const [configModal, setConfigModal] = useState(false);
   const [userObj, setUserObj] = useState<TypeUserObj>({
     id: 0,
-    name: "",
+    name: "", 
     userEmail: "",
     shortCode: "",
     instanceUrl: "",
@@ -44,7 +45,10 @@ const InstituteManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState<TypeApiStatus>("");
-
+  const permissions = useSelector(
+    (state: any) => state.userAuthorities.permissions.institute
+  );
+  
   // get programs API call === >>>
   useEffect(() => {
     if (refreshOnDelete === true) {
@@ -202,21 +206,27 @@ const InstituteManagement = () => {
             updatefilters={updateSearchFilters}
             toggleUploadModal={toggleUploadModal}
             openAddUserModal={openAddUserModal}
+            permissions={permissions}
           />
-          <UserManagementTable
-            userdata={userData.items}
-            refreshdata={refreshOnDeleteToggle}
-            editHandlerById={editHandlerById}
-            editConfigHandler={editConfigHandler}
-            toggleModalShow={toggleModalShow}
-            configModalShow={configModalShow}
-            apiStatus={apiStatus}
-          />
-          <BuildPagination
-            totalpages={userData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
+          {permissions.canView &&
+            <>
+              <UserManagementTable
+                userdata={userData.items}
+                refreshdata={refreshOnDeleteToggle}
+                editHandlerById={editHandlerById}
+                editConfigHandler={editConfigHandler}
+                toggleModalShow={toggleModalShow}
+                configModalShow={configModalShow}
+                apiStatus={apiStatus}
+                permissions={permissions}
+              />
+              <BuildPagination
+                totalpages={userData.pager.totalPages}
+                activepage={filterUpdate.pageNumber}
+                getrequestedpage={newPageRequest}
+              />
+            </>
+          }
         </Container>
       </div>
       <UploadNewUsers

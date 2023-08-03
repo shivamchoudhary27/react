@@ -37,7 +37,7 @@ const UserManagement = () => {
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
   const userAuthorities = useSelector(
-    (state: any) => state.userAuthorities.permissions.user
+    (state: any) => state.userAuthorities.permissions
   );
   
   // get programs API call === >>>
@@ -171,7 +171,7 @@ const UserManagement = () => {
             openAddUserModal={openAddUserModal}
             userPermissions={userAuthorities}
           />
-          {!userAuthorities.canView ?
+          {!userAuthorities.user.canView ?
             <Errordiv msg="You don't have permission to view users." cstate className="mt-3" /> :
             <React.Fragment>
               <UserManagementTable

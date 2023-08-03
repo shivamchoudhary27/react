@@ -55,16 +55,22 @@ const UserManagementTable = ({
     {
       Header: "Assign Roles",
       Cell: ({ row }: any) => (
-        <Link className="action-icons" to={`/assignroles/${row.original.userId}`}>
-          Assign Roles
-        </Link>
+        <>
+          {userPermissions.role.canAssignRole ?
+            <Link className="action-icons" to={`/assignroles/${row.original.userId}`}>
+              Assign Roles
+            </Link>
+            :
+            "Not Allowed"
+          }
+        </>
       ),
     },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {userPermissions.canEdit &&
+          {userPermissions.user.canEdit &&
             <Link className="action-icons" to={""}>
               <img
                 src={editIcon}
@@ -83,7 +89,7 @@ const UserManagementTable = ({
             </Link>
           }
           
-          {userPermissions.canDelete &&
+          {userPermissions.user.canDelete &&
             <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
@@ -93,7 +99,7 @@ const UserManagementTable = ({
             </Link>
           }
 
-          {userPermissions.canEdit &&
+          {userPermissions.user.canEdit &&
             <Link
               className="action-icons"
               to=""

@@ -17,7 +17,7 @@ const permissionsList = {
         course: {view: "VIEW_COURSE_ENROL", add:"CREATE_COURSE_ENROL", edit:"UPDATE_COURSE_ENROL", remove:"REMOVE_COURSE_ENROL", bulkEnrol: "BULK_COURSE_ENROL"},
     }
 };
-
+ 
 const updateEntityPermissions = (permissionNames, authorities, component = '') => {
     const permissions = {
         canView: authorities.includes(permissionNames.view),
@@ -34,7 +34,7 @@ const updateEntityPermissions = (permissionNames, authorities, component = '') =
     } else if (component === 'program_enrol' || component === 'course_enrol') {
         permissions.canBulkEnrol = authorities.includes(permissionNames.bulkEnrol);
     }
-  
+
     return permissions;
 };
 

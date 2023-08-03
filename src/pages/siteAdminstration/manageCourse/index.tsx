@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -47,6 +48,9 @@ const CourseManagment = () => {
     description: "",
     published: false,
   });
+  const coursePermission = useSelector(
+    (state: any) => state.userAuthorities.permissions.course
+  );
 
   const getCategoriesData = () => {
     const endPoint = `/${id}/category`;
@@ -177,21 +181,24 @@ const CourseManagment = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
-          <CourseTable
-            categoryData={sortedCategories}
-            modalShow={modalShow}
-            toggleModalShow={toggleModalShow}
-            programId={id}
-            setFormParentValue={setFormParentValue}
-            setFormWeightValue={setFormWeightValue}
-            updatedeleterefresh={updateDeleteRefresh}
-            setEditCategoryValues={setEditCategoryValues}
-            refreshcategories={refreshToggle}
-            cleanFormValues={cleanFormValues}
-            toggleCourseModal={toggleCourseModal}
-            editHandlerById={editHandlerById}
-            apiStatus={apiStatus}      
-          />
+          {coursePermission.canView &&
+            <CourseTable
+              categoryData={sortedCategories}
+              modalShow={modalShow}
+              toggleModalShow={toggleModalShow}
+              programId={id}
+              setFormParentValue={setFormParentValue}
+              setFormWeightValue={setFormWeightValue}
+              updatedeleterefresh={updateDeleteRefresh}
+              setEditCategoryValues={setEditCategoryValues}
+              refreshcategories={refreshToggle}
+              cleanFormValues={cleanFormValues}
+              toggleCourseModal={toggleCourseModal}
+              editHandlerById={editHandlerById}
+              apiStatus={apiStatus}  
+              coursePermission={coursePermission}    
+            />
+          }
         </Container>
         <CourseModal
           show={addCourseModal}
