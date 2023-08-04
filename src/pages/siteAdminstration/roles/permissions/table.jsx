@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postData } from "../../../../adapters/coreservices";
+import { useDispatch } from "react-redux";
+import { getData, postData } from "../../../../adapters/coreservices";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../../widgets/skeleton/table";
+import { userAuthoritiesActions } from "../../../../store/slices/userRoles";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const moduleList = [
@@ -22,6 +24,7 @@ const moduleList = [
 
 const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermissions }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [data, setData] = useState(permissionData);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -64,14 +67,12 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermission
     postData(`/${roleId}/authorities`, permittedAuthorities)
       .then((res) => {
         if (res.status === 200) {
-          // getData('/user-info', {}).then((res: any)=>{
-          //   if(res.data !== "" && res.status === 200){
-          //     console.log("role-----", res.data.authorities[1])
-          //     res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
-          //     res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
-          //   }
-          //   // navigate("/studentdashboard");         
-          // })
+          getData('/user-info', {}).then((res)=>{
+            if(res.data !== "" && res.status === 200){
+              res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
+              res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
+            }
+          })
           navigate("/manageroles");
           //handle various respponses
         }
