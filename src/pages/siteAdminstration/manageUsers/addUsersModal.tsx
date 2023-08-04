@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getData } from "../../../adapters/coreservices";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -32,6 +33,7 @@ const AddUsersModal = ({
   addusersmodalshow,
   usersdataobj,
   refreshToggle,
+  currentInstitute
 }: any) => {
   const InitialValues = {
     userEmail: usersdataobj.email,
@@ -41,7 +43,25 @@ const AddUsersModal = ({
   const { programid, userid } = useParams();
   const parsedProgramid = parseInt(programid);
   const [showAlert, setShowAlert] = useState(false);
+  const [roles, setRoles] = useState([]);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
+  useEffect(() => {
+    getData(`/${currentInstitute}/roles`, {
+      pageNumber: 0,
+      pageSize: 20,
+      contextType: 'course'
+    })
+    .then((result: any) => {
+      console.log(result.data);
+      if (result.data !== "" && result.status === 200) {
+        setRoles(result.data.items);
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+  }, []);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, {setSubmitting}: any) => {
