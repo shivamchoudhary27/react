@@ -258,6 +258,11 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
     display: flex;
     justify-content: center;
 }
+.nav-tabs {
+    margin-bottom: 20px;
+    justify-content: space-between;
+    background: #E8ECF1;
+}
 /**** Tab End ****/
 
 /**** Block Start ****/

@@ -15,7 +15,6 @@ const TabsList = (props: Props) => {
       <Tabs
         defaultActiveKey="define"
         id="uncontrolled-tab-example"
-        className="mb-3"
       >
         {tabsListData.map((item, index) => (
           <Tab key={index} eventKey={item.eventKey} title={item.title}>
