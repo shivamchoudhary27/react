@@ -45,7 +45,7 @@ const GradeTable = ({ apiStatus }: Props) => {
     {
       Header: "Details",
       Cell: ({ row }: any) => {
-        return <Link to="#">View</Link>;
+        return <Link to="/studentgradeview">View</Link>;
       },
     },
   ];
