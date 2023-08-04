@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -34,6 +35,9 @@ const ManageProgramEnrollment = () => {
     role: "",
   });
   const [apiStatus, setApiStatus] = useState("");
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  ); 
 
   // get programs API call === >>>
   useEffect(() => {
@@ -169,6 +173,7 @@ const ManageProgramEnrollment = () => {
         addusersmodalshow={AddUsersModalShow}
         usersdataobj={usersDataObj}
         refreshToggle={refreshToggle}
+        currentInstitute={currentInstitute}
       />
       <Footer />
     </React.Fragment>
