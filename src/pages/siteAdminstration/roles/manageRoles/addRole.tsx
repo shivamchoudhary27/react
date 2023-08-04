@@ -49,7 +49,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
     contextType:userobj.contextType,
     idNumber: userobj.idNumber
   };
-
+  
   useEffect(() => {
     getData(`/${currentInstitute}/roles/moodle-roles`, {
       pageNumber: 0,
@@ -197,7 +197,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
                   <div>
                     <FieldLabel
                       htmlfor="idNumber"
-                      labelText="Select Context"
+                      labelText="Moodle Role"
                       // required="required"
                     />
                     <FieldTypeSelect
