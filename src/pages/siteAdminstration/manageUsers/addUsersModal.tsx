@@ -17,15 +17,10 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 const Schema = Yup.object({
   userEmail: Yup.string().email("Invalid email").required("Email is required"),
   roleNumber: Yup.string().required("Role number is required"),
-  roleId: Yup.string().required("Role is required"),
+  roleId: Yup.number()
+  .notOneOf([0], 'Please select a role')
+  .required('This field is required'),
 });
-
-const roleData = [
-  { id: "manager", name: "Manager" },
-  { id: "student", name: "Student" },
-  { id: "editingteacher", name: "Teacher" },
-  { id: "teacher", name: "Non-editing teacher" },
-];
 
 const AddUsersModal = ({
   show,
