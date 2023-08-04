@@ -285,7 +285,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             setValues,
             handleChange,
             isSubmitting,
-            setFieldValue
+            setFieldValue,
           }) => (
             <Form>
               <div className="tabStep-indicator">
@@ -556,6 +556,13 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         checkboxLabel="Lifetime Access"
                       />
                     </div>
+                    <div>
+                      <FieldTypeCheckbox
+                        name="programaccessinfo"
+                        value="published"
+                        checkboxLabel="Published"
+                      />
+                    </div>
                     <input
                       className="form-control"
                       id="file"
@@ -566,14 +573,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       }}
                       multiple
                     />
-                    {/* <UploadImage /> */}
-                    <div>
-                      <FieldTypeCheckbox
-                        name="programaccessinfo"
-                        value="published"
-                        checkboxLabel="Published"
-                      />
-                    </div>
+                    {/* <UploadImage setFieldValue={setFieldValue} values={values} /> */}
                   </Col>
                 </Row>
               )}

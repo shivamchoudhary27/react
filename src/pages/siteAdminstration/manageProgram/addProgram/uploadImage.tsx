@@ -2,9 +2,11 @@ import React, { useState } from "react";
 
 type Props = {
     name?: string
+    setFieldValue: any,
+    values: any
 };
 
-const UploadImage = ({name}: Props) => {
+const UploadImage = ({name, setFieldValue, values}: Props) => {
   const [imageSrc, setImageSrc] = useState("");
 
   const handleFileChange = (event: any) => {

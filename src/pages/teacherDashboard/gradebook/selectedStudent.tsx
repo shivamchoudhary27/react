@@ -6,12 +6,11 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import { Container } from "react-bootstrap";
 import Filters from "./filters";
-import GradeTable from "./allStudentTable";
 import SelectedStudentTable from "./selectedStudentTable";
 
 type Props = {};
 
-const TeacherGradebook = (props: Props) => {
+const SelectedStudentGrade = (props: Props) => {
   return (
     <React.Fragment>
       <Header />
@@ -19,10 +18,9 @@ const TeacherGradebook = (props: Props) => {
       <BreadcrumbComponent routes={[{ name: "Gradebook", path: "" }]} />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle={`Gradebook`} gobacklink="" />
+          <PageTitle pageTitle={`Gradebook`} gobacklink="/teachergradebook" />
           <Filters />
-          <GradeTable />
-          {/* <SelectedStudentTable /> */}
+          <SelectedStudentTable />
         </Container>
       </div>
       <Footer />
@@ -30,4 +28,4 @@ const TeacherGradebook = (props: Props) => {
   );
 };
 
-export default TeacherGradebook;
+export default SelectedStudentGrade;
