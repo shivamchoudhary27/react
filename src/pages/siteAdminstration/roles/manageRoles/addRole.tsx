@@ -193,7 +193,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
                     msgText="Please Enter description"
                   />
                 </div>
-                {values.contextType === 'course' &&
+                {values.contextType !== 'institute' && values.contextType !== "0" &&
                   <div>
                     <FieldLabel
                       htmlfor="idNumber"
