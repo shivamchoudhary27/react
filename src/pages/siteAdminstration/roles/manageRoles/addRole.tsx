@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
+import { getData } from "../../../../adapters/coreservices";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
@@ -33,18 +34,35 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
 }: IAddUserModal) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [moodleRoles, setMoodleRoles] = useState<any>([]);
 
   interface IInitialValues{
     name: string,
     description: string,
     contextType: string,
+    idNumber: string
   }
 
   const initialValues: IInitialValues = {
     name: userobj.name,
     description: userobj.description,
-    contextType:userobj.contextType
+    contextType:userobj.contextType,
+    idNumber: userobj.idNumber
   };
+
+  useEffect(() => {
+    getData(`/${currentInstitute}/roles/moodle-roles`, {
+      pageNumber: 0,
+      pageSize: 10,
+    })
+    .then((result: any) => {
+      const options = Object.entries(result.data.items).map(([name, id]) => ({ id: `${id}`, name }));
+      setMoodleRoles(options)
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+  }, []);
 
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
@@ -152,14 +170,13 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
 
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="description"
+                    htmlfor="contextType"
                     labelText="Select Context"
                     // required="required"
                   />
                   <FieldTypeSelect
                     name="contextType"
                     options={[
-                      // {id:},
                       { id: "institute", name: "Institute" },
                       { id: "program", name: "Program" },
                       { id: "department", name: "Department" },
@@ -176,6 +193,28 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
                     msgText="Please Enter description"
                   />
                 </div>
+                {values.contextType === 'course' &&
+                  <div>
+                    <FieldLabel
+                      htmlfor="idNumber"
+                      labelText="Select Context"
+                      // required="required"
+                    />
+                    <FieldTypeSelect
+                      name="idNumber"
+                      options={moodleRoles}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                      emptyOption={false}
+                      selectDefaultLabel="Role"
+                      />
+                    <FieldErrorMessage
+                      errors={errors.idNumber}
+                      touched={touched.idNumber}
+                      msgText="Please Enter description"
+                    />  
+                  </div>
+                }
 
                 {/* <div className="mb-3">
                   <FieldTypeCheckbox

@@ -66,16 +66,11 @@ const AssignRoles = () => {
   }, [userId]);
 
   useEffect(() => {
-    if (rolesData.items.length > 0) {
-      // const packetSet = new Set(
-      //   userRoles.map((rolePacket: any) => rolePacket.id)
-      // );
-      
+    if (rolesData.items.length > 0) {      
       const updatedArray = rolesData.items.map((authority: any) => {
         const isPresent = userRoles.roles.find((role: any) => role.id === authority.id);
-        // const isPresent = packetSet.has(authority.id);
-        if (authority.contextType !== null && isPresent !== undefined) {
-          // contextIdsTemplate[authority.contextType].push(isPresent.id)
+
+        if (authority.contextType !== null && authority.contextType !== 'course' && isPresent !== undefined) {
           contextIdsTemplate[authority.contextType].push(...isPresent.contextIds);
         }
         return { 

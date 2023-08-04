@@ -109,7 +109,7 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
               />{" "}
               {item.name}
             </h5>
-            {getRoleContextElements(item.contextType, item.id, item.assigned)}
+            {item.contextType !== 'course' && getRoleContextElements(item.contextType, item.id, item.assigned)}
           </React.Fragment>
         ))}
         {apiStatus === "finished" && roleAssignment.length > 0 && btnHideStatus === false && (
