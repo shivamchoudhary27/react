@@ -44,7 +44,8 @@ const UsersTable = ({
     },
     {
       Header: "Role",
-      Cell: ({ row }: any) => userRoleString(row.original.role),
+      accessor: "roleName"
+      // Cell: ({ row }: any) => userRoleString(row.original.role),
     },
     {
       Header: "Actions",
