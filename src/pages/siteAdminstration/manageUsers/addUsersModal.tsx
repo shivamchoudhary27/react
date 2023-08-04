@@ -17,15 +17,10 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 const Schema = Yup.object({
   userEmail: Yup.string().email("Invalid email").required("Email is required"),
   roleNumber: Yup.string().required("Role number is required"),
-  role: Yup.string().required("Role is required"),
+  roleId: Yup.number()
+  .notOneOf([0], 'Please select a role')
+  .required('This field is required'),
 });
-
-const roleData = [
-  { id: "manager", name: "Manager" },
-  { id: "student", name: "Student" },
-  { id: "editingteacher", name: "Teacher" },
-  { id: "teacher", name: "Non-editing teacher" },
-];
 
 const AddUsersModal = ({
   show,
@@ -36,10 +31,11 @@ const AddUsersModal = ({
   currentInstitute
 }: any) => {
   const InitialValues = {
-    userEmail: usersdataobj.email,
-    roleNumber: usersdataobj.roleNo,
-    role: usersdataobj.role,
+    userEmail: usersdataobj.userEmail,
+    roleNumber: usersdataobj.roleNumber,
+    roleId: usersdataobj.roleId === null ? 0 : usersdataobj.roleId,
   };
+
   const { programid, userid } = useParams();
   const parsedProgramid = parseInt(programid);
   const [showAlert, setShowAlert] = useState(false);
@@ -65,6 +61,8 @@ const AddUsersModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, {setSubmitting}: any) => {
+    console.log(values)
+    values.roleId = parseInt(values.roleId)
     setSubmitting(true);
     if (usersdataobj.id !== 0) {
       putData(
@@ -195,20 +193,21 @@ const AddUsersModal = ({
 
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="role"
+                    htmlfor="roleId"
                     labelText="Role"
                     required="required"
                     star="*"
                   />
                   <FieldTypeSelect
-                    name="role"
-                    options={roleData}
+                    name="roleId"
+                    options={roles}
                     setcurrentvalue={setValues}
                     currentformvalue={values}
+                    selectDefaultLabel='Role'
                   />
                   <FieldErrorMessage
-                    errors={errors.role}
-                    touched={touched.role}
+                    errors={errors.roleId}
+                    touched={touched.roleId}
                     msgText="Please Select Role"
                   />
                 </div>

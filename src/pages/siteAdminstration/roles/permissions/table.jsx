@@ -64,6 +64,14 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermission
     postData(`/${roleId}/authorities`, permittedAuthorities)
       .then((res) => {
         if (res.status === 200) {
+          // getData('/user-info', {}).then((res: any)=>{
+          //   if(res.data !== "" && res.status === 200){
+          //     console.log("role-----", res.data.authorities[1])
+          //     res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
+          //     res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
+          //   }
+          //   // navigate("/studentdashboard");         
+          // })
           navigate("/manageroles");
           //handle various respponses
         }
