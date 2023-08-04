@@ -99,18 +99,19 @@ const RolesDataRender = ({ assignRoles, currentInstitute, apiStatus, userId, btn
     <React.Fragment>
       <div className="assign-roles">
         {roleAssignment.map((item: any, index: number) => (
-          <React.Fragment key={item.id}>
-            <h5 className="role-name" key={item.id}>
-              <input
-                className="form-check-input me-1"
-                type="checkbox"
-                checked={item.assigned}
-                onChange={(e) => toggleRoleAssignment(item.id, item.contextType, e)}
-              />{" "}
-              {item.name}
-            </h5>
-            {item.contextType !== 'course' && getRoleContextElements(item.contextType, item.id, item.assigned)}
-          </React.Fragment>
+          item.contextType !== 'course' &&
+            <React.Fragment key={item.id}>
+              <h5 className="role-name" key={item.id}>
+                <input
+                  className="form-check-input me-1"
+                  type="checkbox"
+                  checked={item.assigned}
+                  onChange={(e) => toggleRoleAssignment(item.id, item.contextType, e)}
+                />{" "}
+                {item.name}
+              </h5>
+              {getRoleContextElements(item.contextType, item.id, item.assigned)}
+            </React.Fragment>
         ))}
         {apiStatus === "finished" && roleAssignment.length > 0 && btnHideStatus === false && (
           <div className="text-center">
