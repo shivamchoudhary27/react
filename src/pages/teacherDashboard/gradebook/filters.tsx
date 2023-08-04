@@ -21,15 +21,17 @@ const Filters = (props: Props) => {
 
   return (
     <React.Fragment>
-      <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-        <Row className="g-2">
-          {dropdownFiltersData.map((item, index) => (
-            <Col key={index}>
-              <FiltersDropdown options={item.options} name={item.name} />
-            </Col>
-          ))}
-        </Row>
-      </form>
+      <div className="filter-wrapper">
+        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+          <Row className="g-2">
+            {dropdownFiltersData.map((item, index) => (
+              <Col key={index}>
+                <FiltersDropdown options={item.options} name={item.name} />
+              </Col>
+            ))}
+          </Row>
+        </form>
+      </div>
     </React.Fragment>
   );
 };

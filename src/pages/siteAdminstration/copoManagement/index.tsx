@@ -14,10 +14,10 @@ const CoPoManagement = (props: Props) => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      <BreadcrumbComponent routes={[{ name: "Co/Po Management", path: "" }]} />
+      <BreadcrumbComponent routes={[{ name: "CO/PO Management", path: "" }]} />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="Co/Po Management" gobacklink="" />
+          <PageTitle pageTitle="CO/PO Management" gobacklink="" />
           <TabsList />
         </Container>
       </div>
