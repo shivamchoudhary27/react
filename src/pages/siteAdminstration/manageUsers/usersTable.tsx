@@ -60,7 +60,7 @@ const UsersTable = ({
                   row.original.userId,
                   row.original.userEmail,
                   row.original.roleNumber,
-                  row.original.role
+                  row.original.roleId
                 )
               } />
           </Link>
@@ -98,9 +98,10 @@ const UsersTable = ({
     return "";
   };
 
-  const editHandler = (id: number, email: string, roleNo: string, role: string) => {
+  const editHandler = (id: number, userEmail: string, roleNumber: string, roleId: string) => {
     AddUsersModalShow(true)
-    editHandlerById(id, email, roleNo, role);
+    editHandlerById(id, userEmail, roleNumber, roleId);
+    console.log(id, userEmail, roleNumber, roleId)
   };
 
   useEffect(()=>{

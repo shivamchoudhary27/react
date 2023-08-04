@@ -30,9 +30,9 @@ const ManageProgramEnrollment = () => {
   });
   const [usersDataObj, setUsersDataObj] = useState({
     id: 0,
-    email: "",
-    roleNo: "",
-    role: "",
+    userEmail: "",
+    roleNumber: "",
+    roleId: "",
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(
@@ -79,24 +79,24 @@ const ManageProgramEnrollment = () => {
     setUsersModalShow(status);
     setUsersDataObj({
       id: 0,
-      email: "",
-      roleNo: "",
-      role: "",
+      userEmail: "",
+      roleNumber: "",
+      roleId: "",
     });
   };
 
   // get users data from the users table === >>>
   const editHandlerById = (
     id: number,
-    email: string,
-    roleNo: string,
-    role: string
+    userEmail: string,
+    roleNumber: string,
+    roleId: string
   ) => {
     setUsersDataObj({
       id: id,
-      email: email,
-      roleNo: roleNo,
-      role: role,
+      userEmail: userEmail,
+      roleNumber: roleNumber,
+      roleId: roleId,
     });
   };
 
