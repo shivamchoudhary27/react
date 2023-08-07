@@ -13,6 +13,7 @@ export const AdminRawData = [
       classname: "user-management",
       boxclassname: "",
       component: 'user',
+      enabled: true,
     },
     {
       title: "Program <br>Management",
@@ -21,6 +22,7 @@ export const AdminRawData = [
       classname: "manage-program",
       boxclassname: "middle",
       component: 'program',
+      enabled: true,
     },
     {
       title: "Program <br>Enrollment",
@@ -29,6 +31,7 @@ export const AdminRawData = [
       classname: "program-enrollment",
       boxclassname: "",
       component: 'enrolment',
+      enabled: true,
     }
   ],
   [        
@@ -39,6 +42,7 @@ export const AdminRawData = [
       classname: "timetable-management",
       boxclassname: "row2box",
       component: 'timetable',
+      enabled: true,
     },
     {
       title: "CO / PO <br>Management",
@@ -47,6 +51,7 @@ export const AdminRawData = [
       classname: "copo-management",
       boxclassname: "",  
       component: 'copo',
+      enabled: true,
     },
     {
       title: "Institute <br>Management",
@@ -55,6 +60,7 @@ export const AdminRawData = [
       classname: "institute-management",
       boxclassname: "row2box",   
       component: 'institute',
+      enabled: true,
     }
   ]
 ];

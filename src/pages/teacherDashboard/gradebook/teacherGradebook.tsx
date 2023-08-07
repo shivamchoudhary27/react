@@ -7,7 +7,6 @@ import PageTitle from "../../../widgets/pageTitle";
 import { Container } from "react-bootstrap";
 import Filters from "./filters";
 import GradeTable from "./allStudentTable";
-import SelectedStudentTable from "./selectedStudentTable";
 
 type Props = {};
 
@@ -22,7 +21,6 @@ const TeacherGradebook = (props: Props) => {
           <PageTitle pageTitle={`Gradebook`} gobacklink="" />
           <Filters />
           <GradeTable />
-          {/* <SelectedStudentTable /> */}
         </Container>
       </div>
       <Footer />

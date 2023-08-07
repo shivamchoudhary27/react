@@ -1,13 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "./style.scss";
 import { AdminRawData } from "./rawData";
 import { Link } from "react-router-dom";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const SiteAdminHome = () => {
 
@@ -16,14 +15,26 @@ const SiteAdminHome = () => {
   );
 
   const renderComponent = (item: any, index: number) => {
-    if (item.component === 'user' && !permissions.user.canView) return '';
-    if (item.component === 'program' && !permissions.program.canView) return '';
-    if (item.component === 'enrolment' && !permissions.enrolment.program.canView) return '';
-    if (item.component === 'institute' && !permissions.institute.canView) return '';
+    let componentEnabled = true;
+    if (item.component === 'user' && !permissions.user.canView)  {
+      componentEnabled = false;
+    } else if (item.component === 'program' && !permissions.program.canView) {
+      componentEnabled = false;
+    } else if (item.component === 'enrolment' && !permissions.enrolment.program.canView) {
+      componentEnabled = false;
+    } else if (item.component === 'institute' && !permissions.institute.canView) {
+      componentEnabled = false;
+    }
+
+    item.enabled = !componentEnabled
+    item.link = !componentEnabled ? '#' : item.link
 
     return (              
       <div key={index} className={`box ${item.boxclassname}`}>
-        <Link to={item.link} className={`default-item ${item.classname}`}>
+        <Link to={item.link} className={`default-item ${item.classname}`}
+          style={item.enabled ? { opacity: 0.4, boxShadow: "none",cursor:"not-allowed" } 
+            : { opacity: 'none' }}
+        >
             <h4 className="card-title" dangerouslySetInnerHTML={{ __html: item.title }} />
             <img src={item.image} alt={item.title} className="img-fluid" />                    
         </Link>
