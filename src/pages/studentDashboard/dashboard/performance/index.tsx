@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Card, Row, Col, Container } from "react-bootstrap";
-import ProgressBar from "react-bootstrap/ProgressBar";
 import avGreadeIcon from "../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../assets/images/icons/badges.svg";
 import certificateIcon from "../../../../assets/images/icons/certificates.svg";
 import creditsIcon from "../../../../assets/images/icons/credits.svg";
 import "./style.scss";
 import { getData } from "../../../../adapters";
+import Browser from "./view/browser";
+import Mobile from "./view/mobile";
+import { isMobile, isDesktop } from "react-device-detect";
 
 const PerformanceOverview = () => {
   const id = localStorage.getItem("userid");
@@ -48,16 +49,19 @@ const PerformanceOverview = () => {
       title: "Av. Grade",
       value:
         userPerformance.grades.usergrade !== 0
-          ? ((userPerformance.grades.usergrade /
-              userPerformance.grades.maxgrades) *
-              100).toFixed(2) +
-            " %"
+          ? (
+              (userPerformance.grades.usergrade /
+                userPerformance.grades.maxgrades) *
+              100
+            ).toFixed(2) + " %"
           : 0 + "%",
       progressValue:
         userPerformance.grades.usergrade !== 0
-          ? ((userPerformance.grades.usergrade /
-              userPerformance.grades.maxgrades) *
-            100).toFixed(2)
+          ? (
+              (userPerformance.grades.usergrade /
+                userPerformance.grades.maxgrades) *
+              100
+            ).toFixed(2)
           : 0,
     },
     {
@@ -86,31 +90,15 @@ const PerformanceOverview = () => {
   ];
 
   return (
-    <>
-      <div className="mitblock performanceOverview-block">
-        <h3 className="mitblock-title">Performance Overview</h3>
-        <div className="mitblock-body">
-          <Container fluid>
-            <Row>
-              {data.map((item, index) => (
-                <Col sm={6} key={index}>
-                  <div className="d-flex align-items-center pob-row">
-                    <img className="pob-icon" src={item.icon} alt="Av. Grade" />
-                    <div className="d-flex flex-column flex-fill">
-                      <div className="d-flex justify-content-between pob-info">
-                        <span>{item.title}</span>
-                        <span>{item.value}</span>
-                      </div>
-                      <ProgressBar now={item.progressValue} />
-                    </div>
-                  </div>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        </div>
-      </div>
-    </>
+    <React.Fragment>
+      {isMobile ? (
+        <Mobile data={data} />
+      ) : isDesktop ? (
+        <Browser data={data} />
+      ) : (
+        <Browser data={data} />
+      )}
+    </React.Fragment>
   );
 };
 
