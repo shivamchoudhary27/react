@@ -33,7 +33,8 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
     description: "",
     contextType: "",
     published: false,
-    idNumber: ""
+    idNumber: "",
+    shortName: ""
   });
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -135,7 +136,8 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
     description,
     contextType,
     published,
-    idNumber
+    idNumber,
+    shortName
   }: IUserObj): void => {
     setUserObj({
       id: id,
@@ -143,7 +145,8 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
       description: description,
       contextType: contextType,
       published: published,
-      idNumber: idNumber
+      idNumber: idNumber,
+      shortName: shortName
     });
   };
 
@@ -156,6 +159,7 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
       description: "",
       contextType: "",
       published: false,
+      shortName: ''
     });
     // setRefreshData(false);
   };

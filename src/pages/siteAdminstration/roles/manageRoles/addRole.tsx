@@ -44,10 +44,11 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
   }
 
   const initialValues: IInitialValues = {
-    name: userobj.name,
-    description: userobj.description,
-    contextType:userobj.contextType,
-    idNumber: userobj.idNumber
+    name: userobj.id > 0 ? userobj.name : '',
+    description: userobj.id > 0 ? userobj.description : '',
+    contextType: userobj.id > 0 ? userobj.contextType : '',
+    idNumber: userobj.id > 0 ? userobj.idNumber : '',
+    shortName: userobj.id > 0 ? userobj.shortName : '',
   };
   
   useEffect(() => {
@@ -67,6 +68,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     name: Yup.string().min(1).trim().required("Name is required"),
+    shortName: Yup.string().min(1).trim().required("Shortname is required"),
     // description: Yup.string().required(),
   });
 
@@ -93,6 +95,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
             message: `${err.message}. Please try again!`,
             alertBoxColor: "danger",
           });
+          resetForm();
           // }
         });
     } else {
@@ -103,11 +106,13 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
             setaddrolemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
+            resetForm();
           }
         })
         .catch((err: any) => {
           console.log(err);
           setSubmitting(true);
+          resetForm();
         });
     }
   };
@@ -122,7 +127,7 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {userobj.id === 0 ? "Add Role" : "Update Role"}
+            {userobj.id > 0 ? "Update Role" : "Add Role"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -149,7 +154,20 @@ const AddUserModal: React.FunctionComponent<IAddUserModal> = ({
                     msgText="Name required atleast 1 character"
                   />
                 </div>
-
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="shortName"
+                    labelText="Shortname"
+                    required="required"
+                    star="*"
+                  />
+                  <FieldTypeText name="shortName" placeholder="Shortname" />
+                  <FieldErrorMessage
+                    errors={errors.shortName}
+                    touched={touched.shortName}
+                    msgText="Shortname required atleast 1 character"
+                  />
+                </div>
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="description"
