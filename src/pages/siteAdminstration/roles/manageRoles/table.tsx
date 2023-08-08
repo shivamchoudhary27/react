@@ -77,7 +77,8 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
                     description: row.original.description,
                     contextType: row.original.contextType,
                     published: row.original.published,
-                    idNumber: row.original.idNumber
+                    idNumber: row.original.idNumber,
+                    shortName: row.original.shortName,
                   })
                 }
               />
@@ -148,11 +149,12 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
     description,
     contextType,
     published,
-    idNumber
+    idNumber,
+    shortName
   }: IUserObj) => {
     setAddRoleModalShow(true);
     refreshOnDeleteToggle(true);
-    editHandlerById({ id, name, description, contextType, published, idNumber });
+    editHandlerById({ id, name, description, contextType, published, idNumber, shortName });
   };
 
   useEffect(() => {
