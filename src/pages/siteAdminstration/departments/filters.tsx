@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { TypeFilter } from "./types/type";
+import BrowserFilter from "./view/browser/filter";
+import MobileFilter from "./view/mobile/filter";
+import { isMobile, isDesktop } from "react-device-detect";
 
 type TypeInitialValues = {
   name: string;
@@ -16,7 +18,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
   toggleModalShow,
   resetDepartmentForm,
   updateInputFilters,
-  permissions
+  permissions,
 }: TypeFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
@@ -39,7 +41,9 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleFilterChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     formik.handleChange(event); // Update formik values
 
     if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
@@ -60,45 +64,28 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <Row className="g-2">
-            <Col>
-              <label htmlFor="name" hidden>
-                Name
-              </label>
-              <input
-                className="form-control"
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Name"
-                onChange={handleFilterChange}
-                value={formik.values.name}
-              />
-            </Col>
-            <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
-              <Button
-                variant="outline-secondary"
-                type="reset"
-                onClick={formik.handleReset}
-              >
-                Reset
-              </Button>
-            </Col>
-          </Row>
-        </form>
-        <div className="site-button-group">
-          {permissions.canAdd && 
-            <Button variant="primary" onClick={openAddDepartment}>
-              Add Department
-            </Button>
-          }
-        </div>
-      </div>
+      {isMobile ? (
+        <MobileFilter
+          permissions={permissions}
+          openAddDepartment={openAddDepartment}
+          handleFilterChange={handleFilterChange}
+          formik={formik}
+        />
+      ) : isDesktop ? (
+        <BrowserFilter
+          permissions={permissions}
+          openAddDepartment={openAddDepartment}
+          handleFilterChange={handleFilterChange}
+          formik={formik}
+        />
+      ) : (
+        <BrowserFilter
+          permissions={permissions}
+          openAddDepartment={openAddDepartment}
+          handleFilterChange={handleFilterChange}
+          formik={formik}
+        />
+      )}
     </React.Fragment>
   );
 };

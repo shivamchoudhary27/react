@@ -1,35 +1,37 @@
-export interface IInitialValues {
+export type Type_InitialValues = {
   name: string;
   description: string;
   published: boolean;
 }
 
-export interface IDummyData {
+export type Type_DisciplineDataObject = {
   items: [];
   pager: { totalElements: number; totalPages: number };
-}
+};
 
-export interface IDisciplineObj {
+export type Type_DisciplineCustomObject = {
   id: number;
   name: string;
   description: string;
   published: boolean;
-}
+};
 
-export interface IFilterUpdate {
+export type Type_DisciplineFilterUpdate = {
   name: string;
   pageNumber: number;
   pageSize: number;
 }
 
-export interface ICurrentInstitute {
+
+export interface Type_CurrentInstitute {
+  globalFilters: any;
   currentDepartmentFilterId: number | string;
   currentInstitute: number;
   mitGlobalAlert: { hideShow: boolean; msg: string };
 }
 
 export interface IDisciplineModal {
-  disciplineobj: IDisciplineObj;
+  disciplineobj: Type_DisciplineCustomObject;
   togglemodalshow: (params: boolean) => void;
   refreshDisciplineData: () => void;
   show: boolean;
@@ -44,7 +46,7 @@ export interface IAlertMsg {
 
 export interface IDiciplineTable {
   diciplineData: any;
-  editHandlerById: IDisciplineObj;
+  editHandlerById: Type_DisciplineCustomObject;
   toggleModalShow: (params: boolean) => void;
   refreshDisciplineData: () => void;
   refreshOnDelete: (params: boolean) => void;

@@ -1,35 +1,24 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-// import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
-import { Row, Col, Container, Button } from "react-bootstrap";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import DiciplineTable from "./table";
-import DiciplineModal from "./form";
-import BuildPagination from "../../../widgets/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
-import Filters from "./filters";
 import {
-  IDummyData,
-  IDisciplineObj,
-  IFilterUpdate,
-  ICurrentInstitute,
+  Type_DisciplineDataObject,
+  Type_DisciplineCustomObject,
+  Type_DisciplineFilterUpdate,
+  Type_CurrentInstitute,
 } from "./types/interface";
-import Errordiv from "../../../widgets/alert/errordiv";
+import View from "./view";
 
 const Discipline = () => {
-  const dummyData: IDummyData = {
+  const dummyData: Type_DisciplineDataObject = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
   const [modalShow, setModalShow] = useState<boolean>(false);
-  const [diciplineData, setDiciplineData] = useState<IDummyData>(dummyData);
-  const [disciplineObj, setDisciplineObj] = useState<IDisciplineObj>({
+  const [diciplineData, setDiciplineData] = useState<Type_DisciplineDataObject>(dummyData);
+  const [disciplineObj, setDisciplineObj] = useState<Type_DisciplineCustomObject>({
     id: 0,
     name: "",
     description: "",
@@ -37,17 +26,14 @@ const Discipline = () => {
   });
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<IFilterUpdate>({
+  const [filterUpdate, setFilterUpdate] = useState<Type_DisciplineFilterUpdate>({
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
-    (state: ICurrentInstitute) => state.globalFilters.currentInstitute
-  );
-  const userAuthorities = useSelector(
-    (state: any) => state.userAuthorities.permissions.discipline
+    (state: Type_CurrentInstitute) => state.globalFilters.currentInstitute
   );
 
   const getDisciplineData = (
@@ -111,17 +97,12 @@ const Discipline = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({
-    id,
-    name,
-    description,
-    published,
-  }: IDisciplineObj) => {
+  const editHandlerById = ({...getEditHandlerValues}: Type_DisciplineCustomObject) => {
     setDisciplineObj({
-      id: id,
-      name: name,
-      description: description,
-      published: published,
+      id: getEditHandlerValues.id,
+      name: getEditHandlerValues.name,
+      description: getEditHandlerValues.description,
+      published: getEditHandlerValues.published,
     });
   };
 
@@ -145,71 +126,24 @@ const Discipline = () => {
     setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
   };
 
-  // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
-  const DISCIPLINE_TABLE_COMPONENT = (
-    <DiciplineTable
-      diciplineData={diciplineData.items}
-      editHandlerById={editHandlerById}
-      toggleModalShow={toggleModalShow}
-      refreshDisciplineData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
-      apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
-      disciplinePermissions={userAuthorities}
-    />
-  );
-
-  const DISCIPLINE_MODAL_COMPONENT = (
-    <DiciplineModal
-      show={modalShow}
-      onHide={() => setModalShow(false)}
-      togglemodalshow={toggleModalShow}
-      disciplineobj={disciplineObj}
-      refreshDisciplineData={refreshToggle}
-      currentInstitute={currentInstitute}
-    />
-  );
-
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Discipline", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          {/* <PageTitle pageTitle={`${currentInstitueName}: Discipline`} gobacklink="/manageprogram" />           */}
-          <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />
-          <Filters
-            openAddDiscipline={openAddDiscipline}
-            updateInputFilters={updateInputFilters}
-            disciplinePermissions={userAuthorities}
-          />
-          {/* {DISCIPLINE_BUTTONS} */}
-          {!userAuthorities.canView ? (
-            <Errordiv
-              msg="You don't have permission to view discipline."
-              cstate
-              className="mt-3"
-            />
-          ) : (
-            DISCIPLINE_TABLE_COMPONENT
-          )}
-          <BuildPagination
-            totalpages={diciplineData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-          {DISCIPLINE_MODAL_COMPONENT}
-        </Container>
-      </div>
-      <Footer />
-    </>
+    <React.Fragment>
+      <View
+        diciplineData={diciplineData}
+        filterUpdate={filterUpdate}
+        openAddDiscipline={openAddDiscipline}
+        updateInputFilters={updateInputFilters}
+        editHandlerById={editHandlerById}
+        toggleModalShow={toggleModalShow}
+        refreshToggle={refreshToggle}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
+        apiStatus={apiStatus}
+        currentInstitute={currentInstitute}
+        modalShow={modalShow}
+        disciplineObj={disciplineObj}
+        newPageRequest={newPageRequest}
+        setModalShow={setModalShow} />
+    </React.Fragment>
   );
 };
 

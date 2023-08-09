@@ -2,19 +2,8 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 // import { makeGetDataRequest } from "../../../features/api_calls/getdata";
 import { getData } from "../../../adapters/microservices";
-import { Container } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import DepartmentTable from "./table";
-import DepartmentModal from "./form";
-import BuildPagination from "../../../widgets/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
 import "./style.scss";
-import Filters from "./filters";
-import Errordiv from "../../../widgets/alert/errordiv";
 import {
   TypeDummyData,
   TypeModalShow,
@@ -26,6 +15,7 @@ import {
   TypeDepartmentObj,
   TypeFilterUpdate,
 } from "./types/type";
+import View from "./view";
 
 const Departments = () => {
   const dummyData: TypeDummyData = {
@@ -51,9 +41,9 @@ const Departments = () => {
   const currentInstitute: CurrentInstitute = useSelector(
     (state: TypeCurrentInstitute) => state.globalFilters.currentInstitute
   );
-  const departmentPermission = useSelector(
-    (state: any) => state.userAuthorities.permissions.department
-  );
+  // const departmentPermission = useSelector(
+  //   (state: any) => state.userAuthorities.permissions.department
+  // );
 
   const getDepartmentData = (
     endPoint: string,
@@ -139,75 +129,24 @@ const Departments = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  const DEPARTMENT_TABLE_COMPONENT = (
-    <DepartmentTable
-      departmentData={departmentData.items}
-      editHandlerById={editHandlerById}
-      toggleModalShow={toggleModalShow}
-      refreshDepartmentData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
-      apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
-      permissions={departmentPermission}
-    />
-  );
-
-  const DEPARTMENT_MODAL_COMPONENT = (
-    <DepartmentModal
-      show={modalShow}
-      onHide={() => toggleModalShow(false)}
-      departmentobj={departmentObj}
-      togglemodalshow={toggleModalShow}
-      refreshdepartmentdata={refreshToggle}
-      currentInstitute={currentInstitute}
-    />
-  );
-  // <<< ==== END COMPONENTS ==== >>>
   return (
     <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Department", path: "" },
-        ]}
+      <View
+        departmentData={departmentData}
+        editHandlerById={editHandlerById}
+        toggleModalShow={toggleModalShow}
+        departmentObj={departmentObj}
+        refreshToggle={refreshToggle}
+        resetDepartmentForm={resetDepartmentForm}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
+        apiStatus={apiStatus}
+        currentInstitute={currentInstitute}
+        modalShow={modalShow}
+        // departmentPermission={departmentPermission}
+        updateInputFilters={updateInputFilters}
+        filterUpdate={filterUpdate}
+        newPageRequest={newPageRequest}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />
-          <Filters
-            toggleModalShow={toggleModalShow}
-            refreshDepartmentData={refreshToggle}
-            // setDepartmentData={setDepartmentData}
-            updateInputFilters={updateInputFilters}
-            resetDepartmentForm={resetDepartmentForm}
-            permissions={departmentPermission}
-            // updateDepartment={updateDepartmentFilter}
-            // updateinputfilters={updateInputFilters}
-            // updateCurrentInstitute={updateCurrentInstitute}
-          />
-          {!departmentPermission.canView ? (
-            <Errordiv
-              msg="You don't have permission to view deparments."
-              cstate
-              className="mt-3"
-            />
-          ) : (
-            <>
-              {DEPARTMENT_TABLE_COMPONENT}
-              <BuildPagination
-                totalpages={departmentData.pager.totalPages}
-                activepage={filterUpdate.pageNumber}
-                getrequestedpage={newPageRequest}
-              />
-            </>
-          )}
-          {DEPARTMENT_MODAL_COMPONENT}
-        </Container>
-      </div>
-      <Footer />
     </>
   );
 };

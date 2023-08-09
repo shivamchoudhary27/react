@@ -1,19 +1,12 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
 import {
   postData as addDepartmentData,
   putData as putDepartmentData,
 } from "../../../adapters/microservices";
-import { Formik, Form } from "formik";
+import BrowserForm from "./view/browser/form";
+import MobileForm from "./view/mobile/form";
 import * as Yup from "yup";
-import FieldLabel from "../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+import { isMobile, isDesktop } from "react-device-detect";
 import {
   TypeDepartmentModal,
   TypeAlertMsg,
@@ -124,104 +117,48 @@ const DepartmentModal: React.FunctionComponent<TypeDepartmentModal> = ({
   };
 
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {formTitles.titleHeading}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <TimerAlertBox
-          alertMsg={alertMsg.message}
-          className="mt-3"
-          variant={alertMsg.alertBoxColor}
-          setShowAlert={setShowAlert}
+    <React.Fragment>
+      {isMobile ? (
+        <MobileForm 
+          formTitles={formTitles}
           showAlert={showAlert}
-        />
-        <Formik
+          setShowAlert={setShowAlert}
+          alertMsg={alertMsg}
+          handleFormData={handleFormData}
           initialValues={initialValues}
-          validationSchema={departmentSchema}
-          onSubmit={(values, action) => {
-            handleFormData(values, action);
-          }}
-        >
-          {({ errors, touched, isSubmitting }) => (
-            <Form>
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="name"
-                  labelText="Name"
-                  required="required"
-                  star="*"
-                />
-                <FieldTypeText name="name" placeholder="Name" />
-                <FieldErrorMessage
-                  errors={errors.name}
-                  touched={touched.name}
-                  msgText="Name required atleast 1 character"
-                />
-              </div>
-
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="description"
-                  labelText="Description"
-                  // required="required"
-                />
-                <FieldTypeTextarea
-                  name="description"
-                  component="textarea"
-                  placeholder="Description"
-                />
-                <FieldErrorMessage
-                  errors={errors.description}
-                  touched={touched.description}
-                  msgText="Please Enter description"
-                />
-              </div>
-              <div className="mb-3">
-                <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
-                <FieldErrorMessage
-                  errors=""
-                  touched=""
-                  msgText="Please Check required field"
-                />
-              </div>
-              {isSubmitting === false ? (
-                <div className="modal-buttons">
-                  <CustomButton
-                    type="submit"
-                    variant="primary"
-                    isSubmitting={isSubmitting}
-                    btnText={formTitles.btnTitle}
-                  />{" "}
-                  {formTitles.btnTitle === "Submit" && (
-                    <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  )}
-                </div>
-              ) : (
-                <LoadingButton
-                  variant="primary"
-                  btnText={
-                    departmentobj.id === 0 ? "Submitting..." : "Updating..."
-                  }
-                  className="modal-buttons"
-                />
-              )}
-            </Form>
-          )}
-        </Formik>
-      </Modal.Body>
-    </Modal>
+          departmentSchema={departmentSchema}
+          departmentobj={departmentobj}
+          show={show}
+          onHide={onHide}
+        />
+      ) : isDesktop ? (
+        <BrowserForm
+          formTitles={formTitles}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+          alertMsg={alertMsg}
+          handleFormData={handleFormData}
+          initialValues={initialValues}
+          departmentSchema={departmentSchema}
+          departmentobj={departmentobj}
+          show={show}
+          onHide={onHide}
+        />
+      ) : (
+        <BrowserForm
+          formTitles={formTitles}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+          alertMsg={alertMsg}
+          handleFormData={handleFormData}
+          initialValues={initialValues}
+          departmentSchema={departmentSchema}
+          departmentobj={departmentobj}
+          show={show}
+          onHide={onHide}
+        />
+      )}
+    </React.Fragment>
   );
 };
 
