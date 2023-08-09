@@ -7,7 +7,6 @@ const FilterProgramDropdown = () => {
         <ShortByAcademic />
         <ShortByProgram />
         <ShortBySemester />
-        <ShortByStatus />
       </div>
     </>
   );
@@ -18,7 +17,7 @@ export default FilterProgramDropdown;
 const ShortByAcademic = () => {
   return (
     <div className="col-auto">
-      <label>Program</label>
+      <label>Batch Year</label>
       <select
         className="form-select"
         aria-label="Default select example"
@@ -66,19 +65,3 @@ const ShortBySemester = () => {
   );
 };
 
-const ShortByStatus = () => {
-  return (
-    <div className="col-auto">
-      <label>Status</label>
-      <select
-        className="form-select"
-        aria-label="Default select example"
-        defaultValue="In Progress"
-      >
-        <option value="1">In-Progress</option>
-        <option value="2">Not Started</option>
-        <option value="3">Completed</option>      
-      </select>
-    </div>
-  );
-};
