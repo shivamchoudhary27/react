@@ -35,29 +35,15 @@ const StudentDashboard = () => {
     <React.Fragment>
       {isMobile ? (
         <React.Fragment>
-          <MobileHeader />
-          <div className="contentarea-wrapper">
-            <Mobile />
-          </div>
-          <MobileFooter />
+          <Mobile />
         </React.Fragment>
       ) : isDesktop ? (
         <React.Fragment>
-          <Header />
-          <HeaderTabs activeTab="studentdashboard" />
-          <div className="contentarea-wrapper">
-            <Browser />
-          </div>
-          <Footer />
+          <Browser />
         </React.Fragment>
       ) : (
         <React.Fragment>
-          <Header />
-          <HeaderTabs activeTab="studentdashboard" />
-          <div className="contentarea-wrapper">
-            <Browser />
-          </div>
-          <Footer />
+          <Browser />
         </React.Fragment>
       )}
     </React.Fragment>

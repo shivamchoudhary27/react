@@ -34,6 +34,7 @@ export type TypeFilter = {
   resetDepartmentForm: (params: boolean | null) => void;
   updateInputFilters: (params: any) => void;
   refreshDepartmentData?: () => void;
+  permissions: any;
 };
 
 export type TypeFilterUpdate = {
