@@ -4,17 +4,27 @@ import { Formik, Form } from "formik";
 import {
   postData as addDisciplineData,
   putData as putDesciplineData,
-} from "../../../adapters/microservices";
+} from "../../../../../adapters/microservices";
 import * as Yup from "yup";
-import FieldLabel from "../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import { IInitialValues, IDisciplineModal, IAlertMsg } from "./types/interface";
+import FieldLabel from "../../../../../widgets/formInputFields/labels";
+import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
+import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
+import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
+import { Type_InitialValues, Type_AlertMsg } from "../../type/type";
+import { Interface_DisciplineCustomObject } from "../../type/interface";
+
+type props = {
+  disciplineobj: Interface_DisciplineCustomObject;
+  togglemodalshow: (params: boolean) => void;
+  refreshDisciplineData: () => void;
+  show: boolean;
+  onHide: () => void;
+  currentInstitute: number;
+}
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -22,22 +32,15 @@ const diciplineSchema = Yup.object({
   description: Yup.string().min(1).required("Description is required"),
 });
 
-const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
-  disciplineobj,
-  togglemodalshow,
-  refreshDisciplineData,
-  show,
-  onHide,
-  currentInstitute,
-}: IDisciplineModal) => {
+const BrowserDiciplineModal: React.FunctionComponent<props> = ({...props}: props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
+  const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({ message: "", alertBoxColor: "" });
 
   // Initial values of react table === >>>
-  const initialValues: IInitialValues = {
-    name: disciplineobj.name,
-    description: disciplineobj.description,
-    published: disciplineobj.published
+  const initialValues: Type_InitialValues = {
+    name: props.disciplineobj.name,
+    description: props.disciplineobj.description,
+    published: props.disciplineobj.published
   };
 
   // custom Obj & handle form data === >>>
@@ -45,7 +48,7 @@ const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
     btnTitle: "",
     titleHeading: "",
   };
-  if (disciplineobj.id === 0) {
+  if (props.disciplineobj.id === 0) {
     formTitles = {
       btnTitle: "Submit",
       titleHeading: "Add Discipline",
@@ -58,16 +61,16 @@ const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
   }
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: IInitialValues, { setSubmitting, resetForm }: any) => {
+  const handleFormData = (values: Type_InitialValues, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    let endPoint: string = `/${currentInstitute}/disciplines`;
-    if (disciplineobj.id === 0) {
+    let endPoint: string = `/${props.currentInstitute}/disciplines`;
+    if (props.disciplineobj.id === 0) {
       addDisciplineData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
-            togglemodalshow(false);
+            props.togglemodalshow(false);
             setSubmitting(false);
-            refreshDisciplineData();
+            props.refreshDisciplineData();
             resetForm();
           }
         })
@@ -80,14 +83,14 @@ const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
           });
         });
     } else {
-      endPoint += `/${disciplineobj.id}`;
+      endPoint += `/${props.disciplineobj.id}`;
       setSubmitting(true);
       putDesciplineData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            togglemodalshow(false);
+            props.togglemodalshow(false);
             setSubmitting(false);
-            refreshDisciplineData();
+            props.refreshDisciplineData();
           }
         })
         .catch((err: any) => {
@@ -103,8 +106,8 @@ const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
 
   return (
     <Modal
-      show={show}
-      onHide={onHide}
+      show={props.show}
+      onHide={props.onHide}
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
@@ -189,7 +192,7 @@ const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
               ) : (
                 <LoadingButton
                   variant="primary"
-                  btnText={disciplineobj.id === 0 ? "Submitting..." : "Updating..."}
+                  btnText={props.disciplineobj.id === 0 ? "Submitting..." : "Updating..."}
                   className="modal-buttons"
                 />
               )}
@@ -208,4 +211,4 @@ const DiciplineModal: React.FunctionComponent<IDisciplineModal> = ({
   );
 };
 
-export default DiciplineModal;
+export default BrowserDiciplineModal;

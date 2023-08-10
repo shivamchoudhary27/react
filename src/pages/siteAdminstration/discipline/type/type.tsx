@@ -9,13 +9,6 @@ export type Type_DisciplineDataObject = {
   pager: { totalElements: number; totalPages: number };
 };
 
-export type Type_DisciplineCustomObject = {
-  id: number;
-  name: string;
-  description: string;
-  published: boolean;
-};
-
 export type Type_DisciplineFilterUpdate = {
   name: string;
   pageNumber: number;
@@ -30,24 +23,15 @@ export interface Type_CurrentInstitute {
   mitGlobalAlert: { hideShow: boolean; msg: string };
 }
 
-export interface IDisciplineModal {
-  disciplineobj: Type_DisciplineCustomObject;
-  togglemodalshow: (params: boolean) => void;
-  refreshDisciplineData: () => void;
-  show: boolean;
-  onHide: () => void;
-  currentInstitute: number;
-}
-
-export interface IAlertMsg {
+export interface Type_AlertMsg {
   message: string;
   alertBoxColor: string;
 }
 
 export interface IDiciplineTable {
   diciplineData: any;
-  editHandlerById: Type_DisciplineCustomObject;
-  toggleModalShow: (params: boolean) => void;
+  editHandlerById: any;
+  toggleModalShow: any
   refreshDisciplineData: () => void;
   refreshOnDelete: (params: boolean) => void;
   apiStatus: string;

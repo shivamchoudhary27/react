@@ -1,40 +1,36 @@
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
-import { filterConfig } from "../../../utils/filterTimeout";
+import { filterConfig } from "../../../../../utils/filterTimeout";
 
-interface IInitialValues {
-  name: string;
+type Type_InitialValues = {
+  name: string
 }
 
-const initialValues: IInitialValues = {
+const initialValues: Type_InitialValues = {
   name: "",
 };
 
-interface IFilter {
+type props = {
   openAddDiscipline: (params: boolean) => void;
   updateInputFilters: (params: string) => void;
   disciplinePermissions: any;
 }
 
-const Filter: React.FunctionComponent<IFilter> = ({
-  openAddDiscipline,
-  updateInputFilters,
-  disciplinePermissions,
-}: IFilter) => {
+const MobileFilters: React.FunctionComponent<props> = ({...props}: props) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values: IInitialValues) => {
+    onSubmit: (values: Type_InitialValues) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      updateInputFilters(values.name);
+      props.updateInputFilters(values.name);
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
-      updateInputFilters(initialValues.name);
+      props.updateInputFilters(initialValues.name);
     },
   });
 
@@ -46,7 +42,7 @@ const Filter: React.FunctionComponent<IFilter> = ({
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
-      updateInputFilters(event.target.value);
+      props.updateInputFilters(event.target.value);
     }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
@@ -86,8 +82,8 @@ const Filter: React.FunctionComponent<IFilter> = ({
           </Row>
         </form>
         <div className="site-button-group">
-          {disciplinePermissions.canAdd === true && (
-            <Button variant="primary" onClick={openAddDiscipline}>
+          {props.disciplinePermissions.canAdd === true && (
+            <Button variant="primary" onClick={props.openAddDiscipline}>
               Add Discipline
             </Button>
           )}{" "}
@@ -97,4 +93,4 @@ const Filter: React.FunctionComponent<IFilter> = ({
   );
 };
 
-export default Filter;
+export default MobileFilters;

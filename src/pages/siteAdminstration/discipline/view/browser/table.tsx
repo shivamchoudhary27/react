@@ -2,23 +2,24 @@ import React, { useState, useMemo, useEffect } from "react";
 import {
   putData,
   deleteData as deleteDisciplineData,
-} from "../../../adapters/microservices";
+} from "../../../../../adapters/microservices";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTable } from "react-table";
 // import Swal from "sweetalert2";
 // import "sweetalert2/src/sweetalert2.scss";
-import TableSkeleton from "../../../widgets/skeleton/table";
-import Errordiv from "../../../widgets/alert/errordiv";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import DeleteAlert from "../../../widgets/alert/deleteAlert";
-import editIcon from "../../../assets/images/icons/edit-action.svg";
-import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import showIcon from "../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import TableSkeleton from "../../../../../widgets/skeleton/table";
+import Errordiv from "../../../../../widgets/alert/errordiv";
+import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
+import DeleteAlert from "../../../../../widgets/alert/deleteAlert";
+import editIcon from "../../../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../../../assets/images/icons/delete-action.svg";
+import showIcon from "../../../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../../../assets/images/icons/hide-action.svg";
 import { useDispatch } from "react-redux";
-import { globalAlertActions } from "../../../store/slices/globalAlerts";
-import { IDisciplineObj, IAlertMsg, IDiciplineTable } from "./types/interface";
+import { globalAlertActions } from "../../../../../store/slices/globalAlerts";
+import { Type_AlertMsg } from "../../type/type";
+import { Interface_DisciplineCustomObject } from "../../type/interface";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -27,16 +28,18 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
-  diciplineData,
-  editHandlerById,
-  toggleModalShow,
-  refreshDisciplineData,
-  refreshOnDelete,
-  apiStatus,
-  currentInstitute,
-  disciplinePermissions,
-}: IDiciplineTable) => {
+type props = {
+  diciplineData: any;
+  editHandlerById: any;
+  toggleModalShow: any;
+  refreshDisciplineData: () => void;
+  refreshOnDelete: (params: boolean) => void;
+  apiStatus: string;
+  currentInstitute: number;
+  disciplinePermissions: any;
+};
+
+const BrowserDiciplineTable: React.FunctionComponent<props> = ({...props}: props) => {
   // custom react table column === >>>
   const tableColumn = [
     {
@@ -55,7 +58,7 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {disciplinePermissions.canEdit === true && (
+          {props.disciplinePermissions.canEdit === true && (
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -71,7 +74,7 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
               />
             </Link>
           )}
-          {disciplinePermissions.canDelete === true && (
+          {props.disciplinePermissions.canDelete === true && (
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -89,7 +92,7 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
               />
             </Link>
           )}{" "}
-          {disciplinePermissions.canEdit === true && (
+          {props.disciplinePermissions.canEdit === true && (
             <Link
               className="action-icons"
               to=""
@@ -111,14 +114,14 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => diciplineData, [diciplineData]);
+  const data = useMemo(() => props.diciplineData, [props.diciplineData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+  const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({
     message: "",
     alertBoxColor: "",
   });
@@ -133,16 +136,16 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
     name,
     description,
     published,
-  }: IDisciplineObj) => {
-    toggleModalShow(true);
-    editHandlerById({ id, name, description, published });
-    refreshDisciplineData();
+  }: Interface_DisciplineCustomObject) => {
+    props.toggleModalShow(true);
+    props.editHandlerById({ id, name, description, published });
+    props.refreshDisciplineData();
   };
 
   const toggleDisciplinePublished = (disciplinePacket: any) => {
     disciplinePacket.published = !disciplinePacket.published;
     setForceRender((prevState) => !prevState);
-    let endPoint: string = `/${currentInstitute}/disciplines/${disciplinePacket.id}`;
+    let endPoint: string = `/${props.currentInstitute}/disciplines/${disciplinePacket.id}`;
     putData(endPoint, disciplinePacket)
       .then((res: any) => {
         setForceRender((prevState) => !prevState);
@@ -161,11 +164,11 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endpoint: string = `${currentInstitute}/disciplines/${deleteId}`;
+      let endpoint: string = `${props.currentInstitute}/disciplines/${deleteId}`;
       deleteDisciplineData(endpoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            refreshOnDelete(true);
+            props.refreshOnDelete(true);
             setShowAlert(true);
             setAlertMsg({
               message: "Deleted successfully.",
@@ -200,7 +203,7 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    refreshOnDelete(false);
+    props.refreshOnDelete(false);
     setShowDeleteModal(true);
     setDeleteId(id);
   };
@@ -241,10 +244,10 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
             })}
           </tbody>
         </Table>
-        {apiStatus === "started" && diciplineData.length === 0 && (
+        {props.apiStatus === "started" && props.diciplineData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && diciplineData.length === 0 && (
+        {props.apiStatus === "finished" && props.diciplineData.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
@@ -265,4 +268,4 @@ const DiciplineTable: React.FunctionComponent<IDiciplineTable> = ({
   );
 };
 
-export default DiciplineTable;
+export default BrowserDiciplineTable;

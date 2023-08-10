@@ -3,12 +3,12 @@ import { useSelector } from "react-redux";
 import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
 import "./style.scss";
+import { Interface_DisciplineCustomObject } from "./type/interface";
 import {
   Type_DisciplineDataObject,
-  Type_DisciplineCustomObject,
   Type_DisciplineFilterUpdate,
   Type_CurrentInstitute,
-} from "./types/interface";
+} from "./type/type";
 import View from "./view";
 
 const Discipline = () => {
@@ -17,20 +17,24 @@ const Discipline = () => {
     pager: { totalElements: 0, totalPages: 0 },
   };
   const [modalShow, setModalShow] = useState<boolean>(false);
-  const [diciplineData, setDiciplineData] = useState<Type_DisciplineDataObject>(dummyData);
-  const [disciplineObj, setDisciplineObj] = useState<Type_DisciplineCustomObject>({
-    id: 0,
-    name: "",
-    description: "",
-    published: false,
-  });
+  const [diciplineData, setDiciplineData] =
+    useState<Type_DisciplineDataObject>(dummyData);
+  const [disciplineObj, setDisciplineObj] =
+    useState<Interface_DisciplineCustomObject>({
+      id: 0,
+      name: "",
+      description: "",
+      published: false,
+    });
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
-  const [filterUpdate, setFilterUpdate] = useState<Type_DisciplineFilterUpdate>({
-    name: "",
-    pageNumber: 0,
-    pageSize: pagination.PERPAGE,
-  });
+  const [filterUpdate, setFilterUpdate] = useState<Type_DisciplineFilterUpdate>(
+    {
+      name: "",
+      pageNumber: 0,
+      pageSize: pagination.PERPAGE,
+    }
+  );
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
     (state: Type_CurrentInstitute) => state.globalFilters.currentInstitute
@@ -97,7 +101,9 @@ const Discipline = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({...getEditHandlerValues}: Type_DisciplineCustomObject) => {
+  const editHandlerById = ({
+    ...getEditHandlerValues
+  }: Interface_DisciplineCustomObject) => {
     setDisciplineObj({
       id: getEditHandlerValues.id,
       name: getEditHandlerValues.name,
@@ -142,7 +148,8 @@ const Discipline = () => {
         modalShow={modalShow}
         disciplineObj={disciplineObj}
         newPageRequest={newPageRequest}
-        setModalShow={setModalShow} />
+        setModalShow={setModalShow}
+      />
     </React.Fragment>
   );
 };
