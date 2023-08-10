@@ -5,13 +5,11 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import { Container } from "react-bootstrap";
-import DiciplineModal from "../../form";
-import DiciplineTable from "../../table";
-import Filters from "../../filters";
-import {
-  Type_DisciplineFilterUpdate,
-  Type_DisciplineCustomObject,
-} from "../../types/interface";
+import MobileDiciplineModal from "./form";
+import MobileDiciplineTable from "./table";
+import MobileFilters from "./filters";
+import { Type_DisciplineFilterUpdate } from "../../type/type";
+import { Interface_DisciplineCustomObject } from "../../type/interface";
 
 type Props = {
   commonProps: {
@@ -19,14 +17,14 @@ type Props = {
     filterUpdate: Type_DisciplineFilterUpdate;
     openAddDiscipline: () => void;
     updateInputFilters: (params: any) => void;
-    editHandlerById: (params: any) => void;
+    editHandlerById: any;
     toggleModalShow: (params: boolean) => void;
     refreshToggle: () => void;
     refreshOnDeleteToggle: (value: boolean) => void;
     apiStatus: string;
     currentInstitute: number;
     modalShow: boolean;
-    disciplineObj: Type_DisciplineCustomObject;
+    disciplineObj: Interface_DisciplineCustomObject;
     newPageRequest: any;
     setModalShow: (params: boolean) => void;
     disciplinePermission: any;
@@ -36,7 +34,7 @@ type Props = {
 const Mobile = ({ commonProps }: Props) => {
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DISCIPLINE_TABLE_COMPONENT = (
-    <DiciplineTable
+    <MobileDiciplineTable
       diciplineData={commonProps.diciplineData.items}
       editHandlerById={commonProps.editHandlerById}
       toggleModalShow={commonProps.toggleModalShow}
@@ -49,7 +47,7 @@ const Mobile = ({ commonProps }: Props) => {
   );
 
   const DISCIPLINE_MODAL_COMPONENT = (
-    <DiciplineModal
+    <MobileDiciplineModal
       show={commonProps.modalShow}
       onHide={() => commonProps.setModalShow(false)}
       togglemodalshow={commonProps.toggleModalShow}
@@ -66,7 +64,7 @@ const Mobile = ({ commonProps }: Props) => {
         <Container fluid>
           {/* <PageTitle pageTitle={`${currentInstitueName}: Discipline`} gobacklink="/manageprogram" />           */}
           <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />
-          <Filters
+          <MobileFilters
             openAddDiscipline={commonProps.openAddDiscipline}
             updateInputFilters={commonProps.updateInputFilters}
             disciplinePermissions={commonProps.disciplinePermission}

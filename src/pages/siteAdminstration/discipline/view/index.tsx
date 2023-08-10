@@ -6,7 +6,7 @@ import { isMobile, isDesktop } from "react-device-detect";
 import {
   Type_DisciplineCustomObject,
   Type_DisciplineFilterUpdate,
-} from "../types/interface";
+} from "../type/type";
 
 type Props = {
   diciplineData: any;
