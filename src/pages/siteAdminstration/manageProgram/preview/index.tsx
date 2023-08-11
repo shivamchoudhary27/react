@@ -35,8 +35,6 @@ const Preview = () => {
     id: id,
   });
   const instituteId = useSelector((state: any) => state.globalFilters.currentInstitute);
-  const [newRating, setNewRating] = useState<number>(0);
-  const [ratingProgress, setRatingProgress] = useState<number>(0);
 
   useEffect(() => {
     if (
@@ -80,10 +78,6 @@ const Preview = () => {
         ))}
       </>
     );
-  };
-
-  const handleRating = (getRatingCount: any) => {
-    setNewRating(getRatingCount);
   };
 
   return (
@@ -252,10 +246,7 @@ const Preview = () => {
                     </Row>
                   </div>
                 </div>
-                <RatingComp
-                  newRating={newRating}
-                  handleRating={handleRating}
-                />
+                <RatingComp programid={id} />
                 <div className="program-tags mt-5">
                   {el.tags.length > 0 ? previewTagfields(el.tags) : ""}
                 </div>

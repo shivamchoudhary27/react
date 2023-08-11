@@ -178,7 +178,7 @@ const ManageTable = ({
   const toggleProgramPublished = (programPacket: any) => {
     programPacket.published = !programPacket.published;
     let endPoint = `/${currentInstitute}/programs/${programPacket.id}`;
-    putData(endPoint, programPacket)
+    putData(endPoint, {program: programPacket}, null, 'program')
       .then((res: any) => {})
       .catch((err: any) => {
         dispatch(
