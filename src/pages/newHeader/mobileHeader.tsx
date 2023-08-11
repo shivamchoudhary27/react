@@ -1,37 +1,95 @@
-import React from "react";
-import Logo from "../../assets/images/logo.png";
+import React, { useState, useContext } from "react";
+import Logo from "../../assets/images/logo-white.png";
+import SearchIcon from "../../assets/images/icons/search-icon.svg";
+import Nav from "react-bootstrap/Nav";
+import Dropdown from "react-bootstrap/Dropdown";
+import "./mobileStyle.scss";
+import NotificationOverlay from "../../widgets/notifications";
+import config from "../../utils/config";
+import UserContext from "../../features/context/user/user";
+import { useNavigate, Link } from "react-router-dom";
+
+if (config.WSTOKEN === "") {
+  config.WSTOKEN = localStorage.getItem("token");
+}
 
 type Props = {};
 
 const MobileHeader = (props: Props) => {
+  const userCtx = useContext(UserContext);
+  const navigate = useNavigate();
+  const userid = userCtx.userInfo.userid ?? 0;
+  const fullname = userCtx.userInfo.fullname.toString() ?? "";
+  const userpictureurl = userCtx.userInfo.userpictureurl.toString() ?? "";
+
+  const logout = () => {
+    userCtx.logout();
+    navigate("/");
+  };
+
+  const [searchBoxVisible, setSearchBoxVisible] = useState(false);
+
+  const toggleSearchBox = () => {
+    setSearchBoxVisible((prevVisible) => !prevVisible);
+  };
+
   return (
-    <React.Fragment>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <img src={Logo} alt="Logo" width={100} />
-        <div>
-          <ul
-            style={{
-              display: "flex",
-              justifyContent:"space-evenly",
-              alignItems: "center",
-              listStyle: "none",
-              paddingLeft: "0px"
-            }}
-          >
-            <li className="me-2"><i className="fa-solid fa-magnifying-glass"></i></li>
-            <li className="me-2"><i className="fa-solid fa-bell"></i></li>
-            <li className="me-2"><i className="fa-solid fa-user"></i></li>
-          </ul>
-        </div>
+    <header className="mb-header py-3">
+      <div className="d-flex align-items-center justify-content-between">
+        <Link to="/studentdashboard" className="mb-site-logo">
+          <img src={Logo} alt="Ballistic Learning Pvt Ltd" />
+        </Link>
+        <Nav as="ul" className="mb-navWrapper">
+          <Nav.Item as="li">
+            <img src={SearchIcon} alt="Search-icon" onClick={toggleSearchBox} />
+          </Nav.Item>
+          <Nav.Item as="li" className="mb-notification">
+            <NotificationOverlay userid={userid} />
+          </Nav.Item>
+          <Dropdown>
+            <Dropdown.Toggle
+              variant="link"
+              id="dropdown-user-menu"
+              className="p-0"
+            >
+              <span className="rounded-circle mb-user-profile-pix">
+                <img
+                  className="img-fluid"
+                  src={userpictureurl}
+                  alt={fullname}
+                />
+              </span>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item>
+              <Dropdown.Item href="#/action-2" onClick={logout}>
+                Logout
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </Nav>
       </div>
-    </React.Fragment>
+      <div
+        className={`input-group mt-3 mb-searchbox ${
+          searchBoxVisible ? "visible" : "hidden"
+        }`}
+      >
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Search..."
+          aria-label="search"
+          aria-describedby="search"
+        />
+        <button
+          className="btn btn-outline-secondary"
+          type="button"
+          id="button-addon2"
+        >
+          <img src={SearchIcon} alt="Search-icon" />
+        </button>
+      </div>
+    </header>
   );
 };
-
 export default MobileHeader;
