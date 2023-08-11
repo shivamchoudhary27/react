@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { postData } from "../../../../../adapters/microservices";
 import StarRating from "../../../../../widgets/rating";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
@@ -16,10 +17,8 @@ const calculateNetRating = (ratingArray: number[]) => {
   return (total / ratingArray.length).toFixed(1);
 }
 
-const RatingComp: React.FunctionComponent<IProps> = ({
-  newRating,
-  handleRating,
-}: IProps) => {
+const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
+  const [newRating, setNewRating] = useState<number>(0);
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [ratingProgress, setRatingProgress] = useState<number>(0);
   const [ratingPercentages, setRatingPercentages] = useState([4, 3, 4, 3, 5]);
@@ -29,6 +28,21 @@ const RatingComp: React.FunctionComponent<IProps> = ({
     setModalShow(true);
   };
 
+  const handleRating = (getRatingCount: any) => {
+    setNewRating(getRatingCount);
+
+    postData("rating", {
+      "rating": getRatingCount,
+      "itemType": "PROGRAM",
+      "itemId": parseInt(programid),
+    })
+    .then((res: any) => {
+      console.log(res);
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+  };
 
   useEffect(() => {
     let getRatingCount = newRating * 20;

@@ -14,7 +14,7 @@ export const postData = (endPoint: string, requestData: any, file?: File, compon
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
     
-    if (file || component === 'program') {
+    if (file) {
         const {formData, headers} = handleFileFields(data, file)
         return instance.post(endPoint, formData, { headers });
     }
@@ -25,7 +25,7 @@ export const putData = (endPoint: string, requestData: any, file?: File, compone
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
     
-    if (file || component === 'program') {
+    if (file) {
         const {formData, headers} = handleFileFields(data, file);
         return instance.put(endPoint, formData, { headers });
     }
