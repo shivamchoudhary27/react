@@ -13,7 +13,7 @@ const Mobile = (props: Props) => {
   return (
     <React.Fragment>
       <MobileHeader />
-      <div className="contentarea-wrapper">
+      <div className="contentarea-wrapper mb-wraper">
         <div className="dashboard-bottomPanel mt-4 mb-5">
           <EnrolCoursesList />
         </div>
