@@ -2,35 +2,35 @@ import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
 
 type Props = {
-  permissions?: any;
-  openAddDepartment: any;
-  handleFilterChange: any;
-  formik: any;
+  commonProps: {
+    formik: any;
+    permissions?: any;
+    openAddDepartment: () => void;
+    handleFilterChange: (params: any) => void;
+  };
 };
 
-function BrowserFilter({
-  permissions,
-  openAddDepartment,
-  handleFilterChange,
-  formik,
-}: Props) {
+const MobileFilters = ({ commonProps }: Props) => {
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+        <form
+          onReset={commonProps.formik.handleReset}
+          onSubmit={commonProps.formik.handleSubmit}
+        >
           <Row className="g-2">
             <Col>
               <label htmlFor="name" hidden>
                 Name
               </label>
               <input
-                className="form-control"
                 id="name"
                 name="name"
                 type="text"
                 placeholder="Name"
-                onChange={handleFilterChange}
-                value={formik.values.name}
+                className="form-control"
+                value={commonProps.formik.values.name}
+                onChange={commonProps.handleFilterChange}
               />
             </Col>
             <Col>
@@ -38,9 +38,9 @@ function BrowserFilter({
                 Filter
               </Button>
               <Button
-                variant="outline-secondary"
                 type="reset"
-                onClick={formik.handleReset}
+                variant="outline-secondary"
+                onClick={commonProps.formik.handleReset}
               >
                 Reset
               </Button>
@@ -48,8 +48,8 @@ function BrowserFilter({
           </Row>
         </form>
         <div className="site-button-group">
-          {permissions.canAdd && (
-            <Button variant="primary" onClick={openAddDepartment}>
+          {commonProps.permissions.canAdd && (
+            <Button variant="primary" onClick={commonProps.openAddDepartment}>
               Add Department
             </Button>
           )}
@@ -57,6 +57,6 @@ function BrowserFilter({
       </div>
     </React.Fragment>
   );
-}
+};
 
-export default BrowserFilter;
+export default MobileFilters;

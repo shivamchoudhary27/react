@@ -1,30 +1,35 @@
-import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import { Formik, Form } from "formik";
-import {
-  postData as addDisciplineData,
-  putData as putDesciplineData,
-} from "../../../../../adapters/microservices";
+import React from "react";
 import * as Yup from "yup";
-import FieldLabel from "../../../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
-import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
-import CustomButton from "../../../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import { Formik, Form } from "formik";
+import Modal from "react-bootstrap/Modal";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
-import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
+import FieldLabel from "../../../../../widgets/formInputFields/labels";
 import { Interface_DisciplineCustomObject } from "../../type/interface";
-import { Type_AlertMsg, Type_InitialValues } from "../../type/type";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
+import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
+import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
+import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
+import {
+  Type_AlertMsg,
+  Type_FormTitles,
+  Type_InitialValues,
+} from "../../type/type";
 
-type props = {
-  disciplineobj: Interface_DisciplineCustomObject;
-  togglemodalshow: (params: boolean) => void;
-  refreshDisciplineData: () => void;
-  show: boolean;
-  onHide: () => void;
-  currentInstitute: number;
-}
+type Props = {
+  commonProps: {
+    show: boolean;
+    showAlert: boolean;
+    alertMsg: Type_AlertMsg;
+    formTitles: Type_FormTitles;
+    initialValues: Type_InitialValues;
+    disciplineobj: Interface_DisciplineCustomObject;
+    onHide: () => void;
+    setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+    handleFormData: (params1: any, { setSubmitting, resetForm }: any) => void;
+  };
+};
 
 // Formik Yup Validation === >>>
 const diciplineSchema = Yup.object({
@@ -32,96 +37,27 @@ const diciplineSchema = Yup.object({
   description: Yup.string().min(1).required("Description is required"),
 });
 
-const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props) => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({ message: "", alertBoxColor: "" });
-
-  // Initial values of react table === >>>
-  const initialValues: Type_InitialValues = {
-    name: props.disciplineobj.name,
-    description: props.disciplineobj.description,
-    published: props.disciplineobj.published
-  };
-
-  // custom Obj & handle form data === >>>
-  let formTitles = {
-    btnTitle: "",
-    titleHeading: "",
-  };
-  if (props.disciplineobj.id === 0) {
-    formTitles = {
-      btnTitle: "Submit",
-      titleHeading: "Add Discipline",
-    };
-  } else {
-    formTitles = {
-      btnTitle: "Update",
-      titleHeading: "Update Discipline",
-    };
-  }
-
-  // handle Form CRUD operations === >>>
-  const handleFormData = (values: Type_InitialValues, { setSubmitting, resetForm }: any) => {
-    setSubmitting(true);
-    let endPoint: string = `/${props.currentInstitute}/disciplines`;
-    if (props.disciplineobj.id === 0) {
-      addDisciplineData(endPoint, values)
-        .then((res: any) => {
-          if (res.data !== "") {
-            props.togglemodalshow(false);
-            setSubmitting(false);
-            props.refreshDisciplineData();
-            resetForm();
-          }
-        })
-        .catch((err: any) => {
-          setSubmitting(false);
-          setShowAlert(true);
-          setAlertMsg({
-            message: "Failed to add discipline! Please try again.",
-            alertBoxColor: "danger",
-          });
-        });
-    } else {
-      endPoint += `/${props.disciplineobj.id}`;
-      setSubmitting(true);
-      putDesciplineData(endPoint, values)
-        .then((res: any) => {
-          if (res.data !== "" && res.status === 200) {
-            props.togglemodalshow(false);
-            setSubmitting(false);
-            props.refreshDisciplineData();
-          }
-        })
-        .catch((err: any) => {
-          setSubmitting(false);
-          setShowAlert(true);
-          setAlertMsg({
-            message: "Failed to update discipline! Please try again.",
-            alertBoxColor: "danger",
-          });
-        });
-    }
-  };
-
+const MobileDiciplineModal: React.FunctionComponent<Props> = ({
+  commonProps,
+}: Props) => {
   return (
     <Modal
-      show={props.show}
-      onHide={props.onHide}
+      show={commonProps.show}
+      onHide={commonProps.onHide}
       aria-labelledby="contained-modal-title-vcenter"
       centered
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {formTitles.titleHeading}
+          {commonProps.formTitles.titleHeading}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
-          initialValues={initialValues}
+          initialValues={commonProps.initialValues}
           validationSchema={diciplineSchema}
           onSubmit={(values, action) => {
-            handleFormData(values, action);
+            commonProps.handleFormData(values, action);
             action.resetForm();
           }}
         >
@@ -129,10 +65,10 @@ const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props)
             <Form>
               <div className="mb-3">
                 <FieldLabel
+                  star="*"
                   htmlfor="name"
                   labelText="Name"
                   required="required"
-                  star="*"
                 />
                 <FieldTypeText name="name" placeholder="Name" />
                 <FieldErrorMessage
@@ -144,10 +80,10 @@ const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props)
 
               <div className="mb-3">
                 <FieldLabel
+                  star="*"
+                  required="required"
                   htmlfor="description"
                   labelText="Description"
-                  required="required"
-                  star="*"
                 />
                 <FieldTypeTextarea
                   name="description"
@@ -162,10 +98,7 @@ const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props)
               </div>
 
               <div className="mb-3">
-                <FieldTypeCheckbox
-                  name="published"
-                  checkboxLabel="Published"
-                />{" "}
+                <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
                 <FieldErrorMessage
                   errors=""
                   touched=""
@@ -179,9 +112,9 @@ const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props)
                     type="submit"
                     variant="primary"
                     isSubmitting={isSubmitting}
-                    btnText={formTitles.btnTitle}
+                    btnText={commonProps.formTitles.btnTitle}
                   />{" "}
-                  {formTitles.btnTitle === "Submit" && (
+                  {commonProps.formTitles.btnTitle === "Submit" && (
                     <CustomButton
                       type="reset"
                       btnText="Reset"
@@ -192,7 +125,11 @@ const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props)
               ) : (
                 <LoadingButton
                   variant="primary"
-                  btnText={props.disciplineobj.id === 0 ? "Submitting..." : "Updating..."}
+                  btnText={
+                    commonProps.disciplineobj.id === 0
+                      ? "Submitting..."
+                      : "Updating..."
+                  }
                   className="modal-buttons"
                 />
               )}
@@ -200,11 +137,11 @@ const MobileDiciplineModal: React.FunctionComponent<props> = ({...props}: props)
           )}
         </Formik>
         <TimerAlertBox
-          alertMsg={alertMsg.message}
           className="mt-3"
-          variant={alertMsg.alertBoxColor}
-          setShowAlert={setShowAlert}
-          showAlert={showAlert}
+          showAlert={commonProps.showAlert}
+          alertMsg={commonProps.alertMsg.message}
+          variant={commonProps.alertMsg.alertBoxColor}
+          setShowAlert={commonProps.setShowAlert}
         />
       </Modal.Body>
     </Modal>

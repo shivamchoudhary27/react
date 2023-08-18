@@ -1,63 +1,56 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import { Alert } from "react-bootstrap";
+import MobileProgramModal from "./view/mobile/form";
+import BrowserProgramModal from "./view/browser/form";
+import { isMobile, isDesktop } from "react-device-detect";
 import {
-  postData as addProgramData,
+  Type_AlertMsg,
+  Type_FormTitles,
+  Type_ProgramTypeObject,
+} from "./types/types";
+import {
   putData as putProgramData,
+  postData as addProgramData,
 } from "../../../adapters/microservices";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import FieldLabel from "../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import Custom_Button from "../../../widgets/formInputFields/buttons";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import { IAlertMsg, IAddProgramModal } from "./types/interface";
 
-// Formik Yup validation === >>>
-const programTypeSchema = Yup.object({
-  name: Yup.string().min(1).trim().required("Name is required"),
-  description: Yup.string().min(1).required("Description is required"),
-  // isBatchYearRequired: Yup.bool()
-  //   .required("Please Check")
-  //   .oneOf([true], "Please Check the required field"),
-});
+type Props = {
+  show: boolean;
+  currentInstitute: number;
+  programtypeobj: Type_ProgramTypeObject;
+  onHide: () => void;
+  refreshprogramdata: () => void;
+  togglemodalshow: (params: boolean) => void;
+};
 
-const AddProgramModal: React.FunctionComponent<IAddProgramModal> = ({
-  programtypeobj,
-  togglemodalshow,
-  refreshprogramdata,
-  show,
-  onHide,
-  currentInstitute,
-}: IAddProgramModal) => {
+type Type_InitialValues = {
+  name: string;
+  published: boolean;
+  description: string;
+  isBatchYearRequired: boolean;
+};
+
+const AddProgramModal: React.FunctionComponent<Props> = ({
+  ...props
+}: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({ message: "", alertBoxColor: "" });
-
-  interface IInitialValues{
-    name: string;
-    description: string;
-    isBatchYearRequired: boolean;
-    published: boolean;
-  }
+  const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({
+    message: "",
+    alertBoxColor: "",
+  });
 
   // Initial values of react table === >>>
-  const initialValues: IInitialValues = {
-    name: programtypeobj.name,
-    description: programtypeobj.description,
-    isBatchYearRequired: programtypeobj.batchYearRequired,
-    published: programtypeobj.published
+  const initialValues: Type_InitialValues = {
+    name: props.programtypeobj.name,
+    published: props.programtypeobj.published,
+    description: props.programtypeobj.description,
+    isBatchYearRequired: props.programtypeobj.batchYearRequired,
   };
 
   // custom Obj & handle form data === >>>
-  let formTitles = {
+  let formTitles: Type_FormTitles = {
     titleHeading: "",
     btnTitle: "",
   };
-  if (programtypeobj.id === 0) {
+  if (props.programtypeobj.id === 0) {
     formTitles = {
       titleHeading: "Add Program Type",
       btnTitle: "Submit",
@@ -72,14 +65,14 @@ const AddProgramModal: React.FunctionComponent<IAddProgramModal> = ({
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    let endPoint = `/${currentInstitute}/program-types`;
-    if (programtypeobj.id === 0) {
+    let endPoint = `/${props.currentInstitute}/program-types`;
+    if (props.programtypeobj.id === 0) {
       addProgramData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
-            togglemodalshow(false);
+            props.togglemodalshow(false);
             setSubmitting(false);
-            refreshprogramdata();
+            props.refreshprogramdata();
             resetForm();
           }
         })
@@ -92,14 +85,14 @@ const AddProgramModal: React.FunctionComponent<IAddProgramModal> = ({
           });
         });
     } else {
-      endPoint += `/${programtypeobj.id}`;
+      endPoint += `/${props.programtypeobj.id}`;
       setSubmitting(true);
       putProgramData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            togglemodalshow(false);
+            props.togglemodalshow(false);
             setSubmitting(false);
-            refreshprogramdata();
+            props.refreshprogramdata();
             resetForm();
           }
         })
@@ -114,126 +107,29 @@ const AddProgramModal: React.FunctionComponent<IAddProgramModal> = ({
     }
   };
 
+  // common reusable props === >>>
+  const CommonProps = {
+    show: props.show,
+    alertMsg: alertMsg,
+    showAlert: showAlert,
+    formTitles: formTitles,
+    initialValues: initialValues,
+    programtypeobj: props.programtypeobj,
+    onHide: props.onHide,
+    setShowAlert: setShowAlert,
+    handleFormData: handleFormData,
+  };
+
   return (
-    <Modal
-      show={show}
-      onHide={onHide}
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {formTitles.titleHeading}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <TimerAlertBox
-          alertMsg={alertMsg.message}
-          className="mt-3"
-          variant={alertMsg.alertBoxColor}
-          setShowAlert={setShowAlert}
-          showAlert={showAlert}
-        />
-        <Formik
-          initialValues={initialValues}
-          validationSchema={programTypeSchema}
-          onSubmit={(values, action) => {
-            handleFormData(values, action);
-            console.log(values);
-          }}
-        >
-          {({ errors, touched, isSubmitting }) => (
-            <Form>
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="name"
-                  labelText="Name"
-                  required="required"
-                  star="*"
-                />
-                <FieldTypeText name="name" placeholder="Name" />
-                <FieldErrorMessage
-                  errors={errors.name}
-                  touched={touched.name}
-                  msgText="Name required atleast 1 character"
-                />
-              </div>
-
-              <div className="mb-3">
-                <FieldLabel
-                  htmlfor="description"
-                  labelText="Description"
-                  required="required"
-                  star="*"
-                />
-                <FieldTypeTextarea
-                  name="description"
-                  component="textarea"
-                  placeholder="Description"
-                />
-                <FieldErrorMessage
-                  errors={errors.description}
-                  touched={touched.description}
-                  msgText="Description required atleast 1 character"
-                />
-              </div>
-
-              <div className="mb-3">
-                <FieldTypeCheckbox
-                  name="isBatchYearRequired"
-                  checkboxLabel="Batch Year Required?"
-                />{" "}
-                <FieldErrorMessage
-                  errors={errors.isBatchYearRequired}
-                  touched={touched.isBatchYearRequired}
-                  msgText="Please Check required field"
-                />
-              </div>
-              <div className="mb-3">
-                <FieldTypeCheckbox
-                  name="published"
-                  checkboxLabel="Published"
-                />{" "}
-                <FieldErrorMessage
-                  errors=""
-                  touched=""
-                  msgText="Please Check required field"
-                />
-              </div>
-              {isSubmitting === false ? (
-                <div className="modal-buttons">
-                  <Custom_Button
-                    type="submit"
-                    variant="primary"
-                    isSubmitting={isSubmitting}
-                    btnText={formTitles.btnTitle}
-                  />{" "}
-                  {formTitles.btnTitle === "Submit" && (
-                    <Custom_Button
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  )}
-                </div>
-              ) : (
-                <LoadingButton
-                  variant="primary"
-                  btnText={
-                    programtypeobj.id === 0 ? "Submitting..." : "Updating..."
-                  }
-                  className="modal-buttons"
-                />
-              )}
-              <Alert variant="primary" className="mt-3 small">
-                <strong>Note: </strong>If batch year is checked then it is
-                available on add program form.
-              </Alert>
-            </Form>
-          )}
-        </Formik>
-      </Modal.Body>
-    </Modal>
+    <React.Fragment>
+      {isMobile ? (
+        <MobileProgramModal CommonProps={CommonProps} />
+      ) : isDesktop ? (
+        <BrowserProgramModal CommonProps={CommonProps} />
+      ) : (
+        <BrowserProgramModal CommonProps={CommonProps} />
+      )}
+    </React.Fragment>
   );
 };
 

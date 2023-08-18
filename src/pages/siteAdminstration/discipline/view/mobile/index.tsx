@@ -1,59 +1,59 @@
 import React from "react";
+import Filters from "../../filters";
+import DiciplineModal from "../../form";
+import DiciplineTable from "../../table";
+import { Container } from "react-bootstrap";
+import PageTitle from "../../../../../widgets/pageTitle";
+import Errordiv from "../../../../../widgets/alert/errordiv";
+import { Type_DisciplineFilterUpdate } from "../../type/type";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
-import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
-import Errordiv from "../../../../../widgets/alert/errordiv";
-import { Container } from "react-bootstrap";
-import MobileDiciplineModal from "./form";
-import MobileDiciplineTable from "./table";
-import MobileFilters from "./filters";
-import { Type_DisciplineFilterUpdate } from "../../type/type";
 import { Interface_DisciplineCustomObject } from "../../type/interface";
 
 type Props = {
   commonProps: {
+    apiStatus: string;
+    modalShow: boolean;
     diciplineData: any;
+    newPageRequest: any;
+    currentInstitute: number;
+    disciplinePermission: any;
     filterUpdate: Type_DisciplineFilterUpdate;
+    disciplineObj: Interface_DisciplineCustomObject;
+    refreshToggle: () => void;
     openAddDiscipline: () => void;
     updateInputFilters: (params: any) => void;
-    editHandlerById: any;
     toggleModalShow: (params: boolean) => void;
-    refreshToggle: () => void;
     refreshOnDeleteToggle: (value: boolean) => void;
-    apiStatus: string;
-    currentInstitute: number;
-    modalShow: boolean;
-    disciplineObj: Interface_DisciplineCustomObject;
-    newPageRequest: any;
-    setModalShow: (params: boolean) => void;
-    disciplinePermission: any;
+    setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
+    editHandlerById: (params: Interface_DisciplineCustomObject) => void;
   };
 };
 
 const Mobile = ({ commonProps }: Props) => {
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DISCIPLINE_TABLE_COMPONENT = (
-    <MobileDiciplineTable
-      diciplineData={commonProps.diciplineData.items}
+    <DiciplineTable
+      apiStatus={commonProps.apiStatus}
       editHandlerById={commonProps.editHandlerById}
+      diciplineData={commonProps.diciplineData.items}
+      currentInstitute={commonProps.currentInstitute}
+      disciplinePermissions={commonProps.disciplinePermission}
       toggleModalShow={commonProps.toggleModalShow}
       refreshDisciplineData={commonProps.refreshToggle}
       refreshOnDelete={commonProps.refreshOnDeleteToggle}
-      apiStatus={commonProps.apiStatus}
-      currentInstitute={commonProps.currentInstitute}
-      disciplinePermissions={commonProps.disciplinePermission}
     />
   );
 
   const DISCIPLINE_MODAL_COMPONENT = (
-    <MobileDiciplineModal
+    <DiciplineModal
       show={commonProps.modalShow}
-      onHide={() => commonProps.setModalShow(false)}
-      togglemodalshow={commonProps.toggleModalShow}
       disciplineobj={commonProps.disciplineObj}
-      refreshDisciplineData={commonProps.refreshToggle}
       currentInstitute={commonProps.currentInstitute}
+      togglemodalshow={commonProps.toggleModalShow}
+      onHide={() => commonProps.setModalShow(false)}
+      refreshDisciplineData={commonProps.refreshToggle}
     />
   );
 
@@ -64,10 +64,10 @@ const Mobile = ({ commonProps }: Props) => {
         <Container fluid>
           {/* <PageTitle pageTitle={`${currentInstitueName}: Discipline`} gobacklink="/manageprogram" />           */}
           <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />
-          <MobileFilters
+          <Filters
+            disciplinePermissions={commonProps.disciplinePermission}
             openAddDiscipline={commonProps.openAddDiscipline}
             updateInputFilters={commonProps.updateInputFilters}
-            disciplinePermissions={commonProps.disciplinePermission}
           />
           {/* {DISCIPLINE_BUTTONS} */}
           {!commonProps.disciplinePermission.canView ? (
@@ -80,9 +80,9 @@ const Mobile = ({ commonProps }: Props) => {
             DISCIPLINE_TABLE_COMPONENT
           )}
           <BuildPagination
-            totalpages={commonProps.diciplineData.pager.totalPages}
-            activepage={commonProps.filterUpdate.pageNumber}
             getrequestedpage={commonProps.newPageRequest}
+            activepage={commonProps.filterUpdate.pageNumber}
+            totalpages={commonProps.diciplineData.pager.totalPages}
           />
           {DISCIPLINE_MODAL_COMPONENT}
         </Container>

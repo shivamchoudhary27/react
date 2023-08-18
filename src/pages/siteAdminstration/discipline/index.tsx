@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import "./style.scss";
+import View from "./view";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
-import "./style.scss";
 import { Interface_DisciplineCustomObject } from "./type/interface";
 import {
   Type_DisciplineDataObject,
   Type_DisciplineFilterUpdate,
   Type_CurrentInstitute,
 } from "./type/type";
-import View from "./view";
 
 const Discipline = () => {
   const dummyData: Type_DisciplineDataObject = {
@@ -133,24 +133,22 @@ const Discipline = () => {
   };
 
   return (
-    <React.Fragment>
-      <View
-        diciplineData={diciplineData}
-        filterUpdate={filterUpdate}
-        openAddDiscipline={openAddDiscipline}
-        updateInputFilters={updateInputFilters}
-        editHandlerById={editHandlerById}
-        toggleModalShow={toggleModalShow}
-        refreshToggle={refreshToggle}
-        refreshOnDeleteToggle={refreshOnDeleteToggle}
-        apiStatus={apiStatus}
-        currentInstitute={currentInstitute}
-        modalShow={modalShow}
-        disciplineObj={disciplineObj}
-        newPageRequest={newPageRequest}
-        setModalShow={setModalShow}
-      />
-    </React.Fragment>
+    <View
+      apiStatus={apiStatus}
+      modalShow={modalShow}
+      filterUpdate={filterUpdate}
+      diciplineData={diciplineData}
+      disciplineObj={disciplineObj}
+      currentInstitute={currentInstitute}
+      setModalShow={setModalShow}
+      refreshToggle={refreshToggle}
+      newPageRequest={newPageRequest}
+      toggleModalShow={toggleModalShow}
+      editHandlerById={editHandlerById}
+      openAddDiscipline={openAddDiscipline}
+      updateInputFilters={updateInputFilters}
+      refreshOnDeleteToggle={refreshOnDeleteToggle}
+    />
   );
 };
 

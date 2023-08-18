@@ -1,49 +1,51 @@
 import React from "react";
 import Mobile from "./mobile";
 import Browser from "./browser";
+import { useSelector } from "react-redux";
 import { isMobile, isDesktop } from "react-device-detect";
-import { Type_DisciplineFilterUpdate } from "../type/type";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { Interface_DisciplineCustomObject } from "../type/interface";
 
 type Props = {
   apiStatus: string;
+  filterUpdate: any;
+  programTypeObj: any;
   modalShow: boolean;
-  diciplineData: any;
-  newPageRequest: any;
+  programTypeData: any;
+  editHandlerById: any;
   currentInstitute: number;
-  filterUpdate: Type_DisciplineFilterUpdate;
-  disciplineObj: Interface_DisciplineCustomObject;
   refreshToggle: () => void;
-  openAddDiscipline: () => void;
-  updateInputFilters: (params: any) => void;
+  openAddProgramType: () => void;
+  newPageRequest: (params: number) => void;
+  refreshOnDelete: (params: boolean) => void;
   toggleModalShow: (params: boolean) => void;
-  refreshOnDeleteToggle: (value: boolean) => void;
+  updateInputFilters: (params: string) => void;
+  refreshProgramData: (params: boolean) => void;
+  updateDepartmentFilter: (params: string) => void;
   setModalShow: React.Dispatch<React.SetStateAction<boolean>>;
-  editHandlerById: (params: Interface_DisciplineCustomObject) => void;
 };
 
-const View = ({ ...props }: Props) => {
-  const disciplinePermission = useSelector(
-    (state: any) => state.userAuthorities.permissions.discipline
+const View: React.FunctionComponent<Props> = ({ ...props }: Props) => {
+  const userAuthorities = useSelector(
+    (state: any) => state.userAuthorities.permissions.programtype
   );
 
   const commonProps = {
+    permissions: userAuthorities,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
     filterUpdate: props.filterUpdate,
-    disciplineObj: props.disciplineObj,
-    diciplineData: props.diciplineData,
-    newPageRequest: props.newPageRequest,
+    programTypeObj: props.programTypeObj,
+    programTypeData: props.programTypeData,
+    editHandlerById: props.editHandlerById,
     currentInstitute: props.currentInstitute,
-    disciplinePermission: disciplinePermission,
     setModalShow: props.setModalShow,
     refreshToggle: props.refreshToggle,
+    newPageRequest: props.newPageRequest,
+    refreshOnDelete: props.refreshOnDelete,
     toggleModalShow: props.toggleModalShow,
-    editHandlerById: props.editHandlerById,
-    openAddDiscipline: props.openAddDiscipline,
+    openAddProgramType: props.openAddProgramType,
+    refreshProgramData: props.refreshProgramData,
     updateInputFilters: props.updateInputFilters,
-    refreshOnDeleteToggle: props.refreshOnDeleteToggle,
+    updateDepartmentFilter: props.updateDepartmentFilter,
   };
 
   return (

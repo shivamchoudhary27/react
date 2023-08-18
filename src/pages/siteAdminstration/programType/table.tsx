@@ -1,27 +1,24 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { useTable } from "react-table";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import ACTIONSLIST from "../../../store/actions";
+import MobileProgramTable from "./view/mobile/table";
+import BrowserProgramTable from "./view/browser/table";
+import { isMobile, isDesktop } from "react-device-detect";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import {
   putData,
   deleteData as deleteProgramData,
 } from "../../../adapters/microservices";
-import { Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useTable } from "react-table";
-import TableSkeleton from "../../../widgets/skeleton/table";
-import Errordiv from "../../../widgets/alert/errordiv";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import DeleteAlert from "../../../widgets/alert/deleteAlert";
-import editIcon from "../../../assets/images/icons/edit-action.svg";
-import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import showIcon from "../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../assets/images/icons/hide-action.svg";
-import { useDispatch } from "react-redux";
-import ACTIONSLIST from "../../../store/actions";
 import {
-  IAlertMsg,
-  IProgramTypeObj,
-  IProgramTable,
-  IProgramtypePacket,
-} from "./types/interface";
+  Type_AlertMsg,
+  Type_ProgramTypeObject,
+  Type_ProgramtypePacket,
+} from "./types/types";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -30,16 +27,18 @@ const actionsStyle = {
   alignItems: "center",
 };
 
-const ProgramTable = ({
-  programTypeData,
-  editHandlerById,
-  toggleModalShow,
-  refreshProgramData,
-  refreshOnDelete,
-  apiStatus,
-  currentInstitute,
-  programtypePermissions,
-}: IProgramTable) => {
+type Props = {
+  apiStatus: string;
+  programTypeData: any;
+  currentInstitute: number;
+  programtypePermissions: any;
+  refreshProgramData: () => void;
+  toggleModalShow: (params: boolean) => void;
+  refreshOnDelete: (params: boolean) => void;
+  editHandlerById: (params: Type_ProgramTypeObject) => void;
+};
+
+const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -58,7 +57,7 @@ const ProgramTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {programtypePermissions.canEdit === true && (
+          {props.programtypePermissions.canEdit === true && (
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -75,7 +74,7 @@ const ProgramTable = ({
               />
             </Link>
           )}{" "}
-          {programtypePermissions.canDelete === true && (
+          {props.programtypePermissions.canDelete === true && (
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -93,7 +92,7 @@ const ProgramTable = ({
               />
             </Link>
           )}{" "}
-          {programtypePermissions.canEdit === true && (
+          {props.programtypePermissions.canEdit === true && (
             <Link
               className="action-icons"
               to=""
@@ -115,14 +114,14 @@ const ProgramTable = ({
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => programTypeData, [programTypeData]);
+  const data = useMemo(() => props.programTypeData, [props.programTypeData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [alertMsg, setAlertMsg] = useState<IAlertMsg>({
+  const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({
     message: "",
     alertBoxColor: "",
   });
@@ -132,24 +131,24 @@ const ProgramTable = ({
   const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({
-    id,
-    name,
-    description,
-    batchYearRequired,
-    published,
-  }: IProgramTypeObj) => {
-    toggleModalShow(true);
-    editHandlerById({ id, name, description, batchYearRequired, published });
-    refreshProgramData();
+  const editHandler = ({ ...getEditHandlerValue }: Type_ProgramTypeObject) => {
+    props.toggleModalShow(true);
+    props.editHandlerById({
+      id: getEditHandlerValue.id,
+      name: getEditHandlerValue.name,
+      published: getEditHandlerValue.published,
+      description: getEditHandlerValue.description,
+      batchYearRequired: getEditHandlerValue.batchYearRequired,
+    });
+    props.refreshProgramData();
   };
 
   const toggleProgramtypePublished = (
-    programtypePacket: IProgramtypePacket
+    programtypePacket: Type_ProgramtypePacket
   ) => {
     programtypePacket.published = !programtypePacket.published;
     setForceRender((prevState) => !prevState);
-    let endPoint: string = `/${currentInstitute}/program-types/${programtypePacket.id}`;
+    let endPoint: string = `/${props.currentInstitute}/program-types/${programtypePacket.id}`;
     putData(endPoint, programtypePacket)
       .then((res: any) => {
         setForceRender((prevState) => !prevState);
@@ -167,11 +166,11 @@ const ProgramTable = ({
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endpoint: string = `/${currentInstitute}/program-types/${deleteId}`;
+      let endpoint: string = `/${props.currentInstitute}/program-types/${deleteId}`;
       deleteProgramData(endpoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            refreshOnDelete(true);
+            props.refreshOnDelete(true);
             setShowAlert(true);
             setAlertMsg({
               message: "Deleted successfully.",
@@ -202,7 +201,7 @@ const ProgramTable = ({
           }
         });
       setTimeout(() => {
-        refreshProgramData();
+        props.refreshProgramData();
       }, 3000);
     }
     setOnDeleteAction("");
@@ -210,7 +209,7 @@ const ProgramTable = ({
 
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    refreshOnDelete(false);
+    props.refreshOnDelete(false);
     setShowDeleteModal(true);
     setDeleteId(id);
   };
@@ -221,57 +220,33 @@ const ProgramTable = ({
     setShowDeleteModal(false);
   };
 
+  // common reusable props === >>>
+  const commonProps = {
+    rows: rows,
+    alertMsg: alertMsg,
+    showAlert: showAlert,
+    headerGroups: headerGroups,
+    apiStatus: props.apiStatus,
+    showDeleteModal: showDeleteModal,
+    programTypeData: props.programTypeData,
+    prepareRow: prepareRow,
+    setShowAlert: setShowAlert,
+    getTableProps: getTableProps,
+    getTableBodyProps: getTableBodyProps,
+    setShowDeleteModal: setShowDeleteModal,
+    deleteActionResponse: deleteActionResponse,
+  };
+
   return (
-    <>
-      <div className="table-responsive admin-table-wrapper mt-3">
-        <Table borderless striped {...getTableProps}>
-          <thead>
-            {headerGroups.map((headerGroup, index) => (
-              <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                {headerGroup.headers.map((column, index) => (
-                  <th {...column.getHeaderProps()} key={index}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps}>
-            {rows.map((row, index) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()} key={index}>
-                  {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>
-                      {cell.render("Cell")}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-        {apiStatus === "started" && programTypeData.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )}
-        {apiStatus === "finished" && programTypeData.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="mt-3" />
-        )}
-      </div>
-      <DeleteAlert
-        show={showDeleteModal}
-        onHide={() => setShowDeleteModal(false)}
-        deleteActionResponse={deleteActionResponse}
-        modalHeading="Program Type"
-      />
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      />
-    </>
+    <React.Fragment>
+      {isMobile ? (
+        <MobileProgramTable commonProps={commonProps} />
+      ) : isDesktop ? (
+        <BrowserProgramTable commonProps={commonProps} />
+      ) : (
+        <BrowserProgramTable commonProps={commonProps} />
+      )}
+    </React.Fragment>
   );
 };
 

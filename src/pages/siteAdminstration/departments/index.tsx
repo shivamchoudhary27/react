@@ -1,44 +1,38 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-// import { makeGetDataRequest } from "../../../features/api_calls/getdata";
-import { getData } from "../../../adapters/microservices";
-import { pagination } from "../../../utils/pagination";
 import "./style.scss";
-import {
-  TypeDummyData,
-  TypeModalShow,
-  TypeRefreshOnDelete,
-  TypeRefreshData,
-  TypeApiStatus,
-  CurrentInstitute,
-  TypeCurrentInstitute,
-  TypeDepartmentObj,
-  TypeFilterUpdate,
-} from "./types/type";
 import View from "./view";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { pagination } from "../../../utils/pagination";
+import { getData } from "../../../adapters/microservices";
+// import { makeGetDataRequest } from "../../../features/api_calls/getdata";
+import {
+  Type_ApiResponse,
+  Type_FilterUpdate,
+  Type_DepartmentObj,
+  TypeCurrentInstitute,
+} from "./types/type";
 
-const Departments = () => {
-  const dummyData: TypeDummyData = {
+const Departments: React.FunctionComponent = () => {
+  const dummyData: Type_ApiResponse = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
   const [departmentData, setDepartmentData] =
-    useState<TypeDummyData>(dummyData);
-  const [modalShow, setModalShow] = useState<TypeModalShow>(false);
-  const [departmentObj, setDepartmentObj] = useState<TypeDepartmentObj>(
-    {} as TypeDepartmentObj
+    useState<Type_ApiResponse>(dummyData);
+  const [modalShow, setModalShow] = useState<boolean>(false);
+  const [departmentObj, setDepartmentObj] = useState<Type_DepartmentObj>(
+    {} as Type_DepartmentObj
   );
-  const [refreshOnDelete, setRefreshOnDelete] =
-    useState<TypeRefreshOnDelete>(false);
-  const [refreshData, setRefreshData] = useState<TypeRefreshData>(true);
-  const [apiStatus, setApiStatus] = useState<TypeApiStatus>("");
-  const [filterUpdate, setFilterUpdate] = useState<TypeFilterUpdate>({
-    departmentId: "",
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
+  const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [apiStatus, setApiStatus] = useState<string>("");
+  const [filterUpdate, setFilterUpdate] = useState<Type_FilterUpdate>({
     name: "",
     pageNumber: 0,
+    departmentId: "",
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute: CurrentInstitute = useSelector(
+  const currentInstitute: number = useSelector(
     (state: TypeCurrentInstitute) => state.globalFilters.currentInstitute
   );
   // const departmentPermission = useSelector(
@@ -47,8 +41,8 @@ const Departments = () => {
 
   const getDepartmentData = (
     endPoint: string,
-    filters: any,
-    setData: any,
+    filters: Type_FilterUpdate,
+    setData: React.Dispatch<React.SetStateAction<Type_ApiResponse>>,
     setApiStatus: (params: string) => void
   ) => {
     setApiStatus("started");
@@ -110,8 +104,12 @@ const Departments = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, name, published }: TypeDepartmentObj) => {
-    setDepartmentObj({ id: id, name: name, published: published });
+  const editHandlerById = ({ ...getEditHandlerValue }: Type_DepartmentObj) => {
+    setDepartmentObj({
+      id: getEditHandlerValue.id,
+      name: getEditHandlerValue.name,
+      published: getEditHandlerValue.published,
+    });
   };
 
   // handle reset Form after SAVE data === >>>
@@ -132,20 +130,20 @@ const Departments = () => {
   return (
     <>
       <View
+        // departmentPermission={departmentPermission}
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        filterUpdate={filterUpdate}
+        departmentObj={departmentObj}
         departmentData={departmentData}
+        currentInstitute={currentInstitute}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
         editHandlerById={editHandlerById}
         toggleModalShow={toggleModalShow}
-        departmentObj={departmentObj}
-        refreshToggle={refreshToggle}
+        updateInputFilters={updateInputFilters}
         resetDepartmentForm={resetDepartmentForm}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
-        apiStatus={apiStatus}
-        currentInstitute={currentInstitute}
-        modalShow={modalShow}
-        // departmentPermission={departmentPermission}
-        updateInputFilters={updateInputFilters}
-        filterUpdate={filterUpdate}
-        newPageRequest={newPageRequest}
       />
     </>
   );

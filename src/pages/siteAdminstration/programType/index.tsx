@@ -1,50 +1,45 @@
-import { useState, useEffect } from "react";
+import View from "./view";
 import { useSelector } from "react-redux";
-import { Container } from "react-bootstrap";
-import { getData } from "../../../adapters/microservices";
 import { pagination } from "../../../utils/pagination";
-import BuildPagination from "../../../widgets/pagination";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import ProgramTable from "./table";
-import AddProgramModal from "./form";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
-import Filters from "./filters";
-import { IDummyData, IFilterUpdate, IProgramTypeObj, ICurrentInstitute } from "./types/interface";
+import { getData } from "../../../adapters/microservices";
+import { useState, useEffect, FunctionComponent } from "react";
+import {
+  Type_ApiResponse,
+  Type_FilterUpdate,
+  ICurrentInstitute,
+  Type_ProgramTypeObject,
+} from "./types/types";
 
-const ProgramType = () => {
-  const dummyData: IDummyData = {
+const ProgramType: FunctionComponent = () => {
+  const dummyData: Type_ApiResponse = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [programTypeObj, setProgramTypeObj] = useState<IProgramTypeObj>({
+  const [programTypeObj, setProgramTypeObj] = useState<Type_ProgramTypeObject>({
     id: 0,
     name: "",
     description: "",
     batchYearRequired: false,
     published: false,
   });
-  const [filterUpdate, setFilterUpdate] = useState<IFilterUpdate>({
+  const [filterUpdate, setFilterUpdate] = useState<Type_FilterUpdate>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
   const [modalShow, setModalShow] = useState<boolean>(false);
-  const [programTypeData, setProgramTypeData] = useState<IDummyData>(dummyData);
+  const [programTypeData, setProgramTypeData] = useState<Type_ApiResponse>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState<string>("");
-  const currentInstitute: number = useSelector((state: ICurrentInstitute) => state.globalFilters.currentInstitute);
-  const userAuthorities = useSelector(
-    (state: any) => state.userAuthorities.permissions.programtype
+  const currentInstitute: number = useSelector(
+    (state: ICurrentInstitute) => state.globalFilters.currentInstitute
   );
 
   const getProgramTypeData = (
     endPoint: string,
-    filters: any,
-    setData: any,
-    setApiStatus: any
+    filters: Type_FilterUpdate,
+    setData: React.Dispatch<React.SetStateAction<Type_ApiResponse>>,
+    setApiStatus: React.Dispatch<React.SetStateAction<string>>
   ) => {
     setApiStatus("started");
     getData(endPoint, filters)
@@ -102,19 +97,13 @@ const ProgramType = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({
-    id,
-    name,
-    description,
-    batchYearRequired,
-    published,
-  }: IProgramTypeObj) => {
+  const editHandlerById = ({ ...getEditHandlerValue }: Type_ProgramTypeObject) => {
     setProgramTypeObj({
-      id: id,
-      name: name,
-      description: description,
-      batchYearRequired: batchYearRequired,
-      published: published,
+      id: getEditHandlerValue.id,
+      name: getEditHandlerValue.name,
+      published: getEditHandlerValue.published,
+      description: getEditHandlerValue.description,
+      batchYearRequired: getEditHandlerValue.batchYearRequired,
     });
   };
 
@@ -135,8 +124,8 @@ const ProgramType = () => {
       id: 0,
       name: "",
       description: "",
-      batchYearRequired: false,
       published: false,
+      batchYearRequired: false,
     });
     setRefreshData(false);
   };
@@ -145,7 +134,7 @@ const ProgramType = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  // to update filters values in the main state filterUpdate
+  // to update filters values in the main state filterUpdate === >>>
   const updateDepartmentFilter = (departmentId: string) => {
     setFilterUpdate({
       ...filterUpdate,
@@ -158,64 +147,25 @@ const ProgramType = () => {
     setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
   };
 
-  // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
-  const ADDPROGRAM_MODAL_COMPONENT = (
-    <AddProgramModal
-      show={modalShow}
-      onHide={() => toggleModalShow(false)}
-      programtypeobj={programTypeObj}
-      togglemodalshow={toggleModalShow}
-      refreshprogramdata={refreshToggle}
-      currentInstitute={currentInstitute}
-    />
-  );
-
-  const PROGRAM_TYPE_COMPONENT = (
-    <ProgramTable
-      programTypeData={programTypeData.items}
-      editHandlerById={editHandlerById}
-      setModalShow={setModalShow}
-      toggleModalShow={toggleModalShow}
-      refreshProgramData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
-      apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
-      programtypePermissions={userAuthorities}
-    />
-  );
-
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Program Type", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />
-          <Filters
-            openAddProgramType={openAddProgramType}
-            updateDepartment={updateDepartmentFilter}
-            updateinputfilters={updateInputFilters}
-            programtypePermissions={userAuthorities}
-          />
-          {/* {PROGRAM_TYPE_BUTTON} */}
-          {ADDPROGRAM_MODAL_COMPONENT}
-          {PROGRAM_TYPE_COMPONENT}
-          <BuildPagination
-            totalpages={programTypeData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-        </Container>
-      </div>
-      <Footer />
-    </>
+    <View
+      apiStatus={apiStatus}
+      modalShow={modalShow}
+      filterUpdate={filterUpdate}
+      programTypeObj={programTypeObj}
+      programTypeData={programTypeData}
+      currentInstitute={currentInstitute}
+      setModalShow={setModalShow}
+      refreshToggle={refreshToggle}
+      newPageRequest={newPageRequest}
+      editHandlerById={editHandlerById}
+      toggleModalShow={toggleModalShow}
+      updateInputFilters={updateInputFilters}
+      openAddProgramType={openAddProgramType}
+      refreshProgramData={refreshProgramData}
+      refreshOnDelete={refreshOnDeleteToggle}
+      updateDepartmentFilter={updateDepartmentFilter}
+    />
   );
 };
 

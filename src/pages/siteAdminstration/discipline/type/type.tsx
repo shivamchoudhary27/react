@@ -28,13 +28,7 @@ export interface Type_AlertMsg {
   alertBoxColor: string;
 }
 
-export interface IDiciplineTable {
-  diciplineData: any;
-  editHandlerById: any;
-  toggleModalShow: any
-  refreshDisciplineData: () => void;
-  refreshOnDelete: (params: boolean) => void;
-  apiStatus: string;
-  currentInstitute: number;
-  disciplinePermissions: any;
-}
+export type Type_FormTitles = {
+  btnTitle: string;
+  titleHeading: string;
+};

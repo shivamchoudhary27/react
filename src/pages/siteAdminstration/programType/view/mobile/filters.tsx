@@ -1,23 +1,23 @@
 import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
 
-type props = {
-  commonProps: {
+type Props = {
+  CommonProps: {
     formik: any;
-    disciplinePermissions: any;
+    programtypePermissions: any;
+    openAddProgramType: () => void;
     handleFilterChange: (params: any) => void;
-    openAddDiscipline: (params: boolean) => void;
   };
 };
 
-const MobileFilters: React.FunctionComponent<props> = ({
-  commonProps,
-}: props) => {
+const MobileFilters: React.FunctionComponent<Props> = ({
+  CommonProps,
+}: Props) => {
   return (
     <div className="filter-wrapper mt-2">
       <form
-        onReset={commonProps.formik.handleReset}
-        onSubmit={commonProps.formik.handleSubmit}
+        onReset={CommonProps.formik.handleReset}
+        onSubmit={CommonProps.formik.handleSubmit}
       >
         <Row className="g-2">
           <Col>
@@ -26,12 +26,12 @@ const MobileFilters: React.FunctionComponent<props> = ({
             </label>
             <input
               id="name"
-              name="name"
               type="text"
+              name="name"
               placeholder="Name"
               className="form-control"
-              value={commonProps.formik.values.name}
-              onChange={commonProps.handleFilterChange}
+              value={CommonProps.formik.values.name}
+              onChange={CommonProps.handleFilterChange}
             />
           </Col>
           <Col>
@@ -41,7 +41,7 @@ const MobileFilters: React.FunctionComponent<props> = ({
             <Button
               type="reset"
               variant="outline-secondary"
-              onClick={commonProps.formik.handleReset}
+              onClick={CommonProps.formik.handleReset}
             >
               Reset
             </Button>
@@ -49,9 +49,9 @@ const MobileFilters: React.FunctionComponent<props> = ({
         </Row>
       </form>
       <div className="site-button-group">
-        {commonProps.disciplinePermissions.canAdd === true && (
-          <Button variant="primary" onClick={commonProps.openAddDiscipline}>
-            Add Discipline
+        {CommonProps.programtypePermissions.canAdd === true && (
+          <Button variant="primary" onClick={CommonProps.openAddProgramType}>
+            Add Program Type
           </Button>
         )}{" "}
       </div>

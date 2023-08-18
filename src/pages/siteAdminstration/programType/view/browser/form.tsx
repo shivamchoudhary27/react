@@ -1,74 +1,91 @@
 import React from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
+import { Alert } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
-import { Interface_DisciplineCustomObject } from "../../type/interface";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
-import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
+import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import {
-  Type_InitialValues,
   Type_AlertMsg,
   Type_FormTitles,
-} from "../../type/type";
+  Type_ProgramTypeObject,
+} from "../../types/types";
 
 type Props = {
-  commonProps: {
+  CommonProps: {
     show: boolean;
     showAlert: boolean;
     alertMsg: Type_AlertMsg;
     formTitles: Type_FormTitles;
     initialValues: Type_InitialValues;
-    disciplineobj: Interface_DisciplineCustomObject;
+    programtypeobj: Type_ProgramTypeObject;
     onHide: () => void;
     setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
     handleFormData: (params1: any, { setSubmitting, resetForm }: any) => void;
   };
 };
 
-// Formik Yup Validation === >>>
-const diciplineSchema = Yup.object({
-  name: Yup.string().min(1).trim().required("Discipline name is required"),
+type Type_InitialValues = {
+  name: string;
+  published: boolean;
+  description: string;
+  isBatchYearRequired: boolean;
+};
+
+// Formik Yup validation === >>>
+const programTypeSchema = Yup.object({
+  name: Yup.string().min(1).trim().required("Name is required"),
   description: Yup.string().min(1).required("Description is required"),
+  // isBatchYearRequired: Yup.bool()
+  //   .required("Please Check")
+  //   .oneOf([true], "Please Check the required field"),
 });
 
-const BrowserDiciplineModal: React.FunctionComponent<Props> = ({
-  commonProps,
+const BrowserProgramModal: React.FunctionComponent<Props> = ({
+  CommonProps,
 }: Props) => {
   return (
     <Modal
-      show={commonProps.show}
-      onHide={commonProps.onHide}
-      aria-labelledby="contained-modal-title-vcenter"
       centered
+      show={CommonProps.show}
+      onHide={CommonProps.onHide}
+      aria-labelledby="contained-modal-title-vcenter"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {commonProps.formTitles.titleHeading}
+          {CommonProps.formTitles.titleHeading}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <TimerAlertBox
+          className="mt-3"
+          showAlert={CommonProps.showAlert}
+          alertMsg={CommonProps.alertMsg.message}
+          setShowAlert={CommonProps.setShowAlert}
+          variant={CommonProps.alertMsg.alertBoxColor}
+        />
         <Formik
-          initialValues={commonProps.initialValues}
-          validationSchema={diciplineSchema}
+          initialValues={CommonProps.initialValues}
+          validationSchema={programTypeSchema}
           onSubmit={(values, action) => {
-            commonProps.handleFormData(values, action);
-            action.resetForm();
+            CommonProps.handleFormData(values, action);
+            console.log(values);
           }}
         >
           {({ errors, touched, isSubmitting }) => (
             <Form>
               <div className="mb-3">
                 <FieldLabel
-                  star="*"
                   htmlfor="name"
                   labelText="Name"
                   required="required"
+                  star="*"
                 />
                 <FieldTypeText name="name" placeholder="Name" />
                 <FieldErrorMessage
@@ -98,6 +115,17 @@ const BrowserDiciplineModal: React.FunctionComponent<Props> = ({
               </div>
 
               <div className="mb-3">
+                <FieldTypeCheckbox
+                  name="isBatchYearRequired"
+                  checkboxLabel="Batch Year Required?"
+                />{" "}
+                <FieldErrorMessage
+                  errors={errors.isBatchYearRequired}
+                  touched={touched.isBatchYearRequired}
+                  msgText="Please Check required field"
+                />
+              </div>
+              <div className="mb-3">
                 <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
                 <FieldErrorMessage
                   errors=""
@@ -105,16 +133,15 @@ const BrowserDiciplineModal: React.FunctionComponent<Props> = ({
                   msgText="Please Check required field"
                 />
               </div>
-
               {isSubmitting === false ? (
                 <div className="modal-buttons">
                   <CustomButton
                     type="submit"
                     variant="primary"
                     isSubmitting={isSubmitting}
-                    btnText={commonProps.formTitles.btnTitle}
+                    btnText={CommonProps.formTitles.btnTitle}
                   />{" "}
-                  {commonProps.formTitles.btnTitle === "Submit" && (
+                  {CommonProps.formTitles.btnTitle === "Submit" && (
                     <CustomButton
                       type="reset"
                       btnText="Reset"
@@ -126,26 +153,23 @@ const BrowserDiciplineModal: React.FunctionComponent<Props> = ({
                 <LoadingButton
                   variant="primary"
                   btnText={
-                    commonProps.disciplineobj.id === 0
+                    CommonProps.programtypeobj.id === 0
                       ? "Submitting..."
                       : "Updating..."
                   }
                   className="modal-buttons"
                 />
               )}
+              <Alert variant="primary" className="mt-3 small">
+                <strong>Note: </strong>If batch year is checked then it is
+                available on add program form.
+              </Alert>
             </Form>
           )}
         </Formik>
-        <TimerAlertBox
-          className="mt-3"
-          showAlert={commonProps.showAlert}
-          alertMsg={commonProps.alertMsg.message}
-          variant={commonProps.alertMsg.alertBoxColor}
-          setShowAlert={commonProps.setShowAlert}
-        />
       </Modal.Body>
     </Modal>
   );
 };
 
-export default BrowserDiciplineModal;
+export default BrowserProgramModal;

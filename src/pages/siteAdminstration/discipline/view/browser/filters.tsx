@@ -1,70 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
-import { useFormik } from "formik";
-import { filterConfig } from "../../../../../utils/filterTimeout";
-
-type Type_InitialValues = {
-  name: string
-}
 
 type props = {
-  openAddDiscipline: (params: boolean) => void;
-  updateInputFilters: (params: string) => void;
-  disciplinePermissions: any;
-}
-
-const initialValues: Type_InitialValues = {
-  name: "",
+  commonProps:{
+    formik: any;
+    disciplinePermissions: any;
+    handleFilterChange: (params: any) => void;
+    openAddDiscipline: (params: boolean) => void;
+  }
 };
 
-const BrowserFilters: React.FunctionComponent<props> = ({...props}: props) => {
-  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
-  const formik = useFormik({
-    initialValues: initialValues,
-    onSubmit: (values: Type_InitialValues) => {
-      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      props.updateInputFilters(values.name);
-    },
-    onReset: () => {
-      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      formik.setValues({
-        name: "",
-      });
-      props.updateInputFilters(initialValues.name);
-    },
-  });
-
-  // Event handler for filter input change with debounce
-  const handleFilterChange = (event: any) => {
-    formik.handleChange(event); // Update formik values
-
-    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-
-    // Set a new timeout to trigger updatefilters after a delay
-    const newTimeoutId = setTimeout(() => {
-      props.updateInputFilters(event.target.value);
-    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
-
-    setTimeoutId(newTimeoutId); // Update the timeout ID in state
-  };
-
+const BrowserFilters: React.FunctionComponent<props> = ({commonProps}: props) => {
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+        <form onSubmit={commonProps.formik.handleSubmit} onReset={commonProps.formik.handleReset}>
           <Row className="g-2">
             <Col>
               <label htmlFor="name" hidden>
                 Name
               </label>
               <input
-                className="form-control"
                 id="name"
                 name="name"
                 type="text"
                 placeholder="Name"
-                onChange={handleFilterChange}
-                value={formik.values.name}
+                className="form-control"
+                value={commonProps.formik.values.name}
+                onChange={commonProps.handleFilterChange}
               />
             </Col>
             <Col>
@@ -72,9 +35,9 @@ const BrowserFilters: React.FunctionComponent<props> = ({...props}: props) => {
                 Filter
               </Button>
               <Button
-                variant="outline-secondary"
                 type="reset"
-                onClick={formik.handleReset}
+                variant="outline-secondary"
+                onClick={commonProps.formik.handleReset}
               >
                 Reset
               </Button>
@@ -82,8 +45,8 @@ const BrowserFilters: React.FunctionComponent<props> = ({...props}: props) => {
           </Row>
         </form>
         <div className="site-button-group">
-          {props.disciplinePermissions.canAdd === true && (
-            <Button variant="primary" onClick={props.openAddDiscipline}>
+          {commonProps.disciplinePermissions.canAdd === true && (
+            <Button variant="primary" onClick={commonProps.openAddDiscipline}>
               Add Discipline
             </Button>
           )}{" "}
