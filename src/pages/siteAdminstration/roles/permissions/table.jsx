@@ -9,27 +9,50 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import { userAuthoritiesActions } from "../../../../store/slices/userRoles";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const moduleList = [
-  { id: "user", name: "User" },
-  { id: "institute", name: "Institute" },
-  { id: "department", name: "Department" },
-  { id: "program", name: "Program" },
-  { id: "category", name: "Category" },
-  { id: "course", name: "Course" },
-  { id: "role", name: "Role" },
-  { id: "enrolment", name: "Enrolment" },
-  { id: "group", name: "Group" },
-  { id: "tag", name: "Tag" },
-];
+// const moduleList = [
+//   { id: "user", name: "User" },
+//   { id: "institute", name: "Institute" },
+//   { id: "department", name: "Department" },
+//   { id: "program", name: "Program" },
+//   { id: "category", name: "Category" },
+//   { id: "course", name: "Course" },
+//   { id: "role", name: "Role" },
+//   { id: "enrolment", name: "Enrolment" },
+//   { id: "group", name: "Group" },
+//   { id: "tag", name: "Tag" },
+//   { id: "menu", name: "menu" },
+// ];
 
-const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermissions }) => {
+const RolePermissionTable = ({
+  permissionData,
+  roleId,
+  apiStatus,
+  rolePermissions,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [data, setData] = useState(permissionData);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [moduleList, setModuleList] = useState([]);
 
   useEffect(() => {
     setData(permissionData);
+  }, [permissionData]);
+
+  // dynamic module listing === >>>
+  useEffect(() => {
+    let arr = [];
+    let moduleListArr = [];
+    permissionData.map((module) => {
+      arr.push(module.module);
+    });
+    let set = new Set(arr);
+    for (const value of set) {
+      const id = value.toLowerCase();
+      const name = value.charAt(0).toUpperCase() + value.slice(1);
+      moduleListArr.push({ id, name });
+    }
+    setModuleList(moduleListArr);
   }, [permissionData]);
 
   const togglePermitted = (id) => {
@@ -67,12 +90,21 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermission
     postData(`/${roleId}/authorities`, permittedAuthorities)
       .then((res) => {
         if (res.status === 200) {
-          getData('/user-info', {}).then((res)=>{
-            if(res.data !== "" && res.status === 200){
-              res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
-              res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
+          getData("/user-info", {}).then((res) => {
+            if (res.data !== "" && res.status === 200) {
+              res.data.authorities[1] !== undefined &&
+                dispatch(
+                  userAuthoritiesActions.updateUserAuthorities(
+                    res.data.authorities[1]
+                  )
+                );
+              res.data.authorities[1] !== undefined &&
+                localStorage.setItem(
+                  "userAuthorities",
+                  JSON.stringify(res.data.authorities[1])
+                );
             }
-          })
+          });
           navigate("/manageroles");
           //handle various respponses
         }
@@ -137,25 +169,27 @@ const RolePermissionTable = ({ permissionData, roleId, apiStatus, rolePermission
       {apiStatus === "finished" && permissionData.length === 0 && (
         <Errordiv msg="No permission record found!" cstate className="mt-3" />
       )}
-      {rolePermissions.canUpdateAuthority && apiStatus === "finished" && permissionData.length > 0 && (
-        <div style={{ textAlign: "center" }}>
-          {isSubmitting === false ? (
-            <CustomButton
-            btnText="Save Permissions"
-            type="submit"
-            variant="primary"
-            disabled=""
-            onClick={savePermissions}
-            />
+      {rolePermissions.canUpdateAuthority &&
+        apiStatus === "finished" &&
+        permissionData.length > 0 && (
+          <div style={{ textAlign: "center" }}>
+            {isSubmitting === false ? (
+              <CustomButton
+                btnText="Save Permissions"
+                type="submit"
+                variant="primary"
+                disabled=""
+                onClick={savePermissions}
+              />
             ) : (
               <LoadingButton
-              variant="primary"
-              btnText="Saving Permissions..."
-              className="modal-buttons"
+                variant="primary"
+                btnText="Saving Permissions..."
+                className="modal-buttons"
               />
-          )}
-        </div>
-      )}
+            )}
+          </div>
+        )}
     </React.Fragment>
   );
 };
