@@ -34,6 +34,7 @@ const DepartmentModal = ({
     {id: "institute", name: "Institute"},
     {id: "group", name: "Group"},
     {id: "tag", name: "Tag"},
+    // {id: "menu", name: "Menu"}
   ];
 
   // Initial values of react table === >>>
