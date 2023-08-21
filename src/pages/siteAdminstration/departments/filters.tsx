@@ -1,42 +1,46 @@
-import React, { useState } from "react";
 import { useFormik } from "formik";
-import { filterConfig } from "../../../utils/filterTimeout";
-import { TypeFilter } from "./types/type";
-import BrowserFilter from "./view/browser/filter";
-import MobileFilter from "./view/mobile/filter";
+import React, { useState } from "react";
+import MobileFilters from "./view/mobile/filters";
+import BrowserFilters from "./view/browser/filters";
 import { isMobile, isDesktop } from "react-device-detect";
+import { filterConfig } from "../../../utils/filterTimeout";
 
-type TypeInitialValues = {
+type Type_InitialValues = {
   name: string;
 };
 
-const initialValues: TypeInitialValues = {
+type Props = {
+  permissions: any;
+  refreshDepartmentData?: () => void;
+  updateInputFilters: (params: any) => void;
+  toggleModalShow: (params: boolean) => void;
+  resetDepartmentForm: (params: boolean | null) => void;
+}
+
+const initialValues: Type_InitialValues = {
   name: "",
 };
 
-const Filter: React.FunctionComponent<TypeFilter> = ({
-  toggleModalShow,
-  resetDepartmentForm,
-  updateInputFilters,
-  permissions,
-}: TypeFilter) => {
+const Filters: React.FunctionComponent<Props> = ({
+  ...props
+}: Props) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values: TypeInitialValues) => {
+    onSubmit: (values: Type_InitialValues) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      let newRequest: TypeInitialValues = {
+      let newRequest: Type_InitialValues = {
         name: values.name,
       };
-      updateInputFilters(newRequest.name);
+      props.updateInputFilters(newRequest.name);
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
-      updateInputFilters("");
+      props.updateInputFilters("");
     },
   });
 
@@ -50,7 +54,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
-      updateInputFilters(event.target.value);
+      props.updateInputFilters(event.target.value);
     }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
@@ -58,36 +62,29 @@ const Filter: React.FunctionComponent<TypeFilter> = ({
 
   // handle to open Add Department modal === >>>
   const openAddDepartment = () => {
-    toggleModalShow(true);
-    resetDepartmentForm(true);
+    props.toggleModalShow(true);
+    props.resetDepartmentForm(true);
+  };
+
+  // common props ===>>>
+  const commonProps = {
+    formik: formik,
+    permissions: props.permissions,
+    openAddDepartment: openAddDepartment,
+    handleFilterChange: handleFilterChange,
   };
 
   return (
     <React.Fragment>
       {isMobile ? (
-        <MobileFilter
-          permissions={permissions}
-          openAddDepartment={openAddDepartment}
-          handleFilterChange={handleFilterChange}
-          formik={formik}
-        />
+        <MobileFilters commonProps={commonProps} />
       ) : isDesktop ? (
-        <BrowserFilter
-          permissions={permissions}
-          openAddDepartment={openAddDepartment}
-          handleFilterChange={handleFilterChange}
-          formik={formik}
-        />
+        <BrowserFilters commonProps={commonProps} />
       ) : (
-        <BrowserFilter
-          permissions={permissions}
-          openAddDepartment={openAddDepartment}
-          handleFilterChange={handleFilterChange}
-          formik={formik}
-        />
+        <BrowserFilters commonProps={commonProps} />
       )}
     </React.Fragment>
   );
 };
 
-export default Filter;
+export default Filters;

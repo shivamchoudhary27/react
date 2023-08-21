@@ -1,68 +1,62 @@
 import React from "react";
+import Filters from "../../filters";
+import DepartmentModal from "../../form";
+import DepartmentTable from "../../table";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
-import HeaderTabs from "../../../../headerTabs";
 import { Container } from "react-bootstrap";
+import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import Errordiv from "../../../../../widgets/alert/errordiv";
-import Filters from "../../filters";
 import BuildPagination from "../../../../../widgets/pagination";
-import DepartmentTable from "../../table";
-import DepartmentModal from "../../form";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import {
-  TypeDummyData,
-  TypeModalShow,
-  TypeRefreshOnDelete,
-  TypeRefreshData,
-  TypeApiStatus,
-  CurrentInstitute,
-  TypeCurrentInstitute,
-  TypeDepartmentObj,
-  TypeFilterUpdate,
+  Type_ApiResponse,
+  Type_DepartmentObj,
+  Type_FilterUpdate,
 } from "../../types/type";
 
 type Props = {
   commonProps: {
-    departmentData: TypeDummyData;
-    editHandlerById: TypeDepartmentObj;
-    toggleModalShow: TypeModalShow;
-    departmentObj: TypeDepartmentObj;
-    refreshToggle: TypeRefreshData;
-    resetDepartmentForm: any;
-    refreshOnDeleteToggle: TypeRefreshOnDelete;
-    apiStatus: TypeApiStatus;
-    currentInstitute: CurrentInstitute;
-    modalShow: any;
+    apiStatus: string;
+    modalShow: boolean;
+    currentInstitute: number;
     departmentPermission: any;
-    updateInputFilters: any;
-    filterUpdate: TypeFilterUpdate;
-    newPageRequest: any;
+    filterUpdate: Type_FilterUpdate;
+    departmentData: Type_ApiResponse;
+    departmentObj: Type_DepartmentObj;
+    refreshToggle: () => void;
+    resetDepartmentForm: () => void;
+    newPageRequest: (params: number) => void;
+    updateInputFilters: (params: any) => void;
+    toggleModalShow: (params: boolean) => void;
+    refreshOnDeleteToggle: (params: boolean) => void;
+    editHandlerById: (params: Type_DepartmentObj) => void;
   };
 };
 
 const Browser = ({ commonProps }: Props) => {
   const DEPARTMENT_TABLE_COMPONENT = (
     <DepartmentTable
+      apiStatus={commonProps.apiStatus}
+      permissions={commonProps.departmentPermission}
+      currentInstitute={commonProps.currentInstitute}
       departmentData={commonProps.departmentData.items}
       editHandlerById={commonProps.editHandlerById}
       toggleModalShow={commonProps.toggleModalShow}
       refreshDepartmentData={commonProps.refreshToggle}
       refreshOnDelete={commonProps.refreshOnDeleteToggle}
-      apiStatus={commonProps.apiStatus}
-      currentInstitute={commonProps.currentInstitute}
-      permissions={commonProps.departmentPermission}
     />
   );
 
   const DEPARTMENT_MODAL_COMPONENT = (
     <DepartmentModal
       show={commonProps.modalShow}
-      onHide={() => commonProps.toggleModalShow(false)}
       departmentobj={commonProps.departmentObj}
+      currentInstitute={commonProps.currentInstitute}
       togglemodalshow={commonProps.toggleModalShow}
       refreshdepartmentdata={commonProps.refreshToggle}
-      currentInstitute={commonProps.currentInstitute}
+      onHide={() => commonProps.toggleModalShow(false)}
     />
   );
 
@@ -81,15 +75,15 @@ const Browser = ({ commonProps }: Props) => {
         <Container fluid>
           <PageTitle pageTitle={`Department`} gobacklink="/manageprogram" />
           <Filters
-            toggleModalShow={commonProps.toggleModalShow}
-            refreshDepartmentData={commonProps.refreshToggle}
             // setDepartmentData={setDepartmentData}
-            updateInputFilters={commonProps.updateInputFilters}
-            resetDepartmentForm={commonProps.resetDepartmentForm}
-            permissions={commonProps.departmentPermission}
             // updateDepartment={updateDepartmentFilter}
             // updateinputfilters={updateInputFilters}
             // updateCurrentInstitute={updateCurrentInstitute}
+            permissions={commonProps.departmentPermission}
+            toggleModalShow={commonProps.toggleModalShow}
+            refreshDepartmentData={commonProps.refreshToggle}
+            updateInputFilters={commonProps.updateInputFilters}
+            resetDepartmentForm={commonProps.resetDepartmentForm}
           />
           {!commonProps.departmentPermission.canView ? (
             <Errordiv
@@ -101,8 +95,8 @@ const Browser = ({ commonProps }: Props) => {
             <>
               {DEPARTMENT_TABLE_COMPONENT}
               <BuildPagination
-                totalpages={commonProps.departmentData.pager.totalPages}
                 activepage={commonProps.filterUpdate.pageNumber}
+                totalpages={commonProps.departmentData.pager.totalPages}
                 getrequestedpage={commonProps.newPageRequest}
               />
             </>

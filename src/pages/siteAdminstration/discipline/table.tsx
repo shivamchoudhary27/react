@@ -1,22 +1,20 @@
 import { useTable } from "react-table";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import "sweetalert2/src/sweetalert2.scss";
-import { Link, useNavigate } from "react-router-dom";
-import MobileDepartmentTable from "./view/mobile/table";
-import BrowserDepartmentTable from "./view/browser/table";
+import { Type_AlertMsg } from "./type/type";
+import MobileDiciplineTable from "./view/mobile/table";
+import BrowserDiciplineTable from "./view/browser/table";
 import { isMobile, isDesktop } from "react-device-detect";
-import React, { useMemo, useState, useEffect } from "react";
-import { Type_AlertMsg, Type_DepartmentObj } from "./types/type";
+import React, { useState, useMemo, useEffect } from "react";
+import { Interface_DisciplineCustomObject } from "./type/interface";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
-import { globalAlertActions } from "../../../store/slices/globalAlerts";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import { globalFilterActions } from "../../../store/slices/globalFilters";
-import programIcon from "../../../assets/images/icons/manage-program-action.svg";
 import {
   putData,
-  deleteData as deleteDepartmentData,
+  deleteData as deleteDisciplineData,
 } from "../../../adapters/microservices";
 
 // Actions btns styling === >>>
@@ -26,47 +24,39 @@ const actionsStyle = {
   justifyContent: "space-evenly",
 };
 
-type Props = {
-  permissions: any;
+type props = {
   apiStatus: string;
-  departmentData: any;
-  editHandlerById: any;
+  diciplineData: any;
+  toggleModalShow: any;
   currentInstitute: number;
-  refreshDepartmentData: () => void;
-  refreshOnDelete: (param: boolean) => void;
-  toggleModalShow: (param: boolean) => void;
+  disciplinePermissions: any;
+  refreshDisciplineData: () => void;
+  refreshOnDelete: (params: boolean) => void;
+  editHandlerById: (params: Interface_DisciplineCustomObject) => void;
 };
 
-const DepartmentTable: React.FunctionComponent<Props> = ({
+const DiciplineTable: React.FunctionComponent<props> = ({
   ...props
-}: Props) => {
-  // custom react table Column === >>>
+}: props) => {
+  // custom react table column === >>>
   const tableColumn = [
     {
-      Header: "Department",
+      Header: "Name",
       accessor: "name",
+    },
+    {
+      Header: "Description",
+      accessor: "description",
     },
     {
       Header: "Program Attached",
       accessor: "totalPrograms",
     },
     {
-      Header: "Manage Programs",
-      Cell: ({ row }: any) => (
-        <Link
-          className="action-icons"
-          to=""
-          onClick={() => manageDepartmentPrograms(row.original.id)}
-        >
-          <img src={programIcon} alt="Manage Program" />
-        </Link>
-      ),
-    },
-    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {props.permissions.canEdit && (
+          {props.disciplinePermissions.canEdit === true && (
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -75,13 +65,14 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
                   editHandler({
                     id: row.original.id,
                     name: row.original.name,
+                    description: row.original.description,
                     published: row.original.published,
                   })
                 }
               />
             </Link>
           )}
-          {props.permissions.canDelete && (
+          {props.disciplinePermissions.canDelete === true && (
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -98,13 +89,13 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
                 }
               />
             </Link>
-          )}
-          {props.permissions.canEdit && (
+          )}{" "}
+          {props.disciplinePermissions.canEdit === true && (
             <Link
               className="action-icons"
               to=""
               onClick={() => {
-                toggleDepartmentPublished(row.original);
+                toggleDisciplinePublished(row.original);
               }}
             >
               <img
@@ -119,15 +110,14 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
   ];
 
   // react table custom variable decleration === >>>
+  const dispatch = useDispatch();
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.departmentData, [props.departmentData]);
+  const data = useMemo(() => props.diciplineData, [props.diciplineData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({
     message: "",
@@ -136,20 +126,25 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [onDeleteAction, setOnDeleteAction] = useState<string>("");
   const [deleteId, setDeleteId] = useState<number>(0);
-  const [forceRender, setForceRender] = useState<boolean>(false);
+  const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
-  const editHandler = ({ id, name, published }: Type_DepartmentObj) => {
+  const editHandler = ({
+    id,
+    name,
+    description,
+    published,
+  }: Interface_DisciplineCustomObject) => {
     props.toggleModalShow(true);
-    props.refreshDepartmentData();
-    props.editHandlerById({ id, name, published });
+    props.editHandlerById({ id, name, description, published });
+    props.refreshDisciplineData();
   };
 
-  const toggleDepartmentPublished = (departmentPacket: any) => {
-    departmentPacket.published = !departmentPacket.published;
+  const toggleDisciplinePublished = (disciplinePacket: any) => {
+    disciplinePacket.published = !disciplinePacket.published;
     setForceRender((prevState) => !prevState);
-    let endPoint = `/${props.currentInstitute}/departments/${departmentPacket.id}`;
-    putData(endPoint, departmentPacket)
+    let endPoint: string = `/${props.currentInstitute}/disciplines/${disciplinePacket.id}`;
+    putData(endPoint, disciplinePacket)
       .then((res: any) => {
         setForceRender((prevState) => !prevState);
       })
@@ -160,27 +155,27 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
             status: true,
           })
         );
-        departmentPacket.published = !departmentPacket.published;
+        disciplinePacket.published = !disciplinePacket.published;
         setForceRender((prevState) => !prevState);
       });
   };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endPoint: string = `${props.currentInstitute}/departments/${deleteId}`;
-      deleteDepartmentData(endPoint)
+      let endpoint: string = `${props.currentInstitute}/disciplines/${deleteId}`;
+      deleteDisciplineData(endpoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             props.refreshOnDelete(true);
             setShowAlert(true);
             setAlertMsg({
-              message: "Deleted successfully!",
+              message: "Deleted successfully.",
               alertBoxColor: "success",
             });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, some error occurred.",
+              message: "Unable to delete! Please try again.",
               alertBoxColor: "danger",
             });
           }
@@ -189,13 +184,13 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
-              message: result.message,
+              message: `${result.response.data.message} Unable to delete! Please try again.`,
               alertBoxColor: "danger",
             });
           } else {
             setShowAlert(true);
             setAlertMsg({
-              message: result.message,
+              message: `${result.response.data.message} Unable to delete! Please try again.`,
               alertBoxColor: "danger",
             });
           }
@@ -204,18 +199,11 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
     setOnDeleteAction("");
   }, [onDeleteAction]);
 
-  const manageDepartmentPrograms = (id: number) => {
-    dispatch(globalFilterActions.currentDepartment(id));
-    setTimeout(() => {
-      navigate("/manageprogram");
-    }, 400);
-  };
-
   // delete event handler === >>>
   const deleteHandler = (id: number) => {
-    setDeleteId(id);
-    setShowDeleteModal(true);
     props.refreshOnDelete(false);
+    setShowDeleteModal(true);
+    setDeleteId(id);
   };
 
   // getting onDelete Modal Action === >>>
@@ -224,15 +212,14 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
     setShowDeleteModal(false);
   };
 
-  // common reusable props === >>>
   const commonProps = {
     rows: rows,
     alertMsg: alertMsg,
     showAlert: showAlert,
-    headerGroups: headerGroups,
     apiStatus: props.apiStatus,
+    headerGroups: headerGroups,
     showDeleteModal: showDeleteModal,
-    departmentData: props.departmentData,
+    diciplineData: props.diciplineData,
     prepareRow: prepareRow,
     setShowAlert: setShowAlert,
     getTableProps: getTableProps,
@@ -244,14 +231,14 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
   return (
     <React.Fragment>
       {isMobile ? (
-        <MobileDepartmentTable commonProps={commonProps} />
+        <MobileDiciplineTable commonProps={commonProps} />
       ) : isDesktop ? (
-        <BrowserDepartmentTable commonProps={commonProps} />
+        <BrowserDiciplineTable commonProps={commonProps} />
       ) : (
-        <BrowserDepartmentTable commonProps={commonProps} />
+        <BrowserDiciplineTable commonProps={commonProps} />
       )}
     </React.Fragment>
   );
 };
 
-export default DepartmentTable;
+export default DiciplineTable;

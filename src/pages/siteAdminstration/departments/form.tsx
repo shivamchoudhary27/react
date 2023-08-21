@@ -1,24 +1,31 @@
+import * as Yup from "yup";
 import React, { useState } from "react";
+import MobileForm from "./view/mobile/form";
+import BrowserForm from "./view/browser/form";
+import { isMobile, isDesktop } from "react-device-detect";
 import {
   postData as addDepartmentData,
   putData as putDepartmentData,
 } from "../../../adapters/microservices";
-import BrowserForm from "./view/browser/form";
-import MobileForm from "./view/mobile/form";
-import * as Yup from "yup";
-import { isMobile, isDesktop } from "react-device-detect";
 import {
-  TypeDepartmentModal,
-  TypeAlertMsg,
-  TypeShowAlert,
-  TypeEndPoint,
-  TypeFormTitles,
+  Type_AlertMsg,
+  Type_FormTitles,
+  Type_DepartmentObj,
 } from "./types/type";
 
-type TypeInitilaValues = {
+type Props = {
+  show: boolean;
+  currentInstitute: number;
+  departmentobj: Type_DepartmentObj;
+  onHide: () => void;
+  refreshdepartmentdata: () => void;
+  togglemodalshow: (params: boolean) => void;
+}
+
+type Type_InitilaValues = {
   name: string;
-  description: string;
   published: boolean;
+  description: string;
 };
 
 // Formik Yup validation === >>>
@@ -27,43 +34,36 @@ const departmentSchema = Yup.object({
   // description: Yup.string().max(100).required(),
 });
 
-const DepartmentModal: React.FunctionComponent<TypeDepartmentModal> = ({
-  departmentobj,
-  togglemodalshow,
-  refreshdepartmentdata,
-  show,
-  onHide,
-  currentInstitute,
-}: TypeDepartmentModal) => {
-  const [showAlert, setShowAlert] = useState<TypeShowAlert>(false);
-  const [alertMsg, setAlertMsg] = useState<TypeAlertMsg>({
+const DepartmentModal: React.FunctionComponent<Props> = ({ ...props }: Props) => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState<Type_AlertMsg>({
     message: "",
     alertBoxColor: "",
   });
 
   // Initial values of react table === >>>
-  const initialValues: TypeInitilaValues = {
-    name: departmentobj.name,
+  const initialValues: Type_InitilaValues = {
     description: "",
-    published: departmentobj.published,
+    name: props.departmentobj.name,
+    published: props.departmentobj.published,
   };
 
   // custom Obj & handle form data === >>>
-  let formTitles: TypeFormTitles = {
+  let formTitles: Type_FormTitles = {
     titleHeading: "",
     btnTitle: "",
     description: "",
   };
-  if (departmentobj.id === 0) {
+  if (props.departmentobj.id === 0) {
     formTitles = {
-      titleHeading: "Add Department",
-      btnTitle: "Submit",
       description: "",
+      btnTitle: "Submit",
+      titleHeading: "Add Department",
     };
   } else {
     formTitles = {
-      titleHeading: "Update Department",
       btnTitle: "Update",
+      titleHeading: "Update Department",
       description:
         "Lorem Ipsum is simply dummy text of the printing and typ....",
     };
@@ -71,17 +71,17 @@ const DepartmentModal: React.FunctionComponent<TypeDepartmentModal> = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (
-    values: TypeInitilaValues,
+    values: Type_InitilaValues,
     { setSubmitting, resetForm }: any
   ) => {
-    let endPoint: TypeEndPoint = `/${currentInstitute}/departments`;
-    if (departmentobj.id === 0) {
+    let endPoint: string = `/${props.currentInstitute}/departments`;
+    if (props.departmentobj.id === 0) {
       addDepartmentData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
-            togglemodalshow(false);
+            props.togglemodalshow(false);
             setSubmitting(false);
-            refreshdepartmentdata();
+            props.refreshdepartmentdata();
             resetForm();
           }
         })
@@ -94,14 +94,14 @@ const DepartmentModal: React.FunctionComponent<TypeDepartmentModal> = ({
           });
         });
     } else {
-      endPoint += `/${departmentobj.id}`;
+      endPoint += `/${props.departmentobj.id}`;
       setSubmitting(true);
       putDepartmentData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            togglemodalshow(false);
+            props.togglemodalshow(false);
             setSubmitting(false);
-            refreshdepartmentdata();
+            props.refreshdepartmentdata();
             resetForm();
           }
         })
@@ -116,46 +116,33 @@ const DepartmentModal: React.FunctionComponent<TypeDepartmentModal> = ({
     }
   };
 
+  // form reusable props ===>>>
+  const commonProps = {
+    show: props.show,
+    alertMsg: alertMsg,
+    showAlert: showAlert,
+    formTitles: formTitles,
+    initialValues: initialValues,
+    departmentSchema: departmentSchema,
+    departmentobj: props.departmentobj,
+    onHide: props.onHide,
+    setShowAlert: setShowAlert,
+    handleFormData: handleFormData,
+  };
+
   return (
     <React.Fragment>
       {isMobile ? (
-        <MobileForm 
-          formTitles={formTitles}
-          showAlert={showAlert}
-          setShowAlert={setShowAlert}
-          alertMsg={alertMsg}
-          handleFormData={handleFormData}
-          initialValues={initialValues}
-          departmentSchema={departmentSchema}
-          departmentobj={departmentobj}
-          show={show}
-          onHide={onHide}
+        <MobileForm
+          commonProps={commonProps}
         />
       ) : isDesktop ? (
         <BrowserForm
-          formTitles={formTitles}
-          showAlert={showAlert}
-          setShowAlert={setShowAlert}
-          alertMsg={alertMsg}
-          handleFormData={handleFormData}
-          initialValues={initialValues}
-          departmentSchema={departmentSchema}
-          departmentobj={departmentobj}
-          show={show}
-          onHide={onHide}
+          commonProps={commonProps}
         />
       ) : (
         <BrowserForm
-          formTitles={formTitles}
-          showAlert={showAlert}
-          setShowAlert={setShowAlert}
-          alertMsg={alertMsg}
-          handleFormData={handleFormData}
-          initialValues={initialValues}
-          departmentSchema={departmentSchema}
-          departmentobj={departmentobj}
-          show={show}
-          onHide={onHide}
+          commonProps={commonProps}
         />
       )}
     </React.Fragment>

@@ -1,74 +1,73 @@
-import React, { useState } from "react";
 import { useFormik } from "formik";
+import React, { useState } from "react";
 import MobileFilters from "./view/mobile/filters";
 import BrowserFilters from "./view/browser/filters";
 import { isMobile, isDesktop } from "react-device-detect";
 import { filterConfig } from "../../../utils/filterTimeout";
 
-type Props = {
-  programtypePermissions: any;
-  openAddProgramType: () => void;
-  updateinputfilters: (params: string) => void;
+type Type_InitialValues = {
+  name: string;
 };
 
-interface Type_InitialValues {
-  name: string;
-}
+type props = {
+  disciplinePermissions: any;
+  openAddDiscipline: (params: boolean) => void;
+  updateInputFilters: (params: string) => void;
+};
 
 const initialValues: Type_InitialValues = {
   name: "",
 };
 
-const Filter: React.FunctionComponent<Props> = ({ ...props }: Props) => {
+const Filters: React.FunctionComponent<props> = ({ ...props }: props) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values: Type_InitialValues) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      props.updateinputfilters(values.name);
+      props.updateInputFilters(values.name);
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
-      props.updateinputfilters(initialValues.name);
+      props.updateInputFilters(initialValues.name);
     },
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFilterChange = (event: any) => {
     formik.handleChange(event); // Update formik values
 
     if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
 
     // Set a new timeout to trigger updatefilters after a delay
-    const newTimeoutId: NodeJS.Timeout = setTimeout(() => {
-      props.updateinputfilters(event.target.value);
+    const newTimeoutId = setTimeout(() => {
+      props.updateInputFilters(event.target.value);
     }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
   };
 
-  // common reusable props === >>>
-  const CommonProps = {
+  const commonProps = {
     formik: formik,
-    programtypePermissions: props.programtypePermissions,
+    disciplinePermissions: props.disciplinePermissions,
     handleFilterChange: handleFilterChange,
-    openAddProgramType: props.openAddProgramType,
+    openAddDiscipline: props.openAddDiscipline,
   };
-
+  console.log(commonProps);
   return (
     <React.Fragment>
       {isMobile ? (
-        <MobileFilters CommonProps={CommonProps} />
+        <MobileFilters commonProps={commonProps} />
       ) : isDesktop ? (
-        <BrowserFilters CommonProps={CommonProps} />
+        <BrowserFilters commonProps={commonProps} />
       ) : (
-        <BrowserFilters CommonProps={CommonProps} />
+        <BrowserFilters commonProps={commonProps} />
       )}
     </React.Fragment>
   );
 };
 
-export default Filter;
+export default Filters;

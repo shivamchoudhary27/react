@@ -1,20 +1,21 @@
 import React from "react";
-import { Table } from "react-bootstrap";
-import { Type_AlertMsg } from "../../type/type";
+import Table from "react-bootstrap/Table";
+import "sweetalert2/src/sweetalert2.scss";
+import { Type_AlertMsg } from "../../types/type";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../../../widgets/skeleton/table";
 import DeleteAlert from "../../../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 
-type props = {
+type Props = {
   commonProps: {
     rows: any;
     prepareRow: any;
-    headerGroups: any;
     apiStatus: string;
+    headerGroups: any;
     showAlert: boolean;
     getTableProps: any;
-    diciplineData: any;
+    departmentData: any;
     getTableBodyProps: any;
     alertMsg: Type_AlertMsg;
     showDeleteModal: boolean;
@@ -24,9 +25,9 @@ type props = {
   };
 };
 
-const MobileDiciplineTable: React.FunctionComponent<props> = ({
+const MobileDepartmentTable: React.FunctionComponent<Props> = ({
   commonProps,
-}: props) => {
+}: Props) => {
   return (
     <>
       <TimerAlertBox
@@ -49,6 +50,7 @@ const MobileDiciplineTable: React.FunctionComponent<props> = ({
               </tr>
             ))}
           </thead>
+
           <tbody {...commonProps.getTableBodyProps}>
             {commonProps.rows.map((row: any, index: number) => {
               commonProps.prepareRow(row);
@@ -64,23 +66,22 @@ const MobileDiciplineTable: React.FunctionComponent<props> = ({
             })}
           </tbody>
         </Table>
-        {commonProps.apiStatus === "started" &&
-          commonProps.diciplineData.length === 0 && (
-            <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-          )}
+        {commonProps.apiStatus === "started" && commonProps.departmentData.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
         {commonProps.apiStatus === "finished" &&
-          commonProps.diciplineData.length === 0 && (
+          commonProps.departmentData.length === 0 && (
             <Errordiv msg="No record found!" cstate className="mt-3" />
           )}
       </div>
       <DeleteAlert
         show={commonProps.showDeleteModal}
+        modalHeading="Department"
         onHide={() => commonProps.setShowDeleteModal(false)}
         deleteActionResponse={commonProps.deleteActionResponse}
-        modalHeading="Discipline"
       />
     </>
   );
 };
 
-export default MobileDiciplineTable;
+export default MobileDepartmentTable;

@@ -1,77 +1,68 @@
 import React from "react";
-import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
+import { Modal } from "react-bootstrap";
+import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
-import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
+import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import { Type_DepartmentObj, Type_AlertMsg, Type_FormTitles } from "../../types/type";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
-import CustomButton from "../../../../../widgets/formInputFields/buttons";
-import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
-import { TypeDepartmentObj } from "../../types/type";
 
 type Props = {
-  formTitles: any;
-  showAlert: boolean;
-  setShowAlert: any;
-  alertMsg: { message: string; alertBoxColor: string };
-  handleFormData: any;
-  initialValues: { name: string; description: string; published: boolean };
-  departmentSchema: any;
-  departmentobj: TypeDepartmentObj;
-  show: any;
-  onHide: any;
+  commonProps: {
+    show: boolean;
+    showAlert: boolean;
+    handleFormData: any;
+    departmentSchema: any;
+    alertMsg: Type_AlertMsg;
+    formTitles: Type_FormTitles;
+    departmentobj: Type_DepartmentObj;
+    initialValues: { name: string; description: string; published: boolean };
+    onHide: () => void;
+    setShowAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 };
 
-const MobileForm = ({
-  formTitles,
-  showAlert,
-  setShowAlert,
-  alertMsg,
-  handleFormData,
-  initialValues,
-  departmentSchema,
-  departmentobj,
-  show,
-  onHide,
-}: Props) => {
+const MobileForm = ({ commonProps }: Props) => {
   return (
     <React.Fragment>
       <Modal
-        show={show}
-        onHide={onHide}
-        aria-labelledby="contained-modal-title-vcenter"
         centered
+        show={commonProps.show}
+        onHide={commonProps.onHide}
+        aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {formTitles.titleHeading}
+            {commonProps.formTitles.titleHeading}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <TimerAlertBox
-            alertMsg={alertMsg.message}
             className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
+            showAlert={commonProps.showAlert}
+            alertMsg={commonProps.alertMsg.message}
+            variant={commonProps.alertMsg.alertBoxColor}
+            setShowAlert={commonProps.setShowAlert}
           />
           <Formik
-            initialValues={initialValues}
-            validationSchema={departmentSchema}
+            initialValues={commonProps.initialValues}
+            validationSchema={commonProps.departmentSchema}
             onSubmit={(values, action) => {
-              handleFormData(values, action);
+              commonProps.handleFormData(values, action);
             }}
           >
             {({ errors, touched, isSubmitting }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
+                    star="*"
                     htmlfor="name"
                     labelText="Name"
                     required="required"
-                    star="*"
                   />
                   <FieldTypeText name="name" placeholder="Name" />
                   <FieldErrorMessage
@@ -115,9 +106,9 @@ const MobileForm = ({
                       type="submit"
                       variant="primary"
                       isSubmitting={isSubmitting}
-                      btnText={formTitles.btnTitle}
+                      btnText={commonProps.formTitles.btnTitle}
                     />{" "}
-                    {formTitles.btnTitle === "Submit" && (
+                    {commonProps.formTitles.btnTitle === "Submit" && (
                       <CustomButton
                         type="reset"
                         btnText="Reset"
@@ -129,7 +120,9 @@ const MobileForm = ({
                   <LoadingButton
                     variant="primary"
                     btnText={
-                      departmentobj.id === 0 ? "Submitting..." : "Updating..."
+                      commonProps.departmentobj.id === 0
+                        ? "Submitting..."
+                        : "Updating..."
                     }
                     className="modal-buttons"
                   />
