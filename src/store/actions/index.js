@@ -3,6 +3,7 @@ const ACTIONSLIST = {
   updateCurrentInstitute: "updateCurrentInstitute",
   currentDepartmentFilterId: "currentDepartmentFilterId",
   mitGlobalAlert: "mitGlobalAlert",
+  userInfoState:"userInfoState"
 };
 
 export default ACTIONSLIST;

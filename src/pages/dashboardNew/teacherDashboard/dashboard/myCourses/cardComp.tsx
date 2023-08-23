@@ -6,21 +6,17 @@ import gradeIcon from "../../../../assets/images/icons/grade.svg"
 import sessionIcon from "../../../../assets/images/icons/session.svg"
 import attendanceIcon from "../../../../assets/images/icons/attendance-black.svg"
 
-type Props = {
-  apiResponse: any
-}
-
-const Card_Component: React.FunctionComponent<Props> = ({...props}: Props) => {
+const Card_Component = () => {
   return (
     <Row className="g-4 myteaching-card">
-    {props.apiResponse.map((item: any, index: number) => (
+    {card_Data.map((item, index) => (
       <Col sm={6} lg={4} xl={3} key={index}>
         <Card body className="h-100">
           <div className="mlcard-image">
             <Card.Img src={courseImage} alt={item.title} />
           </div>
           <div className="mlcard-title">
-            <h5>{item.name}</h5>
+            <h5>{item.title}</h5>
           </div>
           <div className="mlcard-info">
             <div>                

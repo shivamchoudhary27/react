@@ -1,0 +1,39 @@
+.activityTimeline-block {
+    .atb-row {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        &:last-child {
+            border-bottom: none;
+        }
+        .atb-info {
+            margin-right: 15px;
+            h6 {
+                margin-bottom: 0.25rem;
+                font-size: 14px;
+            }
+            p, span {
+                font-size: 13px;
+                font-weight: 300;
+                margin-bottom: 0.25rem;
+                line-height: normal;
+            }
+        }
+        .atb-button {
+            margin-left: auto;
+            font-weight: 400;
+            font-size: 12px;
+            border: 1px solid #8d8d8d;
+            border-radius: 0.75rem;
+        }
+    }
+    .block-filter {
+        .form-select-sm {
+            font-size: 0.75rem;
+        }
+    }
+    .mitblock-body {
+        min-height: 168px;
+        max-height: 168px;
+    }
+}

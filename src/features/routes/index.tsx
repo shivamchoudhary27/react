@@ -29,6 +29,7 @@ import GradeBook from '../../pages/gradeBook';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
 import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';
 // import { Navigate, Outlet } from 'react-router-dom';
+import DashboardNew from '../../pages/dashboardNew';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -44,14 +45,17 @@ export default function NewCustomRoutes() {
           <Route path='/authlogin' element={<AuthLogin />} />
           <Route path="/signupnew" element={<SignUpNew />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
             {UserManagementRoute()}
             {ProgramManagementRoute()}
             {ProgramEnrollmentRoute()}
             {CalenderManagementRoute()}
             {CoPoManagementRoute()}
-            {StudentDashRoutes()}
-            {TeacherDashRoutes()}
+          
+          <Route path="/dashboard" key="studentdashboard" element={<DashboardNew />} />
+
+            {/* {StudentDashRoutes()} */}
+            {/* {TeacherDashRoutes()} */}
             <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/teachergradebook' element={<TeacherGradebook />} />
             <Route path='/studentgradeview' element={<SelectedStudentGrade />} />

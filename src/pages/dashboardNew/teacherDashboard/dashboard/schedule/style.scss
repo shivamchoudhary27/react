@@ -1,0 +1,39 @@
+.todaysession-block {
+    .mitblock-title {
+        .tsb-date {
+            font-size: 12px;
+            font-weight: 500;
+        }
+    }
+    .tsb-row {
+        .tsb-info {
+            margin-right: 15px;
+            h6 {
+                margin-bottom: 0.25rem;
+                font-size: 14px;
+            }
+            p, span {
+                font-size: 13px;
+                font-weight: 300;
+                margin-bottom: 0.25rem;
+                line-height: normal;
+            }
+        }
+        .tsb-button {
+            margin-left: auto;
+            font-weight: 400;
+            background-color: #000;
+            color: #fff;
+            min-width: 60px;
+            &.online {
+                background: linear-gradient(91.5deg, #0F4C81 6.81%, #1B609D 98.68%);
+            }
+            &.offline {
+                background: linear-gradient(95.68deg, #2C2C33 11.59%, #626265 97.23%);
+            }
+            &.lab {
+                background: #298DE6;
+            }
+        }
+    }
+}
