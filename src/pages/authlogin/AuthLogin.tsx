@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import UserContext from "../../features/context/user/user";
 import config from "../../utils/config";
-import { createAxiosInstance } from "../../adapters/microservices/utils";
-import { createCoreAxiosInstance } from "../../adapters/coreservices/utils";
-import NewLoader from "../../widgets/loader";
 import { useDispatch } from "react-redux";
+import { Container } from "react-bootstrap";
+import NewLoader from "../../widgets/loader";
+import { useNavigate } from "react-router-dom";
+import { getData } from "../../adapters/coreservices";
+import UserContext from "../../features/context/user/user";
+import React, { useContext, useEffect, useState } from "react";
 import { globalAlertActions } from "../../store/slices/globalAlerts";
 import { userAuthoritiesActions } from "../../store/slices/userRoles";
-import { getData } from "../../adapters/coreservices";
+import { createAxiosInstance } from "../../adapters/microservices/utils";
+import { createCoreAxiosInstance } from "../../adapters/coreservices/utils";
+import { globalUserInfoActions } from "../../store/slices/userInfo";
 
 const AuthLogin = () => {
   const error = null;
@@ -58,54 +59,20 @@ const AuthLogin = () => {
                 
                 userCtx.setUserToken(config.WSTOKEN);
 
-                /*
-                 * hit api here for collecting user roles and permission data
-                 * replace this packet with user-role api and with autority packet
-                 */
-
                 getData('/user-info', {}).then((res: any)=>{
                   if(res.data !== "" && res.status === 200){
-                    // console.log("role-----", res.data.authorities[1])
+                    console.log(res)
                     res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
                     res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
-                    // res.data.roles[1] !== undefined && localStorage.setItem('roles', JSON.stringify(res.data.roles[1]));
-                  }
-                  // navigate("/studentdashboard");  
-                  // console.log(res.data)       
+                    res.data !== "" && dispatch(globalUserInfoActions.userInfo(res.data));
+                    res.data !== "" && localStorage.setItem('userInfo', JSON.stringify({userInfo: res.data}))
+                    res.data.roles[1] !== undefined && localStorage.setItem('roles', JSON.stringify(res.data.roles[1]));
+                    // setTimeout(()=>{
+                      navigate("/dashboard");
+                    // }, 2000)
+                  }   
                 })
-
-                // const currentUserPermissions = [
-                //   "view course",
-                //   "Create groups",
-                //   "View groups",
-                //   "update course",
-                //   "delete course",
-                //   "create course",
-                //   "VIEW_PROGRAM",
-                //   "CREATE_PROGRAM",
-                //   "UPDATE_PROGRAM",
-                //   "DELETE_PROGRAM",
-                //   "VIEW_USER",
-                //   "UPDATE_USER",
-                //   "DELETE_USER",
-                // ];
-
-                // dispatch(userAuthoritiesActions.updateUserAuthorities(currentUserPermissions));
-                // localStorage.setItem('userAuthorities', JSON.stringify(currentUserPermissions));
-
-                /*
-                 * end user role handling
-                 */
-
-                // Swal.fire({
-                //   position: "center",
-                //   icon: "success",
-                //   title: "Login Successful",
-                //   showConfirmButton: false,
-                //   timer: 1500,
-                // });
-
-                navigate("/studentdashboard");         
+      
               } else {
                 dispatch(globalAlertActions.globalAlert({alertMsg: "Failed to get auth token", status : true}))
               }
@@ -118,9 +85,9 @@ const AuthLogin = () => {
 
   const loaderStyle = {
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
     height: "100vh",
+    alignItems: "center",
+    justifyContent: "center",
   };
 
   return (
