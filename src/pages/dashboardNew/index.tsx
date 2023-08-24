@@ -20,9 +20,9 @@ const DashboardNew = (props: Props) => {
   );
   const currentUserRole = useSelector(
     (state: any) => state.globalFilters.currentUserRole
-  );  
-
-  console.log('currentUserRole for dashboard', currentUserRole);
+  ); 
+  
+  console.log(currentUserInfo)
 
   useEffect(() => {
     if (currentUserInfo && currentUserInfo.userInfo.roles['1'] !== undefined) {
@@ -33,15 +33,15 @@ const DashboardNew = (props: Props) => {
   }, [currentUserInfo]);
 
   useEffect(() => {
-    if (role !== '') {
-      let endPoint = `/${role.id}/dashboard`;
+    if (currentUserRole !== '') {
+      let endPoint = `/${currentUserRole.id}/dashboard`;
       makeGetDataRequest(endPoint, {}, setApiResponse);
     }
-  }, [role]);
+  }, [currentUserRole]);
 
   return (
     <React.Fragment>
-      {role !== undefined && role.shortName === "student" ? (
+      {currentUserRole !== undefined && currentUserRole.shortName === "student" ? (
         <StudentDashboard />
       ) : (
         <TeacherDashboard apiResponse={apiResponse} />
