@@ -18,7 +18,12 @@ const DashboardNew = (props: Props) => {
   const currentUserInfo = useSelector(
     (state: any) => state.userInfo
   );
-  
+  const currentUserRole = useSelector(
+    (state: any) => state.globalFilters.currentUserRole
+  );  
+
+  console.log('currentUserRole for dashboard', currentUserRole);
+
   useEffect(() => {
     if (currentUserInfo && currentUserInfo.userInfo.roles['1'] !== undefined) {
       currentUserInfo.userInfo.roles['1'].map((item: any) => {
