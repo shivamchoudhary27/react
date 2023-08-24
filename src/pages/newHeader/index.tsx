@@ -9,6 +9,7 @@ import { useNavigate, Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import searchIcon from "../../assets/images/icons/search-icon.svg";
 import InstituteFilter from "../siteAdminstration/institute/instituteGlobalFilter";
+import RolesGlobalFilter from "../siteAdminstration/roles/rolesGlobalFilter";
 
 if (config.WSTOKEN === '') {
   config.WSTOKEN = localStorage.getItem('token');
@@ -41,6 +42,16 @@ const Header = ({showRightNavs = true} : any) => {
               <InstituteFilter />
             </div>
           </div>
+          
+          <div className="row gx-2 me-2">
+            <div className="col-auto">
+              <label className="col-form-label">Role: </label>
+            </div>
+            <div className="col-auto">
+              <RolesGlobalFilter />
+            </div>
+          </div>
+          
           <Nav as="ul" className="sh-toolbar">
             <Nav.Item as="li">
               <img src={searchIcon} alt="Search" />
