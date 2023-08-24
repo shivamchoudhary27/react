@@ -21,7 +21,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   const [newRating, setNewRating] = useState<number>(0);
   const [modalShow, setModalShow] = useState<boolean>(false);
   const [ratingProgress, setRatingProgress] = useState<number>(0);
-  const [ratingPercentages, setRatingPercentages] = useState([4, 3, 4, 3, 5]);
+  const [ratingPercentages, setRatingPercentages] = useState([1, 2, 3, 4, 5]);
   const [netRating, setNetRating] = useState(calculateNetRating(ratingPercentages))
 
   const giveRatingHandler = () => {
@@ -82,7 +82,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
                 </div>
                 <StarRating
                   totalStars={5}
-                  currentRating={ratingPercentages[index]}
+                  currentRating={index + 1}
                   // onStarClick={handleRating}
                 />
                 <strong className="ms-2">{`${((ratingPercentages[index])/5) * 100}%`}</strong>

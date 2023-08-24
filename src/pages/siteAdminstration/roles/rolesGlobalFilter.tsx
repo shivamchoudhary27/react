@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector, useDispatch } from 'react-redux';
+import { globalFilterActions } from "../../../store/slices/globalFilters";
 
 type Props = {};
 
 const RolesGlobalFilter = (props: Props) => {
+  const dispatch = useDispatch();
+  const currentUserRole = useSelector(state => state.globalFilters.currentUserRole);
   const currentRolesList = useSelector((state: any) => state.userInfo);
   const [selectedValue, setSelectedValue] = useState("");
 
@@ -11,20 +14,21 @@ const RolesGlobalFilter = (props: Props) => {
     if (currentRolesList.userInfo.roles["1"].length > 0) {
       if (currentRolesList.userInfo.roles["1"] === 0) {
         setSelectedValue(currentRolesList.userInfo.roles["1"][0].id);
-        // dispatch(globalFilterActions.currentInstitute(institutes.items[0].id))
-        // localStorage.setItem("institute", institutes.items[0].id);
+        dispatch(globalFilterActions.currentUserRole(currentRolesList.userInfo.roles["1"][0]))
+        localStorage.setItem("currentUserRole", currentRolesList.userInfo.roles["1"][0].id);
       } else {
-        setSelectedValue(currentRolesList.userInfo.roles["1"]);
-        localStorage.setItem("institute", currentRolesList.userInfo.roles["1"]);
+        setSelectedValue(currentUserRole);
+        localStorage.setItem("currentUserRole", currentUserRole);
       }
     }
-  }, [currentRolesList.userInfo.roles["1"]]);
+  }, [currentRolesList]);
 
   const getCurrentValue = (e: any) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
+    // console.log(e.target.value);
+    // const selectedOption = e.target.options[e.target.selectedIndex];
     setSelectedValue(e.target.value);
-    // dispatch(globalFilterActions.currentInstitute(e.target.value))
-    // localStorage.setItem("institute", e.target.value);
+    dispatch(globalFilterActions.currentUserRole(e.target.value))
+    localStorage.setItem("currentUserRole", e.target.value);
   };
 
   return (

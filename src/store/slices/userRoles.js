@@ -15,15 +15,23 @@ const permissionsList = {
     enrolment: {
         program: {view: "VIEW_PROGRAM_ENROL", add:"CREATE_PROGRAM_ENROL", edit:"UPDATE_PROGRAM_ENROL", remove:"REMOVE_PROGRAM_ENROL", bulkEnrol: "BULK_PROGRAM_ENROL"},
         course: {view: "VIEW_COURSE_ENROL", add:"CREATE_COURSE_ENROL", edit:"UPDATE_COURSE_ENROL", remove:"REMOVE_COURSE_ENROL", bulkEnrol: "BULK_COURSE_ENROL"},
+    },
+    menu: {
+        admin: {view: "ADMIN_VIEW"},
+        attendance: {view: "ATTENDANCE_VIEW"},
+        performance: {view: "PERFORMANCE_VIEW"},
+        gradebook: {view: "GRADEBOOK_VIEW"},
+        calendar: {view: "CALENDAR_VIEW"},
+        dashboard: {view: "DASHBOARD_VIEW"},
     }
 };
  
 const updateEntityPermissions = (permissionNames, authorities, component = '') => {
     const permissions = {
-        canView: authorities.includes(permissionNames.view),
-        canAdd: authorities.includes(permissionNames.add),
-        canEdit: authorities.includes(permissionNames.edit),
-        canDelete: authorities.includes(permissionNames.remove), 
+        canView: authorities.includes(permissionNames?.view),
+        canAdd: authorities.includes(permissionNames?.add),
+        canEdit: authorities.includes(permissionNames?.edit),
+        canDelete: authorities.includes(permissionNames?.remove), 
     }
 
     if (component === 'user') {
@@ -54,6 +62,14 @@ const getAllowedPermission = (currentAuthorities) => {
         enrolment: {
             program: updateEntityPermissions(permissionsList.enrolment.program, currentAuthorities, 'program_enrol'),
             course: updateEntityPermissions(permissionsList.enrolment.course, currentAuthorities, 'course_enrol'),
+        },
+        menu: {
+            admin: updateEntityPermissions(permissionsList.menu.admin, currentAuthorities),
+            attendance: updateEntityPermissions(permissionsList.menu.attendance, currentAuthorities),
+            performance: updateEntityPermissions(permissionsList.menu.performance, currentAuthorities),
+            gradebook: updateEntityPermissions(permissionsList.menu.gradebook, currentAuthorities),
+            calendar: updateEntityPermissions(permissionsList.menu.calendar, currentAuthorities),
+            dashboard: updateEntityPermissions(permissionsList.menu.dashboard, currentAuthorities),
         }
     }
 }
