@@ -41,7 +41,7 @@ const ConfirmUserForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    let endPoint = `/user/confirmUser?token=${requestToken}`;
+    let endPoint = `/public/confirmUser?token=${requestToken}`;
     postData(endPoint, values)
       .then((res: any) => {
         if (res.status === 200) {
