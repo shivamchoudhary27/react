@@ -3,7 +3,10 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
     currentInstitute : localStorage.getItem("institute") ? parseInt(localStorage.getItem("institute")) : 0,  
     currentDepartmentFilterId : "",
-    currentUserRole : localStorage.getItem("currentUserRole") ? parseInt(localStorage.getItem("currentUserRole")) : 0,
+    currentUserRole : localStorage.getItem("currentUserRole") ? 
+    JSON.parse(localStorage.getItem("currentUserRole")) 
+    : 
+    { id: 0, shortName: ""},
 }
 
 const globalFilterSlice = createSlice({

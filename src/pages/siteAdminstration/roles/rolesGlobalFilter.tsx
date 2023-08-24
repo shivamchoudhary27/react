@@ -14,21 +14,21 @@ const RolesGlobalFilter = (props: Props) => {
     if (currentRolesList.userInfo.roles["1"].length > 0) {
       if (currentRolesList.userInfo.roles["1"] === 0) {
         setSelectedValue(currentRolesList.userInfo.roles["1"][0].id);
-        dispatch(globalFilterActions.currentUserRole(currentRolesList.userInfo.roles["1"][0]))
-        localStorage.setItem("currentUserRole", currentRolesList.userInfo.roles["1"][0].id);
+        dispatch(globalFilterActions.currentUserRole({id: currentRolesList.userInfo.roles["1"][0].id, shortName: currentRolesList.userInfo.roles["1"][0].shortName}))
+        localStorage.setItem("currentUserRole", JSON.stringify({id: currentRolesList.userInfo.roles["1"][0].id, shortName: currentRolesList.userInfo.roles["1"][0].shortName}));
       } else {
-        setSelectedValue(currentUserRole);
-        localStorage.setItem("currentUserRole", currentUserRole);
+        setSelectedValue(currentUserRole.id);
+        localStorage.setItem("currentUserRole", JSON.stringify({id: currentUserRole.id, shortName: currentUserRole.shortName}));
       }
     }
   }, [currentRolesList]);
 
   const getCurrentValue = (e: any) => {
-    // console.log(e.target.value);
-    // const selectedOption = e.target.options[e.target.selectedIndex];
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    const roleShortName = selectedOption.dataset.name;
     setSelectedValue(e.target.value);
-    dispatch(globalFilterActions.currentUserRole(e.target.value))
-    localStorage.setItem("currentUserRole", e.target.value);
+    dispatch(globalFilterActions.currentUserRole({id: e.target.value, shortName: roleShortName}))
+    localStorage.setItem("currentUserRole", JSON.stringify({id: e.target.value, shortName: roleShortName}));
   };
 
   return (
@@ -39,7 +39,7 @@ const RolesGlobalFilter = (props: Props) => {
         onChange={getCurrentValue}
       >
         {currentRolesList.userInfo.roles["1"].map((el: any, index: number) => (
-          <option key={index} value={el.id} data-name={el.name}>
+          <option key={index} value={el.id} data-name={el.shortName}>
             {el.name}
           </option>
         ))}
