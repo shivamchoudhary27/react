@@ -46,18 +46,7 @@ const Header = ({ showRightNavs = true }: any) => {
             </div>
           </div>
 
-          {currentUserInfo.userInfo.roles["1"].length > 1 ? (
-            <div className="row gx-2 me-2">
-              <div className="col-auto">
-                <label className="col-form-label">Role: </label>
-              </div>
-              <div className="col-auto">
-                <RolesGlobalFilter />
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
+          <RolesGlobalFilter />
 
           <Nav as="ul" className="sh-toolbar">
             <Nav.Item as="li">

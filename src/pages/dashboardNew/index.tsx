@@ -13,27 +13,13 @@ const DashboardNew = (props: Props) => {
     programs: [],
   };
   const [apiResponse, setApiResponse] = useState(dummyData);
-  const [role, setRole] = useState("");
-
-  const currentUserInfo = useSelector(
-    (state: any) => state.userInfo
-  );
   const currentUserRole = useSelector(
     (state: any) => state.globalFilters.currentUserRole
   ); 
   
-  console.log(currentUserInfo)
-
   useEffect(() => {
-    if (currentUserInfo && currentUserInfo.userInfo.roles['1'] !== undefined) {
-      currentUserInfo.userInfo.roles['1'].map((item: any) => {
-        setRole(item);
-      });
-    }
-  }, [currentUserInfo]);
 
-  useEffect(() => {
-    if (currentUserRole !== '') {
+    if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
       let endPoint = `/${currentUserRole.id}/dashboard`;
       makeGetDataRequest(endPoint, {}, setApiResponse);
     }
