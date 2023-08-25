@@ -25,6 +25,7 @@ const Header = ({ showRightNavs = true }: any) => {
   const currentUserInfo = useSelector((state: any) => state.userInfo);
 
   const logout = () => {
+    localStorage.clear();
     userCtx.logout();
     navigate("/");
   };
