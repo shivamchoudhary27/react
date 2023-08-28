@@ -67,9 +67,9 @@ const AuthLogin = () => {
                     res.data !== "" && dispatch(globalUserInfoActions.userInfo(res.data));
                     res.data !== "" && localStorage.setItem('userInfo', JSON.stringify({userInfo: res.data}))
                     res.data.roles[1] !== undefined && localStorage.setItem('roles', JSON.stringify(res.data.roles[1]));
-                    // setTimeout(()=>{
+                    setTimeout(()=>{
                       navigate("/dashboard");
-                    // }, 2000)
+                    }, 1000)
                   }   
                 })
       
