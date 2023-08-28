@@ -41,7 +41,7 @@ const ResetPasswordForm = () => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     let endPoint = `/public/resetPassword?token=${requestToken}`;
-    putData(endPoint, values)
+    putData(endPoint, values, undefined, false)
       .then((res: any) => {
         if (res.status === 200) {
           setAlertStatus(true);

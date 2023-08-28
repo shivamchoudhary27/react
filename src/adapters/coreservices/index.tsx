@@ -1,21 +1,37 @@
+import axios from 'axios';
 import { AxiosRequestConfig } from 'axios';
 import { axiosConfig, 
     createCoreAxiosInstance
  } from "./utils";
 
-const ACCESS_TOKEN = sessionStorage.getItem("access_token") ?? localStorage.getItem("access_token"); 
+const ACCESS_TOKEN = sessionStorage.getItem("access_token") ?? localStorage.getItem("access_token") ?? ''; 
 
 createCoreAxiosInstance(ACCESS_TOKEN); // to reset the instance if app is refreshed
 
-export const getData = (endPoint: string, params : any) => {
+export const getData = (endPoint: string, params : any, keepBearerToken: boolean = true) => {
     const instance = axiosConfig.axiosInstance;
-    return instance.get(endPoint, { params });
+    // Clone the axios instance configuration
+    const modifiedInstance = axios.create(instance.defaults);
+
+    // Modify headers if needed
+    if (!keepBearerToken) {
+        delete modifiedInstance.defaults.headers['Authorization'];
+    }
+
+    return modifiedInstance.get(endPoint, { params });
 };
 
-export const postData = (endPoint: string, requestData: any, file?: File) => {
+export const postData = (endPoint: string, requestData: any, file?: File, keepBearerToken: boolean = true) => {
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
 
+    const modifiedInstance = axios.create(instance.defaults);
+
+    // Modify headers if needed
+    if (!keepBearerToken) {
+        delete modifiedInstance.defaults.headers['Authorization'];
+    }
+    
     if (file) {
         let headers: AxiosRequestConfig['headers'] = {};
         // Set Content-Type header to 'multipart/form-data' if file is provided
@@ -29,19 +45,33 @@ export const postData = (endPoint: string, requestData: any, file?: File) => {
         });
 
         // Send the FormData as the request data
-        return instance.post(endPoint, formData, { headers });
+        return modifiedInstance.post(endPoint, formData, { headers });
     }
 
-    return instance.post(endPoint, data);
+    return modifiedInstance.post(endPoint, data);
 };
 
-export const putData = (endPoint: string, requestData: any) => {
+export const putData = (endPoint: string, requestData: any, file?: File, keepBearerToken: boolean = true) => {
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
-    return instance.put(endPoint, data);
+
+    const modifiedInstance = axios.create(instance.defaults);
+
+    // Modify headers if needed
+    if (!keepBearerToken) {
+        delete modifiedInstance.defaults.headers['Authorization'];
+    }
+
+    return modifiedInstance.put(endPoint, data);
 };
 
-export const deleteData = (endPoint: string) => {
+export const deleteData = (endPoint: string, keepBearerToken: boolean = true) => {
     const instance = axiosConfig.axiosInstance;
-    return instance.delete(endPoint);
+    const modifiedInstance = axios.create(instance.defaults);
+
+    // Modify headers if needed
+    if (!keepBearerToken) {
+        delete modifiedInstance.defaults.headers['Authorization'];
+    }
+    return modifiedInstance.delete(endPoint);
 };

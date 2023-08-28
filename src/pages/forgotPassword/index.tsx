@@ -25,7 +25,7 @@ const ForgotPasswordForm = () => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    postData('/public/forgotPassword', values)
+    postData('/public/forgotPassword', values, undefined, false)
     .then((res: any) => {
       console.log('forgotpassowrd', res)
       if (res.status === 200) {
