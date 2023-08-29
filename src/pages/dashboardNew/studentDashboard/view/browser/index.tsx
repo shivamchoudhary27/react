@@ -1,14 +1,17 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
+import HeaderTabs from "../../../../headerTabs";
 import Timeline from "../../dashboard/timeline";
+import { Container, Row, Col } from "react-bootstrap";
 import PerformanceOverview from "../../dashboard/performance";
-import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 import EnrolCoursesList from "../../dashboard/enrolCoursesList";
-import Header from "../../../newHeader";
-import HeaderTabs from "../../../headerTabs";
-import Footer from "../../../newFooter";
+import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 
-type Props = {};
+type Props = {
+  userCoursesData: any;
+  enrolCoreCoursesObj: any;
+};
 
 const Browser = (props: Props) => {
   return (
@@ -32,7 +35,10 @@ const Browser = (props: Props) => {
           </Container>
         </div>
         <div className="dashboard-bottomPanel mt-4 mb-5">
-          <EnrolCoursesList />
+          <EnrolCoursesList
+            userCoursesData={props.userCoursesData}
+            enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          />
         </div>
       </div>
       <Footer />

@@ -1,25 +1,54 @@
 import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import Errordiv from "../../../../../../widgets/alert/errordiv";
 import FilterProgramDropdown from "../../filterDropdown";
-import courseImage from "../../../../../../assets/images/course-default.jpg";
-import gradeIcon from "../../../../../../assets/images/icons/grade.svg";
-import badgesIcon from "../../../../../../assets/images/icons/badges.svg";
+import { Container, Row, Col, Card } from "react-bootstrap";
+import Errordiv from "../../../../../../../widgets/alert/errordiv";
+import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
+import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
+import courseImage from "../../../../../../../assets/images/course-default.jpg";
 
 type Props = {
   coursesList: any;
+  enrolCoreCoursesObj: any
 };
 
-const Mobile = ({ coursesList }: Props) => {
+const Mobile = (props: Props) => {
+  const getCourseProgress = (id: number) => {
+    const foundObject: any = props.enrolCoreCoursesObj.find(
+      (item: any) => item.idNumber === id
+    );
+    if (foundObject) {
+      return foundObject.progress !== null
+        ? `${foundObject.progress}%`
+        : 0 + "%";
+    }
+    return "0%";
+  };
+
+  const getCourseStatus = (val: string) => {
+    const currentDate = new Date();
+    const unixTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
+    props.enrolCoreCoursesObj.map((item: any) => {
+      console.log(item);
+    });
+
+    if (val === "progress") {
+      console.log("progress");
+    } else if (val === "notStarted") {
+      console.log("notStarted");
+    } else {
+      console.log("completed");
+    }
+  };
+
   return (
     <React.Fragment>
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses</h3>
-          <FilterProgramDropdown />
+          <FilterProgramDropdown getCourseStatus={getCourseStatus} coursesList={props.coursesList} />
         </div>
         <Row className="g-4 mylearning-card">
-          {coursesList.map((item: any, index: number) => (
+          {props.coursesList.courses.map((item: any, index: number) => (
             <Col sm={6} lg={4} xl={3} key={index}>
               <Card body className="h-100">
                 <div className="mlcard-image">
@@ -28,7 +57,7 @@ const Mobile = ({ coursesList }: Props) => {
                 <div className="mlcard-title">
                   <h5>{item.fullname}</h5>
                   <span className="my-progress">
-                    {item.progress !== null ? `${item.progress}%` : 0 + "%"}
+                    {getCourseProgress(item.idNumber)}
                   </span>
                 </div>
                 <div className="mlcard-info">
@@ -51,7 +80,7 @@ const Mobile = ({ coursesList }: Props) => {
       {/* {coursesList.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )} */}
-      {coursesList.length === 0 && (
+      {props.coursesList.length === 0 && (
         <Errordiv msg="No course available!" cstate className="mt-3" />
       )}
     </React.Fragment>

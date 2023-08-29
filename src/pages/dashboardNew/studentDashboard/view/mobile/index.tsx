@@ -1,13 +1,16 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import Timeline from "../../dashboard/timeline";
+import { Container, Row, Col } from "react-bootstrap";
+import MobileHeader from "../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../newFooter/mobileFooter";
 import PerformanceOverview from "../../dashboard/performance";
-import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 import EnrolCoursesList from "../../dashboard/enrolCoursesList";
-import MobileHeader from "../../../newHeader/mobileHeader";
-import MobileFooter from "../../../newFooter/mobileFooter";
+import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 
-type Props = {};
+type Props = {
+  userCoursesData: any;
+  enrolCoreCoursesObj: any;
+};
 
 const Mobile = (props: Props) => {
   return (
@@ -15,7 +18,10 @@ const Mobile = (props: Props) => {
       <MobileHeader />
       <div className="contentarea-wrapper mb-wraper">
         <div className="dashboard-bottomPanel mt-4 mb-5">
-          <EnrolCoursesList />
+          <EnrolCoursesList
+            userCoursesData={props.userCoursesData}
+            enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          />
         </div>
         <div className="dashboard-topPanel">
           <Container fluid>

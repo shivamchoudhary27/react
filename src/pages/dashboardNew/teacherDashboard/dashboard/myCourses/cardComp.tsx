@@ -1,40 +1,50 @@
-import React from "react";
-import { Card, Row, Col, Container, ProgressBar } from "react-bootstrap";
 import "./style.scss";
-import courseImage from "../../../../assets/images/course-default.jpg";
-import gradeIcon from "../../../../assets/images/icons/grade.svg"
-import sessionIcon from "../../../../assets/images/icons/session.svg"
-import attendanceIcon from "../../../../assets/images/icons/attendance-black.svg"
+import { Card, Row, Col } from "react-bootstrap";
+import gradeIcon from "../../../../../assets/images/icons/grade.svg";
+import sessionIcon from "../../../../../assets/images/icons/session.svg";
+import courseImage from "../../../../../assets/images/course-default.jpg";
+import attendanceIcon from "../../../../../assets/images/icons/attendance-black.svg";
 
-const Card_Component = () => {
+type Props = {
+  courseList: any;
+};
+
+const Card_Component = (props: Props) => {
   return (
     <Row className="g-4 myteaching-card">
-    {card_Data.map((item, index) => (
-      <Col sm={6} lg={4} xl={3} key={index}>
-        <Card body className="h-100">
-          <div className="mlcard-image">
-            <Card.Img src={courseImage} alt={item.title} />
-          </div>
-          <div className="mlcard-title">
-            <h5>{item.title}</h5>
-          </div>
-          <div className="mlcard-info">
-            <div>                
-              <img src={gradeIcon} alt="Grade" />Av Grade
-              <span>{item.grade}</span>
+      {props.courseList.courses.map((item: any, index: number) => (
+        <Col sm={6} lg={4} xl={3} key={index}>
+          <Card body className="h-100">
+            <div className="mlcard-image">
+              <Card.Img src={courseImage} alt={item.title} />
             </div>
-            <div>
-              <img src={sessionIcon} alt="Session" />Session
-              <span>{item.session}</span>
+            <div className="mlcard-title">
+              <h5>{item.name}</h5>
             </div>
-            <div>
-              <img src={attendanceIcon} alt="Attendance" className="small-icon" />Attendance
-              <span>{item.attendance}</span>
+            <div className="mlcard-info">
+              <div>
+                <img src={gradeIcon} alt="Grade" />
+                Av Grade
+                <span>{item.grade}</span>
+              </div>
+              <div>
+                <img src={sessionIcon} alt="Session" />
+                Session
+                <span>{item.session}</span>
+              </div>
+              <div>
+                <img
+                  src={attendanceIcon}
+                  alt="Attendance"
+                  className="small-icon"
+                />
+                Attendance
+                <span>{item.attendance}</span>
+              </div>
             </div>
-          </div>
-        </Card>
-      </Col>
-    ))}
+          </Card>
+        </Col>
+      ))}
     </Row>
   );
 };

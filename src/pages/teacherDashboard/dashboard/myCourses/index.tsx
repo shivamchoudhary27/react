@@ -5,11 +5,11 @@ import FilterProgramDropdown from "./filterDropdown";
 // import Course_Pagination from "./pagination";
 
 type Props = {
-  apiResponse: any
+  userCoursesData: any
 };
 
 const MyCourses: React.FunctionComponent<Props> = ({ ...props }: Props) => {
-  console.log(props.apiResponse.courses)
+  console.log(props.userCoursesData.courses)
   const [key, setKey] = useState<any>("mycourses");
   
   return (
@@ -19,7 +19,7 @@ const MyCourses: React.FunctionComponent<Props> = ({ ...props }: Props) => {
           <h3>My Courses</h3>
           <FilterProgramDropdown />
         </div>
-        <Card_Component apiResponse={props.apiResponse.courses} />
+        <Card_Component userCoursesData={props.userCoursesData.courses} />
       </Container>
     </>
   );

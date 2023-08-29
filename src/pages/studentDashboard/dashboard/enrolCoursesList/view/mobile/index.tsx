@@ -7,10 +7,10 @@ import gradeIcon from "../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../assets/images/icons/badges.svg";
 
 type Props = {
-  coursesList: any;
+  userCoursesData: any;
 };
 
-const Mobile = ({ coursesList }: Props) => {
+const Mobile = ({ ...props }: Props) => {
   return (
     <React.Fragment>
       <Container fluid>
@@ -19,14 +19,14 @@ const Mobile = ({ coursesList }: Props) => {
           <FilterProgramDropdown />
         </div>
         <Row className="g-4 mylearning-card">
-          {coursesList.map((item: any, index: number) => (
+          {props.userCoursesData.courses.map((item: any, index: number) => (
             <Col sm={6} lg={4} xl={3} key={index}>
               <Card body className="h-100">
                 <div className="mlcard-image">
                   <Card.Img src={courseImage} alt={item.shortname} />
                 </div>
                 <div className="mlcard-title">
-                  <h5>{item.fullname}</h5>
+                  <h5>{item.name}</h5>
                   <span className="my-progress">
                     {item.progress !== null ? `${item.progress}%` : 0 + "%"}
                   </span>
@@ -51,9 +51,9 @@ const Mobile = ({ coursesList }: Props) => {
       {/* {coursesList.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )} */}
-      {coursesList.length === 0 && (
+      {/* {coursesList.length === 0 && (
         <Errordiv msg="No course available!" cstate className="mt-3" />
-      )}
+      )} */}
     </React.Fragment>
   );
 };
