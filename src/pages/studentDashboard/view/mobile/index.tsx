@@ -7,7 +7,9 @@ import EnrolCoursesList from "../../dashboard/enrolCoursesList";
 import MobileHeader from "../../../newHeader/mobileHeader";
 import MobileFooter from "../../../newFooter/mobileFooter";
 
-type Props = {};
+type Props = {
+  userCoursesData: any
+};
 
 const Mobile = (props: Props) => {
   return (
@@ -15,7 +17,7 @@ const Mobile = (props: Props) => {
       <MobileHeader />
       <div className="contentarea-wrapper mb-wraper">
         <div className="dashboard-bottomPanel mt-4 mb-5">
-          <EnrolCoursesList />
+          <EnrolCoursesList userCoursesData={props.userCoursesData} />
         </div>
         <div className="dashboard-topPanel">
           <Container fluid>

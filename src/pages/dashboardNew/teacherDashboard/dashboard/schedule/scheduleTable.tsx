@@ -1,7 +1,6 @@
-import React from "react";
-import { Table, Button, Card } from "react-bootstrap";
 import "./style.scss";
-import calendarIcon from "../../../../assets/images/icons/calendar-black.svg";
+import { Table, Button, Card } from "react-bootstrap";
+import calendarIcon from "../../../../../assets/images/icons/calendar-black.svg";
 
 const ScheduleTable = () => {
   return (

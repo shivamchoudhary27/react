@@ -1,11 +1,20 @@
 import React from "react";
 
-const FilterProgramDropdown = () => {
+type Props = {
+  getCourseStatus: (params: string) => void;
+  coursesList?: any;
+};
+
+const FilterProgramDropdown = (props: Props) => {
+  console.log(props.coursesList);
+
   return (
     <>
-      <div className="row mt-3 mt-sm-0">        
-        <ShortBySemester />
-        <ShortByStatus />
+      <div className="row mt-3 mt-sm-0">
+        <ShortByBatchYear batchList={props.coursesList.programs} />
+        <ShortByProgram programList={props.coursesList.programs} />
+        <ShortByCategory categoryList={props.coursesList.courses} />
+        <ShortByStatus getCourseStatus={props.getCourseStatus} />
       </div>
     </>
   );
@@ -13,24 +22,72 @@ const FilterProgramDropdown = () => {
 
 export default FilterProgramDropdown;
 
-const ShortBySemester = () => {
+// batch year filter === >>>
+const ShortByBatchYear = (props: any) => {
   return (
     <div className="col-auto">
-      <label>Semester</label>
+      <label>Batch Year</label>
       <select
         className="form-select"
         aria-label="Default select example"
         defaultValue="Semester 3"
-        >
-        <option value="1">Semester 3</option>
-        <option value="2">Semester 2</option>
-        <option value="3">Semester 1</option>
+      >
+        {props.batchList.map((item: any) => (
+          <option key={item.id} value={item.batchYear}>
+            {item.batchYear}
+          </option>
+        ))}
       </select>
     </div>
   );
 };
 
-const ShortByStatus = () => {
+// program filter === >>>
+const ShortByProgram = (props: any) => {
+  return (
+    <div className="col-auto">
+      <label>Program</label>
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        defaultValue="Semester 3"
+      >
+        {props.programList.map((item: any) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+// category filter === >>>
+const ShortByCategory = (props: any) => {
+  return (
+    <div className="col-auto">
+      <label>Category</label>
+      <select
+        className="form-select"
+        aria-label="Default select example"
+        defaultValue="Semester 3"
+      >
+        {props.categoryList.map((item: any) => (
+          <option key={item.categoryId} value={item.categoryId}>
+            {item.categoryName}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
+
+// status filter === >>>
+const ShortByStatus = (props: Props) => {
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    props.getCourseStatus(e.target.value);
+  };
+
   return (
     <div className="col-auto">
       <label>Status</label>
@@ -38,10 +95,11 @@ const ShortByStatus = () => {
         className="form-select"
         aria-label="Default select example"
         defaultValue="In Progress"
+        onChange={handleChange}
       >
-        <option value="1">In-Progress</option>
-        <option value="2">Not Started</option>
-        <option value="3">Completed</option>      
+        <option value="progress">In-Progress</option>
+        <option value="notStarted">Not Started</option>
+        <option value="completed">Completed</option>
       </select>
     </div>
   );

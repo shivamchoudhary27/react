@@ -1,16 +1,18 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Timeline from "../../dashboard/timeline";
-import PerformanceOverview from "../../dashboard/performance";
-import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
-import EnrolCoursesList from "../../dashboard/enrolCoursesList";
+import Footer from "../../../newFooter";
 import Header from "../../../newHeader";
 import HeaderTabs from "../../../headerTabs";
-import Footer from "../../../newFooter";
+import Timeline from "../../dashboard/timeline";
+import { Container, Row, Col } from "react-bootstrap";
+import PerformanceOverview from "../../dashboard/performance";
+import EnrolCoursesList from "../../dashboard/enrolCoursesList";
+import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 
-type Props = {};
+type Props = {
+  userCoursesData: any;
+};
 
-const Browser = (props: Props) => {
+const Browser = ({ ...props }: Props) => {
   return (
     <React.Fragment>
       <Header />
@@ -32,7 +34,7 @@ const Browser = (props: Props) => {
           </Container>
         </div>
         <div className="dashboard-bottomPanel mt-4 mb-5">
-          <EnrolCoursesList />
+          <EnrolCoursesList userCoursesData={props.userCoursesData} />
         </div>
       </div>
       <Footer />

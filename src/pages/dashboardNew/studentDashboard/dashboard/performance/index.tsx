@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import avGreadeIcon from "../../../../assets/images/icons/grade.svg";
-import badgesIcon from "../../../../assets/images/icons/badges.svg";
-import certificateIcon from "../../../../assets/images/icons/certificates.svg";
-import creditsIcon from "../../../../assets/images/icons/credits.svg";
 import "./style.scss";
-import { getData } from "../../../../adapters";
-import Browser from "./view/browser";
 import Mobile from "./view/mobile";
+import Browser from "./view/browser";
+import { getData } from "../../../../../adapters";
+import React, { useState, useEffect } from "react";
 import { isMobile, isDesktop } from "react-device-detect";
+import badgesIcon from "../../../../../assets/images/icons/badges.svg"
+import avGreadeIcon from "../../../../../assets/images/icons/grade.svg";
+import creditsIcon from "../../../../../assets/images/icons/credits.svg";
+import certificateIcon from "../../../../../assets/images/icons/certificates.svg";
 
 const PerformanceOverview = () => {
   const id = localStorage.getItem("userid");

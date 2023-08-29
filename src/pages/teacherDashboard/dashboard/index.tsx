@@ -12,7 +12,7 @@ import MyScheduleComp from "./schedule/scheduleComp";
 import MyCourses from "./myCourses";
 
 type Props = {
-  apiResponse: any
+  userCoursesData: any
 };
 
 const TeacherDashboard: React.FunctionComponent<Props> = ({
@@ -54,7 +54,7 @@ const TeacherDashboard: React.FunctionComponent<Props> = ({
           </Container>
         </div>
         <div className="dashboard-bottomPanel mt-4 mb-5">
-          <MyCourses apiResponse={props.apiResponse} />
+          <MyCourses userCoursesData={props.userCoursesData} />
         </div>
       </div>
       <Footer />
