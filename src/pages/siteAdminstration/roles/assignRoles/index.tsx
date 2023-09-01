@@ -68,8 +68,7 @@ const AssignRoles = () => {
   useEffect(() => {
     if (rolesData.items.length > 0) {      
       const updatedArray = rolesData.items.map((authority: any) => {
-        const isPresent = userRoles.roles.find((role: any) => role.id === authority.id);
-
+        const isPresent = userRoles.roles.find((role: any) => (role.id === authority.id));
         if (authority.contextType !== null && authority.contextType !== 'course' && isPresent !== undefined) {
           contextIdsTemplate[authority.contextType].push(...isPresent.contextIds);
         }
@@ -80,7 +79,8 @@ const AssignRoles = () => {
         };
       });
       setSelectedContextIds(contextIdsTemplate)
-      setAssignRoles(updatedArray);
+      const removeCourseContexts = updatedArray.filter((el: any) => el.contextType !== 'course')
+      setAssignRoles(removeCourseContexts);
     }
   }, [rolesData, userRoles]);
 

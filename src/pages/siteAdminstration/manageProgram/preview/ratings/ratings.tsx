@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postData } from "../../../../../adapters/microservices";
+import { postData, getData } from "../../../../../adapters/microservices";
 import StarRating from "../../../../../widgets/rating";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
@@ -23,6 +23,17 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   const [ratingProgress, setRatingProgress] = useState<number>(0);
   const [ratingPercentages, setRatingPercentages] = useState([1, 2, 3, 4, 5]);
   const [netRating, setNetRating] = useState(calculateNetRating(ratingPercentages))
+
+  useEffect(() => {
+    getData(`/rating/${programid}`, {})
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }, []);
 
   const giveRatingHandler = () => {
     setModalShow(true);
