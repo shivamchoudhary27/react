@@ -33,9 +33,9 @@ export const putData = (endPoint: string, requestData: any, file?: File, compone
     return instance.put(endPoint, data);
 };
 
-export const deleteData = (endPoint: string) => {
+export const deleteData = (endPoint: string, params: any = {}) => {
     const instance = axiosConfig.axiosInstance;
-    return instance.delete(endPoint);
+    return instance.delete(endPoint, { params});
 };
 
 // Set Content-Type header to 'multipart/form-data' if file is provided

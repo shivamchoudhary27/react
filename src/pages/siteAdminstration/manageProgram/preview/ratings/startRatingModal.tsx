@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 import StarRating from "../../../../../widgets/rating";
+import { Button } from "react-bootstrap";
+
 
 interface IProps {
   show: boolean;
@@ -14,7 +16,13 @@ const StartRatingModal: React.FunctionComponent<IProps> = ({
   onHide,
   handleRating,
   newRating,
+  resetUserRating
 }: IProps) => {
+
+  const resetRatingHandler = () => {
+    resetUserRating();
+  }
+
   return (
     <React.Fragment>
       <Modal
@@ -33,7 +41,14 @@ const StartRatingModal: React.FunctionComponent<IProps> = ({
               currentRating={newRating}
               onStarClick={handleRating}
             />
-          </div>          
+          </div>   
+          <Button
+            variant="outline-secondary"
+            type='reset'
+            onClick={resetRatingHandler}
+          >
+            Reset Rating
+          </Button>
         </Modal.Body>
       </Modal>
     </React.Fragment>
