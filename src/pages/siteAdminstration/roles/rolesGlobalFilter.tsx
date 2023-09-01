@@ -9,7 +9,16 @@ const RolesGlobalFilter = (props: Props) => {
   const currentUserRole = useSelector(state => state.globalFilters.currentUserRole);
   const currentRolesList = useSelector((state: any) => state.userInfo);
   const [selectedValue, setSelectedValue] = useState("");
+  const [dashboardRoles, setDashboardRoles] = useState([]);
 
+  useEffect(() => {
+    if (currentRolesList.userInfo.roles["1"].length > 1) {
+      const dashboardRoles = currentRolesList.userInfo.roles["1"].filter((el: any) => el.shortName === 'student' || el.shortName === 'teacher' || el.shortName === 'editingteacher')
+      setDashboardRoles(dashboardRoles)
+    }
+    
+  }, [currentRolesList]);
+  
   useEffect(() => {
     if (currentRolesList.userInfo.roles["1"].length > 0) {
       if (currentUserRole.id === 0) {
@@ -37,10 +46,9 @@ const RolesGlobalFilter = (props: Props) => {
   return (
     <>
       {
-        currentRolesList.userInfo.roles["1"].length > 1
+        dashboardRoles.length > 0   
           ?
           (
-
             <div className="row gx-2 me-2">
               <div className="col-auto">
                 <label className="col-form-label">Role: </label>
@@ -51,14 +59,10 @@ const RolesGlobalFilter = (props: Props) => {
                   value={selectedValue}
                   onChange={getCurrentValue}
                   >
-                  {currentRolesList.userInfo.roles["1"].map((el: any, index: number) => (
-                    (el.shortName === 'student' || el.shortName === 'teacher' || el.shortName === 'editingteacher') 
-                    &&
-                    ( 
-                      <option key={index} value={el.id} data-name={el.shortName}>
-                        {el.name}
-                      </option>
-                    )
+                  {dashboardRoles.map((el: any, index: number) => (
+                    <option key={index} value={el.id} data-name={el.shortName}>
+                      {el.name}
+                    </option>
                   ))}
                 </select>
               </div>
