@@ -52,9 +52,13 @@ const RolesGlobalFilter = (props: Props) => {
                   onChange={getCurrentValue}
                   >
                   {currentRolesList.userInfo.roles["1"].map((el: any, index: number) => (
-                    <option key={index} value={el.id} data-name={el.shortName}>
-                      {el.name}
-                    </option>
+                    (el.shortName === 'student' || el.shortName === 'teacher' || el.shortName === 'editingteacher') 
+                    &&
+                    ( 
+                      <option key={index} value={el.id} data-name={el.shortName}>
+                        {el.name}
+                      </option>
+                    )
                   ))}
                 </select>
               </div>
