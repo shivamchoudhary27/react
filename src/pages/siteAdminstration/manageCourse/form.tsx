@@ -242,14 +242,14 @@ const CourseModal = ({
                     msgText="Required"
                   />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="courseimage"
                     labelText="Course Image"
                     // required="required"
                   />
                   <FieldTypeFile name="courseimage" />
-                </div>
+                </div> */}
                 <div className="mb-3">
                   <FieldTypeCheckbox
                     name="published"
