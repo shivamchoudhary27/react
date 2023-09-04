@@ -23,7 +23,6 @@ import CoPoManagementRoute from './siteAdminRoute/copoManagement';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
-import MitGlobalAlert from '../../widgets/mitGlobalAlert/mitGlobalAlert';
 import PageNotFound from '../../pages/404';
 import GradeBook from '../../pages/gradeBook';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
@@ -40,8 +39,8 @@ export default function NewCustomRoutes() {
         {/* <Route element={<><Outlet /><MitGlobalAlert /></>}> 
          * create a new component for global imports
         */}  
-          <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/studentdashboard" />} />
-          <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/studentdashboard" />} />
+          <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/dashboard" />} />
+          <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
           <Route path='/authlogin' element={<AuthLogin />} />
           <Route path="/signupnew" element={<SignUpNew />} />
           <Route element={<ProtectedRoutes />}>
@@ -52,7 +51,7 @@ export default function NewCustomRoutes() {
             {CalenderManagementRoute()}
             {CoPoManagementRoute()}
           
-          <Route path="/dashboard" key="studentdashboard" element={<DashboardNew />} />
+          <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}
