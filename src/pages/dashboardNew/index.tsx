@@ -8,13 +8,12 @@ import { getData } from "../../adapters";
 type Props = {};
 
 const DashboardNew = (props: Props) => {
-  const dummyData = {
-    courses: [],
-    departments: {},
-    programs: [],
-  };
   const id = localStorage.getItem("userid");
-  const [userCoursesData, setUserCoursesData] = useState(dummyData);
+  const [userCoursesData, setUserCoursesData] = useState({
+    departments: {},
+    courses: [],
+    programs: [],
+  });
   const [enrolCoreCoursesObj, setEnrolCoreCoursesObj] = useState([]);
   const currentUserRole = useSelector(
     (state: any) => state.globalFilters.currentUserRole
@@ -55,6 +54,7 @@ const DashboardNew = (props: Props) => {
         <TeacherDashboard
           userCoursesData={userCoursesData}
           enrolCoreCoursesObj={enrolCoreCoursesObj}
+          setUserCoursesData={setUserCoursesData}
         />
       )}
     </React.Fragment>

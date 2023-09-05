@@ -7,9 +7,11 @@ import MyCourses from "./myCourses/index"
 type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any;
+  setUserCoursesData: any
 };
 
 const DashboardTeacher = (props: Props) => {
+
   return (
     <>
       <div className="dashboard-topPanel">
@@ -28,6 +30,7 @@ const DashboardTeacher = (props: Props) => {
         <MyCourses
           userCoursesData={props.userCoursesData}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          setUserCoursesData={props.setUserCoursesData}
         />
       </div>
     </>

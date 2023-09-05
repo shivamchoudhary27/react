@@ -7,6 +7,7 @@ import FilterProgramDropdown from "./filterDropdown";
 type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any
+  setUserCoursesData:any
 };
 
 const MyCourses = (props: Props) => {
@@ -32,7 +33,7 @@ const MyCourses = (props: Props) => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses Teacher</h3>
-          <FilterProgramDropdown coursesList={props.userCoursesData} getCourseStatus={getCourseStatus} />
+          <FilterProgramDropdown userCoursesData={props.userCoursesData} setUserCoursesData={props.setUserCoursesData} getCourseStatus={getCourseStatus} />
         </div>
         <Card_Component courseList={props.userCoursesData} />
       </Container>

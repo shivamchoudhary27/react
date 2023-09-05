@@ -10,6 +10,7 @@ import useUserinfo from "../../../../features/hooks/userinfo";
 type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any;
+  setUserCoursesData:any
 };
 
 const TeacherDashboard = (props: Props) => {
@@ -38,6 +39,7 @@ const TeacherDashboard = (props: Props) => {
         <DashboardTeacher
           userCoursesData={props.userCoursesData}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          setUserCoursesData={props.setUserCoursesData}
         />
       </div>
       <Footer />
