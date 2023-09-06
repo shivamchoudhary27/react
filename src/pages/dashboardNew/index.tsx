@@ -20,27 +20,30 @@ const DashboardNew = (props: Props) => {
   );
 
   useEffect(() => {
-    if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
+    if (currentUserRole.id !== undefined && currentUserRole.id > 0 && id !== undefined) {
       let endPoint = `/${currentUserRole.id}/dashboard`;
       makeGetDataRequest(endPoint, {}, setUserCoursesData);
+
+      // get moodle enrole courses data for course status
+      const query = {
+        wsfunction: "core_enrol_get_users_courses",
+        userid: id,
+      };
+      getData(query)
+        .then((res) => {
+          if (res.data !== "" && res.status === 200) {
+            setEnrolCoreCoursesObj(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }, [currentUserRole]);
+  }, [currentUserRole, id]);
 
   useEffect(() => {
-    const query = {
-      wsfunction: "core_enrol_get_users_courses",
-      userid: id,
-    };
-    getData(query)
-      .then((res) => {
-        if (res.data !== "" && res.status === 200) {
-          setEnrolCoreCoursesObj(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
+    // console.log(userCoursesData.courses, enrolCoreCoursesObj)
+  }, [enrolCoreCoursesObj, userCoursesData]);
 
   return (
     <React.Fragment>

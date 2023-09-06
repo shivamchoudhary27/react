@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Card, Row, Col } from "react-bootstrap";
 import gradeIcon from "../../../../../assets/images/icons/grade.svg";
@@ -7,12 +8,43 @@ import attendanceIcon from "../../../../../assets/images/icons/attendance-black.
 
 type Props = {
   courseList: any;
+  filterStatus: any
 };
 
-const Card_Component = (props: Props) => {
+const CardComponent = (props: Props) => {
+  const [course, setCourses] = useState([]);
+
+  useEffect(() => {
+    if (props.filterStatus.selectedValues.program > 0) {
+        if (props.filterStatus.selectedValues.category > 0) {
+          const filteredCourses =  props.courseList.courses.filter(item => 
+            item.programId === props.filterStatus.selectedValues.program 
+            && 
+            item.categoryId === props.filterStatus.selectedValues.category
+          );
+          setCourses(filteredCourses);
+        } else {
+          const filteredCourses =  props.courseList.courses.filter(item => 
+            item.programId === props.filterStatus.selectedValues.program 
+          );
+          setCourses(filteredCourses);
+        }
+    } else {
+      const uniqueProgramIds = new Set();
+
+      props.filterStatus.filterData.programs.forEach((item) => {
+        uniqueProgramIds.add(item.id);
+      });
+
+      const filteredData = props.courseList.courses.filter(item => uniqueProgramIds.has(item.programId));
+      setCourses(filteredData);
+    }
+
+  }, [props.filterStatus]);
+
   return (
     <Row className="g-4 myteaching-card">
-      {props.courseList.courses.map((item: any, index: number) => (
+      {course.map((item: any, index: number) => (
         <Col sm={6} lg={4} xl={3} key={index}>
           <Card body className="h-100">
             <div className="mlcard-image">
@@ -49,7 +81,7 @@ const Card_Component = (props: Props) => {
   );
 };
 
-export default Card_Component;
+export default CardComponent;
 
 const card_Data = [
   {
