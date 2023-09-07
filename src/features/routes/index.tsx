@@ -29,6 +29,7 @@ import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGrad
 import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';
 // import { Navigate, Outlet } from 'react-router-dom';
 import DashboardNew from '../../pages/dashboardNew';
+import ClassRoom from '../../pages/siteAdminstration/timetable/classroom';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -52,6 +53,7 @@ export default function NewCustomRoutes() {
             {CoPoManagementRoute()}
           
           <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
+          <Route path="/classroom" key="classroom" element={<ClassRoom />} />
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}

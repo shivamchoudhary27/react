@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const Filter = ({
   toggleModalShow,
   resetDepartmentForm,
-  departmentData,
   setDepartmentData,
   refreshDepartmentData,
   updateInputFilters,
@@ -16,10 +15,6 @@ const Filter = ({
 
   const handleSearch = (e: any) => {
     e.preventDefault();
-  };
-
-  const getInputValues = () => {
-    updateInputFilters(searchValue);
   };
 
   const resetHandler = () => {
@@ -49,7 +44,7 @@ const Filter = ({
               />
             </Col>
             <Col className="col-auto">
-              <Button variant="primary" className="me-2" onClick={() => getInputValues()}>
+              <Button variant="primary" className="me-2">
                 Filter
               </Button>{" "}
               <Button variant="outline-secondary" onClick={() => resetHandler()}>
@@ -58,7 +53,10 @@ const Filter = ({
             </Col>
           </Row>
         </form>
-        <Button variant="primary" onClick={calendarConfig}>Events Color</Button>
+        <div>
+          <Button variant="primary" onClick={() => navigate('/classroom')}>Manage Classroom</Button>{" "}
+          <Button variant="primary" onClick={calendarConfig}>Events Color</Button>
+        </div>
       </div>
     </>
   );
