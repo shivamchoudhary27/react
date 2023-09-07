@@ -1,23 +1,18 @@
-import { useState, useEffect } from "react";
-import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
-import { Container } from "react-bootstrap";
-import { pagination } from "../../../utils/pagination";
+import "./style.scss";
+import Filter from "./filter";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
-// import Sidebar from "../../sidebar";
-import Filter from "./filter";
-import DepartmentTable from "./departmentTable";
-import DepartmentModal from "./departmentModal";
+import { useState, useEffect } from "react";
+import { Container } from "react-bootstrap";
+import PageTitle from "../../../widgets/pageTitle";
+import { pagination } from "../../../utils/pagination";
+import Errordiv from "../../../widgets/alert/errordiv";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
-import Errordiv from "../../../widgets/alert/errordiv";
-import "./style.scss";
+
 
 const TimeTable = () => {
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [departmentData, setDepartmentData] = useState<any>(dummyData);
   const [modalShow, setModalShow] = useState(false);
   const [departmentObj, setDepartmentObj] = useState({});
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -65,7 +60,7 @@ const TimeTable = () => {
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const DEPARTMENT_FILTER_COMPONENT = (
     <Filter
-      // departmentData={departmentData}
+      // departmentData={departmentData.items}
       toggleModalShow={toggleModalShow}
       resetDepartmentForm={resetDepartmentForm}
       // setDepartmentData={setDepartmentData}
@@ -74,26 +69,6 @@ const TimeTable = () => {
     />
   );
 
-  const DEPARTMENT_TABLE_COMPONENT = (
-    <DepartmentTable
-      departmentData={departmentData.items}
-      editHandlerById={editHandlerById}
-      toggleModalShow={toggleModalShow}
-      refreshDepartmentData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
-      apiStatus={apiStatus}
-    />
-  );
-
-  const DEPARTMENT_MODAL_COMPONENT = (
-    <DepartmentModal
-      show={modalShow}
-      onHide={() => toggleModalShow(false)}
-      departmentobj={departmentObj}
-      togglemodalshow={toggleModalShow}
-      refreshdepartmentdata={refreshToggle}
-    />
-  );
   // <<< ==== END COMPONENTS ==== >>>
 
   return (
@@ -110,14 +85,13 @@ const TimeTable = () => {
         <Container fluid>
           <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
           {DEPARTMENT_FILTER_COMPONENT}
-          {DEPARTMENT_TABLE_COMPONENT}
           <Errordiv msg="Work in progress..." cstate className="mt-3" />
           <BuildPagination
-            totalpages={departmentData.pager.totalPages}
+            totalpages=""
             activepage={filterUpdate.pageNumber}
             getrequestedpage={newPageRequest}
           />
-          {DEPARTMENT_MODAL_COMPONENT}
+          
         </Container>
       </div>
       <Footer />
