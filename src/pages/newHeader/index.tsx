@@ -33,7 +33,7 @@ const Header = ({ showRightNavs = true }: any) => {
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center site-header">
-      <Link to="/studentdashboard" className="me-auto site-logo">
+      <Link to="/dashboard" className="me-auto site-logo">
         <img className="bl-logo" src={logo} alt="Ballistic Learning Pvt Ltd" />
       </Link>
       {showRightNavs !== false && (
