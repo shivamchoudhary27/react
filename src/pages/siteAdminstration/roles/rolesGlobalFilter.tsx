@@ -12,28 +12,40 @@ const RolesGlobalFilter = (props: Props) => {
   const [dashboardRoles, setDashboardRoles] = useState([]);
   
   useEffect(() => {
-    if (currentRolesList.userInfo.roles["1"].length > 1) {
-      const dashboardRoles = currentRolesList.userInfo.roles["1"].filter((el: any) => el.shortName === 'student' || el.shortName === 'teacher' || el.shortName === 'editingteacher')
-      setDashboardRoles(dashboardRoles)
-    }
-    
-  }, [currentRolesList]);
-
-  useEffect(() => {
     if (currentRolesList.userInfo.roles["1"].length > 0) {
-      if (currentUserRole.id === 0) {
-        //  if more than one roles found, then check for higher priority roles here
-        //  ....
-        //  ....
-        setSelectedValue(currentRolesList.userInfo.roles["1"][0].id);
-        dispatch(globalFilterActions.currentUserRole({ id: currentRolesList.userInfo.roles["1"][0].id, shortName: currentRolesList.userInfo.roles["1"][0].shortName }))
-        localStorage.setItem("currentUserRole", JSON.stringify({ id: currentRolesList.userInfo.roles["1"][0].id, shortName: currentRolesList.userInfo.roles["1"][0].shortName }));
-      } else {
+      const dashboardRoles = currentRolesList.userInfo.roles["1"].filter((el: any) => el.shortName === 'student' || el.shortName === 'teacher' || el.shortName === 'editingteacher')
+      setDashboardRoles(dashboardRoles);
+
+      if (currentUserRole.id === 0 && dashboardRoles.length > 0) {
+        const priorityOrder = ["editingteacher", "teacher", "student"];
+        let highestPriorityRole = null;
+
+        for (const roleName of priorityOrder) {
+          highestPriorityRole = dashboardRoles.find(role => role.shortName === roleName);
+          if (highestPriorityRole) {
+            break;
+          }
+        }
+        setSelectedValue(highestPriorityRole.id);
+        dispatch(globalFilterActions.currentUserRole({ id: highestPriorityRole.id, shortName: highestPriorityRole.shortName }))
+        localStorage.setItem("currentUserRole", JSON.stringify({ id: highestPriorityRole.id, shortName: highestPriorityRole.shortName }));
+      }
+      if (currentUserRole.id != 0) {
         setSelectedValue(currentUserRole.id);
         localStorage.setItem("currentUserRole", JSON.stringify({ id: currentUserRole.id, shortName: currentUserRole.shortName }));
       }
+
     }
   }, [currentRolesList]);
+
+  // useEffect(() => {
+  //   if (currentRolesList.userInfo.roles["1"].length > 0) {
+  //     if (currentUserRole.id != 0) {
+  //       setSelectedValue(currentUserRole.id);
+  //       localStorage.setItem("currentUserRole", JSON.stringify({ id: currentUserRole.id, shortName: currentUserRole.shortName }));
+  //     }
+  //   }
+  // }, [currentRolesList]);
 
   const getCurrentValue = (e: any) => {
     const selectedOption = e.target.options[e.target.selectedIndex];
