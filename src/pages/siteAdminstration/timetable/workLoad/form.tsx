@@ -14,7 +14,10 @@ import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
-    workLoad: Yup.number().required("Please enter per week hour"),
+    workLoad: Yup.number()
+    .integer("Number must be an integer")
+    .positive("Number must be positive")
+    .required("Number is required"),
 });
 
 const WorkLoadModal = ({

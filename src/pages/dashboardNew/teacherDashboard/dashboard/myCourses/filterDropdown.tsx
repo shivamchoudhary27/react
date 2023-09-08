@@ -178,7 +178,6 @@ const FilterProgramDropdown = (props: Props) => {
         packetKeys={["id", "name"]}
         getFilterChange={getFilterChange}
         currentValue={filters.selectedValues.program}
-        // filterDisable={filters.selectedValues.program === 0 ? true : false}
         filterDisable={false}
       />
       <RenderFilterElements
