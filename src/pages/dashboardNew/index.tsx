@@ -8,40 +8,42 @@ import { getData } from "../../adapters";
 type Props = {};
 
 const DashboardNew = (props: Props) => {
-  const dummyData = {
-    courses: [],
-    departments: {},
-    programs: [],
-  };
   const id = localStorage.getItem("userid");
-  const [userCoursesData, setUserCoursesData] = useState(dummyData);
+  const [userCoursesData, setUserCoursesData] = useState({
+    departments: {},
+    courses: [],
+    programs: [],
+  });
   const [enrolCoreCoursesObj, setEnrolCoreCoursesObj] = useState([]);
   const currentUserRole = useSelector(
     (state: any) => state.globalFilters.currentUserRole
   );
 
   useEffect(() => {
-    if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
+    if (currentUserRole.id !== undefined && currentUserRole.id > 0 && id !== undefined) {
       let endPoint = `/${currentUserRole.id}/dashboard`;
       makeGetDataRequest(endPoint, {}, setUserCoursesData);
+
+      // get moodle enrole courses data for course status
+      const query = {
+        wsfunction: "core_enrol_get_users_courses",
+        userid: id,
+      };
+      getData(query)
+        .then((res) => {
+          if (res.data !== "" && res.status === 200) {
+            setEnrolCoreCoursesObj(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }, [currentUserRole]);
+  }, [currentUserRole, id]);
 
   useEffect(() => {
-    const query = {
-      wsfunction: "core_enrol_get_users_courses",
-      userid: id,
-    };
-    getData(query)
-      .then((res) => {
-        if (res.data !== "" && res.status === 200) {
-          setEnrolCoreCoursesObj(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [id]);
+    // console.log(userCoursesData.courses, enrolCoreCoursesObj)
+  }, [enrolCoreCoursesObj, userCoursesData]);
 
   return (
     <React.Fragment>
@@ -55,6 +57,7 @@ const DashboardNew = (props: Props) => {
         <TeacherDashboard
           userCoursesData={userCoursesData}
           enrolCoreCoursesObj={enrolCoreCoursesObj}
+          setUserCoursesData={setUserCoursesData}
         />
       )}
     </React.Fragment>
