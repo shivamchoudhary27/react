@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -7,17 +7,14 @@ import FieldLabel from "../../../../widgets/formInputFields/labels";
 import { postData, putData } from "../../../../adapters/microservices";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
-import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
-    workLoad: Yup.number()
-    .integer("Number must be an integer")
-    .positive("Number must be positive")
-    .required("Number is required"),
+  // workLoad: Yup.number()
+  //   .integer("Number must be an integer")
+  //   .positive("Number must be positive")
+  //   .required("Number is required"),
 });
 
 const WorkLoadModal = ({
@@ -29,13 +26,9 @@ const WorkLoadModal = ({
   currentInstitute,
   refreshClassroomData,
   filterUpdate,
+  workLoadApiResponseData,
 }: any) => {
-  const dummyData = {
-    items: [],
-    pager: { totalElements: 0, totalPages: 0 },
-  };
   const [showAlert, setShowAlert] = useState(false);
-  const [facultyInfo, setFacultyInfo] = useState(dummyData);
   const [alertMsg, setAlertMsg] = useState({
     message: "",
     alertBoxColor: "",
@@ -43,19 +36,9 @@ const WorkLoadModal = ({
 
   // Initial values of react table === >>>
   const initialValues = {
-    workLoad: workLoadObj.workLoad,
+    workLoad: workLoadObj.workLoad !== 0 ? workLoadObj.workLoad : workLoadApiResponseData.default_workload,
+    defaultUserWorkload: workLoadApiResponseData.default_workload,
   };
-
-  useEffect(() => {
-    if (currentInstitute > 0 && workLoadObj.id > 0) {
-      let endPoint = `/${currentInstitute}/timetable/userworkload?userId=${workLoadObj.id}`;
-      makeGetDataRequest(
-        endPoint,
-        filterUpdate,
-        setFacultyInfo
-      );
-    }
-  }, [workLoadObj.id, currentInstitute]);
 
   // custom Obj & handle form data === >>>
   let formTitles = {
@@ -76,8 +59,9 @@ const WorkLoadModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    let endPoint = `/${currentInstitute}/timetable/userworkload`;
     if (workLoadObj.id === 0) {
+      delete values.workLoad;
+      let endPoint = `/${currentInstitute}/timetable/userworkload/set/default/workload`;
       postData(endPoint, values)
         .then((res: any) => {
           if (res.data !== "") {
@@ -96,7 +80,12 @@ const WorkLoadModal = ({
           });
         });
     } else {
-      endPoint += `/${workLoadObj.id}`;
+      if(workLoadObj.workLoad === 0 ){
+        values = {workLoad: values.defaultUserWorkload}
+      }
+      delete values.defaultUserWorkload;
+      console.log(values)
+      let endPoint = `/${currentInstitute}/timetable/userworkload/${workLoadObj.id}`;
       setSubmitting(true);
       putData(endPoint, values)
         .then((res: any) => {
@@ -147,33 +136,39 @@ const WorkLoadModal = ({
         >
           {({ errors, touched, isSubmitting }) => (
             <Form>
-              {facultyInfo.items.length > 0 && workLoadObj.id > 0 && (
+              {workLoadObj.id > 0 && (
                 <div className="mb-3">
                   <FieldLabel htmlfor="" labelText="Faculty" />
-                  {
-                    facultyInfo.items.map((item: any) => (
-                        <span className="mx-2">{`${item.userFirstName} ${item.userLastName} (${item.userEmail})`}</span>
-                    ))
-                  }
+                  <span className="mx-2">{`${workLoadObj.userFirstName} ${workLoadObj.userLastName} (${workLoadObj.userEmail})`}</span>
                 </div>
               )}
 
               <div className="mb-3">
                 <FieldLabel
-                  htmlfor="workLoad"
-                  labelText="Per Week"
+                  htmlfor={
+                    workLoadObj.id > 0 ? "workLoad" : "defaultUserWorkload"
+                  }
+                  labelText="Load Per Week (Hours)"
                   required="required"
                   star="*"
                 />
                 <Field
                   type="number"
-                  name="workLoad"
+                  name={workLoadObj.id > 0 ? "workLoad" : "defaultUserWorkload"}
                   className="form-control"
                   placeholder="Hours"
                 />
                 <FieldErrorMessage
-                  errors={errors.workLoad}
-                  touched={touched.workLoad}
+                  errors={
+                    workLoadObj.id > 0
+                      ? errors.workLoad
+                      : errors.defaultUserWorkload
+                  }
+                  touched={
+                    workLoadObj.id > 0
+                      ? touched.workLoad
+                      : touched.defaultUserWorkload
+                  }
                 />
               </div>
 
@@ -185,13 +180,13 @@ const WorkLoadModal = ({
                     isSubmitting={isSubmitting}
                     btnText={formTitles.btnTitle}
                   />{" "}
-                  {formTitles.btnTitle === "Submit" && (
+                  {/* {formTitles.btnTitle === "Submit" && (
                     <CustomButton
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"
                     />
-                  )}
+                  )} */}
                 </div>
               ) : (
                 <LoadingButton

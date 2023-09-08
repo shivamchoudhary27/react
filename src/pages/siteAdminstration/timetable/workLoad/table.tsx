@@ -8,9 +8,6 @@ import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { deleteData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
-// import showIcon from "../../../../assets/images/icons/show-action.svg";
-// import hideIcon from "../../../../assets/images/icons/hide-action.svg";
-// import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -27,21 +24,25 @@ const WorkLoadTable = ({
   refreshOnDelete,
   currentInstitute,
   refreshClassroomData,
+  workLoadApiResponseData
 }: any) => {
+  console.log()
   // custom react table Column === >>>
   const tableColumn = [
     {
       Header: "Full Name",
-      accessor: "userFirstName",
+      Cell: ({ row }: any) => {
+        return `${row.original.userFirstName} ${row.original.userLastName}`;
+      },
     },
     {
       Header: "Email",
       accessor: "userEmail",
     },
-    {
-      Header: "Department",
-      accessor: "",
-    },
+    // {
+    //   Header: "Department",
+    //   accessor: "",
+    // },
     {
       Header: "Load per week (Hours)",
       accessor: "workLoad",
@@ -58,37 +59,19 @@ const WorkLoadTable = ({
                 editHandler({
                   id: row.original.userId,
                   workLoad: row.original.workLoad,
+                  userFirstName: row.original.userFirstName,
+                  userLastName: row.original.userLastName,
+                  userEmail: row.original.userEmail,
                 })
               }
             />
           </Link>
-          {/* <Link
-            className={`action-icons ${
-              row.original.totalPrograms > 0 ? "disabled" : ""
-            }`}
-            to=""
-          >
-            <img
-              src={deleteIcon}
-              alt="Delete"
-              onClick={() =>
-                row.original.id > 0 ? deleteHandler(row.original.id) : null
-              }
-            />
-          </Link>{" "}
-          <Link
-            className="action-icons"
-            to=""
-          >
-            <img
-              src={row.original.published !== false ? showIcon : hideIcon}
-              alt="Show"
-            />
-          </Link> */}
         </span>
       ),
     },
   ];
+
+  console.log(workLoadData)
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
@@ -105,11 +88,20 @@ const WorkLoadTable = ({
   const [deleteId, setDeleteId] = useState<number>(0);
 
   // edit event handler === >>>
-  const editHandler = ({ id, workLoad }: any) => {
+  const editHandler = ({
+    id,
+    workLoad,
+    userFirstName,
+    userLastName,
+    userEmail,
+  }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
-      workLoad
+      workLoad,
+      userFirstName,
+      userLastName,
+      userEmail,
     });
     refreshClassroomData();
   };
