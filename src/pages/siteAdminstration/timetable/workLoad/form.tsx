@@ -9,14 +9,6 @@ import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
-// Formik Yup validation === >>>
-const departmentSchema = Yup.object({
-  // workLoad: Yup.number()
-  //   .integer("Number must be an integer")
-  //   .positive("Number must be positive")
-  //   .required("Number is required"),
-});
-
 const WorkLoadModal = ({
   show,
   onHide,
@@ -34,9 +26,26 @@ const WorkLoadModal = ({
     alertBoxColor: "",
   });
 
+    // Formik Yup validation === >>>
+  const workloadSchema = 
+  (workLoadObj.id === 0) ?
+    Yup.object({
+      defaultUserWorkload: Yup.number()
+        .integer("Number must be an integer")
+        .positive("Number must be positive")
+        .required("Number is required"),
+    })
+    :
+    Yup.object({
+      workLoad: Yup.number()
+        .integer("Number must be an integer")
+        .positive("Number must be positive")
+        .required("Number is required"),
+    })
+    
   // Initial values of react table === >>>
   const initialValues = {
-    workLoad: workLoadObj.workLoad !== 0 ? workLoadObj.workLoad : workLoadApiResponseData.default_workload,
+    workLoad: workLoadObj.workLoad !== null ? workLoadObj.workLoad : workLoadApiResponseData.default_workload,
     defaultUserWorkload: workLoadApiResponseData.default_workload,
   };
 
@@ -80,9 +89,9 @@ const WorkLoadModal = ({
           });
         });
     } else {
-      if(workLoadObj.workLoad === 0 ){
-        values = {workLoad: values.defaultUserWorkload}
-      }
+      // if(workLoadObj.workLoad === 0 ){
+      //   values = {workLoad: values.defaultUserWorkload}
+      // }
       delete values.defaultUserWorkload;
       console.log(values)
       let endPoint = `/${currentInstitute}/timetable/userworkload/${workLoadObj.id}`;
@@ -129,7 +138,7 @@ const WorkLoadModal = ({
         />
         <Formik
           initialValues={initialValues}
-          validationSchema={departmentSchema}
+          validationSchema={workloadSchema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
           }}
