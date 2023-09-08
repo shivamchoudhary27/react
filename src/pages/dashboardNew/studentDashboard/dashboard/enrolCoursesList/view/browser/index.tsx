@@ -111,9 +111,14 @@ const Browser = (props: Props) => {
           {course.map((item: any, index: number) => (
             <Col sm={6} lg={4} xl={3} key={index}>
               <Card body className="h-100">
-                <div className="mlcard-image">
-                  <Card.Img src={courseImage} alt={item.shortname} />
-                </div>
+                  <a 
+                    href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
+                    target="_blank"
+                  >
+                    <div className="mlcard-image">
+                      <Card.Img src={courseImage} alt={item.shortname} />
+                    </div>
+                  </a>
                 <div className="mlcard-title">
                   <h5>{item.name}</h5>
                   <span className="my-progress">
