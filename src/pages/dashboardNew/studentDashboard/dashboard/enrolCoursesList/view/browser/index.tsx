@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
@@ -11,7 +11,63 @@ type Props = {
   enrolCoreCoursesObj: any;
 };
 
+const courseStatusOptions = [
+  {id: 'inprogress', name: 'In Progress'},
+  {id: 'completed', name: 'Completed'},
+  {id: 'notstarted', name: 'Not Started'},
+];
+
 const Browser = (props: Props) => {
+  const [filterStatus, setFilterStatus] = useState({
+    selectedValues: {
+      // department: 0,
+      batchYear: 0,
+      program: 0,
+      category: 0,
+      status: 0
+    },
+    filterData: {
+      // departments: [],
+      batchYears: [],
+      programs: [],
+      categories: [],
+      status: courseStatusOptions,
+    },
+  });
+  const [course, setCourses] = useState([]);
+
+  useEffect(() => {
+    if (filterStatus.selectedValues.program > 0) {
+        if (filterStatus.selectedValues.category > 0) {
+          const filteredCourses =  props.coursesList.courses.filter(item => 
+            item.programId === filterStatus.selectedValues.program 
+            && 
+            item.categoryId === filterStatus.selectedValues.category
+          );
+          setCourses(filteredCourses);
+        } else {
+          const filteredCourses =  props.coursesList.courses.filter(item => 
+            item.programId === filterStatus.selectedValues.program 
+          );
+          setCourses(filteredCourses);
+        }
+    } else {
+      const uniqueProgramIds = new Set();
+
+      filterStatus.filterData.programs.forEach((item) => {
+        uniqueProgramIds.add(item.id);
+      });
+
+      const filteredData = props.coursesList.courses.filter(item => uniqueProgramIds.has(item.programId));
+      setCourses(filteredData);
+    }
+
+  }, [filterStatus]);
+
+  const updateCourses = (filterValues: any) => {
+    setFilterStatus(filterValues);
+  }
+
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
       (item: any) => item.idNumber === id
@@ -45,10 +101,14 @@ const Browser = (props: Props) => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses</h3>
-          <FilterProgramDropdown getCourseStatus={getCourseStatus} coursesList={props.coursesList} />
+          <FilterProgramDropdown 
+            getCourseStatus={getCourseStatus} 
+            coursesList={props.coursesList} 
+            updateCourses={updateCourses}
+          />
         </div>
         <Row className="g-4 mylearning-card">
-          {props.coursesList.courses.map((item: any, index: number) => (
+          {course.map((item: any, index: number) => (
             <Col sm={6} lg={4} xl={3} key={index}>
               <Card body className="h-100">
                 <div className="mlcard-image">

@@ -20,10 +20,13 @@ const courseStatusOptions = [
 ];
 
 const departmentOptions = (departments) => {
-  return Object.entries(departments).map(([id, name]) => ({
-    id: parseInt(id),
-    name
-  }));
+  if (departments !== undefined) {
+    return Object.entries(departments).map(([id, name]) => ({
+      id: parseInt(id),
+      name
+    }));
+  }
+  return [];
 }
 
 const filterProgramOptions = (departmentId, allPrograms) => {
@@ -148,7 +151,7 @@ const FilterProgramDropdown = (props: Props) => {
 
       let filteredPrograms = filterBatchYearPrograms(originalValue, filters.selectedValues.department, userEnrolData.programs);
       setFilters((prevFilterData: any) => ({
-        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0},
+        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0},
         filterData: {...prevFilterData.filterData, programs: filteredPrograms}
       }));
     }
