@@ -65,10 +65,13 @@ const batchYearOptions = (programs) => {
 const categoriesOptions = (programId, coursePacket) => {
   const filteredData = coursePacket.filter(item => item.programId === programId);
 
-  return filteredData.map(item => ({
+  const categoriesData = filteredData.map(item => ({
     id: item.categoryId,
     name: item.categoryName
   }));
+  // return categoriesData;
+  const trimDuplicateCategories = Array.from(new Set(categoriesData.map(JSON.stringify))).map(JSON.parse);
+  return trimDuplicateCategories;
 }
 
 const FilterProgramDropdown = (props: Props) => {
