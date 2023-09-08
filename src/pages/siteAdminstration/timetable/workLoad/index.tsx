@@ -89,10 +89,19 @@ const WorkLoad = () => {
   };
 
   // get userid from the work load table === >>>
-  const editHandlerById = ({ id, workLoad }: any) => {
+  const editHandlerById = ({
+    id,
+    workLoad,
+    userFirstName,
+    userLastName,
+    userEmail,
+  }: any) => {
     setClassroomObj({
       id: id,
-      workLoad: workLoad
+      workLoad: workLoad,
+      userFirstName: userFirstName,
+      userLastName: userLastName,
+      userEmail: userEmail,
     });
   };
 
@@ -100,7 +109,10 @@ const WorkLoad = () => {
   const resetClassroomForm = () => {
     setClassroomObj({
       id: 0,
-      workLoad: 0
+      workLoad: 0,
+      userFirstName: "",
+      userLastName: "",
+      userEmail: "",
     });
     setRefreshData(false);
   };
@@ -127,6 +139,7 @@ const WorkLoad = () => {
       toggleModalShow={toggleModalShow}
       refreshClassroomData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
+      workLoadApiResponseData={workLoadApiResponseData}
     />
   );
 
@@ -140,6 +153,7 @@ const WorkLoad = () => {
       refreshClassroomData={refreshToggle}
       onHide={() => toggleModalShow(false)}
       filterUpdate={filterUpdate}
+      workLoadApiResponseData={workLoadApiResponseData}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
