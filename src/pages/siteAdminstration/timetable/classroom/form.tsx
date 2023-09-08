@@ -16,7 +16,10 @@ const departmentSchema = Yup.object({
   type: Yup.string().required(),
   name: Yup.string().min(1).required(),
   departmentId: Yup.string().required(),
-  seatingCapacity: Yup.number().required(),
+  seatingCapacity: Yup.number()
+    .integer("Number must be an integer")
+    .positive("Number must be positive")
+    .required("Number is required"),
 });
 
 const ClassRoomModal = ({
