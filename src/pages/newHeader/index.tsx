@@ -38,17 +38,11 @@ const Header = ({ showRightNavs = true }: any) => {
       </Link>
       {showRightNavs !== false && (
         <React.Fragment>
-          <div className="row gx-2 me-2">
-            <div className="col-auto">
-              <label className="col-form-label">Institute: </label>
-            </div>
-            <div className="col-auto">
-              <InstituteFilter />
-            </div>
-          </div>
+          
+          <InstituteFilter />
 
           <RolesGlobalFilter />
-
+          
           <Nav as="ul" className="sh-toolbar">
             <Nav.Item as="li">
               <img src={searchIcon} alt="Search" />
