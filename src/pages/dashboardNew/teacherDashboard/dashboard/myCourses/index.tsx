@@ -58,7 +58,7 @@ const MyCourses = (props: Props) => {
     <>
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
-          <h3>My Courses Teacher</h3>
+          <h3>My Courses</h3>
           <FilterProgramDropdown 
             userCoursesData={props.userCoursesData} 
             setUserCoursesData={props.setUserCoursesData} 
