@@ -52,14 +52,27 @@ const InstituteFilter = () => {
   }
 
   return (
-    <select 
-      className="form-select"
-      value={selectedValue} 
-      onChange={getCurrentValue}>
-      {institutes.items.map((el: any, index: number) => (
-        <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
-      ))}
-    </select>
+    <>
+      {
+        institutes.items.length > 1
+        &&
+        <div className="row gx-2 me-2">
+          <div className="col-auto">
+            <label className="col-form-label">Institute: </label>
+          </div>
+          <div className="col-auto">
+            <select 
+              className="form-select"
+              value={selectedValue} 
+              onChange={getCurrentValue}>
+              {institutes.items.map((el: any, index: number) => (
+                <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+      }
+    </>
   );
 }
 

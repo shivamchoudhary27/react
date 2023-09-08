@@ -58,7 +58,7 @@ const RolesGlobalFilter = (props: Props) => {
   return (
     <>
       {
-        dashboardRoles.length > 0   
+        dashboardRoles.length > 1   
           ?
           (
             <div className="row gx-2 me-2">
