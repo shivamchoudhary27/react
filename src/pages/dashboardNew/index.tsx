@@ -42,7 +42,7 @@ const DashboardNew = (props: Props) => {
   }, [currentUserRole, id]);
 
   useEffect(() => {
-    // console.log(userCoursesData.courses, enrolCoreCoursesObj)
+    // inprogress ... to merge the course status, grade, badges information
   }, [enrolCoreCoursesObj, userCoursesData]);
 
   return (
