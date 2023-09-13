@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -45,7 +45,7 @@ const WorkLoadModal = ({
     
   // Initial values of react table === >>>
   const initialValues = {
-    workLoad: workLoadObj.workLoad !== null ? workLoadObj.workLoad : workLoadApiResponseData.default_workload,
+    workLoad: workLoadObj.workLoad,
     defaultUserWorkload: workLoadApiResponseData.default_workload,
   };
 
@@ -89,11 +89,7 @@ const WorkLoadModal = ({
           });
         });
     } else {
-      // if(workLoadObj.workLoad === 0 ){
-      //   values = {workLoad: values.defaultUserWorkload}
-      // }
       delete values.defaultUserWorkload;
-      console.log(values)
       let endPoint = `/${currentInstitute}/timetable/userworkload/${workLoadObj.id}`;
       setSubmitting(true);
       putData(endPoint, values)

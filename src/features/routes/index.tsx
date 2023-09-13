@@ -31,6 +31,7 @@ import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selecte
 import DashboardNew from '../../pages/dashboardNew';
 import ClassRoom from '../../pages/siteAdminstration/timetable/classroom';
 import WorkLoad from '../../pages/siteAdminstration/timetable/workLoad';
+import ManageCoursesWorkLoad from '../../pages/siteAdminstration/timetable/manageCoursesWorkLoad';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -56,6 +57,7 @@ export default function NewCustomRoutes() {
           <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
           <Route path="/classroom" key="classroom" element={<ClassRoom />} />
           <Route path="/workload" key="workload" element={<WorkLoad />} />
+          <Route path="/managecoursesworkload/:id/:name" key="managecoursesworkload" element={<ManageCoursesWorkLoad />} />,
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}

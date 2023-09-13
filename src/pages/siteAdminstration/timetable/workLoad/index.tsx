@@ -11,12 +11,13 @@ import HeaderTabs from "../../../headerTabs";
 import PageTitle from "../../../../widgets/pageTitle";
 import { pagination } from "../../../../utils/pagination";
 import BuildPagination from "../../../../widgets/pagination";
-import { getData } from "../../../../adapters/microservices";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import { getData, putData } from "../../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 const WorkLoad = () => {
   const dummyData = {
+    default_workload: 0,
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
@@ -49,16 +50,39 @@ const WorkLoad = () => {
   }, [currentInstitute]);
 
   useEffect(() => {
+    let endPoint = `/${currentInstitute}/timetable/userworkload`;
     if (currentInstitute > 0) {
-      let endPoint = `/${currentInstitute}/timetable/userworkload`;
-      makeGetDataRequest(
-        endPoint,
-        filterUpdate,
-        setWorkLoadApiResponseData,
-        setApiStatus
-      );
-    }
+      getData(endPoint, filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            for (const key in result.data.items) {
+              const value = result.data.items[key];
+              if (
+                value.workLoad === 0 &&
+                workLoadApiResponseData.default_workload > 0
+              ) {
+                value.workLoad = workLoadApiResponseData.default_workload;
+                // renderFacultyDefaultWorkLoadValue(value.userId, value.workLoad);
+              }
+            }
+            setWorkLoadApiResponseData(result.data);
+          }
+          setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setApiStatus("finished");
+        });
+      }
   }, [refreshData, filterUpdate, currentInstitute]);
+
+  console.log("workLoadApiResponseData---", workLoadApiResponseData)
+
+  // function renderFacultyDefaultWorkLoadValue(id: any, val: any) {
+  //   let endPoint = `/${currentInstitute}/timetable/userworkload/${id}`;
+  //   putData(endPoint, {workLoad: val}).then((res: any) => {});
+  // }
+
 
   // API call on delete === >>>
   useEffect(() => {
@@ -135,11 +159,11 @@ const WorkLoad = () => {
       apiStatus={apiStatus}
       currentInstitute={currentInstitute}
       workLoadData={workLoadApiResponseData.items}
+      workLoadApiResponseData={workLoadApiResponseData}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       refreshClassroomData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
-      workLoadApiResponseData={workLoadApiResponseData}
     />
   );
 
@@ -147,13 +171,13 @@ const WorkLoad = () => {
     <WorkLoadModal
       show={modalShow}
       workLoadObj={classroomObj}
+      filterUpdate={filterUpdate}
       currentInstitute={currentInstitute}
       departmentList={departmentList.items}
+      workLoadApiResponseData={workLoadApiResponseData}
       togglemodalshow={toggleModalShow}
       refreshClassroomData={refreshToggle}
       onHide={() => toggleModalShow(false)}
-      filterUpdate={filterUpdate}
-      workLoadApiResponseData={workLoadApiResponseData}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
