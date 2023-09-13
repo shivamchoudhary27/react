@@ -1,19 +1,13 @@
 import { useTable } from "react-table";
-import { useDispatch } from "react-redux";
+import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "sweetalert2/src/sweetalert2.scss";
-import { Link, useNavigate } from "react-router-dom";
-import MobileDepartmentTable from "./view/mobile/table";
-import BrowserDepartmentTable from "./view/browser/table";
-import { isMobile, isDesktop } from "react-device-detect";
-import React, { useMemo, useState, useEffect } from "react";
-import { Type_AlertMsg, Type_DepartmentObj } from "./types/type";
-import editIcon from "../../../assets/images/icons/edit-action.svg";
-import showIcon from "../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../assets/images/icons/hide-action.svg";
-import { globalAlertActions } from "../../../store/slices/globalAlerts";
-import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import { globalFilterActions } from "../../../store/slices/globalFilters";
-import programIcon from "../../../assets/images/icons/manage-program-action.svg";
+import Errordiv from "../../../widgets/alert/errordiv";
+import React, { useMemo, useEffect, useState } from "react";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import { deleteData } from "../../../adapters/microservices";
+// import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import manageCoursesIcon from "../../../assets/images/icons/manage-courses-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -23,109 +17,173 @@ const actionsStyle = {
 };
 
 type Props = {
-  permissions: any;
+  // permissions: any;
   apiStatus: string;
-  departmentData: any;
+  timeTableData: any;
   editHandlerById: any;
   currentInstitute: number;
-  refreshDepartmentData: () => void;
   refreshOnDelete: (param: boolean) => void;
-  toggleModalShow: (param: boolean) => void;
 };
 
-const DepartmentTable: React.FunctionComponent<Props> = ({
+const TimetableTable: React.FunctionComponent<Props> = ({
   ...props
 }: Props) => {
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Department",
+      Header: "Programs",
       accessor: "name",
     },
     {
-      Header: "Program Attached",
-      accessor: "totalPrograms",
+      Header: "Batch Year",
+      accessor: "batchYear",
     },
     {
-      Header: "Manage Programs",
+      Header: "Program code",
+      accessor: "programCode",
+    },
+    {
+      Header: "Course Work Load",
+      accessor: "manage_courses",
       Cell: ({ row }: any) => (
         <Link
           className="action-icons"
-          to=""
-          onClick={() => manageDepartmentPrograms(row.original.id)}
+          to={`/managecoursesworkload/${row.original.id}/${row.original.name}`}
         >
-          <img src={programIcon} alt="Manage Program" />
+          <img src={manageCoursesIcon} alt="Manage Courses" />
         </Link>
       ),
     },
     {
-      Header: "Actions",
-      Cell: ({ row }: any) => (
-        <span style={actionsStyle}>
-          {props.permissions.canEdit && (
-            <Link className="action-icons" to="">
-              <img
-                src={editIcon}
-                alt="Edit"
-                onClick={() =>
-                  editHandler({
-                    id: row.original.id,
-                    name: row.original.name,
-                    published: row.original.published,
-                  })
-                }
-              />
-            </Link>
-          )}
-          {props.permissions.canDelete && (
-            <Link
-              className={`action-icons ${
-                row.original.totalPrograms > 0 ? "disabled" : ""
-              }`}
-              to=""
-            >
-              <img
-                src={deleteIcon}
-                alt="Delete"
-              />
-            </Link>
-          )}
-          {props.permissions.canEdit && (
-            <Link
-              className="action-icons"
-              to=""
-            >
-              <img
-                src={row.original.published !== false ? showIcon : hideIcon}
-                alt="Show"
-              />
-            </Link>
-          )}
-        </span>
-      ),
+      Header: "Draft Version",
+      accessor: "",
+    },
+    {
+      Header: "Faculty Change Request",
+      accessor: "",
+    },
+    {
+      Header: "Publish",
+      accessor: "",
+    },
+    {
+      Header: "View Timetable",
+      accessor: "",
     },
   ];
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.departmentData, [props.departmentData]);
+  const data = useMemo(() => props.timeTableData, [props.timeTableData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [onDeleteAction, setOnDeleteAction] = useState("");
+  const [deleteId, setDeleteId] = useState({ id: 0, instituteId: 0 });
+
+  useEffect(() => {
+    if (onDeleteAction === "Yes") {
+      let endPoint = `/${deleteId.instituteId}/programs/${deleteId.id}`;
+      deleteData(endPoint)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            props.refreshOnDelete(true);
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Deleted successfully",
+              alertBoxColor: "success",
+            });
+          } else if (res.status === 500) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: "Unable to delete, some error occurred.",
+              alertBoxColor: "danger",
+            });
+          }
+        })
+        .catch((result: any) => {
+          if (result.response.status === 400) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: result.response.data.message,
+              alertBoxColor: "danger",
+            });
+          } else if (result.response.status === 500) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: result.response.data.message,
+              alertBoxColor: "danger",
+            });
+          }
+        });
+    }
+    setOnDeleteAction("");
+  }, [onDeleteAction]);
+
+  const deleteHandler = (id: number, instituteId: number) => {
+    props.refreshOnDelete(false);
+    setShowDeleteModal(true);
+    setDeleteId({ id: id, instituteId: instituteId });
+  };
+
+  // getting onDelete Modal Action === >>>
+  const deleteActionResponse = (action: string) => {
+    setOnDeleteAction(action);
+    setShowDeleteModal(false);
+  };
 
   return (
     <React.Fragment>
-      {isMobile ? (
-        <MobileDepartmentTable commonProps={commonProps} />
-      ) : isDesktop ? (
-        <BrowserDepartmentTable commonProps={commonProps} />
-      ) : (
-        <BrowserDepartmentTable commonProps={commonProps} />
-      )}
+      <div className="table-responsive admin-table-wrapper mt-3">
+        <Table borderless striped {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup, index) => (
+              <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                {headerGroup.headers.map((column, index) => (
+                  <th {...column.getHeaderProps()} key={index}>
+                    {column.render("Header")}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          {data.length > 0 && (
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row, index) => {
+                prepareRow(row);
+                return (
+                  <tr {...row.getRowProps()} key={index}>
+                    {row.cells.map((cell, index) => (
+                      <td {...cell.getCellProps()} key={index}>
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
+        </Table>
+        {props.apiStatus === "started" && props.timeTableData.length === 0 && (
+          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+        )}
+        {props.apiStatus === "finished" && props.timeTableData.length === 0 && (
+          <Errordiv msg="No record found!" cstate className="mt-3" />
+        )}
+      </div>
+      {/* <DeleteAlert
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        deleteActionResponse={deleteActionResponse}
+        modalHeading="Program"
+      /> */}
     </React.Fragment>
   );
 };
 
-export default DepartmentTable;
+export default TimetableTable;

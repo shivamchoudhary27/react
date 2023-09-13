@@ -58,7 +58,7 @@ const WorkLoadTable = ({
               onClick={() =>
                 editHandler({
                   id: row.original.userId,
-                  workLoad: row.original.workLoad,
+                  workLoad: row.original.workLoad !== null && row.original.workLoad,
                   userFirstName: row.original.userFirstName,
                   userLastName: row.original.userLastName,
                   userEmail: row.original.userEmail,

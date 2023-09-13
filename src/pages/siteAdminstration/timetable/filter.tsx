@@ -54,6 +54,7 @@ const Filter = ({
           </Row>
         </form>
         <div>
+          {/* <Button variant="primary" onClick="">Add Timetable</Button>{" "} */}
           <Button variant="primary" onClick={() => navigate('/classroom')}>Manage Classroom</Button>{" "}
           <Button variant="primary" onClick={() => navigate('/workload')}>Faculty Work Load</Button>{" "}
           <Button variant="primary" onClick={calendarConfig}>Events Color</Button>

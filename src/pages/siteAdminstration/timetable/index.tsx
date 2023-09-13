@@ -10,13 +10,20 @@ import { pagination } from "../../../utils/pagination";
 import Errordiv from "../../../widgets/alert/errordiv";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
-
+import { useSelector } from "react-redux";
+import { getData } from "../../../adapters/microservices";
+import TimetableTable from "./table";
 
 const TimeTable = () => {
-  const [modalShow, setModalShow] = useState(false);
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const [timeTableData, setTimeTableData] = useState(dummyData);
+  const [refreshOnDelete, setRefreshOnDelete] = useState(false);
   const [departmentObj, setDepartmentObj] = useState({});
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [refreshData, setRefreshData] = useState(true);
+  const [modalShow, setModalShow] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
@@ -24,6 +31,41 @@ const TimeTable = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+  const currentInstitute = useSelector(
+    (state) => state.globalFilters.currentInstitute
+  );
+
+  // timetable call back function === >>>
+  const getTimeTableData = (endPoint: string, filters: any) => {
+    setApiStatus("started");
+    getData(endPoint, filters)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          // for (const key in result.data.items) {
+          //   if (
+          //     typeof result.data.items[key] === "object" &&
+          //     !Array.isArray(result.data.items[key])
+          //   ) {
+          //     result.data.items[key].instituteId = currentInstitute;
+          //   }
+          // }
+          setTimeTableData(result.data);
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  };
+
+  // get programs API call === >>>
+  useEffect(() => {
+    if (currentInstitute > 0)
+      getTimeTableData(`/${currentInstitute}/programs`, filterUpdate);
+  }, [refreshData, filterUpdate, currentInstitute]);
+
+  console.log("timeTableData------", timeTableData);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -58,7 +100,7 @@ const TimeTable = () => {
   };
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
-  const DEPARTMENT_FILTER_COMPONENT = (
+  const TIMETABLE_FILTER_COMPONENT = (
     <Filter
       // departmentData={departmentData.items}
       toggleModalShow={toggleModalShow}
@@ -68,6 +110,18 @@ const TimeTable = () => {
       updateInputFilters={updateInputFilters}
     />
   );
+
+  const TIMETABLE_TABLE_COMPONENT = (
+    <TimetableTable
+      apiStatus={apiStatus}
+      currentInstitute={currentInstitute}
+      timeTableData={timeTableData.items}
+      editHandlerById={editHandlerById}
+      refreshOnDelete={refreshOnDeleteToggle}
+    />
+  );
+
+  console.log("timeTableData------", timeTableData)
 
   // <<< ==== END COMPONENTS ==== >>>
 
@@ -84,14 +138,14 @@ const TimeTable = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
-          {DEPARTMENT_FILTER_COMPONENT}
-          <Errordiv msg="Work in progress..." cstate className="mt-3" />
+          {TIMETABLE_FILTER_COMPONENT}  
+          {TIMETABLE_TABLE_COMPONENT}
+          {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}
           <BuildPagination
             totalpages=""
             activepage={filterUpdate.pageNumber}
             getrequestedpage={newPageRequest}
           />
-          
         </Container>
       </div>
       <Footer />
