@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { postData, getData, deleteData } from "../../../../../adapters/microservices";
+import { putData, getData, deleteData } from "../../../../../adapters/microservices";
 import StarRating from "../../../../../widgets/rating";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
@@ -17,28 +17,33 @@ const calculateNetRating = (ratingArray: number[]) => {
   return (total / ratingArray.length).toFixed(1);
 }
 
+const roundToWhole = (number : number) => {
+  return ((number % 1) >= 0.5) ? Math.ceil(number) : Math.floor(number);
+}
+
 const programRatingTemplate = {
   averageRating: 0,
   oneStar: 0,
   twoStar: 0,
   threeStar: 0,
   fourStar: 0,
-  fiveStar: 0
+  fiveStar: 0,
+  currentRating: 0,
 }
+
 const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
-  const [newRating, setNewRating] = useState<number>(0);
+  const [currentRating, setCurrentRating] = useState<number>(0);
   const [modalShow, setModalShow] = useState<boolean>(false);
-  // const [ratingProgress, setRatingProgress] = useState<number>(0);
-  const [ratingBars, setRatingBars] = useState(['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar']);
-  // const [netRating, setNetRating] = useState(calculateNetRating(ratingPercentages));
   const [programRating, setProgramRating] = useState(programRatingTemplate);
   const [refreshRating, setRefreshRating] = useState<boolean>(false);
+  const ratingBars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
 
   useEffect(() => {
     getData(`/rating/${programid}`, {})
       .then((result: any) => {
         if (result.status === 200 && result.data.averageRating !== undefined) {
           setProgramRating(result.data);
+          setCurrentRating(result.data.currentRating);
         }
       })
       .catch((err: any) => {
@@ -51,9 +56,9 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   };
 
   const handleRating = (getRatingCount: any) => {
-    setNewRating(getRatingCount);
+    setCurrentRating(getRatingCount);
 
-    postData("rating", {
+    putData("rating", {
       rating: getRatingCount,
       itemType: "PROGRAM",
       itemId: parseInt(programid),
@@ -70,7 +75,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   };
 
   const resetUserRating = () => {
-    setNewRating(0);
+    setCurrentRating(0);
     deleteData("rating", {
       itemType: "PROGRAM",
       rating: 0,
@@ -88,10 +93,6 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
       setModalShow(false);
     });
   }
-  // useEffect(() => {
-  //   let getRatingCount = newRating * 20;
-  //   setRatingProgress(getRatingCount);
-  // }, [newRating]);
 
   return (
     <React.Fragment>
@@ -102,7 +103,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
             <h2 className="rating-count">{`${programRating.averageRating.toFixed(2)}`}</h2>
             <StarRating
               totalStars={5}
-              currentRating={programRating.averageRating.toFixed(2)}
+              currentRating={roundToWhole(programRating.averageRating)}
             />
             <CustomButton
               type="button"
@@ -139,7 +140,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
       <StartRatingModal
         show={modalShow}
         onHide={() => setModalShow(false)}
-        newRating={newRating}
+        newRating={currentRating}
         handleRating={handleRating}
         resetUserRating={resetUserRating}
       />
