@@ -102,7 +102,7 @@ const CourseWorkLoadModal = ({
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    console.log(values);
+    
     if (courseobj.id > 0) {
       const endPoint = `${currentInstitute}/timetable/courseworkload/${courseobj.id}`;
       setSubmitting(true);

@@ -34,7 +34,7 @@ const CourseWorkLoadTable = ({
   setFormWeightValue,
   updatedeleterefresh,
 }: any) => {
-  console.log(categoryData);
+
   const tableColumn = [
     {
       Header: "Categories",
@@ -67,10 +67,12 @@ const CourseWorkLoadTable = ({
     {
       Header: "Theory (Load Per Week)",
       accessor: "theoryWorkload",
+      draggable: false,
     },
     {
       Header: "Lab (Load Per Week)",
       accessor: "labWorkload",
+      draggable: false,
     },
     {
       Header: "Actions",
@@ -131,12 +133,10 @@ const CourseWorkLoadTable = ({
     data: { coursedetail: "", category: 0 },
     status: "nutral",
   });
-  const [forceRender, setForceRender] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
-  const [deleteId, setDeleteId] = useState(0);
 
   useEffect(() => {
     if (categoryData.length > 0) setSelectedData(categoryData);
@@ -171,35 +171,8 @@ const CourseWorkLoadTable = ({
     }
   }, [updatecourse]);
 
-  const toggleCoursePublished = (coursePacket: any) => {
-    let updateCourseData = {
-      name: coursePacket.coursedetail.name,
-      courseCode: coursePacket.coursedetail.courseCode,
-      description: coursePacket.coursedetail.description,
-      published: !coursePacket.coursedetail.published,
-      category: { id: coursePacket.catid },
-    };
-    // coursePacket.published = !coursePacket.published;
-    setForceRender((prevState) => !prevState);
-    let endPoint = `${programId}/course/${coursePacket.courseid}`;
-    putData(endPoint, updateCourseData)
-      .then((res: any) => {
-        setForceRender((prevState) => !prevState);
-      })
-      .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
-        // coursePacket.published = !coursePacket.published
-        // setForceRender(prevState => !prevState);
-      });
-  };
-
   // category Table Elements Update handler === >>
   const editHandler = ({ id, name, labWorkload, theoryWorkload }: any) => {
-    // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
     editHandlerById({
       id: id,
@@ -229,7 +202,6 @@ const CourseWorkLoadTable = ({
       });
       return;
     }
-    // if
     let updateCourseCategory = categoryData[catShifting].coursedetails;
 
     setUpdateCourse({
@@ -246,74 +218,10 @@ const CourseWorkLoadTable = ({
     setSelectedData(temp);
   };
 
-  // category Table Elements Delete handler === >>
-  // useEffect(() => {
-  //   updatedeleterefresh(false);
-  //   if (onDeleteAction === "Yes") {
-  //     const endPoint = `${programId}/course/${deleteId}`;
-  //     deleteCategoryData(endPoint)
-  //       .then((res: any) => {
-  //         if (res.status === 200) {
-  //           updatedeleterefresh(true);
-  //           setShowAlert(true);
-  //           setAlertMsg({
-  //             message: "deleted successfully",
-  //             alertBoxColor: "success",
-  //           });
-  //         }
-  //       })
-  //       .catch((result: any) => {
-  //         if (result.response.status === 500) {
-  //           setShowAlert(true);
-  //           setAlertMsg({
-  //             message: "Unable to delete, this course might have come courses",
-  //             alertBoxColor: "danger",
-  //           });
-  //         }
-  //         if (result.response.status === 400) {
-  //           setShowAlert(true);
-  //           setAlertMsg({
-  //             message: "Unable to delete",
-  //             alertBoxColor: "danger",
-  //           });
-  //         }
-  //         if (result.response.status === 404) {
-  //           setShowAlert(true);
-  //           setAlertMsg({
-  //             message: "Unable to delete",
-  //             alertBoxColor: "danger",
-  //           });
-  //         }
-  //       });
-  //   }
-  //   setOnDeleteAction("");
-  // }, [onDeleteAction]);
-
-  // delete event handler === >>>
-  const deleteHandler = (courseID: number) => {
-    updatedeleterefresh(false);
-    setShowDeleteModal(true);
-    setDeleteId(courseID);
-  };
-
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
     setOnDeleteAction(action);
     setShowDeleteModal(false);
-  };
-
-  // category Table Elements hide/show toggle handler === >>
-  const showToggleHandler = (id: number) => {
-    // console.log(id);
-  };
-
-  // handle to add new sub category === >>
-  const addSubCategoryHandler = (id: number) => {
-    cleanFormValues();
-    let largestWeight = getLatestWeightForCategory(id, categoryData);
-    setFormParentValue(id);
-    setFormWeightValue(largestWeight);
-    toggleModalShow(true);
   };
 
   const setLevelPadding = (level: number) => {
