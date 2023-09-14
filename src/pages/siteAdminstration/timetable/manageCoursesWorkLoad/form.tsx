@@ -15,8 +15,14 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
   name: Yup.string().trim().required("Course name is required"),
-  theoryWorkload: Yup.string().trim().required("Theory work load is required"),
-  labWorkload: Yup.string().trim().required("Lab work load is required"),
+  theoryWorkload: Yup.number()
+    .integer("Number must be an integer")
+    .positive("Number must be positive")
+    .required("Number is required"),
+  labWorkload: Yup.number()
+    .integer("Number must be an integer")
+    .positive("Number must be positive")
+    .required("Number is required"),
 });
 
 const CourseWorkLoadModal = ({
@@ -102,7 +108,7 @@ const CourseWorkLoadModal = ({
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    
+
     if (courseobj.id > 0) {
       const endPoint = `${currentInstitute}/timetable/courseworkload/${courseobj.id}`;
       setSubmitting(true);
@@ -173,8 +179,9 @@ const CourseWorkLoadModal = ({
                     required="required"
                   />
                   <FieldTypeText
+                    type="number"
                     name="theoryWorkload"
-                    placeholder="Theory Work Load"
+                    placeholder="Theory work load"
                   />
                   <FieldErrorMessage
                     errors={errors.theoryWorkload}
@@ -191,8 +198,9 @@ const CourseWorkLoadModal = ({
                     required="required"
                   />
                   <FieldTypeText
+                    type="number"
                     name="labWorkload"
-                    placeholder="Lab Work Load"
+                    placeholder="Lab work load"
                   />
                   <FieldErrorMessage
                     errors={errors.labWorkload}

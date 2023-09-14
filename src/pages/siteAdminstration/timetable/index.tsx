@@ -1,5 +1,5 @@
 import "./style.scss";
-import Filter from "./filter";
+import Filters from "./filters";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
@@ -101,14 +101,7 @@ const TimeTable = () => {
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const TIMETABLE_FILTER_COMPONENT = (
-    <Filter
-      // departmentData={departmentData.items}
-      toggleModalShow={toggleModalShow}
-      resetDepartmentForm={resetDepartmentForm}
-      // setDepartmentData={setDepartmentData}
-      // refreshDepartmentData={refreshToggle}
-      updateInputFilters={updateInputFilters}
-    />
+    <Filters updateInputFilters={updateInputFilters} />
   );
 
   const TIMETABLE_TABLE_COMPONENT = (
@@ -121,7 +114,7 @@ const TimeTable = () => {
     />
   );
 
-  console.log("timeTableData------", timeTableData)
+  console.log("timeTableData------", timeTableData);
 
   // <<< ==== END COMPONENTS ==== >>>
 
@@ -138,7 +131,7 @@ const TimeTable = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
-          {TIMETABLE_FILTER_COMPONENT}  
+          {TIMETABLE_FILTER_COMPONENT}
           {TIMETABLE_TABLE_COMPONENT}
           {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}
           <BuildPagination
