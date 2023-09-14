@@ -34,6 +34,7 @@ const WorkLoad = () => {
   );
   const [filterUpdate, setFilterUpdate] = useState({
     name: "",
+    email: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -108,8 +109,8 @@ const WorkLoad = () => {
     });
   };
 
-  const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
+  const updateInputFilters = (inputvalues: any, inputEmail: any) => {
+    setFilterUpdate({ ...filterUpdate, name: inputvalues, email: inputEmail, pageNumber: 0 });
   };
 
   // get userid from the work load table === >>>
