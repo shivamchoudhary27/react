@@ -65,8 +65,6 @@ const TimeTable = () => {
       getTimeTableData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshData, filterUpdate, currentInstitute]);
 
-  console.log("timeTableData------", timeTableData);
-
   const refreshToggle = () => {
     setRefreshData(!refreshData);
   };
@@ -113,8 +111,6 @@ const TimeTable = () => {
       refreshOnDelete={refreshOnDeleteToggle}
     />
   );
-
-  console.log("timeTableData------", timeTableData);
 
   // <<< ==== END COMPONENTS ==== >>>
 
