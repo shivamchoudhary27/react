@@ -1,15 +1,20 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import ManageDropdown from "./manageDropdown";
 import { Button, Row, Col } from "react-bootstrap";
-import { filterConfig } from "../../../utils/filterTimeout";
-import { useNavigate } from "react-router-dom";
+import { filterConfig } from "../../../../utils/filterTimeout";
 
 const initialValues = {
   name: "",
 };
 
-const Filters = ({ updateInputFilters }: any) => {
-  const navigate = useNavigate();
+const Filters = ({
+  yearOptions,
+  toggleModalShow,
+  updateInputFilters,
+  resetHolidaysForm,
+  updateHolidaysFilter,
+}: any) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const formik = useFormik({
@@ -17,14 +22,14 @@ const Filters = ({ updateInputFilters }: any) => {
     onSubmit: (values: any) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       let newRequest = {
-        name: values.name,
+        year: values.name,
       };
-      updateInputFilters(newRequest.name);
+      updateInputFilters(newRequest.year);
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
-        name: "",
+        year: "",
       });
       updateInputFilters("");
     },
@@ -45,10 +50,9 @@ const Filters = ({ updateInputFilters }: any) => {
   };
 
   // handle to open Add Department modal === >>>
-  const calendarConfig = () => {
-    navigate("/calenderconfig");
-    // toggleModalShow(true);
-    // resetDepartmentForm(true);
+  const openAddHoliday = () => {
+    toggleModalShow(true);
+    resetHolidaysForm(true);
   };
 
   return (
@@ -57,17 +61,9 @@ const Filters = ({ updateInputFilters }: any) => {
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <label htmlFor="name" hidden>
-                Name
-              </label>
-              <input
-                className="form-control"
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Name"
-                onChange={handleFilterChange}
-                value={formik.values.name}
+              <ManageDropdown
+                yearOptions={yearOptions}
+                updateHolidaysFilter={updateHolidaysFilter}
               />
             </Col>
             <Col>
@@ -78,6 +74,7 @@ const Filters = ({ updateInputFilters }: any) => {
                 variant="outline-secondary"
                 type="reset"
                 onClick={formik.handleReset}
+                className="me-2"
               >
                 Reset
               </Button>
@@ -85,21 +82,9 @@ const Filters = ({ updateInputFilters }: any) => {
           </Row>
         </form>
         <div className="site-button-group">
-          <div>
-            {/* <Button variant="primary" onClick="">Add Timetable</Button>{" "} */}
-            <Button variant="primary" onClick={() => navigate("/classroom")}>
-              Manage Classroom
-            </Button>{" "}
-            <Button variant="primary" onClick={() => navigate("/holidays")}>
-              Manage Holidays
-            </Button>{" "}
-            <Button variant="primary" onClick={() => navigate("/workload")}>
-              Faculty Work Load
-            </Button>{" "}
-            <Button variant="primary" onClick={calendarConfig}>
-              Events Color
-            </Button>
-          </div>
+          <Button variant="primary" onClick={openAddHoliday}>
+            Add Holiday
+          </Button>{" "}
         </div>
       </div>
     </React.Fragment>

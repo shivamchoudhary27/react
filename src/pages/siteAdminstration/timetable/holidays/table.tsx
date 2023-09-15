@@ -8,6 +8,9 @@ import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { deleteData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
+import showIcon from "../../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../../assets/images/icons/hide-action.svg";
+import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -16,36 +19,28 @@ const actionsStyle = {
   justifyContent: "space-evenly",
 };
 
-const WorkLoadTable = ({
+const HolidaysTable = ({
   apiStatus,
-  workLoadData,
+  holidaysData,
   editHandlerById,
   toggleModalShow,
   refreshOnDelete,
   currentInstitute,
-  refreshClassroomData,
-  workLoadApiResponseData
+  refreshHolidaysData,
 }: any) => {
-  console.log()
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Full Name",
-      Cell: ({ row }: any) => {
-        return `${row.original.userFirstName} ${row.original.userLastName}`;
-      },
+      Header: "Holiday Name",
+      accessor: "name",
     },
     {
-      Header: "Email",
-      accessor: "userEmail",
+      Header: "Date",
+      accessor: "holidayDate",
     },
-    // {
-    //   Header: "Department",
-    //   accessor: "",
-    // },
     {
-      Header: "Load per week (Hours)",
-      accessor: "workLoad",
+      Header: "Year",
+      accessor: "year",
     },
     {
       Header: "Actions",
@@ -57,13 +52,32 @@ const WorkLoadTable = ({
               alt="Edit"
               onClick={() =>
                 editHandler({
-                  id: row.original.userId,
-                  workLoad: row.original.workLoad !== null && row.original.workLoad,
-                  userFirstName: row.original.userFirstName,
-                  userLastName: row.original.userLastName,
-                  userEmail: row.original.userEmail,
+                  id: row.original.id,
+                  name: row.original.name,
+                  year: row.original.year,
+                  holidayDate: row.original.holidayDate,
                 })
               }
+            />
+          </Link>
+          <Link
+            className={`action-icons ${
+              row.original.totalPrograms > 0 ? "disabled" : ""
+            }`}
+            to=""
+          >
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() =>
+                row.original.id > 0 ? deleteHandler(row.original.id) : null
+              }
+            />
+          </Link>{" "}
+          <Link className="action-icons" to="">
+            <img
+              src={row.original.published !== false ? showIcon : hideIcon}
+              alt="Show"
             />
           </Link>
         </span>
@@ -73,7 +87,7 @@ const WorkLoadTable = ({
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => workLoadData, [workLoadData]);
+  const data = useMemo(() => holidaysData, [holidaysData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -86,27 +100,20 @@ const WorkLoadTable = ({
   const [deleteId, setDeleteId] = useState<number>(0);
 
   // edit event handler === >>>
-  const editHandler = ({
-    id,
-    workLoad,
-    userFirstName,
-    userLastName,
-    userEmail,
-  }: any) => {
+  const editHandler = ({ id, name, year, holidayDate }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
-      workLoad,
-      userFirstName,
-      userLastName,
-      userEmail,
+      name,
+      year,
+      holidayDate,
     });
-    refreshClassroomData();
+    refreshHolidaysData();
   };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endPoint: string = `${currentInstitute}/timetable/classroom/${deleteId}`;
+      let endPoint: string = `${currentInstitute}/timetable/holiday/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -194,16 +201,16 @@ const WorkLoadTable = ({
             })}
           </tbody>
         </Table>
-        {apiStatus === "started" && workLoadData.length === 0 && (
+        {apiStatus === "started" && holidaysData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && workLoadData.length === 0 && (
+        {apiStatus === "finished" && holidaysData.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
       <DeleteAlert
         show={showDeleteModal}
-        modalHeading="Department"
+        modalHeading="Holiday"
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
       />
@@ -211,4 +218,4 @@ const WorkLoadTable = ({
   );
 };
 
-export default WorkLoadTable;
+export default HolidaysTable;

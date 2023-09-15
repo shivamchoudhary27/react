@@ -59,11 +59,11 @@ const WorkLoad = () => {
             for (const key in result.data.items) {
               const value = result.data.items[key];
               if (
-                value.workLoad === 0 &&
+                value.workLoad === null &&
                 workLoadApiResponseData.default_workload > 0
               ) {
                 value.workLoad = workLoadApiResponseData.default_workload;
-                // renderFacultyDefaultWorkLoadValue(value.userId, value.workLoad);
+                renderFacultyDefaultWorkLoadValue(value.userId, value.workLoad);
               }
             }
             setWorkLoadApiResponseData(result.data);
@@ -77,13 +77,10 @@ const WorkLoad = () => {
       }
   }, [refreshData, filterUpdate, currentInstitute]);
 
-  console.log("workLoadApiResponseData---", workLoadApiResponseData)
-
-  // function renderFacultyDefaultWorkLoadValue(id: any, val: any) {
-  //   let endPoint = `/${currentInstitute}/timetable/userworkload/${id}`;
-  //   putData(endPoint, {workLoad: val}).then((res: any) => {});
-  // }
-
+  function renderFacultyDefaultWorkLoadValue(id: any, val: any) {
+    let endPoint = `/${currentInstitute}/timetable/userworkload/${id}`;
+    putData(endPoint, {workLoad: val}).then((res: any) => {});
+  }
 
   // API call on delete === >>>
   useEffect(() => {
