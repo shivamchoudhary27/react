@@ -11,7 +11,6 @@ const InstituteFilter = () => {
   const filters = {pageNumber: 0, pageSize : 50};
   const [selectedValue, setSelectedValue] = useState('');
 
-  // department API call === >>>
   useEffect(() => {
     getData('/institutes', filters)
     .then((result : any) => {
@@ -28,8 +27,6 @@ const InstituteFilter = () => {
 
   useEffect(() => {
     if (institutes.items.length > 0) {
-      // const setValue = (currentInstitute === 0) ? 0 : institutes.items[0].id;
-      // updateCurrentInstitute(setValue);
       if (currentInstitute === 0) {
         setSelectedValue(institutes.items[0].id);
         dispatch(globalFilterActions.currentInstitute(institutes.items[0].id))
@@ -38,7 +35,6 @@ const InstituteFilter = () => {
         setSelectedValue(currentInstitute);
         localStorage.setItem("institute", currentInstitute);
       }
-      // updateInstituteName(institutes.items[0].name);
     }
   }, [institutes]);
 
@@ -46,32 +42,34 @@ const InstituteFilter = () => {
     const selectedOption = e.target.options[e.target.selectedIndex];
     setSelectedValue(e.target.value);
     dispatch(globalFilterActions.currentInstitute(e.target.value))
-    // updateCurrentInstitute(e.target.value);
-    // updateInstituteName(selectedOption.innerText);
     localStorage.setItem("institute", e.target.value);
   }
 
   return (
     <>
-      {
-        institutes.items.length > 1
-        &&
-        <div className="row gx-2 me-2">
-          <div className="col-auto">
-            <label className="col-form-label">Institute: </label>
-          </div>
+      <div className="row gx-2 me-2">
+        <div className="col-auto">
+          <label className="col-form-label">Institute: </label>
+        </div>
+        {institutes.items.length > 1 ?
           <div className="col-auto">
             <select 
               className="form-select"
               value={selectedValue} 
-              onChange={getCurrentValue}>
+              onChange={getCurrentValue}
+              aria-readonly
+              >
               {institutes.items.map((el: any, index: number) => (
                 <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
-              ))}
+                ))}
             </select>
           </div>
-        </div>
-      }
+        : 
+          <div>
+            <span className="col-form-label">{institutes.items[0]?.name}</span>
+          </div>
+        }
+      </div>
     </>
   );
 }
