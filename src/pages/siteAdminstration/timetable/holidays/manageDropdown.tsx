@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { globalFilterActions } from "../../../../store/slices/globalFilters";
 
 const ManageDropdown = ({ updateHolidaysFilter, yearOptions } : any) => {
-  const dispatch = useDispatch();
-  const selectedYear = useSelector(state => state.globalFilters.currentDepartmentFilterId);
   const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     if (yearOptions.length > 0) {
-      setSelectedValue(selectedYear);
+      setSelectedValue(selectedValue);
     }
   }, [yearOptions]);
 
   const getCurrentValue = (e : any) => {
     updateHolidaysFilter(e.target.value);
     setSelectedValue(e.target.value);
-    dispatch(globalFilterActions.currentDepartment(""))
   }
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { putData, getData, deleteData } from "../../../../../adapters/microservices";
+import { postData ,putData, getData, deleteData } from "../../../../../adapters/microservices";
 import StarRating from "../../../../../widgets/rating";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
@@ -10,7 +10,7 @@ import "./style.scss";
 interface IProps {
   newRating: number;
   handleRating: (params: any) => void;
-}
+} 
 
 const calculateNetRating = (ratingArray: number[]) => {
   const total = ratingArray.reduce((accumulator : number, currentValue: number) => accumulator + currentValue, 0);
@@ -22,6 +22,7 @@ const roundToWhole = (number : number) => {
 }
 
 const programRatingTemplate = {
+  ratingId: null,
   averageRating: 0,
   oneStar: 0,
   twoStar: 0,
@@ -29,6 +30,7 @@ const programRatingTemplate = {
   fourStar: 0,
   fiveStar: 0,
   currentRating: 0,
+  currentUserRating: null
 }
 
 const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
@@ -57,30 +59,40 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
 
   const handleRating = (getRatingCount: any) => {
     setCurrentRating(getRatingCount);
-
-    putData("rating", {
-      rating: getRatingCount,
-      itemType: "PROGRAM",
-      itemId: parseInt(programid),
-    })
-    .then((res: any) => {
-      if (res.status === 200) {
-        setRefreshRating((prevState) => !prevState)
-        setModalShow(false);
-      }
-    })
-    .catch((err: any) => {
-      console.log(err);
-    });
+    if (programRating.ratingId === null) {
+      postData("rating", {
+        rating: getRatingCount,
+        itemType: "PROGRAM",
+        itemId: parseInt(programid),
+      })
+      .then((res: any) => {
+        if (res.status === 200) {
+          setRefreshRating((prevState) => !prevState)
+          setModalShow(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    } else {
+      putData(`rating/${programRating.ratingId}`, {
+        rating: getRatingCount,
+      })
+      .then((res: any) => {
+        if (res.status === 200) {
+          setRefreshRating((prevState) => !prevState)
+          setModalShow(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    }
   };
 
   const resetUserRating = () => {
     setCurrentRating(0);
-    deleteData("rating", {
-      itemType: "PROGRAM",
-      rating: 0,
-      itemId: parseInt(programid),
-    })
+    deleteData(`rating/${programRating.ratingId}`)
     .then((res: any) => {
       setRefreshRating((prevState) => !prevState)
       setModalShow(false);
