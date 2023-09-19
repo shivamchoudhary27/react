@@ -65,12 +65,12 @@ const CourseWorkLoadTable = ({
       draggable: false,
     },
     {
-      Header: "Theory (Load Per Week)",
+      Header: "Theory (Load Per Week in Hour)",
       accessor: "theoryWorkload",
       draggable: false,
     },
     {
-      Header: "Lab (Load Per Week)",
+      Header: "Lab (Load Per Week in Hour)",
       accessor: "labWorkload",
       draggable: false,
     },
