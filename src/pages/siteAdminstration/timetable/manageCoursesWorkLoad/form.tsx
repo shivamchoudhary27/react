@@ -174,7 +174,7 @@ const CourseWorkLoadModal = ({
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="theoryWorkload"
-                    labelText="Theory Work Load"
+                    labelText="Theory Work Load (in Hour)"
                     number
                     required="required"
                   />
@@ -193,7 +193,7 @@ const CourseWorkLoadModal = ({
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="labWorkload"
-                    labelText="Lab Work Load"
+                    labelText="Lab Work Load (in Hour)"
                     number
                     required="required"
                   />

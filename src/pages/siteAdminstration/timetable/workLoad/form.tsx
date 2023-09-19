@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -26,23 +26,24 @@ const WorkLoadModal = ({
     alertBoxColor: "",
   });
 
-    // Formik Yup validation === >>>
-  const workloadSchema = 
-  (workLoadObj.id === 0) ?
-    Yup.object({
-      defaultUserWorkload: Yup.number()
-        .integer("Number must be an integer")
-        .positive("Number must be positive")
-        .required("Number is required"),
-    })
-    :
-    Yup.object({
-      workLoad: Yup.number()
-        .integer("Number must be an integer")
-        .positive("Number must be positive")
-        .required("Number is required"),
-    })
-    
+  // Formik Yup validation === >>>
+  const workloadSchema =
+    workLoadObj.id === 0
+      ? Yup.object({
+          defaultUserWorkload: Yup.number()
+            .required("Default user workload is required")
+            .integer("Must be an integer")
+            .positive("Must be a positive integer")
+            .min(0, "Must be greater than or equal to 0"),
+        })
+      : Yup.object({
+          workLoad: Yup.number()
+            .required("WorkLoad is required")
+            .integer("Must be an integer")
+            .positive("Must be a positive integer")
+            .min(0, "Must be greater than or equal to 0"),
+        });
+
   // Initial values of react table === >>>
   const initialValues = {
     workLoad: workLoadObj.workLoad,

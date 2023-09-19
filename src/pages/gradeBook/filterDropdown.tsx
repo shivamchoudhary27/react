@@ -38,7 +38,7 @@ export const CourseFilterDropdown = ({options, getCourseId, courseId}: any) => {
       <select className="form-select" onChange={getCurrentValue} value={courseId} >
         <option value={""}>Select Course</option>
         {options.length > 0 && options.map((el: any, index: number) => (
-            <option key={index} value={el.id}>{el.fullname}</option>
+            <option key={index} value={el.id}>{el.name}</option>
         ))}
       </select>
     </React.Fragment>
