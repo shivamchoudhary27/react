@@ -58,7 +58,7 @@ export default function ReactBigCalendar() {
   useEffect(() => {
     let dataParam = "";
     coursesList.map((item, index) => {
-      dataParam += `events[courseids][${index}]=${item.id}&`;
+      dataParam += `events[courseids][${index}]=${item.idNumber !== null ? item.idNumber : 0}&`;
     });
 
     // Object.keys(enroled_courses).map((item, index) => {
