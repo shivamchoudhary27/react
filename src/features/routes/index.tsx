@@ -34,6 +34,7 @@ import WorkLoad from '../../pages/siteAdminstration/timetable/workLoad';
 import Holidays from '../../pages/siteAdminstration/timetable/holidays';
 import ManageCoursesWorkLoad from '../../pages/siteAdminstration/timetable/manageCoursesWorkLoad';
 import TimesSlot from '../../pages/siteAdminstration/timetable/timesSlot';
+import UserProfile from '../../pages/user/profile';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -56,6 +57,7 @@ export default function NewCustomRoutes() {
             {CalenderManagementRoute()}
             {CoPoManagementRoute()}
           
+          <Route path="/profile" key="profile" element={<UserProfile />} />
           <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
           <Route path="/classroom" key="classroom" element={<ClassRoom />} />
           <Route path="/workload" key="workload" element={<WorkLoad />} />

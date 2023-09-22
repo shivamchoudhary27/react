@@ -30,6 +30,10 @@ const Header = ({ showRightNavs = true }: any) => {
     navigate("/");
   };
 
+  const profileNavigate = () => {
+    navigate('/profile');
+  }
+
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center site-header">
@@ -67,7 +71,8 @@ const Header = ({ showRightNavs = true }: any) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item>
+              {/* <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item> */}
+              <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
               <Dropdown.Item href="#/action-2" onClick={logout}>
                 Logout
               </Dropdown.Item>
