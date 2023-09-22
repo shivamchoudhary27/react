@@ -3,7 +3,7 @@ export const generateHours = () => {
   for (let i = 7; i <= 20; i++) {
     let hoursObj = {};
     if (i < 10) {
-      hoursObj = { id: i, name: "0" + i.toString() };
+      hoursObj = { id: "0" + i.toString(), name: "0" + i.toString() };
     } else {
       hoursObj = { id: i, name: i.toString() };
     }

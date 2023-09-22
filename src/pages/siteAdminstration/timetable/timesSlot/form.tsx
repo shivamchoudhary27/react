@@ -19,7 +19,11 @@ const Schema = Yup.object({
   endHr: Yup.string().required("Required"),
   endMin: Yup.string().required("Required"),
   breakTime: Yup.string().required(),
-  // type: Yup.string().nullable(),
+  type: Yup.string()
+    .when('breakTime', {
+      is: "true",
+      then: Yup.string().required('')
+    })
 });
 
 const TimeSlotModal = ({
@@ -61,7 +65,7 @@ const TimeSlotModal = ({
     startMin: startMin,
     endHr: endHr,
     endMin: endMin,
-    breakTime: timeslotObj.id !== 0 ? "true" : "false",
+    breakTime: timeslotObj.id === 0 ? "false" : timeslotObj.breakTime !== false ? "true" : "false",
     type: timeslotObj.type !== null ? timeslotObj.type : null,
   };
 
@@ -86,9 +90,8 @@ const TimeSlotModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    console.log("in-----------", values)
-    if(JSON.parse(values.breakTime) === false){
-      values.type = null
+    if(values.breakTime === "false"){
+      delete values.type
     }
     values = {
       id: values.id,
@@ -289,11 +292,11 @@ const TimeSlotModal = ({
                       <FieldLabel htmlfor="type" labelText="Tea" />
                     </span>
                   </div>
-                  {/* <FieldErrorMessage
+                  <FieldErrorMessage
                     errors={errors.type}
                     touched={touched.type}
                     msgText="Please select break type"
-                  /> */}
+                  />
                 </div>
               )}
 
