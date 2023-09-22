@@ -30,6 +30,7 @@ export const SemesterFilterDropdown = ({ options } : any) => {
 export const CourseFilterDropdown = ({options, getCourseId, courseId}: any) => {
 
   const getCurrentValue = (e : any) => {
+    console.log(e.target.value)
     getCourseId(e.target.value)
   }
 
@@ -38,7 +39,7 @@ export const CourseFilterDropdown = ({options, getCourseId, courseId}: any) => {
       <select className="form-select" onChange={getCurrentValue} value={courseId} >
         <option value={""}>Select Course</option>
         {options.length > 0 && options.map((el: any, index: number) => (
-            <option key={index} value={el.id}>{el.name}</option>
+            <option key={index} value={el.idNumber !== null ? el.idNumber : 0}>{el.name}</option>
         ))}
       </select>
     </React.Fragment>

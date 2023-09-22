@@ -8,7 +8,8 @@ const FieldTypeSelect = ({
     as="select",
     className="form-select",
     emptyOption=false,
-    selectDefaultLabel=""
+    selectDefaultLabel="",
+    timeUnit=""
 }: any) => {
 
   const updateFieldCheckedStatus = (e : any) => { 
@@ -32,8 +33,11 @@ const FieldTypeSelect = ({
       <Field as={as} name={name} className={className} onChange={updateFieldCheckedStatus}>
         {emptyOption === false && 
           <option value="0">
-            Select{" "}
-            {selectDefaultLabel !== "" ? selectDefaultLabel : name.charAt(0).toUpperCase() + name.slice(1)}
+            {
+              timeUnit !== "" ? timeUnit : 
+              `Select 
+              ${selectDefaultLabel !== "" ? selectDefaultLabel : name.charAt(0).toUpperCase() + name.slice(1)}`
+            }
           </option>
         }
         {

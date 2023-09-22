@@ -20,6 +20,7 @@ const GradeBook = (props: Props) => {
   const id = localStorage.getItem("userid");
   const [apiStatus, setApiStatus] = useState("");
   const [courseId, setCourseId] = useState<any>(0);
+  const [courseIdNumber, setCourseIdNumber] = useState<any>(0);
   const currentUserRole = useSelector(
     (state) => state.globalFilters.currentUserRole
   );

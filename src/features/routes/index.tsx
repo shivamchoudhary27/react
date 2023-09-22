@@ -33,6 +33,7 @@ import ClassRoom from '../../pages/siteAdminstration/timetable/classroom';
 import WorkLoad from '../../pages/siteAdminstration/timetable/workLoad';
 import Holidays from '../../pages/siteAdminstration/timetable/holidays';
 import ManageCoursesWorkLoad from '../../pages/siteAdminstration/timetable/manageCoursesWorkLoad';
+import TimesSlot from '../../pages/siteAdminstration/timetable/timesSlot';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -59,6 +60,7 @@ export default function NewCustomRoutes() {
           <Route path="/classroom" key="classroom" element={<ClassRoom />} />
           <Route path="/workload" key="workload" element={<WorkLoad />} />
           <Route path="/holidays" key="holidays" element={<Holidays />} />
+          <Route path="/timesslot" key="timesslot" element={<TimesSlot />} />
           <Route path="/managecoursesworkload/:id/:name" key="managecoursesworkload" element={<ManageCoursesWorkLoad />} />,
 
             {/* {StudentDashRoutes()} */}
