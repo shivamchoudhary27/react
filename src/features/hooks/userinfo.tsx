@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { getData } from '../../adapters';
 import UserContext from '../context/user/user';
+import { globalAlertActions } from '../../store/slices/globalAlerts';
 
 const useUserinfo = () => {
+  const dispatch = useDispatch();
   const userCtx = useContext(UserContext);
   const [triggerEnrolApi, setTriggerEnrolApi] = useState({ status : false, userid : 0});
   const [isLoading, setLoading] = useState(
@@ -28,7 +31,19 @@ const useUserinfo = () => {
           setLoading('loaded');
         })
         .catch(err => {
-          console.log(err);
+          if (err.code !== undefined) {
+            dispatch(
+              globalAlertActions.globalAlert({
+                alertMsg: err.message,
+                status: true,
+            }))
+          } else {
+            dispatch(
+              globalAlertActions.globalAlert({
+                alertMsg: err.message,
+                status: true,
+            }))
+          }
         });
     }
   }, []);
