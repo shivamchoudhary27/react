@@ -19,11 +19,18 @@ const Schema = Yup.object({
   endHr: Yup.string().required("Required"),
   endMin: Yup.string().required("Required"),
   breakTime: Yup.string().required(),
+  // type: Yup.string()
+  //   .when('breakTime', {
+  //     is: "true",
+  //     then: Yup.string().required('')
+  //   })
   type: Yup.string()
-    .when('breakTime', {
-      is: "true",
-      then: Yup.string().required('')
-    })
+  .when(['breakTime'], {
+    is: "true",
+    then: Yup.string().required('Type is required when Break time is selected')
+  })
+  .nullable()
+  .typeError('Type must be a string')
 });
 
 const TimeSlotModal = ({
