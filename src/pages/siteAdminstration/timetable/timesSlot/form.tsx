@@ -19,7 +19,7 @@ const Schema = Yup.object({
   endHr: Yup.string().required("Required"),
   endMin: Yup.string().required("Required"),
   breakTime: Yup.string().required(),
-  type: Yup.string().required(),
+  // type: Yup.string().nullable(),
 });
 
 const TimeSlotModal = ({
@@ -61,8 +61,8 @@ const TimeSlotModal = ({
     startMin: startMin,
     endHr: endHr,
     endMin: endMin,
-    breakTime: timeslotObj.breakTime !== false ? "true" : "false",
-    type: timeslotObj.type,
+    breakTime: timeslotObj.id !== 0 ? "true" : "false",
+    type: timeslotObj.type !== null ? timeslotObj.type : null,
   };
 
   // custom Obj & handle form data === >>>
@@ -82,21 +82,26 @@ const TimeSlotModal = ({
     };
   }
 
+  console.log(startHr)
+
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    console.log(values);
+    console.log("in-----------", values)
+    if(JSON.parse(values.breakTime) === false){
+      values.type = null
+    }
     values = {
       id: values.id,
       startTime: `${
-        values.startHr < 10 ? `0${values.startHr}` : values.startHr
+        values.startHr < 10 ? `${values.startHr}` : values.startHr
       }:${values.startMin}`,
-      endTime: `${values.endHr < 10 ? `0${values.endHr}` : values.endHr}:${
+      endTime: `${values.endHr < 10 ? `${values.endHr}` : values.endHr}:${
         values.endMin
       }`,
       breakTime: JSON.parse(values.breakTime),
       type: values.type,
     };
-    console.log(values.startHr);
+
     let endPoint = `/${currentInstitute}/timetable/timeslot`;
     if (timeslotObj.id === 0) {
       postData(endPoint, values)
@@ -120,8 +125,9 @@ const TimeSlotModal = ({
     } else {
       endPoint += `/${timeslotObj.id}`;
       setSubmitting(true);
+      console.log("values------",values);
       putData(endPoint, values)
-        .then((res: any) => {
+      .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             setSubmitting(false);
@@ -263,11 +269,11 @@ const TimeSlotModal = ({
                     <FieldLabel htmlfor="breakTime" labelText="No" />
                   </span>
                 </div>
-                <FieldErrorMessage
+                {/* <FieldErrorMessage
                   errors={errors.breakTime}
                   touched={touched.breakTime}
                   msgText="Please select break time"
-                />
+                /> */}
               </div>
 
               {values.breakTime !== "false" && (
@@ -283,11 +289,11 @@ const TimeSlotModal = ({
                       <FieldLabel htmlfor="type" labelText="Tea" />
                     </span>
                   </div>
-                  <FieldErrorMessage
+                  {/* <FieldErrorMessage
                     errors={errors.type}
                     touched={touched.type}
                     msgText="Please select break type"
-                  />
+                  /> */}
                 </div>
               )}
 
