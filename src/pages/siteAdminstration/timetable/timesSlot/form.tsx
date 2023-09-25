@@ -19,11 +19,6 @@ const Schema = Yup.object({
   endHr: Yup.string().required("Required"),
   endMin: Yup.string().required("Required"),
   breakTime: Yup.string().required(),
-  // type: Yup.string()
-  //   .when('breakTime', {
-  //     is: "true",
-  //     then: Yup.string().required('')
-  //   })
   type: Yup.string()
   .when(['breakTime'], {
     is: "true",
@@ -93,8 +88,6 @@ const TimeSlotModal = ({
     };
   }
 
-  console.log(startHr)
-
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     if(values.breakTime === "false"){
@@ -135,7 +128,6 @@ const TimeSlotModal = ({
     } else {
       endPoint += `/${timeslotObj.id}`;
       setSubmitting(true);
-      console.log("values------",values);
       putData(endPoint, values)
       .then((res: any) => {
           if (res.data !== "" && res.status === 200) {

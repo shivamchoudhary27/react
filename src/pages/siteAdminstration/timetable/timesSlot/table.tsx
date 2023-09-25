@@ -8,8 +8,8 @@ import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { deleteData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
-import showIcon from "../../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../../assets/images/icons/hide-action.svg";
+// import showIcon from "../../../../assets/images/icons/show-action.svg";
+// import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
@@ -37,17 +37,24 @@ const TimesSlotTable = ({
         return (
           <span>{`${
             row.original.startTime !== null ? row.original.startTime : "00:00"
-          } - ${row.original.endTime !== null ? row.original.endTime : "00:00"}`}</span>
+          } - ${
+            row.original.endTime !== null ? row.original.endTime : "00:00"
+          }`}</span>
         );
       },
     },
-    {
-      Header: "Weight",
-      accessor: "",
-    },
+    // {
+    //   Header: "Weight",
+    //   accessor: "",
+    // },
     {
       Header: "Break",
-      accessor: "type",
+      // accessor: "type",
+      Cell: ({ row }: any) => {
+        return row.original.type !== null &&
+          row.original.type.charAt(0).toUpperCase() +
+            row.original.type.slice(1);
+      },
     },
     {
       Header: "Actions",
