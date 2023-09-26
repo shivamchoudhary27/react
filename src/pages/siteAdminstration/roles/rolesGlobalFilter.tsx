@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { globalFilterActions } from "../../../store/slices/globalFilters";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import alertIcon from "../../../assets/images/icons/admin-color-icon.svg";
 
 type Props = {};
 
@@ -62,22 +65,33 @@ const RolesGlobalFilter = (props: Props) => {
           ?
           (
             <div className="row gx-2 me-2">
-              <div className="col-auto">
-                <label className="col-form-label">Role: </label>
-              </div>
-              <div className="col-auto">
-                <select
-                  className="form-select"
-                  value={selectedValue}
-                  onChange={getCurrentValue}
-                  >
-                  {dashboardRoles.map((el: any, index: number) => (
-                    <option key={index} value={el.id} data-name={el.shortName}>
-                      {el.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <OverlayTrigger
+                trigger={'click'}
+                placement="bottom"
+                overlay={
+                  <Popover id="popover-basic">
+                    <Popover.Header as="h3">Switch Role</Popover.Header>
+                    <Popover.Body>
+                      <select
+                        className="form-select"
+                        value={selectedValue}
+                        onChange={getCurrentValue}
+                        >
+                        {dashboardRoles.map((el: any, index: number) => (
+                          <option key={index} value={el.id} data-name={el.shortName}>
+                            {el.name}
+                          </option>
+                        ))}
+                      </select>
+                    </Popover.Body>
+                  </Popover>
+                }
+                rootClose
+              >
+                <div>
+                  <img src={alertIcon} alt="Alert" />
+                </div>
+              </OverlayTrigger>
             </div>
           ) 
           : 

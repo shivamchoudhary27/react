@@ -7,6 +7,7 @@ import alertIcon from "../assets/images/icons/bell-icon.svg";
 function NotificationOverlay(props: { userid: number; }) {
   const useridto = props.userid;
   const [message, setMessage] = useState<{totalcount: number, list: any[]}>({ totalcount: 0, list: [] });
+
   useEffect(() => {
     const query = {
       wsfunction: 'message_popup_get_popup_notifications',
@@ -32,24 +33,26 @@ function NotificationOverlay(props: { userid: number; }) {
         console.log(err);
       });
   }, []);
+
   return (
     <OverlayTrigger
-      trigger={['click']}
+      trigger={'click'}
       placement="bottom"
       overlay={
         <Popover id="popover-basic">
           <Popover.Header as="h3">Notifications</Popover.Header>
           <Popover.Body>
-          {message.totalcount > 0 ? (
-            message.list.map((item, index) => (
+            {message.totalcount > 0 ? (
+              message.list.map((item, index) => (
                 <p key={index}> {item} </p>
-            ))
-          ) : (
-            <p>No new notifications</p>
-          )}
-          </Popover.Body>          
+              ))
+            ) : (
+              <p>No new notifications</p>
+            )}
+          </Popover.Body>
         </Popover>
       }
+      rootClose
     >
       <div>
         <img src={alertIcon} alt="Alert" />
