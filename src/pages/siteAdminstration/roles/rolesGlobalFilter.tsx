@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { globalFilterActions } from "../../../store/slices/globalFilters";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import alertIcon from "../../../assets/images/icons/admin-color-icon.svg";
+import switchrole from "../../../assets/images/icons/switch-role-icon.svg";
 
 type Props = {};
 
@@ -64,7 +64,7 @@ const RolesGlobalFilter = (props: Props) => {
         dashboardRoles.length > 1   
           ?
           (
-            <div className="row gx-2 me-2">
+            <div className="switch-role">
               <OverlayTrigger
                 trigger={'click'}
                 placement="bottom"
@@ -88,9 +88,9 @@ const RolesGlobalFilter = (props: Props) => {
                 }
                 rootClose
               >
-                <div>
-                  <img src={alertIcon} alt="Alert" />
-                </div>
+                <span className="head-icon">
+                  <img src={switchrole} alt="Switch Role" />
+                </span>
               </OverlayTrigger>
             </div>
           ) 

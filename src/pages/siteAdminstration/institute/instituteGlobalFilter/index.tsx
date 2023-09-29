@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { globalFilterActions } from "../../../../store/slices/globalFilters";
 import { getData } from "../../../../adapters/microservices";
+import switchinstitute from "../../../../assets/images/icons/switch-institue-icon.svg";
 
 const InstituteFilter = () => {
   const dispatch = useDispatch();
@@ -47,12 +48,9 @@ const InstituteFilter = () => {
 
   return (
     <>
-      <div className="row gx-2 me-2">
-        <div className="col-auto">
-          <label className="col-form-label">Institute: </label>
-        </div>
+      <div className="select-institute">
+        <span className="head-icon"><img src={switchinstitute} alt="Select Institute" /></span>
         {institutes.items.length > 1 ?
-          <div className="col-auto">
             <select 
               className="form-select"
               value={selectedValue} 
@@ -63,11 +61,8 @@ const InstituteFilter = () => {
                 <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
                 ))}
             </select>
-          </div>
         : 
-          <div>
-            <span className="col-form-label">{institutes.items[0]?.name}</span>
-          </div>
+          <b className="ms-2">{institutes.items[0]?.name}</b>
         }
       </div>
     </>

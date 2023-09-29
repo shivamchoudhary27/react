@@ -324,3 +324,38 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
     padding-bottom: 75px;
 }
 /**** Component Heading with Filter End ****/
+
+.select-institute, .switch-role {
+    display: flex;
+    margin-right: 10px;
+    align-items: center;
+    img {
+        width: 24px;
+        height: 24px;
+    }
+    .head-icon {
+        border: 0.5px solid #E7E7E7;
+        background-color: #F4F7FF;
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;        
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        cursor: pointer;
+    }
+}
+.popover-header {
+    background-color: #0F80EF;
+    background-image: url('../images/table-head-bg.svg');
+    background-repeat: repeat;
+    color: #fff;
+}
+.bs-popover-auto[data-popper-placement^=bottom]>.popover-arrow::after, 
+.bs-popover-bottom>.popover-arrow::after {
+    --bs-popover-bg: #0F80EF;
+}
+.bs-popover-auto[data-popper-placement^=bottom]>.popover-arrow::before, 
+.bs-popover-bottom>.popover-arrow::before {
+    border-bottom-color: #0F80EF;
+}
