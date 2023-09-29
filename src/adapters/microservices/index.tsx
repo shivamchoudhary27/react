@@ -15,7 +15,18 @@ export const postData = (endPoint: string, requestData: any, file?: File, compon
     const data = requestData;
     
     if (file) {
-        const {formData, headers} = handleFileFields(data, file)
+        let headers: AxiosRequestConfig['headers'] = {};
+        // Set Content-Type header to 'multipart/form-data' if file is provided
+        headers['Content-Type'] = 'multipart/form-data';
+
+        // Create a FormData object to send the file and other data as multipart/form-data
+        const formData = new FormData();
+        formData.append('files', file);
+        Object.entries(data).forEach(([key, value]) => {
+           formData.append(key, value);
+        });
+
+        // Send the FormData as the request data
         return instance.post(endPoint, formData, { headers });
     }
     return instance.post(endPoint, data);

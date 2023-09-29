@@ -8,7 +8,7 @@ import { Container } from "react-bootstrap";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import { searchCountryNameById } from "../../../globals/getCountry";
-import EditProfile from "./form";
+import EditUserProfile from "./modal";
 import { Button } from "react-bootstrap";
 
 const UserProfile = () => {
@@ -19,12 +19,12 @@ const UserProfile = () => {
         "userId": 0,
         "userCountry": "",
         "enabled": false,
-        "roles": []
+        "roles": [],
+        "files": []
     });
     const [modalShow, setModalShow] = useState(false);
     const [refreshData, setRefreshData] = useState(true);
-    const userCtx = useContext(UserContext);
-    const userpictureurl = userCtx.userInfo.userpictureurl.toString() ?? "";
+    const [editComponent, setEditComponent] = useState('profile');
     
     useEffect(() => {
         getData(`/user/profile`, {})
@@ -37,8 +37,9 @@ const UserProfile = () => {
     }, [refreshData]);
 
     // handle modal hide & show functionality === >>>
-    const toggleModalShow = (status: boolean) => {
-        setModalShow(status);
+    const toggleModalShow = (component: string ) => {
+        setModalShow(!modalShow);
+        setEditComponent(component);
     };
 
     const refreshToggle = () => {
@@ -66,21 +67,26 @@ const UserProfile = () => {
                         user.roles.length > 0 &&
                         <h3>Roles: 'User Roles' </h3>
                     }
-                    <img
-                        className="img-fluid"
-                        src={userpictureurl}
-                        alt={user.userFirstName + ' ' + user.userLastName}
-                    />
-                    <Button onClick={toggleModalShow}>Edit Profile</Button>
+                    <Button onClick={() => toggleModalShow('profile')}>Edit Profile</Button>
+                    <div>
+                        <img
+                            onClick={() => toggleModalShow('picture')}
+                            className="img-fluid"
+                            src={user.files.length > 0 ? user.files[0].url : ''}
+                            alt={user.files.length > 0 ? user.files[0].originalFileName : user.userFirstName}
+                            width={"500px"}
+                        />
+                    </div>
                 </Container>
             </div>
             <Footer />
-            <EditProfile
+            <EditUserProfile
                 show={modalShow}
                 onHide={() => toggleModalShow(false)}
                 userobj={user}
                 togglemodalshow={toggleModalShow}
                 updateAddRefresh={refreshToggle}
+                editComponent={editComponent}
             />
         </React.Fragment>
     );
