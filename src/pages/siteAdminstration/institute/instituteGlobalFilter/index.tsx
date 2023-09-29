@@ -53,11 +53,18 @@ const InstituteFilter = () => {
       <div className="select-institute">
         <OverlayTrigger
           rootClose
-          trigger={'click'}
+          trigger={['click']}
           placement="bottom"
           overlay={
             <Popover id="popover-basic">
-              <Popover.Header as="h3">Switch Institute</Popover.Header>
+              <Popover.Header as="h3">
+                {institutes.items.length > 1
+                ?
+                "Switch Institute"
+                :
+                "Institute"
+                }
+              </Popover.Header>
               <Popover.Body>
                 {institutes.items.length > 1 ? 
                   <select 

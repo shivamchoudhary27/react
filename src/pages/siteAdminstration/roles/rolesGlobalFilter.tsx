@@ -66,7 +66,7 @@ const RolesGlobalFilter = (props: Props) => {
           (
             <div className="switch-role">
               <OverlayTrigger
-                trigger={'click'}
+                trigger={['click']}
                 placement="bottom"
                 overlay={
                   <Popover id="popover-basic">
