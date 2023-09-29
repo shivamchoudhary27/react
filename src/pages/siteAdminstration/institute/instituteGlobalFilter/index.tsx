@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { globalFilterActions } from "../../../../store/slices/globalFilters";
 import { getData } from "../../../../adapters/microservices";
 import switchinstitute from "../../../../assets/images/icons/switch-institue-icon.svg";
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 const InstituteFilter = () => {
   const dispatch = useDispatch();
@@ -49,24 +51,39 @@ const InstituteFilter = () => {
   return (
     <>
       <div className="select-institute">
-        <span className="head-icon"><img src={switchinstitute} alt="Select Institute" /></span>
-        {institutes.items.length > 1 ?
-            <select 
-              className="form-select"
-              value={selectedValue} 
-              onChange={getCurrentValue}
-              aria-readonly
-              >
-              {institutes.items.map((el: any, index: number) => (
-                <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
-                ))}
-            </select>
-        : 
-          <b className="ms-2">{institutes.items[0]?.name}</b>
-        }
+        <OverlayTrigger
+          rootClose
+          trigger={'click'}
+          placement="bottom"
+          overlay={
+            <Popover id="popover-basic">
+              <Popover.Header as="h3">Switch Institute</Popover.Header>
+              <Popover.Body>
+                {institutes.items.length > 1 ? 
+                  <select 
+                    className="form-select"
+                    value={selectedValue} 
+                    onChange={getCurrentValue}
+                    aria-readonly
+                    >
+                    {institutes.items.map((el: any, index: number) => (
+                      <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
+                      ))}
+                  </select>
+                  :
+                  <b className="ms-2">{institutes.items[0]?.name}</b>
+                }
+              </Popover.Body>
+            </Popover>
+          }
+        >
+          <span className="head-icon">
+            <img src={switchinstitute} alt="Select Institute" />
+          </span>
+        </OverlayTrigger>
       </div>
     </>
-  );
+  ); 
 }
 
 export default InstituteFilter;
