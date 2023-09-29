@@ -34,16 +34,13 @@ export const postData = (endPoint: string, requestData: any, file?: File, keepBe
     
     if (file) {
         let headers: AxiosRequestConfig['headers'] = {};
-        // Set Content-Type header to 'multipart/form-data' if file is provided
         headers['Content-Type'] = 'multipart/form-data';
 
-        // Create a FormData object to send the file and other data as multipart/form-data
         const formData = new FormData();
         formData.append('file', file);
         Object.entries(data).forEach(([key, value]) => {
            formData.append(key, value);
         });
-
         // Send the FormData as the request data
         return modifiedInstance.post(endPoint, formData, { headers });
     }
