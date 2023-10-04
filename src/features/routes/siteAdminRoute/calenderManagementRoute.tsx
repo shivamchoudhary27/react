@@ -1,14 +1,13 @@
-import React from 'react'
 import { Route } from 'react-router-dom'
+import ReactBigCalendar from '../../../pages/calender'
 import TimeTable from '../../../pages/siteAdminstration/timetable'
 import CalenderConfig from '../../../pages/siteAdminstration/calenderConfig'
-import ReactBigCalendar from '../../../pages/calender'
 
 const CalenderManagementRoute = () => {
   return [
     <Route path="/timetable" key="timetable" element={<TimeTable />} />,
-    <Route path="/calenderconfig" key="calenderconfig" element={<CalenderConfig />} />,
     <Route path="/calender" key="calender" element={<ReactBigCalendar />} />,
+    <Route path="/calenderconfig" key="calenderconfig" element={<CalenderConfig />} />,
   ]
 }
 

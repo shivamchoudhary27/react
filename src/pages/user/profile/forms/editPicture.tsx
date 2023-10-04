@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
+import React, { useState } from "react";
 import { postData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 const EditPicture = ({

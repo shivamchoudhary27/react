@@ -15,11 +15,12 @@ import Report from '../../pages/courses/video/report';
 import Home from '../../pages/home/Home';
 import AuthLogin from '../../pages/authlogin/AuthLogin';
 import SignUpNew from '../../pages/signupNew';
+import CoPoManagementRoute from './siteAdminRoute/copoManagement';
 import UserManagementRoute from './siteAdminRoute/userManagementRoute';
+import TimetableManagementRoute from './siteAdminRoute/timetableManagement';
 import ProgramManagementRoute from './siteAdminRoute/programManagementRoute';
 import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
-import CoPoManagementRoute from './siteAdminRoute/copoManagement';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
@@ -35,6 +36,7 @@ import Holidays from '../../pages/siteAdminstration/timetable/holidays';
 import ManageCoursesWorkLoad from '../../pages/siteAdminstration/timetable/manageCoursesWorkLoad';
 import TimesSlot from '../../pages/siteAdminstration/timetable/timesSlot';
 import UserProfile from '../../pages/user/profile';
+import EditProfile from '../../pages/user/profile/forms/editProfile';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -56,14 +58,11 @@ export default function NewCustomRoutes() {
             {ProgramEnrollmentRoute()}
             {CalenderManagementRoute()}
             {CoPoManagementRoute()}
+            {TimetableManagementRoute()}
           
           <Route path="/profile" key="profile" element={<UserProfile />} />
+          <Route path="/editprofile" key="editprofile" element={<EditProfile />} />
           <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
-          <Route path="/classroom" key="classroom" element={<ClassRoom />} />
-          <Route path="/workload" key="workload" element={<WorkLoad />} />
-          <Route path="/holidays" key="holidays" element={<Holidays />} />
-          <Route path="/timesslot" key="timesslot" element={<TimesSlot />} />
-          <Route path="/managecoursesworkload/:id/:name" key="managecoursesworkload" element={<ManageCoursesWorkLoad />} />,
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}

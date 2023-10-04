@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import EditProfile from "./forms/editProfile";
 import EditPicture from "./forms/editPicture";
+import ChangePassword from "./forms/changePassword";
 
 const EditUserProfile = ({
   show,
@@ -22,12 +22,12 @@ const EditUserProfile = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {editComponent === 'profile' ? "Update Profile Information" : "Update Profile Picture"}
+            {editComponent === 'changePassword' ? "Update New Password" : "Update Profile Picture"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {editComponent === 'profile' ?
-            <EditProfile
+          {editComponent === 'changePassword' ?
+            <ChangePassword
               userobj={userobj}
               togglemodalshow={togglemodalshow}
               updateAddRefresh={updateAddRefresh}
