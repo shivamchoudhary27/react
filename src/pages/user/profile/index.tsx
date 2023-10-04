@@ -60,9 +60,11 @@ const UserProfile = () => {
           <div className="user-profile-box">
             <div className="row">
               <div className="col-md-4 text-center">
-                <div className="user-picture">
+                <div 
+                  className="user-picture"
+                  onClick={() => toggleModalShow("picture")}
+                >
                   <img
-                    onClick={() => toggleModalShow("picture")}
                     src={user.files !== undefined && user.files.length > 0 ? user.files[0].url : ""}
                     alt={
                       user.files !== undefined &&

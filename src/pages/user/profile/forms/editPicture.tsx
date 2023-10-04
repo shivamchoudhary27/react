@@ -48,8 +48,7 @@ const EditPicture = ({
 
   const removeCurrentPicture = () => {
     const values = userInfo;
-    delete values.files;
-    values.deleted = true;
+    values.files[0].deleted = true;
     
     updateUserInfo(`/user/profile`, values)
     .then((res: any) => {
