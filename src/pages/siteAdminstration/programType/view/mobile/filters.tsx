@@ -1,9 +1,11 @@
 import React from "react";
 import { Button, Row, Col } from "react-bootstrap";
+import { FiltersLoadingBtn } from "../../../../../utils/filtersLoading";
 
 type Props = {
   CommonProps: {
     formik: any;
+    apiStatus: string;
     programtypePermissions: any;
     openAddProgramType: () => void;
     handleFilterChange: (params: any) => void;
@@ -35,9 +37,7 @@ const MobileFilters: React.FunctionComponent<Props> = ({
             />
           </Col>
           <Col>
-            <Button variant="primary" type="submit" className="me-2">
-              Filter
-            </Button>
+            {FiltersLoadingBtn(CommonProps.apiStatus)}
             <Button
               type="reset"
               variant="outline-secondary"

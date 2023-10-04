@@ -65,6 +65,7 @@ const Mobile = ({ commonProps }: Props) => {
           {/* <PageTitle pageTitle={`${currentInstitueName}: Discipline`} gobacklink="/manageprogram" />           */}
           <PageTitle pageTitle={`Discipline`} gobacklink="/manageprogram" />
           <Filters
+            apiStatus={commonProps.apiStatus}
             disciplinePermissions={commonProps.disciplinePermission}
             openAddDiscipline={commonProps.openAddDiscipline}
             updateInputFilters={commonProps.updateInputFilters}

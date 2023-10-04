@@ -15,7 +15,7 @@ import {
   Type_AlertMsg,
   Type_FormTitles,
   Type_ProgramTypeObject,
-} from "../../types/types";
+} from "../../type/types";
 
 type Props = {
   CommonProps: {

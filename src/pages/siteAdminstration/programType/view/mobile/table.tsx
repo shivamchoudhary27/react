@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { Type_AlertMsg } from "../../types/types";
+import { Type_AlertMsg } from "../../type/types";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../../../widgets/skeleton/table";
 import DeleteAlert from "../../../../../widgets/alert/deleteAlert";

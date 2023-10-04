@@ -29,30 +29,46 @@ const CustomButton: React.FunctionComponent<ICustomButton> = ({
 
 interface ILoadingButton {
   variant?: string | undefined;
-  btnText: string | undefined;
+  btnText?: string | undefined;
   className?: string | undefined;
+  status?: string | undefined;
 }
 
 export const LoadingButton: React.FunctionComponent<ILoadingButton> = ({
   variant = "primary",
   btnText,
   className,
+  status,
 }: ILoadingButton) => {
   return (
-    <div className={className}>
-      <Button variant={variant} disabled>
+    <>
+      {status !== "filterLoader" ? (
+        <div className={className}>
+          <Button variant={variant} disabled>
+            <Spinner
+              as="span"
+              variant="warning"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+              animation="border"
+              className="me-1"
+            />
+            {btnText}
+          </Button>
+        </div>
+      ) : (
         <Spinner
           as="span"
-          variant="warning"
+          variant="light"
           size="sm"
           role="status"
           aria-hidden="true"
           animation="border"
           className="me-1"
         />
-        {btnText}
-      </Button>
-    </div>
+      )}
+    </>
   );
 };
 

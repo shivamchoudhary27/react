@@ -6,7 +6,7 @@ import MobileDepartmentTable from "./view/mobile/table";
 import BrowserDepartmentTable from "./view/browser/table";
 import { isMobile, isDesktop } from "react-device-detect";
 import React, { useMemo, useState, useEffect } from "react";
-import { Type_AlertMsg, Type_DepartmentObj } from "./types/type";
+import { Type_AlertMsg, Type_DepartmentObj } from "./type/type";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";

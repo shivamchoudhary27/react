@@ -4,12 +4,14 @@ import MobileFilters from "./view/mobile/filters";
 import BrowserFilters from "./view/browser/filters";
 import { isMobile, isDesktop } from "react-device-detect";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { string } from "yup";
 
 type Type_InitialValues = {
   name: string;
 };
 
 type Props = {
+  apiStatus: string;
   permissions: any;
   refreshDepartmentData?: () => void;
   updateInputFilters: (params: any) => void;
@@ -69,6 +71,7 @@ const Filters: React.FunctionComponent<Props> = ({
   // common props ===>>>
   const commonProps = {
     formik: formik,
+    apiStatus: props.apiStatus,
     permissions: props.permissions,
     openAddDepartment: openAddDepartment,
     handleFilterChange: handleFilterChange,

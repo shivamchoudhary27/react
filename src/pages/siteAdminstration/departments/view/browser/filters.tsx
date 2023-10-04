@@ -1,10 +1,12 @@
 import React from "react";
 import { Row, Col, Button } from "react-bootstrap";
+import { FiltersLoadingBtn } from "../../../../../utils/filtersLoading";
 
 type Props = {
   commonProps: {
     formik: any;
     permissions?: any;
+    apiStatus: string;
     openAddDepartment: () => void;
     handleFilterChange: (params: any) => void;
   };
@@ -34,9 +36,7 @@ const BrowserFilters = ({ commonProps }: Props) => {
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
+              {FiltersLoadingBtn(commonProps.apiStatus)}
               <Button
                 type="reset"
                 variant="outline-secondary"

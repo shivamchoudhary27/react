@@ -14,7 +14,7 @@ import {
   Type_ApiResponse,
   Type_DepartmentObj,
   Type_FilterUpdate,
-} from "../../types/type";
+} from "../../type/type";
 
 type Props = {
   commonProps: {
@@ -79,6 +79,7 @@ const Browser = ({ commonProps }: Props) => {
             // updateDepartment={updateDepartmentFilter}
             // updateinputfilters={updateInputFilters}
             // updateCurrentInstitute={updateCurrentInstitute}
+            apiStatus={commonProps.apiStatus}
             permissions={commonProps.departmentPermission}
             toggleModalShow={commonProps.toggleModalShow}
             refreshDepartmentData={commonProps.refreshToggle}

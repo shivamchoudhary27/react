@@ -7,7 +7,7 @@ import {
   Type_ApiResponse,
   Type_FilterUpdate,
   Type_DepartmentObj,
-} from "../types/type";
+} from "../type/type";
 
 type Props = {
   // departmentPermission: any;

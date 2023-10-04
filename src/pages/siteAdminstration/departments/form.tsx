@@ -11,7 +11,7 @@ import {
   Type_AlertMsg,
   Type_FormTitles,
   Type_DepartmentObj,
-} from "./types/type";
+} from "./type/type";
 
 type Props = {
   show: boolean;

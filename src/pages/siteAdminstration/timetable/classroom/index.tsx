@@ -35,7 +35,7 @@ const ClassRoom = () => {
     );
   const [filterUpdate, setFilterUpdate] = useState({
     departmentId: selectedDepartment,
-    name: "",
+    // name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -84,7 +84,7 @@ const ClassRoom = () => {
   };
 
   const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
+    setFilterUpdate({ ...filterUpdate, pageNumber: 0 });
   };
 
   // get id, name from the department table === >>>
@@ -171,6 +171,7 @@ const ClassRoom = () => {
         <Container fluid>
           <PageTitle pageTitle="Manage Classroom" gobacklink="/timetable" />
           <Filters
+            apiStatus={apiStatus}
             departmentList={departmentList.items}
             toggleModalShow={toggleModalShow}
             refreshClassroomData={refreshToggle}

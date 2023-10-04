@@ -1,17 +1,19 @@
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
-import { useFormik } from "formik";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 
 const initialValues = {
   name: "",
 };
 
 const Filters = ({
-  toggleModalShow,
+  apiStatus,
   setTagObj,
-  updateInputFilters,
+  toggleModalShow,
   userPermissions,
+  updateInputFilters,
 }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const addTagsHandler = () => {
@@ -67,9 +69,7 @@ const Filters = ({
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button
                 variant="outline-secondary"
                 type="reset"

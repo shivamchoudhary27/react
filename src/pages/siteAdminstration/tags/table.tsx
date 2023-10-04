@@ -1,21 +1,21 @@
-import React, { useMemo, useState, useEffect } from "react";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Errordiv from "../../../widgets/alert/errordiv";
+import React, { useMemo, useState, useEffect } from "react";
 import TableSkeleton from "../../../widgets/skeleton/table";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import { globalAlertActions } from "../../../store/slices/globalAlerts";
 import {
   putData,
   deleteData as deleteTagData,
 } from "../../../adapters/microservices";
-import Errordiv from "../../../widgets/alert/errordiv";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import DeleteAlert from "../../../widgets/alert/deleteAlert";
-import editIcon from "../../../assets/images/icons/edit-action.svg";
-import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import showIcon from "../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../assets/images/icons/hide-action.svg";
-import { useDispatch } from "react-redux";
-import { globalAlertActions } from "../../../store/slices/globalAlerts";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -26,12 +26,12 @@ const actionsStyle = {
 
 const TagsTable = ({
   allTags,
-  toggleModalShow,
-  updateDeleteRefresh,
-  editHandlerById,
   apiStatus,
-  currentInstitute,
+  toggleModalShow,
+  editHandlerById,
   userPermissions,
+  currentInstitute,
+  updateDeleteRefresh,
 }: any) => {
   const tableColumn = [
     {
@@ -179,7 +179,7 @@ const TagsTable = ({
   };
 
   return (
-    <>
+    <React.Fragment>
       <div className="table-responsive admin-table-wrapper mt-3">
         <Table borderless striped {...getTableProps}>
           <thead>
@@ -223,13 +223,13 @@ const TagsTable = ({
         modalHeading="Tag"
       />
       <TimerAlertBox
-        alertMsg={alertMsg.message}
         className="mt-3"
+        showAlert={showAlert}
+        alertMsg={alertMsg.message}
         variant={alertMsg.alertBoxColor}
         setShowAlert={setShowAlert}
-        showAlert={showAlert}
       />
-    </>
+    </React.Fragment>
   );
 };
 

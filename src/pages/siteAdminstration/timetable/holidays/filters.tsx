@@ -3,12 +3,14 @@ import React, { useState } from "react";
 import ManageDropdown from "./manageDropdown";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../../utils/filterTimeout";
+import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 const initialValues = {
   name: "",
 };
 
 const Filters = ({
+  apiStatus,
   yearOptions,
   toggleModalShow,
   updateInputFilters,
@@ -68,7 +70,7 @@ const Filters = ({
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">
-                Filter
+                {apiStatus !== "finished" ? <LoadingButton status="filterLoader" /> : "Filter"}
               </Button>
               <Button
                 variant="outline-secondary"

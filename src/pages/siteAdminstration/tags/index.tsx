@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from 'react-redux';
-import { Container } from "react-bootstrap";
-import { pagination } from "../../../utils/pagination";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import Filters from "./filters";
 import TagsModal from "./form";
 import TagsTable from "./table";
-import BuildPagination from "../../../widgets/pagination";
-import { getData as getTagsData } from "../../../adapters/microservices";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import Filters from "./filters";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
+import { useSelector } from "react-redux";
+import HeaderTabs from "../../headerTabs";
+import { Container } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
 import PageTitle from "../../../widgets/pageTitle";
+import { pagination } from "../../../utils/pagination";
+import BuildPagination from "../../../widgets/pagination";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import { getData as getTagsData } from "../../../adapters/microservices";
+import View from "./view";
 
 const Tags = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -19,37 +20,38 @@ const Tags = () => {
   const [allTags, setAllTags] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(false);
   const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
-  const [tagObj, setTagObj] = useState({ id: "", name: "",published: false });
+  const [tagObj, setTagObj] = useState({ id: "", name: "", published: false });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
+  const currentInstitute = useSelector(
+    (state) => state.globalFilters.currentInstitute
+  );
   const userAuthorities = useSelector(
     (state: any) => state.userAuthorities.permissions.tag
   );
 
   const getTags = () => {
-    setApiStatus("started")
+    setApiStatus("started");
     const endPoint = `/${currentInstitute}/tags`;
     getTagsData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setAllTags(res.data);
         }
-        setApiStatus("finished")
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished")
+        setApiStatus("finished");
       });
   };
 
   // Get tags Data from API === >>
   useEffect(() => {
-    if (currentInstitute > 0)
-    getTags();
+    if (currentInstitute > 0) getTags();
   }, [refreshData, filterUpdate, currentInstitute]);
 
   // delete tags Data from API === >>
@@ -85,8 +87,10 @@ const Tags = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  console.log(allTags)
+
   return (
-    <>
+    <React.Fragment>
       <Header />
       <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
@@ -100,37 +104,57 @@ const Tags = () => {
         <Container fluid>
           <PageTitle pageTitle={`Tags`} gobacklink="/manageprogram" />          
           <Filters
-            toggleModalShow={toggleModalShow}
-            setTagObj={setTagObj}
-            updateInputFilters={updateInputFilters}
+            apiStatus={apiStatus}
             userPermissions={userAuthorities}
+            setTagObj={setTagObj}
+            toggleModalShow={toggleModalShow}
+            updateInputFilters={updateInputFilters}
           />
           <TagsModal
-            show={modalShow}
-            onHide={() => toggleModalShow(false)}
-            togglemodalshow={toggleModalShow}
-            updateAddRefresh={refreshToggle}
             tagObj={tagObj}
+            show={modalShow}
             currentInstitute={currentInstitute}
+            updateAddRefresh={refreshToggle}
+            togglemodalshow={toggleModalShow}
+            onHide={() => toggleModalShow(false)}
           />
           <TagsTable
-            allTags={allTags.items}
-            toggleModalShow={toggleModalShow}
-            updateDeleteRefresh={updateDeleteRefresh}
-            editHandlerById={editHandlerById}
             apiStatus={apiStatus}
-            currentInstitute={currentInstitute}
+            allTags={allTags.items}
             userPermissions={userAuthorities}
+            currentInstitute={currentInstitute}
+            toggleModalShow={toggleModalShow}
+            editHandlerById={editHandlerById}
+            updateDeleteRefresh={updateDeleteRefresh}
           />
           <BuildPagination
-            totalpages={allTags.pager.totalPages}
             activepage={filterUpdate.pageNumber}
+            totalpages={allTags.pager.totalPages}
             getrequestedpage={newPageRequest}
           />
         </Container>
       </div>
       <Footer />
-    </>
+
+      {/* <View
+        tagObj={tagObj}
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        allTagsData={allTags}
+        filterUpdate={filterUpdate}
+        userAuthorities={userAuthorities}
+        currentInstitute={currentInstitute}
+        setTagObj={setTagObj}
+        setModalShow={setModalShow}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
+        toggleModalShow={toggleModalShow}
+        editHandlerById={editHandlerById}
+        // openAddDiscipline={openAddDiscipline}
+        updateInputFilters={updateInputFilters}
+        updateDeleteRefresh={updateDeleteRefresh}
+      /> */}
+    </React.Fragment>
   );
 };
 

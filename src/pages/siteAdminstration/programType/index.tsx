@@ -8,7 +8,7 @@ import {
   Type_FilterUpdate,
   ICurrentInstitute,
   Type_ProgramTypeObject,
-} from "./types/types";
+} from "./type/types";
 
 const ProgramType: FunctionComponent = () => {
   const dummyData: Type_ApiResponse = {
