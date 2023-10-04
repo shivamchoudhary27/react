@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
-import { getData } from "../../../adapters/coreservices";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Button, Row, Col } from "react-bootstrap";
+import { getData } from "../../../adapters/coreservices";
 import { filterConfig } from "../../../utils/filterTimeout";
-import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 
 const initialValues = {
   name: "",

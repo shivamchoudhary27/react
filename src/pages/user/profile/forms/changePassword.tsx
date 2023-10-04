@@ -96,6 +96,7 @@ const ChangePassword = ({
                 labelText="Current Password"
                 required="required"
                 className="form-label"
+                star="*"
               />
               <FieldTypeText
                 type="password"
@@ -114,6 +115,7 @@ const ChangePassword = ({
                 labelText="New Password"
                 required="required"
                 className="form-label"
+                star="*"
               />
               <FieldTypeText
                 type="password"
@@ -132,6 +134,7 @@ const ChangePassword = ({
                 labelText="Confirm Password"
                 required="required"
                 className="form-label"
+                star="*"
               />
               <FieldTypeText
                 type="password"
