@@ -63,8 +63,9 @@ const UserProfile = () => {
                 <div className="user-picture">
                   <img
                     onClick={() => toggleModalShow("picture")}
-                    src={user.files.length > 0 ? user.files[0].url : ""}
+                    src={user.files !== undefined && user.files.length > 0 ? user.files[0].url : ""}
                     alt={
+                      user.files !== undefined &&
                       user.files.length > 0
                         ? user.files[0].originalFileName
                         : user.userFirstName
