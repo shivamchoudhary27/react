@@ -18,7 +18,7 @@ import {
   Type_AlertMsg,
   Type_ProgramTypeObject,
   Type_ProgramtypePacket,
-} from "./types/types";
+} from "./type/types";
 
 // Actions btns styling === >>>
 const actionsStyle = {

@@ -6,7 +6,7 @@ import {
   Type_AlertMsg,
   Type_FormTitles,
   Type_ProgramTypeObject,
-} from "./types/types";
+} from "./type/types";
 import {
   putData as putProgramData,
   postData as addProgramData,

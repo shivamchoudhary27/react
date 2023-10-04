@@ -1,14 +1,15 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
-import { useNavigate } from "react-router-dom";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 const initialValues = {
   name: "",
 };
 
-const Filters = ({ updateInputFilters }: any) => {
+const Filters = ({ updateInputFilters, apiStatus }: any) => {
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
@@ -72,7 +73,7 @@ const Filters = ({ updateInputFilters }: any) => {
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">
-                Filter
+                {apiStatus !== "finished" ? <LoadingButton status="filterLoader" /> : "Filter"}
               </Button>
               <Button
                 variant="outline-secondary"

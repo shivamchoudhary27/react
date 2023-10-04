@@ -1,18 +1,18 @@
+import * as Yup from "yup"; 
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form } from "formik";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import * as Yup from "yup";
 import {
   postData as addTagsData,
   putData as updateTagsData,
 } from "../../../adapters/microservices";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const tagsSchema = Yup.object({
@@ -22,10 +22,10 @@ const tagsSchema = Yup.object({
 
 const TagsModal = ({
   show,
+  tagObj, 
   onHide,
   togglemodalshow,
   updateAddRefresh,
-  tagObj,
   currentInstitute,
 }: any) => {
   const initialValues = {
@@ -82,11 +82,11 @@ const TagsModal = ({
         </Modal.Header>
         <Modal.Body>
           <TimerAlertBox
-            alertMsg={alertMsg.message}
             className="mt-3"
+            showAlert={showAlert}
+            alertMsg={alertMsg.message}
             variant={alertMsg.alertBoxColor}
             setShowAlert={setShowAlert}
-            showAlert={showAlert}
           />
           <Formik
             initialValues={initialValues}

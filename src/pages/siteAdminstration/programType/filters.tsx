@@ -6,6 +6,7 @@ import { isMobile, isDesktop } from "react-device-detect";
 import { filterConfig } from "../../../utils/filterTimeout";
 
 type Props = {
+  apiStatus: string;
   programtypePermissions: any;
   openAddProgramType: () => void;
   updateinputfilters: (params: string) => void;
@@ -53,6 +54,7 @@ const Filter: React.FunctionComponent<Props> = ({ ...props }: Props) => {
   // common reusable props === >>>
   const CommonProps = {
     formik: formik,
+    apiStatus: props.apiStatus,
     programtypePermissions: props.programtypePermissions,
     handleFilterChange: handleFilterChange,
     openAddProgramType: props.openAddProgramType,

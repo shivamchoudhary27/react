@@ -194,6 +194,7 @@ const WorkLoad = () => {
         <Container fluid>
           <PageTitle pageTitle="Faculty Work Load" gobacklink="/timetable" />
           <Filters
+            apiStatus={apiStatus}
             toggleModalShow={toggleModalShow}
             refreshClassroomData={refreshToggle}
             updateInputFilters={updateInputFilters}

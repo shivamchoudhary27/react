@@ -62,6 +62,7 @@ const Mobile: React.FunctionComponent<Props> = ({ commonProps }: Props) => {
         <Container fluid>
           <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />
           <Filters
+            apiStatus={commonProps.apiStatus}
             programtypePermissions={commonProps.permissions}
             updateinputfilters={commonProps.updateInputFilters}
             openAddProgramType={commonProps.openAddProgramType}

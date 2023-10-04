@@ -99,7 +99,7 @@ const TimeTable = () => {
 
   // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
   const TIMETABLE_FILTER_COMPONENT = (
-    <Filters updateInputFilters={updateInputFilters} />
+    <Filters updateInputFilters={updateInputFilters} apiStatus={apiStatus} />
   );
 
   const TIMETABLE_TABLE_COMPONENT = (

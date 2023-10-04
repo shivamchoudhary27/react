@@ -9,7 +9,7 @@ import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextar
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
-import { Type_DepartmentObj, Type_AlertMsg, Type_FormTitles } from "../../types/type";
+import { Type_DepartmentObj, Type_AlertMsg, Type_FormTitles } from "../../type/type";
 
 type Props = {
   commonProps: {

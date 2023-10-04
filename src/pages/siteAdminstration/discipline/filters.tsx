@@ -10,6 +10,7 @@ type Type_InitialValues = {
 };
 
 type props = {
+  apiStatus: string;
   disciplinePermissions: any;
   openAddDiscipline: (params: boolean) => void;
   updateInputFilters: (params: string) => void;
@@ -52,11 +53,12 @@ const Filters: React.FunctionComponent<props> = ({ ...props }: props) => {
 
   const commonProps = {
     formik: formik,
+    apiStatus: props.apiStatus,
     disciplinePermissions: props.disciplinePermissions,
     handleFilterChange: handleFilterChange,
     openAddDiscipline: props.openAddDiscipline,
   };
-  console.log(commonProps);
+  
   return (
     <React.Fragment>
       {isMobile ? (

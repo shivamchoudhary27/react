@@ -7,7 +7,7 @@ import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
-import { Type_DepartmentObj, Type_AlertMsg, Type_FormTitles } from "../../types/type";
+import { Type_DepartmentObj, Type_AlertMsg, Type_FormTitles } from "../../type/type";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
 

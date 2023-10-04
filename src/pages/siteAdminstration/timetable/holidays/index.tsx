@@ -156,6 +156,7 @@ const Holidays = () => {
         <Container fluid>
           <PageTitle pageTitle="Manage Holidays" gobacklink="/timetable" />
           <Filters
+            apiStatus={apiStatus}
             yearOptions={yearOptions}
             toggleModalShow={toggleModalShow}
             refreshHolidaysData={refreshToggle}

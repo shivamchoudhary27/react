@@ -72,6 +72,7 @@ const Browser: React.FunctionComponent<Props> = ({ commonProps }: Props) => {
         <Container fluid>
           <PageTitle pageTitle={`Program Type`} gobacklink="/manageprogram" />
           <Filters
+            apiStatus={commonProps.apiStatus}
             programtypePermissions={commonProps.permissions}
             openAddProgramType={commonProps.openAddProgramType}
             updateinputfilters={commonProps.updateInputFilters}

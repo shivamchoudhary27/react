@@ -10,7 +10,7 @@ import {
   Type_FilterUpdate,
   Type_DepartmentObj,
   TypeCurrentInstitute,
-} from "./types/type";
+} from "./type/type";
 
 const Departments: React.FunctionComponent = () => {
   const dummyData: Type_ApiResponse = {

@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../../utils/filterTimeout";
+import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 const initialValues = {
   name: "",
@@ -9,6 +10,7 @@ const initialValues = {
 };
 
 const Filters = ({
+  apiStatus,
   toggleModalShow,
   updateInputFilters,
   resetClassroomForm,
@@ -86,7 +88,9 @@ const Filters = ({
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
+              <Button variant="primary" type="submit" className="me-2">
+                {apiStatus !== "finished" ? <LoadingButton status="filterLoader" /> : "Filter"}
+              </Button>
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
           </Row>          

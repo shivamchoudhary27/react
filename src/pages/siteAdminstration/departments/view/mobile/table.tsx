@@ -1,7 +1,7 @@
 import React from "react";
 import Table from "react-bootstrap/Table";
 import "sweetalert2/src/sweetalert2.scss";
-import { Type_AlertMsg } from "../../types/type";
+import { Type_AlertMsg } from "../../type/type";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../../../widgets/skeleton/table";
 import DeleteAlert from "../../../../../widgets/alert/deleteAlert";
