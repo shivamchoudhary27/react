@@ -1,10 +1,12 @@
+import React, { useState, useEffect } from "react";
 import { Formik, Form } from "formik";
-import React, { useState } from "react";
-import { postData } from "../../../../adapters/microservices";
-import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
+import { postData } from "../../../../adapters/microservices";
+import { postData as updateUserInfo} from "../../../../adapters/coreservices";
+import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
+import '../style.scss'
 
 const EditPicture = ({
   userobj,
@@ -13,6 +15,11 @@ const EditPicture = ({
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [userInfo, setUserInfo] = useState(userobj);
+
+  useEffect(() => {
+    setUserInfo(userobj);
+  }, [userobj]);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
@@ -39,8 +46,50 @@ const EditPicture = ({
     });
   };
 
+  const removeCurrentPicture = () => {
+    const values = userInfo;
+    delete values.files;
+    values.deleted = true;
+    
+    updateUserInfo(`/user/profile`, values)
+    .then((res: any) => {
+      console.log(res);
+        if (res.status === 200) {
+          togglemodalshow(false);
+          updateAddRefresh();
+        }
+    })
+    .catch((err: any) => {
+        console.log(err);
+        if (err.response.status === 404) {
+            setShowAlert(true);
+            setAlertMsg({
+                message: `${err.response.data.message}`,
+                alertBoxColor: "danger",
+            });
+        }
+    });
+  }
+
   return (
     <React.Fragment>
+      { userobj.files !== undefined && userobj.files.length > 0 &&
+        <React.Fragment>
+          <div className="user-picture-form">
+              <img
+                  src={userobj.files !== undefined && userobj.files.length > 0 ? userobj.files[0].url : ''}
+                  alt={userobj.files !== undefined && userobj.files.length > 0 ? userobj.files[0].originalFileName : userobj.userFirstName}
+                  width="150px"
+              />
+          </div>
+          <CustomButton
+            type="reset"
+            btnText="Remove Current Picture"
+            variant="outline-secondary"
+            onClick={() => removeCurrentPicture()}
+          />
+        </React.Fragment>
+      }
       <Formik
         enableReinitialize={true}
         initialValues={{}}
@@ -74,15 +123,7 @@ const EditPicture = ({
                   variant="primary"
                   disabled={isSubmitting}
                   btnText="Update Picture"
-                />{" "}
-                {userobj.id === 0 && (
-                  <CustomButton
-                    type="reset"
-                    btnText="Remove Picture"
-                    variant="outline-secondary"
-                    onClick={() => setShowAlert(false)}
-                  />
-                )}
+                />
               </div>
             ) : (
               <LoadingButton
