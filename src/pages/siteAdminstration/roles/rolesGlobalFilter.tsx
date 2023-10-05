@@ -4,6 +4,7 @@ import { globalFilterActions } from "../../../store/slices/globalFilters";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import switchrole from "../../../assets/images/icons/switch-role-icon.svg";
+import { Button } from "react-bootstrap";
 
 type Props = {};
 
@@ -87,10 +88,10 @@ const RolesGlobalFilter = (props: Props) => {
                   </Popover>
                 }
                 rootClose
-              >
-                <span className="head-icon">
-                  <img src={switchrole} alt="Switch Role" />
-                </span>
+              >                
+                <Button variant="link" className="head-icon" title="Switch Role">
+                <img src={switchrole} alt="Switch Role" />
+                </Button>
               </OverlayTrigger>
             </div>
           ) 
