@@ -22,6 +22,8 @@ type Props = {};
 const initialValues = {
   mobile: "",
   userEmail: "",
+  gender: "",
+  userDOB: "",
   parentsId: "",
   bloodGroup: "",
   fatherName: "",
@@ -58,6 +60,7 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
+  gender: Yup.string().required("Gender is required"),
 });
 
 const EditProfile = (props: Props) => {
@@ -130,7 +133,11 @@ const EditProfile = (props: Props) => {
                   </Col>
 
                   <Col md={6}>
-                    <FieldLabel htmlfor="userLastName" labelText="Last Name" star="*" />
+                    <FieldLabel
+                      htmlfor="userLastName"
+                      labelText="Last Name"
+                      star="*"
+                    />
                     <FieldTypeText
                       name="userLastName"
                       placeholder="Last Name"
@@ -142,7 +149,11 @@ const EditProfile = (props: Props) => {
                   </Col>
 
                   <Col md={6}>
-                    <FieldLabel htmlfor="userEmail" labelText="Email" star="*" />
+                    <FieldLabel
+                      htmlfor="userEmail"
+                      labelText="Email"
+                      star="*"
+                    />
                     <FieldTypeText name="userEmail" placeholder="Email" />
                     <FieldErrorMessage
                       errors={errors.userEmail}
@@ -157,6 +168,43 @@ const EditProfile = (props: Props) => {
                       errors={errors.mobile}
                       touched={touched.mobile}
                     />
+                  </Col>
+
+                  <Col md={6}>
+                    <FieldLabel
+                      htmlfor="gender"
+                      labelText="Gender"
+                      required="required"
+                      star="*"
+                    />
+                    <FieldTypeSelect
+                      name="gender"
+                      options={[
+                        { id: 1, name: "Male" },
+                        { id: 2, name: "Female" },
+                        { id: 3, name: "Other" },
+                      ]}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                      selectDefaultLabel={"Gender"}
+                    />
+                    <FieldErrorMessage
+                      errors={errors.gender}
+                      touched={touched.gender}
+                    />
+                  </Col>
+
+                  <Col md={6}>
+                    <FieldLabel htmlfor="userDOB" labelText="Date of Birth" />
+                    <FieldTypeText
+                      type="date"
+                      name="userDOB"
+                      placeholder="Date of birth"
+                    />
+                    {/* <FieldErrorMessage
+                      errors={errors.userDOB}
+                      touched={touched.userDOB}
+                    /> */}
                   </Col>
 
                   <Col md={6}>
@@ -176,7 +224,6 @@ const EditProfile = (props: Props) => {
                     <FieldErrorMessage
                       errors={errors.userCountry}
                       touched={touched.userCountry}
-                      msgText="Please select country"
                     />
                   </Col>
 
