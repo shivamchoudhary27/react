@@ -19,6 +19,7 @@ const EditPicture = ({
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [userInfo, setUserInfo] = useState(userobj);
+  const [removeStatus, setRemoveStatus] = useState(false);
 
   useEffect(() => {
     setUserInfo(userobj);
@@ -50,17 +51,35 @@ const EditPicture = ({
   };
 
   const removeCurrentPicture = () => {
-    const values = userInfo;
-    values.files[0].deleted = true;
+    setRemoveStatus(true);
+    const values = {
+      userFirstName: userInfo.userFirstName,
+      userLastName: userInfo.userLastName,
+      userEmail: userInfo.userEmail,
+      userId: userInfo.userId,
+      userCountry: userInfo.userCountry,
+      enabled: userInfo.enabled,
+      roles: userInfo.roles.map((role: any) => {
+        return {
+          ...role,
+        };
+      }),
+      files: userInfo.files.map((file: any) => {
+        return {
+          ...file,
+          deleted: true
+        };
+      }),
+    }
     
     updateUserInfo(`/user/profile`, values)
     .then((res: any) => {
-      console.log(res);
         if (res.status === 200) {
           togglemodalshow(false);
           updateAddRefresh(); 
           dispatch(globalUserInfoActions.removeUserPicture());
         }
+        setRemoveStatus(false);
     })
     .catch((err: any) => {
         console.log(err);
@@ -71,6 +90,7 @@ const EditPicture = ({
                 alertBoxColor: "danger",
             });
         }
+        setRemoveStatus(false);
     });
   }
 
@@ -85,12 +105,22 @@ const EditPicture = ({
                   width="150px"
               />
           </div>
-          <CustomButton
-            type="reset"
-            btnText="Remove Current Picture"
-            variant="outline-secondary"
-            onClick={() => removeCurrentPicture()}
-          />
+          {removeStatus === false ? (
+            <div className="modal-buttons">
+            <CustomButton
+              type="reset"
+              btnText="Remove Current Picture"
+              variant="outline-secondary"
+              onClick={() => removeCurrentPicture()}
+            />
+            </div>
+          ) : (
+            <LoadingButton
+              variant="primary"
+              btnText={"Removing Picture..."}
+              className="modal-buttons"
+            />
+          )}
         </React.Fragment>
       }
       <Formik
