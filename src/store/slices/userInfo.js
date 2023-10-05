@@ -8,6 +8,8 @@ const initialState = localStorage.getItem('userInfo') ? JSON.parse(localStorage.
       last_name: "",
       roles: {},
       username: "",
+      uid: 0,
+      files: []
   },
 };
 
@@ -23,8 +25,16 @@ const globalUserInfo = createSlice({
         last_name: action.payload.last_name,
         roles: action.payload.roles,
         username: action.payload.username,
+        uid: action.payload.uid,
+        files: action.payload.files,
       };
     },
+    removeUserPicture (state) {
+      state.userInfo.files = [];
+    },
+    updateUserPicture (state, action) {
+      state.userInfo.files = action.payload;
+    }
   },
 });
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
@@ -6,6 +7,7 @@ import { postData } from "../../../../adapters/microservices";
 import { postData as updateUserInfo} from "../../../../adapters/coreservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
+import { globalUserInfoActions } from "../../../../store/slices/userInfo";
 import '../style.scss'
 
 const EditPicture = ({
@@ -13,6 +15,7 @@ const EditPicture = ({
   togglemodalshow,
   updateAddRefresh,
 }: any) => {
+  const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [userInfo, setUserInfo] = useState(userobj);
@@ -55,7 +58,8 @@ const EditPicture = ({
       console.log(res);
         if (res.status === 200) {
           togglemodalshow(false);
-          updateAddRefresh();
+          updateAddRefresh(); 
+          dispatch(globalUserInfoActions.removeUserPicture());
         }
     })
     .catch((err: any) => {
