@@ -1,6 +1,5 @@
 // import "./style.scss";
 import Filters from "./filters";
-import TimeSlotModal from "./form";
 import TimesSlotTable from "./table";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
@@ -10,20 +9,16 @@ import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
 import PageTitle from "../../../../widgets/pageTitle";
 import { pagination } from "../../../../utils/pagination";
+import { getData } from "../../../../adapters/microservices";
 import BuildPagination from "../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 const TimesSlot = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [timeslotList, setTimeslotList] = useState(dummyData);
-  const [refreshOnDelete, setRefreshOnDelete] = useState(false);
-  const [timeslotObj, setTimeslotObj] = useState({});
-  const [refreshData, setRefreshData] = useState(true);
-  const [modalShow, setModalShow] = useState(false);
+  const [departmentList, setDepartmentList] = useState(dummyData);
   const [apiStatus, setApiStatus] = useState("");
   const selectedDepartment = useSelector(
     (state) => state.globalFilters.currentDepartmentFilterId
@@ -40,26 +35,21 @@ const TimesSlot = () => {
 
   useEffect(() => {
     if (currentInstitute > 0) {
-      let endPoint = `/${currentInstitute}/timetable/timeslot`;
-      makeGetDataRequest(endPoint, filterUpdate, setTimeslotList, setApiStatus);
+      const endPoint = `/${currentInstitute}/departments`;
+      setApiStatus('started')
+      getData(endPoint, filterUpdate)
+      .then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          setDepartmentList(res.data);
+        }
+        setApiStatus("finished")
+      })
+      .catch((err: any) => {
+        console.log(err)
+        setApiStatus("finished")
+      })
     }
-  }, [refreshData, filterUpdate, currentInstitute]);
-
-  // API call on delete === >>>
-  useEffect(() => {
-    if (currentInstitute > 0) {
-      let endPoint = `/${currentInstitute}/timetable/timeslot`;
-      makeGetDataRequest(endPoint, filterUpdate, setTimeslotList, setApiStatus);
-    }
-  }, [refreshOnDelete]);
-
-  const refreshToggle = () => {
-    setRefreshData(!refreshData);
-  };
-
-  const refreshOnDeleteToggle = (value: boolean) => {
-    setRefreshOnDelete(value);
-  };
+  }, [currentInstitute]);
 
   // to update filters values in the main state filterUpdate
   const updateClassroomFilterByDepartment = (departmentId: string) => {
@@ -74,40 +64,6 @@ const TimesSlot = () => {
     setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
   };
 
-  // get id, name from the department table === >>>
-  const editHandlerById = ({
-    id,
-    startTime,
-    endTime,
-    type,
-    breakTime,
-  }: any) => {
-    setTimeslotObj({
-      id: id,
-      startTime: startTime,
-      endTime: endTime,
-      type: type,
-      breakTime: breakTime,
-    });
-  };
-
-  // handle reset Form after SAVE data === >>>
-  const resetClassroomForm = () => {
-    setTimeslotObj({
-      id: 0,
-      startTime: "",
-      endTime: "",
-      type: "",
-      breakTime: "",
-    });
-    setRefreshData(false);
-  };
-
-  // handle modal hide & show functionality === >>>
-  const toggleModalShow = (status: boolean) => {
-    setModalShow(status);
-  };
-
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
@@ -119,26 +75,11 @@ const TimesSlot = () => {
   const TIMESLOT_TABLE_COMPONENT = (
     <TimesSlotTable
       apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
-      timeslotList={timeslotList.items}
-      editHandlerById={editHandlerById}
-      toggleModalShow={toggleModalShow}
-      refreshTimeslotData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
-    />
-  );
-
-  const TIMESLOT_MODAL_COMPONENT = (
-    <TimeSlotModal
-      show={modalShow}
-      timeslotObj={timeslotObj}
-      currentInstitute={currentInstitute}
-      togglemodalshow={toggleModalShow}
-      refreshClassroomData={refreshToggle}
-      onHide={() => toggleModalShow(false)}
+      departmentList={departmentList.items}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
+
   return (
     <>
       <Header />
@@ -153,21 +94,12 @@ const TimesSlot = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Manage Times Slot" gobacklink="/timetable" />
-          <Filters
-            toggleModalShow={toggleModalShow}
-            refreshClassroomData={refreshToggle}
-            updateInputFilters={updateInputFilters}
-            resetClassroomForm={resetClassroomForm}
-            filterHandlerByDepartment={filterHandlerByDepartment}
-            updateClassroomFilter={updateClassroomFilterByDepartment}
-          />
           {TIMESLOT_TABLE_COMPONENT}
           <BuildPagination
-            totalpages={timeslotList.pager.totalPages}
+            totalpages={departmentList.pager.totalPages}
             activepage={filterUpdate.pageNumber}
             getrequestedpage={newPageRequest}
           />
-          {TIMESLOT_MODAL_COMPONENT}
         </Container>
       </div>
       <Footer />

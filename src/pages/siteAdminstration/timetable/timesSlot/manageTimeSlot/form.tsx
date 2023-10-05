@@ -3,14 +3,14 @@ import Modal from "react-bootstrap/Modal";
 import { Col, Row } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import React, { useState, useEffect } from "react";
-import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
-import { postData, putData } from "../../../../adapters/microservices";
-import { generateHours, saperateHours, saperateMinutes } from "./utils";
-import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
+import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
+import FieldLabel from "../../../../../widgets/formInputFields/labels";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import { postData, putData } from "../../../../../adapters/microservices";
+import { generateHours, saperateHours, saperateMinutes } from "../utils";
+import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -32,6 +32,7 @@ const TimeSlotModal = ({
   show,
   onHide,
   timeslotObj,
+  departmentId,
   togglemodalshow,
   currentInstitute,
   refreshClassroomData,
@@ -103,6 +104,7 @@ const TimeSlotModal = ({
       }`,
       breakTime: JSON.parse(values.breakTime),
       type: values.type,
+      departmentId: departmentId
     };
 
     let endPoint = `/${currentInstitute}/timetable/timeslot`;
