@@ -94,7 +94,7 @@ const Filters = ({ updateInputFilters, apiStatus }: any) => {
             <Button variant="primary" onClick={() => navigate("/holidays")}>
               Manage Holidays
             </Button>{" "}
-            <Button variant="primary" onClick={() => navigate("/timesslot")}>
+            <Button variant="primary" onClick={() => navigate("/timeslot")}>
               Manage Times Slot
             </Button>{" "}
             <Button variant="primary" onClick={() => navigate("/workload")}>
