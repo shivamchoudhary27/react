@@ -14,6 +14,7 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import React, { useEffect, useContext, useState } from "react";
 import { searchCountryNameById } from "../../../globals/getCountry";
 import { globalUserInfoActions } from "../../../store/slices/userInfo";
+import DefaultProfileImage from "../../../assets/images/profile.png";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -71,7 +72,7 @@ const UserProfile = () => {
                   onClick={() => toggleModalShow("picture")}
                 >
                   <img
-                    src={user.files !== undefined && user.files.length > 0 ? user.files[0].url : ""}
+                    src={user.files !== undefined && user.files.length > 0 ? user.files[0].url : DefaultProfileImage}
                     alt={
                       user.files !== undefined &&
                       user.files.length > 0
