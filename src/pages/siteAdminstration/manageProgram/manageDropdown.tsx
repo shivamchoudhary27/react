@@ -3,13 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { globalFilterActions } from "../../../store/slices/globalFilters";
 import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 
-const ManageDropdown = ({ updatedepartment, currentInstitute } : any) => {
+const ManageDropdown = ({ updatedepartment, currentInstitute, selectedValue, setSelectedValue } : any) => {
   const dispatch = useDispatch();
   const selectedDepartment = useSelector(state => state.globalFilters.currentDepartmentFilterId);
   const dummyData = {items: [], pager: {totalElements: 0, totalPages: 0}}
   const [departmentData, setDepartmentData] = useState<any>(dummyData);
   const filters = {pageNumber: 0, pageSize : 30};
-  const [selectedValue, setSelectedValue] = useState('');
   
   // department API call === >>>
   useEffect(() => {

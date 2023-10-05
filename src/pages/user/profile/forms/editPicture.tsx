@@ -101,9 +101,8 @@ const EditPicture = ({
             <div className="mb-3">
                 <FieldLabel
                     htmlfor="file"
-                    labelText=""
+                    labelText="Upload Image"
                 />
-
                 <input
                     className="form-control"
                     id="file"

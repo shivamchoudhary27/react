@@ -1,9 +1,9 @@
+import "./style.scss";
 import { useState } from "react";
 import { useFormik } from "formik";
-import "./style.scss";
-import { Button, Row, Col } from "react-bootstrap";
 import ManageDropdown from "./manageDropdown";
 import { useNavigate } from "react-router-dom";
+import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
 
 const ManageFilter = ({
@@ -14,6 +14,7 @@ const ManageFilter = ({
 }: any) => {
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
+  const [selectedValue, setSelectedValue] = useState('');
   const initialValues = {
     name: "",
     code: "",
@@ -40,6 +41,7 @@ const ManageFilter = ({
         code: "",
       });
       updateinputfilters(initialValues);
+      setSelectedValue("")
     },
   });
 
@@ -75,6 +77,8 @@ const ManageFilter = ({
               <ManageDropdown
                 updatedepartment={updatedepartment}
                 currentInstitute={currentInstitute}
+                setSelectedValue={setSelectedValue}
+                selectedValue={selectedValue}
               />
             </Col>
             <Col>

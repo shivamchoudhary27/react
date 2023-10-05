@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Filter from "./filter";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import { Container } from "react-bootstrap";
-import Filter from "./filter";
-import UserManagementTable from "./table";
-import { getData } from "../../../adapters/coreservices";
-import { pagination } from "../../../utils/pagination";
-import BuildPagination from "../../../widgets/pagination";
-import UploadNewUsers from "./uploadUsers";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
 import AddUserModal from "./modalForm";
+import UserManagementTable from "./table";
+import { useSelector } from "react-redux";
+import HeaderTabs from "../../headerTabs";
+import UploadNewUsers from "./uploadUsers";
+import { Container } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import PageTitle from "../../../widgets/pageTitle";
+import { pagination } from "../../../utils/pagination";
 import Errordiv from "../../../widgets/alert/errordiv";
+import { getData } from "../../../adapters/coreservices";
+import BuildPagination from "../../../widgets/pagination";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };

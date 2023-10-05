@@ -117,6 +117,7 @@ const EditProfile = (props: Props) => {
                     <FieldLabel
                       htmlfor="userFirstName"
                       labelText="First Name"
+                      star="*"
                     />
                     <FieldTypeText
                       name="userFirstName"
@@ -129,7 +130,7 @@ const EditProfile = (props: Props) => {
                   </Col>
 
                   <Col md={6}>
-                    <FieldLabel htmlfor="userLastName" labelText="Last Name" />
+                    <FieldLabel htmlfor="userLastName" labelText="Last Name" star="*" />
                     <FieldTypeText
                       name="userLastName"
                       placeholder="Last Name"
@@ -141,7 +142,7 @@ const EditProfile = (props: Props) => {
                   </Col>
 
                   <Col md={6}>
-                    <FieldLabel htmlfor="userEmail" labelText="Email" />
+                    <FieldLabel htmlfor="userEmail" labelText="Email" star="*" />
                     <FieldTypeText name="userEmail" placeholder="Email" />
                     <FieldErrorMessage
                       errors={errors.userEmail}
@@ -163,6 +164,7 @@ const EditProfile = (props: Props) => {
                       htmlfor="userCountry"
                       labelText="Country"
                       required="required"
+                      star="*"
                     />
                     <FieldTypeSelect
                       name="userCountry"

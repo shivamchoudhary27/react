@@ -73,6 +73,7 @@ const ProgramEnrollment = () => {
           <ProgramEnrollFilter
             updateDepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
+            currentInstitute={currentInstitute}
           />
           <ProgramEnrollTable enrollmentData={enrollmentData.items} apiStatus={apiStatus} />
         </Container>

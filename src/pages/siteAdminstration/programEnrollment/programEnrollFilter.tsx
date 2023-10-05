@@ -5,8 +5,9 @@ import { Button, Row, Col } from "react-bootstrap";
 import ProgramEnrollDropdown from "./programEnrollDropdown";
 import { filterConfig } from "../../../utils/filterTimeout";
 
-const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
+const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInstitute }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
+  const [selectedValue, setSelectedValue] = useState('');
   const initialValues = {
     name: "",
     code: "",
@@ -29,6 +30,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
         code: "",
       });
       updateinputfilters(initialValues);
+      setSelectedValue("")
     }
   });
 
@@ -56,7 +58,12 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters }: any) => {
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <ProgramEnrollDropdown updateDepartment={updateDepartment} />
+              <ProgramEnrollDropdown 
+                updateDepartment={updateDepartment} 
+                currentInstitute={currentInstitute}
+                selectedValue ={selectedValue}
+                setSelectedValue ={setSelectedValue}
+              />
             </Col>
             <Col>
               <label htmlFor="name" hidden>Program Name</label>
