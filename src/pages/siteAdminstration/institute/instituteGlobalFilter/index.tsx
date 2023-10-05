@@ -5,6 +5,7 @@ import { getData } from "../../../../adapters/microservices";
 import switchinstitute from "../../../../assets/images/icons/switch-institue-icon.svg";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { Button } from "react-bootstrap";
 
 const InstituteFilter = () => {
   const dispatch = useDispatch();
@@ -84,9 +85,9 @@ const InstituteFilter = () => {
             </Popover>
           }
         >
-          <span className="head-icon">
-            <img src={switchinstitute} alt="Select Institute" />
-          </span>
+            <Button variant="link" className="head-icon" title="Select Institute">
+              <img src={switchinstitute} alt="Select Institute" />
+            </Button>
         </OverlayTrigger>
       </div>
     </>

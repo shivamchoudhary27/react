@@ -161,7 +161,7 @@ const FilterProgramDropdown = (props: Props) => {
   }
 
   return (
-    <div className="row mt-3 mt-sm-0">
+    <div className="row program-filter">
       <RenderFilterElements 
         component={"Department"} 
         filterPacket={filters.filterData.departments}
