@@ -11,6 +11,7 @@ import searchIcon from "../../assets/images/icons/search-icon.svg";
 import InstituteFilter from "../siteAdminstration/institute/instituteGlobalFilter";
 import RolesGlobalFilter from "../siteAdminstration/roles/rolesGlobalFilter";
 import { useSelector } from "react-redux";
+import ProfileDefaultImage from "../../assets/images/profile.png"
 
 if (config.WSTOKEN === "") {
   config.WSTOKEN = localStorage.getItem("token");
@@ -20,9 +21,7 @@ const Header = ({ showRightNavs = true }: any) => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const userid = userCtx.userInfo.userid ?? 0;
-  const fullname = userCtx.userInfo.fullname.toString() ?? "";
-  const userpictureurl = userCtx.userInfo.userpictureurl.toString() ?? "";
-  const currentUserInfo = useSelector((state: any) => state.userInfo);
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
   const logout = () => {
     localStorage.clear();
@@ -65,8 +64,8 @@ const Header = ({ showRightNavs = true }: any) => {
               <span className="rounded-circle user-profile-pix">
                 <img
                   className="img-fluid"
-                  src={userpictureurl}
-                  alt={fullname}
+                  src={currentUserInfo.files !== undefined && currentUserInfo.files.length > 0 ? currentUserInfo.files[0].url : ProfileDefaultImage}
+                  alt={currentUserInfo.first_name}
                 />
               </span>
             </Dropdown.Toggle>

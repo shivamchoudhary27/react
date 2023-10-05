@@ -1,4 +1,5 @@
 import "./style.scss";
+import { useDispatch } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import EditUserProfile from "./modal";
@@ -12,6 +13,7 @@ import { getData } from "../../../adapters/coreservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import React, { useEffect, useContext, useState } from "react";
 import { searchCountryNameById } from "../../../globals/getCountry";
+import { globalUserInfoActions } from "../../../store/slices/userInfo";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -25,6 +27,7 @@ const UserProfile = () => {
     files: [],
   });
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
   const [editComponent, setEditComponent] = useState("changePassword");
@@ -32,7 +35,10 @@ const UserProfile = () => {
   useEffect(() => {
     getData(`/user/profile`, {})
       .then((result: any) => {
-        if (result.status === 200) setUser(result.data);
+        if (result.status === 200) {
+          setUser(result.data);
+          dispatch(globalUserInfoActions.updateUserPicture(result.data.files));
+        }
       })
       .catch((err: any) => {
         console.log(err);
