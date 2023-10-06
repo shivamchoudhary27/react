@@ -1,21 +1,41 @@
-.user-profile-box .user-picture {
-    width: 200px; height: 200px; border-radius: 50%; border: 1px solid #ddd; margin: auto;
-    display: flex; justify-content: center; align-items: center; overflow: hidden;
-}
-.user-profile-box .user-picture img {
-    width: 100%;
-}
-.user-profile-box .user-profile-tab-content {
-    padding: 20px 0;
-}
-.user-profile-box ul.profile-menu-data {
-    list-style: none; margin: 0; padding: 0; overflow: hidden;
-}
-.user-profile-box ul.profile-menu-data li {
-    font-weight: 500; margin-bottom: 15px; float: left; width: 50%; padding: 0 15px;
-}
-.user-profile-box ul.profile-menu-data li label {
-    font-weight: 400; margin-right: 5px; color: #888; display: block; text-transform: uppercase;
+.user-profile-box {
+    .user-picture {
+        width: 200px; height: 200px; border-radius: 50%; border: 1px solid #ddd; margin: auto;
+        display: flex; justify-content: center; align-items: center; overflow: hidden; cursor: pointer;
+        position: relative;
+        img.userPix {
+            width: 100%;
+        }
+        .editPix {
+            position: absolute; display: none;
+            &:hover {
+                background-color: #fff;
+            }
+        }
+        &:hover .editPix {
+            display: block;
+        }
+    }
+    .user-profile-tab-content {
+        padding: 20px 0;
+    }
+    ul.profile-menu-data {
+        list-style: none; margin: 0; padding: 0; overflow: hidden;
+    }
+    li {
+        font-weight: 500; margin-bottom: 15px; float: left; width: 50%; padding: 0 15px;
+        label {
+            font-weight: 400; margin-right: 5px; color: #888; display: block; text-transform: uppercase;
+        }
+    }
+    .resetPassword {
+        a {
+            text-decoration: underline;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
 }
 .user-profile-container {
     border:1px solid #ddd; background-color: #fff;

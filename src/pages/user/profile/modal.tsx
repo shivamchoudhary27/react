@@ -22,7 +22,7 @@ const EditUserProfile = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {editComponent === 'changePassword' ? "Update New Password" : "Update Profile Picture"}
+            {editComponent === 'changePassword' ? "Update Password" : "Update Profile Picture"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -124,14 +124,14 @@ const ConfirmUserForm = () => {
             <div className="col-12 mb-4 text-start">
               <FieldLabel
                 htmlfor="confirmPassword"
-                labelText="Confirm Password"
+                labelText="Confirm New Password"
                 required="required"
                 className="form-label"
               />
               <FieldTypeText
                 type="password"
                 name="confirmPassword"
-                placeholder="Confirm Password"
+                placeholder="Confirm New Password"
               />
               <FieldErrorMessage
                 errors={errors.confirmPassword}
