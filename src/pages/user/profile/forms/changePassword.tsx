@@ -19,7 +19,7 @@ const initialValues = {
 const formSchema = Yup.object({
   newPassword: Yup.string().required("New password is required"),
   currentPassword: Yup.string().required("Current password is required"),
-  confirmPassword: Yup.string().required("Confirm password is required"),
+  confirmPassword: Yup.string().required("Confirm new password is required"),
 });
 
 const ChangePassword = ({
@@ -131,7 +131,7 @@ const ChangePassword = ({
             <div className="col-12 mb-3 text-start">
               <FieldLabel
                 htmlfor="confirmPassword"
-                labelText="Confirm Password"
+                labelText="Confirm New Password"
                 required="required"
                 className="form-label"
                 star="*"
@@ -139,7 +139,7 @@ const ChangePassword = ({
               <FieldTypeText
                 type="password"
                 name="confirmPassword"
-                placeholder="Confirm Password"
+                placeholder="Confirm New Password"
               />
               <FieldErrorMessage
                 errors={errors.confirmPassword}
