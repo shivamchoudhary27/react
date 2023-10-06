@@ -1,14 +1,16 @@
-import React from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
+import React, { useState } from "react";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
+import { useSelector } from "react-redux";
 import HeaderTabs from "../../../headerTabs";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Container } from "react-bootstrap";
 import CountryList from "../../../../globals/country";
 import PageTitle from "../../../../widgets/pageTitle";
 import { postData } from "../../../../adapters/coreservices";
+import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
@@ -16,23 +18,9 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
+import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 
 type Props = {};
-
-const initialValues = {
-  mobile: "",
-  userEmail: "",
-  gender: "",
-  userDOB: "",
-  parentsId: "",
-  bloodGroup: "",
-  fatherName: "",
-  motherName: "",
-  userCountry: "",
-  userLastName: "",
-  userFirstName: "",
-  parentsMobile: "",
-};
 
 // Formik Yup validation === >>>
 const userFormSchema = Yup.object({
@@ -60,15 +48,51 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
-  gender: Yup.string().required("Gender is required"),
+  genderType: Yup.string().required("Gender is required"),
 });
 
 const EditProfile = (props: Props) => {
   const navigate = useNavigate();
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const userProfileInfo = useSelector(
+    (state: any) => state.userProfile.userProfile
+  );
+  console.log(userProfileInfo);
+
+  const initialValues = {
+    mobile: "",
+    parentsMobile: "",
+    enabled: userProfileInfo.enabled,
+    userEmail: userProfileInfo.userEmail,
+    genderType: userProfileInfo.genderType,
+    bloodGroup: userProfileInfo.bloodGroup,
+    fatherName: userProfileInfo.fatherName,
+    motherName: userProfileInfo.motherName,
+    dateOfBirth: userProfileInfo.dateOfBirth,
+    parentEmail: userProfileInfo.parentEmail,
+    userCountry: userProfileInfo.userCountry,
+    userLastName: userProfileInfo.userLastName,
+    userFirstName: userProfileInfo.userFirstName,
+    // mobile: 9878987898,
+    // parentsMobile: 9878987898,
+    // enabled:true,
+    // userEmail: userProfileInfo.userEmail,
+    // genderType: userProfileInfo.genderType,
+    // bloodGroup: "A+",
+    // fatherName: userProfileInfo.userFirstName,
+    // motherName: userProfileInfo.userFirstName,
+    // dateOfBirth: "2023-10-06",
+    // parentEmail: userProfileInfo.userEmail,
+    // userCountry: userProfileInfo.userCountry,
+    // userLastName: userProfileInfo.userLastName,
+    // userFirstName: userProfileInfo.userFirstName,
+  };
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
+    console.log(values);
     postData(`/user/profile`, values)
       .then((res: any) => {
         if (res.status === 200) {
@@ -81,13 +105,13 @@ const EditProfile = (props: Props) => {
       })
       .catch((err: any) => {
         console.log(err);
-        if (err.response.status === 404) {
-          // setSubmitting(false);
-          // setShowAlert(true);
-          // setAlertMsg({
-          //     message: `${err.response.data.message}`,
-          //     alertBoxColor: "danger",
-          // });
+        if (err.response.status === 400) {
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: 'Not able to update your profile, Please try again!',
+            alertBoxColor: "danger",
+          });
         }
       });
   };
@@ -105,6 +129,13 @@ const EditProfile = (props: Props) => {
       <div className="contentarea-wrapper mt-3 mb-3">
         <Container fluid>
           <PageTitle pageTitle="Edit Profile" gobacklink="/profile" />
+          <TimerAlertBox
+            className="mt-3"
+            showAlert={showAlert}
+            alertMsg={alertMsg.message}
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+          />
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -172,38 +203,41 @@ const EditProfile = (props: Props) => {
 
                   <Col md={6}>
                     <FieldLabel
-                      htmlfor="gender"
+                      htmlfor="genderType"
                       labelText="Gender"
                       required="required"
                       star="*"
                     />
                     <FieldTypeSelect
-                      name="gender"
+                      name="genderType"
                       options={[
-                        { id: 1, name: "Male" },
-                        { id: 2, name: "Female" },
-                        { id: 3, name: "Other" },
+                        { id: "MALE", name: "Male" },
+                        { id: "FEMALE", name: "Female" },
+                        { id: "OTHERS", name: "Other" },
                       ]}
                       setcurrentvalue={setValues}
                       currentformvalue={values}
                       selectDefaultLabel={"Gender"}
                     />
                     <FieldErrorMessage
-                      errors={errors.gender}
-                      touched={touched.gender}
+                      errors={errors.genderType}
+                      touched={touched.genderType}
                     />
                   </Col>
 
                   <Col md={6}>
-                    <FieldLabel htmlfor="userDOB" labelText="Date of Birth" />
+                    <FieldLabel
+                      htmlfor="dateOfBirth"
+                      labelText="Date of Birth"
+                    />
                     <FieldTypeText
                       type="date"
-                      name="userDOB"
+                      name="dateOfBirth"
                       placeholder="Date of birth"
                     />
                     {/* <FieldErrorMessage
-                      errors={errors.userDOB}
-                      touched={touched.userDOB}
+                      errors={errors.dateOfBirth}
+                      touched={touched.dateOfBirth}
                     /> */}
                   </Col>
 
@@ -286,19 +320,23 @@ const EditProfile = (props: Props) => {
 
                   <Col md={6}>
                     <FieldLabel
-                      htmlfor="parentsId"
+                      htmlfor="parentEmail"
                       labelText="Parents Email Id"
                     />
                     <FieldTypeText
-                      name="parentsId"
+                      name="parentEmail"
                       placeholder="Parents Email Id"
                     />
                     <FieldErrorMessage
-                      errors={errors.parentsId}
-                      touched={touched.parentsId}
+                      errors={errors.parentEmail}
+                      touched={touched.parentEmail}
                     />
                   </Col>
                 </Row>
+                <div className="my-3">
+                  <FieldTypeCheckbox name="enabled" checkboxLabel="Published" />{" "}
+                  <FieldErrorMessage errors="" touched="" />
+                </div>
                 {isSubmitting === false ? (
                   <div className="modal-buttons">
                     <CustomButton

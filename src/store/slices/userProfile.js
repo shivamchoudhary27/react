@@ -23,7 +23,7 @@ const globalUserProfile = createSlice({
   name: "userProfile",
   initialState,
   reducers: {
-    userInfo(state, action) {
+    userProfile(state, action) {
       state.userProfile = {
         userFirstName: action.payload.userFirstName,
         userLastName: action.payload.userLastName,
