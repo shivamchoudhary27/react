@@ -146,7 +146,7 @@ const EditProfile = (props: Props) => {
             {({ errors, touched, setValues, values, isSubmitting }) => (
               <Form>
                 <Row className="gy-3">
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="userFirstName"
                       labelText="First Name"
@@ -162,7 +162,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="userLastName"
                       labelText="Last Name"
@@ -178,7 +178,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="userEmail"
                       labelText="Email"
@@ -191,7 +191,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel htmlfor="mobile" labelText="Mobile" />
                     <FieldTypeText name="mobile" placeholder="Mobile" />
                     <FieldErrorMessage
@@ -200,7 +200,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="genderType"
                       labelText="Gender"
@@ -224,7 +224,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="dateOfBirth"
                       labelText="Date of Birth"
@@ -240,7 +240,7 @@ const EditProfile = (props: Props) => {
                     /> */}
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="userCountry"
                       labelText="Country"
@@ -260,7 +260,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel htmlfor="bloodGroup" labelText="Blood Group" />
                     <FieldTypeText
                       name="bloodGroup"
@@ -272,7 +272,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="fatherName"
                       labelText="Father's Name"
@@ -287,7 +287,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="motherName"
                       labelText="Mother's Name"
@@ -302,7 +302,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="parentsMobile"
                       labelText="Parents Mobile No"
@@ -317,7 +317,7 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
 
-                  <Col md={6}>
+                  <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="parentEmail"
                       labelText="Parents Email Id"
@@ -333,7 +333,7 @@ const EditProfile = (props: Props) => {
                   </Col>
                 </Row>
                 {isSubmitting === false ? (
-                  <div className="modal-buttons">
+                  <div className="modal-buttons my-3">
                     <CustomButton
                       type="submit"
                       variant="primary"
