@@ -70,6 +70,10 @@ const UserProfile = () => {
     setRefreshData(!refreshData);
   };
 
+  const capitalizeFirstLetter = (inputString: string) => {
+    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -117,11 +121,11 @@ const UserProfile = () => {
                 <ul className="profile-menu-data">
                   <li>
                     <label>First Name</label>
-                    {user.userFirstName}
+                    {capitalizeFirstLetter(user.userFirstName)}
                   </li>
                   <li>
                     <label>Last Name</label>
-                    {user.userLastName}
+                    {capitalizeFirstLetter(user.userLastName)}
                   </li>
                   <li>
                     <label>Email</label>
@@ -133,7 +137,7 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Gender</label>
-                    {user.genderType}
+                    {capitalizeFirstLetter(user.genderType)}
                   </li>
                   <li>
                     <label>Date of Birth</label>
@@ -145,15 +149,15 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Blood Group</label>
-                    {user.bloodGroup}
+                    {capitalizeFirstLetter(user.bloodGroup)}
                   </li>
                   <li>
                     <label>Father Name</label>
-                    {user.fatherName}
+                    {capitalizeFirstLetter(user.fatherName)}
                   </li>
                   <li>
                     <label>Mother Name</label>
-                    {user.motherName}
+                    {capitalizeFirstLetter(user.motherName)}
                   </li>
                   <li>
                     <label>Parents Mobile No</label>
