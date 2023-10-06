@@ -26,6 +26,12 @@ const UserProfile = () => {
     userId: 0,
     userCountry: "--",
     enabled: false,
+    fatherName: "--",
+    motherName: "--",
+    parentEmail: "--",
+    bloodGroup: "--",
+    genderType: "--",
+    dateOfBirth: "--",
     roles: [],
     files: [],
   });
@@ -127,11 +133,11 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Gender</label>
-                    --
+                    {user.genderType}
                   </li>
                   <li>
                     <label>Date of Birth</label>
-                    --
+                    {user.dateOfBirth !== null}--
                   </li>
                   <li>
                     <label>Country</label>
@@ -139,23 +145,23 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Blood Group</label>
-                    --
+                    {user.bloodGroup}
                   </li>
                   <li>
                     <label>Father Name</label>
-                    --
+                    {user.fatherName}
                   </li>
                   <li>
                     <label>Mother Name</label>
-                    --
+                    {user.motherName}
                   </li>
                   <li>
                     <label>Parents Mobile No</label>
-                    --
+                    {user.userFirstName}
                   </li>
                   <li>
                     <label>Parents Email Id</label>
-                    --
+                    {user.parentEmail}
                   </li>
                 </ul>
               </div>
