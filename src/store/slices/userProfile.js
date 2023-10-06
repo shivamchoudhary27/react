@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : {
+const initialState = localStorage.getItem('userProfile') ? JSON.parse(localStorage.getItem('userProfile')) : {
   userProfile:{
     userFirstName: "",
     userLastName: "",
@@ -25,18 +25,18 @@ const globalUserProfile = createSlice({
   reducers: {
     userProfile(state, action) {
       state.userProfile = {
-        userFirstName: action.payload.userFirstName,
-        userLastName: action.payload.userLastName,
-        userEmail: action.payload.userEmail,
-        userId: action.payload.userId,
-        userCountry: action.payload.userCountry,
-        enabled: action.payload.enabled,
-        fatherName: action.payload.fatherName,
-        motherName: action.payload.motherName,
-        parentEmail: action.payload.parentEmail,
-        bloodGroup: action.payload.bloodGroup,
-        genderType: action.payload.genderType,
-        dateOfBirth: action.payload.dateOfBirth,
+        userFirstName: action.payload?.userFirstName,
+        userLastName: action.payload?.userLastName,
+        userEmail: action.payload?.userEmail,
+        userId: action.payload?.userId,
+        userCountry: action.payload?.userCountry,
+        enabled: action.payload?.enabled,
+        fatherName: action.payload?.fatherName,
+        motherName: action.payload?.motherName,
+        parentEmail: action.payload?.parentEmail,
+        bloodGroup: action.payload?.bloodGroup,
+        genderType: action.payload?.genderType,
+        dateOfBirth: action.payload?.dateOfBirth,
       };
     },
   },
