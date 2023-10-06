@@ -63,7 +63,6 @@ const EditProfile = (props: Props) => {
   const initialValues = {
     mobile: "",
     parentsMobile: "",
-    enabled: userProfileInfo?.enabled,
     userEmail: userProfileInfo?.userEmail,
     genderType: userProfileInfo?.genderType,
     bloodGroup: userProfileInfo?.bloodGroup,
@@ -211,9 +210,9 @@ const EditProfile = (props: Props) => {
                     <FieldTypeSelect
                       name="genderType"
                       options={[
-                        { id: "MALE", name: "Male" },
-                        { id: "FEMALE", name: "Female" },
-                        { id: "OTHERS", name: "Other" },
+                        { id: "male", name: "Male" },
+                        { id: "female", name: "Female" },
+                        { id: "other", name: "Other" },
                       ]}
                       setcurrentvalue={setValues}
                       currentformvalue={values}
@@ -333,10 +332,6 @@ const EditProfile = (props: Props) => {
                     />
                   </Col>
                 </Row>
-                <div className="my-3">
-                  <FieldTypeCheckbox name="enabled" checkboxLabel="Published" />{" "}
-                  <FieldErrorMessage errors="" touched="" />
-                </div>
                 {isSubmitting === false ? (
                   <div className="modal-buttons">
                     <CustomButton
