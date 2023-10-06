@@ -1,5 +1,5 @@
 import "./style.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import EditUserProfile from "./modal";
@@ -34,8 +34,12 @@ const UserProfile = () => {
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
   const [editComponent, setEditComponent] = useState("changePassword");
+  const userProfileInfo = useSelector(
+    (state: any) => state.userProfile.userProfile
+  );
 
   useEffect(() => {
+    setUser(userProfileInfo);
     getData(`/user/profile`, {})
       .then((result: any) => {
         if (result.status === 200) {
