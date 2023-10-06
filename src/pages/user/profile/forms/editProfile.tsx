@@ -211,9 +211,9 @@ const EditProfile = (props: Props) => {
                     <FieldTypeSelect
                       name="genderType"
                       options={[
-                        { id: "MALE", name: "Male" },
-                        { id: "FEMALE", name: "Female" },
-                        { id: "OTHERS", name: "Other" },
+                        { id: "male", name: "Male" },
+                        { id: "female", name: "Female" },
+                        { id: "other", name: "Other" },
                       ]}
                       setcurrentvalue={setValues}
                       currentformvalue={values}
