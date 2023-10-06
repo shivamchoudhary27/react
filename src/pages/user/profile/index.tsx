@@ -41,6 +41,7 @@ const UserProfile = () => {
           setUser(result.data);
           dispatch(globalUserInfoActions.updateUserPicture(result.data.files));
           dispatch(globalUserProfileActions.userProfile(result.data));
+          localStorage.setItem('userProfile', JSON.stringify({userProfile: result.data}))
         }
       })
       .catch((err: any) => {
