@@ -14,6 +14,7 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import React, { useEffect, useContext, useState } from "react";
 import { searchCountryNameById } from "../../../globals/getCountry";
 import { globalUserInfoActions } from "../../../store/slices/userInfo";
+import { globalUserProfileActions } from "../../../store/slices/userProfile";
 import DefaultProfileImage from "../../../assets/images/profile.png";
 
 const UserProfile = () => {
@@ -39,6 +40,7 @@ const UserProfile = () => {
         if (result.status === 200) {
           setUser(result.data);
           dispatch(globalUserInfoActions.updateUserPicture(result.data.files));
+          dispatch(globalUserProfileActions.userProfile(result.data));
         }
       })
       .catch((err: any) => {
