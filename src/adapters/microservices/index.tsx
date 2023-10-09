@@ -10,7 +10,7 @@ export const getData = (endPoint: string, params : any) => {
     return instance.get(endPoint, { params });
 };
 
-export const postData = (endPoint: string, requestData: any, file?: File, component: string = '') => {
+export const postData = (endPoint: string, requestData: any, file?: File, isMultiFile: boolean = false) => {
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
     

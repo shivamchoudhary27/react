@@ -6,6 +6,7 @@ import { Formik, Form } from "formik";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import {
   postData as postProgramData,
+  postData as postProgramImage,
   putData as updateProgramData,
   getData
 } from "../../../../adapters/microservices";
@@ -167,13 +168,15 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     let programImage = values.file;
     delete programValues?.file;
     let error_Msg = "";
-
+    
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
       actions.setSubmitting(true);
-      postProgramData(endPoint, {program: programValues}, programImage, 'program')
+      postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
+            uploadProgramImage(programImage, res.data.id);
+
             Swal.fire({
               icon: "success",
               title: "Added Successfully",
@@ -203,9 +206,8 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
       actions.setSubmitting(true);
-      updateProgramData(endPoint, {program: programValues}, programImage, 'program')
+      updateProgramData(endPoint, programValues)
       .then((res: any) => {
-          console.log("update-----", res)
           if (res.data !== "" && res.status === 200) {
             Swal.fire({
               icon: "success",
@@ -234,9 +236,26 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
             navigate("/manageprogram", { state: values });
           }
         });
+
+        uploadProgramImage(programImage, programid);
     }
     // navigate("/manageprogram", { state: values });
   };
+
+  const uploadProgramImage = (programImage: File, programId : stirng | number) => {
+    postProgramImage(`/files/program/${programId}`, {}, programImage)
+    .then((res: any) => {
+        if (res.status === 200) {
+
+        }
+    })
+    .catch((err: any) => {
+        console.log(err);
+        if (err.response.status === 404) {
+
+        }
+    });
+  }
   
   const filterProgramCode = (endPoint : string, programCode: any, actions: any) => {
     getData(endPoint, { pageNumber: 0, pageSize: 10, programCode})

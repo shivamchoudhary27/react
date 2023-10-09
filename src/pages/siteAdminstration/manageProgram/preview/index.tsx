@@ -98,7 +98,11 @@ const Preview = () => {
             <div className="program-overview-container" key={el.id}>
               <Row>
                 <Col md={3}>
-                  <Image src={programImage} alt={el.name} fluid rounded />
+                  <Image 
+                    src={el.files.length > 0 ? el.files[0].url : programImage} 
+                    alt={el.name} 
+                    fluid rounded 
+                  />
                 </Col>
                 <Col md={9}>
                   <h5 className="program-title">
