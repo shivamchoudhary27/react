@@ -17,6 +17,7 @@ export const initialValues = {
     programaccessinfo: [],
     isBatchYearRequired: false,
     tags: [],
+    published: false,
     file: null
 };
 
@@ -82,8 +83,8 @@ export const generateProgramDataObject = (formData) => {
     programData.batchYear = (formData.isBatchYearRequired) ? (formData.batchYear == "") ? 2023 : formData.batchYear : 0;
     programData.description = formData.description;
     programData.objective = formData.objective;
-    programData.fullLifeTimeAccess = formData.programaccessinfo.includes("fullaccess");
-    programData.published = formData.programaccessinfo.includes("published");
+    programData.fullLifeTimeAccess = formData.fullLifeTimeAccess;
+    programData.published = formData.published;
     programData.programType = {id : formData.programtype} ;
     programData.department = {id : formData.department};
     programData.discipline = {id : formData.discipline};
@@ -125,6 +126,8 @@ export const generateIinitialValues = (apiData) => {
             isBatchYearRequired: apiData.programType.batchYearRequired ?? false,
             meta: apiData.metaFields,
             tags: apiData.tags.map(obj => obj.id),
+            published: apiData.published,
+            fullLifeTimeAccess: apiData.fullLifeTimeAccess,
             file: null
         }
        return setInitialValues;

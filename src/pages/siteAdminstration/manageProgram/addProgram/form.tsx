@@ -165,6 +165,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   
   const _submitForm = (values: any, actions: any) => {
     let programValues = generateProgramDataObject(values);
+
     let programImage = values.file;
     delete programValues?.file;
     let error_Msg = "";
@@ -242,7 +243,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     // navigate("/manageprogram", { state: values });
   };
 
-  const uploadProgramImage = (programImage: File, programId : stirng | number) => {
+  const uploadProgramImage = (programImage: File, programId : string | number) => {
     postProgramImage(`/files/program/${programId}`, {}, programImage)
     .then((res: any) => {
         if (res.status === 200) {
@@ -576,11 +577,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       />
                     </div>
                     <div>
-                      <FieldTypeCheckbox
-                        name="programaccessinfo"
-                        value="published"
-                        checkboxLabel="Published"
-                      />
+                      <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
                     </div>
                     <input
                       className="form-control"
@@ -590,8 +587,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       onChange={(event) => {
                         setFieldValue("file", event.currentTarget.files[0]);
                       }}
-                      multiple
                     />
+                    <div>
+                      <FieldTypeCheckbox
+                        name="deleteImage"
+                        value="deleteImage"
+                        checkboxLabel="Remove Picture"
+                      />
+                    </div>
                     {/* <UploadImage setFieldValue={setFieldValue} values={values} /> */}
                   </Col>
                 </Row>
