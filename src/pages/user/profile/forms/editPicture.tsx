@@ -100,9 +100,9 @@ const EditPicture = ({
         <React.Fragment>
           <div className="user-picture-form">
               <img
-                  src={userobj.files !== undefined && userobj.files.length > 0 ? userobj.files[0].url : ''}
-                  alt={userobj.files !== undefined && userobj.files.length > 0 ? userobj.files[0].originalFileName : userobj.userFirstName}
-                  width="150px"
+                src={userobj.files[0].url}
+                alt={userobj.files[0].originalFileName}
+                width="150px"
               />
           </div>
           {removeStatus === false ? (

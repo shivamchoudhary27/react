@@ -18,7 +18,9 @@ export const initialValues = {
     isBatchYearRequired: false,
     tags: [],
     published: false,
-    file: null
+    file: null,
+    files: [],
+    deleteImage: false,
 };
 
 // a set of fields to be added or removed within the program form
@@ -69,7 +71,9 @@ const programData = {
     discipline: {id: ''},
     metaFields: [{title: '', description: ''}],
     tags: [{id: ""}],
-    file: null
+    file: null,
+    files: [],
+    deleteImage: false
 }
 
 // to convert program formdata to api required structure after the form submission
@@ -90,6 +94,7 @@ export const generateProgramDataObject = (formData) => {
     programData.discipline = {id : formData.discipline};
     programData.metaFields = getMetaFields(formData.meta)
     programData.tags = submittedTags;
+    programData.files = formData.files;
     
     return programData;
 };
@@ -128,7 +133,8 @@ export const generateIinitialValues = (apiData) => {
             tags: apiData.tags.map(obj => obj.id),
             published: apiData.published,
             fullLifeTimeAccess: apiData.fullLifeTimeAccess,
-            file: null
+            files: apiData.files,
+            deleteImage: false
         }
        return setInitialValues;
     }  else {

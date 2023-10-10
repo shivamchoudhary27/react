@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.scss";
 import { Container, Row, Col } from "react-bootstrap";
@@ -95,7 +95,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     pageSize: pagination.PERPAGE,
   });
   const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
-
+  
   const handleNextStep = () => {
     setStep(step + 1);
   };
@@ -166,6 +166,17 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   const _submitForm = (values: any, actions: any) => {
     let programValues = generateProgramDataObject(values);
 
+    if (values.deleteImage === true) {
+      programValues.files = programValues.files.map((file: any) => {
+        return {
+          ...file,
+          deleted: true
+        };
+      });
+      programValues.deleted = true;
+      delete programValues.deleteImage;
+    }
+
     let programImage = values.file;
     delete programValues?.file;
     let error_Msg = "";
@@ -207,6 +218,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     } else {
       let endPoint = `/${instituteId}/programs/${programid}`;
       actions.setSubmitting(true);
+
       updateProgramData(endPoint, programValues)
       .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -244,18 +256,20 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   };
 
   const uploadProgramImage = (programImage: File, programId : string | number) => {
-    postProgramImage(`/files/program/${programId}`, {}, programImage)
-    .then((res: any) => {
-        if (res.status === 200) {
-
-        }
-    })
-    .catch((err: any) => {
-        console.log(err);
-        if (err.response.status === 404) {
-
-        }
-    });
+    if (programImage !== undefined) {
+      postProgramImage(`/files/program/${programId}`, {}, programImage)
+      .then((res: any) => {
+          if (res.status === 200) {
+  
+          }
+      })
+      .catch((err: any) => {
+          console.log(err);
+          if (err.response.status === 404) {
+  
+          }
+      });
+    }
   }
   
   const filterProgramCode = (endPoint : string, programCode: any, actions: any) => {
@@ -579,6 +593,28 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <div>
                       <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
                     </div>
+                    { initValues.files !== undefined && initValues.files.length > 0 &&
+                      <React.Fragment>
+                        <div>
+                          <img
+                              src={initValues.files[0].url}
+                              alt={initValues.files[0].originalFileName}
+                              width="150px"
+                          />
+                          {" "}
+                          <FieldTypeCheckbox
+                            name="deleteImage"
+                            checkboxLabel="Remove Picture"
+                          />
+                        </div>
+                        <div>
+                        </div>
+                      </React.Fragment>
+                    }
+                    <FieldLabel
+                      htmlfor="file"
+                      labelText="Program Picture"
+                    />
                     <input
                       className="form-control"
                       id="file"
@@ -588,13 +624,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                         setFieldValue("file", event.currentTarget.files[0]);
                       }}
                     />
-                    <div>
-                      <FieldTypeCheckbox
-                        name="deleteImage"
-                        value="deleteImage"
-                        checkboxLabel="Remove Picture"
-                      />
-                    </div>
                     {/* <UploadImage setFieldValue={setFieldValue} values={values} /> */}
                   </Col>
                 </Row>
