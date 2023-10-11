@@ -12,12 +12,15 @@ import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
 import BuildPagination from "../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import { Button } from "react-bootstrap";
+import { useNavigate } from 'react-router-dom'
 
 const TimesSlot = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
+  const navigate = useNavigate();
   const [departmentList, setDepartmentList] = useState(dummyData);
   const [apiStatus, setApiStatus] = useState("");
   const selectedDepartment = useSelector(
@@ -36,18 +39,18 @@ const TimesSlot = () => {
   useEffect(() => {
     if (currentInstitute > 0) {
       const endPoint = `/${currentInstitute}/departments`;
-      setApiStatus('started')
+      setApiStatus("started");
       getData(endPoint, filterUpdate)
-      .then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          setDepartmentList(res.data);
-        }
-        setApiStatus("finished")
-      })
-      .catch((err: any) => {
-        console.log(err)
-        setApiStatus("finished")
-      })
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            setDepartmentList(res.data);
+          }
+          setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setApiStatus("finished");
+        });
     }
   }, [currentInstitute]);
 
@@ -94,6 +97,11 @@ const TimesSlot = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Manage Times Slot" gobacklink="/timetable" />
+          <div className="filter-wrapper mt-2">
+            <div className="site-button-group">
+              <Button variant="primary" onClick={() => navigate('/institutetimeslot')}>Manage Institute Timeslot</Button>{" "}
+            </div>
+          </div>
           {TIMESLOT_TABLE_COMPONENT}
           <BuildPagination
             totalpages={departmentList.pager.totalPages}

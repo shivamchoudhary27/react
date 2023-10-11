@@ -11,6 +11,7 @@ import editIcon from "../../../../../assets/images/icons/edit-action.svg";
 // import showIcon from "../../../../assets/images/icons/show-action.svg";
 // import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../../../assets/images/icons/delete-action.svg";
+import ChooseAction from "../chooseAction";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -175,6 +176,8 @@ const ManageTimesSlotTable = ({
 
   return (
     <React.Fragment>
+      {
+        timeslotList.length !== 0 ? 
       <div className="table-responsive admin-table-wrapper mt-3">
         <TimerAlertBox
           className="mt-3"
@@ -217,13 +220,14 @@ const ManageTimesSlotTable = ({
         {apiStatus === "finished" && timeslotList.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
-      </div>
+      </div> : <ChooseAction />
+      }
       <DeleteAlert
         show={showDeleteModal}
         modalHeading="Department"
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
-      />
+        />
     </React.Fragment>
   );
 };
