@@ -49,6 +49,7 @@ const userFormSchema = Yup.object({
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
   genderType: Yup.string().required("Gender is required"),
+  // mobile: Yup.number().required('Mobile nuber is required'),
 });
 
 const EditProfile = (props: Props) => {
@@ -58,11 +59,9 @@ const EditProfile = (props: Props) => {
   const userProfileInfo = useSelector(
     (state: any) => state.userProfile.userProfile
   );
-  console.log(userProfileInfo);
 
   const initialValues = {
-    mobile: "",
-    parentsMobile: "",
+    mobile: userProfileInfo?.mobile,
     userEmail: userProfileInfo?.userEmail,
     genderType: userProfileInfo?.genderType,
     bloodGroup: userProfileInfo?.bloodGroup,
@@ -72,20 +71,8 @@ const EditProfile = (props: Props) => {
     parentEmail: userProfileInfo?.parentEmail,
     userCountry: userProfileInfo?.userCountry,
     userLastName: userProfileInfo?.userLastName,
+    parentsMobile: userProfileInfo?.parentsMobile,
     userFirstName: userProfileInfo?.userFirstName,
-    // mobile: 9878987898,
-    // parentsMobile: 9878987898,
-    // enabled:true,
-    // userEmail: userProfileInfo.userEmail,
-    // genderType: userProfileInfo.genderType,
-    // bloodGroup: "A+",
-    // fatherName: userProfileInfo.userFirstName,
-    // motherName: userProfileInfo.userFirstName,
-    // dateOfBirth: "2023-10-06",
-    // parentEmail: userProfileInfo.userEmail,
-    // userCountry: userProfileInfo.userCountry,
-    // userLastName: userProfileInfo.userLastName,
-    // userFirstName: userProfileInfo.userFirstName,
   };
 
   // handle Form CRUD operations === >>>
