@@ -162,10 +162,11 @@ const ManageProgram = () => {
             </Button>
           </div>
           <ManageFilter
-            updatedepartment={updateDepartmentFilter}
-            updateinputfilters={updateInputFilters}
+            apiStatus={apiStatus}
             currentInstitute={currentInstitute}
             programPermissions={programAuthorities.program}
+            updateinputfilters={updateInputFilters}
+            updatedepartment={updateDepartmentFilter}
           />
           {!programAuthorities.program.canView ? (
             <Errordiv
@@ -176,12 +177,12 @@ const ManageProgram = () => {
           ) : (
             <React.Fragment>
               <ManageTable
-                programData={programData.items}
-                refreshDepartmentData={refreshToggle}
-                refreshOnDelete={refreshOnDeleteToggle}
                 apiStatus={apiStatus}
+                programData={programData.items}
                 currentInstitute={currentInstitute}
                 programPermissions={programAuthorities.program}
+                refreshDepartmentData={refreshToggle}
+                refreshOnDelete={refreshOnDeleteToggle}
               />
               <BuildPagination
                 totalpages={programData.pager.totalPages}

@@ -7,7 +7,10 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { deleteData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import editIcon from "../../../../assets/images/icons/edit-action.svg";
+import editIcon from "../../../../../assets/images/icons/edit-action.svg";
+// import showIcon from "../../../../assets/images/icons/show-action.svg";
+// import hideIcon from "../../../../assets/images/icons/hide-action.svg";
+import deleteIcon from "../../../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -16,54 +19,73 @@ const actionsStyle = {
   justifyContent: "space-evenly",
 };
 
-const WorkLoadTable = ({
+const ManageInstituteTimesSlotTable = ({
   apiStatus,
-  workLoadData,
+  timeslotList,
   editHandlerById,
   toggleModalShow,
   refreshOnDelete,
   currentInstitute,
-  refreshClassroomData,
-  workLoadApiResponseData
+  refreshTimeslotData,
 }: any) => {
-  console.log()
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Full Name",
+      Header: "Time / Day",
+      //   accessor: "name",
       Cell: ({ row }: any) => {
-        return `${row.original.userFirstName} ${row.original.userLastName}`;
+        return (
+          <span>{`${
+            row.original.startTime !== null ? row.original.startTime : "00:00"
+          } - ${
+            row.original.endTime !== null ? row.original.endTime : "00:00"
+          }`}</span>
+        );
       },
     },
+    // {
+    //   Header: "Weight",
+    //   accessor: "",
+    // },
     {
-      Header: "Email",
-      accessor: "userEmail",
-    },
-    {
-      Header: "Department",
-      accessor: "departmentName",
-    },
-    {
-      Header: "Load per week (Hours)",
-      accessor: "workLoad",
+      Header: "Break",
+      // accessor: "type",
+      Cell: ({ row }: any) => {
+        return row.original.type !== null &&
+          row.original.type.charAt(0).toUpperCase() +
+            row.original.type.slice(1);
+      },
     },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          <Link to={`/manageworkload/${row.original.userId}`}>View</Link>
           <Link className="action-icons" to="">
             <img
               src={editIcon}
               alt="Edit"
               onClick={() =>
                 editHandler({
-                  id: row.original.userId,
-                  workLoad: row.original.workLoad !== null && row.original.workLoad,
-                  userFirstName: row.original.userFirstName,
-                  userLastName: row.original.userLastName,
-                  userEmail: row.original.userEmail,
+                  id: row.original.id,
+                  startTime: row.original.startTime,
+                  endTime: row.original.endTime,
+                  type: row.original.type,
+                  breakTime: row.original.breakTime,
                 })
+              }
+            />
+          </Link>
+          <Link
+            className={`action-icons ${
+              row.original.totalPrograms > 0 ? "disabled" : ""
+            }`}
+            to=""
+          >
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() =>
+                row.original.id > 0 ? deleteHandler(row.original.id) : null
               }
             />
           </Link>
@@ -74,7 +96,7 @@ const WorkLoadTable = ({
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => workLoadData, [workLoadData]);
+  const data = useMemo(() => timeslotList, [timeslotList]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -87,27 +109,21 @@ const WorkLoadTable = ({
   const [deleteId, setDeleteId] = useState<number>(0);
 
   // edit event handler === >>>
-  const editHandler = ({
-    id,
-    workLoad,
-    userFirstName,
-    userLastName,
-    userEmail,
-  }: any) => {
+  const editHandler = ({ id, startTime, endTime, type, breakTime }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
-      workLoad,
-      userFirstName,
-      userLastName,
-      userEmail,
+      startTime,
+      endTime,
+      type,
+      breakTime,
     });
-    refreshClassroomData();
+    refreshTimeslotData();
   };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endPoint: string = `${currentInstitute}/timetable/classroom/${deleteId}`;
+      let endPoint: string = `${currentInstitute}/timetable/timeslot/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -195,10 +211,10 @@ const WorkLoadTable = ({
             })}
           </tbody>
         </Table>
-        {apiStatus === "started" && workLoadData.length === 0 && (
+        {apiStatus === "started" && timeslotList.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && workLoadData.length === 0 && (
+        {apiStatus === "finished" && timeslotList.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
@@ -212,4 +228,4 @@ const WorkLoadTable = ({
   );
 };
 
-export default WorkLoadTable;
+export default ManageInstituteTimesSlotTable;

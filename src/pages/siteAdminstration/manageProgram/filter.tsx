@@ -7,9 +7,10 @@ import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
 
 const ManageFilter = ({
+  apiStatus,
+  currentInstitute,
   updatedepartment,
   updateinputfilters,
-  currentInstitute,
   programPermissions,
 }: any) => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const ManageFilter = ({
         name: "",
         code: "",
       });
-      updateinputfilters(initialValues);
+      updateinputfilters(initialValues); 
       setSelectedValue("")
     },
   });
