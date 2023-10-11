@@ -53,12 +53,20 @@ const EditPicture = ({
   const removeCurrentPicture = () => {
     setRemoveStatus(true);
     const values = {
-      userFirstName: userInfo.userFirstName,
-      userLastName: userInfo.userLastName,
-      userEmail: userInfo.userEmail,
       userId: userInfo.userId,
-      userCountry: userInfo.userCountry,
+      mobile: userInfo.mobile,
       enabled: userInfo.enabled,
+      userEmail: userInfo.userEmail,
+      bloodGroup: userInfo.bloodGroup,
+      fatherName: userInfo.fatherName,
+      genderType: userInfo.genderType,
+      motherName: userInfo.motherName,
+      parentEmail: userInfo.parentEmail,
+      dateOfBirth: userInfo.dateOfBirth,
+      userCountry: userInfo.userCountry,
+      userLastName: userInfo.userLastName,
+      parentsMobile: userInfo.parentsMobile,
+      userFirstName: userInfo.userFirstName,
       roles: userInfo.roles.map((role: any) => {
         return {
           ...role,
