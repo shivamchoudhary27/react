@@ -34,6 +34,8 @@ const UserProfile = () => {
     dateOfBirth: "--",
     roles: [],
     files: [],
+    mobile: '--',
+    parentsMobile: '--',
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -133,7 +135,7 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Mobile Number</label>
-                    --
+                    {user.mobile}
                   </li>
                   <li>
                     <label>Gender</label>
@@ -141,7 +143,7 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Date of Birth</label>
-                    {user.dateOfBirth !== null}--
+                    {user.dateOfBirth}
                   </li>
                   <li>
                     <label>Country</label>
@@ -161,7 +163,7 @@ const UserProfile = () => {
                   </li>
                   <li>
                     <label>Parents Mobile No</label>
-                    {user.userFirstName}
+                    {user.parentsMobile}
                   </li>
                   <li>
                     <label>Parents Email Id</label>
