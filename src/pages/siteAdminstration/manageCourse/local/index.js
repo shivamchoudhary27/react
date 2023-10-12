@@ -76,7 +76,8 @@ export const resetManageCourseObj = (sortedCategoryData) => {
                 "coursename" : cloneObj[i].courses[j].name,
                 "catid": cloneObj[i].id,
                 "courses": [],
-                "coursedetails" : cloneObj[i].courses[j] 
+                "coursedetails" : cloneObj[i].courses[j],
+                "files": cloneObj[i].courses[j].files 
               };
           cloneObj.splice(i + 1, 0, newObject);
         }

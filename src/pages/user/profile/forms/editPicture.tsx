@@ -8,6 +8,7 @@ import { postData as updateUserInfo} from "../../../../adapters/coreservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import { globalUserInfoActions } from "../../../../store/slices/userInfo";
+import { addRemoveFileProperty, uploadFile } from "../../../../globals/storefile";
 import '../style.scss'
 
 const EditPicture = ({
@@ -72,12 +73,7 @@ const EditPicture = ({
           ...role,
         };
       }),
-      files: userInfo.files.map((file: any) => {
-        return {
-          ...file,
-          deleted: true
-        };
-      }),
+      files: addRemoveFileProperty(userInfo.files)
     }
     
     updateUserInfo(`/user/profile`, values)

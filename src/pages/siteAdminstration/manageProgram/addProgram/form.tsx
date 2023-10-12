@@ -33,7 +33,7 @@ import "./style.scss";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import { useSelector } from "react-redux";
 import { pagination } from "../../../../utils/pagination";
-import UploadImage from "./uploadImage";
+import { uploadFile, addRemoveFileProperty } from "../../../../globals/storefile";
 
 const steps = ["Step 1", "Step 2"];
 
@@ -167,12 +167,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     let programValues = generateProgramDataObject(values);
 
     if (values.deleteImage === true) {
-      programValues.files = programValues.files.map((file: any) => {
-        return {
-          ...file,
-          deleted: true
-        };
-      });
+      programValues.files = addRemoveFileProperty(programValues.files);
       programValues.deleted = true;
       delete programValues.deleteImage;
     }
@@ -187,7 +182,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
-            uploadProgramImage(programImage, res.data.id);
+            uploadFile('program', res.data.id, programImage);
 
             Swal.fire({
               icon: "success",
@@ -250,27 +245,10 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         });
 
-        uploadProgramImage(programImage, programid);
+        uploadFile('program', programid, programImage);
     }
     // navigate("/manageprogram", { state: values });
   };
-
-  const uploadProgramImage = (programImage: File, programId : string | number) => {
-    if (programImage !== undefined) {
-      postProgramImage(`/files/program/${programId}`, {}, programImage)
-      .then((res: any) => {
-          if (res.status === 200) {
-  
-          }
-      })
-      .catch((err: any) => {
-          console.log(err);
-          if (err.response.status === 404) {
-  
-          }
-      });
-    }
-  }
   
   const filterProgramCode = (endPoint : string, programCode: any, actions: any) => {
     getData(endPoint, { pageNumber: 0, pageSize: 10, programCode})
@@ -606,8 +584,6 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                             name="deleteImage"
                             checkboxLabel="Remove Picture"
                           />
-                        </div>
-                        <div>
                         </div>
                       </React.Fragment>
                     }

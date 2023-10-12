@@ -74,6 +74,9 @@ const CourseTable = ({
             <>
               <img src={moveIcon} className="me-3" alt="Move course" />
               {row.original.coursename}
+              {row.original.files.length > 0 && 
+                <img src={row.original.files[0].url} alt="course image" height="25px" />
+              }
             </>
           )}
         </>
@@ -103,6 +106,7 @@ const CourseTable = ({
                         category: row.original.catid,
                         description: row.original.coursedetails.description,
                         published: row.original.coursedetails.published,
+                        files: row.original.coursedetails.files,
                       })
                     }
                     />
@@ -254,6 +258,7 @@ const CourseTable = ({
     category,
     description,
     published,
+    files
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -264,6 +269,7 @@ const CourseTable = ({
       category,
       description,
       published,
+      files
     });
   };
 
