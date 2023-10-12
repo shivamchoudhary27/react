@@ -47,6 +47,7 @@ const CourseManagment = () => {
     category: "",
     description: "",
     published: false,
+    files: [],
   });
   const coursePermission = useSelector(
     (state: any) => state.userAuthorities.permissions.course
@@ -126,7 +127,8 @@ const CourseManagment = () => {
     courseCode,
     category,
     description,
-    published
+    published,
+    files
   }: any) => {
     setCourseObj({
       id: id,
@@ -134,7 +136,8 @@ const CourseManagment = () => {
       courseCode: courseCode,
       category: category,
       description: description,
-      published: published
+      published: published,
+      files: files
     });
   };
 

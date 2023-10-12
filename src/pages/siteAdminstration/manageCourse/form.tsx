@@ -14,7 +14,7 @@ import { getChildren, updateCategoryLevels } from "./utils";
 import { setHasChildProp } from "./local";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import FieldTypeFile from "../../../widgets/formInputFields/formFileField";
+import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -47,6 +47,9 @@ const CourseModal = ({
     category: "",
     description: "",
     published: false,
+    files: [],
+    deleteImage: false,
+    file: null,
   });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -61,6 +64,9 @@ const CourseModal = ({
       description: courseobj.description,
       published: courseobj.published,
       category: courseobj.category,
+      files: courseobj.files,
+      deleteImage: false,
+      file: null
     });
     // }
   }, [courseobj]);
@@ -109,6 +115,16 @@ const CourseModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+
+    if (values.deleteImage === true) {
+      values.deleted = true;
+      delete values.deleteImage;
+      values.files = addRemoveFileProperty(values.files);
+    }
+
+    let courseImage = values.file;
+    delete courseImage?.file;
+
     setSubmitting(true);
     let requestData = { ...values, category: { id: values.category } };
     if (courseobj.id == 0) {
@@ -116,10 +132,13 @@ const CourseModal = ({
       postData(endPoint, requestData)
         .then((res: any) => {
           if (res.status === 201) {
+            uploadFile('course', res.data.id, courseImage);
+            setTimeout(() => {
+              toggleCourseModal(false);
+              setSubmitting(false);
+              refreshcategories();
+            }, 3000);
           }
-          toggleCourseModal(false);
-          setSubmitting(false);
-          refreshcategories();
         })
         .catch((err: any) => {
           console.log(err);
@@ -134,8 +153,6 @@ const CourseModal = ({
       setSubmitting(true);
       putData(endPoint, requestData)
         .then((res: any) => {
-          if (res.status === 200) {
-          }
           toggleCourseModal(false);
           setSubmitting(true);
           refreshcategories();
@@ -149,8 +166,9 @@ const CourseModal = ({
             alertBoxColor: "danger",
           });
         });
+      
+        uploadFile('course', values.id, courseImage);
     }
-    // resetForm();
   };
 
   return (
@@ -175,7 +193,7 @@ const CourseModal = ({
               handleFormData(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting, setValues, values }) => (
+            {({ errors, touched, isSubmitting, setValues, values, setFieldValue }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -242,14 +260,39 @@ const CourseModal = ({
                     msgText="Required"
                   />
                 </div>
-                {/* <div className="mb-3">
+                
+                <div className="mb-3">
+                  {initValues.files !== undefined && initValues.files.length > 0 &&
+                    <React.Fragment>
+                      <div>
+                        <img
+                            src={initValues.files[0].url}
+                            alt={initValues.files[0].originalFileName}
+                            width="150px"
+                        />
+                        {" "}
+                        <FieldTypeCheckbox
+                          name="deleteImage"
+                          checkboxLabel="Remove Picture"
+                        />
+                      </div>
+                    </React.Fragment>
+                  }
                   <FieldLabel
-                    htmlfor="courseimage"
-                    labelText="Course Image"
-                    // required="required"
+                    htmlfor="file"
+                    labelText="Program Picture"
                   />
-                  <FieldTypeFile name="courseimage" />
-                </div> */}
+                  <input
+                    className="form-control"
+                    id="file"
+                    name="file"
+                    type="file"
+                    onChange={(event) => {
+                      setFieldValue("file", event.currentTarget.files[0]);
+                    }}
+                  />
+                </div>
+
                 <div className="mb-3">
                   <FieldTypeCheckbox
                     name="published"
