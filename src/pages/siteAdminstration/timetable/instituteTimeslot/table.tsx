@@ -7,10 +7,8 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { deleteData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import editIcon from "../../../../../assets/images/icons/edit-action.svg";
-// import showIcon from "../../../../assets/images/icons/show-action.svg";
-// import hideIcon from "../../../../assets/images/icons/hide-action.svg";
-import deleteIcon from "../../../../../assets/images/icons/delete-action.svg";
+import editIcon from "../../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -20,8 +18,8 @@ const actionsStyle = {
 };
 
 const ManageInstituteTimesSlotTable = ({
+  instituteTimeSlot,
   apiStatus,
-  timeslotList,
   editHandlerById,
   toggleModalShow,
   refreshOnDelete,
@@ -43,13 +41,8 @@ const ManageInstituteTimesSlotTable = ({
         );
       },
     },
-    // {
-    //   Header: "Weight",
-    //   accessor: "",
-    // },
     {
       Header: "Break",
-      // accessor: "type",
       Cell: ({ row }: any) => {
         return row.original.type !== null &&
           row.original.type.charAt(0).toUpperCase() +
@@ -96,7 +89,7 @@ const ManageInstituteTimesSlotTable = ({
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => timeslotList, [timeslotList]);
+  const data = useMemo(() => instituteTimeSlot, [instituteTimeSlot]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -211,16 +204,16 @@ const ManageInstituteTimesSlotTable = ({
             })}
           </tbody>
         </Table>
-        {apiStatus === "started" && timeslotList.length === 0 && (
+        {apiStatus === "started" && instituteTimeSlot.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && timeslotList.length === 0 && (
+        {apiStatus === "finished" && instituteTimeSlot.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
       <DeleteAlert
         show={showDeleteModal}
-        modalHeading="Department"
+        modalHeading="Institute Timeslot"
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
       />

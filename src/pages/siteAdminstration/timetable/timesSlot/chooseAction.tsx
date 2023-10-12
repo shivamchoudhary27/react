@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-type Props = {};
+type Props = {
+  getInstituteSlotAction: any
+};
 
 const ChooseAction = (props: Props) => {
   return (
@@ -13,7 +15,7 @@ const ChooseAction = (props: Props) => {
       </p>
       <div className="site-button-group">
         <Button variant="primary">Add Slot</Button> or{" "}
-        <Button variant="primary">Continue with Institute Time Slot</Button>
+        <Button variant="primary" onClick={(e) => {props.getInstituteSlotAction(e.type)}}>Continue with Institute Time Slot</Button>
       </div>
     </React.Fragment>
   );

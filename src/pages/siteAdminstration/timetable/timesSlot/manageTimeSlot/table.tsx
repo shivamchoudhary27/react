@@ -28,12 +28,12 @@ const ManageTimesSlotTable = ({
   refreshOnDelete,
   currentInstitute,
   refreshTimeslotData,
+  getInstituteSlotAction
 }: any) => {
   // custom react table Column === >>>
   const tableColumn = [
     {
       Header: "Time / Day",
-      //   accessor: "name",
       Cell: ({ row }: any) => {
         return (
           <span>{`${
@@ -44,13 +44,8 @@ const ManageTimesSlotTable = ({
         );
       },
     },
-    // {
-    //   Header: "Weight",
-    //   accessor: "",
-    // },
     {
       Header: "Break",
-      // accessor: "type",
       Cell: ({ row }: any) => {
         return row.original.type !== null &&
           row.original.type.charAt(0).toUpperCase() +
@@ -220,7 +215,7 @@ const ManageTimesSlotTable = ({
         {apiStatus === "finished" && timeslotList.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
-      </div> : <ChooseAction />
+      </div> : <ChooseAction getInstituteSlotAction={getInstituteSlotAction} />
       }
       <DeleteAlert
         show={showDeleteModal}

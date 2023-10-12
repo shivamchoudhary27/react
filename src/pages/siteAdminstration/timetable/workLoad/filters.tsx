@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../../utils/filterTimeout";
+import InstituteDepartmentDropdown from "./instituteDepartmentDropdown";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 const initialValues = {
@@ -12,11 +13,13 @@ const initialValues = {
 const Filters = ({
   apiStatus,
   toggleModalShow,
+  currentInstitute,
   updateInputFilters,
   resetClassroomForm,
-  updateClassroomFilter,
+  updateDepartmentFilter,
 }: any) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -63,6 +66,14 @@ const Filters = ({
       <div className="filter-wrapper mt-2">
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
+            <Col>
+              <InstituteDepartmentDropdown 
+                currentInstitute={currentInstitute}
+                selectedValue ={selectedValue}
+                updateDepartmentFilter={updateDepartmentFilter} 
+                setSelectedValue ={setSelectedValue}
+              />
+            </Col>
             <Col>
               <label htmlFor="name" hidden>Name</label>
               <input

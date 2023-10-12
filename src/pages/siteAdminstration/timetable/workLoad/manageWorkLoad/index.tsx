@@ -46,8 +46,6 @@ const ManageWorkLoad = (props: Props) => {
       }
   }, [userId, filterUpdate, currentInstitute]);
 
-  console.log(workloadData, userId)
-
   return (
     <React.Fragment>
       <Header />
