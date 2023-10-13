@@ -32,7 +32,7 @@ const WorkLoadTable = ({ apiStatus, workLoadData }: any) => {
       accessor: "departmentName",
     },
     {
-      Header: "Actions",
+      Header: "View / Edit Work Load",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link to={`/manageworkload/${row.original.userId}`}>View</Link>

@@ -1,17 +1,20 @@
-import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { pagination } from "../../../../../utils/pagination";
 import { putData } from "../../../../../adapters/microservices";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
-import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
+import { getData } from "../../../../../adapters/microservices";
 
 type Props = {
   workloadData: any;
+  filterUpdate: any;
+  // setFilterUpdate: any;
   currentInstitute: any;
 };
 
@@ -20,9 +23,51 @@ const initialValues = {
 };
 
 const WorkLoadComp = (props: Props) => {
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
   const { userId } = useParams();
   const [showAlert, setShowAlert] = useState(false);
+  const [timeSlotList, setTimeSlotList] = useState([])
   const [alertMsg, setAlertMsg] = useState({message: "", alertBoxColor: "",});
+  const [startRendering, setStartRendering] = useState(false);
+  const [fetchLenght, setFetchLenght] = useState(props.workloadData.length);
+  
+  // get time slot list according to department === >>>
+  useEffect(() => {
+    let arr: any[] | ((prevState: never[]) => never[]) = [];
+    let workloadItems = props.workloadData.length;
+    let workloadSlotsFetched = 0;
+    props.workloadData.map((id: any, index: number) => {
+      if (props.currentInstitute > 0) {
+        let endPoint = `/${props.currentInstitute}/timetable/timeslot?departmentId=${id.departmentId}`;
+        getData(endPoint, props.filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            arr.push(result.data.items)
+            ++workloadSlotsFetched;
+          }
+          // setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          ++workloadSlotsFetched;
+          // setApiStatus("finished");
+        });
+      }
+    })
+    if (workloadItems == workloadSlotsFetched) {
+      setTimeSlotList(arr);
+    }
+  }, [props.workloadData])
+  
+
+  useEffect(() => {
+    props.updateForceRendering();
+    // setStartRendering(true)
+  }, [timeSlotList]);
+  // console.log(timeSlotList)
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
@@ -65,13 +110,17 @@ const WorkLoadComp = (props: Props) => {
       });
   };
 
+  // console.log(props.workloadData)
+
   return (
     <React.Fragment>
-      {props.workloadData.length > 0 ? (
+      {/* {props.workloadData.length > 0 ? (
         <p>{`User: ${props.workloadData[0].userFirstName} ${props.workloadData[0].userLastName} (${props.workloadData[0].userEmail})`}</p>
       ) : (
         ""
-      )}
+      )} */}
+      {/* {startRendering === true && */}
+      
       <div>
         <TimerAlertBox
           alertMsg={alertMsg.message}
@@ -89,7 +138,7 @@ const WorkLoadComp = (props: Props) => {
         >
           {({ errors, touched, isSubmitting }) => (
             <Form>
-              {props.workloadData.map((item: any, index: number) => (
+              {timeSlotList.length == fetchLenght && props.workloadData.map((item: any, index: number) => (
                 <div key={index}>
                   <h4>{item.departmentName}</h4>
                   <div className="mb-3">
@@ -98,15 +147,15 @@ const WorkLoadComp = (props: Props) => {
                       labelText="Workload in hour"
                       required="required"
                       // star="*"
-                    />
+                      />
                     <FieldTypeText
                       type="number"
                       name={`workload_${index}`}
                       className="form-control"
                       placeholder="Workload in hour"
-                    />
+                      />
                   </div>
-                  {item.slots.length > 0 &&
+                  {/* {item.slots.length > 0 &&
                     item.slots.map((el: any, index: number) => (
                       <div className="mb-3" key={index}>
                         <FieldTypeCheckbox
@@ -114,9 +163,23 @@ const WorkLoadComp = (props: Props) => {
                           checkboxLabel={`${el.startTime} to ${el.endTime}`}
                         />
                       </div>
-                    ))}
+                  ))} */}
+
+                  { 
+                    timeSlotList.find((slotList: any) => (
+                      (slotList.departmentId == item.departmentId) &&
+                      <div key={slotList.id} className="mb-3">
+                        <FieldTypeCheckbox
+                          name={`slotid_${slotList.id}`}
+                          checkboxLabel={`${slotList.startTime} to ${slotList.endTime}`}
+                        />
+                      </div>    
+                    ))
+                  }
+
                 </div>
               ))}
+
               {isSubmitting === false ? (
                 <div className="modal-buttons">
                   <CustomButton
@@ -142,6 +205,7 @@ const WorkLoadComp = (props: Props) => {
           )}
         </Formik>
       </div>
+    {/* } */}
     </React.Fragment>
   );
 };

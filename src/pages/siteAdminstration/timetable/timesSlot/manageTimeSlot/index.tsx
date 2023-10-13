@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import { pagination } from "../../../../../utils/pagination";
-import { getData } from "../../../../../adapters/microservices";
+import { postData, getData } from "../../../../../adapters/microservices";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
@@ -42,8 +42,8 @@ const ManageTimesSlot = () => {
   const [filterUpdates, setFilterUpdates] = useState({
     // departmentId: departmentId,
     // name: name,
-    pageNumber: 0,
-    pageSize: pagination.PERPAGE,
+    // pageNumber: 0,
+    // pageSize: pagination.PERPAGE,
   });
 
   useEffect(() => {
@@ -76,7 +76,17 @@ const ManageTimesSlot = () => {
   const getInstituteSlotAction = (action: string) => {
     if(action === "click"){
       let endPoint = `/${currentInstitute}/timetable/timeslot/copy/institute/template/${departmentId}`;
-      makeGetDataRequest(endPoint, filterUpdates, setInstituteSlotList, setApiStatus);
+      // makeGetDataRequest(endPoint, {}, setInstituteSlotList, setApiStatus);
+      postData(endPoint, {})
+        .then((result: any) => {
+          refreshToggle();
+          setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          refreshToggle();
+          setApiStatus("finished");
+        });
     }
   }
   console.log(instituteSlotList)
@@ -155,6 +165,7 @@ const ManageTimesSlot = () => {
       refreshTimeslotData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
       getInstituteSlotAction={getInstituteSlotAction}
+      resetClassroomForm={resetClassroomForm}
     />
   );
 
@@ -185,14 +196,17 @@ const ManageTimesSlot = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Times Slot: ${name}`} gobacklink="/timeslot" />
-          <Filters
-            toggleModalShow={toggleModalShow}
-            refreshClassroomData={refreshToggle}
-            updateInputFilters={updateInputFilters}
-            resetClassroomForm={resetClassroomForm}
-            filterHandlerByDepartment={filterHandlerByDepartment}
-            updateClassroomFilter={updateClassroomFilterByDepartment}
-          />
+          {
+            apiStatus === 'finished' && timeslotList.items.length > 0 &&
+            <Filters
+              toggleModalShow={toggleModalShow}
+              refreshClassroomData={refreshToggle}
+              updateInputFilters={updateInputFilters}
+              resetClassroomForm={resetClassroomForm}
+              filterHandlerByDepartment={filterHandlerByDepartment}
+              updateClassroomFilter={updateClassroomFilterByDepartment}
+            />
+          }
           {TIMESLOT_TABLE_COMPONENT}
           <BuildPagination
             totalpages={timeslotList.pager.totalPages}
