@@ -104,6 +104,7 @@ const WorkLoad = () => {
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
+      departmentId: departmentId
     });
   };
 
