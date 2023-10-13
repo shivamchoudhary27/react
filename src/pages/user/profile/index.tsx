@@ -45,6 +45,7 @@ const UserProfile = () => {
   const userProfileInfo = useSelector(
     (state: any) => state.userProfile.userProfile
   );
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
   useEffect(() => {
     setUser(userProfileInfo);
@@ -52,9 +53,21 @@ const UserProfile = () => {
       .then((result: any) => {
         if (result.status === 200) {
           setUser(result.data);
+          const updateCurrentUserInfo = {
+            authorities: currentUserInfo.authorities,
+            email: currentUserInfo.email,
+            first_name: currentUserInfo.first_name,
+            institutes: currentUserInfo.institutes,
+            last_name: currentUserInfo.last_name,
+            roles: currentUserInfo.roles,
+            username: currentUserInfo.username,
+            uid: currentUserInfo.uid,
+            files: result.data.files,
+          }
           dispatch(globalUserInfoActions.updateUserPicture(result.data.files));
           dispatch(globalUserProfileActions.userProfile(result.data));
           localStorage.setItem('userProfile', JSON.stringify({userProfile: result.data}))
+          localStorage.setItem('userInfo', JSON.stringify({userInfo: updateCurrentUserInfo}))
         }
       })
       .catch((err: any) => {
