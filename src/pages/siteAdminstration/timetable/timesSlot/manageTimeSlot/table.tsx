@@ -28,7 +28,8 @@ const ManageTimesSlotTable = ({
   refreshOnDelete,
   currentInstitute,
   refreshTimeslotData,
-  getInstituteSlotAction
+  getInstituteSlotAction,
+  resetClassroomForm
 }: any) => {
   // custom react table Column === >>>
   const tableColumn = [
@@ -215,7 +216,14 @@ const ManageTimesSlotTable = ({
         {apiStatus === "finished" && timeslotList.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
-      </div> : <ChooseAction getInstituteSlotAction={getInstituteSlotAction} />
+      </div> 
+      : 
+      (apiStatus === 'finished' && 
+        <ChooseAction 
+          getInstituteSlotAction={getInstituteSlotAction} 
+          toggleModalShow={toggleModalShow} 
+          resetClassroomForm={resetClassroomForm} />
+      )
       }
       <DeleteAlert
         show={showDeleteModal}

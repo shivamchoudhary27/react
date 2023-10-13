@@ -10,6 +10,7 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import { pagination } from "../../../../../utils/pagination";
 import { getData } from "../../../../../adapters/microservices";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 
 type Props = {};
 
@@ -25,9 +26,15 @@ const ManageWorkLoad = (props: Props) => {
     pageSize: pagination.PERPAGE,
     userId: userId
   });
+  const [forceRender, setForceRender] = useState(false);
+
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
+
+  const updateForceRendering = () => {
+    setForceRender((prevState) => !prevState);
+  }
 
   useEffect(() => {
     let endPoint = `/${currentInstitute}/timetable/userworkload`;
@@ -64,7 +71,13 @@ const ManageWorkLoad = (props: Props) => {
             pageTitle="Manage Faculty Work Load"
             gobacklink="/workload"
           />
-          <WorkLoadComp workloadData={workloadData.items} currentInstitute={currentInstitute} />
+          <WorkLoadComp 
+            filterUpdate={filterUpdate} 
+            workloadData={workloadData.items} 
+            currentInstitute={currentInstitute} 
+            // setFilterUpdate={setFilterUpdate}
+            updateForceRendering={updateForceRendering}
+          />
         </Container>
       </div>
       <Footer />
