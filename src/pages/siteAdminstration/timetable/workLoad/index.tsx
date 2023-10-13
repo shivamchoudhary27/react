@@ -35,6 +35,7 @@ const WorkLoad = () => {
   const [filterUpdate, setFilterUpdate] = useState({
     name: "",
     email: "",
+    departmentId: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -99,7 +100,7 @@ const WorkLoad = () => {
   };
 
   // to update filters values in the main state filterUpdate
-  const updateClassroomFilterByDepartment = (departmentId: string) => {
+  const updateDepartmentFilter = (departmentId: string) => {
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
@@ -155,13 +156,7 @@ const WorkLoad = () => {
   const WORKLOAD_TABLE_COMPONENT = (
     <WorkLoadTable
       apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
       workLoadData={workLoadApiResponseData.items}
-      workLoadApiResponseData={workLoadApiResponseData}
-      editHandlerById={editHandlerById}
-      toggleModalShow={toggleModalShow}
-      refreshClassroomData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
     />
   );
 
@@ -195,12 +190,13 @@ const WorkLoad = () => {
           <PageTitle pageTitle="Faculty Work Load" gobacklink="/timetable" />
           <Filters
             apiStatus={apiStatus}
+            currentInstitute={currentInstitute}
             toggleModalShow={toggleModalShow}
             refreshClassroomData={refreshToggle}
             updateInputFilters={updateInputFilters}
             resetClassroomForm={resetClassroomForm}
+            updateDepartmentFilter={updateDepartmentFilter}
             filterHandlerByDepartment={filterHandlerByDepartment}
-            updateClassroomFilter={updateClassroomFilterByDepartment}
           />
           {WORKLOAD_TABLE_COMPONENT}
           <BuildPagination

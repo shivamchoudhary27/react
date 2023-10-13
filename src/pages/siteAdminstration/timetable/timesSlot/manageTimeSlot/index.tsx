@@ -24,20 +24,24 @@ const ManageTimesSlot = () => {
   const { departmentId, name } = useParams();
   const [timeslotList, setTimeslotList] = useState(dummyData);
   const [departmentList, setDepartmentList] = useState(dummyData);
+  const [instituteSlotList, setInstituteSlotList] = useState([])
   const [refreshOnDelete, setRefreshOnDelete] = useState(false);
   const [timeslotObj, setTimeslotObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
   const [modalShow, setModalShow] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
-  const selectedDepartment = useSelector(
-    (state) => state.globalFilters.currentDepartmentFilterId
-  );
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
   const [filterUpdate, setFilterUpdate] = useState({
     departmentId: departmentId,
     name: name,
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
+  const [filterUpdates, setFilterUpdates] = useState({
+    // departmentId: departmentId,
+    // name: name,
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -67,6 +71,15 @@ const ManageTimesSlot = () => {
       makeGetDataRequest(endPoint, filterUpdate, setTimeslotList, setApiStatus);
     }
   }, [refreshOnDelete]);
+
+  // get Institute slot action === >>>
+  const getInstituteSlotAction = (action: string) => {
+    if(action === "click"){
+      let endPoint = `/${currentInstitute}/timetable/timeslot/copy/institute/template/${departmentId}`;
+      makeGetDataRequest(endPoint, filterUpdates, setInstituteSlotList, setApiStatus);
+    }
+  }
+  console.log(instituteSlotList)
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -134,13 +147,14 @@ const ManageTimesSlot = () => {
   const TIMESLOT_TABLE_COMPONENT = (
     <ManageTimesSlotTable
       apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
       timeslotList={timeslotList.items}
+      currentInstitute={currentInstitute}
       departmentList={departmentList.items}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       refreshTimeslotData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
+      getInstituteSlotAction={getInstituteSlotAction}
     />
   );
 

@@ -1,13 +1,10 @@
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
+import React, { useMemo, useState } from "react";
 import Errordiv from "../../../../widgets/alert/errordiv";
-import React, { useMemo, useState, useEffect } from "react";
 import TableSkeleton from "../../../../widgets/skeleton/table";
-import DeleteAlert from "../../../../widgets/alert/deleteAlert";
-import { deleteData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import editIcon from "../../../../assets/images/icons/edit-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -16,17 +13,8 @@ const actionsStyle = {
   justifyContent: "space-evenly",
 };
 
-const WorkLoadTable = ({
-  apiStatus,
-  workLoadData,
-  editHandlerById,
-  toggleModalShow,
-  refreshOnDelete,
-  currentInstitute,
-  refreshClassroomData,
-  workLoadApiResponseData
-}: any) => {
-  console.log()
+const WorkLoadTable = ({ apiStatus, workLoadData }: any) => {
+  console.log();
   // custom react table Column === >>>
   const tableColumn = [
     {
@@ -44,29 +32,10 @@ const WorkLoadTable = ({
       accessor: "departmentName",
     },
     {
-      Header: "Load per week (Hours)",
-      accessor: "workLoad",
-    },
-    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           <Link to={`/manageworkload/${row.original.userId}`}>View</Link>
-          <Link className="action-icons" to="">
-            <img
-              src={editIcon}
-              alt="Edit"
-              onClick={() =>
-                editHandler({
-                  id: row.original.userId,
-                  workLoad: row.original.workLoad !== null && row.original.workLoad,
-                  userFirstName: row.original.userFirstName,
-                  userLastName: row.original.userLastName,
-                  userEmail: row.original.userEmail,
-                })
-              }
-            />
-          </Link>
         </span>
       ),
     },
@@ -82,80 +51,6 @@ const WorkLoadTable = ({
     });
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [onDeleteAction, setOnDeleteAction] = useState<string>("");
-  const [deleteId, setDeleteId] = useState<number>(0);
-
-  // edit event handler === >>>
-  const editHandler = ({
-    id,
-    workLoad,
-    userFirstName,
-    userLastName,
-    userEmail,
-  }: any) => {
-    toggleModalShow(true);
-    editHandlerById({
-      id,
-      workLoad,
-      userFirstName,
-      userLastName,
-      userEmail,
-    });
-    refreshClassroomData();
-  };
-
-  useEffect(() => {
-    if (onDeleteAction === "Yes") {
-      let endPoint: string = `${currentInstitute}/timetable/classroom/${deleteId}`;
-      deleteData(endPoint)
-        .then((res: any) => {
-          if (res.data !== "" && res.status === 200) {
-            refreshOnDelete(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
-            });
-          } else if (res.status === 500) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Unable to delete, some error occurred.",
-              alertBoxColor: "danger",
-            });
-          }
-        })
-        .catch((result: any) => {
-          if (result.response.status === 400) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: result.message,
-              alertBoxColor: "danger",
-            });
-          } else {
-            setShowAlert(true);
-            setAlertMsg({
-              message: result.message,
-              alertBoxColor: "danger",
-            });
-          }
-        });
-    }
-    setOnDeleteAction("");
-  }, [onDeleteAction]);
-
-  // delete event handler === >>>
-  const deleteHandler = (id: number) => {
-    refreshOnDelete(false);
-    setShowDeleteModal(true);
-    setDeleteId(id);
-  };
-
-  // getting onDelete Modal Action === >>>
-  const deleteActionResponse = (action: string) => {
-    setOnDeleteAction(action);
-    setShowDeleteModal(false);
-  };
 
   return (
     <React.Fragment>
@@ -202,12 +97,6 @@ const WorkLoadTable = ({
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
-      <DeleteAlert
-        show={showDeleteModal}
-        modalHeading="Department"
-        onHide={() => setShowDeleteModal(false)}
-        deleteActionResponse={deleteActionResponse}
-      />
     </React.Fragment>
   );
 };
