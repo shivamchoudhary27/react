@@ -96,7 +96,7 @@ const UserProfile = () => {
       <BreadcrumbComponent routes={[{ name: "Profile", path: "" }]} />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="Profile" gobacklink="/dashboard" />
+          <PageTitle pageTitle="" gobacklink="" />
           <div className="user-profile-box">
             <div className="row">
               <div className="col-md-4 text-center">
