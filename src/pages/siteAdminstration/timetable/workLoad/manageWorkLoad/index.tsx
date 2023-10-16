@@ -10,7 +10,6 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import { pagination } from "../../../../../utils/pagination";
 import { getData } from "../../../../../adapters/microservices";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 
 type Props = {};
 
@@ -21,20 +20,16 @@ const ManageWorkLoad = (props: Props) => {
   };
   const { userId } = useParams();
   const [workloadData, setWorkloadData] = useState(dummyData);
+  const [timeSlotList, setTimeSlotList] = useState<any>([])
   const [filterUpdate, setFilterUpdate] = useState({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
     userId: userId
   });
-  const [forceRender, setForceRender] = useState(false);
 
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-
-  const updateForceRendering = () => {
-    setForceRender((prevState) => !prevState);
-  }
 
   useEffect(() => {
     let endPoint = `/${currentInstitute}/timetable/userworkload`;
@@ -52,6 +47,27 @@ const ManageWorkLoad = (props: Props) => {
         });
       }
   }, [userId, filterUpdate, currentInstitute]);
+
+  useEffect(() => {
+    workloadData.items.map((item: any) => {
+      if (currentInstitute > 0)  {
+        let endPoint = `/${currentInstitute}/timetable/timeslot?departmentId=${item.departmentId}`;
+        getData(endPoint, filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            let newItem = result.data.items;
+            let filterItem = newItem.filter((slotList: any) => slotList.departmentId === item.departmentId)
+            let filterObj = {};
+            filterObj['dpt_'+ item.departmentId] = filterItem;
+            setTimeSlotList((prevArray: any) => [...prevArray, filterObj]);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+      }
+    })
+  }, [workloadData])
 
   return (
     <React.Fragment>
@@ -72,11 +88,9 @@ const ManageWorkLoad = (props: Props) => {
             gobacklink="/workload"
           />
           <WorkLoadComp 
-            filterUpdate={filterUpdate} 
             workloadData={workloadData.items} 
-            currentInstitute={currentInstitute} 
-            // setFilterUpdate={setFilterUpdate}
-            updateForceRendering={updateForceRendering}
+            currentInstitute={currentInstitute}
+            timeSlotList={timeSlotList}
           />
         </Container>
       </div>
