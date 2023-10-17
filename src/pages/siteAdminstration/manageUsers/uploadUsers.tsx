@@ -25,7 +25,7 @@ const UploadUsersEnrollment = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     setUploadresponse("");
-    postData(`/csv/program-user-erol/${programid}`, {}, values.file)
+    postData(`/csv/program-user-erol/${programid}`, {}, values.file, false)
       .then((res: any) => {
         if (res.status === 200) {
           let responseMsg = "";

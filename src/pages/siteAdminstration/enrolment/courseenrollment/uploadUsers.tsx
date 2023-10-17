@@ -25,7 +25,7 @@ const UploadCourseUsersEnrollment = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     setUploadresponse("");
-    postData(`/csv/course-user-erol/${courseid}`, {}, values.file, false)
+    postData(`/csv/course-user-erol/${courseid}`, {}, values.file)
       .then((res: any) => {
         if (res.status === 200) {
           let responseMsg = "";
