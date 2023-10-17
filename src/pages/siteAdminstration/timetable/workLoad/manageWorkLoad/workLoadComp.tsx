@@ -15,14 +15,22 @@ type Props = {
   timeSlotList: any;
 };
 
-const initialValues = {
-  // Workload: "",
-};
+const initialValues = {};
 
 const WorkLoadComp = (props: Props) => {
   const { userId } = useParams();
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
+  // set initial values === >>>
+  useEffect(() => {
+    props.workloadData.forEach((item: any, index: number) => {
+      item.slots.forEach((el: any) => {
+        initialValues[`workload_${index}`] = item.workLoad;
+        initialValues[`${el.id}`] = el.id;
+      })
+    });
+  }, [props.workloadData])
 
   const findTimeSlot = (key : string) => {
     var packetFound = [];
@@ -37,7 +45,7 @@ const WorkLoadComp = (props: Props) => {
 
   const getWorkloadSlots = (values: any, key: string) => {
     return findTimeSlot(key).filter((item: any) => {
-      if (values[item.id] !== undefined) {
+      if (values[item.id] !== undefined && values[item.id] !== false) {
         return item;
       }
     });
@@ -45,7 +53,6 @@ const WorkLoadComp = (props: Props) => {
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    console.log("values---", values)
     setSubmitting(true);
     const newFormValues = props.workloadData.map((item: any, index: number) => {
       return {
@@ -60,7 +67,7 @@ const WorkLoadComp = (props: Props) => {
       .then((res: any) => {
         if (res.data !== "") {
           setSubmitting(false);
-          resetForm();
+          // resetForm();
           setShowAlert(true);
           setAlertMsg({
             message: "Added Successfully!",
@@ -74,7 +81,7 @@ const WorkLoadComp = (props: Props) => {
         setSubmitting(false);
         setShowAlert(true);
         setAlertMsg({
-          message: "Failed to add department! Please try again.",
+          message: "Failed to add workload and slots! Please try again.",
           alertBoxColor: "danger",
         });
       });
@@ -87,7 +94,6 @@ const WorkLoadComp = (props: Props) => {
     useEffect(() => {
       props.timeSlotList.map((slotList: any) => {
         if(Object.keys(slotList)[0] === departmentIdKey){
-          console.log(slotList[departmentIdKey])
           setSlotItem(slotList[departmentIdKey])
         }
       })
@@ -127,6 +133,7 @@ const WorkLoadComp = (props: Props) => {
           initialValues={initialValues}
           // validationSchema={workloadSchema}
           onSubmit={(values, action) => {
+            // console.log(val)
             handleFormData(values, action);
           }}
         >
