@@ -47,6 +47,8 @@ const UserProfile = () => {
   );
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
+  console.log(userProfileInfo, currentUserInfo);
+
   useEffect(() => {
     setUser(userProfileInfo);
     getData(`/user/profile`, {})
@@ -72,6 +74,7 @@ const UserProfile = () => {
       })
       .catch((err: any) => {
         console.log(err);
+        setUser((previous) => ({...previous, userId: currentUserInfo.uid}));
       });
   }, [refreshData]);
 

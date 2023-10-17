@@ -16,7 +16,7 @@ const RolesGlobalFilter = (props: Props) => {
   const [dashboardRoles, setDashboardRoles] = useState([]);
   
   useEffect(() => {
-    if (currentRolesList.userInfo.roles["1"].length > 0) {
+    if (currentRolesList.userInfo.roles["1"] !== undefined && currentRolesList.userInfo.roles["1"].length > 0) {
       const dashboardRoles = currentRolesList.userInfo.roles["1"].filter((el: any) => el.shortName === 'student' || el.shortName === 'teacher' || el.shortName === 'editingteacher')
       setDashboardRoles(dashboardRoles);
 
