@@ -10,7 +10,7 @@ export const getData = (endPoint: string, params : any) => {
     return instance.get(endPoint, { params });
 };
 
-export const postData = (endPoint: string, requestData: any, file?: File, isMultiFile: boolean = false) => {
+export const postData = (endPoint: string, requestData: any, file?: File, isMultiFile: boolean = true) => {
     const instance = axiosConfig.axiosInstance;
     const data = requestData;
     
@@ -22,6 +22,10 @@ export const postData = (endPoint: string, requestData: any, file?: File, isMult
         // Create a FormData object to send the file and other data as multipart/form-data
         const formData = new FormData();
         formData.append('files', file);
+
+        if (isMultiFile) formData.append('files', file);
+        else formData.append('file', file);
+
         Object.entries(data).forEach(([key, value]) => {
            formData.append(key, value);
         });
