@@ -1,5 +1,4 @@
 import "./style.scss";
-import { useDispatch, useSelector } from "react-redux";
 import Header from "../../newHeader";
 import Footer from "../../newFooter";
 import EditUserProfile from "./modal";
@@ -8,15 +7,18 @@ import HeaderTabs from "../../headerTabs";
 import { Container } from "react-bootstrap";
 import PageTitle from "../../../widgets/pageTitle";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../../adapters/coreservices";
 // import UserContext from "../../../features/context/user/user";
+import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import React, { useEffect, useContext, useState } from "react";
+import { getData as get } from "../../../adapters/microservices";
 import { searchCountryNameById } from "../../../globals/getCountry";
-import { globalUserInfoActions } from "../../../store/slices/userInfo";
-import { globalUserProfileActions } from "../../../store/slices/userProfile";
 import DefaultProfileImage from "../../../assets/images/profile.png";
 import editpicture from "../../../assets/images/icons/edit-action.svg";
+import { globalUserInfoActions } from "../../../store/slices/userInfo";
+import { globalUserProfileActions } from "../../../store/slices/userProfile";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -37,17 +39,32 @@ const UserProfile = () => {
     mobile: '--',
     parentsMobile: '--',
   });
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
+  const [timeSlotList, setTimeSlotList] = useState<any>([])
+  const [workloadList, setWorkloadList] = useState(dummyData)
   const [editComponent, setEditComponent] = useState("changePassword");
+  
   const userProfileInfo = useSelector(
     (state: any) => state.userProfile.userProfile
-  );
-  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+    );
+    const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+    const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+    );
+    const [filterUpdate, setFilterUpdate] = useState({
+      pageNumber: 0,
+      pageSize: pagination.PERPAGE,
+      userId: currentUserInfo.uid
+    });
 
-  console.log(userProfileInfo, currentUserInfo);
+  // console.log(userProfileInfo, currentUserInfo);
 
   useEffect(() => {
     setUser(userProfileInfo);
@@ -77,6 +94,48 @@ const UserProfile = () => {
         setUser((previous) => ({...previous, userId: currentUserInfo.uid}));
       });
   }, [refreshData]);
+
+  // get workload data === >>>
+  useEffect(() => {
+    let endPoint = `/${currentInstitute}/timetable/userworkload`;
+    if (currentInstitute > 0) {
+      get(endPoint, filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            setWorkloadList(result.data);
+          }
+          // setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          // setApiStatus("finished");
+        });
+      }
+  }, [currentInstitute]);
+
+  useEffect(() => {
+    workloadList.items.map((item: any) => {
+      console.log(item)
+      if (currentInstitute > 0)  {
+        let endPoint = `/${currentInstitute}/timetable/timeslot?departmentId=${item.departmentId}`;
+        get(endPoint, filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            let newItem = result.data.items;
+            let filterItem = newItem.filter((slotList: any) => slotList.departmentId === item.departmentId)
+            let filterObj = {};
+            filterObj['dpt_'+ item.departmentId] = filterItem;
+            setTimeSlotList((prevArray: any) => [...prevArray, filterObj]);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+      }
+    })
+  }, [workloadList])
+
+  // console.log(timeSlotList)
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (component: string) => {
@@ -132,6 +191,9 @@ const UserProfile = () => {
                 </Button>
                 <div className="mt-2 resetPassword" onClick={() => toggleModalShow("changePassword")}>
                   <Link to="">Change Password</Link>
+                </div>
+                <div className="resetPassword" onClick={() => toggleModalShow("setPreferences")}>
+                  <Link to="">Set Preferences</Link>
                 </div>
               </div>
 
@@ -193,12 +255,15 @@ const UserProfile = () => {
       </div>
       <Footer />
       <EditUserProfile
-        show={modalShow}
-        onHide={() => toggleModalShow(false)}
         userobj={user}
-        togglemodalshow={toggleModalShow}
-        updateAddRefresh={refreshToggle}
+        show={modalShow}
+        timeSlotList={timeSlotList}
         editComponent={editComponent}
+        workloadList={workloadList.items}
+        currentInstitute={currentInstitute}
+        updateAddRefresh={refreshToggle}
+        togglemodalshow={toggleModalShow}
+        onHide={() => toggleModalShow(false)}
       />
     </React.Fragment>
   );

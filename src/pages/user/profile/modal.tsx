@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import EditPicture from "./forms/editPicture";
 import ChangePassword from "./forms/changePassword";
+import SetPreferences from "./forms/setPreferences";
 
 const EditUserProfile = ({
   show,
   onHide,
   userobj,
+  timeSlotList,
+  workloadList,
+  editComponent,
   togglemodalshow,
   updateAddRefresh,
-  editComponent
+  currentInstitute,
 }: any) => {
 
   return (
@@ -22,7 +26,7 @@ const EditUserProfile = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {editComponent === 'changePassword' ? "Update Password" : "Update Profile Picture"}
+            {editComponent === 'changePassword' ? "Update Password" : editComponent === 'setPreferences' ? 'Set Preferences' : "Update Profile Picture"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -32,12 +36,21 @@ const EditUserProfile = ({
               togglemodalshow={togglemodalshow}
               updateAddRefresh={updateAddRefresh}
             />
-           :
-           <EditPicture 
-              userobj={userobj}
-              togglemodalshow={togglemodalshow}
-              updateAddRefresh={updateAddRefresh}
-           /> 
+            :
+            editComponent === 'setPreferences' ? 
+              <SetPreferences 
+                timeSlotList={timeSlotList}
+                workloadList={workloadList}
+                togglemodalshow={togglemodalshow}
+                updateAddRefresh={updateAddRefresh}
+                currentInstitute={currentInstitute}
+              />
+            :
+            <EditPicture 
+                userobj={userobj}
+                togglemodalshow={togglemodalshow}
+                updateAddRefresh={updateAddRefresh}
+            /> 
           }
         </Modal.Body>
       </Modal>
