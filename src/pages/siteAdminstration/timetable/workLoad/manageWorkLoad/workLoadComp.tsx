@@ -20,38 +20,40 @@ const initialValues = {
 };
 
 const WorkLoadComp = (props: Props) => {
-  const dummyData = {
-    items: [],
-    pager: { totalElements: 0, totalPages: 0 },
-  };
   const { userId } = useParams();
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [startRendering, setStartRendering] = useState(false);
-  const [fetchLenght, setFetchLenght] = useState(props.workloadData.length);
+
+  const findTimeSlot = (key : string) => {
+    var packetFound = [];
+    for (let i = 0; i < props.timeSlotList.length; i++) {
+      if (props.timeSlotList[i].hasOwnProperty(key)) {
+        packetFound =  props.timeSlotList[i][key];
+        break;
+      }
+    }
+    return packetFound;
+  }
+
+  const getWorkloadSlots = (values: any, key: string) => {
+    return findTimeSlot(key).filter((item: any) => {
+      if (values[item.id] !== undefined) {
+        return item;
+      }
+    });
+  }
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
+    console.log("values---", values)
     setSubmitting(true);
     const newFormValues = props.workloadData.map((item: any, index: number) => {
-      console.log("item---", item)
       return {
         ...item,
-        // departmentId: item.departmentId,
-        workLoad: values[`workload_${index}`],
-        // slots: item.slots.filter((slotItem: any, slotIndex: number) => {
-        //   console.log(slotItem)
-        //   if (values[`slotid_${slotItem.id}`] === true) {
-        //     return slotItem;
-        //   }
-        // }),
-        slots: props.timeSlotList.filter((slotElem: any) => {
-          console.log(slotElem[`dpt_${item.departmentId}`])
-        })
+        workLoad: values[`workload_${index}`] !== undefined ? values[`workload_${index}`] : '',
+        slots: getWorkloadSlots(values, `dpt_${item.departmentId}`), //  findTimeSlot(`dpt_${item.departmentId}`),
       };
     });
-
-    console.log(props.timeSlotList)
 
     let endPoint = `/${props.currentInstitute}/timetable/userworkload/${userId}`;
     putData(endPoint, newFormValues)
@@ -78,8 +80,6 @@ const WorkLoadComp = (props: Props) => {
       });
   };
 
-  // console.log(props.timeSlotList);
-
   // render time slot list according to department === >>>
   const RenderTimeSlotList = (id: any) => {
     const [slotItem, setSlotItem] = useState([]);
@@ -93,14 +93,12 @@ const WorkLoadComp = (props: Props) => {
       })
     }, [props.timeSlotList, props.workloadData])
 
-    // console.log(slotItem)
-
     return (
       <React.Fragment>
         {slotItem.map((slot: any) =>
           <div key={slot.id} className="mb-3">
             <FieldTypeCheckbox
-              name={`slotid_${slot.id}`}
+              name={`${slot.id}`}
               checkboxLabel={`${slot.startTime} to ${slot.endTime}`}
             />
           </div>
@@ -116,7 +114,6 @@ const WorkLoadComp = (props: Props) => {
       ) : (
         ""
       )}
-      {/* {startRendering === true && */}
 
       <div>
         <TimerAlertBox
