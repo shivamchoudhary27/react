@@ -29,7 +29,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
         name: "",
         code: "",
       });
-      updateinputfilters(initialValues);
+      updateinputfilters({reset :  true});
       setSelectedValue("")
     }
   });

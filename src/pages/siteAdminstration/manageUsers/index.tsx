@@ -67,7 +67,7 @@ const ManageProgramEnrollment = () => {
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
-  };
+  }; 
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
@@ -102,8 +102,12 @@ const ManageProgramEnrollment = () => {
 
   const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
-      const { name, email, rolenumber, ...newObject } = newFilterRequest;
-      setFilterUpdate({ ...filterUpdate, ...newObject });
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      delete updatedState.name;
+      delete updatedState.email;
+      delete updatedState.roleNumber;
+      setFilterUpdate(updatedState);
+      return false;
     } else {
       const { name, email, roleNumber } = newFilterRequest;
       let updatedState = {

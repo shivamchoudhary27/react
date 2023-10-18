@@ -93,6 +93,16 @@ const ManageProgram = () => {
   };
 
   const updateInputFilters = (inputvalues: any) => {
+    if (inputvalues.reset !== undefined) {
+      console.log('reseting all input filters', inputvalues);
+
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      delete updatedState.name;
+      delete updatedState.programCode;
+      delete updatedState.departmentId;
+      setFilterUpdate(updatedState);
+      return false;   
+    }
     if (inputvalues.code !== "") {
       setFilterUpdate({
         ...filterUpdate,
