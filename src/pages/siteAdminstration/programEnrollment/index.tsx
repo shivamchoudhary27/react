@@ -25,7 +25,7 @@ const ProgramEnrollment = () => {
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
-
+  console.log('debug testing-- one more update -- new var set -x-x');
   // get programs API call === >>>
   useEffect(() => {
     if (currentInstitute > 0)
@@ -34,7 +34,8 @@ const ProgramEnrollment = () => {
 
   // to update filters values in the main state filterUpdate
   const updateDepartmentFilter = (departmentId: string) => {
-    setFilterUpdate({
+    console.log('updateing department filter ', departmentId)
+    setFilterUpdate({ 
       ...filterUpdate,
       departmentId: departmentId,
       pageNumber: 0,
@@ -42,7 +43,18 @@ const ProgramEnrollment = () => {
   };
 
   const updateInputFilters = (inputvalues: any) => {
+    if (inputvalues.reset !== undefined) {
+      console.log('reseting all input filters', inputvalues);
+
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      delete updatedState.name;
+      delete updatedState.programCode;
+      delete updatedState.departmentId;
+      setFilterUpdate(updatedState);
+      return false;   
+    }
     if (inputvalues.code !== "") {
+      console.log('program code in not empty', inputvalues);
       setFilterUpdate({
         ...filterUpdate,
         name: inputvalues.name,
@@ -50,6 +62,8 @@ const ProgramEnrollment = () => {
         pageNumber: 0,
       });
     } else {
+      console.log('program code delete', inputvalues)
+
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       updatedState.name = inputvalues.name;
       if (updatedState.programCode) delete updatedState.programCode;

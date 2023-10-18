@@ -164,12 +164,15 @@ const CourseEnrollment = () => {
       refreshDisciplineData={refreshToggle}
       courseid={parsedCourseid}
     />
-  );
+  ); 
 
   const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
-      const { name, email, ...newObject } = newFilterRequest;
-      setFilterUpdate({ ...filterUpdate, ...newObject });
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      delete updatedState.name;
+      delete updatedState.email;
+      setFilterUpdate(updatedState);
+      return false;
     } else {
       const { name, email } = newFilterRequest;
       let updatedState = {
