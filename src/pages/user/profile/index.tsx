@@ -9,10 +9,10 @@ import PageTitle from "../../../widgets/pageTitle";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../../adapters/coreservices";
-// import UserContext from "../../../features/context/user/user";
 import { pagination } from "../../../utils/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import React, { useEffect, useContext, useState } from "react";
+// import UserContext from "../../../features/context/user/user";
 import { getData as get } from "../../../adapters/microservices";
 import { searchCountryNameById } from "../../../globals/getCountry";
 import DefaultProfileImage from "../../../assets/images/profile.png";
@@ -22,22 +22,22 @@ import { globalUserProfileActions } from "../../../store/slices/userProfile";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
-    userFirstName: "--",
-    userLastName: "--",
-    userEmail: "--",
-    userId: 0,
-    userCountry: "--",
-    enabled: false,
-    fatherName: "--",
-    motherName: "--",
-    parentEmail: "--",
-    bloodGroup: "--",
-    genderType: "--",
-    dateOfBirth: "--",
     roles: [],
     files: [],
-    mobile: '--',
-    parentsMobile: '--',
+    userId: 0,
+    mobile: "--",
+    enabled: false,
+    userEmail: "--",
+    bloodGroup: "--",
+    genderType: "--",
+    fatherName: "--",
+    motherName: "--",
+    userCountry: "--",
+    parentEmail: "--",
+    dateOfBirth: "--",
+    userLastName: "--",
+    userFirstName: "--",
+    parentsMobile: "--",
   });
   const dummyData = {
     items: [],
@@ -47,22 +47,25 @@ const UserProfile = () => {
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
-  const [timeSlotList, setTimeSlotList] = useState<any>([])
-  const [workloadList, setWorkloadList] = useState(dummyData)
+  const [timeSlotList, setTimeSlotList] = useState<any>([]);
+  const [workloadList, setWorkloadList] = useState(dummyData);
   const [editComponent, setEditComponent] = useState("changePassword");
-  
+
   const userProfileInfo = useSelector(
     (state: any) => state.userProfile.userProfile
-    );
-    const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
-    const currentInstitute = useSelector(
+  );
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
-    );
-    const [filterUpdate, setFilterUpdate] = useState({
-      pageNumber: 0,
-      pageSize: pagination.PERPAGE,
-      userId: currentUserInfo.uid
-    });
+  );
+  const currentUserRole = useSelector(
+    (state: any) => state.globalFilters.currentUserRole
+  );
+  const [filterUpdate, setFilterUpdate] = useState({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+    userId: currentUserInfo.uid,
+  });
 
   // console.log(userProfileInfo, currentUserInfo);
 
@@ -73,25 +76,31 @@ const UserProfile = () => {
         if (result.status === 200) {
           setUser(result.data);
           const updateCurrentUserInfo = {
-            authorities: currentUserInfo.authorities,
-            email: currentUserInfo.email,
-            first_name: currentUserInfo.first_name,
-            institutes: currentUserInfo.institutes,
-            last_name: currentUserInfo.last_name,
-            roles: currentUserInfo.roles,
-            username: currentUserInfo.username,
             uid: currentUserInfo.uid,
             files: result.data.files,
-          }
+            roles: currentUserInfo.roles,
+            email: currentUserInfo.email,
+            username: currentUserInfo.username,
+            last_name: currentUserInfo.last_name,
+            first_name: currentUserInfo.first_name,
+            institutes: currentUserInfo.institutes,
+            authorities: currentUserInfo.authorities,
+          };
           dispatch(globalUserInfoActions.updateUserPicture(result.data.files));
           dispatch(globalUserProfileActions.userProfile(result.data));
-          localStorage.setItem('userProfile', JSON.stringify({userProfile: result.data}))
-          localStorage.setItem('userInfo', JSON.stringify({userInfo: updateCurrentUserInfo}))
+          localStorage.setItem(
+            "userProfile",
+            JSON.stringify({ userProfile: result.data })
+          );
+          localStorage.setItem(
+            "userInfo",
+            JSON.stringify({ userInfo: updateCurrentUserInfo })
+          );
         }
       })
       .catch((err: any) => {
         console.log(err);
-        setUser((previous) => ({...previous, userId: currentUserInfo.uid}));
+        setUser((previous) => ({ ...previous, userId: currentUserInfo.uid }));
       });
   }, [refreshData]);
 
@@ -110,30 +119,31 @@ const UserProfile = () => {
           console.log(err);
           // setApiStatus("finished");
         });
-      }
+    }
   }, [currentInstitute]);
 
   useEffect(() => {
     workloadList.items.map((item: any) => {
-      console.log(item)
-      if (currentInstitute > 0)  {
+      if (currentInstitute > 0) {
         let endPoint = `/${currentInstitute}/timetable/timeslot?departmentId=${item.departmentId}`;
         get(endPoint, filterUpdate)
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            let newItem = result.data.items;
-            let filterItem = newItem.filter((slotList: any) => slotList.departmentId === item.departmentId)
-            let filterObj = {};
-            filterObj['dpt_'+ item.departmentId] = filterItem;
-            setTimeSlotList((prevArray: any) => [...prevArray, filterObj]);
-          }
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
+          .then((result: any) => {
+            if (result.data !== "" && result.status === 200) {
+              let newItem = result.data.items;
+              let filterItem = newItem.filter(
+                (slotList: any) => slotList.departmentId === item.departmentId
+              );
+              let filterObj = {};
+              filterObj["dpt_" + item.departmentId] = filterItem;
+              setTimeSlotList((prevArray: any) => [...prevArray, filterObj]);
+            }
+          })
+          .catch((err: any) => {
+            console.log(err);
+          });
       }
-    })
-  }, [workloadList])
+    });
+  }, [workloadList]);
 
   // console.log(timeSlotList)
 
@@ -149,7 +159,7 @@ const UserProfile = () => {
 
   const capitalizeFirstLetter = (inputString: string) => {
     return inputString.charAt(0).toUpperCase() + inputString.slice(1);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -162,15 +172,18 @@ const UserProfile = () => {
           <div className="user-profile-box">
             <div className="row">
               <div className="col-md-4 text-center">
-                <div 
+                <div
                   className="user-picture"
                   onClick={() => toggleModalShow("picture")}
                 >
                   <img
-                    src={user.files !== undefined && user.files.length > 0 ? user.files[0].url : DefaultProfileImage}
+                    src={
+                      user.files !== undefined && user.files.length > 0
+                        ? user.files[0].url
+                        : DefaultProfileImage
+                    }
                     alt={
-                      user.files !== undefined &&
-                      user.files.length > 0
+                      user.files !== undefined && user.files.length > 0
                         ? user.files[0].originalFileName
                         : user.userFirstName
                     }
@@ -186,15 +199,23 @@ const UserProfile = () => {
                     (match) => match.toUpperCase()
                   )}
                 </h3>
-                <Button onClick={() => navigate('/editprofile')}>
+                <Button onClick={() => navigate("/editprofile")}>
                   Edit Profile
                 </Button>
-                <div className="mt-2 resetPassword" onClick={() => toggleModalShow("changePassword")}>
+                <div
+                  className="mt-2 resetPassword"
+                  onClick={() => toggleModalShow("changePassword")}
+                >
                   <Link to="">Change Password</Link>
                 </div>
-                <div className="resetPassword" onClick={() => toggleModalShow("setPreferences")}>
-                  <Link to="">Set Preferences</Link>
-                </div>
+                {currentUserRole.shortName === "editingteacher" && (
+                  <div
+                    className="resetPassword"
+                    onClick={() => toggleModalShow("setPreferences")}
+                  >
+                    <Link to="">Set Preferences</Link>
+                  </div>
+                )}
               </div>
 
               <div className="col-md-8">

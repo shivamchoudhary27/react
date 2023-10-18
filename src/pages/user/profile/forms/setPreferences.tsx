@@ -1,6 +1,8 @@
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
+import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
+import Errordiv from "../../../../widgets/alert/errordiv";
 import { postData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
@@ -35,20 +37,20 @@ const SetPreferences = ({
       item.slots.forEach((el: any) => {
         initialValues[`workload_${index}`] = item.workLoad;
         initialValues[`${el.id}`] = el.id;
-      })
+      });
     });
-  }, [workloadList])
+  }, [workloadList]);
 
-  const findTimeSlot = (key : string) => {
+  const findTimeSlot = (key: string) => {
     var packetFound = [];
     for (let i = 0; i < timeSlotList.length; i++) {
       if (timeSlotList[i].hasOwnProperty(key)) {
-        packetFound =  timeSlotList[i][key];
+        packetFound = timeSlotList[i][key];
         break;
       }
     }
     return packetFound;
-  }
+  };
 
   const getWorkloadSlots = (values: any, key: string) => {
     return findTimeSlot(key).filter((item: any) => {
@@ -56,17 +58,19 @@ const SetPreferences = ({
         return item;
       }
     });
-  }
+  };
 
   // handle Form CRUD operations === >>>
-    const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-        console.log(values)
-      let endPoint = `/${currentInstitute}/timetable/userworkload`;
-      setSubmitting(true);
+  const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
+    let endPoint = `/${currentInstitute}/timetable/userworkload`;
+    setSubmitting(true);
     const newFormValues = workloadList.map((item: any, index: number) => {
       return {
         ...item,
-        workLoad: values[`workload_${index}`] !== undefined ? values[`workload_${index}`] : '',
+        workLoad:
+          values[`workload_${index}`] !== undefined
+            ? values[`workload_${index}`]
+            : "",
         slots: getWorkloadSlots(values, `dpt_${item.departmentId}`), //  findTimeSlot(`dpt_${item.departmentId}`),
       };
     });
@@ -80,7 +84,6 @@ const SetPreferences = ({
             message: "Added Successfully!",
             alertBoxColor: "success",
           });
-          console.log(res.data);
         }
       })
       .catch((err: any) => {
@@ -92,7 +95,7 @@ const SetPreferences = ({
           alertBoxColor: "danger",
         });
       });
-    };
+  };
 
   // render time slot list according to department === >>>
   const RenderTimeSlotList = (id: any) => {
@@ -134,8 +137,8 @@ const SetPreferences = ({
         initialValues={initialValues}
         // validationSchema={formSchema}
         onSubmit={(values, action) => {
-            handleFormData(values, action);
-        //   console.log(values);
+          handleFormData(values, action);
+          //   console.log(values);
         }}
       >
         {({ errors, touched, isSubmitting }) => (
@@ -152,8 +155,8 @@ const SetPreferences = ({
                   />
                   <FieldTypeText
                     type="number"
-                    name={`workload_${index}`}
                     className="form-control"
+                    name={`workload_${index}`}
                     placeholder="Workload in hour"
                   />
                 </div>
@@ -161,29 +164,25 @@ const SetPreferences = ({
               </div>
             ))}
 
-            {isSubmitting === false ? (
-              <div className="modal-buttons">
-                <CustomButton
-                  type="submit"
-                  variant="primary"
-                  disabled={isSubmitting}
-                  btnText="Update"
-                />{" "}
-                {workloadList.id === 0 && (
+            {workloadList.length !== 0 ? (
+              isSubmitting === false ? (
+                <div className="modal-buttons">
                   <CustomButton
-                    type="reset"
-                    btnText="Remove Picture"
-                    variant="outline-secondary"
-                    onClick={() => setShowAlert(false)}
+                    type="submit"
+                    btnText="Update"
+                    variant="primary"
+                    disabled={isSubmitting}
                   />
-                )}
-              </div>
+                </div>
+              ) : (
+                <LoadingButton
+                  variant="primary"
+                  btnText={"Updating..."}
+                  className="modal-buttons"
+                />
+              )
             ) : (
-              <LoadingButton
-                variant="primary"
-                btnText={"Updating..."}
-                className="modal-buttons"
-              />
+              <Errordiv msg="No department and slot list are found on this user!" cstate className="" />
             )}
           </Form>
         )}

@@ -142,7 +142,7 @@ const WorkLoadComp = (props: Props) => {
               {props.timeSlotList.length > 0 &&
                 props.workloadData.map((item: any, index: number) => (
                   <div key={index}>
-                    <h4>{item.departmentName}</h4>
+                    <h4>Department: {item.departmentName}</h4>
                     <div className="mb-3">
                       <FieldLabel
                         htmlfor={`workload_${index}`}
