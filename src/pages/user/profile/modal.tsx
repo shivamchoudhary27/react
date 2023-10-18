@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
 import EditPicture from "./forms/editPicture";
 import ChangePassword from "./forms/changePassword";
@@ -15,7 +15,6 @@ const EditUserProfile = ({
   updateAddRefresh,
   currentInstitute,
 }: any) => {
-
   return (
     <React.Fragment>
       <Modal
@@ -26,32 +25,35 @@ const EditUserProfile = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {editComponent === 'changePassword' ? "Update Password" : editComponent === 'setPreferences' ? 'Set Preferences' : "Update Profile Picture"}
+            {editComponent === "changePassword" && "Update Password"}
+            {editComponent === "setPreferences" && "Set Preferences"}
+            {editComponent === "picture" && "Update Profile Picture"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {editComponent === 'changePassword' ?
+          {editComponent === "changePassword" && (
             <ChangePassword
               userobj={userobj}
               togglemodalshow={togglemodalshow}
               updateAddRefresh={updateAddRefresh}
             />
-            :
-            editComponent === 'setPreferences' ? 
-              <SetPreferences 
-                timeSlotList={timeSlotList}
-                workloadList={workloadList}
-                togglemodalshow={togglemodalshow}
-                updateAddRefresh={updateAddRefresh}
-                currentInstitute={currentInstitute}
-              />
-            :
-            <EditPicture 
-                userobj={userobj}
-                togglemodalshow={togglemodalshow}
-                updateAddRefresh={updateAddRefresh}
-            /> 
-          }
+          )}
+          {editComponent === "setPreferences" && (
+            <SetPreferences
+              timeSlotList={timeSlotList}
+              workloadList={workloadList}
+              togglemodalshow={togglemodalshow}
+              updateAddRefresh={updateAddRefresh}
+              currentInstitute={currentInstitute}
+            />
+          )}
+          {editComponent === "picture" && (
+            <EditPicture
+              userobj={userobj}
+              togglemodalshow={togglemodalshow}
+              updateAddRefresh={updateAddRefresh}
+            />
+          )}
         </Modal.Body>
       </Modal>
     </React.Fragment>
