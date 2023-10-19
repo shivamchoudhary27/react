@@ -21,6 +21,7 @@ const ManageWorkLoad = (props: Props) => {
   const { userId } = useParams();
   const [workloadData, setWorkloadData] = useState(dummyData);
   const [timeSlotList, setTimeSlotList] = useState<any>([])
+  const [apiStatus, setApiStatus] = useState("");
   const [filterUpdate, setFilterUpdate] = useState({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -34,16 +35,17 @@ const ManageWorkLoad = (props: Props) => {
   useEffect(() => {
     let endPoint = `/${currentInstitute}/timetable/userworkload`;
     if (currentInstitute > 0) {
+      setApiStatus('started');
       getData(endPoint, filterUpdate)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             setWorkloadData(result.data);
           }
-          // setApiStatus("finished");
+          setApiStatus("finished");
         })
         .catch((err: any) => {
           console.log(err);
-          // setApiStatus("finished");
+          setApiStatus("finished");
         });
       }
   }, [userId, filterUpdate, currentInstitute]);
@@ -88,9 +90,10 @@ const ManageWorkLoad = (props: Props) => {
             gobacklink="/workload"
           />
           <WorkLoadComp 
+            apiStatus={apiStatus}
+            timeSlotList={timeSlotList}
             workloadData={workloadData.items} 
             currentInstitute={currentInstitute}
-            timeSlotList={timeSlotList}
           />
         </Container>
       </div>
