@@ -48,7 +48,15 @@ const WeeklyDraftVersion = () => {
     useEffect(() => {
         if (departmentTimeslots.items.length > 0) {
             let timeslotPacket = [];
-            departmentTimeslots.items.map((item) => {
+
+            const sortedTimeSlots = departmentTimeslots.items.slice().sort((a, b) => {
+                // Convert start times to Date objects for comparison
+                const timeA = new Date(`1970-01-01T${a.startTime}`);
+                const timeB = new Date(`1970-01-01T${b.startTime}`);
+                
+                return timeA - timeB;
+            });
+            sortedTimeSlots.map((item) => {
                 let currentPacket = {
                     timeSlot: `${item.startTime} - ${item.endTime}`,
                 }
