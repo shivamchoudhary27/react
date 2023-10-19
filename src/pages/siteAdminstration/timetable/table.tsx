@@ -57,6 +57,14 @@ const TimetableTable: React.FunctionComponent<Props> = ({
     {
       Header: "Draft Version",
       accessor: "",
+      Cell: ({ row }: any) => (
+        <Link
+          className="action-icons"
+          to={`/draftversion?dpt=${row.original.department.id}&prg=${row.original.name}`}
+        >
+          <img src={manageCoursesIcon} alt="Manage Draft" />
+        </Link>
+      ),
     },
     {
       Header: "Faculty Change Request",

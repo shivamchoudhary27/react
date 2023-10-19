@@ -7,6 +7,7 @@ import InstituteTimeSlot from "../../../pages/siteAdminstration/timetable/instit
 import ManageWorkLoad from "../../../pages/siteAdminstration/timetable/workLoad/manageWorkLoad";
 import ManageTimesSlot from "../../../pages/siteAdminstration/timetable/timesSlot/manageTimeSlot";
 import ManageCoursesWorkLoad from "../../../pages/siteAdminstration/timetable/manageCoursesWorkLoad";
+import WeeklyDraftVersion from "../../../pages/siteAdminstration/timetable/draft";
 
 const TimetableManagementRoute = () => {
   return [
@@ -22,6 +23,7 @@ const TimetableManagementRoute = () => {
       key="managecoursesworkload"
       element={<ManageCoursesWorkLoad />}
     />,
+    <Route path="/draftversion" key="draftversion" element={<WeeklyDraftVersion />} />,
   ];
 };
 
