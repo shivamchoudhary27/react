@@ -54,6 +54,7 @@ const WorkLoad = () => {
   useEffect(() => {
     let endPoint = `/${currentInstitute}/timetable/userworkload`;
     if (currentInstitute > 0) {
+      setApiStatus("started");
       getData(endPoint, filterUpdate)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {

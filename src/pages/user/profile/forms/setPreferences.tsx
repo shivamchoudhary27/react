@@ -15,11 +15,19 @@ import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxF
 const initialValues = {};
 
 // Formik Yup validation === >>>
-// const formSchema = Yup.object({
-//   newPassword: Yup.string().required("New password is required"),
-//   currentPassword: Yup.string().required("Current password is required"),
-//   confirmPassword: Yup.string().required("Confirm new password is required"),
-// });
+const generateValidationSchema = (workloadList: any) => {
+  return Yup.lazy((values) => {
+    const schema = {};
+    workloadList.forEach((item: any, index: number) => {
+      const fieldName = `workload_${index}`;
+      schema[fieldName] = Yup.number()
+        .typeError("Must be a number")
+        .required("Work load field is required")
+        .positive("Work load hour must be in positive integer");
+    });
+    return Yup.object().shape(schema);
+  });
+};
 
 const SetPreferences = ({
   timeSlotList,
@@ -28,8 +36,10 @@ const SetPreferences = ({
   updateAddRefresh,
   currentInstitute,
 }: any) => {
+  console.log("workloadList-----", workloadList);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const validationSchema = generateValidationSchema(workloadList);
 
   // set initial values === >>>
   useEffect(() => {
@@ -135,7 +145,7 @@ const SetPreferences = ({
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
-        // validationSchema={formSchema}
+        validationSchema={validationSchema}
         onSubmit={(values, action) => {
           handleFormData(values, action);
           //   console.log(values);
@@ -158,6 +168,10 @@ const SetPreferences = ({
                     className="form-control"
                     name={`workload_${index}`}
                     placeholder="Workload in hour"
+                  />
+                  <FieldErrorMessage
+                    errors={errors[`workload_${index}`]}
+                    touched={touched[`workload_${index}`]}
                   />
                 </div>
                 <RenderTimeSlotList item={item.departmentId} />
@@ -182,7 +196,11 @@ const SetPreferences = ({
                 />
               )
             ) : (
-              <Errordiv msg="No department and slot list are found on this user!" cstate className="" />
+              <Errordiv
+                msg="No department and slot list are found on this user!"
+                cstate
+                className=""
+              />
             )}
           </Form>
         )}
