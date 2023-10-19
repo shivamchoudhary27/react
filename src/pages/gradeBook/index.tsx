@@ -104,16 +104,16 @@ const GradeBook = (props: Props) => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Gradebook`} gobacklink="" />
-          {/* <Filter
+          <Filter
             coursesList={coursesList}
             getCourseId={getCourseId}
             courseId={courseId}
-          /> */}
-          <MultipleFilters
+          />
+          {/* <MultipleFilters
             userCoursesData={apiData}
             setApiData={setApiData}
             updateCourses={updateCourses}
-          />
+          /> */}
           <GradeTable
             gradebookData={gradebookData.tabledata}
             apiStatus={apiStatus}
