@@ -126,6 +126,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
           </Row>          
         </form>
         <div className="site-button-group">
+        <Button variant="primary" onClick={()=>navigate("/guestusers")}>Guest Users</Button>
           {userPermissions.role.canView && 
             <Button variant="primary" onClick={()=>navigate("/manageroles")}>Manage Roles</Button>
           } 
