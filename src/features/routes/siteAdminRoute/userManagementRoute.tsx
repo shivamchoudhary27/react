@@ -5,9 +5,11 @@ import UserManagement from '../../../pages/siteAdminstration/userManagement'
 import InstituteManagement from '../../../pages/siteAdminstration/institute'
 import ManageRoles from '../../../pages/siteAdminstration/roles/manageRoles'
 import ManageAuthorities from '../../../pages/siteAdminstration/roles/authorities'
+import GuestUsers from '../../../pages/siteAdminstration/userManagement/guestUsers'
 
 const UserManagementRoute = () => {
   return [
+    <Route key="guestusers" path='/guestusers' element={<GuestUsers />} />,
     <Route key="manageroles" path='/manageroles' element={<ManageRoles />} />,
     <Route key="assignroles" path="/assignroles" element={<AssignRoles />} />,
     <Route key="institute" path='/institute' element={<InstituteManagement />} />,

@@ -181,7 +181,7 @@ const WeeklyDraftVersion = () => {
             </div>
           </div>
           {apiStatus === "finished" && timeslots.length > 0 && (
-            <WeeklyTimetable data={timeslots} />
+            <WeeklyTimetable data={timeslots} apiStatus={apiStatus} />
           )}
           {apiStatus === "finished" && timeslots.length === 0 && (
             <div>
