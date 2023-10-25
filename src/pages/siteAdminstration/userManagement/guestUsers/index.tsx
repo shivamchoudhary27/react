@@ -2,6 +2,7 @@ import GuestFilter from "./filter";
 import GuestUsersTable from "./table";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
+import UpdateUserModal from "./modalForm";
 import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
 import React, { useState, useEffect } from "react";
@@ -10,6 +11,7 @@ import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
 import BuildPagination from "../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import { getData as getInstitute } from "../../../../adapters/microservices";
 
 type Props = {};
 
@@ -17,6 +19,7 @@ const GuestUsers = (props: Props) => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [guestUsersData, setGuestUsersData] = useState(dummyData);
+  const [instituteList, setInstuituteList] = useState(dummyData);
   const [refreshData, setRefreshData] = useState(true);
   const [modalShow, setModalShow] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
@@ -32,6 +35,22 @@ const GuestUsers = (props: Props) => {
       userCountry: "",
       enabled: false,
     });
+
+    // get institute list API call === >>>
+  useEffect(() => {
+    setApiStatus("started");
+    getInstitute("/institutes", filterUpdate)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          setInstuituteList(result.data);
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  }, [filterUpdate]);
 
   // get guest users API call === >>>
   useEffect(() => {
@@ -156,15 +175,16 @@ const GuestUsers = (props: Props) => {
         setUploadModalShow={setUploadModalShow}
         updateAddRefresh={refreshToggle}
         currentInstitute={currentInstitute}
-      />
-      <AddUserModal
-        show={modalShow}
-        onHide={() => toggleModalShow(false)}
-        userobj={userObj}
-        togglemodalshow={toggleModalShow}
-        updateAddRefresh={refreshToggle}
-        currentInstitute={currentInstitute}
       /> */}
+      <UpdateUserModal
+        show={modalShow}
+        guestUserObj={guestUserObj}
+        instituteList={instituteList.items}
+        updateAddRefresh={refreshToggle}
+        togglemodalshow={toggleModalShow}
+        onHide={() => toggleModalShow(false)}
+        // currentInstitute={currentInstitute}
+      />
       <Footer />
     </React.Fragment>
   );

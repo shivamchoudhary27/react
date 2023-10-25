@@ -50,47 +50,47 @@ const GuestUsersTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {/* {userPermissions.user.canEdit && ( */}
-            <Link className="action-icons" to={""}>
-              <img
-                src={editIcon}
-                alt="Edit"
-                onClick={() =>
-                  editHandler({
-                    id: row.original.id,
-                    userFirstName: row.original.firstName,
-                    userLastName: row.original.lastName,
-                    userEmail: row.original.email,
-                    userCountry: row.original.country,
-                    enabled: row.original.enabled,
-                  })
-                }
-              />
-            </Link>
+          <Link className="action-icons" to={""}>
+            <img
+              src={editIcon}
+              alt="Edit"
+              onClick={() =>
+                editHandler({
+                  id: row.original.id,
+                  userFirstName: row.original.firstName,
+                  userLastName: row.original.lastName,
+                  userEmail: row.original.email,
+                  userCountry: row.original.country,
+                  enabled: row.original.enabled,
+                })
+              }
+            />
+          </Link>
           {/* )} */}
 
           {/* {userPermissions.user.canDelete && ( */}
-            <Link className="action-icons" to="">
-              <img
-                src={deleteIcon}
-                alt="Delete"
-                onClick={() => deleteHandler(row.original.id)}
-              />
-            </Link>
+          <Link className="action-icons" to="">
+            <img
+              src={deleteIcon}
+              alt="Delete"
+              onClick={() => deleteHandler(row.original.id)}
+            />
+          </Link>
           {/* )} */}
 
           {/* {userPermissions.user.canEdit && ( */}
-            <Link
-              className="action-icons"
-              to=""
-              onClick={() => {
-                toggleUserEnabled(row.original);
-              }}
-            >
-              <img
-                src={row.original.enabled !== false ? showIcon : hideIcon}
-                alt="Show"
-              />
-            </Link>
+          <Link
+            className="action-icons"
+            to=""
+            onClick={() => {
+              toggleUserEnabled(row.original);
+            }}
+          >
+            <img
+              src={row.original.enabled !== false ? showIcon : hideIcon}
+              alt="Show"
+            />
+          </Link>
           {/* )} */}
         </span>
       ),
@@ -212,6 +212,13 @@ const GuestUsersTable = ({
   return (
     <React.Fragment>
       <div className="table-responsive admin-table-wrapper mt-3">
+        <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -252,13 +259,6 @@ const GuestUsersTable = ({
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
         modalHeading="User"
-      />
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
       />
     </React.Fragment>
   );
