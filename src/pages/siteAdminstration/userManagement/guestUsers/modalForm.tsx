@@ -121,10 +121,7 @@ const UpdateUserModal = ({
                     required="required"
                     star="*"
                   />
-                  <FieldTypeText
-                    name="firstName"
-                    placeholder="First Name"
-                  />
+                  <FieldTypeText name="firstName" placeholder="First Name" />
                   <FieldErrorMessage
                     errors={errors.firstName}
                     touched={touched.firstName}
@@ -168,7 +165,7 @@ const UpdateUserModal = ({
                     required="required"
                     star="*"
                   />
-                  {/* <div className="mt-2"> */}
+
                   {instituteList.map((item: any, index: number) => (
                     <div key={index}>
                       <FieldTypeCheckbox
@@ -179,7 +176,7 @@ const UpdateUserModal = ({
                       />{" "}
                     </div>
                   ))}
-                  {/* </div> */}
+
                   <FieldErrorMessage
                     errors=""
                     touched=""

@@ -42,6 +42,8 @@ const GuestUsers = (props: Props) => {
     getInstitute("/institutes", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
+          let instituteData = result.data.items.filter((Obj: any) => Obj.locked !== false)
+          result.data.items = instituteData
           setInstuituteList(result.data);
         }
         setApiStatus("finished");
