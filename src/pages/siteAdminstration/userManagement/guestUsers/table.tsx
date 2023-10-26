@@ -79,7 +79,7 @@ const GuestUsersTable = ({
           {/* )} */}
 
           {/* {userPermissions.user.canEdit && ( */}
-          <Link
+          {/* <Link
             className="action-icons"
             to=""
             onClick={() => {
@@ -90,7 +90,7 @@ const GuestUsersTable = ({
               src={row.original.enabled !== false ? showIcon : hideIcon}
               alt="Show"
             />
-          </Link>
+          </Link> */}
           {/* )} */}
         </span>
       ),
