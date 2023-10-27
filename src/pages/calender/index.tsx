@@ -19,6 +19,7 @@ import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import { getData as getCourses } from "../../adapters/microservices";
 import { getEventColor, initialColors, hexToRGB } from "./local/utils";
 import eventsDate from "../../assets/images/icons/calendar-black.svg";
+import HeirarchyFilter from "./filters";
 
 moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
@@ -179,6 +180,15 @@ export default function ReactBigCalendar() {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="" gobacklink="" />
+          {/* {currentUserRole !== undefined &&
+              <HeirarchyFilter 
+                coursesList={apiData} 
+                setUserCoursesData={() => {}} 
+                getCourseStatus={() => {}} 
+                updateCourses={() => {}}
+                getCourseId={getCourseId}
+              />
+            } */}
           <Row>
             <Col md={2}>
               <CalendarFilters

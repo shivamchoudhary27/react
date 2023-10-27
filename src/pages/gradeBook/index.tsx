@@ -1,4 +1,4 @@
-import Filter from "./filters";
+// import Filter from "./filters";
 import GradeTable from "./table";
 import Footer from "../newFooter";
 import Header from "../newHeader";
@@ -11,6 +11,8 @@ import React, { useEffect, useState } from "react";
 import BreadcrumbComponent from "../../widgets/breadcrumb";
 import { getData as getCourses } from "../../adapters/microservices";
 import MultipleFilters from "./multipleFilters";
+import FilterProgramDropdown from "./filterDropdown";
+import HeirarchyFilter from "./filtersNew";
 
 type Props = {};
 
@@ -54,8 +56,6 @@ const GradeBook = (props: Props) => {
     },
   });
 
-  console.log("apiData---", apiData)
-
   useEffect(() => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
     getCourses(endPoint, {}).then((res: any) => {
@@ -88,7 +88,7 @@ const GradeBook = (props: Props) => {
     }
   }, [courseId, coursesList, currentUserRole.id]);
 
-  const getCourseId = (courseId: string) => {
+  const getCourseId = (courseId : string | number) => {
     setCourseId(courseId);
   };
 
@@ -104,16 +104,15 @@ const GradeBook = (props: Props) => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Gradebook`} gobacklink="" />
-          <Filter
-            coursesList={coursesList}
-            getCourseId={getCourseId}
-            courseId={courseId}
-          />
-          {/* <MultipleFilters
-            userCoursesData={apiData}
-            setApiData={setApiData}
-            updateCourses={updateCourses}
-          /> */}
+            {currentUserRole !== undefined &&
+              <HeirarchyFilter 
+                coursesList={apiData} 
+                setUserCoursesData={() => {}} 
+                getCourseStatus={() => {}} 
+                updateCourses={() => {}}
+                getCourseId={getCourseId}
+              />
+            }
           <GradeTable
             gradebookData={gradebookData.tabledata}
             apiStatus={apiStatus}
