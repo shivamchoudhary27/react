@@ -62,10 +62,25 @@ const HeirarchyFilter = (props: Props) => {
       });
 
       const filteredData = props.coursesList.courses.filter(item => uniqueProgramIds.has(item.programId));
+      if (filteredData.length > 0) {
+        setSelectedCourse(filteredData[0].idNumber);
+      }
       setCourses(filteredData);
     }
 
   }, [filterStatus]);
+
+  useEffect(() => {
+    if (course.length > 0) {
+      if (course[0].idNumber !== null) {
+        setSelectedCourse(course[0].idNumber);
+        props.getCourseId(course[0].idNumber);
+      } else {
+        setSelectedCourse(-1);
+        props.getCourseId(-1);
+      }
+    }
+  }, [course]);
 
   const updateCourses = (filterValues: any) => {
     setFilterStatus(filterValues);
@@ -100,6 +115,11 @@ const HeirarchyFilter = (props: Props) => {
   };
 
   const getSelectedCourse = (value, component) => {
+    if (value == -1) {
+      setSelectedCourse(-1);
+      props.getCourseId(-1);
+      return '';
+    }
     setSelectedCourse(value);
     props.getCourseId(value);
   }
@@ -109,20 +129,21 @@ const HeirarchyFilter = (props: Props) => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <div className="row program-filter">
-          {currentUserRole !== undefined &&
-           currentUserRole.shortName === "student" ? (
-             <FilterProgramDropdownStudent 
-              getCourseStatus={getCourseStatus} 
-              coursesList={props.coursesList} 
-              updateCourses={updateCourses}
-              />
-             ) : (
-             <FilterProgramDropdown 
-               getCourseStatus={getCourseStatus} 
-               userCoursesData={props.coursesList} 
-               updateCourses={updateCourses}
-               />
-           )}
+
+            {currentUserRole !== undefined &&
+            currentUserRole.shortName === "student" ? (
+              <FilterProgramDropdownStudent 
+                getCourseStatus={getCourseStatus} 
+                coursesList={props.coursesList} 
+                updateCourses={updateCourses}
+                />
+              ) : (
+              <FilterProgramDropdown 
+                getCourseStatus={getCourseStatus} 
+                userCoursesData={props.coursesList} 
+                updateCourses={updateCourses}
+                />
+            )}
             <RenderFilterElements
               component={"Course"}
               filterPacket={course}
@@ -130,6 +151,7 @@ const HeirarchyFilter = (props: Props) => {
               getFilterChange={getSelectedCourse}
               currentValue={selectedCourse}
               filterDisable={false}
+              addAllOption={false}
             />
           </div>
         </div>

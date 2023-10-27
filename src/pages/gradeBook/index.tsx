@@ -66,9 +66,16 @@ const GradeBook = (props: Props) => {
       } else if (res.status === 500) {
       }
     });
-  }, [courseId, currentUserRole.id]);
+  }, [currentUserRole.id]);
 
   useEffect(() => {
+    if (courseId === -1) {
+      setApiStatus("started");
+      setTimeout(() => {
+        setApiStatus("finished");
+        setGradebookData(dummyData);
+      }, 400);
+    }
     if (courseId > 0) {
       setApiStatus("started");
       const query = {
@@ -81,12 +88,14 @@ const GradeBook = (props: Props) => {
           if (res.data !== "" && res.status === 200) {
             setGradebookData(res.data.tables[0]);
           }
+          setApiStatus("finished");
         })
         .catch((err) => {
           console.log(err);
+          setApiStatus("finished");
         });
     }
-  }, [courseId, coursesList, currentUserRole.id]);
+  }, [courseId]);
 
   const getCourseId = (courseId : string | number) => {
     setCourseId(courseId);
@@ -116,6 +125,7 @@ const GradeBook = (props: Props) => {
           <GradeTable
             gradebookData={gradebookData.tabledata}
             apiStatus={apiStatus}
+            courseId={courseId}
           />
         </Container>
       </div>
