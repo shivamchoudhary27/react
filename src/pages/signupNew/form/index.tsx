@@ -60,7 +60,7 @@ const SignupForm = () => {
     values.idnumber = 98789871;
     values.city = "Delhi";
     if (values.recaptcha !== "") {
-      postData("/user/signup", values)
+      postData("/public/signup", values, undefined, false)
         .then((res: any) => {
           if (res.status === 201 || res.status === 200) {
             setAlertStatus(true);
