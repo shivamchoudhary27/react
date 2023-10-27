@@ -52,7 +52,7 @@ const GuestUsers = (props: Props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [filterUpdate]);
+  }, []);
 
   // get guest users API call === >>>
   useEffect(() => {
@@ -69,6 +69,22 @@ const GuestUsers = (props: Props) => {
         setApiStatus("finished");
       });
   }, [refreshData, filterUpdate]);
+
+  // refresh on delete === >>>
+  useEffect(() => {
+    setApiStatus("started");
+    getData("/user/all_users", filterUpdate)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          setGuestUsersData(result.data);
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  }, [refreshOnDelete]);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);

@@ -1,18 +1,18 @@
+import * as Yup from "yup";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import CountryList from "../../../globals/country";
 import { Formik, Form, ErrorMessage } from "formik";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
+import { postData, putData } from "../../../adapters/coreservices";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import CountryList from "../../../globals/country";
-import * as Yup from "yup";
-import { postData, putData } from "../../../adapters/coreservices";
-// import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+// import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 const AddUserModal = ({
   show,
@@ -41,16 +41,24 @@ const AddUserModal = ({
       .required("Email is required"),
     userFirstName: Yup.string()
       .min(3, "First name must be at least 1 characters")
-      .test('character-allowed', 'Only specific characters are allowed', function (value) {
-        return /^[A-Za-z]+$/.test(value);
-      })
+      .test(
+        "character-allowed",
+        "Only specific characters are allowed",
+        function (value) {
+          return /^[A-Za-z]+$/.test(value);
+        }
+      )
       .trim()
       .required("First name is required"),
     userLastName: Yup.string()
       .min(1, "Last name must be at least 1 characters")
-      .test('character-allowed', 'Only specific characters are allowed', function (value) {
-        return /^[A-Za-z]+$/.test(value);
-      })
+      .test(
+        "character-allowed",
+        "Only specific characters are allowed",
+        function (value) {
+          return /^[A-Za-z]+$/.test(value);
+        }
+      )
       .trim()
       .required("Last name is required"),
     userCountry: Yup.string().required("Country is required"),
@@ -91,8 +99,12 @@ const AddUserModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setSubmitting(true);
+          setSubmitting(false);
+            setShowAlert(true);
+            setAlertMsg({
+              message: `${err.response.data.message} Please Update with a new email id`,
+              alertBoxColor: "danger",
+            });
         });
     }
   };
@@ -111,6 +123,13 @@ const AddUserModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -224,13 +243,6 @@ const AddUserModal = ({
               </Form>
             )}
           </Formik>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
         </Modal.Body>
       </Modal>
     </React.Fragment>
