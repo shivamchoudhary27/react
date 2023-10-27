@@ -224,10 +224,12 @@ const RenderFilterElements = (props: any) => {
         onChange={handleFilterChange}
         disabled={props.filterDisable}
       >
-        <option value={0}>All</option>        
+        {props.addAllOption === undefined &&
+          <option value={0}>All</option>        
+        }
         {props.filterPacket.map(
           (el: any) => (
-            <option key={el[props.packetKeys[0]]} value={el[props.packetKeys[0]]}>
+            <option key={el[props.packetKeys[0]]} value={el[props.packetKeys[0]] !== null ? el[props.packetKeys[0]] : -1}>
               {el[props.packetKeys[1]]}
             </option>
           )

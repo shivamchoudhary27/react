@@ -11,7 +11,6 @@ type Props = {
 
 const GradeTable = ({ gradebookData, apiStatus }: Props) => {
   const [gradebookObj, setgradebookObj] = useState<any>([]);
-  // console.log(gradebookData);
 
   useEffect(() => {
     const getSlicedData = gradebookData.slice(1);
