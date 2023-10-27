@@ -64,15 +64,31 @@ const UpdateUserModal = ({
   });
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-    let instituteList = Object.entries(values.instituteIds)
-      .filter(([key, value]) => value === true)
-      .map(([key, value]) => parseInt(key, 10));
-    values = {
-      ...values,
-      instituteIds: instituteList,
-    };
-    console.log(values);
+  const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
+    let instituteList: number[] = [];
+    if (values.instituteIds !== undefined) {
+      instituteList = Object.entries(values.instituteIds)
+        .filter(([key, value]) => value === true)
+        .map(([key, value]) => parseInt(key, 10));
+      values = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        country: values.country,
+        enabled: values.enabled,
+        instituteIds: instituteList,
+      };
+    } else {
+      values = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        country: values.country,
+        enabled: values.enabled,
+        instituteIds: [],
+      };
+    }
+
     setSubmitting(true);
     if (guestUserObj.id !== 0) {
       putData(`/user/${guestUserObj.id}`, values)
@@ -84,8 +100,12 @@ const UpdateUserModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
-          setSubmitting(true);
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: `Not able to update, Please try again!`,
+            alertBoxColor: "danger",
+          });
         });
     }
   };
@@ -104,6 +124,13 @@ const UpdateUserModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <TimerAlertBox
+            className="mt-3"
+            showAlert={showAlert}
+            alertMsg={alertMsg.message}
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+          />
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -239,13 +266,6 @@ const UpdateUserModal = ({
               </Form>
             )}
           </Formik>
-          <TimerAlertBox
-            className="mt-3"
-            showAlert={showAlert}
-            alertMsg={alertMsg.message}
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-          />
         </Modal.Body>
       </Modal>
     </React.Fragment>

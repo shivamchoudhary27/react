@@ -19,8 +19,8 @@ import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
-  justifyContent: "space-evenly",
   alignItems: "center",
+  justifyContent: "space-evenly",
 };
 
 const GuestUsersTable = ({
@@ -135,10 +135,9 @@ const GuestUsersTable = ({
   useEffect(() => {
     if (onDeleteAction === "Yes") {
       refreshdata(false);
-      let endPoint = `/users/all_users/${deleteId}`;
+      let endPoint = `/user/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
-          // console.log("delet data------",res)
           if (res.status === 200) {
             refreshdata(true);
             setShowAlert(true);
@@ -156,7 +155,6 @@ const GuestUsersTable = ({
         })
         .catch((result: any) => {
           // console.log("delete data------",result)
-
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({

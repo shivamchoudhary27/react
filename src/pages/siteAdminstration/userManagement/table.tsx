@@ -30,7 +30,7 @@ const UserManagementTable = ({
   editHandlerById,
   apiStatus,
   currentInstitute,
-  userPermissions
+  userPermissions,
 }: any) => {
   const tableColumn = [
     {
@@ -50,19 +50,23 @@ const UserManagementTable = ({
     {
       Header: "Roles",
       accessor: "",
-      Cell: ({ row }: any) => row.original.roles.map((role: any) => role.name).join(", "),
+      Cell: ({ row }: any) =>
+        row.original.roles.map((role: any) => role.name).join(", "),
     },
     {
       Header: "Assign Roles",
       Cell: ({ row }: any) => (
         <>
-          {userPermissions.role.canAssignRole ?
-            <Link className="action-icons" to={`/assignroles/${row.original.userId}`}>
+          {userPermissions.role.canAssignRole ? (
+            <Link
+              className="action-icons"
+              to={`/assignroles/${row.original.userId}`}
+            >
               Assign Roles
             </Link>
-            :
+          ) : (
             "Not Allowed"
-          }
+          )}
         </>
       ),
     },
@@ -70,7 +74,7 @@ const UserManagementTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {userPermissions.user.canEdit &&
+          {userPermissions.user.canEdit && (
             <Link className="action-icons" to={""}>
               <img
                 src={editIcon}
@@ -87,9 +91,9 @@ const UserManagementTable = ({
                 }
               />
             </Link>
-          }
-          
-          {userPermissions.user.canDelete &&
+          )}
+
+          {userPermissions.user.canDelete && (
             <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
@@ -97,9 +101,9 @@ const UserManagementTable = ({
                 onClick={() => deleteHandler(row.original.userId)}
               />
             </Link>
-          }
+          )}
 
-          {userPermissions.user.canEdit &&
+          {userPermissions.user.canEdit && (
             <Link
               className="action-icons"
               to=""
@@ -112,7 +116,7 @@ const UserManagementTable = ({
                 alt="Show"
               />
             </Link>
-          }
+          )}
         </span>
       ),
     },
@@ -164,13 +168,13 @@ const UserManagementTable = ({
             refreshdata(true);
             setShowAlert(true);
             setAlertMsg({
-              message: "Deleted successfully!",
+              message: "Removed successfully!",
               alertBoxColor: "success",
             });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, some error occured",
+              message: "Unable to remove, some error occured",
               alertBoxColor: "danger",
             });
           }
@@ -181,13 +185,14 @@ const UserManagementTable = ({
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({
-              message: result.response.message,
+              message:
+                "This entity is being referenced with another entity. Please first remove reference entity and try again.",
               alertBoxColor: "danger",
             });
           } else if (result.response.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, some error occured",
+              message: "Unable to remove, some error occured",
               alertBoxColor: "danger",
             });
             refreshdata(true);
@@ -232,6 +237,13 @@ const UserManagementTable = ({
 
   return (
     <React.Fragment>
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
       <div className="table-responsive admin-table-wrapper mt-3">
         <Table borderless striped {...getTableProps}>
           <thead>
@@ -273,13 +285,6 @@ const UserManagementTable = ({
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
         modalHeading="User"
-      />
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
       />
     </React.Fragment>
   );
