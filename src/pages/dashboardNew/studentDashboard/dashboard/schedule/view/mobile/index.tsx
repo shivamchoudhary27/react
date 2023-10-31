@@ -1,21 +1,36 @@
-import Errordiv from "../../../../../../widgets/alert/errordiv";
-import calendarIcon from "../../../../../../assets/images/icons/calendar-black.svg";
+import Errordiv from "../../../../../../../widgets/alert/errordiv";
+import ListSkeleton from "../../../../../../../widgets/skeleton/list";
+import calendarIcon from "../../../../../../../assets/images/icons/calendar-black.svg";
 
 type Props = {
-    currentDate: string,
-    courseSession: any,
-    sessionMode: string[]
+  apiStatus: string;
+  courseSession: any;
+  sessionMode: string[];
 };
 
-const Mobile = ({currentDate, courseSession, sessionMode}: Props) => {
+const Mobile = (props: Props) => {
+  const currentDate = new Date();
+  const options: { day: string; month: string; year: string } = {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  };
+  const formattedDate = currentDate.toLocaleDateString(undefined, options);
+
+  const getSessionTime = (sessionDate: number) => {
+    const timestamp = sessionDate * 1000; // Convert from seconds to milliseconds
+    const date = new Date(timestamp);
+    const time = date.toLocaleTimeString();
+    return time;
+  };
   return (
     <div className="mitblock todaysession-block">
       <h3 className="mitblock-title">
         Today's session
-        <span className="tsb-date">{currentDate}</span>
+        <span className="tsb-date">{formattedDate}</span>
       </h3>
       <div className="mitblock-body">
-        {courseSession.map((item: any, index: number) =>
+        {props.courseSession.map((item: any, index: number) =>
           item.attendance_instances.map((el: any) =>
             el.today_sessions.map((val: any) => (
               <div
@@ -26,22 +41,26 @@ const Mobile = ({currentDate, courseSession, sessionMode}: Props) => {
                   <img src={calendarIcon} alt="Schedule Icon" />
                 </div>
                 <div className="tsb-info">
-                  <h6>
-                    {val.name.charAt(0).toUpperCase() + val.name.slice(1)}
-                  </h6>
-                  <p>{el.name}</p>
-                  <span>{val.venue}</span>
+                  <h6>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</h6>
+                  <p>{item.fullname}</p>
+                  {/* <span>{val.venue}</span> */}
+                  <p>{getSessionTime(val.sessdate)}</p>
                 </div>
-                <span className={`badge tsb-button ${sessionMode[val.mode]}`}>
-                  {sessionMode[val.mode].charAt(0).toUpperCase() +
-                    sessionMode[val.mode].slice(1)}
+                <span
+                  className={`badge tsb-button ${props.sessionMode[val.mode]}`}
+                >
+                  {props.sessionMode[val.mode].charAt(0).toUpperCase() +
+                    props.sessionMode[val.mode].slice(1)}
                 </span>
               </div>
             ))
           )
         )}
-        {courseSession.length === 0 && (
-          <Errordiv msg="No session available!" cstate />
+        {props.apiStatus === "started" && props.courseSession.length === 0 && (
+          <ListSkeleton />
+        )}
+        {props.apiStatus === "finished" && props.courseSession.length === 0 && (
+          <Errordiv msg="No record found!" cstate className="" />
         )}
       </div>
     </div>

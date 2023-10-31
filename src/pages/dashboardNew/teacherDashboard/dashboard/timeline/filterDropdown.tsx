@@ -1,13 +1,18 @@
-import React from "react";
 import "./style.scss";
+import React from "react";
 
-const FilterDropdown = () => {
+type Props = {
+  blTimeline: any;
+};
+
+const FilterDropdown = (props: Props) => {
   return (
-    <>
+    <React.Fragment>
       <div className="d-flex block-filter">
-        <ShortByDaysDropdowns /> <ShortByDateDropdowns />
+        <ShortByDaysDropdowns blTimeline={props.blTimeline} />{" "}
+        <ShortByDateDropdowns blTimeline={props.blTimeline} />
       </div>
-    </>
+    </React.Fragment>
   );
 };
 
@@ -18,12 +23,13 @@ const dropdown_style = {
   width: "auto",
 };
 
-const ShortByDaysDropdowns = () => {
+const ShortByDaysDropdowns = ({ blTimeline }: any) => {
   return (
     <select
       className="form-select form-select-sm me-2"
       aria-label="Default select example"
       defaultValue="Next 7 days"
+      disabled={blTimeline.status === "recordnotfound"}
     >
       <option>Next 7 days</option>
       <option value="1">One</option>
@@ -33,12 +39,13 @@ const ShortByDaysDropdowns = () => {
   );
 };
 
-const ShortByDateDropdowns = () => {
+const ShortByDateDropdowns = ({ blTimeline }: any) => {
   return (
     <select
       className="form-select form-select-sm"
       aria-label="Default select example"
       defaultValue="Sort by date"
+      disabled={blTimeline.status === "recordnotfound"}
     >
       <option>Sort by date</option>
       <option value="1">One</option>

@@ -7,6 +7,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import PerformanceOverview from "../../dashboard/performance";
 import EnrolCoursesList from "../../dashboard/enrolCoursesList";
 import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
+import ScheduleTable from "../../dashboard/schedule";
 
 type Props = {
   userCoursesData: any;
@@ -29,7 +30,7 @@ const Browser = (props: Props) => {
                 <PerformanceOverview />
               </Col>
               <Col md={12} lg={4}>
-                <MyScheduleComp />
+                <ScheduleTable />
               </Col>
             </Row>
           </Container>

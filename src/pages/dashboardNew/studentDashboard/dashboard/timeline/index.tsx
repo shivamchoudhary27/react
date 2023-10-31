@@ -1,15 +1,45 @@
-import React from "react";
 import "./style.scss";
-// import "~slick-carousel/slick/slick.css";
-// import "~slick-carousel/slick/slick-theme.css";
-import Browser from "./view/browser";
 import Mobile from "./view/mobile";
+import Browser from "./view/browser";
+import { getData } from "../../../../../adapters";
+import React, { useState, useEffect } from "react";
 import { isMobile, isDesktop } from "react-device-detect";
 
 const Timeline = () => {
+  const dummyData = {
+    info: "",
+    status: "",
+  };
+  const [blTimeline, setBlTimeline] = useState(dummyData);
+  const [apiStatus, setApiStatus] = useState("");
+
+  useEffect(() => {
+    const query = {
+      wsfunction: "block_bltimeline_get_calendarevent_sortbydate",
+    };
+    setApiStatus("started");
+    getData(query)
+      .then((res) => {
+        if (res.status === 200 && res.data !== "") {
+          setBlTimeline(res.data);
+          setApiStatus("finished");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  }, []);
+
   return (
     <React.Fragment>
-      {isMobile ? <Mobile /> : isDesktop ? <Browser /> : <Browser />}
+      {isMobile ? (
+        <Mobile blTimeline={blTimeline} apiStatus={apiStatus} />
+      ) : isDesktop ? (
+        <Browser blTimeline={blTimeline} apiStatus={apiStatus} />
+      ) : (
+        <Browser blTimeline={blTimeline} apiStatus={apiStatus} />
+      )}
     </React.Fragment>
   );
 };
