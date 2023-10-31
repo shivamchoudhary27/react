@@ -12,15 +12,19 @@ const Timeline = () => {
   };
   const [blTimeline, setBlTimeline] = useState(dummyData);
   const [apiStatus, setApiStatus] = useState("");
+  const userId = localStorage.getItem("userid");
+  console.log(userId)
 
   useEffect(() => {
     const query = {
-      wsfunction: "block_bltimeline_get_calendarevent_sortbydate",
+      wsfunction: `block_bltimeline_get_calendarevent_sortbydate`,
+      userid: userId
     };
     setApiStatus("started");
     getData(query)
       .then((res) => {
         if (res.status === 200 && res.data !== "") {
+          console.log(res.data)
           setBlTimeline(res.data);
           setApiStatus("finished");
         }
