@@ -40,7 +40,7 @@ const AddUserModal = ({
       .email("Invalid email")
       .required("Email is required"),
     userFirstName: Yup.string()
-      .min(3, "First name must be at least 1 characters")
+      // .min(1, "First name must be at least 1 characters")
       .test(
         "character-allowed",
         "Only specific characters are allowed",
@@ -51,7 +51,7 @@ const AddUserModal = ({
       .trim()
       .required("First name is required"),
     userLastName: Yup.string()
-      .min(1, "Last name must be at least 1 characters")
+      // .min(1, "Last name must be at least 1 characters")
       .test(
         "character-allowed",
         "Only specific characters are allowed",
