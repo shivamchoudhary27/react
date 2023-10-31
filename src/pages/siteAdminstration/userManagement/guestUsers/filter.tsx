@@ -4,7 +4,7 @@ import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../../utils/filterTimeout";
 
 const initialValues = {
-  name: "",
+  firstName: "",
   email: "",
 };
 
@@ -16,7 +16,7 @@ const GuestFilter = ({ updatefilters }: any) => {
     onSubmit: (values) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       let newRequest = {
-        name: values.name,
+        firstName: values.firstName,
         email: values.email,
       };
       updatefilters(newRequest);
@@ -24,7 +24,7 @@ const GuestFilter = ({ updatefilters }: any) => {
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
-        name: "",
+        firstName: "",
         email: "",
       });
       updatefilters(initialValues, true);
@@ -40,10 +40,10 @@ const GuestFilter = ({ updatefilters }: any) => {
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
       let newRequest = {
-        name:
-          event.target.name === "name"
+        firstName:
+          event.target.name === "firstName"
             ? event.target.value
-            : formik.values.name,
+            : formik.values.firstName,
         email:
           event.target.name === "email"
             ? event.target.value
@@ -61,17 +61,17 @@ const GuestFilter = ({ updatefilters }: any) => {
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-              <label htmlFor="name" hidden>
+              <label htmlFor="firstName" hidden>
                 Name
               </label>
               <input
                 className="form-control"
-                id="name"
-                name="name"
+                id="firstName"
+                name="firstName"
                 type="text"
                 placeholder="Firstname / Surname"
                 onChange={handleFilterChange}
-                value={formik.values.name}
+                value={formik.values.firstName}
               />
             </Col>
             <Col>

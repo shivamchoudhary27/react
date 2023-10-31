@@ -98,26 +98,26 @@ const GuestUsers = (props: Props) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-    const updateSearchFilters = (newFilterRequest: any, reset = false) => {
-      if (reset === true) {
-        let updatedState = { ...filterUpdate, pageNumber: 0 };
-        if (updatedState.name !== undefined) delete updatedState.name;
-        if (updatedState.email !== undefined) delete updatedState.email;
-        setFilterUpdate(updatedState);
-      } else {
-        const { name, email } = newFilterRequest;
-        let updatedState = {
-          ...filterUpdate,
-          pageNumber: 0,
-          ...newFilterRequest,
-        };
+  const updateSearchFilters = (newFilterRequest: any, reset = false) => {
+    if (reset === true) {
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      if (updatedState.firstName !== undefined) delete updatedState.firstName;
+      if (updatedState.email !== undefined) delete updatedState.email;
+      setFilterUpdate(updatedState);
+    } else {
+      const { firstName, email } = newFilterRequest;
+      let updatedState = {
+        ...filterUpdate,
+        pageNumber: 0,
+        ...newFilterRequest,
+      };
 
-        if (email === "") delete updatedState.email;
-        if (name === "") delete updatedState.name;
+      if (email === "") delete updatedState.email;
+      if (firstName === "") delete updatedState.firstName;
 
-        setFilterUpdate(updatedState);
-      }
-    };
+      setFilterUpdate(updatedState);
+    }
+  };
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
