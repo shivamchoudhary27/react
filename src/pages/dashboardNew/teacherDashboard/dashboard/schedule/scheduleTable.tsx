@@ -1,65 +1,74 @@
 import "./style.scss";
-import { Table, Button, Card } from "react-bootstrap";
+import Errordiv from "../../../../../widgets/alert/errordiv";
 import calendarIcon from "../../../../../assets/images/icons/calendar-black.svg";
 
-const ScheduleTable = () => {
+type Props = {
+  sessionMode: any;
+  courseSession: any;
+  userCoursesData: any;
+};
+
+const ScheduleTable = (props: Props) => {
+  const getSessionTime = (sessionDate: number) => {
+    const timestamp = sessionDate * 1000; // Convert from seconds to milliseconds
+    const date = new Date(timestamp);
+    const time = date.toLocaleTimeString();
+    return time;
+  };
+
+  const getValue = () => {
+    console.log(props.userCoursesData.length)
+    if (props.userCoursesData.length > 0) {
+      let filteredArray = props.userCoursesData.filter((item: any) => {
+        return props.courseSession.some((el: any) => el.fullname == item.name);
+      });
+    
+      console.log(filteredArray);
+    }
+    return true;
+  };
+
   return (
     <>
       <div className="mitblock-body">
-          {tableData.map((item, index) => (
-            <div className="d-flex align-items-center tsb-row mb-3" key={index}>
-              <div className="align-self-start me-3">
-                <img src={calendarIcon} alt="Schedule Icon" />
-              </div>
-              <div className="tsb-info">
-                <h6>{item.title}</h6>                
-                <p>{item.subtitle}</p>
-                <span>{item.time}</span>
-              </div>
-              <span className={`badge tsb-button ${item.classname}`}>{item.btn}</span>
-            </div>
-          ))}
+        {getValue() &&
+          props.courseSession.length > 0 &&
+          props.courseSession.map((item: any, index: number) =>
+            item.attendance_instances.map((el: any) =>
+              el.today_sessions.map((val: any) => (
+                <div
+                  className="d-flex align-items-center tsb-row mb-3"
+                  key={index}
+                >
+                  <div className="align-self-start me-3">
+                    <img src={calendarIcon} alt="Schedule Icon" />
+                  </div>
+                  <div className="tsb-info">
+                    <h6>
+                      {el.name.charAt(0).toUpperCase() + el.name.slice(1)}
+                    </h6>
+                    <p>{item.fullname}</p>
+                    {/* <p>{val.venue}</p> */}
+                    <p>{getSessionTime(val.sessdate)}</p>
+                  </div>
+                  <span
+                    className={`badge tsb-button ${
+                      props.sessionMode[val.mode]
+                    }`}
+                  >
+                    {props.sessionMode[val.mode].charAt(0).toUpperCase() +
+                      props.sessionMode[val.mode].slice(1)}
+                  </span>
+                </div>
+              ))
+            )
+          )}
+        {props.courseSession.length === 0 && (
+          <Errordiv msg="No session available!" cstate />
+        )}
       </div>
     </>
   );
 };
 
 export default ScheduleTable;
-
-const tableData = [
-  {
-    title: "Computer organization and Architecture",
-    subtitle: "Organization and Architecture",
-    time: "10 : 30 AM",
-    btn: "Offline",
-    classname: "offline"
-  },
-  {
-    title: "Calculate the length of SVG path",
-    subtitle: "Intro to JS: Drawing & Ani mation",
-    time: "11 : 15 AM",
-    btn: "Online",
-    classname: "online",
-  },
-  {
-    title: "Advantages of DBMS",
-    subtitle: "Database management system",
-    time: "12 : 00 PM",
-    btn: "Lab",
-    classname: "lab",
-  },
-  {
-    title: "Structure and Function (Multicore Computer)",
-    subtitle: "Computer Organization and Architecture, Venue name",
-    time: "01 : 00 AM",
-    btn: "Offline",
-    classname: "offline",
-  },
-  {
-    title: "Hirerarchical database system",
-    subtitle: "Database Management System",
-    time: "02 : 30 PM",
-    btn: "Online",
-    classname: "online",
-  },
-];
