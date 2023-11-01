@@ -1,3 +1,4 @@
+import axios from 'axios';
 import config from "../../utils/config";
 import { useDispatch } from "react-redux";
 import { Container } from "react-bootstrap";
@@ -29,8 +30,6 @@ const AuthLogin = () => {
 
   useEffect(() => {
     if (authCode !== "") {
-      
-      setTimeout(() => {
         const VERIFY_URL = `${config.OAUTH2_URL}/api/verifycode?code=${authCode}&redirect_uri=${redirectUri}`;
         console.log('VERIFY_URL', VERIFY_URL);
 
@@ -39,11 +38,15 @@ const AuthLogin = () => {
           redirect: 'follow'
         };
       
-        fetch(VERIFY_URL, requestOptions)
-          .then(response => response.json())
-          .then((result) => {
+        axios.get(VERIFY_URL, requestOptions)
+        .then((response) => {
+          if (response.data === '') {
+            console.log('please authentication failed/expired login again');
+            dispatch(globalAlertActions.globalAlert({alertMsg: "Authentication failes", status : true}))
+            navigate('/');
+          } else {
+              let result = response.data;
               setIsLoaded(true);
-
               if ('access_token' in result) {
                 Object.entries(result).map(([key, value]: any) => {
                   value = value.toString();
@@ -69,17 +72,22 @@ const AuthLogin = () => {
                     res.data.roles[1] !== undefined && localStorage.setItem('roles', JSON.stringify(res.data.roles[1]));
                     setTimeout(()=>{
                       navigate("/dashboard");
-                    }, 500)
-                  }   
+                    }, 500);
+                  }
                 })
       
               } else {
-                dispatch(globalAlertActions.globalAlert({alertMsg: "Failed to get auth token", status : true}))
+                dispatch(globalAlertActions.globalAlert({alertMsg: "Authentication failed", status : true}));
+                navigate('/');
               }
-          }).catch((error) => {
-            console.error(error);
-          });
-      }, 2000);
+          }
+          // Handle the response here
+          console.log('axios response success', response);
+        })
+        .catch(error => {
+          // Handle errors here
+          console.error('axios response eeor', error);
+        });
     }
   }, [authCode]);
 
