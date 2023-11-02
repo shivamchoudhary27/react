@@ -1,14 +1,14 @@
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
-import Errordiv from "../../../../widgets/alert/errordiv";
+import Errordiv from "../../../../../widgets/alert/errordiv";
 import React, { useMemo, useState, useEffect } from "react";
-import TableSkeleton from "../../../../widgets/skeleton/table";
-import DeleteAlert from "../../../../widgets/alert/deleteAlert";
-import { deleteData } from "../../../../adapters/microservices";
-import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import editIcon from "../../../../assets/images/icons/edit-action.svg";
-import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import TableSkeleton from "../../../../../widgets/skeleton/table";
+import DeleteAlert from "../../../../../widgets/alert/deleteAlert";
+import { deleteData } from "../../../../../adapters/microservices";
+import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
+import editIcon from "../../../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {

@@ -3,7 +3,7 @@ import WorkLoad from "../../../pages/siteAdminstration/timetable/workLoad";
 import Holidays from "../../../pages/siteAdminstration/timetable/holidays";
 import ClassRoom from "../../../pages/siteAdminstration/timetable/classroom";
 import TimesSlot from "../../../pages/siteAdminstration/timetable/timesSlot";
-import InstituteTimeSlot from "../../../pages/siteAdminstration/timetable/instituteTimeslot";
+import InstituteTimeSlot from "../../../pages/siteAdminstration/timetable/timesSlot/instituteTimeslot";
 import ManageWorkLoad from "../../../pages/siteAdminstration/timetable/workLoad/manageWorkLoad";
 import ManageTimesSlot from "../../../pages/siteAdminstration/timetable/timesSlot/manageTimeSlot";
 import ManageCoursesWorkLoad from "../../../pages/siteAdminstration/timetable/manageCoursesWorkLoad";

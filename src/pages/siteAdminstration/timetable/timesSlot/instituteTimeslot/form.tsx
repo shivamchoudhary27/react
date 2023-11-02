@@ -2,15 +2,15 @@ import * as Yup from "yup";
 import Modal from "react-bootstrap/Modal";
 import { Col, Row } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
-import React, { useState } from "react";
-import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
-import { postData, putData } from "../../../../adapters/microservices";
-import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-import { generateHours, saperateHours, saperateMinutes } from "../timesSlot/utils";
+import React, { useEffect, useState } from "react";
+import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
+import FieldLabel from "../../../../../widgets/formInputFields/labels";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import { postData, putData } from "../../../../../adapters/microservices";
+import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
+import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
+import { generateHours, saperateHours, saperateMinutes } from "../../timesSlot/utils";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -36,8 +36,10 @@ const InstituteTimeSlotModal = ({
   currentInstitute,
   instituteTimeslotObj,
   refreshClassroomData,
+  resetFormData
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
+
   const startHr =
   instituteTimeslotObj.startTime !== undefined &&
     saperateHours(
@@ -50,7 +52,9 @@ const InstituteTimeSlotModal = ({
     );
   const endHr =
     instituteTimeslotObj.endTime !== undefined &&
-    saperateHours(instituteTimeslotObj.endTime !== null ? instituteTimeslotObj.endTime : "00:00");
+    saperateHours(
+      instituteTimeslotObj.endTime !== null ? instituteTimeslotObj.endTime : "00:00"
+    );
   const endMin =
     instituteTimeslotObj.endTime !== undefined &&
     saperateMinutes(
@@ -61,17 +65,22 @@ const InstituteTimeSlotModal = ({
     alertBoxColor: "",
   });
 
-  // Initial values of react table === >>>
-  const initialValues = {
-    id: instituteTimeslotObj.id,
-    startHr: startHr,
-    startMin: startMin,
-    endHr: endHr,
-    endMin: endMin,
-    breakTime: instituteTimeslotObj.id === 0 ? "false" : instituteTimeslotObj.breakTime !== false ? "true" : "false",
-    type: instituteTimeslotObj.type !== null ? instituteTimeslotObj.type : null,
-  };
-
+  const [formValues, setFormValues] = useState({});
+  
+  useEffect(() => {    
+    // Initial values of react table === >>>
+    const initialValues = {
+      id: instituteTimeslotObj.id,
+      startHr: instituteTimeslotObj.id === 0 ? "0" : startHr,
+      startMin: instituteTimeslotObj.id === 0 ? "0" : startMin,
+      endHr: instituteTimeslotObj.id === 0 ? "0" :  endHr,
+      endMin: instituteTimeslotObj.id === 0 ? "0" :  endMin,
+      breakTime: instituteTimeslotObj.id === 0 ? "false" : instituteTimeslotObj.breakTime !== false ? "true" : "false",
+      type: instituteTimeslotObj.type !== null ? instituteTimeslotObj.type : "lunch",
+    };
+    setFormValues(initialValues);
+  }, [instituteTimeslotObj]);
+  
   // custom Obj & handle form data === >>>
   let formTitles = {
     titleHeading: "",
@@ -89,6 +98,18 @@ const InstituteTimeSlotModal = ({
     };
   }
 
+  const resetForm = () => {
+    const resetValues = {
+      id: 0,
+      startHr: "0",
+      startMin: "0",
+      endHr: "0",
+      endMin: "0",
+      breakTime: "false",
+      type: "lunch",
+    };
+    setFormValues(resetValues);
+  }
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     if(values.breakTime === "false"){
@@ -172,7 +193,8 @@ const InstituteTimeSlotModal = ({
           showAlert={showAlert}
         />
         <Formik
-          initialValues={initialValues}
+          enableReinitialize={true}
+          initialValues={formValues}
           validationSchema={Schema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
@@ -314,6 +336,7 @@ const InstituteTimeSlotModal = ({
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"
+                      onClick={() => resetForm()}
                     />
                   )}
                 </div>
