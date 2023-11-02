@@ -37,7 +37,8 @@ const Filters = ({
         name: "",
         email: ""
       });
-      updateInputFilters("");
+      updateInputFilters("", "");
+      setSelectedValue("");
     },
   });
 
@@ -49,7 +50,11 @@ const Filters = ({
 
     // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
-      updateInputFilters(event.target.value);
+      let newRequest = {
+        name: event.target.name === 'name' ? event.target.value : formik.values.name,
+        email: event.target.name === 'email' ? event.target.value : formik.values.email,
+      };
+      updateInputFilters(newRequest.name, newRequest.email);
     }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
