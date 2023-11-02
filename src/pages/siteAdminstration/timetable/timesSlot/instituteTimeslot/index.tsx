@@ -1,16 +1,15 @@
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
 import { useSelector } from "react-redux";
 import InstituteTimeSlotModal from "./form";
-import HeaderTabs from "../../../headerTabs";
-import { useNavigate } from "react-router-dom";
+import HeaderTabs from "../../../../headerTabs";
 import React, { useState, useEffect } from "react";
 import ManageInstituteTimesSlotTable from "./table";
 import { Button, Container } from "react-bootstrap";
-import PageTitle from "../../../../widgets/pageTitle";
-import { pagination } from "../../../../utils/pagination";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import PageTitle from "../../../../../widgets/pageTitle";
+import { pagination } from "../../../../../utils/pagination";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 
 type Props = {};
 
@@ -19,7 +18,6 @@ const InstituteTimeSlot = (props: Props) => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const navigate = useNavigate();
   const [instituteTimeSlot, setInstituteTimeSlot] = useState(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
@@ -27,7 +25,7 @@ const InstituteTimeSlot = (props: Props) => {
     id: 0,
     startTime: "",
     endTime: "",
-    type: "",
+    type: "lunch",
     breakTime: "",
   });
   const [modalShow, setModalShow] = useState(false);
@@ -36,8 +34,6 @@ const InstituteTimeSlot = (props: Props) => {
     (state: any) => state.globalFilters.currentInstitute
   );
   const [filterUpdate, setFilterUpdate] = useState({
-    // departmentId: departmentId,
-    // name: name,
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -63,19 +59,6 @@ const InstituteTimeSlot = (props: Props) => {
 
   const refreshOnDeleteToggle = (value: boolean) => {
     setRefreshOnDelete(value);
-  };
-
-  // to update filters values in the main state filterUpdate
-  const updateClassroomFilterByDepartment = (departmentId: string) => {
-    setFilterUpdate({
-      ...filterUpdate,
-      // departmentId: departmentId,
-      pageNumber: 0,
-    });
-  };
-
-  const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, pageNumber: 0 });
   };
 
   // get id, name from the department table === >>>
@@ -106,23 +89,14 @@ const InstituteTimeSlot = (props: Props) => {
       id: 0,
       startTime: "",
       endTime: "",
-      type: "",
+      type: "lunch",
       breakTime: "",
     });
-    setRefreshData(false);
   };
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
-  };
-
-  const newPageRequest = (pageRequest: number) => {
-    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
-  };
-
-  const filterHandlerByDepartment = (val: string) => {
-    console.log(val);
   };
 
   return (
@@ -168,6 +142,7 @@ const InstituteTimeSlot = (props: Props) => {
         instituteTimeslotObj={instituteTimeslotObj}
         togglemodalshow={toggleModalShow}
         refreshClassroomData={refreshToggle}
+        // resetFormData={resetClassroomForm}
         onHide={() => toggleModalShow(false)}
       />
       <Footer />

@@ -63,14 +63,30 @@ const TimeSlotModal = ({
 
   // Initial values of react table === >>>
   const initialValues = {
-    id: timeslotObj.id,
-    startHr: startHr,
-    startMin: startMin,
-    endHr: endHr,
-    endMin: endMin,
-    breakTime: timeslotObj.id === 0 ? "false" : timeslotObj.breakTime !== false ? "true" : "false",
-    type: timeslotObj.type !== null ? timeslotObj.type : null,
+      id: 0,
+      startHr: "",
+      startMin: "",
+      endHr: "",
+      endMin: "",
+      breakTime: "false",
+      type: null,
   };
+
+  const [initFormValues, setInitFormValues] = useState(initialValues);
+  
+  useEffect(() => {    
+    // Initial values of react table === >>>
+    const initialValues = {
+      id: timeslotObj.id,
+      startHr: timeslotObj.id === 0 ? "0" : startHr,
+      startMin: timeslotObj.id === 0 ? "0" : startMin,
+      endHr: timeslotObj.id === 0 ? "0" :  endHr,
+      endMin: timeslotObj.id === 0 ? "0" :  endMin,
+      breakTime: timeslotObj.id === 0 ? "false" : timeslotObj.breakTime !== false ? "true" : "false",
+      type: timeslotObj.type !== null ? timeslotObj.type : "lunch",
+    };
+    setInitFormValues(initialValues);
+  }, [timeslotObj]);
 
   // custom Obj & handle form data === >>>
   let formTitles = {
@@ -89,6 +105,19 @@ const TimeSlotModal = ({
     };
   }
 
+  const resetSlotForm = () => {
+    const resetValues = {
+      id: 0,
+      startHr: "0",
+      startMin: "0",
+      endHr: "0",
+      endMin: "0",
+      breakTime: "false",
+      type: "lunch",
+    };
+    setInitFormValues(resetValues);
+  }
+  
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     if(values.breakTime === "false"){
@@ -172,7 +201,8 @@ const TimeSlotModal = ({
           showAlert={showAlert}
         />
         <Formik
-          initialValues={initialValues}
+          enableReinitialize={true}
+          initialValues={initFormValues}
           validationSchema={Schema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
@@ -314,6 +344,7 @@ const TimeSlotModal = ({
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"
+                      onClick={resetSlotForm}
                     />
                   )}
                 </div>

@@ -39,12 +39,6 @@ const ManageTimesSlot = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [filterUpdates, setFilterUpdates] = useState({
-    // departmentId: departmentId,
-    // name: name,
-    // pageNumber: 0,
-    // pageSize: pagination.PERPAGE,
-  });
 
   useEffect(() => {
     if (currentInstitute > 0) {
@@ -76,7 +70,6 @@ const ManageTimesSlot = () => {
   const getInstituteSlotAction = (action: string) => {
     if(action === "click"){
       let endPoint = `/${currentInstitute}/timetable/timeslot/copy/institute/template/${departmentId}`;
-      // makeGetDataRequest(endPoint, {}, setInstituteSlotList, setApiStatus);
       postData(endPoint, {})
         .then((result: any) => {
           refreshToggle();
@@ -89,7 +82,6 @@ const ManageTimesSlot = () => {
         });
     }
   }
-  console.log(instituteSlotList)
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -135,7 +127,7 @@ const ManageTimesSlot = () => {
       id: 0,
       startTime: "",
       endTime: "",
-      type: "",
+      type: "lunch",
       breakTime: "",
     });
     setRefreshData(false);
@@ -151,7 +143,6 @@ const ManageTimesSlot = () => {
   };
 
   const filterHandlerByDepartment = (val: string) => {
-    console.log(val);
   };
 
   const TIMESLOT_TABLE_COMPONENT = (
@@ -178,6 +169,7 @@ const ManageTimesSlot = () => {
       togglemodalshow={toggleModalShow}
       refreshClassroomData={refreshToggle}
       onHide={() => toggleModalShow(false)}
+      resetClassroomForm={resetClassroomForm}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -196,17 +188,14 @@ const ManageTimesSlot = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle={`Times Slot: ${name}`} gobacklink="/timeslot" />
-          {
-            apiStatus === 'finished' && timeslotList.items.length > 0 &&
-            <Filters
-              toggleModalShow={toggleModalShow}
-              refreshClassroomData={refreshToggle}
-              updateInputFilters={updateInputFilters}
-              resetClassroomForm={resetClassroomForm}
-              filterHandlerByDepartment={filterHandlerByDepartment}
-              updateClassroomFilter={updateClassroomFilterByDepartment}
-            />
-          }
+          <Filters
+            toggleModalShow={toggleModalShow}
+            refreshClassroomData={refreshToggle}
+            updateInputFilters={updateInputFilters}
+            resetClassroomForm={resetClassroomForm}
+            filterHandlerByDepartment={filterHandlerByDepartment}
+            updateClassroomFilter={updateClassroomFilterByDepartment}
+          />
           {TIMESLOT_TABLE_COMPONENT}
           <BuildPagination
             totalpages={timeslotList.pager.totalPages}
