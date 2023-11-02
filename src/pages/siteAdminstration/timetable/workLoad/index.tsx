@@ -102,6 +102,7 @@ const WorkLoad = () => {
 
   // to update filters values in the main state filterUpdate
   const updateDepartmentFilter = (departmentId: string) => {
+    console.log('updading the department ', departmentId);
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
@@ -111,7 +112,7 @@ const WorkLoad = () => {
 
   const updateInputFilters = (inputvalues: any, inputEmail: any) => {
     setFilterUpdate({ ...filterUpdate, name: inputvalues, email: inputEmail, pageNumber: 0 });
-  };
+  }; 
 
   // get userid from the work load table === >>>
   const editHandlerById = ({

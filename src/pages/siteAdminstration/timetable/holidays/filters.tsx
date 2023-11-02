@@ -24,10 +24,7 @@ const Filters = ({
     initialValues: initialValues,
     onSubmit: (values: any) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      let newRequest = {
-        year: values.name,
-      };
-      updateInputFilters(newRequest.year);
+      updateInputFilters(selectedValue);
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
