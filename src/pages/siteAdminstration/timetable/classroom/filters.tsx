@@ -24,18 +24,15 @@ const Filters = ({
     initialValues: initialValues,
     onSubmit: (values: any) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      let newRequest = {
-        name: values.name,
-      };
-      updateInputFilters(newRequest.name);
+      updateClassroomFilter(selectedValue)
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
       formik.setValues({
         name: "",
       });
-      updateInputFilters("");
       setSelectedValue("");
+      updateClassroomFilter("");
     },
   });
 

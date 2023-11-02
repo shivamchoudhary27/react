@@ -75,6 +75,7 @@ const ClassRoom = () => {
 
   // to update filters values in the main state filterUpdate
   const updateClassroomFilterByDepartment = (departmentId: string) => {
+    console.log('department update filter', departmentId);
     setFilterUpdate({
       ...filterUpdate,
       departmentId: departmentId,
