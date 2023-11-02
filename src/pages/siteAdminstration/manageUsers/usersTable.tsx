@@ -102,7 +102,6 @@ const UsersTable = ({
   const editHandler = (id: number, userEmail: string, roleNumber: string, roleId: string) => {
     AddUsersModalShow(true)
     editHandlerById(id, userEmail, roleNumber, roleId);
-    console.log(id, userEmail, roleNumber, roleId)
   };
 
   useEffect(()=>{
