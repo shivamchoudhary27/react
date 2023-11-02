@@ -1,22 +1,16 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { globalFilterActions } from "../../../../store/slices/globalFilters";
+import { useEffect } from "react";
 
-const ManageDropdown = ({ updateClassroomFilter, departmentList } : any) => {
-  const dispatch = useDispatch();
-  const selectedDepartment = useSelector(state => state.globalFilters.currentDepartmentFilterId);
-  const [selectedValue, setSelectedValue] = useState('');
+const ManageDropdown = ({ updateClassroomFilter, departmentList, setSelectedValue, selectedValue } : any) => {
 
   useEffect(() => {
     if (departmentList.length > 0) {
-      setSelectedValue(selectedDepartment);
+      setSelectedValue(setSelectedValue);
     }
   }, [departmentList]);
 
   const getCurrentValue = (e : any) => {
     updateClassroomFilter(e.target.value);
     setSelectedValue(e.target.value);
-    dispatch(globalFilterActions.currentDepartment(""))
   }
 
   return (

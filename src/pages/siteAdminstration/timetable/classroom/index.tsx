@@ -35,7 +35,6 @@ const ClassRoom = () => {
     );
   const [filterUpdate, setFilterUpdate] = useState({
     departmentId: selectedDepartment,
-    // name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -111,12 +110,12 @@ const ClassRoom = () => {
     setClassroomObj({
       id: 0,
       name: "",
-      type: "",
-      departmentId: 0,
+      type: "lab", 
+      departmentId: filterUpdate.departmentId,
       departmentName: "",
       seatingCapacity: 0,
     });
-    setRefreshData(false);
+    // setRefreshData(false);
   };
 
   // handle modal hide & show functionality === >>>

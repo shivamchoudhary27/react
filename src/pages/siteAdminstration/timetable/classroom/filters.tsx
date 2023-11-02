@@ -18,6 +18,7 @@ const Filters = ({
   updateClassroomFilter,
 }: any) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -34,6 +35,7 @@ const Filters = ({
         name: "",
       });
       updateInputFilters("");
+      setSelectedValue("");
     },
   });
 
@@ -66,6 +68,8 @@ const Filters = ({
               <ManageDropdown
                 departmentList={departmentList}
                 updateClassroomFilter={updateClassroomFilter}
+                setSelectedValue ={setSelectedValue}
+                selectedValue ={selectedValue}
               />
             </Col>
             <Col>

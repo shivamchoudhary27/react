@@ -18,6 +18,7 @@ const Filters = ({
   updateHolidaysFilter,
 }: any) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -34,22 +35,9 @@ const Filters = ({
         year: "",
       });
       updateInputFilters("");
+      setSelectedValue("");
     },
   });
-
-  // Event handler for filter input change with debounce
-  const handleFilterChange = (event: any) => {
-    formik.handleChange(event); // Update formik values
-
-    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-
-    // Set a new timeout to trigger updatefilters after a delay
-    const newTimeoutId = setTimeout(() => {
-      updateInputFilters(event.target.value);
-    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
-
-    setTimeoutId(newTimeoutId); // Update the timeout ID in state
-  };
 
   // handle to open Add Department modal === >>>
   const openAddHoliday = () => {
@@ -66,6 +54,8 @@ const Filters = ({
               <ManageDropdown
                 yearOptions={yearOptions}
                 updateHolidaysFilter={updateHolidaysFilter}
+                setSelectedValue ={setSelectedValue}
+                selectedValue ={selectedValue}
               />
             </Col>
             <Col>
