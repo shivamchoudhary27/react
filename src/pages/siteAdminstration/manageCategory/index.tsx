@@ -200,6 +200,7 @@ const ManageCategory = () => {
             setFormParentValue={setFormParentValue}
             setFormWeightValue={setFormWeightValue}
             onClick={cleanFormValues}
+            setEditCategoryValues={setEditCategoryValues}
           />
           
           <CategoryModal
