@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
-const ManageDropdown = ({ updateHolidaysFilter, yearOptions } : any) => {
-  const [selectedValue, setSelectedValue] = useState('');
+const ManageDropdown = ({ updateHolidaysFilter, yearOptions, setSelectedValue, selectedValue } : any) => {
+  // const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
     if (yearOptions.length > 0) {

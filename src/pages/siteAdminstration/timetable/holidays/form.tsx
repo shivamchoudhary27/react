@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -34,12 +34,17 @@ const HolidaysModal = ({
     alertBoxColor: "",
   });
 
-  // Initial values of react table === >>>
-  const initialValues = {
-    name: holidaysObj.name,
-    holidayDate: holidaysObj.holidayDate,
-    year: holidaysObj.id !== 0 ? holidaysObj.year : getCurrentBatchYear(),
-  };
+  const [formValues, setFormValues] = useState({});
+  
+  useEffect(() => {    
+    // Initial values of react table === >>>
+    const initialValues = {
+      name: holidaysObj.name,
+      holidayDate: holidaysObj.holidayDate,
+      year: holidaysObj.year //!== 0 ? holidaysObj.year : getCurrentBatchYear(),
+    };
+    setFormValues(initialValues);
+  }, [holidaysObj]);
 
   // custom Obj & handle form data === >>>
   let formTitles = {
@@ -58,6 +63,14 @@ const HolidaysModal = ({
     };
   }
 
+  const resetFormData = () => {
+    const resetValues = {
+      name: "",
+      holidayDate: "",
+      year: holidaysObj.year //!== 0 ? holidaysObj.year : getCurrentBatchYear(),
+    };
+    setFormValues(resetValues);
+  } 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     let endPoint = `/${currentInstitute}/timetable/holiday`;
@@ -123,7 +136,8 @@ const HolidaysModal = ({
           showAlert={showAlert}
         />
         <Formik
-          initialValues={initialValues}
+          enableReinitialize={true}
+          initialValues={formValues}
           validationSchema={Schema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
@@ -197,6 +211,7 @@ const HolidaysModal = ({
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"
+                      onClick={() => resetFormData()}
                     />
                   )}
                 </div>

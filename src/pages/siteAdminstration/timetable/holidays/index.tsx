@@ -97,10 +97,10 @@ const Holidays = () => {
     setHolidaysObj({
       id: 0,
       name: "",
-      year: "",
+      year: filterUpdate.year,
       holidayDate: "",
     });
-    setRefreshData(false);
+    // setRefreshData(false);
   };
 
   // handle modal hide & show functionality === >>>

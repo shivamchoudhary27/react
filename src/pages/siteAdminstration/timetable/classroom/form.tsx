@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { Formik, Form, Field } from "formik";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -38,13 +38,18 @@ const ClassRoomModal = ({
     alertBoxColor: "",
   });
 
-  // Initial values of react table === >>>
-  const initialValues = {
-    name: classroomObj.name,
-    type: classroomObj.type,
-    departmentId: classroomObj.departmentId,
-    seatingCapacity: classroomObj.seatingCapacity,
-  };
+  const [formValues, setFormValues] = useState({});
+
+  useEffect(() => {
+    // Initial values of react table === >>>
+    const initialValues = {
+      name: classroomObj.name,
+      type: classroomObj.type,
+      departmentId: classroomObj.departmentId,
+      seatingCapacity: classroomObj.seatingCapacity,
+    };
+    setFormValues(initialValues);
+  }, [classroomObj]);
 
   // custom Obj & handle form data === >>>
   let formTitles = {
@@ -61,6 +66,16 @@ const ClassRoomModal = ({
       titleHeading: "Update Classroom",
       btnTitle: "Update",
     };
+  }
+
+  const resetFormData = () => {
+    const resetValues = {
+      name: "",
+      type: "lab",
+      departmentId: classroomObj.departmentId,
+      seatingCapacity: 0,
+    };
+    setFormValues(resetValues);
   }
 
   // handle Form CRUD operations === >>>
@@ -128,7 +143,8 @@ const ClassRoomModal = ({
           showAlert={showAlert}
         />
         <Formik
-          initialValues={initialValues}
+          enableReinitialize={true}
+          initialValues={formValues}
           validationSchema={departmentSchema}
           onSubmit={(values, action) => {
             handleFormData(values, action);
@@ -228,6 +244,7 @@ const ClassRoomModal = ({
                       type="reset"
                       btnText="Reset"
                       variant="outline-secondary"
+                      onClick={() => resetFormData()}
                     />
                   )}
                 </div>
