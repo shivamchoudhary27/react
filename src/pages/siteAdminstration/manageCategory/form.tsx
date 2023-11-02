@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { Modal } from "react-bootstrap";
 import { Formik, Form } from "formik";
@@ -31,13 +31,19 @@ const CategoryModal = ({
   refreshcategories,
   editCategory,
 }: any) => {
+
   const { id } = useParams();
-  const initialValues = {
-    name: editCategory.name,
-    description: "",
-  };
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [formValues, setFormValues] = useState({});
+  
+  useEffect(() => {
+    const initialValues = {
+      name: editCategory.name,
+      description: "",
+    };
+    setFormValues(initialValues);
+  }, [editCategory]);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
@@ -106,12 +112,13 @@ const CategoryModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {parent > 0 ? "Add subcategory" : "Add Category"}
+            {editCategory.id > 0 ? 'Update ' : 'Add '} {parent > 0 ? "Subcategory" : "Category"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Formik
-            initialValues={initialValues}
+            enableReinitialize={true}
+            initialValues={formValues}
             validationSchema={categorySchema}
             onSubmit={(values, action) => {
               handleFormData(values, action);

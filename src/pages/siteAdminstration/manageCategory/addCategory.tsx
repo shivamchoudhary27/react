@@ -6,15 +6,17 @@ interface Props {
   setFormParentValue: any
   setFormWeightValue: any
 }
-const Addcategory = ({ latestparentweight, toggleModalShow, setFormParentValue, setFormWeightValue }: Props) => {
+const Addcategory = ({ latestparentweight, toggleModalShow, setFormParentValue, setFormWeightValue, setEditCategoryValues }: Props) => {
   
   const toAddWeight = latestparentweight;
   const parent = 0;
   
   // handle to add new category === >>
   const addCategoryHandler = () => {
-    setFormParentValue(parent);
-    setFormWeightValue(toAddWeight);
+    // setFormParentValue(parent);
+    // setFormWeightValue(toAddWeight);
+    // setEditCategoryValues();
+    setEditCategoryValues({id: 0, name: "", weight: toAddWeight, parent});
     toggleModalShow(true);
   }
 
