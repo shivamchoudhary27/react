@@ -125,14 +125,14 @@ const CourseTable = ({
               }
               {coursePermission.canEdit &&
                 <Link
-                className="action-icons"
+                  className="action-icons"
                   to=""
                   onClick={() => {
                     toggleCoursePublished(row.original);
                   }}
-                  >
+                >
                   <img
-                    src={row.original.published !== false ? showIcon : hideIcon}
+                    src={row.original.coursedetails.published !== false ? showIcon : hideIcon}
                     alt="Show"
                     />
                 </Link>
@@ -224,17 +224,14 @@ const CourseTable = ({
   }, [updatecourse]);
 
   const toggleCoursePublished = (coursePacket: any) => {
-    let updateCourseData = {
-      name: coursePacket.coursedetail.name,
-      courseCode: coursePacket.coursedetail.courseCode,
-      description: coursePacket.coursedetail.description,
-      published: !coursePacket.coursedetail.published,
-      category: { id: coursePacket.catid },
-    };
-    // coursePacket.published = !coursePacket.published;
+
+    coursePacket.coursedetails.published = !coursePacket.coursedetails.published;
+    coursePacket.coursedetails.category = { id: coursePacket.catid}
+
     setForceRender((prevState) => !prevState);
+
     let endPoint = `${programId}/course/${coursePacket.courseid}`;
-    putData(endPoint, updateCourseData)
+    putData(endPoint, coursePacket.coursedetails)
       .then((res: any) => {
         setForceRender((prevState) => !prevState);
       })
@@ -245,8 +242,8 @@ const CourseTable = ({
             "Action failed due to some error",
           status: true,
         });
-        // coursePacket.published = !coursePacket.published
-        // setForceRender(prevState => !prevState);
+        coursePacket.coursedetails.published = !coursePacket.coursedetails.published
+        setForceRender(prevState => !prevState);
       });
   };
 
