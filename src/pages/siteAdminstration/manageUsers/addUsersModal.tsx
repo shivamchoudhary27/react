@@ -30,6 +30,7 @@ const AddUsersModal = ({
   refreshToggle,
   currentInstitute
 }: any) => {
+
   const InitialValues = {
     userEmail: usersdataobj.userEmail,
     roleNumber: usersdataobj.roleNumber,
@@ -41,6 +42,7 @@ const AddUsersModal = ({
   const [showAlert, setShowAlert] = useState(false);
   const [roles, setRoles] = useState([]);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [formValues, setFormValues] = useState({});
 
   useEffect(() => {
     getData(`/${currentInstitute}/roles`, {
@@ -49,7 +51,6 @@ const AddUsersModal = ({
       contextType: 'course'
     })
     .then((result: any) => {
-      console.log(result.data);
       if (result.data !== "" && result.status === 200) {
         setRoles(result.data.items);
       }
@@ -59,9 +60,25 @@ const AddUsersModal = ({
     });
   }, []);
 
+  useEffect(() => {
+    const InitialValues = {
+      userEmail: usersdataobj.userEmail,
+      roleNumber: usersdataobj.roleNumber,
+      roleId: usersdataobj.roleId === null ? 0 : usersdataobj.roleId,
+    };
+    setFormValues(InitialValues);
+  }, [usersdataobj])
+
+  const resetFormData = () => {
+    const InitialValues = {
+      userEmail: "",
+      roleNumber: "",
+      roleId: "0",
+    };
+    setFormValues(InitialValues);    
+  }
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, {setSubmitting}: any) => {
-    console.log(values)
     values.roleId = parseInt(values.roleId)
     setSubmitting(true);
     if (usersdataobj.id !== 0) {
@@ -134,7 +151,7 @@ const AddUsersModal = ({
         <Modal.Body>
           <Formik
             enableReinitialize={true}
-            initialValues={InitialValues}
+            initialValues={formValues}
             validationSchema={Schema}
             onSubmit={(values, action) => {
               handleFormData(values, action);
@@ -225,6 +242,7 @@ const AddUsersModal = ({
                         type="reset"
                         btnText="Reset"
                         variant="outline-secondary"
+                        onClick={() => resetFormData()}
                       />
                     )}
                   </div>
