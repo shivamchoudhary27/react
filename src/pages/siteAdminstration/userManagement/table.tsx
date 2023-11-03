@@ -36,8 +36,14 @@ const UserManagementTable = ({
     {
       Header: "Name",
       accessor: "name",
-      Cell: ({ row }: any) =>
-        `${row.original.userFirstName} ${row.original.userLastName}`,
+      Cell: ({ row }: any) => (
+        <Link
+          className="action-icons"
+          to={`/userprofile/${row.original.userId}`}
+        >
+        {`${row.original.userFirstName} ${row.original.userLastName}`}
+        </Link>
+      )
     },
     {
       Header: "Email",

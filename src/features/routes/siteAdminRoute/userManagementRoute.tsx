@@ -6,6 +6,8 @@ import InstituteManagement from '../../../pages/siteAdminstration/institute'
 import ManageRoles from '../../../pages/siteAdminstration/roles/manageRoles'
 import ManageAuthorities from '../../../pages/siteAdminstration/roles/authorities'
 import GuestUsers from '../../../pages/siteAdminstration/userManagement/guestUsers'
+import ViewUserProfile from '../../../pages/siteAdminstration/userManagement/profile'
+import EditUserProfile from '../../../pages/user/profile/modal'
 
 const UserManagementRoute = () => {
   return [
@@ -15,6 +17,8 @@ const UserManagementRoute = () => {
     <Route key="institute" path='/institute' element={<InstituteManagement />} />,
     <Route key="assignroles" path="/assignroles/:userId" element={<AssignRoles />} />,
     <Route key="usermanagement" path='/usermanagement' element={<UserManagement />} />,
+    <Route key="userprofile" path='/userprofile/:userid' element={<ViewUserProfile />} />,
+    <Route key="edituserprofile" path='/edituserprofile/:userid' element={<EditUserProfile />} />,
     <Route key="manageauthorities" path='/manageauthorities' element={<ManageAuthorities />} />,
     <Route key="rolepermissions" path='/rolepermissions/:roleId/:roleName' element={<Permission />} />,
   ]
