@@ -66,7 +66,7 @@ const CourseModal = ({
       category: courseobj.category,
       files: courseobj.files,
       deleteImage: false,
-      file: null
+      file: null,
     });
     // }
   }, [courseobj]);
@@ -115,7 +115,6 @@ const CourseModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
-
     if (values.deleteImage === true) {
       values.deleted = true;
       delete values.deleteImage;
@@ -132,7 +131,7 @@ const CourseModal = ({
       postData(endPoint, requestData)
         .then((res: any) => {
           if (res.status === 201) {
-            uploadFile('course', res.data.id, courseImage);
+            uploadFile("course", res.data.id, courseImage);
             setTimeout(() => {
               toggleCourseModal(false);
               setSubmitting(false);
@@ -166,8 +165,8 @@ const CourseModal = ({
             alertBoxColor: "danger",
           });
         });
-      
-        uploadFile('course', values.id, courseImage);
+
+      uploadFile("course", values.id, courseImage);
     }
   };
 
@@ -193,7 +192,14 @@ const CourseModal = ({
               handleFormData(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting, setValues, values, setFieldValue }) => (
+            {({
+              errors,
+              touched,
+              isSubmitting,
+              setValues,
+              values,
+              setFieldValue,
+            }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -224,24 +230,25 @@ const CourseModal = ({
                   />
                 </div>
 
-                <div className="mb-3">
-                  <FieldLabel
-                    htmlfor="category"
-                    labelText="Category"
-                    required="required"
-                  />
-                  <FieldTypeSelect
-                    name="category"
-                    options={filteredCategories}
-                    setcurrentvalue={setValues}
-                    currentformvalue={values}
-                  />
-                  <FieldErrorMessage
-                    errors={errors.category}
-                    touched={touched.category}
-                    msgText="Please Select Category"
-                  />
-                </div>
+                  <div className="mb-3">
+                    <FieldLabel
+                      htmlfor="category"
+                      labelText="Category"
+                      required="required"
+                    />
+                    <FieldTypeSelect
+                      name="category"
+                      options={filteredCategories}
+                      setcurrentvalue={setValues}
+                      currentformvalue={values}
+                      disabled={courseobj.id === 0 && "isDisabled"}
+                    />
+                    <FieldErrorMessage
+                      errors={errors.category}
+                      touched={touched.category}
+                      msgText="Please Select Category"
+                    />
+                  </div>
 
                 <div className="mb-3">
                   <FieldLabel
@@ -260,28 +267,25 @@ const CourseModal = ({
                     msgText="Required"
                   />
                 </div>
-                
+
                 <div className="mb-3">
-                  {initValues.files !== undefined && initValues.files.length > 0 &&
-                    <React.Fragment>
-                      <div>
-                        <img
+                  {initValues.files !== undefined &&
+                    initValues.files.length > 0 && (
+                      <React.Fragment>
+                        <div>
+                          <img
                             src={initValues.files[0].url}
                             alt={initValues.files[0].originalFileName}
                             width="150px"
-                        />
-                        {" "}
-                        <FieldTypeCheckbox
-                          name="deleteImage"
-                          checkboxLabel="Remove Picture"
-                        />
-                      </div>
-                    </React.Fragment>
-                  }
-                  <FieldLabel
-                    htmlfor="file"
-                    labelText="Program Picture"
-                  />
+                          />{" "}
+                          <FieldTypeCheckbox
+                            name="deleteImage"
+                            checkboxLabel="Remove Picture"
+                          />
+                        </div>
+                      </React.Fragment>
+                    )}
+                  <FieldLabel htmlfor="file" labelText="Program Picture" />
                   <input
                     className="form-control"
                     id="file"

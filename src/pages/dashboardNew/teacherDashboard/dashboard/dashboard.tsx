@@ -5,10 +5,10 @@ import Timeline from "./timeline/timeline";
 import MyCourses from "./myCourses/index";
 
 type Props = {
-  blTimeline: any;
   sessionMode: any;
   apiStatus: string;
   courseSession: any;
+  blTimelineEvent: any
   userCoursesData: any;
   setUserCoursesData: any;
   enrolCoreCoursesObj: any;
@@ -22,8 +22,8 @@ const DashboardTeacher = (props: Props) => {
           <Row>
             <Col md={6} className="mb-4 mb-md-0">
               <Timeline
-                blTimeline={props.blTimeline}
                 apiStatus={props.apiStatus}
+                blTimelineEvent={props.blTimelineEvent}
               />
             </Col>
             <Col md={6}>

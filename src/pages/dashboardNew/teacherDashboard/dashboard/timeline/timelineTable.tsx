@@ -1,49 +1,113 @@
 import "./style.scss";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import ListSkeleton from "../../../../../widgets/skeleton/list";
 
 type Props = {
-  blTimeline: any;
   apiStatus: string;
+  blTimelineEvent: any;
 };
 
 const TimelineTable = (props: Props) => {
+  const [status, setStatus] = useState(false)
   const getTimetableTime = (sessionDate: number) => {
-    const timestamp = sessionDate * 1000; // Convert from seconds to milliseconds
-    const date = new Date(timestamp);
-    const time = date.toLocaleTimeString();
-    return time;
+    const timestamp = sessionDate * 1000;
+    const timeZone = "Asia/Kolkata"; // Specify the time zone (Indian Standard Time)
+
+    // Format the date and time in the desired time zone
+    const formattedTime = new Date(timestamp)
+      .toLocaleString("en-IN", {
+        timeZone,
+        hour: "numeric",
+        minute: "numeric",
+        // second: 'numeric',
+        hour12: true,
+      })
+      .toLocaleUpperCase();
+    return formattedTime;
   };
+
+  const formatDynamicTimestamp = (timestamp: number) => {
+    const daysOfWeek = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const date = new Date(timestamp * 1000); // Convert the timestamp from seconds to milliseconds
+    const dayOfWeek = daysOfWeek[date.getDay()];
+    const day = date.getDate();
+    const monthName = months[date.getMonth()];
+    const year = date.getFullYear();
+    const formattedDate = `${dayOfWeek}, ${day} ${monthName} ${year}`;
+    return formattedDate;
+  };
+
+  // useEffect(() => {
+  //   props.blTimelineEvent.map((item: any) => {
+  //     if(item.events.length === 0){
+  //       setStatus(true)
+  //     }else{
+  //       setStatus(false)
+  //     }
+  //   })
+  // }, [props.blTimelineEvent])
+
   return (
     <React.Fragment>
       <div className="mitblock-body">
-        {props.blTimeline.status !== "recordnotfound" &&
-          props.apiStatus !== "started" &&
-          JSON.parse(props.blTimeline.info).map((item: any, index: number) =>
-            item.dateevents.map((el: any) => (
+        {props.apiStatus === "started" &&
+          props.blTimelineEvent.length === 0 && <ListSkeleton />}
+        {props.blTimelineEvent.length > 0 && props.blTimelineEvent.map((item: any, index: number) =>
+          item.events.length > 0 && (
+            item.events.map((el: any) => (
               <div className="d-flex align-items-center atb-row" key={index}>
-                <div className="align-self-start me-3">
-                  <img src={el.iconurl} alt="Schedule Icon" />
-                </div>
+                {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
                 <div className="atb-info">
-                  <h6>{el.name}</h6>
-                  <p>{el.coursename}</p>
-                  <p>{getTimetableTime(item.datetimestamp)}</p>
+                  <h6>
+                    <a href={el.viewurl}>
+                      {formatDynamicTimestamp(el.timesort)}
+                    </a>
+                  </h6>
+                  {/* <div
+                    dangerouslySetInnerHTML={{ __html: el.formattedtime }}
+                  ></div> */}
+                  <p>{el.name}</p>
+                  <p>{getTimetableTime(el.timestart)}</p>
                 </div>
-                <Link to="#" className="btn btn-light btn-sm atb-button">
-                  {el.actionname}
+                <Link
+                  to={el.action.url}
+                  className="btn btn-light btn-sm atb-button"
+                >
+                  {el.action.name}
                 </Link>
               </div>
             ))
-          )}
-        {props.apiStatus === "started" &&
-          props.blTimeline.info.length === 0 && <ListSkeleton />}
+          ) 
+          // : (
+          //   <Errordiv msg="No record found!" cstate className="" />
+          // )
+        )}
         {props.apiStatus === "finished" &&
-          props.blTimeline.info.length === 0 && (
-            <Errordiv msg="No record found!" cstate className="" />
-          )}
+          props.blTimelineEvent.length === 0 && status !== false && <ListSkeleton />}
       </div>
     </React.Fragment>
   );

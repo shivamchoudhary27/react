@@ -10,7 +10,10 @@ import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/schedul
 import ScheduleTable from "../../dashboard/schedule";
 
 type Props = {
+  apiStatus: any;
+  courseSession: any;
   userCoursesData: any;
+  blTimelineEvent: any;
   enrolCoreCoursesObj: any;
 };
 
@@ -24,7 +27,11 @@ const Browser = (props: Props) => {
           <Container fluid>
             <Row>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">
-                <Timeline />
+                <Timeline
+                  apiStatus={props.apiStatus}
+                  courseSession={props.courseSession}
+                  blTimelineEvent={props.blTimelineEvent}
+                />
               </Col>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">
                 <PerformanceOverview />

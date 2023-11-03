@@ -18,7 +18,7 @@ const TimerAlertBox: React.FunctionComponent<ITimerAlertBox> = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowAlert(false);
-    }, 6000);
+    }, 3000);
 
     return () => {
       clearTimeout(timer);
