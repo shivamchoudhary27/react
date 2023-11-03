@@ -1,11 +1,11 @@
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {useNavigate, useParams } from "react-router-dom";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
 import { useSelector } from "react-redux";
 import HeaderTabs from "../../../../headerTabs";
-import { useNavigate } from "react-router-dom";
 import { Row, Col, Container } from "react-bootstrap";
 import CountryList from "../../../../../globals/country";
 import PageTitle from "../../../../../widgets/pageTitle";
@@ -19,8 +19,8 @@ import FieldTypeText from "../../../../../widgets/formInputFields/formTextField"
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
-
-type Props = {};
+import { pagination } from "../../../../../utils/pagination";
+import { getData, putData } from "../../../../../adapters/coreservices";
 
 // Formik Yup validation === >>>
 const userFormSchema = Yup.object({
@@ -52,59 +52,73 @@ const userFormSchema = Yup.object({
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
 
-const EditUserProfile = (props: Props) => {
-  return (
-    <h1>
-      In Progress...
-    </h1>
-  )
+const EditUserProfile = () => {
   const navigate = useNavigate();
+  const { userid } = useParams();
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const userProfileInfo = useSelector(
-    (state: any) => state.userProfile.userProfile
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
   );
-
-  const initialValues = {
-    mobile: userProfileInfo?.mobile,
-    userEmail: userProfileInfo?.userEmail,
-    genderType: userProfileInfo?.genderType,
-    bloodGroup: userProfileInfo?.bloodGroup,
-    fatherName: userProfileInfo?.fatherName,
-    motherName: userProfileInfo?.motherName,
-    dateOfBirth: userProfileInfo?.dateOfBirth,
-    parentEmail: userProfileInfo?.parentEmail,
-    userCountry: userProfileInfo?.userCountry,
-    userLastName: userProfileInfo?.userLastName,
-    parentsMobile: userProfileInfo?.parentsMobile,
-    userFirstName: userProfileInfo?.userFirstName,
+  const [filterUpdate, setFilterUpdate] = useState({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+    userId: userid,
+  });
+  
+  const initialFormValues = {
+    mobile: "",
+    userEmail: "",
+    genderType: "",
+    bloodGroup: "",
+    fatherName: "",
+    motherName: "",
+    dateOfBirth: "",
+    parentEmail: "",
+    userCountry: "",
+    userLastName: "",
+    parentsMobile: "",
+    userFirstName: "",
   };
+  const [initialValues, setInitialvalues] = useState(initialFormValues);
+
+  useEffect(() => {
+    if (currentInstitute > 0) {
+      getData(`/${currentInstitute}/users`, filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            setInitialvalues(result.data.items[0]);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [currentInstitute]);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     console.log(values);
-    postData(`/user/profile`, values)
-      .then((res: any) => {
-        if (res.status === 200) {
-          // togglemodalshow(false);
-          // updateAddRefresh();
+    putData(`/${currentInstitute}/users/${userid}`, values)
+    .then((res: any) => {
+      if ((res.data !== "", res.status === 200)) {
           setSubmitting(false);
           resetForm();
-          navigate("/profile");
-        }
-      })
-      .catch((err: any) => {
+          navigate(`/userprofile/${userid}`);
+      }
+    })
+    .catch((err: any) => {
         console.log(err);
         if (err.response.status === 400) {
           setSubmitting(false);
           setShowAlert(true);
           setAlertMsg({
-            message: 'Not able to update your profile, Please try again!',
+            message: 'Failed update profile.',
             alertBoxColor: "danger",
           });
         }
-      });
+    });
   };
 
   return (
@@ -119,7 +133,7 @@ const EditUserProfile = (props: Props) => {
       />
       <div className="contentarea-wrapper mt-3 mb-3">
         <Container fluid>
-          <PageTitle pageTitle="Edit Profile" gobacklink="/profile" />
+          <PageTitle pageTitle="Edit Profile" gobacklink={`/userprofile/${userid}`} />
           <TimerAlertBox
             className="mt-3"
             showAlert={showAlert}

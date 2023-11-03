@@ -7,7 +7,7 @@ import ManageRoles from '../../../pages/siteAdminstration/roles/manageRoles'
 import ManageAuthorities from '../../../pages/siteAdminstration/roles/authorities'
 import GuestUsers from '../../../pages/siteAdminstration/userManagement/guestUsers'
 import ViewUserProfile from '../../../pages/siteAdminstration/userManagement/profile'
-import EditUserProfile from '../../../pages/user/profile/modal'
+import EditUserProfile from '../../../pages/siteAdminstration/userManagement/profile/forms/editProfile';
 
 const UserManagementRoute = () => {
   return [
