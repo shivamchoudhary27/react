@@ -41,8 +41,8 @@ const AuthLogin = () => {
         axios.get(VERIFY_URL, requestOptions)
         .then((response) => {
           if (response.data === '') {
-            console.log('please authentication failed/expired login again');
-            dispatch(globalAlertActions.globalAlert({alertMsg: "Authentication failes", status : true}))
+            console.log('verifycode , no token found', response);
+            dispatch(globalAlertActions.globalAlert({alertMsg: "User verification failed, please try again!", status : true}))
             navigate('/');
           } else {
               let result = response.data;
@@ -77,7 +77,7 @@ const AuthLogin = () => {
                 })
       
               } else {
-                dispatch(globalAlertActions.globalAlert({alertMsg: "Authentication failed", status : true}));
+                dispatch(globalAlertActions.globalAlert({alertMsg: "User verification failed, no token found!", status : true}));
                 navigate('/');
               }
           }
