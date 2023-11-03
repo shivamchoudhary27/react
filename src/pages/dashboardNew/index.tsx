@@ -66,7 +66,6 @@ const DashboardNew = (props: Props) => {
           if (res.data.errorcode === undefined) {
             setCourseSession(res.data);
           } else {
-            
           }
         }
       })
@@ -80,21 +79,24 @@ const DashboardNew = (props: Props) => {
     if (currentUserRole.id > 0) {
       const query = {
         wsfunction: "local_blapi_course_bltimeline_api",
-      userid: userId,
-      role: currentUserRole.shortName,
-    };
-    setApiStatus("started");
-    getData(query)
-    .then((res) => {
-      if (res.status === 200 && res.data !== "") {
-        setBlTimelineEvent(res.data);
-      }
-      setApiStatus("finished");
-      })
-      .catch((err) => {
-        console.log(err);
-        setApiStatus("finished");
-      });
+        userid: userId,
+        role: currentUserRole.shortName,
+      };
+      setApiStatus("started");
+      getData(query)
+        .then((res) => {
+          if (res.status === 200 && res.data !== "") {
+            if (res.data.errorcode === undefined) {
+              setBlTimelineEvent(res.data);
+            } else {
+            }
+          }
+          setApiStatus("finished");
+        })
+        .catch((err) => {
+          console.log(err);
+          setApiStatus("finished");
+        });
     }
   }, [currentUserRole, userId, userCoursesData]);
 
