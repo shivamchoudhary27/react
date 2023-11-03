@@ -69,7 +69,7 @@ const ViewUserProfile = () => {
   });
 
   useEffect(() => {
-    // if (refreshOnDelete === true && currentInstitute > 0) {
+    if (currentInstitute > 0) {
       getData(`/${currentInstitute}/users`, filterUpdate)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
@@ -79,7 +79,7 @@ const ViewUserProfile = () => {
         .catch((err: any) => {
           console.log(err);
         });
-    // }
+    }
   }, []);
 
   // handle modal hide & show functionality === >>>
@@ -93,7 +93,6 @@ const ViewUserProfile = () => {
   };
 
   const capitalizeFirstLetter = (inputString: string) => {
-    console.log(inputString)
     if (inputString === null || inputString === '--') {
       return "--";
     } else {
@@ -119,7 +118,7 @@ const ViewUserProfile = () => {
                   )}
                 </h3>
                 <Button 
-                  // onClick={() => navigate(`/edituserprofile/${userid}`)}
+                  onClick={() => navigate(`/edituserprofile/${userid}`)}
                 >
                   Edit Profile
                 </Button>
