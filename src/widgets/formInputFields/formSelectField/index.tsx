@@ -9,7 +9,8 @@ const FieldTypeSelect = ({
     className="form-select",
     emptyOption=false,
     selectDefaultLabel="",
-    timeUnit=""
+    timeUnit="",
+    disabled = ""
 }: any) => {
 
   const updateFieldCheckedStatus = (e : any) => { 
@@ -30,7 +31,7 @@ const FieldTypeSelect = ({
 
   return (
     <>
-      <Field as={as} name={name} className={className} onChange={updateFieldCheckedStatus}>
+      <Field as={as} name={name} className={className} onChange={updateFieldCheckedStatus} disabled={disabled === "isDisabled"}>
         {emptyOption === false && 
           <option value="0">
             {

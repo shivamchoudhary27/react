@@ -8,7 +8,10 @@ import { isMobile, isDesktop } from "react-device-detect";
 import useUserinfo from "../../../../features/hooks/userinfo";
 
 type Props = {
+  apiStatus: any;
+  courseSession: any;
   userCoursesData: any;
+  blTimelineEvent: any;
   enrolCoreCoursesObj: any;
 };
 
@@ -43,6 +46,9 @@ const StudentDashboard = (props: Props) => {
       ) : isDesktop ? (
         <React.Fragment>
           <Browser
+            apiStatus={props.apiStatus}
+            courseSession={props.courseSession}
+            blTimelineEvent={props.blTimelineEvent}
             userCoursesData={props.userCoursesData}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           />
@@ -50,7 +56,10 @@ const StudentDashboard = (props: Props) => {
       ) : (
         <React.Fragment>
           <Browser
+            apiStatus={props.apiStatus}
+            courseSession={props.courseSession}
             userCoursesData={props.userCoursesData}
+            blTimelineEvent={props.blTimelineEvent}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           />
         </React.Fragment>
