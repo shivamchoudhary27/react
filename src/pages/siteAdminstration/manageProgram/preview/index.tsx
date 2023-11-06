@@ -7,13 +7,11 @@ import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import PageTitle from "../../../../widgets/pageTitle";
-import { Table, Button, Image, Container, Row, Col } from "react-bootstrap";
+import { Image, Container, Row, Col } from "react-bootstrap";
 import programImage from "../../../../assets/images/course-default.jpg";
-import userPixDefault from "../../../../assets/images/user-pix.svg";
-import positionIcon from "../../../../assets/images/icons/degree.svg";
-import campusIcon from "../../../../assets/images/icons/campus.svg";
 import RatingComp from "./ratings/ratings";
 import Curriculum from "./curriculum";
+import ProgramInstructors from "./instructors";
 
 interface ICurrentProgram {
   data: [];
@@ -34,6 +32,7 @@ const Preview = () => {
     status: false,
     id: id,
   });
+  const [instructors, setInstructors] = useState([]);
   const instituteId = useSelector((state: any) => state.globalFilters.currentInstitute);
 
   useEffect(() => {
@@ -49,6 +48,7 @@ const Preview = () => {
       getProgramData(programsEndPoint, apiParams).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCurrentProgram({ data: res.data.items, status: true, id: id });
+          setInstructors(res.data.instructors);
         }
       });
     }
@@ -178,76 +178,9 @@ const Preview = () => {
                   </div>
                   {/* Curriculum component */}
                   <Curriculum programId={id}/>
+
                   <div className="po-section instructor-step mt-5">
-                    <h5 id="po-instructor">Instructor</h5>
-                    <Row>
-                      <Col md={3} className="instructor-list">
-                        <Image
-                          src={userPixDefault}
-                          alt="Full Name"
-                          roundedCircle
-                        />
-                        <div className="ms-3">
-                          <h6>Dr. Aarti Santosh Nayak</h6>
-                          <p>
-                            <Image src={positionIcon} alt="Position" />{" "}
-                            Assistant Professor
-                          </p>
-                          <p>
-                            <Image
-                              src={campusIcon}
-                              alt="Campus"
-                              className="campus-icon"
-                            />{" "}
-                            Lorem ipsum dolor
-                          </p>
-                        </div>
-                      </Col>
-                      <Col md={3} className="instructor-list">
-                        <Image
-                          src={userPixDefault}
-                          alt="Full Name"
-                          roundedCircle
-                        />
-                        <div className="ms-3">
-                          <h6>Dr. Abha Ashish Wankhede</h6>
-                          <p>
-                            <Image src={positionIcon} alt="Position" />{" "}
-                            Assistant Professor
-                          </p>
-                          <p>
-                            <Image
-                              src={campusIcon}
-                              alt="Campus"
-                              className="campus-icon"
-                            />{" "}
-                            Lorem ipsum dolor
-                          </p>
-                        </div>
-                      </Col>
-                      <Col md={3} className="instructor-list">
-                        <Image
-                          src={userPixDefault}
-                          alt="Full Name"
-                          roundedCircle
-                        />
-                        <div className="ms-3">
-                          <h6>Mr. Abhijeet Uday Karmarkar</h6>
-                          <p>
-                            <Image src={positionIcon} alt="Position" />{" "}
-                            Assistant Professor
-                          </p>
-                          <p>
-                            <Image
-                              src={campusIcon}
-                              alt="Campus"
-                              className="campus-icon"
-                            />{" "}
-                            Lorem ipsum dolor
-                          </p>
-                        </div>
-                      </Col>
-                    </Row>
+                    <ProgramInstructors instructorsData={instructors}/>
                   </div>
                 </div>
                 <RatingComp programid={id} />
