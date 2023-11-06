@@ -3,18 +3,23 @@ import ScheduleTable from "./scheduleTable";
 
 type Props = {
   sessionMode: any;
+  apiStatus: string;
   courseSession: any;
   userCoursesData: any;
+  todaySessionPacket: any;
 };
 
-const MyScheduleComp = (props: Props) => {
+const MyScheduleComp: React.FC<Props> = (props) => {
   const currentDate = new Date();
   const options: { day: string; month: string; year: string } = {
     day: "numeric",
     month: "long",
     year: "numeric",
   };
-  const formattedDate = currentDate.toLocaleDateString(undefined, options);
+  const formattedDate: string = currentDate.toLocaleDateString(
+    undefined,
+    options
+  );
 
   return (
     <>
@@ -24,8 +29,10 @@ const MyScheduleComp = (props: Props) => {
           <span className="tsb-date">{formattedDate}</span>
         </h3>
         <ScheduleTable
+          apiStatus={props.apiStatus}
           sessionMode={props.sessionMode}
           courseSession={props.courseSession}
+          todaySessionPacket={props.todaySessionPacket}
           userCoursesData={props.userCoursesData.courses}
         />
       </div>

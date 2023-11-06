@@ -1,40 +1,17 @@
 import "./style.scss";
+import React from "react";
 import Mobile from "./view/mobile";
 import Browser from "./view/browser";
-import { useSelector } from "react-redux";
-import { getData } from "../../../../../adapters";
-import React, { useState, useEffect } from "react";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   apiStatus: any;
+  eventsPacket: any;
+  showAlert: boolean;
   courseSession: any;
-  blTimelineEvent: any;
-}
+};
 
-const Timeline = (props: Props) => {
-
-  // API call to get timeline calender events according to role === >>>
-  // useEffect(() => {
-  //   const query = {
-  //     wsfunction: "local_blapi_course_bltimeline_api",
-  //     userid: userId,
-  //     role: currentUserRole.shortName,
-  //   };
-  //   setApiStatus("started");
-  //   getData(query)
-  //     .then((res) => {
-  //       if (res.status === 200 && res.data !== "") {
-  //         setBlTimelineEvent(res.data);
-  //       }
-  //       setApiStatus("finished");
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setApiStatus("finished");
-  //     });
-  // }, [currentUserRole]);
-
+const Timeline: React.FC<Props> = (props) => {
   const getTimetableTime = (sessionDate: number) => {
     const timestamp = sessionDate * 1000;
     const timeZone = "Asia/Kolkata"; // Specify the time zone (Indian Standard Time)
@@ -89,22 +66,25 @@ const Timeline = (props: Props) => {
     <React.Fragment>
       {isMobile ? (
         <Mobile
+          showAlert={props.showAlert}
           apiStatus={props.apiStatus}
-          blTimelineEvent={props.blTimelineEvent}
+          eventsPacket={props.eventsPacket}
           getTimetableTime={getTimetableTime}
           formatDynamicTimestamp={formatDynamicTimestamp}
         />
       ) : isDesktop ? (
         <Browser
+          showAlert={props.showAlert}
           apiStatus={props.apiStatus}
-          blTimelineEvent={props.blTimelineEvent}
+          eventsPacket={props.eventsPacket}
           getTimetableTime={getTimetableTime}
           formatDynamicTimestamp={formatDynamicTimestamp}
         />
       ) : (
         <Browser
+          showAlert={props.showAlert}
           apiStatus={props.apiStatus}
-          blTimelineEvent={props.blTimelineEvent}
+          eventsPacket={props.eventsPacket}
           getTimetableTime={getTimetableTime}
           formatDynamicTimestamp={formatDynamicTimestamp}
         />

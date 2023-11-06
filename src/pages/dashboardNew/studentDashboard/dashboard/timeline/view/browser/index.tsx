@@ -3,57 +3,59 @@ import Errordiv from "../../../../../../../widgets/alert/errordiv";
 import ListSkeleton from "../../../../../../../widgets/skeleton/list";
 
 type Props = {
+  eventsPacket: any;
   apiStatus: string;
-  blTimelineEvent: any;
+  showAlert: boolean;
   getTimetableTime: any;
   formatDynamicTimestamp: any;
 };
 
-const Browser = (props: Props) => {
+const Browser: React.FC<Props> = (props) => {
   return (
     <div className="mitblock activityTimeline-block">
       <h3 className="mitblock-title">Activity Timeline</h3>
-      <FilterDropdown blTimelineEvent={props.blTimelineEvent} />
+      <FilterDropdown eventsPacket={props.eventsPacket} />
       <div className="mitblock-body">
-        {props.apiStatus === "started" &&
-          props.blTimelineEvent.length === 0 && <ListSkeleton />}
-        {props.blTimelineEvent.map((item: any) =>
-          item.events.length > 0 && (
-            item.events.map((el: any, index: number) => (
-              <div className="d-flex align-items-center atb-row" key={index}>
-                {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
-                <div className="atb-info">
-                  <h6>
-                    <a href={el.viewurl}>
-                      {props.formatDynamicTimestamp(el.timesort)}
-                    </a>
-                  </h6>
-                  {/* <div
-                    dangerouslySetInnerHTML={{ __html: el.formattedtime }}
+        {props.eventsPacket.length > 0 &&
+          props.eventsPacket.map((event: any, index: number) => (
+            <div className="d-flex align-items-center atb-row" key={index}>
+              {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
+              <div className="atb-info">
+                <h6>
+                  <a href={event.viewurl}>
+                    {props.formatDynamicTimestamp(event.timesort)}
+                  </a>
+                </h6>
+                {/* <div
+                    dangerouslySetInnerHTML={{ __html: event.formattedtime }}
                   ></div> */}
-                  <h6>
-                    {el.activityname.charAt(0).toUpperCase() +
-                      el.activityname.slice(1)}
-                  </h6>
-                  <p>
-                    {el.course.fullname}.
-                    {el.name.charAt(0).toUpperCase() + el.name.slice(1)}.{" "}
-                  </p>
-                  <p>{props.getTimetableTime(el.timestart)}</p>
-                </div>
-                <a
-                  href={el.action.url}
-                  className="btn btn-light btn-sm atb-button"
-                >
-                  {el.action.name}
-                </a>
+                <h6>
+                  {event.activityname.charAt(0).toUpperCase() +
+                    event.activityname.slice(1)}
+                </h6>
+                <p>
+                  {event.course.fullname}.
+                  {event.name.charAt(0).toUpperCase() + event.name.slice(1)}.{" "}
+                </p>
+                <p>{props.getTimetableTime(event.timestart)}</p>
               </div>
-            ))
-          ) 
-          // : (
-          //   <Errordiv msg="No record found!" cstate className="" />
-          // )
+              <a
+                href={event.action.url}
+                className="btn btn-light btn-sm atb-button"
+              >
+                {event.action.name}
+              </a>
+            </div>
+          ))}
+
+        {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
+          <ListSkeleton />
         )}
+        {props.apiStatus === "finished" &&
+          props.eventsPacket.length === 0 &&
+          props.showAlert !== false && (
+            <Errordiv msg="No record found!" cstate className="" />
+          )}
       </div>
     </div>
   );

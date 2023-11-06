@@ -4,7 +4,7 @@ type Props = {
     data: any[]
 };
 
-const Browser = ({data}: Props) => {
+const Browser: React.FC<Props> = ({data}) => {
   return (
     <div className="mitblock performanceOverview-block">
       <h3 className="mitblock-title">Performance Overview</h3>

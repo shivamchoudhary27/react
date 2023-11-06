@@ -8,7 +8,12 @@ import EnrolCoursesList from "../../dashboard/enrolCoursesList";
 import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 
 type Props = {
+  apiStatus: any;
+  eventsPacket: any;
+  showAlert: boolean;
+  courseSession: any;
   userCoursesData: any;
+  sessionMode: string[];
   enrolCoreCoursesObj: any;
 };
 
@@ -27,13 +32,22 @@ const Mobile = (props: Props) => {
           <Container fluid>
             <Row>
               <Col md={12} lg={4} className="mb-4 mb-lg-0">
-                <MyScheduleComp />
+                <MyScheduleComp
+                  sessionMode={props.sessionMode}
+                  courseSession={props.courseSession}
+                  userCoursesData={props.userCoursesData}
+                />
               </Col>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">
                 <PerformanceOverview />
               </Col>
               <Col md={6} lg={4}>
-                <Timeline />
+                <Timeline
+                  showAlert={props.showAlert}
+                  apiStatus={props.apiStatus}
+                  eventsPacket={props.eventsPacket}
+                  courseSession={props.courseSession}
+                />
               </Col>
             </Row>
           </Container>

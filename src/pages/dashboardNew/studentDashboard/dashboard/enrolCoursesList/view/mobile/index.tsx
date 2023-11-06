@@ -11,7 +11,7 @@ type Props = {
   enrolCoreCoursesObj: any
 };
 
-const Mobile = (props: Props) => {
+const Mobile: React.FC<Props> = (props) => {
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
       (item: any) => item.idNumber === id

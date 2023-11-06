@@ -8,15 +8,17 @@ import NewLoader from "../../../../widgets/loader";
 import useUserinfo from "../../../../features/hooks/userinfo";
 
 type Props = {
+  eventsPacket: any;
+  apiStatus: string;
+  courseSession: any;
+  showAlert: boolean;
   userCoursesData: any;
-  enrolCoreCoursesObj: any;
   setUserCoursesData: any;
-  courseSession: any
-  blTimelineEvent: any
-  apiStatus: string
+  todaySessionPacket: any;
+  enrolCoreCoursesObj: any;
 };
 
-const TeacherDashboard = (props: Props) => {
+const TeacherDashboard: React.FC<Props> = (props) => {
   const res = useUserinfo();
   const sessionMode = ["", "offline", "online", "lab", "hybrid"];
 
@@ -35,6 +37,7 @@ const TeacherDashboard = (props: Props) => {
       </Container>
     );
   }
+  
   return (
     <React.Fragment>
       <Header />
@@ -43,10 +46,12 @@ const TeacherDashboard = (props: Props) => {
         <DashboardTeacher
           sessionMode={sessionMode}
           apiStatus={props.apiStatus}
+          showAlert={props.showAlert}
+          eventsPacket={props.eventsPacket}
           courseSession={props.courseSession}
-          blTimelineEvent={props.blTimelineEvent}
           userCoursesData={props.userCoursesData}
           setUserCoursesData={props.setUserCoursesData}
+          todaySessionPacket={props.todaySessionPacket}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
         />
       </div>
