@@ -2,20 +2,25 @@ import "./style.scss";
 import React from "react";
 
 type Props = {
-  blTimelineEvent: any;
+  eventsPacket: any;
 };
 
-const FilterDropdown = (props: Props) => {
-
+const FilterDropdown: React.FC<Props> = (props) => {
   const handlerChange = (value: any) => {
-    console.log(value)
-  }
+    console.log(value);
+  };
 
   return (
     <React.Fragment>
       <div className="d-flex block-filter">
-        <ShortByDaysDropdowns blTimelineEvent={props.blTimelineEvent} handlerChange={handlerChange} />{" "}
-        <ShortByDateDropdowns blTimelineEvent={props.blTimelineEvent} handlerChange={handlerChange} />
+        <ShortByDaysDropdowns
+          eventsPacket={props.eventsPacket}
+          handlerChange={handlerChange}
+        />{" "}
+        <ShortByDateDropdowns
+          eventsPacket={props.eventsPacket}
+          handlerChange={handlerChange}
+        />
       </div>
     </React.Fragment>
   );
@@ -23,13 +28,13 @@ const FilterDropdown = (props: Props) => {
 
 export default FilterDropdown;
 
-const ShortByDaysDropdowns = ({ blTimelineEvent, handlerChange }: any) => {
+const ShortByDaysDropdowns = ({ eventsPacket, handlerChange }: any) => {
   return (
     <select
       defaultValue="Next 7 days"
       aria-label="Default select example"
       className="form-select form-select-sm me-2"
-      disabled={blTimelineEvent.length === 0}
+      disabled={eventsPacket.length === 0}
       onChange={(e) => handlerChange(e.target.value)}
     >
       <option value="7days">Next 7 days</option>
@@ -39,13 +44,13 @@ const ShortByDaysDropdowns = ({ blTimelineEvent, handlerChange }: any) => {
   );
 };
 
-const ShortByDateDropdowns = ({ blTimelineEvent, handlerChange }: any) => {
+const ShortByDateDropdowns = ({ eventsPacket, handlerChange }: any) => {
   return (
     <select
       defaultValue="Sort by date"
       aria-label="Default select example"
       className="form-select form-select-sm"
-      disabled={blTimelineEvent.length === 0}
+      disabled={eventsPacket.length === 0}
       onChange={(e) => handlerChange(e.target.value)}
     >
       <option value="date">Sort by date</option>

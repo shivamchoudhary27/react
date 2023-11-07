@@ -1,14 +1,17 @@
 import "./style.scss";
 import Errordiv from "../../../../../widgets/alert/errordiv";
+import ListSkeleton from "../../../../../widgets/skeleton/list";
 import calendarIcon from "../../../../../assets/images/icons/calendar-black.svg";
 
 type Props = {
   sessionMode: any;
+  apiStatus: string;
   courseSession: any;
   userCoursesData: any;
+  todaySessionPacket: any;
 };
 
-const ScheduleTable = (props: Props) => {
+const ScheduleTable: React.FC<Props> = (props) => {
   const getSessionTime = (sessionDate: number) => {
     const timestamp = sessionDate * 1000;
     const timeZone = "Asia/Kolkata"; // Specify the time zone (Indian Standard Time)
@@ -43,7 +46,7 @@ const ScheduleTable = (props: Props) => {
     return `${startTime} - ${endTime}`;
   };
 
-  console.log(props.courseSession)
+  // console.log(props.courseSession)
 
   const getValue = () => {
     console.log(props.userCoursesData.length);
@@ -60,45 +63,40 @@ const ScheduleTable = (props: Props) => {
   return (
     <>
       <div className="mitblock-body">
-        {/* {props.apiStatus === "started" && props.courseSession.length === 0 && (
-          <ListSkeleton />
-        )} */}
         {props.courseSession.map((item: any, index: number) =>
-          item.attendance_instances.map((el: any) =>
-            el.today_sessions.map((val: any) => (
-              // console.log(el)
-              <div
-                className="d-flex align-items-center tsb-row mb-3"
-                key={index}
-              >
-                <div className="align-self-start me-3">
-                  <img src={calendarIcon} alt="Schedule Icon" />
-                </div>
-                <div className="tsb-info">
-                  <h6>
-                    {val.name.charAt(0).toUpperCase() + val.name.slice(1)}
-                  </h6>
-                  <p>
-                    <b>Course: </b>
-                    {item.fullname}
-                  </p>
-                  <p>
-                    <b>Venue: </b>
-                    {val.venue !== "" ? val.venue : "Not available"}
-                  </p>
-                  <p>{getSessionTime(val.sessdate)}</p>
-                </div>
-                <span
-                  className={`badge tsb-button ${props.sessionMode[val.mode]}`}
-                >
-                  {props.sessionMode[val.mode].charAt(0).toUpperCase() +
-                    props.sessionMode[val.mode].slice(1)}
-                </span>
+          props.todaySessionPacket.map((session: any) => (
+            <div className="d-flex align-items-center tsb-row mb-3" key={index}>
+              <div className="align-self-start me-3">
+                <img src={calendarIcon} alt="Schedule Icon" />
               </div>
-            ))
-          )
+              <div className="tsb-info">
+                <h6>
+                  {session.name.charAt(0).toUpperCase() + session.name.slice(1)}
+                </h6>
+                <p>
+                  <b>Course: </b>
+                  {item.fullname}
+                </p>
+                <p>
+                  <b>Venue: </b>
+                  {session.venue !== "" ? session.venue : "Not available"}
+                </p>
+                <p>{getSessionTime(session.sessdate)}</p>
+              </div>
+              <span
+                className={`badge tsb-button ${
+                  props.sessionMode[session.mode]
+                }`}
+              >
+                {props.sessionMode[session.mode].charAt(0).toUpperCase() +
+                  props.sessionMode[session.mode].slice(1)}
+              </span>
+            </div>
+          ))
         )}
-        {props.courseSession.length === 0 && (
+        {props.apiStatus === "started" &&
+          props.todaySessionPacket.length === 0 && <ListSkeleton />}
+        {props.apiStatus === "finished" && props.todaySessionPacket.length === 0 && (
           <Errordiv msg="No session available!" cstate />
         )}
       </div>

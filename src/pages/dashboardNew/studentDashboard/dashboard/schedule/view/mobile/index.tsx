@@ -6,9 +6,10 @@ type Props = {
   apiStatus: string;
   courseSession: any;
   sessionMode: string[];
+  todaySessionPacket: any;
 };
 
-const Mobile = (props: Props) => {
+const Mobile: React.FC<Props> = (props) => {
   const currentDate = new Date();
   const options: { day: string; month: string; year: string } = {
     day: "numeric",
@@ -59,37 +60,42 @@ const Mobile = (props: Props) => {
       </h3>
       <div className="mitblock-body">
         {props.courseSession.map((item: any, index: number) =>
-          item.attendance_instances.map((el: any) =>
-            el.today_sessions.map((val: any) => (
-              <div
-                className="d-flex align-items-center tsb-row mb-3"
-                key={index}
-              >
-                <div className="align-self-start me-3">
-                  <img src={calendarIcon} alt="Schedule Icon" />
-                </div>
-                <div className="tsb-info">
-                  <h6>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</h6>
-                  <p>{item.fullname}</p>
-                  {/* <span>{val.venue}</span> */}
-                  <p>{getSessionTime(val.sessdate)}</p>
-                </div>
-                <span
-                  className={`badge tsb-button ${props.sessionMode[val.mode]}`}
-                >
-                  {props.sessionMode[val.mode].charAt(0).toUpperCase() +
-                    props.sessionMode[val.mode].slice(1)}
-                </span>
+          props.todaySessionPacket.map((session: any) => (
+            <div className="d-flex align-items-center tsb-row mb-3" key={index}>
+              <div className="align-self-start me-3">
+                <img src={calendarIcon} alt="Schedule Icon" />
               </div>
-            ))
-          )
+              <div className="tsb-info">
+                <h6>
+                  {session.name.charAt(0).toUpperCase() + session.name.slice(1)}
+                </h6>
+                <p>
+                  <b>Course: </b>
+                  {item.fullname}
+                </p>
+                <p>
+                  <b>Venue: </b>
+                  {session.venue !== "" ? session.venue : "Not available"}
+                </p>
+                <p>{getSessionTime(session.sessdate)}</p>
+              </div>
+              <span
+                className={`badge tsb-button ${
+                  props.sessionMode[session.mode]
+                }`}
+              >
+                {props.sessionMode[session.mode].charAt(0).toUpperCase() +
+                  props.sessionMode[session.mode].slice(1)}
+              </span>
+            </div>
+          ))
         )}
-        {props.apiStatus === "started" && props.courseSession.length === 0 && (
-          <ListSkeleton />
-        )}
-        {props.apiStatus === "finished" && props.courseSession.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="" />
-        )}
+        {props.apiStatus === "started" &&
+          props.todaySessionPacket.length === 0 && <ListSkeleton />}
+        {props.apiStatus === "finished" &&
+          props.todaySessionPacket.length === 0 && (
+            <Errordiv msg="No session available!" cstate />
+          )}
       </div>
     </div>
   );

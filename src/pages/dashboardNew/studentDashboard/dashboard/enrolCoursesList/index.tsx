@@ -9,7 +9,7 @@ type Props = {
   enrolCoreCoursesObj: any;
 };
 
-const EnrolCoursesList = (props: Props) => {
+const EnrolCoursesList: React.FC<Props> = (props) => {
   // const [coursesList, setCoursesList] = useState([]);
   // const id = localStorage.getItem("userid");
   // const url = `https://demo.learn.ballisticlearning.com/webservice/rest/server.php?wstoken=7243942b15e0ffe89c1cf7c432863232&wsfunction=core_enrol_get_users_courses &moodlewsrestformat=json&userid=${id}`;

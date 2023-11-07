@@ -6,31 +6,36 @@ import MyCourses from "./myCourses/index";
 
 type Props = {
   sessionMode: any;
+  eventsPacket: any;
   apiStatus: string;
+  showAlert: boolean;
   courseSession: any;
-  blTimelineEvent: any
   userCoursesData: any;
   setUserCoursesData: any;
+  todaySessionPacket: any;
   enrolCoreCoursesObj: any;
 };
 
-const DashboardTeacher = (props: Props) => {
+const DashboardTeacher: React.FC<Props> = (props) => {
   return (
-    <>
+    <React.Fragment>
       <div className="dashboard-topPanel">
         <Container fluid>
           <Row>
             <Col md={6} className="mb-4 mb-md-0">
               <Timeline
                 apiStatus={props.apiStatus}
-                blTimelineEvent={props.blTimelineEvent}
+                showAlert={props.showAlert}
+                eventsPacket={props.eventsPacket}
               />
             </Col>
             <Col md={6}>
               <MyScheduleComp
-                courseSession={props.courseSession}
+                apiStatus={props.apiStatus}
                 sessionMode={props.sessionMode}
+                courseSession={props.courseSession}
                 userCoursesData={props.userCoursesData}
+                todaySessionPacket={props.todaySessionPacket}
               />
             </Col>
           </Row>
@@ -39,11 +44,11 @@ const DashboardTeacher = (props: Props) => {
       <div className="dashboard-bottomPanel mt-4 mb-5">
         <MyCourses
           userCoursesData={props.userCoursesData}
-          enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           setUserCoursesData={props.setUserCoursesData}
+          enrolCoreCoursesObj={props.enrolCoreCoursesObj}
         />
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

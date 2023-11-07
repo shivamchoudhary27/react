@@ -1,16 +1,16 @@
 import "./style.scss";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import ListSkeleton from "../../../../../widgets/skeleton/list";
 
 type Props = {
+  eventsPacket: any;
   apiStatus: string;
-  blTimelineEvent: any;
+  showAlert: boolean;
 };
 
-const TimelineTable = (props: Props) => {
-  const [status, setStatus] = useState(false)
+const TimelineTable: React.FC<Props> = (props) => {
   const getTimetableTime = (sessionDate: number) => {
     const timestamp = sessionDate * 1000;
     const timeZone = "Asia/Kolkata"; // Specify the time zone (Indian Standard Time)
@@ -61,55 +61,40 @@ const TimelineTable = (props: Props) => {
     return formattedDate;
   };
 
-  // useEffect(() => {
-  //   props.blTimelineEvent.map((item: any) => {
-  //     if(item.events.length === 0){
-  //       setStatus(true)
-  //     }else{
-  //       setStatus(false)
-  //     }
-  //   })
-  // }, [props.blTimelineEvent])
-
   return (
-    <React.Fragment>
-      <div className="mitblock-body">
-        {props.apiStatus === "started" &&
-          props.blTimelineEvent.length === 0 && <ListSkeleton />}
-        {props.blTimelineEvent.length > 0 && props.blTimelineEvent.map((item: any, index: number) =>
-          item.events.length > 0 && (
-            item.events.map((el: any) => (
-              <div className="d-flex align-items-center atb-row" key={index}>
-                {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
-                <div className="atb-info">
-                  <h6>
-                    <a href={el.viewurl}>
-                      {formatDynamicTimestamp(el.timesort)}
-                    </a>
-                  </h6>
-                  {/* <div
+    <div className="mitblock-body">
+      {props.eventsPacket.length > 0 &&
+        props.eventsPacket.map((event: any, index: number) => (
+          <div className="d-flex align-items-center atb-row" key={index}>
+            {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
+            <div className="atb-info">
+              <h6>
+                <a href={event.viewurl}>
+                  {formatDynamicTimestamp(event.timesort)}
+                </a>
+              </h6>
+              {/* <div
                     dangerouslySetInnerHTML={{ __html: el.formattedtime }}
                   ></div> */}
-                  <p>{el.name}</p>
-                  <p>{getTimetableTime(el.timestart)}</p>
-                </div>
-                <Link
-                  to={el.action.url}
-                  className="btn btn-light btn-sm atb-button"
-                >
-                  {el.action.name}
-                </Link>
-              </div>
-            ))
-          ) 
-          // : (
-          //   <Errordiv msg="No record found!" cstate className="" />
-          // )
-        )}
-        {props.apiStatus === "finished" &&
-          props.blTimelineEvent.length === 0 && status !== false && <ListSkeleton />}
-      </div>
-    </React.Fragment>
+              <p>{event.name}</p>
+              <p>{getTimetableTime(event.timestart)}</p>
+            </div>
+            <Link
+              to={event.action.url}
+              className="btn btn-light btn-sm atb-button"
+            >
+              {event.action.name}
+            </Link>
+          </div>
+        ))}
+
+      {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
+        <ListSkeleton />
+      )}
+      {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
+        <Errordiv msg="No record found!" cstate className="" />
+      )}
+    </div>
   );
 };
 

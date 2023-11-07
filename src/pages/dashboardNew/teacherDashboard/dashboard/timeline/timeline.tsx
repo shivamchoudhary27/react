@@ -1,26 +1,24 @@
 import "./style.scss";
-import React from "react";
-import { Card } from "react-bootstrap";
 import TimelineTable from "./timelineTable";
 import FilterDropdown from "./filterDropdown";
 
 type Props = {
+  eventsPacket: any;
   apiStatus: string;
-  blTimelineEvent: any;
+  showAlert: boolean;
 };
 
-const Timeline = (props: Props) => {
+const Timeline: React.FC<Props> = (props) => {
   return (
-    <>
-      <div className="mitblock activityTimeline-block">
-        <h3 className="mitblock-title">Activity Timeline</h3>
-        <FilterDropdown blTimelineEvent={props.blTimelineEvent} />
-        <TimelineTable
-          apiStatus={props.apiStatus}
-          blTimelineEvent={props.blTimelineEvent}
-        />
-      </div>
-    </>
+    <div className="mitblock activityTimeline-block">
+      <h3 className="mitblock-title">Activity Timeline</h3>
+      <FilterDropdown eventsPacket={props.eventsPacket} />
+      <TimelineTable
+        apiStatus={props.apiStatus}
+        showAlert={props.showAlert}
+        eventsPacket={props.eventsPacket}
+      />
+    </div>
   );
 };
 

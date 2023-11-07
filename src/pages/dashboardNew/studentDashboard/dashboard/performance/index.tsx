@@ -9,7 +9,9 @@ import avGreadeIcon from "../../../../../assets/images/icons/grade.svg";
 import creditsIcon from "../../../../../assets/images/icons/credits.svg";
 import certificateIcon from "../../../../../assets/images/icons/certificates.svg";
 
-const PerformanceOverview = () => {
+type Props = {}
+
+const PerformanceOverview: React.FC<Props> = (props) => {
   const id = localStorage.getItem("userid");
   const [dummyObj, setDummyObj] = useState({
     badges: {

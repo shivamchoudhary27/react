@@ -4,7 +4,7 @@ type Props = {
     data: any[]
 }
 
-const Mobile = ({data}: Props) => {
+const Mobile: React.FC<Props> = ({data}) => {
   return (
     <div className="mitblock performanceOverview-block">
       <h3 className="mitblock-title">Performance Overview</h3>
