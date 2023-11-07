@@ -2,9 +2,9 @@ import Filters from "./filter";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import WeeklyTimetable from "./weekTable";
+import DraftVersionTable from "./table";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-
 import HeaderTabs from "../../../headerTabs";
 import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -71,6 +71,7 @@ const WeeklyDraftVersion = () => {
           currentPacket.friday = breakType;
           currentPacket.saturday = breakType;
           currentPacket.sunday = breakType;
+          currentPacket.breakTime = true;
         }
         timeslotPacket.push(currentPacket);
       });
@@ -181,7 +182,10 @@ const WeeklyDraftVersion = () => {
             </div>
           </div>
           {apiStatus === "finished" && timeslots.length > 0 && (
-            <WeeklyTimetable data={timeslots} apiStatus={apiStatus} />
+            <>
+              <DraftVersionTable SlotData={timeslots} apiStatus={apiStatus} />
+              {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
+            </>
           )}
           {apiStatus === "finished" && timeslots.length === 0 && (
             <div>

@@ -1,5 +1,5 @@
 // Define data for the table
-export const data = [
+export const draftData = [
     {
         timeSlot: "9:00 - 10:00",
         monday: "Math",
