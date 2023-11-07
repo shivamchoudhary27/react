@@ -17,6 +17,7 @@ type Props = {
   userCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
+  getFilterSelectValue: any
 };
 
 const Browser: React.FC<Props> = (props) => {
@@ -35,6 +36,7 @@ const Browser: React.FC<Props> = (props) => {
                   apiStatus={props.apiStatus}
                   eventsPacket={props.eventsPacket}
                   courseSession={props.courseSession}
+                  getFilterSelectValue={props.getFilterSelectValue}
                 />
               </Col>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">

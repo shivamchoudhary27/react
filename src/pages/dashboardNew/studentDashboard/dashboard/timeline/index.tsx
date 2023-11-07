@@ -9,6 +9,7 @@ type Props = {
   eventsPacket: any;
   showAlert: boolean;
   courseSession: any;
+  getFilterSelectValue: any
 };
 
 const Timeline: React.FC<Props> = (props) => {
@@ -79,6 +80,7 @@ const Timeline: React.FC<Props> = (props) => {
           eventsPacket={props.eventsPacket}
           getTimetableTime={getTimetableTime}
           formatDynamicTimestamp={formatDynamicTimestamp}
+          getFilterSelectValue={props.getFilterSelectValue}
         />
       ) : (
         <Browser
@@ -87,6 +89,7 @@ const Timeline: React.FC<Props> = (props) => {
           eventsPacket={props.eventsPacket}
           getTimetableTime={getTimetableTime}
           formatDynamicTimestamp={formatDynamicTimestamp}
+          getFilterSelectValue={props.getFilterSelectValue}
         />
       )}
     </React.Fragment>
