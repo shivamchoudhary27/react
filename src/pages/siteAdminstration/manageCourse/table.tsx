@@ -107,6 +107,8 @@ const CourseTable = ({
                         description: row.original.coursedetails.description,
                         published: row.original.coursedetails.published,
                         files: row.original.coursedetails.files,
+                        startDate: row.original.coursedetails.startDate,
+                        endDate: row.original.coursedetails.endDate
                       })
                     }
                     />
@@ -200,6 +202,8 @@ const CourseTable = ({
         description: updatecourse.data.coursedetail.description,
         published: updatecourse.data.coursedetail.published,
         category: { id: updatecourse.data.category },
+        startDate: updatecourse.data.coursedetail.startDate,
+        endDate: updatecourse.data.coursedetail.endDate
       };
       const endPoint = `${programId}/course/${updatingcourseid}`;
 
@@ -255,7 +259,9 @@ const CourseTable = ({
     category,
     description,
     published,
-    files
+    files,
+    startDate,
+    endDate
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -266,7 +272,9 @@ const CourseTable = ({
       category,
       description,
       published,
-      files
+      files,
+      startDate,
+      endDate
     });
   };
 

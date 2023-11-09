@@ -48,6 +48,8 @@ const CourseManagment = () => {
     description: "",
     published: false,
     files: [],
+    startDate: "",
+    endDate: "",
   });
   const coursePermission = useSelector(
     (state: any) => state.userAuthorities.permissions.course
@@ -128,16 +130,20 @@ const CourseManagment = () => {
     category,
     description,
     published,
-    files
+    files,
+    startDate,
+    endDate
   }: any) => {
     setCourseObj({
-      id: id,
-      name: name,
-      courseCode: courseCode,
-      category: category,
-      description: description,
-      published: published,
-      files: files
+      id,
+      name,
+      courseCode,
+      category,
+      description,
+      published,
+      files,
+      startDate,
+      endDate,
     });
   };
 
