@@ -10,6 +10,7 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import { draftData as dummyData } from "./data";
 import { addDays, format, startOfWeek } from "date-fns";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -48,35 +49,26 @@ const tableColumnTemplate = [
     accessor: "saturday",
     },
     {
-    Header: "Sunday",
+        Header: "Sunday",
     accessor: "sunday",
     },
 ];
 
 const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
     const currentDate = new Date();
-    const currentDay = currentDate.toLocaleDateString("en-US", { weekday: 'long' });
     const [headername, setHeadername] = useState(0);
     const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
+    // react table custom variable decleration === >>>
+    const columns = useMemo(() => tableColumn, [tableColumn]);
+    const data = useMemo(() => SlotData, [SlotData]);
+    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+        useTable({
+        columns,
+        data,
+        });
     
-    // const [weekDates, setWeekDates] = useState([]);
-
-    // useEffect(() => {
-    //   const currentDate = new Date();
-    //   const startOfCurrentWeek = startOfWeek(currentDate, { weekStartsOn: 1 });
-    //   const dates = [...Array(7).keys()].map((offset) =>
-    //     addDays(startOfCurrentWeek, offset)
-    //   );
-    //   setWeekDates(dates);
-    // }, [headername]); // Run this effect only once on component mount
-
     useEffect(() => {
-        const currentDate = new Date(); // Get the current date
-        console.log('headername', headername)
         const nextMonday = addDays(startOfWeek(currentDate, { weekStartsOn: 1 }), headername); // 1 corresponds to Monday, add 7 days for the next week
-
-        // console.log('next monday', nextMonday);
-
         const startOfCurrentWeek = startOfWeek(nextMonday, { weekStartsOn: 1 });
         const weekDates = [...Array(7).keys()].map((offset) =>
           addDays(startOfCurrentWeek, offset)
@@ -89,44 +81,10 @@ const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
             },
             ...weekDates.map((date, index) => ({
                 // console.log(format(date, "EEEE").toLowerCase());
-              Header: format(date, "EEEE") + "\n" + format(date, "d/M") ,
+              Header: `${format(date, "EEEE")} \n ${format(date, "d-M-Y")}`,
               accessor: format(date, "EEEE").toLowerCase() , // Use a dynamic accessor for each day
             })),
         ];
-        // const newTableColumnTemplate = [
-        //     {
-        //         Header: "Time Slots",
-        //         accessor: "timeSlot",
-        //     },
-        //     {
-        //         Header: `Monday ${headername}`,
-        //         accessor: "monday",
-        //     },
-        //     {
-        //         Header: `Tuesday ${headername}`,
-        //     accessor: "tuesday",
-        //     },
-        //     {
-        //         Header: "Wednesday",
-        //         accessor: "wednesday",
-        //     },
-        //     {
-        //         Header: "Thursday",
-        //         accessor: "thursday",
-        //     },
-        //     {
-        //         Header: "Friday",
-        //         accessor: "friday",
-        //     },
-        //     {
-        //     Header: "Saturday",
-        //     accessor: "saturday",
-        //     },
-        //     {
-        //         Header: "Sunday",
-        //         accessor: "sunday",
-        //     },
-        // ];
         setTableColumn(newWeekColumns);
     }, [headername]);
 
@@ -138,29 +96,22 @@ const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
         setHeadername(prevCount => prevCount - 7);
     }
 
-    // react table custom variable decleration === >>>
-    const dispatch = useDispatch();
-    const columns = useMemo(() => tableColumn, [tableColumn]);
-    const data = useMemo(() => SlotData, [SlotData]);
-    const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-        useTable({
-        columns,
-        data,
-        });
 
     return (
         <React.Fragment>
-            <button
-              onClick={handlePreviousWeek}
-            >
-                PoooPooo
-            </button>
+            <CustomButton
+                type="button"
+                btnText="<<"
+                variant="primary"
+                onClick={handlePreviousWeek}
+            />
             {"   "}
-            <button
-              onClick={handleNextWeek}
-            >
-                BoooBooo
-            </button>
+            <CustomButton
+                type="button"
+                btnText=">>"
+                variant="primary"
+                onClick={handleNextWeek}
+            />
         <div className="table-responsive admin-table-wrapper mt-3">
             <Table borderless striped {...getTableProps}>
             <thead>

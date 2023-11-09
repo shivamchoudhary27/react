@@ -60,7 +60,7 @@ const TimetableTable: React.FunctionComponent<Props> = ({
       Cell: ({ row }: any) => (
         <Link
           className="action-icons"
-          to={`/draftversion?dpt=${row.original.department.id}&prg=${row.original.name}`}
+          to={`/draftversion?dpt=${row.original.department.id}&prgId=${row.original.id}&prg=${row.original.name}`}
         >
           <img src={manageCoursesIcon} alt="Manage Draft" />
         </Link>
