@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import { addDays, format, startOfWeek } from "date-fns";
 import React, { useEffect, useState, useMemo } from "react";
 
-const WeeklyTimetable = ({ data, apiStatus }: any) => {
+const WeeklyTimetable = ({ SlotData, apiStatus }: any) => {
   const columns = [
     {
       Header: "Time Slots",
@@ -43,7 +43,7 @@ const WeeklyTimetable = ({ data, apiStatus }: any) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
-      data,
+      SlotData,
     });
 
   return (

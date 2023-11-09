@@ -2,9 +2,9 @@ import Filters from "./filter";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import WeeklyTimetable from "./weekTable";
+import DraftVersionTable from "./table";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
-
 import HeaderTabs from "../../../headerTabs";
 import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -19,8 +19,9 @@ const WeeklyDraftVersion = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "" });
+  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+  const [coursesList, setCoursesList] = useState(dummyData);
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
@@ -31,7 +32,8 @@ const WeeklyDraftVersion = () => {
     const urlParams = new URLSearchParams(location.search);
     const dpt = parseInt(urlParams.get("dpt"));
     const prg = urlParams.get("prg");
-    setUrlArg({ dpt, prg });
+    const prgId = parseInt(urlParams.get("prgId"));
+    setUrlArg({ dpt, prg, prgId });
   }, []);
 
   useEffect(() => {
@@ -39,9 +41,20 @@ const WeeklyDraftVersion = () => {
       let endPoint = `/${currentInstitute}/timetable/timeslot`;
       makeGetDataRequest(
         endPoint,
-        { departmentId: urlArg.dpt, pageNumber: 0, pageSize: 100 },
+        { departmentId: urlArg.dpt, pageNumber: 0, pageSize: 50 },
         setDepartmentTimeslots,
         setApiStatus
+      );
+    }
+  }, [urlArg.dpt]);
+
+  useEffect(() => {
+    if (urlArg.prgId > 0) {
+      let endPoint = `${urlArg.prgId}/category/course/workloads`;
+      makeGetDataRequest(
+        endPoint,
+        { pageNumber: 0, pageSize: 100 },
+        setCoursesList,
       );
     }
   }, [urlArg.dpt]);
@@ -71,6 +84,7 @@ const WeeklyDraftVersion = () => {
           currentPacket.friday = breakType;
           currentPacket.saturday = breakType;
           currentPacket.sunday = breakType;
+          currentPacket.breakTime = true;
         }
         timeslotPacket.push(currentPacket);
       });
@@ -181,7 +195,10 @@ const WeeklyDraftVersion = () => {
             </div>
           </div>
           {apiStatus === "finished" && timeslots.length > 0 && (
-            <WeeklyTimetable data={timeslots} apiStatus={apiStatus} />
+            <>
+              <DraftVersionTable SlotData={timeslots} apiStatus={apiStatus} />
+              {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
+            </>
           )}
           {apiStatus === "finished" && timeslots.length === 0 && (
             <div>
