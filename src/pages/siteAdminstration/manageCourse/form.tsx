@@ -15,12 +15,15 @@ import { setHasChildProp } from "./local";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
+import { addMonths, format, getMonth, getDate, getYear } from 'date-fns';
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
   name: Yup.string().trim().required("Course name is required"),
   courseCode: Yup.string().trim().required("Course code is required"),
   category: Yup.string().required("Select category"),
+  startDate: Yup.string().nullable().required("Please choose a start date"),
+  endDate: Yup.string().nullable().required("Please choose an end date"),
   // description: Yup.string().max(100).required(),
 });
 
@@ -32,6 +35,7 @@ const CourseModal = ({
   toggleCourseModal,
   refreshcategories,
 }: any) => {
+  const currentDate = new Date();
   const [courseDetail, setCourseDetails] = useState({});
   const [categorieslist, setCategoriesList] = useState([]);
   const [filteredCategories, setFilterCategories] = useState([]);
@@ -50,6 +54,8 @@ const CourseModal = ({
     files: [],
     deleteImage: false,
     file: null,
+    startDate: "",
+    endDate: ""
   });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -67,6 +73,8 @@ const CourseModal = ({
       files: courseobj.files,
       deleteImage: false,
       file: null,
+      startDate: courseobj.startDate !== null ? initialDateFormatHandler(courseobj.startDate) : getCurrentMonth(currentDate),
+      endDate: courseobj.endDate !== null ? initialDateFormatHandler(courseobj.endDate) : getNextMonth(currentDate)
     });
     // }
   }, [courseobj]);
@@ -113,14 +121,41 @@ const CourseModal = ({
     }
   }, [categorieslist]);
 
+  const getCurrentMonth = (currentDate) => {
+    return format(currentDate, 'yyyy-MM-dd')
+  }
+
+  const getNextMonth = (currentDate) => {
+    const endDate = addMonths(currentDate, 1);
+    console.log('next onght', endDate)
+    return format(endDate, 'yyyy-MM-dd');
+  }
+
+  const dateFormatHandlers = (date: string) => {
+    const [year, month, day] = date.split('-');
+    return `${day}-${month}-${year}`;
+  }
+
+  const initialDateFormatHandler = (inputDate: string) => {
+    const date = new Date(inputDate);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+  }
+
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
+  const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
     if (values.deleteImage === true) {
       values.deleted = true;
       delete values.deleteImage;
       values.files = addRemoveFileProperty(values.files);
     }
 
+    values.startDate = dateFormatHandlers(values.startDate);
+    values.endDate = dateFormatHandlers(values.endDate);
+    
     let courseImage = values.file;
     delete courseImage?.file;
 
@@ -230,26 +265,62 @@ const CourseModal = ({
                   />
                 </div>
 
-                  <div className="mb-3">
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="category"
+                    labelText="Category"
+                    required="required"
+                  />
+                  <FieldTypeSelect
+                    name="category"
+                    options={filteredCategories}
+                    setcurrentvalue={setValues}
+                    currentformvalue={values}
+                    disabled={courseobj.id === 0 && "isDisabled"}
+                  />
+                  <FieldErrorMessage
+                    errors={errors.category}
+                    touched={touched.category}
+                    msgText="Please Select Category"
+                  />
+                </div>
+                {/* --------------------------------  */}
+                <div className="mb-3">
                     <FieldLabel
-                      htmlfor="category"
-                      labelText="Category"
+                      htmlfor="startDate"
+                      labelText="Start Date"
                       required="required"
                     />
-                    <FieldTypeSelect
-                      name="category"
-                      options={filteredCategories}
-                      setcurrentvalue={setValues}
-                      currentformvalue={values}
-                      disabled={courseobj.id === 0 && "isDisabled"}
+                    <FieldTypeText
+                      type="date"
+                      name="startDate"
+                      placeholder="dd/mm/yyyy"
                     />
                     <FieldErrorMessage
-                      errors={errors.category}
-                      touched={touched.category}
-                      msgText="Please Select Category"
+                      errors={errors.startDate}
+                      touched={touched.startDate}
+                      msgText="Required"
                     />
-                  </div>
+                </div>
 
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="endDate"
+                    labelText="End Date"
+                    required="required"
+                  />
+                  <FieldTypeText
+                    type="date"
+                    name="endDate"
+                    placeholder="End Date"
+                  />
+                  <FieldErrorMessage
+                    errors={errors.endDate}
+                    touched={touched.endDate}
+                    msgText="Required"
+                  />
+                </div>
+                {/*  --------------------- */}
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="description"
