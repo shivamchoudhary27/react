@@ -59,6 +59,8 @@ const WeeklyDraftVersion = () => {
     }
   }, [urlArg.dpt]);
 
+  console.log('coursesList', coursesList);
+
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
       let timeslotPacket = [];
