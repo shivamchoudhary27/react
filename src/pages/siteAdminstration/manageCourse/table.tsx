@@ -155,6 +155,8 @@ const CourseTable = ({
                     category: row.original.id,
                     description: "",
                     published: false,
+                    startDate: null,
+                    endDate: null
                   })
                 }
               >
