@@ -8,13 +8,14 @@ type Props = {
   showAlert: boolean;
   getTimetableTime: any;
   formatDynamicTimestamp: any;
+  getFilterSelectValue: any
 };
 
 const Browser: React.FC<Props> = (props) => {
   return (
     <div className="mitblock activityTimeline-block">
       <h3 className="mitblock-title">Activity Timeline</h3>
-      <FilterDropdown eventsPacket={props.eventsPacket} />
+      <FilterDropdown eventsPacket={props.eventsPacket} getFilterSelectValue={props.getFilterSelectValue} />
       <div className="mitblock-body">
         {props.eventsPacket.length > 0 &&
           props.eventsPacket.map((event: any, index: number) => (

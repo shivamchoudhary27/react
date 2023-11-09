@@ -16,6 +16,7 @@ type Props = {
   setUserCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
+  getFilterSelectValue: any
 };
 
 const TeacherDashboard: React.FC<Props> = (props) => {
@@ -53,6 +54,7 @@ const TeacherDashboard: React.FC<Props> = (props) => {
           setUserCoursesData={props.setUserCoursesData}
           todaySessionPacket={props.todaySessionPacket}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          getFilterSelectValue={props.getFilterSelectValue}
         />
       </div>
       <Footer />

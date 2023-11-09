@@ -15,6 +15,7 @@ type Props = {
   userCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
+  getFilterSelectValue: any
 };
 
 const StudentDashboard: React.FC<Props> = (props) => {
@@ -61,6 +62,7 @@ const StudentDashboard: React.FC<Props> = (props) => {
             userCoursesData={props.userCoursesData}
             todaySessionPacket={props.todaySessionPacket}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            getFilterSelectValue={props.getFilterSelectValue}
           />
         </React.Fragment>
       ) : (
@@ -73,6 +75,7 @@ const StudentDashboard: React.FC<Props> = (props) => {
             userCoursesData={props.userCoursesData}
             todaySessionPacket={props.todaySessionPacket}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            getFilterSelectValue={props.getFilterSelectValue}
           />
         </React.Fragment>
       )}
