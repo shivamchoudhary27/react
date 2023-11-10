@@ -34,6 +34,7 @@ const WeeklyDraftVersion = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [sortedCategories, setSortedCategories] = useState<any>([]);
+  const [courseDates, setCourseDates] = useState<any>({startDate: "00/00/0000", endDate: "00/00/0000"});
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -88,14 +89,6 @@ const WeeklyDraftVersion = () => {
     }
   }, [coursesList.items]);
 
-  // handle to count weight for acategory === >>
-  // useEffect(() => {
-  //   if (coursesList.items.length > 0) {
-  //     let largestWeight = getLatestWeightForCategory(0, coursesList.items);
-  //     setParentWeight(largestWeight);
-  //   }
-  // }, [coursesList.items]);
-
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
       let timeslotPacket = [];
@@ -129,6 +122,10 @@ const WeeklyDraftVersion = () => {
     }
   }, [departmentTimeslots]);
 
+  const updateCourseDates = (courseDates: any) => {
+    setCourseDates(courseDates);
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -149,6 +146,7 @@ const WeeklyDraftVersion = () => {
           <Filters 
             workloadCourses={sortedCategories}
             ids={urlArg}
+            updateCourseDates={updateCourseDates}
           />
           <div
             style={{
@@ -159,12 +157,12 @@ const WeeklyDraftVersion = () => {
           >
             <div>
               <span>
-                <b>Start Date:</b> 16/10/2023
+                <b>Start Date:</b> {courseDates.startDate}
                 {/* {format(weekDates[0], 'dd/MM/yyyy')} */}
               </span>
               {"  "}
               <span>
-                <b>End Date: </b> 22/10/2023
+                <b>End Date: </b> {courseDates.endDate}
                 {/* {format(weekDates[6], 'dd/MM/yyyy')} */}
               </span>
             </div>

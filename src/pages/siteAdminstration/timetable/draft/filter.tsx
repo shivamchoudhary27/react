@@ -3,8 +3,9 @@ import { useFormik } from "formik";
 import { Button, Row, Col } from "react-bootstrap";
 import { renderCourse, handleChildrens } from "./utils";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import { format } from 'date-fns';
 
-const ManageFilter = ({ workloadCourses, ids } : any) => {
+const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
   const initialValues = {
     name: "",
     code: "",
@@ -14,6 +15,15 @@ const ManageFilter = ({ workloadCourses, ids } : any) => {
   const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
   const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [selectedFaculty, setSelectedFaculty] = useState<number>(0);
+  const [coursesOnly, setCoursesOnly] = useState<any>([]);
+
+  useEffect(() => {
+    if (workloadCourses.length > 0) {
+      let collectCourses = workloadCourses.filter((item: any) => item.coursename);
+      setCoursesOnly(collectCourses);
+      console.log('collectCourses', collectCourses)
+    }
+  }, [workloadCourses])
 
   useEffect(() => {
     if (selectedCourse > 0) {
@@ -37,7 +47,21 @@ const ManageFilter = ({ workloadCourses, ids } : any) => {
   const handleCourseFilterChange = (e: any) => {
     setSelectedCourse(parseInt(e.target.value));
     setSelectedFaculty(0);
+    handleCourseDates(parseInt(e.target.value));
   };
+  
+  const handleCourseDates = (courseId: number) => {
+    const courseWithId = coursesOnly.find((item: any) => item.courseid === courseId);
+    let startDate, endDate = ''
+    if (courseWithId) {
+      startDate = format(new Date(courseWithId.startDate), 'dd/MM/yyyy');
+      endDate = format(new Date(courseWithId.endDate), 'dd/MM/yyyy');
+    } else {
+      startDate = "00/00/0000";
+      endDate = "00/00/0000";
+    }
+    updateCourseDates({startDate: startDate, endDate: endDate});
+  }
 
   const handleFacultyFilterChange = (e: any) => {
     setSelectedFaculty(parseInt(e.target.value));
