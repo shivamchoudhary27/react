@@ -57,8 +57,8 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
       startDate = format(new Date(courseWithId.startDate), 'dd/MM/yyyy');
       endDate = format(new Date(courseWithId.endDate), 'dd/MM/yyyy');
     } else {
-      startDate = "00/00/0000";
-      endDate = "00/00/0000";
+      startDate = "--/--/----";
+      endDate = "--/--/----";
     }
     updateCourseDates({startDate: startDate, endDate: endDate});
   }

@@ -34,7 +34,7 @@ const WeeklyDraftVersion = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [courseDates, setCourseDates] = useState<any>({startDate: "00/00/0000", endDate: "00/00/0000"});
+  const [courseDates, setCourseDates] = useState<any>({startDate: "--/--/----", endDate: "--/--/----"});
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
