@@ -1,30 +1,76 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
+import { renderCourse, handleChildrens } from "./utils";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
-const ManageFilter = () => {
-  const navigate = useNavigate();
+const ManageFilter = ({ workloadCourses, ids } : any) => {
   const initialValues = {
     name: "",
     code: "",
+    workloadCourse: ""
   };
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
+  const [selectedCourse, setSelectedCourse] = useState<number>(0);
+  const [selectedFaculty, setSelectedFaculty] = useState<number>(0);
 
-  const handleAddProgram = () => {
-    navigate(`/addprogram/0`);
-  };
-
+  useEffect(() => {
+    if (selectedCourse > 0) {
+      makeGetDataRequest(
+        `/course/${selectedCourse}/enrol-user`,
+        {pageNumber: 0, pageSize: 100, teachersOnly: true},
+        setCourseFacultyData
+      );
+    }
+  }, [selectedCourse]);
+  
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
+      // console.log('filter values', values);
     },
     onReset: () => {
     },
   });
 
-  // Event handler for filter input change with debounce
-  const handleFilterChange = (event: any) => {
+  const handleCourseFilterChange = (e: any) => {
+    setSelectedCourse(parseInt(e.target.value));
+    setSelectedFaculty(0);
   };
+
+  const handleFacultyFilterChange = (e: any) => {
+    setSelectedFaculty(parseInt(e.target.value));
+  };
+
+  const renderCourseOptions = (categories: any) => {
+    return (
+      <React.Fragment>
+         {categories.map((parentCategory: any) => {
+          if (parentCategory.level === 1 && parentCategory.parent === 0) {
+            return (
+              <React.Fragment key={parentCategory.id}>
+                {parentCategory.haschild === true ?
+                  <optgroup label={parentCategory.name} key={parentCategory.id}>
+                      {handleChildrens(parentCategory, categories)}
+                  </optgroup>
+                  :
+                  <React.Fragment>
+                    {parentCategory.courses.length > 0 &&
+                      <optgroup label={parentCategory.name} key={parentCategory.id}>
+                          {renderCourse(parentCategory.courses, parentCategory.level)}
+                      </optgroup>
+                    }
+                  </React.Fragment>
+                }
+              </React.Fragment>
+            )
+          }
+         })}
+      </React.Fragment>
+    );
+  }
+  
   return (
     <>
       <div className="filter-wrapper mt-2 input-styles">
@@ -34,22 +80,29 @@ const ManageFilter = () => {
                 <label htmlFor="courses" hidden>
                     Courses
                 </label>
-                <select className="form-select">
-                    <option value="">Courses</option>
-                    <option value="">Course 1</option>
-                    <option value="">Course 2</option>
-                    <option value="">Course 3</option>
-              </select>   
+                <select 
+                  className="form-select"
+                  name="workloadCourse"
+                  onChange={handleCourseFilterChange}
+                >
+                  <option value={0}>Select Course</option>
+                  {renderCourseOptions(workloadCourses)}
+                </select>
             </Col>
             <Col>
               <label htmlFor="faculty" hidden>
                 Faculty
               </label>
-              <select className="form-select">
-                <option value="">All Faculty</option>
-                <option value="">Faculty 1</option>
-                <option value="">Faculty 2</option>
-                <option value="">Faculty 3</option>
+              <select 
+                className="form-select"
+                name="faculty"
+                value={selectedFaculty}
+                onChange={handleFacultyFilterChange}
+              >
+                <option value={0}>Select Faculty</option>
+                {courseFacultyData.items.map((faculty: any) => (
+                  <option value={faculty.userId} key={faculty.userId}>{`${faculty.userFirstName} ${faculty.userLastName}`}</option>
+                ))}
               </select>
             </Col>
             <Col>
@@ -61,8 +114,7 @@ const ManageFilter = () => {
                 id="code"
                 name="code"
                 type="text"
-                onChange={handleFilterChange}
-                value={formik.values.code}
+                // value={formik.values.code}
               />
             </Col>
             <Col>

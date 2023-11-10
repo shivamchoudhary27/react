@@ -12,6 +12,12 @@ import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
+import {
+  getLatestWeightForCategory,
+  updateCategoryLevels,
+  getChildren,
+} from "./utils";
+import { setHasChildProp, resetManageCourseObj } from "./local";
 
 const WeeklyDraftVersion = () => {
   const location = useLocation();
@@ -27,6 +33,7 @@ const WeeklyDraftVersion = () => {
   );
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
+  const [sortedCategories, setSortedCategories] = useState<any>([]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -59,7 +66,35 @@ const WeeklyDraftVersion = () => {
     }
   }, [urlArg.dpt]);
 
-  console.log('coursesList', coursesList);
+  useEffect(() => {
+    if (coursesList.items.length > 0) {
+      const convertedResult = coursesList.items
+        .filter((item) => item.parent === 0)
+        .sort((a, b) => a.weight - b.weight)
+        .reduce(
+          (acc, item) => [...acc, item, ...getChildren(item, coursesList.items)],
+          []
+        );
+
+      convertedResult.forEach((item) => {
+        if (item.parent === 0) {
+          item.level = 1;
+          updateCategoryLevels(convertedResult, item.id, 2);
+        }
+      });
+      const hasChildPropAdded = setHasChildProp(convertedResult);
+      const courseObjAdded = resetManageCourseObj(hasChildPropAdded);
+      setSortedCategories(courseObjAdded);
+    }
+  }, [coursesList.items]);
+
+  // handle to count weight for acategory === >>
+  // useEffect(() => {
+  //   if (coursesList.items.length > 0) {
+  //     let largestWeight = getLatestWeightForCategory(0, coursesList.items);
+  //     setParentWeight(largestWeight);
+  //   }
+  // }, [coursesList.items]);
 
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
@@ -111,7 +146,10 @@ const WeeklyDraftVersion = () => {
             pageTitle={`${urlArg.prg} : Draft Version`}
             gobacklink="/timetable"
           />
-          <Filters />
+          <Filters 
+            workloadCourses={sortedCategories}
+            ids={urlArg}
+          />
           <div
             style={{
               display: "flex",

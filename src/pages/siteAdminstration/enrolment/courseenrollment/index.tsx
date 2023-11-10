@@ -46,6 +46,7 @@ const CourseEnrollment = () => {
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    teachersOnly: false
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector((state : any) => state.globalFilters.currentInstitute);
