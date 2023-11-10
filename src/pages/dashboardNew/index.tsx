@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import StudentDashboard from "./studentDashboard/dashboard";
 import TeacherDashboard from "./teacherDashboard/dashboard";
-import { next7DaysTimestamp, next30DaysTimestamp } from "./utils";
 import { makeGetDataRequest } from "../../features/apiCalls/getdata";
+import { next7DaysTimestamp, next30DaysTimestamp, overdueTimestamp } from "./utils";
 
 type Props = {};
 
@@ -20,16 +20,43 @@ const DashboardNew: React.FC<Props> = (props) => {
   const currentDate = new Date();
   const userId = localStorage.getItem("userid");
   const [apiStatus, setApiStatus] = useState("");
+  const [apiStatusCourse, setApiStatusCourse] = useState("");
   const [courseSession, setCourseSession] = useState([]);
   const [coursesIds, setCoursesIds] = useState<any[]>([]);
   const timestamp = Math.floor(currentDate.getTime() / 1000);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [eventsPacket, setEventsPacket] = useState<any[]>([]);
   const [enrolCoreCoursesObj, setEnrolCoreCoursesObj] = useState([]);
+  const [courseFilterActive, setCourseFilterActive] = useState(false);
   const [todaySessionPacket, setTodaySessionPacket] = useState<any[]>([]);
-  const [filterTimestampValue, setTimestampFilterValue] = useState("");
+  const [filterTimestampValue, setTimestampFilterValue] = useState("7days");
+  const [filterTimestampSort, setTimestampFilterSort] = useState("Sort by date");
   const next7Days = next7DaysTimestamp(timestamp);
   const next30Days = next30DaysTimestamp(timestamp);
+  const overdueDays = overdueTimestamp(timestamp);
+
+  // === >>>
+  const setDaysTimeSortTo = () => {
+    if (filterTimestampValue !== "") {
+      if (filterTimestampValue === "all") {
+        return;
+      } else if (filterTimestampValue === "7days") {
+        return next7Days;
+      } else if (filterTimestampValue === "30days") {
+        return next30Days;
+      } else if (filterTimestampValue === "overdue") {
+        return overdueDays;
+      }
+    }
+  };
+
+  const setSortByTimeSortTo = () => {
+    if(filterTimestampSort !== ""){
+      if(filterTimestampSort === "course"){
+        return null
+      }
+    }
+  }
 
   // dashboard API call to get courses data === >>>
   useEffect(() => {
@@ -72,12 +99,7 @@ const DashboardNew: React.FC<Props> = (props) => {
       wsfunction: "block_bltimeline_get_action_events_by_timesort",
       userid: userId,
       timesortfrom: filterTimestampValue === "all" ? null : timestamp,
-      timesortto:
-        filterTimestampValue === "all"
-          ? null
-          : filterTimestampValue === "30days"
-          ? next30Days
-          : next7Days,
+      timesortto: filterTimestampValue !== "" ? setDaysTimeSortTo() : next7Days,
       limitnum: 20,
       courseids: JSON.stringify(coursesIds),
     };
@@ -85,8 +107,9 @@ const DashboardNew: React.FC<Props> = (props) => {
     getData(query)
       .then((res) => {
         if (res.status === 200 && res.data !== "") {
-          console.log(res.data.events);
+          console.log("timeslot data------", res.data)
           setEventsPacket(res.data.events);
+          setCourseFilterActive(false)  
         }
         setApiStatus("finished");
       })
@@ -94,55 +117,67 @@ const DashboardNew: React.FC<Props> = (props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [currentUserRole, userId, coursesIds, filterTimestampValue]);
+  }, [userId, coursesIds, userCoursesData, filterTimestampValue]);
 
   // API call for filter by course === >>>
   useEffect(() => {
-    const query = {
-      wsfunction: "block_bltimeline_get_action_events_by_courses",
-      userid: userId,
-      timesortfrom: timestamp,
-      timesortto: null,
-      courseids: JSON.stringify(coursesIds),
-    };
-    setApiStatus("started");
-    getData(query)
-      .then((res) => {
-        if (res.status === 200 && res.data !== "") {
-          console.log(res.data.groupedbycourse);
-          res.data.groupedbycourse.map((item: any) => {
-            // console.log(item.events)
-            setEventsPacket(item.events);
-          })
-        }
-        setApiStatus("finished");
-      })
-      .catch((err) => {
-        console.log(err);
-        setApiStatus("finished");
-      });
-  }, [userCoursesData, filterTimestampValue]);
+    if (filterTimestampSort === "course") {
+      const query = {
+        wsfunction: "block_bltimeline_get_action_events_by_courses",
+        userid: userId,
+        timesortfrom: timestamp,
+        timesortto: setSortByTimeSortTo(),
+        limitnum: 20,
+        courseids: JSON.stringify(coursesIds),
+      };
+      setApiStatusCourse("started");
+      getData(query)
+        .then((res) => {
+          if (res.status === 200 && res.data !== "") {
+            res.data.groupedbycourse.map((item: any) => {
+              console.log(item)
+              setEventsPacket(item.events);
+              setCourseFilterActive(true)
+            });
+          }
+          setApiStatusCourse("finished");
+        })
+        .catch((err) => {
+          console.log(err);
+          setApiStatusCourse("finished");
+          setCourseFilterActive(false)
+        });
+    }
+  }, [userId, coursesIds, userCoursesData, filterTimestampSort]);
 
   const getFilterSelectValue = (val: string) => {
     setTimestampFilterValue(val);
   };
 
+  const getSortFilterValue = (val: string) => {
+    setTimestampFilterSort(val)
+    if(val === "date"){
+      setTimestampFilterValue("all")
+      setTimestampFilterSort("")
+    }
+  }
+
   // API call to getting today sessions === >>>
   useEffect(() => {
-    if (coursesIds.length > 0) {
       const query = {
         wsfunction: "mod_attendance_get_courses_with_today_sessions",
         userid: userId,
-        date: timestamp,
+        // date: timestamp,
         courseids: JSON.stringify(coursesIds),
       };
       const accumulatedData: any[] | ((prevState: never[]) => never[]) = [];
-      setApiStatus("started");
+      // setApiStatus("started");
       getData(query)
         .then((res) => {
           if (res.status === 200 && res.data !== "") {
             if (res.data.errorcode === undefined) {
               res.data.map((item: any) => {
+                // console.log(res.data)
                 item.attendance_instances.map((el: any) => {
                   el.today_sessions.map((session: any) => {
                     accumulatedData.push(session);
@@ -151,7 +186,7 @@ const DashboardNew: React.FC<Props> = (props) => {
               });
               setTodaySessionPacket(accumulatedData);
               setCourseSession(res.data);
-              setApiStatus("finished");
+              // setApiStatus("finished");
             } else {
               setTodaySessionPacket([]);
               setShowAlert(true);
@@ -160,10 +195,9 @@ const DashboardNew: React.FC<Props> = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          setApiStatus("finished");
+          // setApiStatus("finished");
         });
-    }
-  }, [userId, userCoursesData]);
+  }, [userId, coursesIds, userCoursesData]);
 
   // API call to get timeline calender events according to role === >>>
   // useEffect(() => {
@@ -209,13 +243,32 @@ const DashboardNew: React.FC<Props> = (props) => {
       {currentUserRole !== undefined &&
       currentUserRole.shortName === "student" ? (
         <StudentDashboard // student dashboard component === >>>
+          // showAlert={showAlert}
+          // apiStatus={apiStatus}
+          // eventsPacket={eventsPacket}
+          // courseSession={courseSession}
+          // userCoursesData={userCoursesData}
+          // todaySessionPacket={todaySessionPacket}
+          // enrolCoreCoursesObj={enrolCoreCoursesObj}
+          // courseFilterActive={courseFilterActive}
+          // getFilterSelectValue={getFilterSelectValue}
+          // filterTimestampValue={filterTimestampValue}
+          // getSortFilterValue={getSortFilterValue}
+          // filterTimestampSort={filterTimestampSort}
+
           showAlert={showAlert}
           apiStatus={apiStatus}
           eventsPacket={eventsPacket}
           courseSession={courseSession}
+          apiStatusCourse={apiStatusCourse}
           userCoursesData={userCoursesData}
+          courseFilterActive={courseFilterActive}
           todaySessionPacket={todaySessionPacket}
           enrolCoreCoursesObj={enrolCoreCoursesObj}
+          filterTimestampSort={filterTimestampSort}
+          filterTimestampValue={filterTimestampValue}
+          setUserCoursesData={setUserCoursesData}
+          getSortFilterValue={getSortFilterValue}
           getFilterSelectValue={getFilterSelectValue}
         />
       ) : (
@@ -224,10 +277,15 @@ const DashboardNew: React.FC<Props> = (props) => {
           apiStatus={apiStatus}
           eventsPacket={eventsPacket}
           courseSession={courseSession}
+          apiStatusCourse={apiStatusCourse}
           userCoursesData={userCoursesData}
+          courseFilterActive={courseFilterActive}
           todaySessionPacket={todaySessionPacket}
           enrolCoreCoursesObj={enrolCoreCoursesObj}
+          filterTimestampSort={filterTimestampSort}
+          filterTimestampValue={filterTimestampValue}
           setUserCoursesData={setUserCoursesData}
+          getSortFilterValue={getSortFilterValue}
           getFilterSelectValue={getFilterSelectValue}
         />
       )}

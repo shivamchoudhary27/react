@@ -13,10 +13,15 @@ type Props = {
   courseSession: any;
   showAlert: boolean;
   userCoursesData: any;
+  apiStatusCourse: string;
   setUserCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
-  getFilterSelectValue: any
+  getFilterSelectValue: any;
+  courseFilterActive: boolean;
+  filterTimestampValue: string;
+  getSortFilterValue: any;
+  filterTimestampSort: string;
 };
 
 const TeacherDashboard: React.FC<Props> = (props) => {
@@ -38,7 +43,7 @@ const TeacherDashboard: React.FC<Props> = (props) => {
       </Container>
     );
   }
-  
+
   return (
     <React.Fragment>
       <Header />
@@ -51,10 +56,15 @@ const TeacherDashboard: React.FC<Props> = (props) => {
           eventsPacket={props.eventsPacket}
           courseSession={props.courseSession}
           userCoursesData={props.userCoursesData}
+          apiStatusCourse={props.apiStatusCourse}
           setUserCoursesData={props.setUserCoursesData}
           todaySessionPacket={props.todaySessionPacket}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           getFilterSelectValue={props.getFilterSelectValue}
+          courseFilterActive={props.courseFilterActive}
+          filterTimestampValue={props.filterTimestampValue}
+          getSortFilterValue={props.getSortFilterValue}
+          filterTimestampSort={props.filterTimestampSort}
         />
       </div>
       <Footer />

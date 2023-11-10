@@ -8,13 +8,21 @@ import EnrolCoursesList from "../../dashboard/enrolCoursesList";
 import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 
 type Props = {
-  apiStatus: any;
+  sessionMode: any;
   eventsPacket: any;
-  showAlert: boolean;
+  apiStatus: string;
   courseSession: any;
+  showAlert: boolean;
   userCoursesData: any;
-  sessionMode: string[];
+  apiStatusCourse: string;
+  setUserCoursesData: any;
+  todaySessionPacket: any;
+  getSortFilterValue: any;
   enrolCoreCoursesObj: any;
+  getFilterSelectValue: any;
+  courseFilterActive: boolean;
+  filterTimestampValue: string;
+  filterTimestampSort: string;
 };
 
 const Mobile = (props: Props) => {
@@ -33,9 +41,11 @@ const Mobile = (props: Props) => {
             <Row>
               <Col md={12} lg={4} className="mb-4 mb-lg-0">
                 <MyScheduleComp
+                  apiStatus={props.apiStatus}
                   sessionMode={props.sessionMode}
                   courseSession={props.courseSession}
                   userCoursesData={props.userCoursesData}
+                  todaySessionPacket={props.todaySessionPacket}
                 />
               </Col>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">
@@ -46,7 +56,12 @@ const Mobile = (props: Props) => {
                   showAlert={props.showAlert}
                   apiStatus={props.apiStatus}
                   eventsPacket={props.eventsPacket}
-                  courseSession={props.courseSession}
+                  apiStatusCourse={props.apiStatusCourse}
+                  courseFilterActive={props.courseFilterActive}
+                  getSortFilterValue={props.getSortFilterValue}
+                  filterTimestampSort={props.filterTimestampSort}
+                  getFilterSelectValue={props.getFilterSelectValue}
+                  filterTimestampValue={props.filterTimestampValue}
                 />
               </Col>
             </Row>

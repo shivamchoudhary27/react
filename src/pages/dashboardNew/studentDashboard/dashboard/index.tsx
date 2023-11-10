@@ -8,14 +8,33 @@ import { isMobile, isDesktop } from "react-device-detect";
 import useUserinfo from "../../../../features/hooks/userinfo";
 
 type Props = {
-  apiStatus: any;
+  // apiStatus: any;
+  // eventsPacket: any;
+  // showAlert: boolean;
+  // courseSession: any;
+  // userCoursesData: any;
+  // todaySessionPacket: any;
+  // enrolCoreCoursesObj: any;
+  // getFilterSelectValue: any;
+  // filterTimestampValue: string;
+  // getSortFilterValue: any;
+  // filterTimestampSort: string;
+  // courseFilterActive: boolean;
+
   eventsPacket: any;
-  showAlert: boolean;
+  apiStatus: string;
   courseSession: any;
+  showAlert: boolean;
   userCoursesData: any;
+  apiStatusCourse: string;
+  setUserCoursesData: any;
   todaySessionPacket: any;
+  getSortFilterValue: any;
   enrolCoreCoursesObj: any;
-  getFilterSelectValue: any
+  getFilterSelectValue: any;
+  courseFilterActive: boolean;
+  filterTimestampValue: string;
+  filterTimestampSort: string;
 };
 
 const StudentDashboard: React.FC<Props> = (props) => {
@@ -43,38 +62,97 @@ const StudentDashboard: React.FC<Props> = (props) => {
       {isMobile ? (
         <React.Fragment>
           <Mobile
+            //   sessionMode={sessionMode}
+            //   showAlert={props.showAlert}
+            //   apiStatus={props.apiStatus}
+            //   eventsPacket={props.eventsPacket}
+            //   courseSession={props.courseSession}
+            //   userCoursesData={props.userCoursesData}
+            //   enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            //   getSortFilterValue={props.getSortFilterValue}
+            //   filterTimestampSort={props.filterTimestampSort}
+            //   courseFilterActive={props.courseFilterActive}
+            // filterTimestampValue={props.filterTimestampValue}
             sessionMode={sessionMode}
             showAlert={props.showAlert}
             apiStatus={props.apiStatus}
             eventsPacket={props.eventsPacket}
             courseSession={props.courseSession}
+            apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
+            courseFilterActive={props.courseFilterActive}
+            todaySessionPacket={props.todaySessionPacket}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            filterTimestampSort={props.filterTimestampSort}
+            filterTimestampValue={props.filterTimestampValue}
+            setUserCoursesData={props.setUserCoursesData}
+            getSortFilterValue={props.getSortFilterValue}
+            getFilterSelectValue={props.getFilterSelectValue}
           />
         </React.Fragment>
       ) : isDesktop ? (
         <React.Fragment>
           <Browser
+            // showAlert={props.showAlert}
+            // apiStatus={props.apiStatus}
+            // eventsPacket={props.eventsPacket}
+            // courseSession={props.courseSession}
+            // userCoursesData={props.userCoursesData}
+            // todaySessionPacket={props.todaySessionPacket}
+            // enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            // getFilterSelectValue={props.getFilterSelectValue}
+            // filterTimestampValue={props.filterTimestampValue}
+            // getSortFilterValue={props.getSortFilterValue}
+            // filterTimestampSort={props.filterTimestampSort}
+            // courseFilterActive={props.courseFilterActive}
+
+            sessionMode={sessionMode}
             showAlert={props.showAlert}
             apiStatus={props.apiStatus}
             eventsPacket={props.eventsPacket}
             courseSession={props.courseSession}
+            apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
+            courseFilterActive={props.courseFilterActive}
             todaySessionPacket={props.todaySessionPacket}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            filterTimestampSort={props.filterTimestampSort}
+            filterTimestampValue={props.filterTimestampValue}
+            setUserCoursesData={props.setUserCoursesData}
+            getSortFilterValue={props.getSortFilterValue}
             getFilterSelectValue={props.getFilterSelectValue}
           />
         </React.Fragment>
       ) : (
         <React.Fragment>
           <Browser
+            // showAlert={props.showAlert}
+            // apiStatus={props.apiStatus}
+            // eventsPacket={props.eventsPacket}
+            // courseSession={props.courseSession}
+            // userCoursesData={props.userCoursesData}
+            // todaySessionPacket={props.todaySessionPacket}
+            // enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            // getFilterSelectValue={props.getFilterSelectValue}
+            // filterTimestampValue={props.filterTimestampValue}
+            // getSortFilterValue={props.getSortFilterValue}
+            // filterTimestampSort={props.filterTimestampSort}
+            // courseFilterActive={props.courseFilterActive}
+
+            sessionMode={sessionMode}
             showAlert={props.showAlert}
             apiStatus={props.apiStatus}
             eventsPacket={props.eventsPacket}
             courseSession={props.courseSession}
+            apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
+            courseFilterActive={props.courseFilterActive}
             todaySessionPacket={props.todaySessionPacket}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            filterTimestampSort={props.filterTimestampSort}
+            filterTimestampValue={props.filterTimestampValue}
+            setUserCoursesData={props.setUserCoursesData}
+            getSortFilterValue={props.getSortFilterValue}
             getFilterSelectValue={props.getFilterSelectValue}
           />
         </React.Fragment>
