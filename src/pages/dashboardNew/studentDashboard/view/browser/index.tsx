@@ -10,14 +10,33 @@ import EnrolCoursesList from "../../dashboard/enrolCoursesList";
 import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
 
 type Props = {
-  apiStatus: any;
+  // apiStatus: any;
+  // eventsPacket: any;
+  // showAlert: boolean;
+  // courseSession: any;
+  // userCoursesData: any;
+  // todaySessionPacket: any;
+  // enrolCoreCoursesObj: any;
+  // getFilterSelectValue: any;
+  // filterTimestampValue: string;
+  // getSortFilterValue: any;
+  // filterTimestampSort: string;
+  // courseFilterActive: boolean
+
   eventsPacket: any;
-  showAlert: boolean;
+  apiStatus: string;
   courseSession: any;
+  showAlert: boolean;
   userCoursesData: any;
+  apiStatusCourse: string;
+  setUserCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
-  getFilterSelectValue: any
+  getFilterSelectValue: any;
+  courseFilterActive: boolean;
+  filterTimestampValue: string;
+  getSortFilterValue: any;
+  filterTimestampSort: string;
 };
 
 const Browser: React.FC<Props> = (props) => {
@@ -32,11 +51,25 @@ const Browser: React.FC<Props> = (props) => {
             <Row>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">
                 <Timeline
-                  showAlert={props.showAlert}
+                  // showAlert={props.showAlert}
+                  // apiStatus={props.apiStatus}
+                  // eventsPacket={props.eventsPacket}
+                  // courseSession={props.courseSession}
+                  // getFilterSelectValue={props.getFilterSelectValue}
+                  // filterTimestampValue={props.filterTimestampValue}
+                  // getSortFilterValue={props.getSortFilterValue}
+                  // filterTimestampSort={props.filterTimestampSort}
+                  // courseFilterActive={props.courseFilterActive}
+
                   apiStatus={props.apiStatus}
+                  showAlert={props.showAlert}
                   eventsPacket={props.eventsPacket}
-                  courseSession={props.courseSession}
+                  apiStatusCourse={props.apiStatusCourse}
                   getFilterSelectValue={props.getFilterSelectValue}
+                  courseFilterActive={props.courseFilterActive}
+                  filterTimestampValue={props.filterTimestampValue}
+                  getSortFilterValue={props.getSortFilterValue}
+                  filterTimestampSort={props.filterTimestampSort}
                 />
               </Col>
               <Col md={6} lg={4} className="mb-4 mb-lg-0">

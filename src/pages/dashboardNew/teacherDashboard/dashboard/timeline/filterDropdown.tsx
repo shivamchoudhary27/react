@@ -4,14 +4,23 @@ import React from "react";
 type Props = {
   eventsPacket: any;
   getFilterSelectValue: any;
+  filterTimestampValue: string;
+  getSortFilterValue: any;
+  filterTimestampSort: string;
 };
 
 const FilterDropdown: React.FC<Props> = (props) => {
-  const handlerChange = (event: string) => {
+  const handlerChange = ({ event, filterType }: any) => {
     if (event !== "") {
-      props.getFilterSelectValue(event);
+      if (filterType === "days") {
+        props.getFilterSelectValue(event);
+      } else {
+        props.getSortFilterValue(event);
+      }
     }
   };
+
+  console.log(props.eventsPacket)
 
   return (
     <React.Fragment>
@@ -19,10 +28,12 @@ const FilterDropdown: React.FC<Props> = (props) => {
         <ShortByDaysDropdowns
           eventsPacket={props.eventsPacket}
           handlerChange={handlerChange}
+          filterTimestampValue={props.filterTimestampValue}
         />{" "}
         <ShortByDateDropdowns
           eventsPacket={props.eventsPacket}
           handlerChange={handlerChange}
+          filterTimestampSort={props.filterTimestampSort}
         />
       </div>
     </React.Fragment>
@@ -36,14 +47,20 @@ const dropdown_style = {
   width: "auto",
 };
 
-const ShortByDaysDropdowns = ({ eventsPacket, handlerChange }: any) => {
+const ShortByDaysDropdowns = ({
+  eventsPacket,
+  handlerChange,
+  filterTimestampValue,
+}: any) => {
   return (
     <select
       className="form-select form-select-sm me-2"
       aria-label="Default select example"
-      defaultValue="Next 7 days"
+      value={filterTimestampValue}
       // disabled={eventsPacket.length === 0}
-      onChange={(e) => handlerChange(e.target.value)}
+      onChange={(e) =>
+        handlerChange({ event: e.target.value, filterType: "days" })
+      }
     >
       <option value="all">All</option>
       <option value="overdue">Overdue</option>
@@ -53,14 +70,20 @@ const ShortByDaysDropdowns = ({ eventsPacket, handlerChange }: any) => {
   );
 };
 
-const ShortByDateDropdowns = ({ eventsPacket, handlerChange }: any) => {
+const ShortByDateDropdowns = ({
+  eventsPacket,
+  handlerChange,
+  filterTimestampSort,
+}: any) => {
   return (
     <select
       className="form-select form-select-sm"
       aria-label="Default select example"
-      defaultValue="Sort by date"
+      value={filterTimestampSort}
       // disabled={eventsPacket.length === 0}
-      onChange={(e) => handlerChange(e.target.value)}
+      onChange={(e) =>
+        handlerChange({ event: e.target.value, filterType: "sortBy" })
+      }
     >
       <option value="date">Sort by date</option>
       <option value="course">Sort by course</option>

@@ -14,7 +14,12 @@ type Props = {
   setUserCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
-  getFilterSelectValue: any
+  getFilterSelectValue: any;
+  apiStatusCourse: string;
+  courseFilterActive: boolean;
+  filterTimestampValue: string;
+  getSortFilterValue: any;
+  filterTimestampSort: string;
 };
 
 const DashboardTeacher: React.FC<Props> = (props) => {
@@ -28,7 +33,12 @@ const DashboardTeacher: React.FC<Props> = (props) => {
                 apiStatus={props.apiStatus}
                 showAlert={props.showAlert}
                 eventsPacket={props.eventsPacket}
+                apiStatusCourse={props.apiStatusCourse}
+                courseFilterActive={props.courseFilterActive}
+                getSortFilterValue={props.getSortFilterValue}
+                filterTimestampSort={props.filterTimestampSort}
                 getFilterSelectValue={props.getFilterSelectValue}
+                filterTimestampValue={props.filterTimestampValue}
               />
             </Col>
             <Col md={6}>
