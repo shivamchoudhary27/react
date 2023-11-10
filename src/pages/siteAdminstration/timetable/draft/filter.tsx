@@ -21,7 +21,6 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
     if (workloadCourses.length > 0) {
       let collectCourses = workloadCourses.filter((item: any) => item.coursename);
       setCoursesOnly(collectCourses);
-      console.log('collectCourses', collectCourses)
     }
   }, [workloadCourses])
 
@@ -38,9 +37,11 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      // console.log('filter values', values);
     },
     onReset: () => {
+      setSelectedFaculty(0);
+      setSelectedCourse(0);
+      updateCourseDates({startDate: '--/--/----', endDate: '--/--/----'});
     },
   });
 
@@ -107,6 +108,7 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
                 <select 
                   className="form-select"
                   name="workloadCourse"
+                  value={selectedCourse}
                   onChange={handleCourseFilterChange}
                 >
                   <option value={0}>Select Course</option>
@@ -125,21 +127,16 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
               >
                 <option value={0}>Select Faculty</option>
                 {courseFacultyData.items.map((faculty: any) => (
-                  <option value={faculty.userId} key={faculty.userId}>{`${faculty.userFirstName} ${faculty.userLastName}`}</option>
+                  <option 
+                    value={faculty.userId} 
+                    key={faculty.userId}
+                  >
+                    {faculty.userFirstName.charAt(0).toUpperCase() + faculty.userFirstName.slice(1)}
+                    {" "}
+                    {faculty.userLastName}
+                  </option>
                 ))}
               </select>
-            </Col>
-            <Col>
-              <label htmlFor="code" hidden>
-                Program Code
-              </label>
-              <input
-                className="form-control"
-                id="code"
-                name="code"
-                type="text"
-                // value={formik.values.code}
-              />
             </Col>
             <Col>
               <Button variant="primary" type="submit" className="me-2">
