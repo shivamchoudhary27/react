@@ -5,91 +5,93 @@ import Browser from "./view/browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  apiStatus: any;
+  // apiStatus: any;
+  // eventsPacket: any;
+  // showAlert: boolean;
+  // getFilterSelectValue: any;
+  // filterTimestampValue: string;
+  // getSortFilterValue: any;
+  // filterTimestampSort: string;
+  // courseFilterActive: boolean
+  
   eventsPacket: any;
+  apiStatus: string;
   showAlert: boolean;
-  courseSession: any;
-  getFilterSelectValue: any
+  getSortFilterValue: any;
+  apiStatusCourse: string;
+  getFilterSelectValue: any;
+  courseFilterActive: boolean;
+  filterTimestampSort: string;
+  filterTimestampValue: string;
 };
 
 const Timeline: React.FC<Props> = (props) => {
-  const getTimetableTime = (sessionDate: number) => {
-    const timestamp = sessionDate * 1000;
-    const timeZone = "Asia/Kolkata"; // Specify the time zone (Indian Standard Time)
-
-    // Format the date and time in the desired time zone
-    const formattedTime = new Date(timestamp)
-      .toLocaleString("en-IN", {
-        timeZone,
-        hour: "numeric",
-        minute: "numeric",
-        // second: 'numeric',
-        hour12: true,
-      })
-      .toLocaleUpperCase();
-    return formattedTime;
-  };
-
-  const formatDynamicTimestamp = (timestamp: number) => {
-    const daysOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-    const date = new Date(timestamp * 1000); // Convert the timestamp from seconds to milliseconds
-    const dayOfWeek = daysOfWeek[date.getDay()];
-    const day = date.getDate();
-    const monthName = months[date.getMonth()];
-    const year = date.getFullYear();
-    const formattedDate = `${dayOfWeek}, ${day} ${monthName} ${year}`;
-    return formattedDate;
-  };
 
   return (
     <React.Fragment>
       {isMobile ? (
         <Mobile
-          showAlert={props.showAlert}
+          // showAlert={props.showAlert}
+          // apiStatus={props.apiStatus}
+          // eventsPacket={props.eventsPacket}
+          // getTimetableTime={getTimetableTime}
+          // formatDynamicTimestamp={formatDynamicTimestamp}
+
           apiStatus={props.apiStatus}
+          showAlert={props.showAlert}
           eventsPacket={props.eventsPacket}
-          getTimetableTime={getTimetableTime}
-          formatDynamicTimestamp={formatDynamicTimestamp}
+          apiStatusCourse={props.apiStatusCourse}
+          getFilterSelectValue={props.getFilterSelectValue}
+          courseFilterActive={props.courseFilterActive}
+          filterTimestampValue={props.filterTimestampValue}
+          getSortFilterValue={props.getSortFilterValue}
+          filterTimestampSort={props.filterTimestampSort}
         />
       ) : isDesktop ? (
         <Browser
-          showAlert={props.showAlert}
+          // showAlert={props.showAlert}
+          // apiStatus={props.apiStatus}
+          // eventsPacket={props.eventsPacket}
+          // getTimetableTime={getTimetableTime}
+          // formatDynamicTimestamp={formatDynamicTimestamp}
+          // getFilterSelectValue={props.getFilterSelectValue}
+          // filterTimestampValue={props.filterTimestampValue}
+          // getSortFilterValue={props.getSortFilterValue}
+          // filterTimestampSort={props.filterTimestampSort}
+          // courseFilterActive={props.courseFilterActive}
+
           apiStatus={props.apiStatus}
+          showAlert={props.showAlert}
           eventsPacket={props.eventsPacket}
-          getTimetableTime={getTimetableTime}
-          formatDynamicTimestamp={formatDynamicTimestamp}
+          apiStatusCourse={props.apiStatusCourse}
           getFilterSelectValue={props.getFilterSelectValue}
+          courseFilterActive={props.courseFilterActive}
+          filterTimestampValue={props.filterTimestampValue}
+          getSortFilterValue={props.getSortFilterValue}
+          filterTimestampSort={props.filterTimestampSort}
         />
       ) : (
         <Browser
-          showAlert={props.showAlert}
+          // showAlert={props.showAlert}
+          // apiStatus={props.apiStatus}
+          // eventsPacket={props.eventsPacket}
+          // getTimetableTime={getTimetableTime}
+          // formatDynamicTimestamp={formatDynamicTimestamp}
+          // getFilterSelectValue={props.getFilterSelectValue}
+          // filterTimestampValue={props.filterTimestampValue}
+          // getSortFilterValue={props.getSortFilterValue}
+          // filterTimestampSort={props.filterTimestampSort}
+          // courseFilterActive={props.courseFilterActive}
+
           apiStatus={props.apiStatus}
+          showAlert={props.showAlert}
           eventsPacket={props.eventsPacket}
-          getTimetableTime={getTimetableTime}
-          formatDynamicTimestamp={formatDynamicTimestamp}
+          apiStatusCourse={props.apiStatusCourse}
           getFilterSelectValue={props.getFilterSelectValue}
+          courseFilterActive={props.courseFilterActive}
+          filterTimestampValue={props.filterTimestampValue}
+          getSortFilterValue={props.getSortFilterValue}
+          filterTimestampSort={props.filterTimestampSort}
         />
       )}
     </React.Fragment>

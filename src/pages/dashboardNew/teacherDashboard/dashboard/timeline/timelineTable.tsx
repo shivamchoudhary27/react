@@ -8,9 +8,13 @@ type Props = {
   eventsPacket: any;
   apiStatus: string;
   showAlert: boolean;
+  apiStatusCourse: string;
+  courseFilterActive: boolean;
 };
 
 const TimelineTable: React.FC<Props> = (props) => {
+  // console.log("eventsPacket------", props.eventsPacket)
+
   const getTimetableTime = (sessionDate: number) => {
     const timestamp = sessionDate * 1000;
     const timeZone = "Asia/Kolkata"; // Specify the time zone (Indian Standard Time)
@@ -68,15 +72,22 @@ const TimelineTable: React.FC<Props> = (props) => {
           <div className="d-flex align-items-center atb-row" key={index}>
             {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
             <div className="atb-info">
+              {props.courseFilterActive !== false && (
+                <h6 style={{ fontSize: "18px", fontWeight: "700" }}>
+                  {event.course.fullname}
+                </h6>
+              )}
               <h6>
                 <a href={event.viewurl}>
                   {formatDynamicTimestamp(event.timesort)}
                 </a>
               </h6>
-              {/* <div
-                    dangerouslySetInnerHTML={{ __html: el.formattedtime }}
-                  ></div> */}
-              <p>{event.name}</p>
+              <p>
+                {event.name}.{" "}
+                {props.courseFilterActive !== true && (
+                  <b>{event.course.fullname}</b>
+                )}
+              </p>
               <p>{getTimetableTime(event.timestart)}</p>
             </div>
             <Link
@@ -91,9 +102,9 @@ const TimelineTable: React.FC<Props> = (props) => {
       {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
         <ListSkeleton />
       )}
-      {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
+      {/* {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
         <Errordiv msg="No record found!" cstate className="" />
-      )}
+      )} */}
     </div>
   );
 };
