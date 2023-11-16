@@ -109,10 +109,15 @@ const GradeBook = (props: Props) => {
     <React.Fragment>
       <Header />
       <HeaderTabs activeTab="gradebook" />
-      <BreadcrumbComponent routes={[{ name: "Gradebook", path: "" }]} />
+      <BreadcrumbComponent
+        routes={[
+          { name: "Dashboard", path: "/dashboard" },
+          { name: "Gradebook", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle={`Gradebook`} gobacklink="" />
+          <PageTitle pageTitle="Gradebook" gobacklink="/dashboard" />
             {currentUserRole !== undefined &&
               <HeirarchyFilter 
                 coursesList={apiData} 

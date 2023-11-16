@@ -196,7 +196,7 @@ const InstituteManagement = () => {
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Institutes", path: "" },
+          { name: "Institute Management", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">

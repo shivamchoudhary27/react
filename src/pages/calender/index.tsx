@@ -176,10 +176,15 @@ export default function ReactBigCalendar() {
     <React.Fragment>
       <Header />
       <HeaderTabs activeTab="calender" />
-      <BreadcrumbComponent routes={[{ name: "Calender", path: "" }]} />
+      <BreadcrumbComponent
+        routes={[
+          { name: "Dashboard", path: "/dashboard" },
+          { name: "Calendar", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="" gobacklink="" />
+          <PageTitle pageTitle="Calendar" gobacklink="/dashboard" />
           {/* {currentUserRole !== undefined &&
               <HeirarchyFilter 
                 coursesList={apiData} 
