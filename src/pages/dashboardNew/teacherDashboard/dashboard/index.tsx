@@ -8,20 +8,21 @@ import NewLoader from "../../../../widgets/loader";
 import useUserinfo from "../../../../features/hooks/userinfo";
 
 type Props = {
-  eventsPacket: any;
   apiStatus: string;
-  courseSession: any;
+  eventsPacket: any;
   showAlert: boolean;
+  courseSession: any;
   userCoursesData: any;
-  apiStatusCourse: string;
   setUserCoursesData: any;
+  getSortFilterValue: any;
   todaySessionPacket: any;
+  apiStatusCourse: string;
   enrolCoreCoursesObj: any;
+  sessionApiStatus: string;
   getFilterSelectValue: any;
   courseFilterActive: boolean;
-  filterTimestampValue: string;
-  getSortFilterValue: any;
   filterTimestampSort: string;
+  filterTimestampValue: string;
 };
 
 const TeacherDashboard: React.FC<Props> = (props) => {
@@ -57,14 +58,15 @@ const TeacherDashboard: React.FC<Props> = (props) => {
           courseSession={props.courseSession}
           userCoursesData={props.userCoursesData}
           apiStatusCourse={props.apiStatusCourse}
+          sessionApiStatus={props.sessionApiStatus}
+          getSortFilterValue={props.getSortFilterValue}
           setUserCoursesData={props.setUserCoursesData}
           todaySessionPacket={props.todaySessionPacket}
+          courseFilterActive={props.courseFilterActive}
+          filterTimestampSort={props.filterTimestampSort}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           getFilterSelectValue={props.getFilterSelectValue}
-          courseFilterActive={props.courseFilterActive}
           filterTimestampValue={props.filterTimestampValue}
-          getSortFilterValue={props.getSortFilterValue}
-          filterTimestampSort={props.filterTimestampSort}
         />
       </div>
       <Footer />

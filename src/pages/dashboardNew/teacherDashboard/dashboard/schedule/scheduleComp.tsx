@@ -3,10 +3,10 @@ import ScheduleTable from "./scheduleTable";
 
 type Props = {
   sessionMode: any;
-  apiStatus: string;
   courseSession: any;
   userCoursesData: any;
   todaySessionPacket: any;
+  sessionApiStatus: string;
 };
 
 const MyScheduleComp: React.FC<Props> = (props) => {
@@ -29,9 +29,9 @@ const MyScheduleComp: React.FC<Props> = (props) => {
           <span className="tsb-date">{formattedDate}</span>
         </h3>
         <ScheduleTable
-          apiStatus={props.apiStatus}
           sessionMode={props.sessionMode}
           courseSession={props.courseSession}
+          sessionApiStatus={props.sessionApiStatus}
           todaySessionPacket={props.todaySessionPacket}
           userCoursesData={props.userCoursesData.courses}
         />
