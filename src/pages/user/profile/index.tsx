@@ -158,7 +158,11 @@ const UserProfile = () => {
   };
 
   const capitalizeFirstLetter = (inputString: string) => {
-    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+    if (inputString !== null) {
+      return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+    } else {
+      return '--';
+    }
   };
 
   return (
