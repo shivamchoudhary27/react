@@ -169,10 +169,15 @@ const UserProfile = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs activeTab="" />
-      <BreadcrumbComponent routes={[{ name: "Profile", path: "" }]} />
+      <BreadcrumbComponent
+        routes={[
+          { name: "Dashboard", path: "/dashboard" },
+          { name: "User Profile", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="" gobacklink="" />
+          <PageTitle pageTitle="User Profile" gobacklink="/dashboard" />
           <div className="user-profile-box">
             <div className="row">
               <div className="col-md-4 text-center">

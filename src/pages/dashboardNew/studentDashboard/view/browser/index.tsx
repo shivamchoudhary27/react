@@ -23,19 +23,20 @@ type Props = {
   // filterTimestampSort: string;
   // courseFilterActive: boolean
 
+  sessionMode: any
   eventsPacket: any;
   apiStatus: string;
   courseSession: any;
   showAlert: boolean;
   userCoursesData: any;
   apiStatusCourse: string;
+  getSortFilterValue: any;
   setUserCoursesData: any;
   todaySessionPacket: any;
   enrolCoreCoursesObj: any;
   getFilterSelectValue: any;
   courseFilterActive: boolean;
   filterTimestampValue: string;
-  getSortFilterValue: any;
   filterTimestampSort: string;
 };
 

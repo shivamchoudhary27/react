@@ -93,7 +93,7 @@ const ViewUserProfile = () => {
   };
 
   const capitalizeFirstLetter = (inputString: string) => {
-    if (inputString === null || inputString === '--') {
+    if (inputString === null || inputString === "--") {
       return "--";
     } else {
       return inputString.charAt(0).toUpperCase() + inputString.slice(1);
@@ -104,10 +104,16 @@ const ViewUserProfile = () => {
     <React.Fragment>
       <Header />
       <HeaderTabs activeTab="" />
-      <BreadcrumbComponent routes={[{ name: "Profile", path: "" }]} />
+      <BreadcrumbComponent
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "User Management", path: "/usermanagement" },
+          { name: "User Profile", path: "" },
+        ]}
+      />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="" gobacklink="/usermanagement" />
+          <PageTitle pageTitle="User Profile" gobacklink="/usermanagement" />
           <div className="user-profile-box">
             <div className="row">
               <div className="col-md-4 text-center">
@@ -117,9 +123,7 @@ const ViewUserProfile = () => {
                     (match) => match.toUpperCase()
                   )}
                 </h3>
-                <Button 
-                  onClick={() => navigate(`/edituserprofile/${userid}`)}
-                >
+                <Button onClick={() => navigate(`/edituserprofile/${userid}`)}>
                   Edit Profile
                 </Button>
               </div>
@@ -136,11 +140,11 @@ const ViewUserProfile = () => {
                   </li>
                   <li>
                     <label>Email</label>
-                    {(user.userEmail !== null) ? user.userEmail : "--"}
+                    {user.userEmail !== null ? user.userEmail : "--"}
                   </li>
                   <li>
                     <label>Mobile Number</label>
-                    {(user.mobile !== null) ? user.mobile : "--"}
+                    {user.mobile !== null ? user.mobile : "--"}
                   </li>
                   <li>
                     <label>Gender</label>
@@ -148,7 +152,7 @@ const ViewUserProfile = () => {
                   </li>
                   <li>
                     <label>Date of Birth</label>
-                    {(user.dateOfBirth !== null) ? user.dateOfBirth : "--"}
+                    {user.dateOfBirth !== null ? user.dateOfBirth : "--"}
                   </li>
                   <li>
                     <label>Country</label>
@@ -168,11 +172,11 @@ const ViewUserProfile = () => {
                   </li>
                   <li>
                     <label>Parents Mobile No</label>
-                    {(user.parentsMobile !== null) ? user.parentsMobile : "--"}
+                    {user.parentsMobile !== null ? user.parentsMobile : "--"}
                   </li>
                   <li>
                     <label>Parents Email Id</label>
-                    {(user.parentEmail !== null) ? user.parentEmail : "--"}
+                    {user.parentEmail !== null ? user.parentEmail : "--"}
                   </li>
                 </ul>
               </div>
