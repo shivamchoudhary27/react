@@ -101,7 +101,9 @@ const FilterProgramDropdown = (props: Props) => {
   }, [props.coursesList]);
 
   useEffect(() => {
-    props.updateCourses(filters);
+    if (props.updateCourses !== undefined) {
+      props.updateCourses(filters);
+    }
   }, [filters]);
 
   const getFilterChange = (value, component) => {
