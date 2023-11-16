@@ -38,6 +38,10 @@ const MobileHeader = (props: Props) => {
     setSearchBoxVisible((prevVisible) => !prevVisible);
   };
 
+  const profileNavigate = () => {
+    navigate('/profile');
+  }
+
   return (
     <header className="mb-header py-3">
       <div className="d-flex align-items-center justify-content-between">
@@ -69,7 +73,7 @@ const MobileHeader = (props: Props) => {
               </span>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item>
+              <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
               <Dropdown.Item href="#/action-2" onClick={logout}>
                 Logout
               </Dropdown.Item>

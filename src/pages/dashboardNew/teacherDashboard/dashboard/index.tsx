@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
 import NewLoader from "../../../../widgets/loader";
 import useUserinfo from "../../../../features/hooks/userinfo";
+import View from "../view";
 
 type Props = {
   apiStatus: string;
@@ -47,7 +48,7 @@ const TeacherDashboard: React.FC<Props> = (props) => {
 
   return (
     <React.Fragment>
-      <Header />
+      {/* <Header />
       <HeaderTabs activeTab="teacherdashboard" />
       <div className="contentarea-wrapper">
         <DashboardTeacher
@@ -68,8 +69,26 @@ const TeacherDashboard: React.FC<Props> = (props) => {
           getFilterSelectValue={props.getFilterSelectValue}
           filterTimestampValue={props.filterTimestampValue}
         />
-      </div>
-      <Footer />
+      </div> */}
+      {/* <Footer /> */}
+      <View
+        // sessionMode={sessionMode}
+        apiStatus={props.apiStatus}
+        showAlert={props.showAlert}
+        eventsPacket={props.eventsPacket}
+        courseSession={props.courseSession}
+        userCoursesData={props.userCoursesData}
+        apiStatusCourse={props.apiStatusCourse}
+        sessionApiStatus={props.sessionApiStatus}
+        getSortFilterValue={props.getSortFilterValue}
+        setUserCoursesData={props.setUserCoursesData}
+        todaySessionPacket={props.todaySessionPacket}
+        courseFilterActive={props.courseFilterActive}
+        filterTimestampSort={props.filterTimestampSort}
+        enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+        getFilterSelectValue={props.getFilterSelectValue}
+        filterTimestampValue={props.filterTimestampValue}
+      />
     </React.Fragment>
   );
 };

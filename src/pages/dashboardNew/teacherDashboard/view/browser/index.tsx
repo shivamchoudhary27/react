@@ -2,9 +2,14 @@ import React from "react";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
 import HeaderTabs from "../../../../headerTabs";
+import MyCourses from "../../dashboard/myCourses";
+import { Container, Row, Col } from "react-bootstrap";
+import Timeline from "../../dashboard/timeline/timeline";
+import MyScheduleComp from "../../dashboard/schedule/scheduleComp";
 
 type Props = {
   commonProps: {
+    sessionMode: any;
     apiStatus: string;
     eventsPacket: any;
     showAlert: boolean;
@@ -28,7 +33,7 @@ const Browser = (props: Props) => {
     <React.Fragment>
       <Header />
       <HeaderTabs />
-      {/* <div className="dashboard-topPanel">
+      <div className="dashboard-topPanel">
         <Container fluid>
           <Row>
             <Col md={6} className="mb-4 mb-md-0">
@@ -62,7 +67,7 @@ const Browser = (props: Props) => {
           setUserCoursesData={props.commonProps.setUserCoursesData}
           enrolCoreCoursesObj={props.commonProps.enrolCoreCoursesObj}
         />
-      </div> */}
+      </div>
       <Footer />
     </React.Fragment>
   );

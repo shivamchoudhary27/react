@@ -12,7 +12,7 @@ const Sidebar = ({ onClose }) => {
     {
       icon: AdminIcon,
       title: "Administration",
-      link: "#",
+      link: "/siteadmin",
     },
     {
       icon: LibraryIcon,
