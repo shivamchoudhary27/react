@@ -20,7 +20,7 @@ const FilterDropdown: React.FC<Props> = (props) => {
     }
   };
 
-  console.log(props.eventsPacket)
+  // console.log(props.eventsPacket)
 
   return (
     <React.Fragment>

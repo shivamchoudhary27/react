@@ -5,10 +5,10 @@ import calendarIcon from "../../../../../assets/images/icons/calendar-black.svg"
 
 type Props = {
   sessionMode: any;
-  apiStatus: string;
   courseSession: any;
   userCoursesData: any;
   todaySessionPacket: any;
+  sessionApiStatus: string;
 };
 
 const ScheduleTable: React.FC<Props> = (props) => {
@@ -91,9 +91,9 @@ const ScheduleTable: React.FC<Props> = (props) => {
           </div>
         ))
       )}
-      {props.apiStatus === "started" &&
+      {props.sessionApiStatus === "started" &&
         props.todaySessionPacket.length === 0 && <ListSkeleton />}
-      {props.apiStatus === "finished" &&
+      {props.sessionApiStatus === "finished" &&
         props.todaySessionPacket.length === 0 && (
           <Errordiv msg="No session available!" cstate />
         )}

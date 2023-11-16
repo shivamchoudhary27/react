@@ -20,9 +20,9 @@ type Props = {
   getSortFilterValue: any;
   enrolCoreCoursesObj: any;
   getFilterSelectValue: any;
+  filterTimestampSort: string;
   courseFilterActive: boolean;
   filterTimestampValue: string;
-  filterTimestampSort: string;
 };
 
 const Mobile = (props: Props) => {
@@ -41,8 +41,8 @@ const Mobile = (props: Props) => {
             <Row>
               <Col md={12} lg={4} className="mb-4 mb-lg-0">
                 <MyScheduleComp
-                  apiStatus={props.apiStatus}
                   sessionMode={props.sessionMode}
+                  sessionApiStatus={props.apiStatus}
                   courseSession={props.courseSession}
                   userCoursesData={props.userCoursesData}
                   todaySessionPacket={props.todaySessionPacket}
