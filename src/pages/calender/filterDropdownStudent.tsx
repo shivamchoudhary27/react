@@ -4,7 +4,7 @@ type Props = {
   status?: string;
   batchList?: any;
   programList?: any;
-  userCoursesData?: any;
+  coursesList?: any;
   categoryList?: any;
   departmentList?: any;
   setUserCoursesData?: any;
