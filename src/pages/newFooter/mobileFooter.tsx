@@ -59,17 +59,17 @@ const footerList = [
   {
     icon: DashboardIcon,
     title: "Dashboard",
-    link: "/studentdashboard",
+    link: "/dashboard",
   },
   {
     icon: CalenderIcon,
     title: "Calander",
-    link: "#",
+    link: "/calender",
   },
   {
     icon: GradebookIcon,
     title: "Gradebook",
-    link: "#",
+    link: "/gradebook",
   },
   {
     icon: PerformanceIcon,
