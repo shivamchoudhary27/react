@@ -39,9 +39,9 @@ function NotificationOverlay(props: { userid: number; }) {
       trigger={'click'}
       placement="bottom"
       overlay={
-        <Popover id="popover-basic">
+        <Popover id="popover-basic" >
           <Popover.Header as="h3">Notifications</Popover.Header>
-          <Popover.Body>
+          <Popover.Body style={{overflow: "auto", height: "500px"}}>
             {message.totalcount > 0 ? (
               message.list.map((item, index) => (
                 <p key={index}> {item} </p>
