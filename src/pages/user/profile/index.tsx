@@ -1,24 +1,14 @@
 import "./style.scss";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import EditUserProfile from "./modal";
-import { Button } from "react-bootstrap";
-import HeaderTabs from "../../headerTabs";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../../widgets/pageTitle";
-import { Link, useNavigate } from "react-router-dom";
+import { pagination } from "../../../utils/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../../adapters/coreservices";
-import { pagination } from "../../../utils/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import React, { useEffect, useContext, useState } from "react";
 // import UserContext from "../../../features/context/user/user";
 import { getData as get } from "../../../adapters/microservices";
-import { searchCountryNameById } from "../../../globals/getCountry";
-import DefaultProfileImage from "../../../assets/images/profile.png";
-import editpicture from "../../../assets/images/icons/edit-action.svg";
 import { globalUserInfoActions } from "../../../store/slices/userInfo";
 import { globalUserProfileActions } from "../../../store/slices/userProfile";
+
+import View from "./view";
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -43,7 +33,6 @@ const UserProfile = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
@@ -161,139 +150,23 @@ const UserProfile = () => {
     if (inputString !== null) {
       return inputString.charAt(0).toUpperCase() + inputString.slice(1);
     } else {
-      return '--';
+      return "--";
     }
   };
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Dashboard", path: "/dashboard" },
-          { name: "User Profile", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="User Profile" gobacklink="/dashboard" />
-          <div className="user-profile-box">
-            <div className="row">
-              <div className="col-md-4 text-center">
-                <div
-                  className="user-picture"
-                  onClick={() => toggleModalShow("picture")}
-                >
-                  <img
-                    src={
-                      user.files !== undefined && user.files.length > 0
-                        ? user.files[0].url
-                        : DefaultProfileImage
-                    }
-                    alt={
-                      user.files !== undefined && user.files.length > 0
-                        ? user.files[0].originalFileName
-                        : user.userFirstName
-                    }
-                    className="userPix"
-                  />
-                  <span className="action-icons editPix">
-                    <img src={editpicture} alt="edit" />
-                  </span>
-                </div>
-                <h3 className="mt-3">
-                  {(user.userFirstName + " " + user.userLastName).replace(
-                    /\b\w/g,
-                    (match) => match.toUpperCase()
-                  )}
-                </h3>
-                <Button onClick={() => navigate("/editprofile")}>
-                  Edit Profile
-                </Button>
-                <div
-                  className="mt-2 resetPassword"
-                  onClick={() => toggleModalShow("changePassword")}
-                >
-                  <Link to="">Change Password</Link>
-                </div>
-                {currentUserRole.shortName === "editingteacher" && (
-                  <div
-                    className="resetPassword"
-                    onClick={() => toggleModalShow("setPreferences")}
-                  >
-                    <Link to="">Set Preferences</Link>
-                  </div>
-                )}
-              </div>
-
-              <div className="col-md-8">
-                <ul className="profile-menu-data">
-                  <li>
-                    <label>First Name</label>
-                    {capitalizeFirstLetter(user.userFirstName)}
-                  </li>
-                  <li>
-                    <label>Last Name</label>
-                    {capitalizeFirstLetter(user.userLastName)}
-                  </li>
-                  <li>
-                    <label>Email</label>
-                    {user.userEmail}
-                  </li>
-                  <li>
-                    <label>Mobile Number</label>
-                    {user.mobile}
-                  </li>
-                  <li>
-                    <label>Gender</label>
-                    {capitalizeFirstLetter(user.genderType)}
-                  </li>
-                  <li>
-                    <label>Date of Birth</label>
-                    {user.dateOfBirth}
-                  </li>
-                  <li>
-                    <label>Country</label>
-                    {searchCountryNameById(user.userCountry)}
-                  </li>
-                  <li>
-                    <label>Blood Group</label>
-                    {capitalizeFirstLetter(user.bloodGroup)}
-                  </li>
-                  <li>
-                    <label>Father Name</label>
-                    {capitalizeFirstLetter(user.fatherName)}
-                  </li>
-                  <li>
-                    <label>Mother Name</label>
-                    {capitalizeFirstLetter(user.motherName)}
-                  </li>
-                  <li>
-                    <label>Parents Mobile No</label>
-                    {user.parentsMobile}
-                  </li>
-                  <li>
-                    <label>Parents Email Id</label>
-                    {user.parentEmail}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </div>
-      <Footer />
-      <EditUserProfile
-        userobj={user}
-        show={modalShow}
+      <View
+        user={user}
+        modalShow={modalShow}
         timeSlotList={timeSlotList}
+        workloadList={workloadList}
         editComponent={editComponent}
-        workloadList={workloadList.items}
+        currentUserRole={currentUserRole}
         currentInstitute={currentInstitute}
-        updateAddRefresh={refreshToggle}
-        togglemodalshow={toggleModalShow}
-        onHide={() => toggleModalShow(false)}
+        refreshToggle={refreshToggle}
+        toggleModalShow={toggleModalShow}
+        capitalizeFirstLetter={capitalizeFirstLetter}
       />
     </React.Fragment>
   );

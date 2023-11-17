@@ -1,14 +1,8 @@
 import "./style.scss";
-import React from "react";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
+import View from "./view";
 import { Link } from "react-router-dom";
 import { AdminRawData } from "./rawData";
 import { useSelector } from "react-redux";
-import HeaderTabs from "../../headerTabs";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const SiteAdminHome = () => {
   const permissions = useSelector(
@@ -57,32 +51,7 @@ const SiteAdminHome = () => {
     );
   };
 
-  return (
-    <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Dashboard", path: "/dashboard" },
-          { name: "Site Administration", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-4 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Site Administration" gobacklink="/dashboard" />
-        </Container>
-        {AdminRawData.map((item, index) => (
-          <Container
-            key={index}
-            className={`administration-box row${index + 1}`}
-          >
-            {item.map((item, index) => renderComponent(item, index))}
-          </Container>
-        ))}
-      </div>
-      <Footer />
-    </React.Fragment>
-  );
+  return <View adminRawData={AdminRawData} renderComponent={renderComponent} />;
 };
 
 export default SiteAdminHome;

@@ -13,7 +13,8 @@ type Props = {
 };
 
 const TimelineTable: React.FC<Props> = (props) => {
-  // console.log("eventsPacket------", props.eventsPacket)
+  const currentDate = new Date();
+  const currentTimestamp = Math.floor(currentDate.getTime() / 1000);
 
   const getTimetableTime = (sessionDate: number) => {
     const timestamp = sessionDate * 1000;
@@ -78,9 +79,23 @@ const TimelineTable: React.FC<Props> = (props) => {
                 </h6>
               )}
               <h6>
-                <a href={event.viewurl}>
+                <a href={event.viewurl} className="me-2">
                   {formatDynamicTimestamp(event.timesort)}
                 </a>
+                {event.timesort < currentTimestamp && (
+                  <span
+                    style={{
+                      padding: "3px",
+                      fontSize: "11px",
+                      fontWeight: 410,
+                      borderRadius: "10px",
+                      backgroundColor: "#FF8989",
+                      display: "inline-block",
+                    }}
+                  >
+                    Overdue
+                  </span>
+                )}
               </h6>
               <p>
                 {event.name}.{" "}
