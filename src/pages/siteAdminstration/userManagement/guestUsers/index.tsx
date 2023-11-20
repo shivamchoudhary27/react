@@ -1,3 +1,4 @@
+import View from "./view";
 import GuestFilter from "./filter";
 import GuestUsersTable from "./table";
 import Header from "../../../newHeader";
@@ -27,23 +28,25 @@ const GuestUsers = (props: Props) => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-    const [guestUserObj, setGuestUserObj] = useState({
-      id: 0,
-      userFirstName: "",
-      userLastName: "",
-      userEmail: "",
-      userCountry: "",
-      enabled: false,
-    });
+  const [guestUserObj, setGuestUserObj] = useState({
+    id: 0,
+    userFirstName: "",
+    userLastName: "",
+    userEmail: "",
+    userCountry: "",
+    enabled: false,
+  });
 
-    // get institute list API call === >>>
+  // get institute list API call === >>>
   useEffect(() => {
     setApiStatus("started");
     getInstitute("/institutes", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          let instituteData = result.data.items.filter((Obj: any) => Obj.locked !== false)
-          result.data.items = instituteData
+          let instituteData = result.data.items.filter(
+            (Obj: any) => Obj.locked !== false
+          );
+          result.data.items = instituteData;
           setInstuituteList(result.data);
         }
         setApiStatus("finished");
@@ -159,6 +162,22 @@ const GuestUsers = (props: Props) => {
 
   return (
     <React.Fragment>
+      {/* <View
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        guestUserObj={guestUserObj}
+        instituteList={instituteList.items}
+        guestUsersData={guestUsersData.items}
+        filterUpdate={filterUpdate}
+        totalPages={guestUsersData.pager.totalPages}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
+        editHandlerById={editHandlerById}
+        toggleModalShow={toggleModalShow}
+        updateSearchFilters={updateSearchFilters}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
+      /> */}
+
       <Header />
       <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent

@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import PageTitle from "../../../../widgets/pageTitle";
-import { Container } from "react-bootstrap";
-import Filter from "./filter";
+import "./style.scss";
+import View from "./view";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
-import RolesDataRender from "./assignRoles";
-import { useParams } from "react-router-dom";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import "./style.scss"
 
 type ContextIdsTemplate = {
   institute: number[];
@@ -22,10 +15,17 @@ type ContextIdsTemplate = {
 
 const AssignRoles = () => {
   const { userId } = useParams();
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 }};
-  const contextIdsTemplate: ContextIdsTemplate = { institute: [], department: [], program: []};
+  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const contextIdsTemplate: ContextIdsTemplate = {
+    institute: [],
+    department: [],
+    program: [],
+  };
   const [rolesData, setRolesData] = useState<any>(dummyData);
-  const [userRoles, setUserRoles] = useState<any>({roles: [], authorities: []});
+  const [userRoles, setUserRoles] = useState<any>({
+    roles: [],
+    authorities: [],
+  });
   const [assignRoles, setAssignRoles] = useState<any>([]);
   const [userSelectedEmail, setUserSelectedEmail] = useState<any>("");
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -33,13 +33,16 @@ const AssignRoles = () => {
     pageSize: pagination.PERPAGE * 10,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
   const [btnHideStatus, setBtnHideStatus] = useState(false);
   const [institutes, setInstitutes] = useState<any>(dummyData);
   const [departments, setDepartments] = useState<any>(dummyData);
   const [programs, setPrograms] = useState<any>(dummyData);
-  const [selectedContextIds, setSelectedContextIds] = useState<any>(contextIdsTemplate);
-  
+  const [selectedContextIds, setSelectedContextIds] =
+    useState<any>(contextIdsTemplate);
+
   useEffect(() => {
     makeGetDataRequest(
       `/${currentInstitute}/roles`,
@@ -48,9 +51,24 @@ const AssignRoles = () => {
       setApiStatus,
       "core-service"
     );
-    makeGetDataRequest(`/institutes`, filterUpdate, setInstitutes, setApiStatus);
-    makeGetDataRequest(`/${currentInstitute}/departments`, filterUpdate, setDepartments, setApiStatus);
-    makeGetDataRequest(`/${currentInstitute}/programs`, filterUpdate, setPrograms, setApiStatus);
+    makeGetDataRequest(
+      `/institutes`,
+      filterUpdate,
+      setInstitutes,
+      setApiStatus
+    );
+    makeGetDataRequest(
+      `/${currentInstitute}/departments`,
+      filterUpdate,
+      setDepartments,
+      setApiStatus
+    );
+    makeGetDataRequest(
+      `/${currentInstitute}/programs`,
+      filterUpdate,
+      setPrograms,
+      setApiStatus
+    );
 
     if (userId !== undefined) {
       makeGetDataRequest(
@@ -61,25 +79,35 @@ const AssignRoles = () => {
         "core-service"
       );
     } else {
-      setUserRoles({roles: [], authorities: []});
+      setUserRoles({ roles: [], authorities: [] });
     }
   }, [userId]);
 
   useEffect(() => {
-    if (rolesData.items.length > 0) {      
+    if (rolesData.items.length > 0) {
       const updatedArray = rolesData.items.map((authority: any) => {
-        const isPresent = userRoles.roles.find((role: any) => (role.id === authority.id));
-        if (authority.contextType !== null && authority.contextType !== 'course' && isPresent !== undefined) {
-          contextIdsTemplate[authority.contextType].push(...isPresent.contextIds);
+        const isPresent = userRoles.roles.find(
+          (role: any) => role.id === authority.id
+        );
+        if (
+          authority.contextType !== null &&
+          authority.contextType !== "course" &&
+          isPresent !== undefined
+        ) {
+          contextIdsTemplate[authority.contextType].push(
+            ...isPresent.contextIds
+          );
         }
-        return { 
-          ...authority, 
-          assigned: isPresent ? true : false, 
-          contextIds: isPresent ? isPresent.contextIds : []
+        return {
+          ...authority,
+          assigned: isPresent ? true : false,
+          contextIds: isPresent ? isPresent.contextIds : [],
         };
       });
-      setSelectedContextIds(contextIdsTemplate)
-      const removeCourseContexts = updatedArray.filter((el: any) => el.contextType !== 'course')
+      setSelectedContextIds(contextIdsTemplate);
+      const removeCourseContexts = updatedArray.filter(
+        (el: any) => el.contextType !== "course"
+      );
       setAssignRoles(removeCourseContexts);
     }
   }, [rolesData, userRoles]);
@@ -109,44 +137,23 @@ const AssignRoles = () => {
   }, []);
 
   const getValidateUser = (status: boolean) => {
-    setBtnHideStatus(status)
-  }
+    setBtnHideStatus(status);
+  };
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "User Management", path: "/usermanagement" },
-          { name: "Assign Roles", path: "" },
-        ]}
+      <View
+        userId={userId}
+        apiStatus={apiStatus}
+        assignRoles={assignRoles}
+        btnHideStatus={btnHideStatus}
+        currentInstitute={currentInstitute}
+        userSelectedEmail={userSelectedEmail}
+        selectedContextIds={selectedContextIds}
+        roleContextDatas={{ institutes, departments, programs }}
+        getValidateUser={getValidateUser}
+        setUserSelectedEmail={setUserSelectedEmail}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle={`Assign Roles${userSelectedEmail !== "" ? ": " + userSelectedEmail : ""}`}
-            gobacklink="/usermanagement"
-          />
-          <Filter
-            userSelectedEmail={userSelectedEmail}
-            currentInstitute={currentInstitute}
-            setUserSelectedEmail={setUserSelectedEmail}
-            getValidateUser={getValidateUser}
-          />
-          <RolesDataRender
-            assignRoles={assignRoles}
-            currentInstitute={currentInstitute}
-            apiStatus={apiStatus}
-            userId={userId}
-            btnHideStatus={btnHideStatus}
-            roleContextDatas={{institutes, departments, programs}}
-            selectedContextIds={selectedContextIds}
-          />
-        </Container>
-      </div>
-      <Footer />
     </React.Fragment>
   );
 };

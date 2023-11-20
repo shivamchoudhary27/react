@@ -30,7 +30,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
   apiStatus,
   editHandlerById,
   setAddRoleModalShow,
-  getRoleId,
+  // getRoleId ,
   rolePermissions
 }: IRoleTable) => {
   const tableColumn = [

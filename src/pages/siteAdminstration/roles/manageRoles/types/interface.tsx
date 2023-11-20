@@ -47,5 +47,6 @@ export interface IRoleTable {
   apiStatus: string;
   editHandlerById: IUserObj;
   setAddRoleModalShow: (params: boolean) => void;
-  getRoleId: any;
+  // getRoleId: any;
+  rolePermissions: any
 }

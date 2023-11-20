@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import PageTitle from "../../../../widgets/pageTitle";
-import { Container } from "react-bootstrap";
-import Filter from "./filter";
-import RolesTable from "./table";
-import AssignInstituteModal from "./form";
-import { pagination } from "../../../../utils/pagination";
+import View from "./view";
 import { useSelector } from "react-redux";
-import { getData } from "../../../../adapters/coreservices";
-import AddRole from "./addRole";
 import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
 import ACTIONSLIST from "../../../../store/actions";
+import { pagination } from "../../../../utils/pagination";
+import { getData } from "../../../../adapters/coreservices";
 import { IUserData, IUserObj, ICurrentInstitute } from "./types/interface";
 
 interface IProps {}
@@ -34,7 +25,7 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
     contextType: "",
     published: false,
     idNumber: "",
-    shortName: ""
+    shortName: "",
   });
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -45,7 +36,7 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
   const [apiStatus, setApiStatus] = useState<string>("");
   const currentInstitute: number = useSelector(
     (state: ICurrentInstitute) => state.globalFilters.currentInstitute
-  ); 
+  );
   const rolePermissions = useSelector(
     (state: any) => state.userAuthorities.permissions.role
   );
@@ -137,7 +128,7 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
     contextType,
     published,
     idNumber,
-    shortName
+    shortName,
   }: IUserObj): void => {
     setUserObj({
       id: id,
@@ -146,7 +137,7 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
       contextType: contextType,
       published: published,
       idNumber: idNumber,
-      shortName: shortName
+      shortName: shortName,
     });
   };
 
@@ -159,61 +150,29 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
       description: "",
       contextType: "",
       published: false,
-      shortName: ''
+      shortName: "",
     });
     // setRefreshData(false);
   };
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "User Management", path: "/usermanagement" },
-          { name: "Manage Roles", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Manage Roles" gobacklink="/usermanagement" />
-          <Filter
-            toggleModalShow={toggleModalShow}
-            openAddRoleModal={openAddRoleModal}
-            updateSearchFilters={updateSearchFilters}
-            rolePermissions={rolePermissions}
-          />
-          {rolePermissions.canView &&
-            <RolesTable
-              userData={userData.items}
-              currentInstitute={currentInstitute}
-              refreshOnDeleteToggle={refreshOnDeleteToggle}
-              apiStatus={apiStatus}
-              editHandlerById={editHandlerById}
-              setAddRoleModalShow={setAddRoleModalShow}
-              rolePermissions={rolePermissions}
-            />
-          }
-        </Container>
-      </div>
-      <AssignInstituteModal
-        show={modalShow}
-        onHide={() => toggleModalShow(false)}
-        togglemodalshow={toggleModalShow}
-        updateAddRefresh={refreshToggle}
+      <View
+        userObj={userObj}
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        userData={userData.items}
+        rolePermissions={rolePermissions}
         currentInstitute={currentInstitute}
-        userobj={userObj}
+        addRoleModalShow={addRoleModalShow}
+        refreshToggle={refreshToggle}
+        editHandlerById={editHandlerById}
+        toggleModalShow={toggleModalShow}
+        openAddRoleModal={openAddRoleModal}
+        updateSearchFilters={updateSearchFilters}
+        setAddRoleModalShow={setAddRoleModalShow}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
       />
-      <AddRole
-        show={addRoleModalShow}
-        onHide={() => setAddRoleModalShow(false)}
-        userobj={userObj}
-        setaddrolemodalshow={setAddRoleModalShow}
-        updateAddRefresh={refreshToggle}
-        currentInstitute={currentInstitute}
-      />
-      <Footer />
     </React.Fragment>
   );
 };

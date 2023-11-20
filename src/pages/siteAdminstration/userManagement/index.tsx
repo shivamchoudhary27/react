@@ -1,19 +1,8 @@
-import Filter from "./filter";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import AddUserModal from "./modalForm";
-import UserManagementTable from "./table";
+import View from "./view";
 import { useSelector } from "react-redux";
-import HeaderTabs from "../../headerTabs";
-import UploadNewUsers from "./uploadUsers";
-import { Container } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import PageTitle from "../../../widgets/pageTitle";
 import { pagination } from "../../../utils/pagination";
-import Errordiv from "../../../widgets/alert/errordiv";
 import { getData } from "../../../adapters/coreservices";
-import BuildPagination from "../../../widgets/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -35,11 +24,13 @@ const UserManagement = () => {
     pageSize: pagination.PERPAGE,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
   const userAuthorities = useSelector(
     (state: any) => state.userAuthorities.permissions
   );
-  
+
   // get programs API call === >>>
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0) {
@@ -154,61 +145,25 @@ const UserManagement = () => {
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "User Management", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="User Management" gobacklink="/siteadmin" />
-          <Filter
-            updatefilters={updateSearchFilters}
-            toggleUploadModal={toggleUploadModal}
-            openAddUserModal={openAddUserModal}
-            userPermissions={userAuthorities}
-          />
-          {!userAuthorities.user.canView ?
-            <Errordiv msg="You don't have permission to view users." cstate className="mt-3" /> 
-           :
-            <React.Fragment>
-              <UserManagementTable
-                userdata={userData.items}
-                refreshdata={refreshOnDeleteToggle}
-                editHandlerById={editHandlerById}
-                toggleModalShow={toggleModalShow}
-                apiStatus={apiStatus}
-                currentInstitute={currentInstitute}
-                userPermissions={userAuthorities}
-              />
-              <BuildPagination
-                totalpages={userData.pager.totalPages}
-                activepage={filterUpdate.pageNumber}
-                getrequestedpage={newPageRequest}
-              />
-            </React.Fragment>
-          }
-        </Container>
-      </div>
-      <UploadNewUsers
-        show={uploadModalShow}
-        onHide={() => setUploadModalShow(false)}
+      <View
+        userObj={userObj}
+        userData={userData}
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        filterUpdate={filterUpdate}
+        uploadModalShow={uploadModalShow}
+        userAuthorities={userAuthorities}
+        currentInstitute={currentInstitute}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
+        toggleModalShow={toggleModalShow}
+        editHandlerById={editHandlerById}
+        openAddUserModal={openAddUserModal}
+        toggleUploadModal={toggleUploadModal}
         setUploadModalShow={setUploadModalShow}
-        updateAddRefresh={refreshToggle}
-        currentInstitute={currentInstitute}
+        updateSearchFilters={updateSearchFilters}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
       />
-      <AddUserModal
-        show={modalShow}
-        onHide={() => toggleModalShow(false)}
-        userobj={userObj}
-        togglemodalshow={toggleModalShow}
-        updateAddRefresh={refreshToggle}
-        currentInstitute={currentInstitute}
-      />
-      <Footer />
     </React.Fragment>
   );
 };

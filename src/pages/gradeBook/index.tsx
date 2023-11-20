@@ -1,18 +1,9 @@
 // import Filter from "./filters";
-import GradeTable from "./table";
-import Footer from "../newFooter";
-import Header from "../newHeader";
-import HeaderTabs from "../headerTabs";
+import View from "./view";
 import { getData } from "../../adapters";
 import { useSelector } from "react-redux";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../widgets/pageTitle";
 import React, { useEffect, useState } from "react";
-import BreadcrumbComponent from "../../widgets/breadcrumb";
 import { getData as getCourses } from "../../adapters/microservices";
-import MultipleFilters from "./multipleFilters";
-import FilterProgramDropdown from "./filterDropdown";
-import HeirarchyFilter from "./filtersNew";
 
 type Props = {};
 
@@ -97,7 +88,7 @@ const GradeBook = (props: Props) => {
     }
   }, [courseId]);
 
-  const getCourseId = (courseId : string | number) => {
+  const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
   };
 
@@ -107,34 +98,15 @@ const GradeBook = (props: Props) => {
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="gradebook" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Dashboard", path: "/dashboard" },
-          { name: "Gradebook", path: "" },
-        ]}
+      <View
+        apiData={apiData}
+        courseId={courseId}
+        apiStatus={apiStatus}
+        currentUserRole={currentUserRole}
+        gradebookData={gradebookData.tabledata}
+        getCourseId={getCourseId}
+        updateCourses={updateCourses}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Gradebook" gobacklink="/dashboard" />
-            {currentUserRole !== undefined &&
-              <HeirarchyFilter 
-                coursesList={apiData} 
-                setUserCoursesData={() => {}} 
-                getCourseStatus={() => {}} 
-                updateCourses={() => {}}
-                getCourseId={getCourseId}
-              />
-            }
-          <GradeTable
-            gradebookData={gradebookData.tabledata}
-            apiStatus={apiStatus}
-            courseId={courseId}
-          />
-        </Container>
-      </div>
-      <Footer />
     </React.Fragment>
   );
 };
