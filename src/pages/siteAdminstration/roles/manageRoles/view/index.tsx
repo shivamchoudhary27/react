@@ -4,32 +4,39 @@ import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  user: any;
+  userObj: any;
+  userData: any;
+  apiStatus: any;
   modalShow: any;
-  timeSlotList: any;
-  workloadList: any;
-  editComponent: any;
   refreshToggle: any;
-  currentUserRole: any;
+  rolePermissions: any;
+  editHandlerById: any;
   toggleModalShow: any;
+  openAddRoleModal: any;
   currentInstitute: any;
-  capitalizeFirstLetter: any;
+  addRoleModalShow: any;
+  updateSearchFilters: any;
+  setAddRoleModalShow: any;
+  refreshOnDeleteToggle: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
-    user: props.user,
+    userObj: props.userObj,
+    userData: props.userData,
+    apiStatus: props.apiStatus,
     modalShow: props.modalShow,
-    timeSlotList: props.timeSlotList,
-    workloadList: props.workloadList,
     refreshToggle: props.refreshToggle,
-    editComponent: props.editComponent,
-    currentUserRole: props.currentUserRole,
+    rolePermissions: props.rolePermissions,
+    editHandlerById: props.editHandlerById,
     toggleModalShow: props.toggleModalShow,
+    openAddRoleModal: props.openAddRoleModal,
     currentInstitute: props.currentInstitute,
-    capitalizeFirstLetter: props.capitalizeFirstLetter,
+    addRoleModalShow: props.addRoleModalShow,
+    updateSearchFilters: props.updateSearchFilters,
+    setAddRoleModalShow: props.setAddRoleModalShow,
+    refreshOnDeleteToggle: props.refreshOnDeleteToggle,
   };
-
   return (
     <React.Fragment>
       {isMobile ? (

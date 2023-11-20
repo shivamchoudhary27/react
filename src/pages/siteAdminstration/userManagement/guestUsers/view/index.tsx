@@ -4,32 +4,37 @@ import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  user: any;
+  apiStatus: any;
   modalShow: any;
-  timeSlotList: any;
-  workloadList: any;
-  editComponent: any;
+  totalPages: any;
+  filterUpdate: any;
+  guestUserObj: any;
   refreshToggle: any;
-  currentUserRole: any;
+  instituteList: any;
+  guestUsersData: any;
+  newPageRequest: any;
+  editHandlerById: any;
   toggleModalShow: any;
-  currentInstitute: any;
-  capitalizeFirstLetter: any;
+  updateSearchFilters: any;
+  refreshOnDeleteToggle: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
-    user: props.user,
+    apiStatus: props.apiStatus,
     modalShow: props.modalShow,
-    timeSlotList: props.timeSlotList,
-    workloadList: props.workloadList,
+    guestUserObj: props.guestUserObj,
     refreshToggle: props.refreshToggle,
-    editComponent: props.editComponent,
-    currentUserRole: props.currentUserRole,
+    newPageRequest: props.newPageRequest,
+    editHandlerById: props.editHandlerById,
     toggleModalShow: props.toggleModalShow,
-    currentInstitute: props.currentInstitute,
-    capitalizeFirstLetter: props.capitalizeFirstLetter,
+    instituteList: props.instituteList.items,
+    guestUsersData: props.guestUsersData.items,
+    filterUpdate: props.filterUpdate,
+    updateSearchFilters: props.updateSearchFilters,
+    totalPages: props.totalPages,
+    refreshOnDeleteToggle: props.refreshOnDeleteToggle,
   };
-
   return (
     <React.Fragment>
       {isMobile ? (

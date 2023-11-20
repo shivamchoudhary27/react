@@ -1,19 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import View from "./view";
 import { useSelector } from "react-redux";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import PageTitle from "../../../../widgets/pageTitle";
-import { Container } from "react-bootstrap";
-import Filter from "./filter";
-import UserManagement from "./userManagement";
-import ProgramManagement from "./programManagement";
-import ProgramEnrolment from "./programEnrolment";
-import RolePermissionTable from "./table";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 const Permission = () => {
   const { roleId, roleName } = useParams();
@@ -29,56 +19,48 @@ const Permission = () => {
   const rolePermissions = useSelector(
     (state: any) => state.userAuthorities.permissions.role
   );
-  
+
   useEffect(() => {
-    makeGetDataRequest(`/authorities`, filterUpdate, setAuthorityList, setApiStatus, "core-service");
-    makeGetDataRequest(`/${roleId}/authorities`, filterUpdate, setRoleAuthorities, setApiStatus, "core-service");
+    makeGetDataRequest(
+      `/authorities`,
+      filterUpdate,
+      setAuthorityList,
+      setApiStatus,
+      "core-service"
+    );
+    makeGetDataRequest(
+      `/${roleId}/authorities`,
+      filterUpdate,
+      setRoleAuthorities,
+      setApiStatus,
+      "core-service"
+    );
   }, []);
 
   useEffect(() => {
     if (authorityList.items.length > 0) {
-        const packetSet = new Set(roleAuthorities.map((rolePacket : any) => rolePacket.id));
+      const packetSet = new Set(
+        roleAuthorities.map((rolePacket: any) => rolePacket.id)
+      );
 
-        const updatedArray = authorityList.items.map((authority : any) => {
-          const isPresent = packetSet.has(authority.id);
-          return { ...authority, permitted: isPresent };
-        });
+      const updatedArray = authorityList.items.map((authority: any) => {
+        const isPresent = packetSet.has(authority.id);
+        return { ...authority, permitted: isPresent };
+      });
 
-        setPermissionData(updatedArray);
+      setPermissionData(updatedArray);
     }
   }, [authorityList, roleAuthorities]);
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "User Management", path: "/usermanagement" },
-          { name: "Manage Roles", path: "/manageroles" },
-          { name: "Role Permissions", path: "" },
-        ]}
+      <View
+        roleId={roleId}
+        roleName={roleName}
+        apiStatus={apiStatus}
+        permissionData={permissionData}
+        rolePermissions={rolePermissions}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle={`Role Permissions : ${roleName}`}
-            gobacklink="/manageroles"
-          />
-          {/* <Filter /> */}
-          <RolePermissionTable 
-            permissionData={permissionData}
-            roleId={roleId}
-            apiStatus={apiStatus}
-            rolePermissions={rolePermissions}
-          />
-          {/* <UserManagement />
-          <ProgramManagement />
-          <ProgramEnrolment /> */}
-        </Container>
-      </div>
-      <Footer />
     </React.Fragment>
   );
 };

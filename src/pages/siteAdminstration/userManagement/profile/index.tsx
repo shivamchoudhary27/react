@@ -1,24 +1,12 @@
 import "./style.scss";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import EditUserProfile from "./modal";
-import { Button } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../../../widgets/pageTitle";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import View from "./view";
 import { useDispatch, useSelector } from "react-redux";
-import { getData } from "../../../../adapters/coreservices";
 import { pagination } from "../../../../utils/pagination";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import { getData } from "../../../../adapters/coreservices";
 import React, { useEffect, useContext, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 // import UserContext from "../../../../features/context/user/user";
-import { getData as get } from "../../../../adapters/microservices";
 import { searchCountryNameById } from "../../../../globals/getCountry";
-import DefaultProfileImage from "../../../../assets/images/profile.png";
-import editpicture from "../../../../assets/images/icons/edit-action.svg";
-import { globalUserInfoActions } from "../../../../store/slices/userInfo";
-import { globalUserProfileActions } from "../../../../store/slices/userProfile";
 
 const ViewUserProfile = () => {
   const [user, setUser] = useState({
@@ -102,99 +90,18 @@ const ViewUserProfile = () => {
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "User Management", path: "/usermanagement" },
-          { name: "User Profile", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="User Profile" gobacklink="/usermanagement" />
-          <div className="user-profile-box">
-            <div className="row">
-              <div className="col-md-4 text-center">
-                <h3 className="mt-3">
-                  {(user.userFirstName + " " + user.userLastName).replace(
-                    /\b\w/g,
-                    (match) => match.toUpperCase()
-                  )}
-                </h3>
-                <Button onClick={() => navigate(`/edituserprofile/${userid}`)}>
-                  Edit Profile
-                </Button>
-              </div>
-
-              <div className="col-md-8">
-                <ul className="profile-menu-data">
-                  <li>
-                    <label>First Name</label>
-                    {capitalizeFirstLetter(user.userFirstName)}
-                  </li>
-                  <li>
-                    <label>Last Name</label>
-                    {capitalizeFirstLetter(user.userLastName)}
-                  </li>
-                  <li>
-                    <label>Email</label>
-                    {user.userEmail !== null ? user.userEmail : "--"}
-                  </li>
-                  <li>
-                    <label>Mobile Number</label>
-                    {user.mobile !== null ? user.mobile : "--"}
-                  </li>
-                  <li>
-                    <label>Gender</label>
-                    {capitalizeFirstLetter(user.genderType)}
-                  </li>
-                  <li>
-                    <label>Date of Birth</label>
-                    {user.dateOfBirth !== null ? user.dateOfBirth : "--"}
-                  </li>
-                  <li>
-                    <label>Country</label>
-                    {searchCountryNameById(user.userCountry)}
-                  </li>
-                  <li>
-                    <label>Blood Group</label>
-                    {capitalizeFirstLetter(user.bloodGroup)}
-                  </li>
-                  <li>
-                    <label>Father Name</label>
-                    {capitalizeFirstLetter(user.fatherName)}
-                  </li>
-                  <li>
-                    <label>Mother Name</label>
-                    {capitalizeFirstLetter(user.motherName)}
-                  </li>
-                  <li>
-                    <label>Parents Mobile No</label>
-                    {user.parentsMobile !== null ? user.parentsMobile : "--"}
-                  </li>
-                  <li>
-                    <label>Parents Email Id</label>
-                    {user.parentEmail !== null ? user.parentEmail : "--"}
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </div>
-      <Footer />
-      <EditUserProfile
-        userobj={user}
-        show={modalShow}
+      <View
+        user={user}
+        userid={userid}
+        modalShow={modalShow}
         timeSlotList={timeSlotList}
         editComponent={editComponent}
         workloadList={workloadList.items}
         currentInstitute={currentInstitute}
-        updateAddRefresh={refreshToggle}
-        togglemodalshow={toggleModalShow}
-        onHide={() => toggleModalShow(false)}
+        refreshToggle={refreshToggle}
+        toggleModalShow={toggleModalShow}
+        capitalizeFirstLetter={capitalizeFirstLetter}
+        searchCountryNameById={searchCountryNameById}
       />
     </React.Fragment>
   );

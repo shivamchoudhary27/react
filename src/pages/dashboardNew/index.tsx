@@ -266,7 +266,6 @@ const DashboardNew: React.FC<Props> = (props) => {
           showAlert={showAlert}
           apiStatus={apiStatus}
           eventsPacket={eventsPacket}
-          currentTimestamp={timestamp}
           courseSession={courseSession}
           apiStatusCourse={apiStatusCourse}
           userCoursesData={userCoursesData}

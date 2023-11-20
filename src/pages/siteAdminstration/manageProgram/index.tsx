@@ -13,6 +13,7 @@ import Errordiv from "../../../widgets/alert/errordiv";
 import BuildPagination from "../../../widgets/pagination";
 import { getData } from "../../../adapters/microservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import View from "./view";
 
 const ManageProgram = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const ManageProgram = () => {
   const programAuthorities = useSelector(
     (state: any) => state.userAuthorities.permissions
   );
-  
+
   const getProgramData = (endPoint: string, filters: any) => {
     setApiStatus("started");
     getData(endPoint, filters)
@@ -94,14 +95,14 @@ const ManageProgram = () => {
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.reset !== undefined) {
-      console.log('reseting all input filters', inputvalues);
+      console.log("reseting all input filters", inputvalues);
 
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       delete updatedState.name;
       delete updatedState.programCode;
       delete updatedState.departmentId;
       setFilterUpdate(updatedState);
-      return false;   
+      return false;
     }
     if (inputvalues.code !== "") {
       setFilterUpdate({
@@ -123,7 +124,22 @@ const ManageProgram = () => {
   };
 
   return (
-    <>
+    <React.Fragment>
+      {/* <View
+        apiStatus={apiStatus}
+        programData={programData.items}
+        currentInstitute={currentInstitute}
+        filterUpdate={filterUpdate.pageNumber}
+        programAuthorities={programAuthorities}
+        programDataPager={programData.pager.totalPages}
+        programPermissions={programAuthorities.program}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
+        updateInputFilters={updateInputFilters}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
+        updateDepartmentFilter={updateDepartmentFilter}
+      /> */}
+
       <Header />
       <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
@@ -136,33 +152,33 @@ const ManageProgram = () => {
         <Container fluid>
           <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />
           <div className="site-button-group mb-3">
-            {programAuthorities.department.canView &&
+            {programAuthorities.department.canView && (
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={() => navigate("/department")}
               >
                 Department
-              </Button>            
-            }
-            {programAuthorities.programtype.canView &&
+              </Button>
+            )}
+            {programAuthorities.programtype.canView && (
               <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => navigate("/programtype")}
+                variant="secondary"
+                size="sm"
+                onClick={() => navigate("/programtype")}
               >
                 Program Type
               </Button>
-            }
-            {programAuthorities.discipline.canView && 
+            )}
+            {programAuthorities.discipline.canView && (
               <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => navigate("/discipline")}
+                variant="secondary"
+                size="sm"
+                onClick={() => navigate("/discipline")}
               >
                 Discipline
               </Button>
-            }
+            )}
             <Button
               variant="secondary"
               size="sm"
@@ -204,7 +220,7 @@ const ManageProgram = () => {
         </Container>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 
