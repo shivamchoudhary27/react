@@ -75,3 +75,38 @@ export const handleChildrens = (parentCategory: any, categories: any) => {
      </React.Fragment>
    )
  }
+
+ export const tableColumnTemplate = [
+    {
+      Header: "Time Slots",
+      accessor: "timeSlot",
+    },
+    {
+      Header: `Monday`,
+      accessor: "monday",
+    },
+    {
+      Header: "Tuesday",
+      accessor: "tuesday",
+    },
+    {
+      Header: "Wednesday",
+      accessor: "wednesday",
+    },
+    {
+      Header: "Thursday",
+      accessor: "thursday",
+    },
+    {
+      Header: "Friday",
+      accessor: "friday",
+    },
+    {
+      Header: "Saturday",
+      accessor: "saturday",
+    },
+    {
+      Header: "Sunday",
+      accessor: "sunday",
+    },
+];

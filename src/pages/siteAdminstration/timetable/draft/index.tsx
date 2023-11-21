@@ -100,21 +100,33 @@ const WeeklyDraftVersion = () => {
 
         return timeA - timeB;
       });
+
+      function getRandomStatus() {
+        // Generate a random number between 0 and 1
+        var randomNumber = Math.random();
+      
+        return randomNumber < 0.5 ? 
+        {status: "booked", bookedDetais: "TUT SB B204"} 
+        : 
+        {status: "available"};
+      }
+
       sortedTimeSlots.map((item) => {
         let currentPacket = {
           timeSlot: `${item.startTime} - ${item.endTime}`,
+          breakTime: false,
+          monday:  JSON.stringify(getRandomStatus()),
+          tuesday:  JSON.stringify(getRandomStatus()),
+          wednesday:  JSON.stringify(getRandomStatus()),
+          thursday:  JSON.stringify(getRandomStatus()),
+          friday:  JSON.stringify(getRandomStatus()),
+          saturday:  JSON.stringify(getRandomStatus()),
+          sunday:  JSON.stringify({status: "weekend"}),
         };
+
         if (item.breakTime === true) {
-          let breakType =
-            item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";
-          currentPacket.monday = breakType;
-          currentPacket.tuesday = breakType;
-          currentPacket.wednesday = breakType;
-          currentPacket.thursday = breakType;
-          currentPacket.friday = breakType;
-          currentPacket.saturday = breakType;
-          currentPacket.sunday = breakType;
           currentPacket.breakTime = true;
+          currentPacket.breakType = item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";;
         }
         timeslotPacket.push(currentPacket);
       });
@@ -234,7 +246,11 @@ const WeeklyDraftVersion = () => {
           </div>
           {apiStatus === "finished" && timeslots.length > 0 && (
             <>
-              <DraftVersionTable SlotData={timeslots} apiStatus={apiStatus} />
+              <DraftVersionTable 
+                SlotData={timeslots} 
+                apiStatus={apiStatus} 
+                courseDates={courseDates}
+              />
               {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
             </>
           )}
