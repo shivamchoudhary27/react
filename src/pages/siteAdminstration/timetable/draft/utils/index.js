@@ -110,3 +110,16 @@ export const handleChildrens = (parentCategory: any, categories: any) => {
       accessor: "sunday",
     },
 ];
+
+export const getRandomStatus = (weekend = false) => {
+  if (weekend === true) {
+    return {status: "weekend"};
+  }
+  // Generate a random number between 0 and 1
+  var randomNumber = Math.random();
+
+  return randomNumber < 0.5 ? 
+  {status: "booked", bookedDetais: "TUT SB B204"} 
+  : 
+  {status: "available"};
+}
