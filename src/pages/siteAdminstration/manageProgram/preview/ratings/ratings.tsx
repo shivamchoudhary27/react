@@ -59,7 +59,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
 
   const handleRating = (getRatingCount: any) => {
     setCurrentRating(getRatingCount);
-    if (programRating.ratingId === null) {
+    if (programRating.ratingId === null || programRating.ratingId === 0) {
       postData("rating", {
         rating: getRatingCount,
         itemType: "PROGRAM",
@@ -142,7 +142,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
                   totalStars={5}
                   currentRating={index + 1}
                 />
-                <strong className="ms-2">{`${Math.floor(programRating[elem])}%`}</strong>
+                <strong className="ms-2">{programRating[elem] > 0 ? `${Math.floor(programRating[elem])}%` : '0%'}</strong>
               </div>
             ))}
           </Col>
