@@ -1,3 +1,4 @@
+import "./style.scss"
 import Filters from "./filter";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
@@ -16,6 +17,7 @@ import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
+  getRandomStatus
 } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from "./local";
 
@@ -101,16 +103,6 @@ const WeeklyDraftVersion = () => {
         return timeA - timeB;
       });
 
-      function getRandomStatus() {
-        // Generate a random number between 0 and 1
-        var randomNumber = Math.random();
-      
-        return randomNumber < 0.5 ? 
-        {status: "booked", bookedDetais: "TUT SB B204"} 
-        : 
-        {status: "available"};
-      }
-
       sortedTimeSlots.map((item) => {
         let currentPacket = {
           timeSlot: `${item.startTime} - ${item.endTime}`,
@@ -121,7 +113,7 @@ const WeeklyDraftVersion = () => {
           thursday:  JSON.stringify(getRandomStatus()),
           friday:  JSON.stringify(getRandomStatus()),
           saturday:  JSON.stringify(getRandomStatus()),
-          sunday:  JSON.stringify({status: "weekend"}),
+          sunday:  JSON.stringify(getRandomStatus(true)),
         };
 
         if (item.breakTime === true) {
@@ -226,7 +218,7 @@ const WeeklyDraftVersion = () => {
                 style={{
                   width: "15px",
                   height: "15px",
-                  background: "gray",
+                  background: "lightgray",
                   borderRadius: "50%",
                   display: "inline-block",
                   border: "2px solid lightgray",

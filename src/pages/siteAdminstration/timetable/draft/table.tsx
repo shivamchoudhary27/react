@@ -4,6 +4,7 @@ import { useTable } from "react-table";
 import { addDays, format, startOfWeek } from "date-fns";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { tableColumnTemplate } from "./utils";
+import './style.scss';
 
 const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
     const currentDate = new Date();
@@ -30,17 +31,22 @@ const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
               accessor: "timeSlot",
             },
             ...weekDates.map((date, index) => ({
-              Header: `${format(date, "EEEE")} \n ${format(date, "d-M-Y")}`,
-              accessor: format(date, "EEEE").toLowerCase() , // Use a dynamic accessor for each day
-              Cell: ({ row }: any) => {
-                let currentColumns = JSON.parse(row.original[format(date, "EEEE").toLowerCase()]);
-                return (
-                    <div>
-                        {currentColumns.status === "booked" && currentColumns.bookedDetais}
-                        {currentColumns.status === "available" && 'Available'}
-                        {currentColumns.status === "weekend" && 'Weekend'}
-                    </div>
-                )
+                Header: (
+                    <>
+                        <div>{`${format(date, "d")}`} </div>
+                        <div>{`${format(date, "EEEE")}`}</div>
+                    </>
+                ),
+                accessor: format(date, "EEEE").toLowerCase() , // Use a dynamic accessor for each day
+                Cell: ({ row }: any) => {
+                    let currentColumns = JSON.parse(row.original[format(date, "EEEE").toLowerCase()]);
+                    return (
+                        <div>
+                            {currentColumns.status === "booked" && currentColumns.bookedDetais}
+                            {currentColumns.status === "available" && 'Available'}
+                            {currentColumns.status === "weekend" && 'Weekend'}
+                        </div>
+                    )
               }
             })),
         ];
@@ -85,24 +91,64 @@ const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
             </thead>
 
             <tbody {...getTableBodyProps}>
-                {rows.map((row, index) => {
+                {rows.map((row: any, index) => {
                     prepareRow(row);
                     if (row.original.breakTime === true) {
                         return (
                             <tr {...row.getRowProps()} key={index}>
-                            <td >{row.original.timeSlot}</td>
-                            <td colSpan={columns.length}>{row.original.breakType}</td>
+                                <td >{row.original.timeSlot}</td>
+                                <td colSpan={columns.length - 2 }>{row.original.breakType}</td>
                             </tr>
                         );
                     }
 
                 return (
                     <tr {...row.getRowProps()} key={index}>
-                    {row.cells.map((cell, index) => (
-                        <td {...cell.getCellProps()} key={index}>
-                        {cell.render("Cell")}
-                        </td>
-                    ))}
+                    {row.cells.map((cell: any, index: number) => {
+                        if (row.index > 0) {
+                            if (cell.column.id === "timeSlot") {
+                                return (
+                                    <td {...cell.getCellProps()} className={cell.column.id} key={index} >
+                                    {cell.render("Cell")}
+                                    </td>
+                                )
+                            } else {
+                                let cellValue = JSON.parse(cell.value);
+                                if (cellValue.status !== 'weekend') {
+                                    return (
+                                        <td {...cell.getCellProps()} className={cellValue.status} key={index}>
+                                        {cell.render("Cell")}
+                                        </td>
+                                    )
+                                } else {
+                                    <td></td>
+                                }
+                            }
+                        } else {
+                            if (cell.column.id === "timeSlot") {
+                                return (
+                                    <td {...cell.getCellProps()} className={cell.column.id} key={index}>
+                                    {cell.render("Cell")}
+                                    </td>
+                                )
+                            } else {
+                                let cellValue = JSON.parse(cell.value);
+                                if (cellValue.status !== 'weekend') {
+                                    return (
+                                        <td {...cell.getCellProps()} className={cellValue.status} key={index}>
+                                        {cell.render("Cell")}
+                                        </td>
+                                    )
+                                } else {
+                                    return (
+                                        <td {...cell.getCellProps()} className={cellValue.status} rowSpan={SlotData.length} key={index}>
+                                        {cell.render("Cell")}
+                                        </td>
+                                    ) 
+                                }
+                            }
+                        }
+                    })}
                     </tr>
                 );
                 })}
