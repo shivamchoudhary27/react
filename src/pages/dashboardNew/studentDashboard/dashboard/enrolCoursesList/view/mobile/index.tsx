@@ -5,6 +5,7 @@ import Errordiv from "../../../../../../../widgets/alert/errordiv";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
+import "./mobileStyle.scss";
 
 type Props = {
   coursesList: any;
@@ -55,12 +56,12 @@ const Mobile: React.FC<Props> = (props) => {
                   <Card.Img src={courseImage} alt={item.shortname} />
                 </div>
                 <div className="mlcard-title">
-                  <h5>{item.fullname}</h5>
+                  <h5>{item.name}</h5>
                   <span className="my-progress">
                     {getCourseProgress(item.idNumber)}
                   </span>
                 </div>
-                <div className="mlcard-info">
+                <div className="mlcard-info mb-cardinfo">
                   <div>
                     <img src={gradeIcon} alt="Grade" className="small-icon" />
                     Grade:

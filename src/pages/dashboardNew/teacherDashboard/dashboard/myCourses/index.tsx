@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Tabs, Tab } from "react-bootstrap";
 import CardComponent from "./cardComp";
 import FilterProgramDropdown from "./filterDropdown";
+import filterIcon from "../../../../../assets/images/icons/mb-filterIcon.svg";
 // import Course_Pagination from "./pagination";
 
 type Props = {
@@ -34,6 +35,11 @@ const MyCourses = (props: Props) => {
     },
   });
 
+  const [showFilterDropdown, setShowFilterDropdown] = useState(true);
+  const toggleFilterDropdown = () => {
+    setShowFilterDropdown(!showFilterDropdown);
+  };
+  
   const getCourseStatus = (val: string) => {
     const currentDate = new Date();
     const unixTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
@@ -59,12 +65,17 @@ const MyCourses = (props: Props) => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses</h3>
-          <FilterProgramDropdown 
-            userCoursesData={props.userCoursesData} 
-            setUserCoursesData={props.setUserCoursesData} 
-            getCourseStatus={getCourseStatus} 
-            updateCourses={updateCourses}
-          />
+          <button onClick={toggleFilterDropdown} className="filter-btn">
+            <img src={filterIcon} alt="filter-icon" />
+          </button>
+          <div className={showFilterDropdown ? "FilterProgramDropdown-wrapper" : "FilterProgramDropdown-wrapper hidden"}>
+            <FilterProgramDropdown 
+              userCoursesData={props.userCoursesData} 
+              setUserCoursesData={props.setUserCoursesData} 
+              getCourseStatus={getCourseStatus} 
+              updateCourses={updateCourses}
+            />
+          </div>
         </div>
         <CardComponent 
           courseList={props.userCoursesData} 

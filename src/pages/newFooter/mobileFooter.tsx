@@ -28,7 +28,7 @@ const MobileFooter = (props: Props) => {
       <div>
         <ul className="d-flex justify-content-between align-items-center p-0 m-0">
           {footerList.map((list, index) => (
-            <Link to={list.link}>
+            <Link to={list.link} key={index}>
               <li
                 className={`text-center list-unstyled md-footer-list ${
                   location.pathname === list.link ? "active" : ""
@@ -36,7 +36,7 @@ const MobileFooter = (props: Props) => {
                 onClick={list.title === "Menu" ? toggleSidebar : undefined}
               >
                 <img src={list.icon} alt={list.title} />
-                <h2
+                <h2 
                   className={`footerTitle ${
                     location.pathname === list.link ? "active" : ""
                   }`}
