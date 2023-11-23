@@ -18,7 +18,7 @@ export const next30DaysTimestamp = (timestamp) => {
 export const overdueTimestamp = (timestamp) => {
   const givenDate = new Date(timestamp * 1000);
   const sevenDaysLater = new Date(givenDate);
-  sevenDaysLater.setDate(givenDate.getDate() - 30);
+  sevenDaysLater.setDate(givenDate.getDate() - 15);
   const timestampForNext7Days = Math.floor(sevenDaysLater / 1000);
   return timestampForNext7Days;
 };

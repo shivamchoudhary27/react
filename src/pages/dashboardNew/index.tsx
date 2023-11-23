@@ -51,7 +51,7 @@ const DashboardNew: React.FC<Props> = (props) => {
       } else if (filterTimestampValue === "30days") {
         return next30Days;
       } else if (filterTimestampValue === "overdue") {
-        return overdueDays;
+        return timestamp;
       }
     }
   };
@@ -111,7 +111,7 @@ const DashboardNew: React.FC<Props> = (props) => {
       const query = {
         wsfunction: "block_bltimeline_get_action_events_by_timesort",
         userid: userId,
-        timesortfrom: filterTimestampValue === "all" ? null : timestamp,
+        timesortfrom: filterTimestampValue === "all" ? null : filterTimestampValue === "overdue" ?  overdueDays : timestamp,
         timesortto:
           filterTimestampValue !== "" ? setDaysTimeSortTo() : next7Days,
         limitnum: 20,
