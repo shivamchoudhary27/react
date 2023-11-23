@@ -95,3 +95,43 @@
         }
     }    
 }
+.filter-btn{
+    display: none;
+}
+
+
+// For Mobile View 
+@media only screen and (max-width: 767.98px) {
+    .myteaching-card{
+        // flex-wrap: nowrap;
+        // overflow-x: auto;
+        //  & > div{
+        //     width: 80%;
+        // }
+        .viewmore-wrapper{
+            width: auto;
+            display: flex;
+            align-items: center;
+        }
+        .mlcard-info{
+            bottom: -56px;
+        }
+        .card{
+            padding-bottom: 58px;
+        }
+    }
+    .FilterProgramDropdown-wrapper {
+        display: none;
+      }
+    .FilterProgramDropdown-wrapper.hidden {
+        display: block;
+        transition: opacity 0.3s ease-in-out;
+      }
+    .filter-btn{
+        background: #ffffff;
+        display: block;
+        border: 1.5px solid #b8b8b8;
+        padding: 3px 10px;
+        border-radius: 5px;
+    }
+  }

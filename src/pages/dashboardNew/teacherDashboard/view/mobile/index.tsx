@@ -5,6 +5,7 @@ import Timeline from "../../dashboard/timeline/timeline";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
 import MyScheduleComp from "../../dashboard/schedule/scheduleComp";
+import "./mobileStyle.scss";
 
 type Props = {
   commonProps: {
@@ -32,14 +33,7 @@ const Mobile = (props: Props) => {
     <React.Fragment>
       <MobileHeader />
       <div className="contentarea-wrapper mb-wraper">
-        <div className="dashboard-bottomPanel mt-4 mb-5">
-          <MyCourses
-            userCoursesData={props.commonProps.userCoursesData}
-            setUserCoursesData={props.commonProps.setUserCoursesData}
-            enrolCoreCoursesObj={props.commonProps.enrolCoreCoursesObj}
-          />
-        </div>
-        <div className="dashboard-topPanel">
+      <div className="dashboard-topPanel">
           <Container fluid>
             <Row>
               <Col md={6} className="mb-4 mb-md-0">
@@ -67,6 +61,14 @@ const Mobile = (props: Props) => {
             </Row>
           </Container>
         </div>
+        <div className="dashboard-bottomPanel mt-4 mb-5">
+          <MyCourses
+            userCoursesData={props.commonProps.userCoursesData}
+            setUserCoursesData={props.commonProps.setUserCoursesData}
+            enrolCoreCoursesObj={props.commonProps.enrolCoreCoursesObj}
+          />
+        </div>
+     
       </div>
       <MobileFooter />
     </React.Fragment>
