@@ -5,22 +5,24 @@ import ClassRoomTable from "./table";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
+import React, { useState, useEffect } from "react";
 import PageTitle from "../../../../widgets/pageTitle";
 import { pagination } from "../../../../utils/pagination";
 import BuildPagination from "../../../../widgets/pagination";
 import { getData } from "../../../../adapters/microservices";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import View from "../view";
 
 const ClassRoom = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [classroomApiResponseData, setClassroomApiResponseData] = useState(dummyData);
+  const [classroomApiResponseData, setClassroomApiResponseData] =
+    useState(dummyData);
   const [departmentList, setDepartmentList] = useState(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState(false);
   const [classroomObj, setClassroomObj] = useState({});
@@ -29,10 +31,10 @@ const ClassRoom = () => {
   const [apiStatus, setApiStatus] = useState("");
   const selectedDepartment = useSelector(
     (state) => state.globalFilters.currentDepartmentFilterId
-    );
-    const currentInstitute = useSelector(
-      (state: any) => state.globalFilters.currentInstitute
-    );
+  );
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
   const [filterUpdate, setFilterUpdate] = useState({
     departmentId: selectedDepartment,
     pageNumber: 0,
@@ -53,7 +55,12 @@ const ClassRoom = () => {
   useEffect(() => {
     if (currentInstitute > 0) {
       let endPoint = `/${currentInstitute}/timetable/classroom`;
-      makeGetDataRequest(endPoint, filterUpdate, setClassroomApiResponseData, setApiStatus);
+      makeGetDataRequest(
+        endPoint,
+        filterUpdate,
+        setClassroomApiResponseData,
+        setApiStatus
+      );
     }
   }, [refreshData, filterUpdate, currentInstitute]);
 
@@ -75,7 +82,7 @@ const ClassRoom = () => {
 
   // to update filters values in the main state filterUpdate
   const updateClassroomFilterByDepartment = (departmentId: string) => {
-    console.log('department update filter', departmentId);
+    console.log("department update filter", departmentId);
     setFilterUpdate({
       ...filterUpdate,
       departmentId: departmentId,
@@ -111,7 +118,7 @@ const ClassRoom = () => {
     setClassroomObj({
       id: 0,
       name: "",
-      type: "lab", 
+      type: "lab",
       departmentId: filterUpdate.departmentId,
       departmentName: "",
       seatingCapacity: 0,
@@ -129,8 +136,8 @@ const ClassRoom = () => {
   };
 
   const filterHandlerByDepartment = (val: string) => {
-    console.log(val)
-  }
+    console.log(val);
+  };
 
   const CLASSROOM_TABLE_COMPONENT = (
     <ClassRoomTable
@@ -157,7 +164,26 @@ const ClassRoom = () => {
   );
   // <<< ==== END COMPONENTS ==== >>>
   return (
-    <>
+    <React.Fragment>
+      {/* <View
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        classroomObj={classroomObj}
+        filterUpdate={filterUpdate}
+        currentInstitute={currentInstitute}
+        departmentList={departmentList.items}
+        classroomApiResponseData={classroomApiResponseData}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
+        toggleModalShow={toggleModalShow}
+        updateInputFilters={updateInputFilters}
+        resetClassroomForm={resetClassroomForm}
+        filterHandlerByDepartment={filterHandlerByDepartment}
+        updateClassroomFilterByDepartment={updateClassroomFilterByDepartment}
+        editHandlerById={editHandlerById}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
+      /> */}
+
       <Header />
       <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
@@ -190,7 +216,7 @@ const ClassRoom = () => {
         </Container>
       </div>
       <Footer />
-    </>
+    </React.Fragment>
   );
 };
 

@@ -1,18 +1,10 @@
 import "./style.scss";
-import Filters from "./filters";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../../widgets/pageTitle";
+import View from "./view";
+import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { pagination } from "../../../utils/pagination";
 import Errordiv from "../../../widgets/alert/errordiv";
-import BuildPagination from "../../../widgets/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import { useSelector } from "react-redux";
 import { getData } from "../../../adapters/microservices";
-import TimetableTable from "./table";
 
 const TimeTable = () => {
   const dummyData = {
@@ -97,48 +89,19 @@ const TimeTable = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  // <<< ===== JSX CUSTOM COMPONENTS ===== >>>
-  const TIMETABLE_FILTER_COMPONENT = (
-    <Filters updateInputFilters={updateInputFilters} apiStatus={apiStatus} />
-  );
-
-  const TIMETABLE_TABLE_COMPONENT = (
-    <TimetableTable
-      apiStatus={apiStatus}
-      currentInstitute={currentInstitute}
-      timeTableData={timeTableData.items}
-      editHandlerById={editHandlerById}
-      refreshOnDelete={refreshOnDeleteToggle}
-    />
-  );
-
-  // <<< ==== END COMPONENTS ==== >>>
-
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "" },
-        ]}
+    <React.Fragment>
+      <View
+        apiStatus={apiStatus}
+        filterUpdate={filterUpdate}
+        currentInstitute={currentInstitute}
+        timeTableData={timeTableData.items}
+        newPageRequest={newPageRequest}
+        editHandlerById={editHandlerById}
+        updateInputFilters={updateInputFilters}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
-          {TIMETABLE_FILTER_COMPONENT}
-          {TIMETABLE_TABLE_COMPONENT}
-          {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}
-          <BuildPagination
-            totalpages=""
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-        </Container>
-      </div>
-      <Footer />
-    </>
+    </React.Fragment>
   );
 };
 
