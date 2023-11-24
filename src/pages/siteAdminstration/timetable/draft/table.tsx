@@ -63,21 +63,22 @@ const DraftVersionTable = ({ SlotData, apiStatus }: any) => {
 
     return (
         <React.Fragment>
-            <CustomButton
+          <div className="next-previousbuttons">
+          <CustomButton
                 type="button"
-                btnText="<<"
+                btnText="<"
                 variant="primary"
                 onClick={handlePreviousWeek}
             />
-            {"   "}
             <CustomButton
                 type="button"
-                btnText=">>"
+                btnText=">"
                 variant="primary"
                 onClick={handleNextWeek}
             />
-        <div className="table-responsive admin-table-wrapper mt-3">
-            <Table borderless striped {...getTableProps}>
+          </div>
+        <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">
+            <Table className="draft-table mb-0" {...getTableProps}>
             <thead>
                 {headerGroups.map((headerGroup, index) => (
                 <tr {...headerGroup.getHeaderGroupProps()} key={index}>
