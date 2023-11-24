@@ -13,6 +13,9 @@ import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
+import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
+import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
+
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
@@ -126,6 +129,7 @@ const WeeklyDraftVersion = () => {
     }
   }, [departmentTimeslots]);
 
+
   const updateCourseDates = (courseDates: any) => {
     setCourseDates(courseDates);
   }
@@ -152,85 +156,32 @@ const WeeklyDraftVersion = () => {
             ids={urlArg}
             updateCourseDates={updateCourseDates}
           />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <div>
-              <span>
+          <div className="d-flex justify-content-between align-items-center mt-4">
+            <div className="d-flex gap-4 dates-wrapper">
+              <div>
+                <img src={startDateIcon} alt="start Date" />
                 <b>Start Date:</b> {courseDates.startDate}
                 {/* {format(weekDates[0], 'dd/MM/yyyy')} */}
-              </span>
-              {"  "}
-              <span>
+              </div>
+              <div>
+              <img src={endDateIcon} alt="End Date" />
                 <b>End Date: </b> {courseDates.endDate}
                 {/* {format(weekDates[6], 'dd/MM/yyyy')} */}
-              </span>
+              </div>
             </div>
-            <div>
+            <div className="slot-indicator">
               <div
-                className="me-1"
-                style={{
-                  width: "15px",
-                  height: "15px",
-                  background: "lightgreen",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  border: "2px solid lightgray",
-                }}
-              ></div>
-              <div
-                style={{
-                  color: "gray",
-                  display: "inline-block",
-                  fontSize: "12px",
-                  fontFamily: "Roboto, sans-serif",
-                }}
+                className="me-1 available"
               >
                 Available Slots
-              </div>{" "}
+              </div>
               <div
-                className="me-1"
-                style={{
-                  width: "15px",
-                  height: "15px",
-                  background: "pink",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  border: "2px solid lightgray",
-                }}
-              ></div>
-              <div
-                style={{
-                  color: "gray",
-                  display: "inline-block",
-                  fontSize: "12px",
-                  fontFamily: "Roboto, sans-serif",
-                }}
+                className="me-1 booked"
               >
                 Not Available Slots
-              </div>{" "}
+              </div>
               <div
-                className="me-1"
-                style={{
-                  width: "15px",
-                  height: "15px",
-                  background: "lightgray",
-                  borderRadius: "50%",
-                  display: "inline-block",
-                  border: "2px solid lightgray",
-                }}
-              ></div>
-              <div
-                style={{
-                  color: "gray",
-                  display: "inline-block",
-                  fontSize: "12px",
-                  fontFamily: "Roboto, sans-serif",
-                }}
+                className="me-1 weekend"
               >
                 Break/Weekend/Holiday
               </div>
