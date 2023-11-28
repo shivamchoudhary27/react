@@ -1,17 +1,10 @@
 import "./style.scss";
-import Filters from "./filters";
+import View from "./view";
 import WorkLoadModal from "./form";
 import WorkLoadTable from "./table";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
-import PageTitle from "../../../../widgets/pageTitle";
 import { pagination } from "../../../../utils/pagination";
-import BuildPagination from "../../../../widgets/pagination";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { getData, putData } from "../../../../adapters/microservices";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
@@ -76,12 +69,12 @@ const WorkLoad = () => {
           console.log(err);
           setApiStatus("finished");
         });
-      }
+    }
   }, [refreshData, filterUpdate, currentInstitute]);
 
   function renderFacultyDefaultWorkLoadValue(id: any, val: any) {
     let endPoint = `/${currentInstitute}/timetable/userworkload/${id}`;
-    putData(endPoint, {workLoad: val}).then((res: any) => {});
+    putData(endPoint, { workLoad: val }).then((res: any) => {});
   }
 
   // API call on delete === >>>
@@ -102,17 +95,22 @@ const WorkLoad = () => {
 
   // to update filters values in the main state filterUpdate
   const updateDepartmentFilter = (departmentId: string) => {
-    console.log('updading the department ', departmentId);
+    console.log("updading the department ", departmentId);
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
-      departmentId: departmentId
+      departmentId: departmentId,
     });
   };
 
   const updateInputFilters = (inputvalues: any, inputEmail: any) => {
-    setFilterUpdate({ ...filterUpdate, name: inputvalues, email: inputEmail, pageNumber: 0 });
-  }; 
+    setFilterUpdate({
+      ...filterUpdate,
+      name: inputvalues,
+      email: inputEmail,
+      pageNumber: 0,
+    });
+  };
 
   // get userid from the work load table === >>>
   const editHandlerById = ({
@@ -179,38 +177,24 @@ const WorkLoad = () => {
   // <<< ==== END COMPONENTS ==== >>>
   return (
     <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "/timetable" },
-          { name: "Faculty Work Load", path: "" },
-        ]}
+      <View
+        modalShow={modalShow}
+        apiStatus={apiStatus}
+        classroomObj={classroomObj}
+        currentInstitute={currentInstitute}
+        departmentList={departmentList.items}
+        filterUpdate={filterUpdate.pageNumber}
+        workLoadApiData={workLoadApiResponseData.items}
+        workLoadApiResponseData={workLoadApiResponseData}
+        workLoadApiResponseDataPage={workLoadApiResponseData.pager.totalPages}
+        refreshToggle={refreshToggle}
+        newPageRequest={newPageRequest}
+        toggleModalShow={toggleModalShow}
+        updateInputFilters={updateInputFilters}
+        resetClassroomForm={resetClassroomForm}
+        updateDepartmentFilter={updateDepartmentFilter}
+        filterHandlerByDepartment={filterHandlerByDepartment}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Faculty Work Load" gobacklink="/timetable" />
-          <Filters
-            apiStatus={apiStatus}
-            currentInstitute={currentInstitute}
-            toggleModalShow={toggleModalShow}
-            refreshClassroomData={refreshToggle}
-            updateInputFilters={updateInputFilters}
-            resetClassroomForm={resetClassroomForm}
-            updateDepartmentFilter={updateDepartmentFilter}
-            filterHandlerByDepartment={filterHandlerByDepartment}
-          />
-          {WORKLOAD_TABLE_COMPONENT}
-          <BuildPagination
-            totalpages={workLoadApiResponseData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-          {WORKLOAD_MODAL_COMPONENT}
-        </Container>
-      </div>
-      <Footer />
     </>
   );
 };

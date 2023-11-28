@@ -1,15 +1,8 @@
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import CourseWorkLoadModal from "./form";
-import CourseWorkLoadTable from "./table";
+import View from "./view";
 import { useSelector } from "react-redux";
-import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import PageTitle from "../../../../widgets/pageTitle";
 import { setHasChildProp, resetManageCourseObj } from "./local";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { getData as getCategoryData } from "../../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
@@ -159,54 +152,26 @@ const ManageCoursesWorkLoad = () => {
   };
 
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "/timetable" },
-          { name: "Manage Courses Work Load", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle={`Manage Courses Work Load: ${name}`}
-            gobacklink="/timetable"
-          />
-          {coursePermission.canView && (
-            <CourseWorkLoadTable
-              programId={id}
-              apiStatus={apiStatus}
-              modalShow={modalShow}
-              categoryData={sortedCategories}
-              coursePermission={coursePermission}
-              toggleModalShow={toggleModalShow}
-              refreshcategories={refreshToggle}
-              cleanFormValues={cleanFormValues}
-              editHandlerById={editHandlerById}
-              toggleCourseModal={toggleCourseModal}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              updatedeleterefresh={updateDeleteRefresh}
-              setEditCategoryValues={setEditCategoryValues}
-            />
-          )}
-        </Container>
-        <CourseWorkLoadModal
-          programId={id}
-          courseobj={courseObj}
-          show={addCourseModal}
-          currentInstitute={currentInstitute}
-          updateAddRefresh={refreshToggle}
-          refreshcategories={refreshToggle}
-          toggleCourseModal={toggleCourseModal}
-          onHide={() => toggleCourseModal(false)}
-        />
-      </div>
-      <Footer />
-    </>
+    <View
+      programId={id}
+      programName={name}
+      apiStatus={apiStatus}
+      modalShow={modalShow}
+      courseObj={courseObj}
+      addCourseModal={addCourseModal}
+      currentInstitute={currentInstitute}
+      sortedCategories={sortedCategories}
+      coursePermission={coursePermission}
+      refreshToggle={refreshToggle}
+      toggleModalShow={toggleModalShow}
+      cleanFormValues={cleanFormValues}
+      editHandlerById={editHandlerById}
+      toggleCourseModal={toggleCourseModal}
+      setFormParentValue={setFormParentValue}
+      setFormWeightValue={setFormWeightValue}
+      updateDeleteRefresh={updateDeleteRefresh}
+      setEditCategoryValues={setEditCategoryValues}
+    />
   );
 };
 

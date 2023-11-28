@@ -10,6 +10,7 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import { pagination } from "../../../../../utils/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
+import View from "./view";
 
 type Props = {};
 
@@ -41,7 +42,12 @@ const InstituteTimeSlot = (props: Props) => {
   useEffect(() => {
     if (currentInstitute > 0) {
       let endPoint = `/${currentInstitute}/timetable/timeslot`;
-      makeGetDataRequest(endPoint, filterUpdate, setInstituteTimeSlot, setApiStatus);
+      makeGetDataRequest(
+        endPoint,
+        filterUpdate,
+        setInstituteTimeSlot,
+        setApiStatus
+      );
     }
   }, [refreshData, filterUpdate, currentInstitute]);
 
@@ -49,7 +55,12 @@ const InstituteTimeSlot = (props: Props) => {
   useEffect(() => {
     if (currentInstitute > 0) {
       let endPoint = `/${currentInstitute}/timetable/timeslot`;
-      makeGetDataRequest(endPoint, filterUpdate, setInstituteTimeSlot, setApiStatus);
+      makeGetDataRequest(
+        endPoint,
+        filterUpdate,
+        setInstituteTimeSlot,
+        setApiStatus
+      );
     }
   }, [refreshOnDelete]);
 
@@ -101,51 +112,18 @@ const InstituteTimeSlot = (props: Props) => {
 
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "/timetable" },
-          { name: "Manage Times Slot", path: "/timeslot" },
-          { name: "Institute Times Slot", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Institute Times Slot" gobacklink="/timeslot" />
-          <div className="filter-wrapper mt-2">
-            <div className="site-button-group">
-              <Button
-                variant="primary"
-                onClick={openInstituteModal}
-              >
-                Add Slot
-              </Button>{" "}
-            </div>
-          </div>
-          <ManageInstituteTimesSlotTable
-            apiStatus={apiStatus}
-            currentInstitute={currentInstitute}
-            instituteTimeSlot={instituteTimeSlot.items}
-            editHandlerById={editHandlerById}
-            toggleModalShow={toggleModalShow}
-            refreshTimeslotData={refreshToggle}
-            refreshOnDelete={refreshOnDeleteToggle}
-          />
-        </Container>
-      </div>
-      <InstituteTimeSlotModal 
-        show={modalShow}
-        // departmentId={departmentId}
+      <View
+        modalShow={modalShow}
+        apiStatus={apiStatus}
         currentInstitute={currentInstitute}
+        instituteTimeSlot={instituteTimeSlot.items}
         instituteTimeslotObj={instituteTimeslotObj}
-        togglemodalshow={toggleModalShow}
-        refreshClassroomData={refreshToggle}
-        // resetFormData={resetClassroomForm}
-        onHide={() => toggleModalShow(false)}
+        refreshToggle={refreshToggle}
+        editHandlerById={editHandlerById}
+        toggleModalShow={toggleModalShow}
+        openInstituteModal={openInstituteModal}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
       />
-      <Footer />
     </React.Fragment>
   );
 };

@@ -1,4 +1,5 @@
-import "./style.scss"
+import "./style.scss";
+import View from "./view";
 import Filters from "./filter";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
@@ -11,16 +12,16 @@ import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
-import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
+import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
 
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
-  getRandomStatus
+  getRandomStatus,
 } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from "./local";
 
@@ -39,7 +40,10 @@ const WeeklyDraftVersion = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [courseDates, setCourseDates] = useState<any>({startDate: "--/--/----", endDate: "--/--/----"});
+  const [courseDates, setCourseDates] = useState<any>({
+    startDate: "--/--/----",
+    endDate: "--/--/----",
+  });
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -67,7 +71,7 @@ const WeeklyDraftVersion = () => {
       makeGetDataRequest(
         endPoint,
         { pageNumber: 0, pageSize: 100 },
-        setCoursesList,
+        setCoursesList
       );
     }
   }, [urlArg.dpt]);
@@ -78,7 +82,11 @@ const WeeklyDraftVersion = () => {
         .filter((item) => item.parent === 0)
         .sort((a, b) => a.weight - b.weight)
         .reduce(
-          (acc, item) => [...acc, item, ...getChildren(item, coursesList.items)],
+          (acc, item) => [
+            ...acc,
+            item,
+            ...getChildren(item, coursesList.items),
+          ],
           []
         );
 
@@ -110,18 +118,19 @@ const WeeklyDraftVersion = () => {
         let currentPacket = {
           timeSlot: `${item.startTime} - ${item.endTime}`,
           breakTime: false,
-          monday:  JSON.stringify(getRandomStatus()),
-          tuesday:  JSON.stringify(getRandomStatus()),
-          wednesday:  JSON.stringify(getRandomStatus()),
-          thursday:  JSON.stringify(getRandomStatus()),
-          friday:  JSON.stringify(getRandomStatus()),
-          saturday:  JSON.stringify(getRandomStatus()),
-          sunday:  JSON.stringify(getRandomStatus(true)),
+          monday: JSON.stringify(getRandomStatus()),
+          tuesday: JSON.stringify(getRandomStatus()),
+          wednesday: JSON.stringify(getRandomStatus()),
+          thursday: JSON.stringify(getRandomStatus()),
+          friday: JSON.stringify(getRandomStatus()),
+          saturday: JSON.stringify(getRandomStatus()),
+          sunday: JSON.stringify(getRandomStatus(true)),
         };
 
         if (item.breakTime === true) {
           currentPacket.breakTime = true;
-          currentPacket.breakType = item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";;
+          currentPacket.breakType =
+            item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";
         }
         timeslotPacket.push(currentPacket);
       });
@@ -129,13 +138,22 @@ const WeeklyDraftVersion = () => {
     }
   }, [departmentTimeslots]);
 
-
   const updateCourseDates = (courseDates: any) => {
     setCourseDates(courseDates);
-  }
+  };
 
   return (
     <React.Fragment>
+      {/* mobile and browser view component call */} 
+      {/* <View
+        urlArg={urlArg}
+        apiStatus={apiStatus}
+        timeslots={timeslots}
+        courseDates={courseDates}
+        sortedCategories={sortedCategories}
+        updateCourseDates={updateCourseDates}
+      /> */}
+
       <Header />
       <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
@@ -151,7 +169,7 @@ const WeeklyDraftVersion = () => {
             pageTitle={`${urlArg.prg} : Draft Version`}
             gobacklink="/timetable"
           />
-          <Filters 
+          <Filters
             workloadCourses={sortedCategories}
             ids={urlArg}
             updateCourseDates={updateCourseDates}
@@ -164,34 +182,22 @@ const WeeklyDraftVersion = () => {
                 {/* {format(weekDates[0], 'dd/MM/yyyy')} */}
               </div>
               <div>
-              <img src={endDateIcon} alt="End Date" />
+                <img src={endDateIcon} alt="End Date" />
                 <b>End Date: </b> {courseDates.endDate}
                 {/* {format(weekDates[6], 'dd/MM/yyyy')} */}
               </div>
             </div>
             <div className="slot-indicator">
-              <div
-                className="me-1 available"
-              >
-                Available Slots
-              </div>
-              <div
-                className="me-1 booked"
-              >
-                Not Available Slots
-              </div>
-              <div
-                className="me-1 weekend"
-              >
-                Break/Weekend/Holiday
-              </div>
+              <div className="me-1 available">Available Slots</div>
+              <div className="me-1 booked">Not Available Slots</div>
+              <div className="me-1 weekend">Break/Weekend/Holiday</div>
             </div>
           </div>
           {apiStatus === "finished" && timeslots.length > 0 && (
             <>
-              <DraftVersionTable 
-                SlotData={timeslots} 
-                apiStatus={apiStatus} 
+              <DraftVersionTable
+                SlotData={timeslots}
+                apiStatus={apiStatus}
                 courseDates={courseDates}
               />
               {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
@@ -226,10 +232,10 @@ const WeeklyDraftVersion = () => {
         </div>
 
         {/* <LoadingButton
-                variant="primary"
-                btnText={"Updating..."}
-                className="modal-buttons"
-            /> */}
+            variant="primary"
+            btnText={"Updating..."}
+            className="modal-buttons"
+          /> */}
       </div>
       <Footer />
     </React.Fragment>

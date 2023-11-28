@@ -1,37 +1,30 @@
-import React, { useEffect, useState } from "react";
+import View from "./view";
 import { useSelector } from "react-redux";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import { Container } from "react-bootstrap";
-import Filter from "./filter";
-import UserManagementTable from "./table";
-import { getData } from "../../../adapters/microservices";
+import { useEffect, useState } from "react";
 import { pagination } from "../../../utils/pagination";
-import BuildPagination from "../../../widgets/pagination";
-import UploadNewUsers from "./uploadUsers";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
-import AddUserModal from "./modalForm";
-import ConfigModal from "./configModal";
+import { getData } from "../../../adapters/microservices";
 import {
-  TypeDummyData, 
-  TypeUserObj, 
-  TypeModalShow, 
-  TypeUploadModalShow, 
+  TypeDummyData,
+  TypeUserObj,
+  TypeModalShow,
+  TypeUploadModalShow,
   TypeFilteUpdate,
-  TypeApiStatus
+  TypeApiStatus,
 } from "./types/type";
 
 const InstituteManagement = () => {
-  const dummyData: TypeDummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const dummyData: TypeDummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
   const [userData, setUserData] = useState<TypeDummyData>(dummyData);
-  const [uploadModalShow, setUploadModalShow] = useState<TypeUploadModalShow>(false);
+  const [uploadModalShow, setUploadModalShow] =
+    useState<TypeUploadModalShow>(false);
   const [modalShow, setModalShow] = useState<TypeModalShow>(false);
   const [configModal, setConfigModal] = useState(false);
   const [userObj, setUserObj] = useState<TypeUserObj>({
     id: 0,
-    name: "", 
+    name: "",
     userEmail: "",
     shortCode: "",
     instanceUrl: "",
@@ -48,7 +41,7 @@ const InstituteManagement = () => {
   const permissions = useSelector(
     (state: any) => state.userAuthorities.permissions.institute
   );
-  
+
   // get programs API call === >>>
   useEffect(() => {
     if (refreshOnDelete === true) {
@@ -190,68 +183,29 @@ const InstituteManagement = () => {
   };
 
   return (
-    <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Institute Management", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Institute Management" gobacklink="/siteadmin" />
-          <Filter
-            updatefilters={updateSearchFilters}
-            toggleUploadModal={toggleUploadModal}
-            openAddUserModal={openAddUserModal}
-            permissions={permissions}
-          />
-          {permissions.canView &&
-            <>
-              <UserManagementTable
-                userdata={userData.items}
-                refreshdata={refreshOnDeleteToggle}
-                editHandlerById={editHandlerById}
-                editConfigHandler={editConfigHandler}
-                toggleModalShow={toggleModalShow}
-                configModalShow={configModalShow}
-                apiStatus={apiStatus}
-                permissions={permissions}
-              />
-              <BuildPagination
-                totalpages={userData.pager.totalPages}
-                activepage={filterUpdate.pageNumber}
-                getrequestedpage={newPageRequest}
-              />
-            </>
-          }
-        </Container>
-      </div>
-      <UploadNewUsers
-        show={uploadModalShow}
-        onHide={() => setUploadModalShow(false)}
-        setUploadModalShow={setUploadModalShow}
-        updateAddRefresh={refreshToggle}
-      />
-      <AddUserModal
-        show={modalShow}
-        onHide={() => toggleModalShow(false)}
-        userobj={userObj}
-        togglemodalshow={toggleModalShow}
-        updateAddRefresh={refreshToggle}
-      />
-      <ConfigModal
-        show={configModal}
-        onHide={() => configModalShow(false)}
-        userobj={userObj}
-        configModalShow={configModalShow}
-        updateAddRefresh={refreshToggle}
-        editConfigHandler={editConfigHandler}
-      />
-      <Footer />
-    </React.Fragment>
+    <View
+      userObj={userObj}
+      apiStatus={apiStatus}
+      modalShow={modalShow}
+      permissions={permissions}
+      configModal={configModal}
+      userData={userData.items}
+      uploadModalShow={uploadModalShow}
+      permissionsView={permissions.canView}
+      filterUpdate={filterUpdate.pageNumber}
+      userDataPage={userData.pager.totalPages}
+      refreshToggle={refreshToggle}
+      newPageRequest={newPageRequest}
+      editHandlerById={editHandlerById}
+      toggleModalShow={toggleModalShow}
+      configModalShow={configModalShow}
+      openAddUserModal={openAddUserModal}
+      editConfigHandler={editConfigHandler}
+      toggleUploadModal={toggleUploadModal}
+      setUploadModalShow={setUploadModalShow}
+      updateSearchFilters={updateSearchFilters}
+      refreshOnDeleteToggle={refreshOnDeleteToggle}
+    />
   );
 };
 
