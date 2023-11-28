@@ -1,0 +1,70 @@
+import React from "react";
+import TimesSlotTable from "../../table";
+import Header from "../../../../../newHeader";
+import Footer from "../../../../../newFooter";
+import { useNavigate } from "react-router-dom";
+import HeaderTabs from "../../../../../headerTabs";
+import { Container, Button } from "react-bootstrap";
+import PageTitle from "../../../../../../widgets/pageTitle";
+import BuildPagination from "../../../../../../widgets/pagination";
+import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+
+type Props = {
+  commonProps: {
+    apiStatus: any;
+    filterUpdate: any;
+    departmentList: any;
+    newPageRequest: any;
+    departmentListPages: any;
+  };
+};
+
+const Browser = (props: Props) => {
+  const navigate = useNavigate();
+
+  const TIMESLOT_TABLE_COMPONENT = (
+    <TimesSlotTable
+      apiStatus={props.commonProps.apiStatus}
+      departmentList={props.commonProps.departmentList}
+    />
+  );
+  // <<< ==== END COMPONENTS ==== >>>
+
+  return (
+    <React.Fragment>
+      <Header />
+      <HeaderTabs activeTab="siteadmin" />
+      <BreadcrumbComponent
+        routes={[
+          { name: "Site Administration", path: "/siteadmin" },
+          { name: "Timetable Management", path: "/timetable" },
+          { name: "Manage Times Slot", path: "" },
+        ]}
+      />
+      <div className="contentarea-wrapper mt-3 mb-5">
+        <Container fluid>
+          <PageTitle pageTitle="Manage Times Slot" gobacklink="/timetable" />
+          <div className="filter-wrapper mt-2">
+            <div className="site-button-group">
+              <Button
+                variant="primary"
+                onClick={() => navigate("/institutetimeslot")}
+              >
+                Manage Institute Timeslot
+              </Button>{" "}
+            </div>
+          </div>
+          {TIMESLOT_TABLE_COMPONENT}
+          <BuildPagination
+            totalpages={props.commonProps.departmentListPages}
+            activepage={props.commonProps.filterUpdate}
+            getrequestedpage={props.commonProps.newPageRequest}
+          />
+        </Container>
+      </div>
+      <Footer />
+    </React.Fragment>
+  );
+};
+
+export default Browser;

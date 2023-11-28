@@ -1,19 +1,10 @@
 // import "./style.scss";
-import Filters from "./filters";
-import TimesSlotTable from "./table";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
+import View from "./view";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
-import PageTitle from "../../../../widgets/pageTitle";
+import { useNavigate } from "react-router-dom";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
-import BuildPagination from "../../../../widgets/pagination";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import { Button } from "react-bootstrap";
-import { useNavigate } from 'react-router-dom'
 
 const TimesSlot = () => {
   const dummyData = {
@@ -75,42 +66,15 @@ const TimesSlot = () => {
     console.log(val);
   };
 
-  const TIMESLOT_TABLE_COMPONENT = (
-    <TimesSlotTable
-      apiStatus={apiStatus}
-      departmentList={departmentList.items}
-    />
-  );
-  // <<< ==== END COMPONENTS ==== >>>
-
   return (
     <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "/timetable" },
-          { name: "Manage Times Slot", path: "" },
-        ]}
+      <View
+        apiStatus={apiStatus}
+        filterUpdate={filterUpdate}
+        departmentList={departmentList.items}
+        departmentListPages={departmentList.pager.totalPages}
+        newPageRequest={newPageRequest}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Manage Times Slot" gobacklink="/timetable" />
-          <div className="filter-wrapper mt-2">
-            <div className="site-button-group">
-              <Button variant="primary" onClick={() => navigate('/institutetimeslot')}>Manage Institute Timeslot</Button>{" "}
-            </div>
-          </div>
-          {TIMESLOT_TABLE_COMPONENT}
-          <BuildPagination
-            totalpages={departmentList.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-        </Container>
-      </div>
-      <Footer />
     </>
   );
 };

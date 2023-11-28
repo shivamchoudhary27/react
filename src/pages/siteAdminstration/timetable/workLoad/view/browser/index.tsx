@@ -1,102 +1,97 @@
 import React from "react";
 import Filters from "../../filters";
-import ClassRoomModal from "../../form";
-import ClassRoomTable from "../../table";
+import WorkLoadModal from "../../form";
+import WorkLoadTable from "../../table";
 import { Container } from "react-bootstrap";
+import Header from "../../../../../newHeader";
+import Footer from "../../../../../newFooter";
+import HeaderTabs from "../../../../../headerTabs";
 import PageTitle from "../../../../../../widgets/pageTitle";
-import MobileHeader from "../../../../../newHeader/mobileHeader";
-import MobileFooter from "../../../../../newFooter/mobileFooter";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
-    apiStatus: any;
     modalShow: any;
+    apiStatus: any;
     classroomObj: any;
     filterUpdate: any;
     refreshToggle: any;
-    departmentList: any;
     newPageRequest: any;
+    departmentList: any;
+    workLoadApiData: any;
     toggleModalShow: any;
     currentInstitute: any;
     updateInputFilters: any;
     resetClassroomForm: any;
-    classroomApiResponseData: any;
+    updateDepartmentFilter: any;
+    workLoadApiResponseData: any;
     filterHandlerByDepartment: any;
-    updateClassroomFilterByDepartment: any;
-    editHandlerById: any;
-    refreshOnDeleteToggle: any;
+    workLoadApiResponseDataPage: any;
   };
 };
 
-const Mobile = (props: Props) => {
-  // <<< ==== COMPONENTS START ==== >>>
-  const CLASSROOM_TABLE_COMPONENT = (
-    <ClassRoomTable
+const Browser = (props: Props) => {
+  const WORKLOAD_TABLE_COMPONENT = (
+    <WorkLoadTable
       apiStatus={props.commonProps.apiStatus}
-      currentInstitute={props.commonProps.currentInstitute}
-      classroomData={props.commonProps.classroomApiResponseData}
-      editHandlerById={props.commonProps.editHandlerById}
-      toggleModalShow={props.commonProps.toggleModalShow}
-      refreshClassroomData={props.commonProps.refreshToggle}
-      refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
+      workLoadData={props.commonProps.workLoadApiData}
     />
   );
 
-  const CLASSROOM_MODAL_COMPONENT = (
-    <ClassRoomModal
+  const WORKLOAD_MODAL_COMPONENT = (
+    <WorkLoadModal
       show={props.commonProps.modalShow}
-      classroomObj={props.commonProps.classroomObj}
-      currentInstitute={props.commonProps.currentInstitute}
+      workLoadObj={props.commonProps.classroomObj}
+      filterUpdate={props.commonProps.filterUpdate}
       departmentList={props.commonProps.departmentList}
       togglemodalshow={props.commonProps.toggleModalShow}
+      currentInstitute={props.commonProps.currentInstitute}
       refreshClassroomData={props.commonProps.refreshToggle}
+      workLoadApiResponseData={props.commonProps.workLoadApiResponseData}
       onHide={() => props.commonProps.toggleModalShow(false)}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
+
   return (
     <React.Fragment>
-      <MobileHeader />
+      <Header />
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "Timetable Management", path: "/timetable" },
-          { name: "Manage Classroom", path: "" },
+          { name: "Faculty Work Load", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="Manage Classroom" gobacklink="/timetable" />
+          <PageTitle pageTitle="Faculty Work Load" gobacklink="/timetable" />
           <Filters
             apiStatus={props.commonProps.apiStatus}
-            departmentList={props.commonProps.departmentList}
             toggleModalShow={props.commonProps.toggleModalShow}
+            currentInstitute={props.commonProps.currentInstitute}
             refreshClassroomData={props.commonProps.refreshToggle}
             updateInputFilters={props.commonProps.updateInputFilters}
             resetClassroomForm={props.commonProps.resetClassroomForm}
+            updateDepartmentFilter={props.commonProps.updateDepartmentFilter}
             filterHandlerByDepartment={
               props.commonProps.filterHandlerByDepartment
             }
-            updateClassroomFilter={
-              props.commonProps.updateClassroomFilterByDepartment
-            }
           />
-          {CLASSROOM_TABLE_COMPONENT}
+          {WORKLOAD_TABLE_COMPONENT}
           <BuildPagination
-            totalpages={
-              props.commonProps.classroomApiResponseData.pager.totalPages
-            }
-            activepage={props.commonProps.filterUpdate.pageNumber}
+            totalpages={props.commonProps.workLoadApiResponseDataPage}
+            activepage={props.commonProps.filterUpdate}
             getrequestedpage={props.commonProps.newPageRequest}
           />
-          {CLASSROOM_MODAL_COMPONENT}
+          {WORKLOAD_MODAL_COMPONENT}
         </Container>
       </div>
-      <MobileFooter />
+      <Footer />
     </React.Fragment>
   );
 };
 
-export default Mobile;
+export default Browser;

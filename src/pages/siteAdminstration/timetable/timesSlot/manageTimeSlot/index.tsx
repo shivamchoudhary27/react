@@ -1,19 +1,10 @@
 // import "./style.scss";
-import Filters from "../filters";
-import TimeSlotModal from "./form";
-import ManageTimesSlotTable from "./table";
-import Header from "../../../../newHeader";
-import Footer from "../../../../newFooter";
+import View from "./view";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { Container } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import HeaderTabs from "../../../../headerTabs";
-import PageTitle from "../../../../../widgets/pageTitle";
 import { pagination } from "../../../../../utils/pagination";
 import { postData, getData } from "../../../../../adapters/microservices";
-import BuildPagination from "../../../../../widgets/pagination";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 
 const ManageTimesSlot = () => {
@@ -24,7 +15,7 @@ const ManageTimesSlot = () => {
   const { departmentId, name } = useParams();
   const [timeslotList, setTimeslotList] = useState(dummyData);
   const [departmentList, setDepartmentList] = useState(dummyData);
-  const [instituteSlotList, setInstituteSlotList] = useState([])
+  const [instituteSlotList, setInstituteSlotList] = useState([]);
   const [refreshOnDelete, setRefreshOnDelete] = useState(false);
   const [timeslotObj, setTimeslotObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);
@@ -68,7 +59,7 @@ const ManageTimesSlot = () => {
 
   // get Institute slot action === >>>
   const getInstituteSlotAction = (action: string) => {
-    if(action === "click"){
+    if (action === "click") {
       let endPoint = `/${currentInstitute}/timetable/timeslot/copy/institute/template/${departmentId}`;
       postData(endPoint, {})
         .then((result: any) => {
@@ -81,7 +72,7 @@ const ManageTimesSlot = () => {
           setApiStatus("finished");
         });
     }
-  }
+  };
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -142,71 +133,31 @@ const ManageTimesSlot = () => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  const filterHandlerByDepartment = (val: string) => {
-  };
+  const filterHandlerByDepartment = (val: string) => {};
 
-  const TIMESLOT_TABLE_COMPONENT = (
-    <ManageTimesSlotTable
+  return (
+    <View
+      nameParams={name}
+      modalShow={modalShow}
       apiStatus={apiStatus}
+      timeslotObj={timeslotObj}
+      departmentId={departmentId}
       timeslotList={timeslotList.items}
       currentInstitute={currentInstitute}
       departmentList={departmentList.items}
+      filterUpdate={filterUpdate.pageNumber}
+      timeslotListPage={timeslotList.pager.totalPages}
+      refreshToggle={refreshToggle}
+      newPageRequest={newPageRequest}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
-      refreshTimeslotData={refreshToggle}
-      refreshOnDelete={refreshOnDeleteToggle}
+      updateInputFilters={updateInputFilters}
+      resetClassroomForm={resetClassroomForm}
+      refreshOnDeleteToggle={refreshOnDeleteToggle}
       getInstituteSlotAction={getInstituteSlotAction}
-      resetClassroomForm={resetClassroomForm}
+      filterHandlerByDepartment={filterHandlerByDepartment}
+      updateClassroomFilterByDepartment={updateClassroomFilterByDepartment}
     />
-  );
-
-  const TIMESLOT_MODAL_COMPONENT = (
-    <TimeSlotModal
-      show={modalShow}
-      timeslotObj={timeslotObj}
-      departmentId={departmentId}
-      currentInstitute={currentInstitute}
-      togglemodalshow={toggleModalShow}
-      refreshClassroomData={refreshToggle}
-      onHide={() => toggleModalShow(false)}
-      resetClassroomForm={resetClassroomForm}
-    />
-  );
-  // <<< ==== END COMPONENTS ==== >>>
-  return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "/timetable" },
-          { name: "Manage Times Slot", path: "/timeslot" },
-          { name: "View Times Slot", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle={`Times Slot: ${name}`} gobacklink="/timeslot" />
-          <Filters
-            toggleModalShow={toggleModalShow}
-            refreshClassroomData={refreshToggle}
-            updateInputFilters={updateInputFilters}
-            resetClassroomForm={resetClassroomForm}
-            filterHandlerByDepartment={filterHandlerByDepartment}
-            updateClassroomFilter={updateClassroomFilterByDepartment}
-          />
-          {TIMESLOT_TABLE_COMPONENT}
-          <BuildPagination
-            totalpages={timeslotList.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-          {TIMESLOT_MODAL_COMPONENT}
-        </Container>
-      </div>
-      <Footer />
-    </>
   );
 };
 
