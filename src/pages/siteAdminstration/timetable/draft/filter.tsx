@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { format } from "date-fns";
 import { useFormik } from "formik";
+import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { renderCourse, handleChildrens } from "./utils";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import { format } from 'date-fns';
 
-const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
+const ManageFilter = ({
+  workloadCourses,
+  ids,
+  updateCourseDates,
+  setCoursesStatus,
+}: any) => {
   const initialValues = {
     name: "",
     code: "",
-    workloadCourse: ""
+    workloadCourse: "",
   };
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
@@ -18,30 +23,39 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
 
   useEffect(() => {
+    if (coursesOnly.length === 0) {
+      setCoursesStatus(true);
+    }else{
+      setCoursesStatus(false)
+    }
+  }, [coursesOnly]);
+
+  useEffect(() => {
     if (workloadCourses.length > 0) {
-      let collectCourses = workloadCourses.filter((item: any) => item.coursename);
+      let collectCourses = workloadCourses.filter(
+        (item: any) => item.coursename
+      );
       setCoursesOnly(collectCourses);
     }
-  }, [workloadCourses])
+  }, [workloadCourses]);
 
   useEffect(() => {
     if (selectedCourse > 0) {
       makeGetDataRequest(
         `/course/${selectedCourse}/enrol-user`,
-        {pageNumber: 0, pageSize: 100, teachersOnly: true},
+        { pageNumber: 0, pageSize: 100, teachersOnly: true },
         setCourseFacultyData
       );
     }
   }, [selectedCourse]);
-  
+
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {
-    },
+    onSubmit: (values) => {},
     onReset: () => {
       setSelectedFaculty(0);
       setSelectedCourse(0);
-      updateCourseDates({startDate: '--/--/----', endDate: '--/--/----'});
+      updateCourseDates({ startDate: "--/--/----", endDate: "--/--/----" });
     },
   });
 
@@ -50,19 +64,22 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
     setSelectedFaculty(0);
     handleCourseDates(parseInt(e.target.value));
   };
-  
+
   const handleCourseDates = (courseId: number) => {
-    const courseWithId = coursesOnly.find((item: any) => item.courseid === courseId);
-    let startDate, endDate = ''
+    const courseWithId = coursesOnly.find(
+      (item: any) => item.courseid === courseId
+    );
+    let startDate,
+      endDate = "";
     if (courseWithId) {
-      startDate = format(new Date(courseWithId.startDate), 'dd/MM/yyyy');
-      endDate = format(new Date(courseWithId.endDate), 'dd/MM/yyyy');
+      startDate = format(new Date(courseWithId.startDate), "dd/MM/yyyy");
+      endDate = format(new Date(courseWithId.endDate), "dd/MM/yyyy");
     } else {
       startDate = "--/--/----";
       endDate = "--/--/----";
     }
-    updateCourseDates({startDate: startDate, endDate: endDate});
-  }
+    updateCourseDates({ startDate: startDate, endDate: endDate });
+  };
 
   const handleFacultyFilterChange = (e: any) => {
     setSelectedFaculty(parseInt(e.target.value));
@@ -71,55 +88,61 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
   const renderCourseOptions = (categories: any) => {
     return (
       <React.Fragment>
-         {categories.map((parentCategory: any) => {
+        {categories.map((parentCategory: any) => {
           if (parentCategory.level === 1 && parentCategory.parent === 0) {
             return (
               <React.Fragment key={parentCategory.id}>
-                {parentCategory.haschild === true ?
+                {parentCategory.haschild === true ? (
                   <optgroup label={parentCategory.name} key={parentCategory.id}>
-                      {handleChildrens(parentCategory, categories)}
+                    {handleChildrens(parentCategory, categories)}
                   </optgroup>
-                  :
+                ) : (
                   <React.Fragment>
-                    {parentCategory.courses.length > 0 &&
-                      <optgroup label={parentCategory.name} key={parentCategory.id}>
-                          {renderCourse(parentCategory.courses, parentCategory.level)}
+                    {parentCategory.courses.length > 0 && (
+                      <optgroup
+                        label={parentCategory.name}
+                        key={parentCategory.id}
+                      >
+                        {renderCourse(
+                          parentCategory.courses,
+                          parentCategory.level
+                        )}
                       </optgroup>
-                    }
+                    )}
                   </React.Fragment>
-                }
+                )}
               </React.Fragment>
-            )
+            );
           }
-         })}
+        })}
       </React.Fragment>
     );
-  }
-  
+  };
+
   return (
-    <>
+    <React.Fragment>
       <div className="filter-wrapper mt-2 input-styles">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
-                <label htmlFor="courses" hidden>
-                    Courses
-                </label>
-                <select 
-                  className="form-select"
-                  name="workloadCourse"
-                  value={selectedCourse}
-                  onChange={handleCourseFilterChange}
-                >
-                  <option value={0}>Select Course</option>
-                  {renderCourseOptions(workloadCourses)}
-                </select>
+              <label htmlFor="courses" hidden>
+                Courses
+              </label>
+              <select
+                className="form-select"
+                name="workloadCourse"
+                value={selectedCourse}
+                onChange={handleCourseFilterChange}
+              >
+                <option value={0}>Select Course</option>
+                {renderCourseOptions(workloadCourses)}
+              </select>
             </Col>
             <Col>
               <label htmlFor="faculty" hidden>
                 Faculty
               </label>
-              <select 
+              <select
                 className="form-select"
                 name="faculty"
                 value={selectedFaculty}
@@ -127,12 +150,9 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
               >
                 <option value={0}>Select Faculty</option>
                 {courseFacultyData.items.map((faculty: any) => (
-                  <option 
-                    value={faculty.userId} 
-                    key={faculty.userId}
-                  >
-                    {faculty.userFirstName.charAt(0).toUpperCase() + faculty.userFirstName.slice(1)}
-                    {" "}
+                  <option value={faculty.userId} key={faculty.userId}>
+                    {faculty.userFirstName.charAt(0).toUpperCase() +
+                      faculty.userFirstName.slice(1)}{" "}
                     {faculty.userLastName}
                   </option>
                 ))}
@@ -153,7 +173,7 @@ const ManageFilter = ({ workloadCourses, ids, updateCourseDates } : any) => {
           </Row>
         </form>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

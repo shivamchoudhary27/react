@@ -1,16 +1,8 @@
-import Header from "../../../../newHeader";
-import Footer from "../../../../newFooter";
-import { useSelector } from "react-redux";
-import InstituteTimeSlotModal from "./form";
-import HeaderTabs from "../../../../headerTabs";
-import React, { useState, useEffect } from "react";
-import ManageInstituteTimesSlotTable from "./table";
-import { Button, Container } from "react-bootstrap";
-import PageTitle from "../../../../../widgets/pageTitle";
-import { pagination } from "../../../../../utils/pagination";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 import View from "./view";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { pagination } from "../../../../../utils/pagination";
+import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 
 type Props = {};
 
@@ -111,20 +103,18 @@ const InstituteTimeSlot = (props: Props) => {
   };
 
   return (
-    <React.Fragment>
-      <View
-        modalShow={modalShow}
-        apiStatus={apiStatus}
-        currentInstitute={currentInstitute}
-        instituteTimeSlot={instituteTimeSlot.items}
-        instituteTimeslotObj={instituteTimeslotObj}
-        refreshToggle={refreshToggle}
-        editHandlerById={editHandlerById}
-        toggleModalShow={toggleModalShow}
-        openInstituteModal={openInstituteModal}
-        refreshOnDeleteToggle={refreshOnDeleteToggle}
-      />
-    </React.Fragment>
+    <View
+      modalShow={modalShow}
+      apiStatus={apiStatus}
+      currentInstitute={currentInstitute}
+      instituteTimeSlot={instituteTimeSlot.items}
+      instituteTimeslotObj={instituteTimeslotObj}
+      refreshToggle={refreshToggle}
+      editHandlerById={editHandlerById}
+      toggleModalShow={toggleModalShow}
+      openInstituteModal={openInstituteModal}
+      refreshOnDeleteToggle={refreshOnDeleteToggle}
+    />
   );
 };
 

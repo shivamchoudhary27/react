@@ -8,6 +8,8 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 const TimesSlotTable = ({
   apiStatus,
   departmentList,
+  setWeekendSlotObj,
+  toggleModalShow,
 }: any) => {
   // custom react table Column === >>>
   const tableColumn = [
@@ -18,7 +20,27 @@ const TimesSlotTable = ({
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <Link to={`/managetimeslot/${row.original.id}/${(row.original.name).toLowerCase()}`}>View Time Slot</Link>
+        <div>
+          <Link
+            to={`/managetimeslot/${
+              row.original.id
+            }/${row.original.name.toLowerCase()}`}
+            className="action-icons"
+          >
+            View Timeslot
+          </Link>
+          <Link
+            to=""
+            className="action-icons"
+            onClick={() =>
+              setDepartmentWeekend({
+                id: row.original.id
+              })
+            }
+          >
+            View Weekend
+          </Link>
+        </div>
       ),
     },
   ];
@@ -31,6 +53,11 @@ const TimesSlotTable = ({
       columns,
       data,
     });
+
+  const setDepartmentWeekend = ({id }: any) => {
+    toggleModalShow(true);
+    setWeekendSlotObj({ id: id });
+  };
 
   return (
     <React.Fragment>

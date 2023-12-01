@@ -51,6 +51,12 @@ const Mobile = (props: Props) => {
                 >
                   Manage Institute Timeslot
                 </Button>{" "}
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/institutetimeslot")}
+                >
+                  Set Institute Weekend
+                </Button>
               </div>
             </div>
             {TIMESLOT_TABLE_COMPONENT}
