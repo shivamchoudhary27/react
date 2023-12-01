@@ -5,12 +5,14 @@ import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import WeeklyTimetable from "./weekTable";
 import DraftVersionTable from "./table";
-import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
 import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import PageTitle from "../../../../widgets/pageTitle";
+import Errordiv from "../../../../widgets/alert/errordiv";
+import TableSkeleton from "../../../../widgets/skeleton/table";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
@@ -44,6 +46,7 @@ const WeeklyDraftVersion = () => {
     startDate: "--/--/----",
     endDate: "--/--/----",
   });
+  const [coursesStatus, setCoursesStatus] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -141,10 +144,11 @@ const WeeklyDraftVersion = () => {
   const updateCourseDates = (courseDates: any) => {
     setCourseDates(courseDates);
   };
-
+  
+  // console.log(courseDates.startDate != "--/--/----")
   return (
     <React.Fragment>
-      {/* mobile and browser view component call */} 
+      {/* mobile and browser view component call */}
       {/* <View
         urlArg={urlArg}
         apiStatus={apiStatus}
@@ -173,6 +177,7 @@ const WeeklyDraftVersion = () => {
             workloadCourses={sortedCategories}
             ids={urlArg}
             updateCourseDates={updateCourseDates}
+            setCoursesStatus={setCoursesStatus}
           />
           <div className="d-flex justify-content-between align-items-center mt-4">
             <div className="d-flex gap-4 dates-wrapper">
@@ -193,49 +198,52 @@ const WeeklyDraftVersion = () => {
               <div className="me-1 weekend">Break/Weekend/Holiday</div>
             </div>
           </div>
-          {apiStatus === "finished" && timeslots.length > 0 && (
+          {coursesStatus !== false && apiStatus === "finished" ? (
+            <Errordiv msg="No record available!" cstate className="mt-3" />
+          ) : coursesStatus !== false && apiStatus === "started" ? (
+            <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+          ) : (
             <>
-              <DraftVersionTable
-                SlotData={timeslots}
-                apiStatus={apiStatus}
-                courseDates={courseDates}
-              />
-              {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
+              {apiStatus === "finished" && timeslots.length > 0 && (
+                <>
+                  <DraftVersionTable
+                    SlotData={timeslots}
+                    apiStatus={apiStatus}
+                    courseDates={courseDates}
+                  />
+
+                  {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
+                </>
+              )}
+              {apiStatus === "finished" && timeslots.length === 0 && (
+                <div>
+                  <i>No timeslots are available</i>
+                </div>
+              )}
+              <div style={{ textAlign: "right" }}>
+                <CustomButton
+                  type="submit"
+                  btnText="Publish for change request"
+                  variant="primary"
+                  // disabled={isSubmitting}
+                />
+              </div>
+              <div className="modal-buttons">
+                <CustomButton
+                  type="submit"
+                  btnText="Submit Changes"
+                  variant="primary"
+                  // disabled={isSubmitting}
+                />
+                <CustomButton
+                  type="reset"
+                  btnText="Reset"
+                  variant="outline-secondary"
+                />
+              </div>
             </>
           )}
-          {apiStatus === "finished" && timeslots.length === 0 && (
-            <div>
-              <i>No timeslots are available</i>
-            </div>
-          )}
-          <div style={{ textAlign: "right" }}>
-            <CustomButton
-              type="submit"
-              btnText="Publish for change request"
-              variant="primary"
-              // disabled={isSubmitting}
-            />
-          </div>
         </Container>
-        <div className="modal-buttons">
-          <CustomButton
-            type="submit"
-            btnText="Submit Changes"
-            variant="primary"
-            // disabled={isSubmitting}
-          />
-          <CustomButton
-            type="reset"
-            btnText="Reset"
-            variant="outline-secondary"
-          />
-        </div>
-
-        {/* <LoadingButton
-            variant="primary"
-            btnText={"Updating..."}
-            className="modal-buttons"
-          /> */}
       </div>
       <Footer />
     </React.Fragment>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TimesSlotTable from "../../table";
 import Header from "../../../../../newHeader";
 import Footer from "../../../../../newFooter";
@@ -8,6 +8,7 @@ import { Container, Button } from "react-bootstrap";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import WeekendSlotModal from "../../weekendSlot/form";
 
 type Props = {
   commonProps: {
@@ -21,14 +22,30 @@ type Props = {
 
 const Browser = (props: Props) => {
   const navigate = useNavigate();
+  const [modalShow, setModalShow] = useState(false);
+  const [weekendSlotObj, setWeekendSlotObj] = useState({
+    id: 0,
+  });
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
 
   const TIMESLOT_TABLE_COMPONENT = (
     <TimesSlotTable
       apiStatus={props.commonProps.apiStatus}
       departmentList={props.commonProps.departmentList}
+      toggleModalShow={toggleModalShow}
+      setWeekendSlotObj={setWeekendSlotObj}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
+
+  const openWeekendModal = () => {
+    toggleModalShow(true);
+    setWeekendSlotObj({ id: 0 });
+  };
 
   return (
     <React.Fragment>
@@ -52,6 +69,9 @@ const Browser = (props: Props) => {
               >
                 Manage Institute Timeslot
               </Button>{" "}
+              <Button variant="primary" onClick={openWeekendModal}>
+                Set Institute Weekend
+              </Button>
             </div>
           </div>
           {TIMESLOT_TABLE_COMPONENT}
@@ -62,6 +82,12 @@ const Browser = (props: Props) => {
           />
         </Container>
       </div>
+      <WeekendSlotModal
+        modalShow={modalShow}
+        weekendSlotObj={weekendSlotObj}
+        toggleModalShow={toggleModalShow}
+        onHide={() => toggleModalShow(false)}
+      />
       <Footer />
     </React.Fragment>
   );

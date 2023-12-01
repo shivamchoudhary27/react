@@ -67,15 +67,13 @@ const TimesSlot = () => {
   };
 
   return (
-    <>
-      <View
-        apiStatus={apiStatus}
-        filterUpdate={filterUpdate}
-        departmentList={departmentList.items}
-        departmentListPages={departmentList.pager.totalPages}
-        newPageRequest={newPageRequest}
-      />
-    </>
+    <View
+      apiStatus={apiStatus}
+      filterUpdate={filterUpdate}
+      departmentList={departmentList.items}
+      departmentListPages={departmentList.pager.totalPages}
+      newPageRequest={newPageRequest}
+    />
   );
 };
 
