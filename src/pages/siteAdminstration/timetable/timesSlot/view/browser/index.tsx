@@ -5,10 +5,10 @@ import Footer from "../../../../../newFooter";
 import { useNavigate } from "react-router-dom";
 import HeaderTabs from "../../../../../headerTabs";
 import { Container, Button } from "react-bootstrap";
+import WeekendSlotModal from "../../weekendSlot/form";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
-import WeekendSlotModal from "../../weekendSlot/form";
 
 type Props = {
   commonProps: {
@@ -24,7 +24,7 @@ const Browser = (props: Props) => {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [weekendSlotObj, setWeekendSlotObj] = useState({
-    id: 0,
+    id: null,
   });
 
   // handle modal hide & show functionality === >>>
