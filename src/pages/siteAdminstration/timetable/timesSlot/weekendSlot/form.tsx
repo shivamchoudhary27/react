@@ -3,21 +3,23 @@ import { Formik, Form } from "formik";
 import Modal from "react-bootstrap/Modal";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import {
   getData,
   postData,
   putData,
 } from "../../../../../adapters/microservices";
-import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
-import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
-import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({});
 
-const WeekendSlotModal = ({ modalShow, onHide, weekendSlotObj, toggleModalShow }: any) => {
+const WeekendSlotModal = ({
+  modalShow,
+  onHide,
+  weekendSlotObj,
+  toggleModalShow,
+}: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const currentInstitute: number = useSelector(
     (state: any) => state.globalFilters.currentInstitute
@@ -35,55 +37,24 @@ const WeekendSlotModal = ({ modalShow, onHide, weekendSlotObj, toggleModalShow }
   const [initFormValues, setInitFormValues] = useState(initialValues);
   const [weekendData, setWeekendData] = useState([]);
 
-  // console.log(weekendSlotObj.id);
-
-  // API call to get all weekend data === >>>
   useEffect(() => {
     if (weekendSlotObj.id === 0) {
       getData(`/weekdays/${currentInstitute}`, {})
         .then((res: any) => {
           if (res.data !== "") {
-            // setWeekendData(res.data);
-            res.data.map((item: any) => {
-              if (item.departmentId === null) {
-                // console.log(item);
-                const lowercaseDays = item.weekDays.map((day: any) =>
-                  day.toLowerCase()
-                );
-                lowercaseDays.map((el: any) => {
-                  setInitFormValues({
-                    ...initFormValues,
-                    [el]: true,
-                  });
-                });
-              }
-            });
+            setWeekendData(res.data);
           }
         })
         .catch((err: any) => {
           console.log(err);
         });
-    }
-    if (weekendSlotObj.id !== 0) {
+    } else if (weekendSlotObj.id !== 0) {
       getData(`/weekdays/${currentInstitute}`, {
         departmentId: weekendSlotObj.id,
       })
         .then((res: any) => {
           if (res.data !== "") {
-            // setWeekendData(res.data);
-            res.data.map((item: any) => {
-              if (item.departmentId === weekendSlotObj.id) {
-                const lowercaseDays = item.weekDays.map((day: any) =>
-                  day.toLowerCase()
-                );
-                lowercaseDays.map((el: any) => {
-                  setInitFormValues({
-                    ...initFormValues,
-                    [el]: true,
-                  });
-                });
-              }
-            });
+            setWeekendData(res.data);
           }
         })
         .catch((err: any) => {
@@ -92,12 +63,37 @@ const WeekendSlotModal = ({ modalShow, onHide, weekendSlotObj, toggleModalShow }
     }
   }, [weekendSlotObj]);
 
-  // console.log(initFormValues);
-  // console.log(weekendData)
+  useEffect(() => {
+    if (weekendSlotObj.id === 0 || weekendSlotObj.id !== 0) {
+      let filteredData = [];
+      if (weekendSlotObj.id === 0) {
+        filteredData = weekendData.filter(
+          (item: any) => item.departmentId === null
+        );
+      } else {
+        filteredData = weekendData.filter(
+          (item: any) => item.departmentId === weekendSlotObj.id
+        );
+      }
+
+      const updatedValues = { ...initFormValues };
+      filteredData.forEach((item: any) => {
+        const lowercaseDays = item.weekDays.map((day: any) =>
+          day.toLowerCase()
+        );
+        Object.keys(updatedValues).forEach((elem: any) => {
+          updatedValues[elem] = false;
+        });
+        lowercaseDays.forEach((el: any) => {
+          updatedValues[el] = true;
+        });
+      });
+      setInitFormValues(updatedValues);
+    }
+  }, [weekendData, weekendSlotObj]);
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    // console.log(values);
     const trueWeekDays = Object.keys(values).filter((day) => values[day]);
     const formattedWeekDays = { weekDays: trueWeekDays };
     if (weekendSlotObj.id === 0) {
@@ -105,8 +101,7 @@ const WeekendSlotModal = ({ modalShow, onHide, weekendSlotObj, toggleModalShow }
       postData(`/weekdays/${currentInstitute}`, formattedWeekDays)
         .then((res: any) => {
           if (res.data !== "") {
-            // console.log(res.data);
-            toggleModalShow(false)
+            toggleModalShow(false);
           }
           setSubmitting(false);
         })
@@ -122,8 +117,7 @@ const WeekendSlotModal = ({ modalShow, onHide, weekendSlotObj, toggleModalShow }
       )
         .then((res: any) => {
           if (res.data !== "") {
-            // console.log(res.data);
-            toggleModalShow(false)
+            toggleModalShow(false);
           }
           setSubmitting(false);
         })
