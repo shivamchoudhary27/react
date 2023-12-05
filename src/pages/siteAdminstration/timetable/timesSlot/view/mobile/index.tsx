@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import TimesSlotTable from "../../table";
+import WeekendSlot from "../../weekendSlot";
 import { useNavigate } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
-import WeekendSlotModal from "../../weekendSlot/form";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import MobileHeader from "../../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../../newFooter/mobileFooter";
@@ -23,7 +23,7 @@ const Browser = (props: Props) => {
   const navigate = useNavigate();
   const [modalShow, setModalShow] = useState(false);
   const [weekendSlotObj, setWeekendSlotObj] = useState({
-    id: null,
+    id: 0,
   });
 
   // handle modal hide & show functionality === >>>
@@ -74,13 +74,13 @@ const Browser = (props: Props) => {
           </div>
           {TIMESLOT_TABLE_COMPONENT}
           <BuildPagination
-            totalpages={props.commonProps.departmentListPages}
             activepage={props.commonProps.filterUpdate}
+            totalpages={props.commonProps.departmentListPages}
             getrequestedpage={props.commonProps.newPageRequest}
           />
         </Container>
       </div>
-      <WeekendSlotModal
+      <WeekendSlot
         modalShow={modalShow}
         weekendSlotObj={weekendSlotObj}
         toggleModalShow={toggleModalShow}
