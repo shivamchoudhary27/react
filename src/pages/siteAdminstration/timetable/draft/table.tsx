@@ -7,7 +7,7 @@ import React, { useMemo, useState, useEffect } from "react";
 
 const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
   const currentDate = new Date();
-  const [headername, setHeadername] = useState(0);
+  const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
   const columns = useMemo(() => tableColumn, [tableColumn]);
   const data = useMemo(() => SlotData, [SlotData]);
@@ -16,91 +16,113 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
       columns,
       data,
     });
-  const [selectedStartDate, setSelectedStatrtDate] = useState(new Date());
-  const [BtnVisibility, setBtnVisibility] = useState(false);
+  const [renderWeek, setRenderWeek] = useState<any>([]);
 
   useEffect(() => {
-    const startDateString = courseDates.startDate;
-    const endDateString = courseDates.endDate;
-    const startParts = startDateString.split("/"); 
-    const endParts = endDateString.split("/"); 
-    const fullDate = new Date(startParts[2], startParts[0] - 1, startParts[1]);
-    const x = new Date(endParts[2], endParts[0] - 1, endParts[1]);
-    // console.log("x------", x);
-    if (!isNaN(fullDate.getTime())) {
-      setSelectedStatrtDate(fullDate);
-    } else {
-      setSelectedStatrtDate(currentDate);
-    }
+    const nextWeekDates = calculateWeek(0);
+    setRenderWeek(nextWeekDates);
+    setWeekAmount(0);
   }, [courseDates]);
 
   useEffect(() => {
-    const nextMonday = addDays(
-      startOfWeek(selectedStartDate, { weekStartsOn: 1 }),
-      headername
-    ); // 1 corresponds to Monday, add 7 days for the next week
-    const startOfCurrentWeek = startOfWeek(nextMonday, { weekStartsOn: 1 });
-    const weekDates = [...Array(7).keys()].map((offset) =>
-      addDays(startOfCurrentWeek, offset)
-    );
-
-    // console.log("headername-------", headername);
-
-    const newWeekColumns = [
-      {
-        Header: "Time Slots",
-        accessor: "timeSlot",
-      },
-      ...weekDates.map((date, index) => ({
-        Header: (
-          <>
-            <div>{`${format(date, "d")}`} </div>
-            <div>{`${format(date, "EEEE")}`}</div>
-          </>
-        ),
-        accessor: format(date, "EEEE").toLowerCase(), // Use a dynamic accessor for each day
-        Cell: ({ row }: any) => {
-          let currentColumns = JSON.parse(
-            row.original[format(date, "EEEE").toLowerCase()]
-          );
-          return (
-            <div>
-              {currentColumns.status === "booked" &&
-                currentColumns.bookedDetais}
-              {currentColumns.status === "available" && "Available"}
-              {currentColumns.status === "weekend" && "Weekend"}
-            </div>
-          );
+    if (renderWeek.length > 0) {
+      const newWeekColumns = [
+        {
+          Header: "Time Slots",
+          accessor: "timeSlot",
         },
-      })),
-    ];
-    setTableColumn(newWeekColumns);
-  }, [headername, selectedStartDate]);
+        ...renderWeek.map((date: Date, index: number) => ({
+          Header: (
+            <>
+              <div>{`${format(date, "d")}`} </div>
+              <div>{`${format(date, "EEEE")}`}</div>
+            </>
+          ),
+          accessor: format(date, "EEEE").toLowerCase(), // Use a dynamic accessor for each day
+          Cell: ({ row }: any) => {
+            let currentColumns = JSON.parse(
+              row.original[format(date, "EEEE").toLowerCase()]
+            );
+            return (
+              <div>
+                {currentColumns.status === "booked" &&
+                  currentColumns.bookedDetais}
+                {currentColumns.status === "available" && "Available"}
+                {currentColumns.status === "weekend" && "Weekend"}
+              </div>
+            );
+          },
+        })),
+      ];
+      setTableColumn(newWeekColumns);
+    }
+  }, [renderWeek]);
 
   const handleNextWeek = () => {
-    setHeadername((prevCount) => prevCount + 7);
+    const nextWeekDates = calculateWeek(weekAmount + 7);
+    const nextWeekAvailable = isNextWeekAvailable(nextWeekDates, courseDates.endDateTimeStamp);
+
+    if (nextWeekAvailable) {
+      setRenderWeek(nextWeekDates);
+      setWeekAmount((prevCount) => prevCount + 7);
+    } else {
+      window.alert('Next week is not available');
+    }
   };
 
   const handlePreviousWeek = () => {
-    setHeadername((prevCount) => prevCount - 7);
+    const previousWeekDates = calculateWeek(weekAmount - 7);
+    const previousWeekAvailable = isPreviousWeekAvailable(previousWeekDates, courseDates.startDateTimeStamp);
+
+    if (previousWeekAvailable) {
+      setRenderWeek(previousWeekDates);
+      setWeekAmount((prevCount) => prevCount - 7);
+    } else {
+      window.alert('Previous week is not available');
+    }
   };
 
-  // console.log("courseDates---", courseDates.endDate);
+  const isNextWeekAvailable = (nextWeekDates: any, endDate : number) => {
+    const weekStart = convertToTimestamp(nextWeekDates[0]);
+    const weekEnd = convertToTimestamp(nextWeekDates[6]);
+
+    if (endDate > weekEnd) return true;
+    else if (endDate < weekStart) return false;
+    else if (endDate >= weekStart && endDate <= weekEnd) return true;
+    else return false;
+  }
+
+  const isPreviousWeekAvailable = (previousWeekDates: any, startDate : number) => {
+    const weekStart = convertToTimestamp(previousWeekDates[0]);
+    const weekEnd = convertToTimestamp(previousWeekDates[6]);
+
+    if (startDate < weekStart) return true;
+    else if (startDate < weekEnd) return true;
+    else if (startDate > weekEnd) return false;
+    else return false;
+  }
+
+  const convertToTimestamp = (weekDate: string) => {
+    const dateObject =  new Date(weekDate);
+    return dateObject.getTime();
+  } 
+
+  const calculateWeek = (amount: number) => {
+    const nextMonday = addDays(
+      startOfWeek(currentDate, { weekStartsOn: 1 }),
+      amount 
+    );
+    const startOfChosenWeek = startOfWeek(nextMonday, { weekStartsOn: 1 });
+    const weekDates = [...Array(7).keys()].map((offset) =>
+      addDays(startOfChosenWeek, offset)
+    );
+    return weekDates; 
+  }
 
   return (
     <React.Fragment>
       <div className="next-previousbuttons">
-        <button
-          type="button"
-          onClick={handlePreviousWeek}
-          style={{
-            visibility:
-              (courseDates.startDate !== "--/--/----" &&
-                headername === 0 &&
-                "hidden") ||
-              "visible",
-          }}
-        >{`<`}</button>
+        <button type="button" onClick={handlePreviousWeek}>{`<`}</button>
         <button type="button" onClick={handleNextWeek}>{`>`}</button>
       </div>
       <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">

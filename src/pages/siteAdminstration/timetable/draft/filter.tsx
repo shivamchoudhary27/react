@@ -1,5 +1,5 @@
-import { format } from "date-fns";
 import { useFormik } from "formik";
+import { format, parse, getTime } from "date-fns";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { renderCourse, handleChildrens } from "./utils";
@@ -66,20 +66,25 @@ const ManageFilter = ({
   };
 
   const handleCourseDates = (courseId: number) => {
-    const courseWithId = coursesOnly.find(
-      (item: any) => item.courseid === courseId
-    );
-    let startDate,
-      endDate = "";
+    let startDate, endDate = "--/--/----";
+    let startDateTimeStamp, endDateTimeStamp = 0;
+
+    const courseWithId = coursesOnly.find((item: any) => item.courseid === courseId);
+
     if (courseWithId) {
       startDate = format(new Date(courseWithId.startDate), "dd/MM/yyyy");
       endDate = format(new Date(courseWithId.endDate), "dd/MM/yyyy");
-    } else {
-      startDate = "--/--/----";
-      endDate = "--/--/----";
+      startDateTimeStamp = toTimestampConverter(startDate);
+      endDateTimeStamp = toTimestampConverter(endDate);
     }
-    updateCourseDates({ startDate: startDate, endDate: endDate });
+
+    updateCourseDates({ startDate: startDate, endDate: endDate, startDateTimeStamp, endDateTimeStamp });
   };
+
+  const toTimestampConverter = (dateString: string) => {
+    const dateObject = parse(dateString, 'dd/MM/yyyy', new Date());
+    return getTime(dateObject);
+  }
 
   const handleFacultyFilterChange = (e: any) => {
     setSelectedFaculty(parseInt(e.target.value));

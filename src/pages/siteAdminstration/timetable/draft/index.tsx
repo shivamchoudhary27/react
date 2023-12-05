@@ -45,6 +45,8 @@ const WeeklyDraftVersion = () => {
   const [courseDates, setCourseDates] = useState<any>({
     startDate: "--/--/----",
     endDate: "--/--/----",
+    startDateTimeStamp: 0,
+    endDateTimeStamp: 0,
   });
   const [coursesStatus, setCoursesStatus] = useState(false);
 
