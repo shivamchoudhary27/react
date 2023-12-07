@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
+import filterIcon from "../../../../../../../assets/images/icons/mb-filterIcon.svg";
+
 import "./mobileStyle.scss";
 
 type Props = {
@@ -40,13 +42,21 @@ const Mobile: React.FC<Props> = (props) => {
       console.log("completed");
     }
   };
-
+  const [showFilterDropdown, setShowFilterDropdown] = useState(true);
+  const toggleFilterDropdown = () => {
+    setShowFilterDropdown(!showFilterDropdown);
+  };
   return (
     <React.Fragment>
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses</h3>
+          <button onClick={toggleFilterDropdown} className="filter-btn">
+            <img src={filterIcon} alt="filter-icon" />
+          </button>
+          <div className={showFilterDropdown ? "FilterProgramDropdown-wrapper" : "FilterProgramDropdown-wrapper hidden"}>
           <FilterProgramDropdown getCourseStatus={getCourseStatus} coursesList={props.coursesList} />
+          </div>
         </div>
         <Row className="g-4 mylearning-card">
           {props.coursesList.courses.map((item: any, index: number) => (

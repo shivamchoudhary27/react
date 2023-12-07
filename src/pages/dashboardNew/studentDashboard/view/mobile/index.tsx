@@ -30,12 +30,6 @@ const Mobile = (props: Props) => {
     <React.Fragment>
       <MobileHeader />
       <div className="contentarea-wrapper mb-wraper">
-        <div className="dashboard-bottomPanel mt-4 mb-5">
-          <EnrolCoursesList
-            userCoursesData={props.userCoursesData}
-            enrolCoreCoursesObj={props.enrolCoreCoursesObj}
-          />
-        </div>
         <div className="dashboard-topPanel">
           <Container fluid>
             <Row>
@@ -66,6 +60,12 @@ const Mobile = (props: Props) => {
               </Col>
             </Row>
           </Container>
+        </div>
+        <div className="dashboard-bottomPanel mt-4 mb-5">
+          <EnrolCoursesList
+            userCoursesData={props.userCoursesData}
+            enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          />
         </div>
       </div>
       <MobileFooter />
