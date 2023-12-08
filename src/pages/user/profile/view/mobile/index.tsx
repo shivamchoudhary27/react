@@ -8,7 +8,7 @@ import MobileFooter from "../../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import { searchCountryNameById } from "../../../../../globals/getCountry";
 import DefaultProfileImage from "../../../../../assets/images/profile.png";
-import editpicture from "../../../../../assets/images/icons/edit-action.svg";
+import editpicture from "../../../../../assets/images/icons/addimage.svg";
 import "./mobileStyle.scss";
 type Props = {
   commonProps: {

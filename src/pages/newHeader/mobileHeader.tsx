@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import Logo from "../../assets/images/logo-white.png";
+import Logo from "../../assets/images/logo-circle.png";
 import SearchIcon from "../../assets/images/icons/search-icon.svg";
 import Nav from "react-bootstrap/Nav";
 import Dropdown from "react-bootstrap/Dropdown";
