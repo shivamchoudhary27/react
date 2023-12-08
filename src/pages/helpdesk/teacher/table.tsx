@@ -39,7 +39,7 @@ const TeacherHelpdeskTable = (props: Props) => {
             // onClick={() => {
             //   props.toggleRepliesModalShow({ status: true, action: "allview" });
             // }}
-            onClick={() => onClickHandler({
+            onClick={() => onClickViewAllHandler({
               topic: row.original.topic,
               createDate: row.original.date,
             })}
@@ -81,7 +81,7 @@ const TeacherHelpdeskTable = (props: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
-  const onClickHandler = ({topic: topic, createDate: createDate}: any) => {
+  const onClickViewAllHandler = ({topic: topic, createDate: createDate}: any) => {
     console.log(topic, createDate)
     props.toggleRepliesModalShow({ status: true, action: "allview" });
   }
