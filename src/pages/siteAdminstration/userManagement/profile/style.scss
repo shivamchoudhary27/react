@@ -7,20 +7,24 @@
             width: 100%;
         }
         .editPix {
-            position: absolute; display: none;
-            &:hover {
-                background-color: #fff;
-            }
+            position: absolute;
+            // display: none;
+            // &:hover {
+            //     background-color: #fff;
+            // }
         }
-        &:hover .editPix {
-            display: block;
-        }
+        // &:hover .editPix {
+        //     display: block;
+        // }
     }
     .user-profile-tab-content {
         padding: 20px 0;
     }
     ul.profile-menu-data {
-        list-style: none; margin: 0; padding: 0; overflow: hidden;
+        list-style: none; 
+        // margin: 0;
+        // padding: 0;
+        overflow: hidden;
     }
     li {
         font-weight: 500; margin-bottom: 15px; float: left; width: 50%; padding: 0 15px;
