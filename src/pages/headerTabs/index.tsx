@@ -62,14 +62,14 @@ const HeaderTabs = ({activeTab} : any) => {
                     menuPermission.attendance.canView
                     &&
                     <Nav.Item as="li">
-                        <Link to="" className={activeTab === 'attendance' ? 'active-tab' : ''}>
+                        <Link to="/attendance" className={activeTab === 'attendance' ? 'active-tab' : ''}>
                             <img src={attendanceIcon} alt="Attendance" />
                             <span>Attendance</span>
                         </Link>             
                     </Nav.Item>
                 }
                 <Nav.Item as="li">
-                    <Link to="" className={activeTab === 'helpdesk' ? 'active-tab' : ''}>
+                    <Link to="/helpdesk" className={activeTab === 'helpdesk' ? 'active-tab' : ''}>
                         <img src={helpdeskIcon} alt="Helpdesk" />
                         <span>Helpdesk</span>
                     </Link>             

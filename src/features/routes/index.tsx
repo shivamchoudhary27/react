@@ -37,6 +37,8 @@ import ManageCoursesWorkLoad from '../../pages/siteAdminstration/timetable/manag
 import TimesSlot from '../../pages/siteAdminstration/timetable/timesSlot';
 import UserProfile from '../../pages/user/profile';
 import EditProfile from '../../pages/user/profile/forms/editProfile';
+import Attendance from '../../pages/attendance';
+import Helpdesk from '../../pages/helpdesk';
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
@@ -66,6 +68,8 @@ export default function NewCustomRoutes() {
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}
+            <Route path="/attendance" key="attendance" element={<Attendance />} />
+            <Route path="/helpdesk" key="helpdesk" element={<Helpdesk />} />
             <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/teachergradebook' element={<TeacherGradebook />} />
             <Route path='/studentgradeview' element={<SelectedStudentGrade />} />
