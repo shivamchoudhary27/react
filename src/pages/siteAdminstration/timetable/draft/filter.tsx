@@ -4,16 +4,19 @@ import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { renderCourse, handleChildrens } from "./utils";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import { courseDatesObj } from "./utils";
 
 const ManageFilter = ({
   workloadCourses,
   ids,
   updateCourseDates,
   setCoursesStatus,
+  updateFacultyStatus
 }: any) => {
+
   const initialValues = {
     name: "",
-    code: "",
+    faculty: "",
     workloadCourse: "",
   };
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -23,11 +26,8 @@ const ManageFilter = ({
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
 
   useEffect(() => {
-    if (coursesOnly.length === 0) {
-      setCoursesStatus(true);
-    }else{
-      setCoursesStatus(false)
-    }
+    if (coursesOnly.length === 0) setCoursesStatus(true);
+    else setCoursesStatus(false);
   }, [coursesOnly]);
 
   useEffect(() => {
@@ -51,11 +51,13 @@ const ManageFilter = ({
 
   const formik = useFormik({
     initialValues: initialValues,
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      console.log(values);
+    },
     onReset: () => {
       setSelectedFaculty(0);
       setSelectedCourse(0);
-      updateCourseDates({ startDate: "--/--/----", endDate: "--/--/----" });
+      updateCourseDates(courseDatesObj);
     },
   });
 
@@ -65,30 +67,34 @@ const ManageFilter = ({
     handleCourseDates(parseInt(e.target.value));
   };
 
+  const handleFacultyFilterChange = (e: any) => {
+    setSelectedFaculty(parseInt(e.target.value));
+    updateFacultyStatus(parseInt(e.target.value));
+  };
+
   const handleCourseDates = (courseId: number) => {
     let startDate, endDate = "--/--/----";
     let startDateTimeStamp, endDateTimeStamp = 0;
+    let noneSelected = false;
 
     const courseWithId = coursesOnly.find((item: any) => item.courseid === courseId);
-
     if (courseWithId) {
       startDate = format(new Date(courseWithId.startDate), "dd/MM/yyyy");
       endDate = format(new Date(courseWithId.endDate), "dd/MM/yyyy");
       startDateTimeStamp = toTimestampConverter(startDate);
       endDateTimeStamp = toTimestampConverter(endDate);
+      noneSelected = false;
+    } else {
+      noneSelected = true;
     }
 
-    updateCourseDates({ startDate: startDate, endDate: endDate, startDateTimeStamp, endDateTimeStamp });
+    updateCourseDates({ startDate: startDate, endDate: endDate, startDateTimeStamp, endDateTimeStamp, noneSelected, courseId });
   };
 
   const toTimestampConverter = (dateString: string) => {
     const dateObject = parse(dateString, 'dd/MM/yyyy', new Date());
     return getTime(dateObject);
   }
-
-  const handleFacultyFilterChange = (e: any) => {
-    setSelectedFaculty(parseInt(e.target.value));
-  };
 
   const renderCourseOptions = (categories: any) => {
     return (

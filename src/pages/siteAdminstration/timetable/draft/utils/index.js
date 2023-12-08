@@ -111,15 +111,11 @@ export const handleChildrens = (parentCategory: any, categories: any) => {
     },
 ];
 
-export const getRandomStatus = (weekend = false) => {
-  if (weekend === true) {
-    return {status: "weekend"};
-  }
-  // Generate a random number between 0 and 1
-  var randomNumber = Math.random();
-
-  return randomNumber < 0.5 ? 
-  {status: "booked", bookedDetais: "TUT SB B204"} 
-  : 
-  {status: "available"};
+export const courseDatesObj = {
+  startDate: "--/--/----",
+  endDate: "--/--/----",
+  startDateTimeStamp: 0,
+  endDateTimeStamp: 0,
+  noneSelected: true,
+  courseId: 0,
 }

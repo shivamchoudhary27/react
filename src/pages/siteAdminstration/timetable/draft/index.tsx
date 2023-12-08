@@ -3,7 +3,6 @@ import View from "./view";
 import Filters from "./filter";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
-import WeeklyTimetable from "./weekTable";
 import DraftVersionTable from "./table";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
@@ -15,17 +14,18 @@ import Errordiv from "../../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
+import { getData } from "../../../../adapters/microservices";
+import { pagination } from "../../../../utils/pagination";
+import { format, parse } from "date-fns";
 
-import {
-  getLatestWeightForCategory,
-  updateCategoryLevels,
-  getChildren,
-  getRandomStatus,
-} from "./utils";
-import { setHasChildProp, resetManageCourseObj } from "./local";
+import { 
+  getTimeslotData, getCourseWorkloadtData, getUrlParams, 
+  getSortedCategories, getTableRenderTimeSlots 
+} from "./local";
+
+import { courseDatesObj } from "./utils";
 
 const WeeklyDraftVersion = () => {
   const location = useLocation();
@@ -42,112 +42,94 @@ const WeeklyDraftVersion = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [courseDates, setCourseDates] = useState<any>({
-    startDate: "--/--/----",
-    endDate: "--/--/----",
-    startDateTimeStamp: 0,
-    endDateTimeStamp: 0,
-  });
+  const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [coursesStatus, setCoursesStatus] = useState(false);
+  const [filters, setFilters] = useState({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE * 10,
+    courseId: 0,
+    userId: 0,
+    startDate: 0,
+    endDate: 0,
+  });
+  const [timetableData, setTimetableData] = useState(dummyData);
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const dpt = parseInt(urlParams.get("dpt"));
-    const prg = urlParams.get("prg");
-    const prgId = parseInt(urlParams.get("prgId"));
-    setUrlArg({ dpt, prg, prgId });
+    getUrlParams(location, setUrlArg);
   }, []);
 
   useEffect(() => {
     if (urlArg.dpt > 0) {
-      let endPoint = `/${currentInstitute}/timetable/timeslot`;
-      makeGetDataRequest(
-        endPoint,
-        { departmentId: urlArg.dpt, pageNumber: 0, pageSize: 50 },
-        setDepartmentTimeslots,
-        setApiStatus
-      );
+      getTimeslotData(currentInstitute, urlArg, setDepartmentTimeslots, setApiStatus);
     }
   }, [urlArg.dpt]);
 
   useEffect(() => {
     if (urlArg.prgId > 0) {
-      let endPoint = `${urlArg.prgId}/category/course/workloads`;
-      makeGetDataRequest(
-        endPoint,
-        { pageNumber: 0, pageSize: 100 },
-        setCoursesList
-      );
-    }
-  }, [urlArg.dpt]);
+      getCourseWorkloadtData(urlArg, setCoursesList);
+    } 
+  }, [urlArg.prgId]);
 
   useEffect(() => {
     if (coursesList.items.length > 0) {
-      const convertedResult = coursesList.items
-        .filter((item) => item.parent === 0)
-        .sort((a, b) => a.weight - b.weight)
-        .reduce(
-          (acc, item) => [
-            ...acc,
-            item,
-            ...getChildren(item, coursesList.items),
-          ],
-          []
-        );
-
-      convertedResult.forEach((item) => {
-        if (item.parent === 0) {
-          item.level = 1;
-          updateCategoryLevels(convertedResult, item.id, 2);
-        }
-      });
-      const hasChildPropAdded = setHasChildProp(convertedResult);
-      const courseObjAdded = resetManageCourseObj(hasChildPropAdded);
-      setSortedCategories(courseObjAdded);
+      getSortedCategories(coursesList, setSortedCategories);
     }
   }, [coursesList.items]);
 
   useEffect(() => {
-    if (departmentTimeslots.items.length > 0) {
-      let timeslotPacket = [];
+    setFilters((previous: any) => ({
+        ...previous,
+        courseId: courseDates.courseId,
+        userId: 0,
+    }))
+  }, [courseDates]);
 
-      const sortedTimeSlots = departmentTimeslots.items.slice().sort((a, b) => {
-        // Convert start times to Date objects for comparison
-        const timeA = new Date(`1970-01-01T${a.startTime}`);
-        const timeB = new Date(`1970-01-01T${b.startTime}`);
+  useEffect(() => {
+    if (filters.courseId > 0 && filters.userId > 0 && filters) {
+      getData(`/${urlArg.prgId}/timetable`, filters)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
 
-        return timeA - timeB;
-      });
+          result.data.items.map((item: any, index: number) => {
+             const inputDate = parse(item.sessionDate, 'yyyy-MM-dd', new Date());
+             const dayName = format(inputDate, 'EEEE');
+             result.data.items[index].dayName = dayName;
+          });
 
-      sortedTimeSlots.map((item) => {
-        let currentPacket = {
-          timeSlot: `${item.startTime} - ${item.endTime}`,
-          breakTime: false,
-          monday: JSON.stringify(getRandomStatus()),
-          tuesday: JSON.stringify(getRandomStatus()),
-          wednesday: JSON.stringify(getRandomStatus()),
-          thursday: JSON.stringify(getRandomStatus()),
-          friday: JSON.stringify(getRandomStatus()),
-          saturday: JSON.stringify(getRandomStatus()),
-          sunday: JSON.stringify(getRandomStatus(true)),
-        };
-
-        if (item.breakTime === true) {
-          currentPacket.breakTime = true;
-          currentPacket.breakType =
-            item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";
+          setTimetableData(result.data);
         }
-        timeslotPacket.push(currentPacket);
-      });
-      setTimeslots(timeslotPacket);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      }); 
     }
-  }, [departmentTimeslots]);
+  }, [filters]);
+
+  useEffect(() => {
+    if (departmentTimeslots.items.length > 0) {
+      getTableRenderTimeSlots(departmentTimeslots, timetableData, setTimeslots);
+    }
+  }, [departmentTimeslots, timetableData]);
 
   const updateCourseDates = (courseDates: any) => {
     setCourseDates(courseDates);
   };
+
+  const updateFacultyStatus = (facultyId: any) => {
+    setFilters((previous: any) => ({
+      ...previous,
+      userId: facultyId,
+    }))
+  }
+
+  const updateTimetableDates = (weekDates: any) => {
+    setFilters((previous: any) => ({
+      ...previous,
+      startDate: weekDates.startDate,
+      endDate: weekDates.endDate,
+    }))
+  }
   
-  // console.log(courseDates.startDate != "--/--/----")
   return (
     <React.Fragment>
       {/* mobile and browser view component call */}
@@ -180,18 +162,17 @@ const WeeklyDraftVersion = () => {
             ids={urlArg}
             updateCourseDates={updateCourseDates}
             setCoursesStatus={setCoursesStatus}
+            updateFacultyStatus={updateFacultyStatus}
           />
           <div className="d-flex justify-content-between align-items-center mt-4">
             <div className="d-flex gap-4 dates-wrapper">
               <div>
                 <img src={startDateIcon} alt="start Date" />
                 <b>Start Date:</b> {courseDates.startDate}
-                {/* {format(weekDates[0], 'dd/MM/yyyy')} */}
               </div>
               <div>
                 <img src={endDateIcon} alt="End Date" />
                 <b>End Date: </b> {courseDates.endDate}
-                {/* {format(weekDates[6], 'dd/MM/yyyy')} */}
               </div>
             </div>
             <div className="slot-indicator">
@@ -207,15 +188,12 @@ const WeeklyDraftVersion = () => {
           ) : (
             <>
               {apiStatus === "finished" && timeslots.length > 0 && (
-                <>
-                  <DraftVersionTable
-                    SlotData={timeslots}
-                    apiStatus={apiStatus}
-                    courseDates={courseDates}
-                  />
-
-                  {/* <WeeklyTimetable SlotData={timeslots} apiStatus={apiStatus} /> */}
-                </>
+                <DraftVersionTable
+                  SlotData={timeslots}
+                  apiStatus={apiStatus}
+                  courseDates={courseDates}
+                  updateTimetableDates={updateTimetableDates}
+                />
               )}
               {apiStatus === "finished" && timeslots.length === 0 && (
                 <div>
