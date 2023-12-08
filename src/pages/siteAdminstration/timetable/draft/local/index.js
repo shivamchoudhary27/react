@@ -1,5 +1,7 @@
 //put all these methods in a parent category object
 //and then export the category object only
+import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
+import { getChildren, updateCategoryLevels } from "../utils";
 
 export const getDragnDropAction = (source, destination) => {
     if (source.level === destination.level) {
@@ -86,4 +88,122 @@ export const resetManageCourseObj = (sortedCategoryData) => {
         }
     }
     return cloneObj;
+}
+
+export const getUrlParams = (location, setUrlArg) => {
+    const urlParams = new URLSearchParams(location.search);
+    const dpt = parseInt(urlParams.get("dpt"));
+    const prg = urlParams.get("prg");
+    const prgId = parseInt(urlParams.get("prgId"));
+    setUrlArg({ dpt, prg, prgId });
+}
+
+export const getTimeslotData = (currentInstitute, urlArg, setDepartmentTimeslots, setApiStatus) => {
+    let endPoint = `/${currentInstitute}/timetable/timeslot`;
+    makeGetDataRequest(
+      endPoint,
+      { departmentId: urlArg.dpt, pageNumber: 0, pageSize: 50 },
+      setDepartmentTimeslots,
+      setApiStatus
+    );
+}
+
+export const getCourseWorkloadtData = (urlArg, setCoursesList) => {
+    let endPoint = `${urlArg.prgId}/category/course/workloads`;
+    makeGetDataRequest(
+      endPoint,
+      { pageNumber: 0, pageSize: 100 },
+      setCoursesList
+    );
+}
+
+export const getSortedCategories = (coursesList, setSortedCategories) => {
+    const convertedResult = coursesList.items
+        .filter((item) => item.parent === 0)
+        .sort((a, b) => a.weight - b.weight)
+        .reduce(
+        (acc, item) => [
+            ...acc,
+            item,
+            ...getChildren(item, coursesList.items),
+        ],
+        []
+        );
+
+    convertedResult.forEach((item) => {
+        if (item.parent === 0) {
+        item.level = 1;
+        updateCategoryLevels(convertedResult, item.id, 2);
+        }
+    });
+    const hasChildPropAdded = setHasChildProp(convertedResult);
+    const courseObjAdded = resetManageCourseObj(hasChildPropAdded);
+    setSortedCategories(courseObjAdded);
+}
+
+export const getRandomStatus = (weekend = false) => {
+    if (weekend === true) {
+      return {status: "weekend"};
+    }
+    // Generate a random number between 0 and 1
+    var randomNumber = Math.random();
+  
+    return randomNumber < 0.5 ? 
+    {status: "booked", bookedDetais: "TUT SB B204"} 
+    : 
+    {status: "available"};
+}
+
+export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setTimeslots) => {
+    let timeslotPacket = [];
+
+    const sortedTimeSlots = departmentTimeslots.items.slice().sort((a, b) => {
+      // Convert start times to Date objects for comparison
+      const timeA = new Date(`1970-01-01T${a.startTime}`);
+      const timeB = new Date(`1970-01-01T${b.startTime}`);
+
+      return timeA - timeB;
+    });
+    
+    sortedTimeSlots.map((item) => {
+
+      let currentPacket = {
+        timeSlot: `${item.startTime} - ${item.endTime}`,
+        breakTime: false,
+        monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items),   //JSON.stringify(getRandomStatus()),
+        tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items),//JSON.stringify(getRandomStatus()),
+        wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items),//JSON.stringify(getRandomStatus()),
+        thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items),//JSON.stringify(getRandomStatus()),
+        friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items),//JSON.stringify(getRandomStatus()),
+        saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items),//JSON.stringify(getRandomStatus()),
+        sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items),//JSON.stringify(getRandomStatus(true)),
+      };
+
+      if (item.breakTime === true) {
+        currentPacket.breakTime = true;
+        currentPacket.breakType =
+          item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";
+      }
+      timeslotPacket.push(currentPacket);
+    });
+
+    setTimeslots(timeslotPacket);
+}
+
+const getTimeSlotDayData = (slotId, day, packet) => {
+
+    let response = {};
+    const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
+
+    if (filteredData.length > 0) {
+        if (filteredData[0].status === null) {
+            response = {status: "available"};
+        } else {
+            response = {status: "booked", bookedDetais: "TUT SB B204"} 
+        }
+    } else {
+        response = {status: "available"};
+    }
+
+    return JSON.stringify(response); 
 }

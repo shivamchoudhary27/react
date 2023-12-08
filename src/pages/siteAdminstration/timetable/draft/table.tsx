@@ -2,10 +2,10 @@ import "./style.scss";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "./utils";
-import { addDays, format, startOfWeek } from "date-fns";
+import { addDays, format, startOfWeek, parse } from "date-fns";
 import React, { useMemo, useState, useEffect } from "react";
 
-const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
+const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -17,15 +17,29 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
       data,
     });
   const [renderWeek, setRenderWeek] = useState<any>([]);
+  const [weekNavs, setWeekNavs] = useState({next: true, prev: true});
 
   useEffect(() => {
     const nextWeekDates = calculateWeek(0);
+    
     setRenderWeek(nextWeekDates);
     setWeekAmount(0);
+
+    if (courseDates.noneSelected === true) {
+      setWeekNavs({next: false, prev: false})
+    } else {
+      setWeekNavs({next: true, prev: true})
+    }  
   }, [courseDates]);
 
   useEffect(() => {
     if (renderWeek.length > 0) {
+      
+      updateTimetableDates({
+        startDate: format(renderWeek[0], 'yyyy-MM-dd'),
+        endDate: format(renderWeek[6], 'yyyy-MM-dd'),
+      });
+
       const newWeekColumns = [
         {
           Header: "Time Slots",
@@ -65,8 +79,9 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
     if (nextWeekAvailable) {
       setRenderWeek(nextWeekDates);
       setWeekAmount((prevCount) => prevCount + 7);
+      setWeekNavs((previous) => ({...previous, prev: true}));
     } else {
-      window.alert('Next week is not available');
+      setWeekNavs((previous) => ({...previous, next: false}));
     }
   };
 
@@ -77,12 +92,15 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
     if (previousWeekAvailable) {
       setRenderWeek(previousWeekDates);
       setWeekAmount((prevCount) => prevCount - 7);
+      setWeekNavs((previous) => ({...previous, next: true}));
     } else {
-      window.alert('Previous week is not available');
+      setWeekNavs((previous) => ({...previous, prev: false}));
     }
   };
 
   const isNextWeekAvailable = (nextWeekDates: any, endDate : number) => {
+    if (endDate === 0) return false;
+
     const weekStart = convertToTimestamp(nextWeekDates[0]);
     const weekEnd = convertToTimestamp(nextWeekDates[6]);
 
@@ -93,6 +111,8 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
   }
 
   const isPreviousWeekAvailable = (previousWeekDates: any, startDate : number) => {
+    if (startDate === 0) return false;
+
     const weekStart = convertToTimestamp(previousWeekDates[0]);
     const weekEnd = convertToTimestamp(previousWeekDates[6]);
 
@@ -122,8 +142,8 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates }: any) => {
   return (
     <React.Fragment>
       <div className="next-previousbuttons">
-        <button type="button" onClick={handlePreviousWeek}>{`<`}</button>
-        <button type="button" onClick={handleNextWeek}>{`>`}</button>
+        {weekNavs.prev && <button type="button" onClick={handlePreviousWeek}>{`<`}</button>}
+        {weekNavs.next && <button type="button" onClick={handleNextWeek}>{`>`}</button>}
       </div>
       <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">
         <Table className="draft-table mb-0" {...getTableProps}>
