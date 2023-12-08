@@ -9,7 +9,7 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import { searchCountryNameById } from "../../../../../globals/getCountry";
 import DefaultProfileImage from "../../../../../assets/images/profile.png";
-import editpicture from "../../../../../assets/images/icons/edit-action.svg";
+import editpicture from "../../../../../assets/images/icons/addimage.svg";
 
 type Props = {
   commonProps: {
@@ -45,9 +45,11 @@ const Browser = (props: Props) => {
           <div className="user-profile-box">
             <div className="row">
               <div className="col-md-4 text-center">
-                <div
-                  className="user-picture"
+             <div className="profileimage-wrapper"
                   onClick={() => props.commonProps.toggleModalShow("picture")}
+             >
+             <div
+                  className="user-picture"
                 >
                   <img
                     src={
@@ -64,10 +66,11 @@ const Browser = (props: Props) => {
                     }
                     className="userPix"
                   />
-                  <span className="action-icons editPix">
+                </div>
+                <span className="action-icons editPix">
                     <img src={editpicture} alt="edit" />
                   </span>
-                </div>
+             </div>
                 <h3 className="mt-3">
                   {(
                     props.commonProps.user.userFirstName +
@@ -75,17 +78,19 @@ const Browser = (props: Props) => {
                     props.commonProps.user.userLastName
                   ).replace(/\b\w/g, (match) => match.toUpperCase())}
                 </h3>
-                <Button onClick={() => navigate("/editprofile")}>
+               <div className="profilebuttons">
+               <Button onClick={() => navigate("/editprofile")}>
                   Edit Profile
                 </Button>
-                <div
-                  className="mt-2 resetPassword"
+                <Button
+                  className="resetPassword"
                   onClick={() =>
                     props.commonProps.toggleModalShow("changePassword")
                   }
                 >
-                  <Link to="">Change Password</Link>
-                </div>
+                Change Password
+                </Button>
+               </div>
                 {props.commonProps.currentUserRole.shortName ===
                   "editingteacher" && (
                   <div

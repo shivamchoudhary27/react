@@ -1,4 +1,23 @@
 .user-profile-box {
+    .profileimage-wrapper{
+        width: max-content;
+        margin: 0 auto;
+        position: relative;
+        .editPix {
+            position: absolute;
+            bottom: 0px;
+            right: 16%;
+            cursor: pointer;
+            &:hover {
+                background-color: #efefef;
+            }
+        }
+    }
+    .profile-menu-data{
+        background: #f9fafb;
+        border-radius: 16px;
+        padding: 26px;
+    }
     .user-picture {
         width: 200px; height: 200px; border-radius: 50%; border: 1px solid #ddd; margin: auto;
         display: flex; justify-content: center; align-items: center; overflow: hidden; cursor: pointer;
@@ -6,35 +25,38 @@
         img.userPix {
             width: 100%;
         }
-        .editPix {
-            position: absolute; display: none;
-            &:hover {
-                background-color: #fff;
-            }
-        }
-        &:hover .editPix {
-            display: block;
-        }
     }
     .user-profile-tab-content {
         padding: 20px 0;
     }
     ul.profile-menu-data {
-        list-style: none; margin: 0; padding: 0; overflow: hidden;
+        list-style: none;
+        // margin: 0;
+        // padding: 0;
+        // overflow: hidden;
     }
     li {
-        font-weight: 500; margin-bottom: 15px; float: left; width: 50%; padding: 0 15px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        float: left;
+        width: 50%;
+        padding: 0 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         label {
             font-weight: 400; margin-right: 5px; color: #888; display: block; text-transform: uppercase;
         }
     }
     .resetPassword {
-        a {
-            text-decoration: underline;
-            &:hover {
-                text-decoration: none;
-            }
-        }
+       border-color: #1B609D;
+       background: white;
+       color: #1B609D;
+    }
+    .profilebuttons{
+        display: flex;
+        justify-content: center;
+        gap: 22px;
+        margin: 16px 0px;
     }
 }
 .user-profile-container {
