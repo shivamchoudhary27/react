@@ -12,6 +12,7 @@ import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import multiUser from "../../../../assets/images/icons/multi-user.svg";
 import singleUser from "../../../../assets/images/icons/single-user.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
+import "./mobileStyle.scss";
 
 type Props = {
   commonProps: {
@@ -61,7 +62,7 @@ const Mobile = (props: Props) => {
                   showAllNone={props.commonProps.showAllNone}
                 />
 
-                <div className="mitblock meet-with mt-3">
+                <div className="mitblock meet-with my-3">
                   <h3 className="mitblock-title">Meet With</h3>
                   <div className="mitblock-body">
                     <div className="input-group flex-nowrap">
@@ -148,7 +149,7 @@ const Mobile = (props: Props) => {
                         }}
                       />
                     )}
-                    <Row className="mt-3 mb-4 gx-4">
+                    <Row className="mt-3 mb-4 gx-4 gap-3">
                       <Col sm={6}>
                         <div className="start-date">
                           <strong>Start Date</strong>

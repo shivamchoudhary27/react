@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-// this icon will be used later for inactive state
-// import DashboardIcon from "../../assets/images/icons/mb-dashboard-icon.svg";
-import DashboardIcon from "../../assets/images/icons/mb-dashboard-icon-active.svg";
+import DashboardIcon from "../../assets/images/icons/mb-dashboard-icon.svg";
+import DashboardIconActive from "../../assets/images/icons/mb-dashboard-icon-active.svg";
 import CalenderIcon from "../../assets/images/icons/mb-calender-icon.svg";
+import CalenderIconActive from "../../assets/images/icons/mb-calender-icon-active.svg";
 import GradebookIcon from "../../assets/images/icons/mb-gradebook-icon.svg";
+import GradebookIconActive from "../../assets/images/icons/mb-gradebook-icon-active.svg";
 import PerformanceIcon from "../../assets/images/icons/mb-performance-icon.svg";
+import PerformanceIconActive from "../../assets/images/icons/mb-performance-icon-active.svg";
 import MenuIcon from "../../assets/images/icons/mb-menu-icon.svg";
 import "./mobileStyle.scss";
 import Sidebar from "./sidebar";
@@ -35,7 +37,11 @@ const MobileFooter = (props: Props) => {
                 }`}
                 onClick={list.title === "Menu" ? toggleSidebar : undefined}
               >
-                <img src={list.icon} alt={list.title} />
+                <img src={
+                    location.pathname === list.link
+                      ? list.activeIcon
+                      : list.inactiveIcon
+                  } alt={list.title} />
                 <h2 
                   className={`footerTitle ${
                     location.pathname === list.link ? "active" : ""
@@ -57,27 +63,32 @@ export default MobileFooter;
 
 const footerList = [
   {
-    icon: DashboardIcon,
+    activeIcon: DashboardIconActive,
+    inactiveIcon: DashboardIcon,
     title: "Dashboard",
     link: "/dashboard",
   },
   {
-    icon: CalenderIcon,
-    title: "Calander",
-    link: "/calender",
+    activeIcon: CalenderIconActive,
+    inactiveIcon: CalenderIcon, //change this
+    title: "Calendar",
+    link: "/calender", 
   },
   {
-    icon: GradebookIcon,
+    activeIcon: GradebookIconActive,
+    inactiveIcon: GradebookIcon, //change this
     title: "Gradebook",
     link: "/gradebook",
   },
   {
-    icon: PerformanceIcon,
+    activeIcon: PerformanceIconActive,
+    inactiveIcon:PerformanceIcon, //change this
     title: "Performance",
     link: "#",
   },
   {
-    icon: MenuIcon,
+    activeIcon: MenuIcon,
+    inactiveIcon: MenuIcon,
     title: "Menu",
     link: "#",
   },

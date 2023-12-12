@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import ColorBox from "../../widgets/colorBox";
+import { isMobile } from 'react-device-detect';
 
 const CalendarFilters = ({events, filters, showAllNone}) => {
   const eventModules = Object.keys(events);
@@ -50,6 +51,8 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
       setNoneShow();      
     }
   }
+  // for key accordion close by default on mobile device
+  const defaultActiveKey = isMobile ? '1' : '0';
 
   const eventCheckboxes = () => {
     return (
@@ -80,10 +83,18 @@ const CalendarFilters = ({events, filters, showAllNone}) => {
   }
 
   return (
-    <div className="mitblock events-keys">
-        <h3 className="mitblock-title">Key</h3>
-        <div className="mitblock-body">{eventCheckboxes()}</div>
-    </div>
+    <Accordion defaultActiveKey={defaultActiveKey}>
+    <Accordion.Item eventKey="0">
+      <Accordion.Header>Key</Accordion.Header>
+      <Accordion.Body className="events-keys">
+      <div className="mitblock-body">{eventCheckboxes()}</div>
+      </Accordion.Body>
+    </Accordion.Item>
+      </Accordion> 
+    // <div className="mitblock events-keys">
+    //     <h3 className="mitblock-title">Key</h3>
+    //     <div className="mitblock-body">{eventCheckboxes()}</div>
+    // </div>
   );
 }
 
