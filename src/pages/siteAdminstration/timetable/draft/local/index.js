@@ -154,7 +154,7 @@ export const getRandomStatus = (weekend = false) => {
     {status: "available"};
 }
 
-export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setTimeslots) => {
+export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setTimeslots, weekendTimeslots) => {
     let timeslotPacket = [];
 
     const sortedTimeSlots = departmentTimeslots.items.slice().sort((a, b) => {
@@ -167,42 +167,52 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
     
     sortedTimeSlots.map((item) => {
 
-      let currentPacket = {
-        timeSlot: `${item.startTime} - ${item.endTime}`,
-        breakTime: false,
-        monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items),   //JSON.stringify(getRandomStatus()),
-        tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items),//JSON.stringify(getRandomStatus()),
-        wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items),//JSON.stringify(getRandomStatus()),
-        thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items),//JSON.stringify(getRandomStatus()),
-        friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items),//JSON.stringify(getRandomStatus()),
-        saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items),//JSON.stringify(getRandomStatus()),
-        sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items),//JSON.stringify(getRandomStatus(true)),
-      };
-
+        let currentPacket = {
+            timeSlot: `${item.startTime} - ${item.endTime}`,
+            breakTime: false,
+            monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items, weekendTimeslots),   //JSON.stringify(getRandomStatus()),
+            tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
+            wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
+            thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
+            friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
+            saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
+            sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus(true)),
+        };
+        
+        // console.log(currentPacket,timetableData)
       if (item.breakTime === true) {
-        currentPacket.breakTime = true;
-        currentPacket.breakType =
+          currentPacket.breakTime = true;
+          currentPacket.breakType =
           item.type.charAt(0).toUpperCase() + item.type.slice(1) + " break";
-      }
-      timeslotPacket.push(currentPacket);
+        }
+        timeslotPacket.push(currentPacket);
     });
 
     setTimeslots(timeslotPacket);
 }
 
-const getTimeSlotDayData = (slotId, day, packet) => {
+// export const getWeekendTimeslot = () => {}
+
+const getTimeSlotDayData = (slotId, day, packet, weekend) => {
 
     let response = {};
     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
-
+    const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
+    
     if (filteredData.length > 0) {
-        if (filteredData[0].status === null) {
+        console.log("filteredData-------", filteredData)
+        if (filteredData[0].status !== null) {
             response = {status: "available"};
         } else {
             response = {status: "booked", bookedDetais: "TUT SB B204"} 
         }
-    } else {
-        response = {status: "available"};
+    } 
+    else{
+        if (lowerCaseWeekdays.includes(day.toLowerCase())) {
+            response = { status: "weekend" };
+        } else {
+            response = { status: "available" };
+        }
     }
 
     return JSON.stringify(response); 
