@@ -36,8 +36,8 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     if (renderWeek.length > 0) {
       
       updateTimetableDates({
-        startDate: format(renderWeek[0], 'yyyy-MM-dd'),
-        endDate: format(renderWeek[6], 'yyyy-MM-dd'),
+        startDate: format(renderWeek[0], 'dd-MM-yyyy'),
+        endDate: format(renderWeek[6], 'dd-MM-yyyy'),
       });
 
       const newWeekColumns = [

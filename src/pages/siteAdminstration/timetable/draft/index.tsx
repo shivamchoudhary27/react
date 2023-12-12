@@ -22,7 +22,7 @@ import { format, parse } from "date-fns";
 
 import { 
   getTimeslotData, getCourseWorkloadtData, getUrlParams, 
-  getSortedCategories, getTableRenderTimeSlots 
+  getSortedCategories, getTableRenderTimeSlots
 } from "./local";
 
 import { courseDatesObj } from "./utils";
@@ -35,6 +35,7 @@ const WeeklyDraftVersion = () => {
   };
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+  const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [coursesList, setCoursesList] = useState(dummyData);
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
@@ -91,7 +92,7 @@ const WeeklyDraftVersion = () => {
         if (result.data !== "" && result.status === 200) {
 
           result.data.items.map((item: any, index: number) => {
-             const inputDate = parse(item.sessionDate, 'yyyy-MM-dd', new Date());
+             const inputDate = parse(item.sessionDate, 'dd-MM-yyyy', new Date());
              const dayName = format(inputDate, 'EEEE');
              result.data.items[index].dayName = dayName;
           });
@@ -105,9 +106,27 @@ const WeeklyDraftVersion = () => {
     }
   }, [filters]);
 
+  // calling API to get weekdays === >>>
+  useEffect(() => {
+    if(departmentTimeslots.items.length > 0){
+      getData(`/weekdays/${currentInstitute}`, {})
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            const filteredData = res.data.filter((item: any) => item.departmentId === departmentTimeslots.items[0].departmentId)
+            if(filteredData[0].weekDays.length > 0){
+              setWeekendTimeslots(filteredData[0].weekDays)
+            }
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+      }
+    }, [departmentTimeslots]);
+
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
-      getTableRenderTimeSlots(departmentTimeslots, timetableData, setTimeslots);
+      getTableRenderTimeSlots(departmentTimeslots, timetableData, setTimeslots, weekendTimeslots);
     }
   }, [departmentTimeslots, timetableData]);
 
