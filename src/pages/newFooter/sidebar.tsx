@@ -16,8 +16,8 @@ const Sidebar = ({ onClose }) => {
     },
     {
       icon: LibraryIcon,
-      title: "Library",
-      link: "#",
+      title: "Attandance",
+      link: "/attendance",
     },
     {
       icon: HelpdeskIcon,
