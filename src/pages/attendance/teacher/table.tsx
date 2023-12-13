@@ -1,29 +1,32 @@
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 type Props = {
-  dummyData: any[];
+  currentUserInfo: any;
+  attendancedata: any[];
 };
 
 const TeacherAttendanceTable = (props: Props) => {
   const tableColumn = [
     {
       Header: "Full Name",
-      accessor: "fullname",
+      Cell: () => {
+        return (
+          <span>{`${props.currentUserInfo.first_name} ${props.currentUserInfo.last_name}`}</span>
+        );
+      },
     },
     {
       Header: "Email",
-      accessor: "email",
+      Cell: () => {
+        return <span>{`${props.currentUserInfo.email}`}</span>;
+      },
     },
     {
       Header: "P L E A",
-      Cell: ({ row }: any) => {
-        return (
-          <span>{`${row.original.present} ${row.original.late} ${row.original.excused} ${row.original.absent}`}</span>
-        );
-      },
+      accessor: "",
     },
     {
       Header: "Points",
@@ -31,7 +34,7 @@ const TeacherAttendanceTable = (props: Props) => {
     },
     {
       Header: "Percentage",
-      accessor: "percentage",
+      accessor: "overallpercentage",
     },
     {
       Header: "Nov 30",
@@ -61,7 +64,7 @@ const TeacherAttendanceTable = (props: Props) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.dummyData, [props.dummyData]);
+  const data = useMemo(() => props.attendancedata, [props.attendancedata]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,

@@ -4,12 +4,18 @@ import Browser from "./browser";
 import { isMobile, isBrowser } from "react-device-detect";
 
 type Props = {
-  dummyData: any[];
+  getCourseId: any;
+  currentUserInfo: any;
+  attendancedata: any[];
+  apiResponseData: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
-    dummyData: props.dummyData,
+    getCourseId: props.getCourseId,
+    attendancedata: props.attendancedata,
+    currentUserInfo: props.currentUserInfo,
+    apiResponseData: props.apiResponseData,
   };
   return (
     <React.Fragment>

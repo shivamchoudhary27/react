@@ -1,6 +1,7 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import TeacherAttendanceTable from "../../table";
+import TeacherAttendanceFilter from "../../filter";
 import PageTitle from "../../../../../widgets/pageTitle";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
@@ -8,7 +9,10 @@ import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
-    dummyData: any[];
+    getCourseId: any;
+    currentUserInfo: any;
+    attendancedata: any[];
+    apiResponseData: any;
   };
 };
 
@@ -26,7 +30,14 @@ const Mobile = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Attendance" gobacklink="/dashboard" />
-            <TeacherAttendanceTable dummyData={props.commonProps.dummyData} />
+            <TeacherAttendanceFilter
+              getCourseId={props.commonProps.getCourseId}
+              apiResponseData={props.commonProps.apiResponseData}
+            />
+            <TeacherAttendanceTable
+              attendancedata={props.commonProps.attendancedata}
+              currentUserInfo={props.commonProps.currentUserInfo}
+            />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
               activepage={props.commonProps.filterUpdate}
