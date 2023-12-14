@@ -1,16 +1,20 @@
-import React from 'react'
-import { Container } from 'react-bootstrap'
-import StudentAttendanceTable from '../../table'
-import PageTitle from '../../../../../widgets/pageTitle'
-import MobileHeader from '../../../../newHeader/mobileHeader'
-import MobileFooter from '../../../../newFooter/mobileFooter'
-import BreadcrumbComponent from '../../../../../widgets/breadcrumb'
+import React from "react";
+import { Container } from "react-bootstrap";
+import StudentAttendanceTable from "../../table";
+import StudentAttendanceFilter from "../../filter";
+import PageTitle from "../../../../../widgets/pageTitle";
+import MobileHeader from "../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../newFooter/mobileFooter";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
-    dummyData: any[]
-  }
-}
+    getCourseId: any;
+    currentUserInfo: any;
+    attendancedata: any[];
+    apiResponseData: any;
+  };
+};
 
 const Mobile = (props: Props) => {
   return (
@@ -26,7 +30,14 @@ const Mobile = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Attendance" gobacklink="/dashboard" />
-            <StudentAttendanceTable dummyData={props.commonProps.dummyData} />
+            <StudentAttendanceFilter
+              getCourseId={props.commonProps.getCourseId}
+              apiResponseData={props.commonProps.apiResponseData}
+            />
+            <StudentAttendanceTable
+              attendancedata={props.commonProps.attendancedata}
+              currentUserInfo={props.commonProps.currentUserInfo}
+            />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
               activepage={props.commonProps.filterUpdate}
@@ -37,7 +48,7 @@ const Mobile = (props: Props) => {
       </div>
       <MobileFooter />
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Mobile
+export default Mobile;
