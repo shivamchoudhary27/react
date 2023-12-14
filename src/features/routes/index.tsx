@@ -21,6 +21,7 @@ import TimetableManagementRoute from './siteAdminRoute/timetableManagement';
 import ProgramManagementRoute from './siteAdminRoute/programManagementRoute';
 import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
+import HelpdeskManagementRoute from './siteAdminRoute/helpdeskManagementRoute';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
 import ProgramOverview from '../../pages/programOverview';
@@ -61,6 +62,7 @@ export default function NewCustomRoutes() {
             {CalenderManagementRoute()}
             {CoPoManagementRoute()}
             {TimetableManagementRoute()}
+            {HelpdeskManagementRoute()}
           
           <Route path="/profile" key="profile" element={<UserProfile />} />
           <Route path="/editprofile" key="editprofile" element={<EditProfile />} />
