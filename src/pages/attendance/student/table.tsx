@@ -4,10 +4,13 @@ import React, { useMemo, useState, useEffect } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 type Props = {
-  dummyData: any[];
+  currentUserInfo: any;
+  attendancedata: any[];
 };
 
 const StudentAttendanceTable = (props: Props) => {
+
+  console.log(props.attendancedata)
   const tableColumn = [
     {
       Header: "Date",
@@ -19,29 +22,29 @@ const StudentAttendanceTable = (props: Props) => {
     },
     {
       Header: "Present (P)",
-      accessor: "present",
+      accessor: "P",
     },
     {
       Header: "Late (L)",
-      accessor: "late",
+      accessor: "L",
     },
     {
       Header: "Excused (E)",
-      accessor: "excused",
+      accessor: "E",
     },
     {
       Header: "Absent (A)",
-      accessor: "absent",
+      accessor: "A",
     },
     {
       Header: "Points",
-      accessor: "points",
+      accessor: "",
     },
   ];
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.dummyData, [props.dummyData]);
+  const data = useMemo(() => props.attendancedata, [props.attendancedata]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
