@@ -45,7 +45,7 @@ export const AdminRawData = [
   ],
   [        
     {
-      title: "Timetable <br>Management",
+      title: "Teaching Resource <br> Planner",
       image: timetablemanagement,
       link: "/timetable",
       classname: "timetable-management",

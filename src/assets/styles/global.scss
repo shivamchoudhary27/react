@@ -163,7 +163,8 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
     thead tr {
             background-color: #0F80EF;
             background-image: url('../images/table-head-bg.svg');
-            background-repeat: repeat;            
+            background-repeat: no-repeat;
+            background-size: cover;            
     }
     th {
         font-weight: 500;
