@@ -1,9 +1,11 @@
 import View from "./view";
 import { useSelector } from "react-redux";
-import { getData } from "../../../adapters";
 import { useEffect, useState, useContext } from "react";
+import { getData as getAttendance } from "../../../adapters";
 import UserContext from "../../../features/context/user/user";
-import { getData as getCourses } from "../../../adapters/microservices";
+import { getData } from "../../../adapters/microservices";
+import { pagination } from "../../../utils/pagination";
+import { getData as getUsers } from "../../../adapters/coreservices";
 
 type Props = {};
 
@@ -16,6 +18,8 @@ const TeacherAttendance = (props: Props) => {
     programs: [],
   });
   const [attendancedata, setAttendanceData] = useState([]);
+  const [allUsers, setAllUsers] = useState([])
+  const [selectedUsers, setSelectedUsers] = useState([])
   const [coursesList, setCoursesList] = useState<any>([]);
   const [courseId, setCourseId] = useState<any>(0);
   const [apiStatus, setApiStatus] = useState("");
@@ -23,11 +27,18 @@ const TeacherAttendance = (props: Props) => {
     (state: any) => state.globalFilters.currentUserRole
   );
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
 
   // call API to get courses list === >>>
   useEffect(() => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
-    getCourses(endPoint, {}).then((res: any) => {
+    getData(endPoint, {}).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
         setCoursesList(res.data.courses);
         setApiResponseData(res.data);
@@ -41,9 +52,9 @@ const TeacherAttendance = (props: Props) => {
       wsfunction: "mod_attendance_get_sessions_report",
       userid: userid,
       categoryid: 391,
-      role: currentUserRole.shortName,
+      role: "student",
     };
-    getData(query)
+    getAttendance(query)
       .then((res) => {
         if (res.data !== "" && res.status === 200) {
           const data: any = JSON.parse(res.data.attendancedata);
@@ -55,6 +66,34 @@ const TeacherAttendance = (props: Props) => {
       });
   }, []);
 
+  // get users API call === >>>
+  useEffect(() => {
+    if (currentInstitute > 0) {
+      getUsers(`/${currentInstitute}/users`, filterUpdate)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            // console.log(result.data)
+            setAllUsers(result.data.items);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [currentInstitute]);
+
+  useEffect(() => {
+    const selectedUsers = allUsers.reduce((selected: any, item: any) => {
+      if (item.roles.some((role: { shortName: string; }) => role.shortName === "student")) {
+        selected.push(item);
+      }
+      return selected;
+    }, []);
+    setSelectedUsers(selectedUsers);
+  }, [allUsers])
+
+  // console.log(selectedUsers)
+
   const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
   };
@@ -63,6 +102,7 @@ const TeacherAttendance = (props: Props) => {
 
   return (
     <View
+      selectedUsers={selectedUsers}
       attendancedata={attendancedata}
       currentUserInfo={currentUserInfo}
       apiResponseData={apiResponseData}

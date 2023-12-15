@@ -13,6 +13,7 @@ type Props = {
     currentUserInfo: any;
     attendancedata: any[];
     apiResponseData: any;
+    selectedUsers: any
   };
 };
 
@@ -37,6 +38,7 @@ const Mobile = (props: Props) => {
             <TeacherAttendanceTable
               attendancedata={props.commonProps.attendancedata}
               currentUserInfo={props.commonProps.currentUserInfo}
+              selectedUsers={props.commonProps.selectedUsers}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
