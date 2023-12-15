@@ -1,9 +1,9 @@
 import View from "./view";
 import { useSelector } from "react-redux";
-import { useEffect, useState, useContext } from "react";
 import { getData } from "../../../adapters";
-import { getData as getCourses } from "../../../adapters/microservices";
+import { useEffect, useState, useContext } from "react";
 import UserContext from "../../../features/context/user/user";
+import { getData as getCourses } from "../../../adapters/microservices";
 
 type Props = {};
 
@@ -59,8 +59,8 @@ const StudentAttendance = (props: Props) => {
     setCourseId(courseId);
   };
 
-  console.log("attendancedata----", attendancedata)
-  console.log("coursesList----", coursesList)
+  // console.log("attendancedata----", attendancedata)
+  // console.log("coursesList----", coursesList)
 
   return (
     <View

@@ -9,16 +9,20 @@ type Props = {
 };
 
 const StudentAttendanceTable = (props: Props) => {
-
-  console.log(props.attendancedata)
   const tableColumn = [
     {
       Header: "Date",
       accessor: "date",
+      Cell: () => {
+        return <span>12/12/2023</span>;
+      },
     },
     {
       Header: "Session Type",
       accessor: "sessionType",
+      Cell: () => {
+        return <span>Offline</span>;
+      },
     },
     {
       Header: "Present (P)",
@@ -39,6 +43,9 @@ const StudentAttendanceTable = (props: Props) => {
     {
       Header: "Points",
       accessor: "",
+      Cell: () => {
+        return <span>56</span>;
+      },
     },
   ];
 

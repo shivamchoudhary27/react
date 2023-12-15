@@ -33,15 +33,6 @@ export const AdminRawData = [
       component: 'enrolment',
       enabled: true,
     },
-    {
-      title: "HelpDesk <br>Management",
-      image: programenrollment,
-      link: "/helpdeskmanagement",
-      classname: "helpdesk-management",
-      boxclassname: "",  
-      component: 'helpdesk',
-      enabled: true,
-    },
   ],
   [        
     {

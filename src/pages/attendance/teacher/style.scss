@@ -1,0 +1,7 @@
+// .your-table-class th:nth-child(-n+5),
+.your-table-class td:nth-child(-n+5) {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: #E3F6FF;
+}
