@@ -77,8 +77,6 @@ const ManageTopicTable = (props: Props) => {
               to=""
               onClick={() => {
                 toggleTopicPublished(row.original);
-                console.log(row.original);
-                // alert(row.original.id)
               }}
             >
               <img

@@ -154,9 +154,11 @@ export const getRandomStatus = (weekend = false) => {
     {status: "available"};
 }
 
+// ========================================================
+//    render table with according to params data === >>
+// ========================================================
 export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setTimeslots, weekendTimeslots) => {
     let timeslotPacket = [];
-
     const sortedTimeSlots = departmentTimeslots.items.slice().sort((a, b) => {
       // Convert start times to Date objects for comparison
       const timeA = new Date(`1970-01-01T${a.startTime}`);
@@ -166,7 +168,6 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
     });
     
     sortedTimeSlots.map((item) => {
-
         let currentPacket = {
             timeSlot: `${item.startTime} - ${item.endTime}`,
             breakTime: false,
@@ -191,16 +192,39 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
     setTimeslots(timeslotPacket);
 }
 
-// export const getWeekendTimeslot = () => {}
+// ========================================================
+//   get month list between start & end timestamp === >>
+// ========================================================
+export const getMonthList = (courseData) => {
+    const startTimestamp = courseData.startDateTimeStamp;
+    const endTimestamp = courseData.endDateTimeStamp;
 
+    // Convert Unix timestamps to Date objects
+    const startDate = new Date(startTimestamp);
+    const endDate = new Date(endTimestamp);
+
+    const months = [];
+
+    let currentDate = new Date(startDate); // Initialize with the start date
+
+    // Iterate through months between start and end date
+    while (currentDate <= endDate) {
+    months.push(currentDate.toLocaleString('default', { month: 'long' })); // Get month name
+    currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
+    }
+    return(months);
+}
+
+// ========================================================
+//       set data according to timeslot & day === >>
+// ========================================================
 const getTimeSlotDayData = (slotId, day, packet, weekend) => {
-
     let response = {};
     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
     const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
     
     if (filteredData.length > 0) {
-        console.log("filteredData-------", filteredData)
+        // console.log("filteredData-------", filteredData)
         if (filteredData[0].status !== null) {
             response = {status: "available"};
         } else {

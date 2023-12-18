@@ -23,7 +23,7 @@ const Mobile = (props: Props) => {
           <Container fluid>
             <PageTitle
               pageTitle="Helpdesk Management"
-              gobacklink="/dashboard"
+              gobacklink="/helpdesk"
             />
             <HelpdeskManagementTable />
             {/* <BuildPagination

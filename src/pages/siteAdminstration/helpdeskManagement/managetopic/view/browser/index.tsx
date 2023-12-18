@@ -22,7 +22,7 @@ type Props = {
     newPageRequest: any;
     editHandlerById: any;
     toggleModalShow: any;
-    openAddUserModal: any;
+    openAddTopicModal: any;
     refreshOnDeleteToggle: any;
   };
 };
@@ -41,10 +41,10 @@ const Browser = (props: Props) => {
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
+            <PageTitle pageTitle="Help Desk" gobacklink="/helpdeskmanagement" />
             <Button
               variant="primary"
-              onClick={props.commonProps.openAddUserModal}
+              onClick={props.commonProps.openAddTopicModal}
             >
               Add Topic
             </Button>

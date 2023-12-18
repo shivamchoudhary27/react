@@ -32,7 +32,6 @@ const TeacherHelpdeskTable = (props: Props) => {
     {
       Header: "All replies",
       Cell: ({ row }: any) => {
-        console.log(row.original)
         return (
           <Link
             to=""

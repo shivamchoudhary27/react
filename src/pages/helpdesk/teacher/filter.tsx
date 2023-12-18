@@ -2,13 +2,14 @@ import React from "react";
 import { useFormik } from "formik";
 import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     toggleModalShow: any
 };
 
 const Filter = (props: Props) => {
-
+const navigate = useNavigate()
   const formik = useFormik({
     initialValues: "",
     onSubmit: (values: any) => {},
@@ -53,6 +54,7 @@ const Filter = (props: Props) => {
           <div>
             {/* <Button variant="primary" onClick="">Add Timetable</Button>{" "} */}
             <Button variant="primary" onClick={() => props.toggleModalShow(true)}>New Request</Button>
+            <Button variant="primary" onClick={() => navigate("/helpdeskmanagement")}>Helpdesk Management</Button>
           </div>
         </div>
       </div>
