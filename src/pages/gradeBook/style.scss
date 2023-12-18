@@ -1,5 +1,11 @@
 .mygradebook {
+    border: 1px solid #0D70E8;
+    border-radius: 10px;
     img.icon {
         margin-right: 5px;
+        filter: grayscale(1);
+    }
+    table {
+        border: none;
     }
 }

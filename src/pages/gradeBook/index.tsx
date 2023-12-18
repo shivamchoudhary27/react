@@ -4,6 +4,7 @@ import { getData } from "../../adapters";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { getData as getCourses } from "../../adapters/microservices";
+import "./style.scss";
 
 type Props = {};
 
