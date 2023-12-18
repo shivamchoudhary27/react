@@ -11,7 +11,7 @@ const ManageFilter = ({
   ids,
   updateCourseDates,
   setCoursesStatus,
-  updateFacultyStatus
+  updateFacultyStatus,
 }: any) => {
 
   const initialValues = {
@@ -38,6 +38,8 @@ const ManageFilter = ({
       setCoursesOnly(collectCourses);
     }
   }, [workloadCourses]);
+
+  // console.log("selectedCourse----", selectedCourse)   
 
   useEffect(() => {
     if (selectedCourse > 0) {
@@ -73,10 +75,11 @@ const ManageFilter = ({
   };
 
   const handleCourseDates = (courseId: number) => {
-    let startDate, endDate = "--/--/----";
+    let startDate = "--/--/----", endDate = "--/--/----";
     let startDateTimeStamp, endDateTimeStamp = 0;
     let noneSelected = false;
 
+    
     const courseWithId = coursesOnly.find((item: any) => item.courseid === courseId);
     if (courseWithId) {
       startDate = format(new Date(courseWithId.startDate), "dd/MM/yyyy");

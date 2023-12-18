@@ -6,25 +6,27 @@ import Footer from "../../../newFooter";
 import DraftVersionTable from "./table";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
+import { format, parse } from "date-fns";
 import HeaderTabs from "../../../headerTabs";
 import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import PageTitle from "../../../../widgets/pageTitle";
 import Errordiv from "../../../../widgets/alert/errordiv";
+import { pagination } from "../../../../utils/pagination";
+import { getData } from "../../../../adapters/microservices";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
-import { getData } from "../../../../adapters/microservices";
-import { pagination } from "../../../../utils/pagination";
-import { format, parse } from "date-fns";
-
-import { 
-  getTimeslotData, getCourseWorkloadtData, getUrlParams, 
-  getSortedCategories, getTableRenderTimeSlots
+import {
+  getTimeslotData,
+  getCourseWorkloadtData,
+  getUrlParams,
+  getSortedCategories,
+  getTableRenderTimeSlots,
+  getMonthList,
 } from "./local";
-
 import { courseDatesObj } from "./utils";
 
 const WeeklyDraftVersion = () => {
@@ -54,6 +56,7 @@ const WeeklyDraftVersion = () => {
     endDate: 0,
   });
   const [timetableData, setTimetableData] = useState(dummyData);
+  const [monthList, setMonthList] = useState<string[]>([]);
 
   useEffect(() => {
     getUrlParams(location, setUrlArg);
@@ -61,14 +64,19 @@ const WeeklyDraftVersion = () => {
 
   useEffect(() => {
     if (urlArg.dpt > 0) {
-      getTimeslotData(currentInstitute, urlArg, setDepartmentTimeslots, setApiStatus);
+      getTimeslotData(
+        currentInstitute,
+        urlArg,
+        setDepartmentTimeslots,
+        setApiStatus
+      );
     }
   }, [urlArg.dpt]);
 
   useEffect(() => {
     if (urlArg.prgId > 0) {
       getCourseWorkloadtData(urlArg, setCoursesList);
-    } 
+    }
   }, [urlArg.prgId]);
 
   useEffect(() => {
@@ -79,54 +87,66 @@ const WeeklyDraftVersion = () => {
 
   useEffect(() => {
     setFilters((previous: any) => ({
-        ...previous,
-        courseId: courseDates.courseId,
-        userId: 0,
-    }))
+      ...previous,
+      courseId: courseDates.courseId,
+      userId: 0,
+    }));
   }, [courseDates]);
 
   useEffect(() => {
     if (filters.courseId > 0 && filters.userId > 0 && filters) {
       getData(`/${urlArg.prgId}/timetable`, filters)
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            result.data.items.map((item: any, index: number) => {
+              const inputDate = parse(
+                item.sessionDate,
+                "dd-MM-yyyy",
+                new Date()
+              );
+              const dayName = format(inputDate, "EEEE");
+              result.data.items[index].dayName = dayName;
+            });
 
-          result.data.items.map((item: any, index: number) => {
-             const inputDate = parse(item.sessionDate, 'dd-MM-yyyy', new Date());
-             const dayName = format(inputDate, 'EEEE');
-             result.data.items[index].dayName = dayName;
-          });
-
-          setTimetableData(result.data);
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      }); 
+            setTimetableData(result.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
     }
   }, [filters]);
 
   // calling API to get weekdays === >>>
   useEffect(() => {
-    if(departmentTimeslots.items.length > 0){
+    if (departmentTimeslots.items.length > 0) {
       getData(`/weekdays/${currentInstitute}`, {})
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            const filteredData = res.data.filter((item: any) => item.departmentId === departmentTimeslots.items[0].departmentId)
-            if(filteredData[0].weekDays.length > 0){
-              setWeekendTimeslots(filteredData[0].weekDays)
+            const filteredData = res.data.filter(
+              (item: any) =>
+                item.departmentId === departmentTimeslots.items[0].departmentId
+            );
+            if (filteredData[0].weekDays.length > 0) {
+              setWeekendTimeslots(filteredData[0].weekDays);
             }
           }
         })
         .catch((err: any) => {
           console.log(err);
         });
-      }
-    }, [departmentTimeslots]);
+    }
+  }, [departmentTimeslots]);
 
   useEffect(() => {
+    console.log(departmentTimeslots)
     if (departmentTimeslots.items.length > 0) {
-      getTableRenderTimeSlots(departmentTimeslots, timetableData, setTimeslots, weekendTimeslots);
+      getTableRenderTimeSlots(
+        departmentTimeslots,
+        timetableData,
+        setTimeslots,
+        weekendTimeslots
+      );
     }
   }, [departmentTimeslots, timetableData]);
 
@@ -138,17 +158,25 @@ const WeeklyDraftVersion = () => {
     setFilters((previous: any) => ({
       ...previous,
       userId: facultyId,
-    }))
-  }
+    }));
+  };
 
   const updateTimetableDates = (weekDates: any) => {
     setFilters((previous: any) => ({
       ...previous,
       startDate: weekDates.startDate,
       endDate: weekDates.endDate,
-    }))
-  }
-  
+    }));
+  };
+
+  // get Months between start & end timestamp === >>
+  useEffect(() => {
+    if (courseDates !== "") {
+      const monthListArr = getMonthList(courseDates);
+      setMonthList(monthListArr);
+    }
+  }, [courseDates]);
+
   return (
     <React.Fragment>
       {/* mobile and browser view component call */}
@@ -193,6 +221,23 @@ const WeeklyDraftVersion = () => {
                 <img src={endDateIcon} alt="End Date" />
                 <b>End Date: </b> {courseDates.endDate}
               </div>
+              {courseDates.startDate !== "--/--/----" &&
+                courseDates.endDate !== "--/--/----" && (
+                  <div>
+                    <label htmlFor="month">Month:</label>
+                    <select
+                      className="form-select"
+                      name="workloadCourse"
+                      // value={monthList}
+                      // onChange={handleCourseFilterChange}
+                    >
+                      <option value={0}>Select Month</option>
+                      {monthList.map((option, index) => (
+                        <option value={option} key={index}>{option}</option>
+                      ))}
+                    </select>
+                  </div>
+                )}
             </div>
             <div className="slot-indicator">
               <div className="me-1 available">Available Slots</div>

@@ -34,7 +34,6 @@ const ManageTopic = () => {
       getData("/topic", filterUpdate)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data);
             if (result.data.items.length < 1) {
             }
             setTopicData(result.data);

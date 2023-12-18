@@ -27,7 +27,7 @@ const Browser = (props: Props) => {
           <Container fluid>
             <PageTitle
               pageTitle="Helpdesk Management"
-              gobacklink="/dashboard"
+              gobacklink="/helpdesk"
             />
             <Button variant="primary" onClick={() => navigate("/managetopic")}>
               Manage Topic
