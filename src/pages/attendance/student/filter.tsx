@@ -7,12 +7,13 @@ import StudentAttendanceFilterDropdown from "./studentDropdown";
 type Props = {
   getCourseId: any;
   apiResponseData: any;
+  attendancedata: any;
 };
 
 const StudentAttendanceFilter = (props: Props) => {
-  const currentUserRole = useSelector(
-    (state: any) => state.globalFilters.currentUserRole
-  );
+  // const currentUserRole = useSelector(
+  //   (state: any) => state.globalFilters.currentUserRole
+  // );
   const [filterStatus, setFilterStatus] = useState({
     selectedValues: {
       department: 0,
@@ -106,6 +107,21 @@ const StudentAttendanceFilter = (props: Props) => {
               addAllOption={false}
             />
           </div>
+        </div>
+        <div>
+          {props.attendancedata.length > 0 && (
+            <div>
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Course Name:{" "}
+              </span>
+              <span
+                style={{ fontSize: "20px" }}
+                dangerouslySetInnerHTML={{
+                  __html: props.attendancedata[0].coursename,
+                }}
+              />
+            </div>
+          )}
         </div>
       </Container>
       {/* {coursesList.length === 0 && (

@@ -13,7 +13,8 @@ type Props = {
     currentUserInfo: any;
     attendancedata: any[];
     apiResponseData: any;
-    selectedUsers: any
+    selectedUsers: any;
+    apiStatus: string;
   };
 };
 
@@ -36,6 +37,7 @@ const Mobile = (props: Props) => {
               apiResponseData={props.commonProps.apiResponseData}
             />
             <TeacherAttendanceTable
+              apiStatus={props.commonProps.apiStatus}
               attendancedata={props.commonProps.attendancedata}
               currentUserInfo={props.commonProps.currentUserInfo}
               selectedUsers={props.commonProps.selectedUsers}

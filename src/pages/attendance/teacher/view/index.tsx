@@ -9,10 +9,12 @@ type Props = {
   attendancedata: any[];
   apiResponseData: any;
   selectedUsers: any
+  apiStatus:string
 };
 
 const View = (props: Props) => {
   const commonProps = {
+    apiStatus:props.apiStatus,
     selectedUsers: props.selectedUsers,
     getCourseId: props.getCourseId,
     attendancedata: props.attendancedata,

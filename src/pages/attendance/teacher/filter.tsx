@@ -87,6 +87,8 @@ const TeacherAttendanceFilter = (props: Props) => {
     props.getCourseId(value);
   };
 
+  // console.log();
+
   return (
     <React.Fragment>
       <Container fluid>
@@ -106,6 +108,25 @@ const TeacherAttendanceFilter = (props: Props) => {
               addAllOption={false}
             />
           </div>
+        </div>
+        <div>
+          {course.length > 0 && filterStatus.selectedValues.department === 0 ? (
+            <div>
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Course Name:{" "}
+              </span>
+              <span style={{ fontSize: "20px" }}>{course[0].name}</span>
+            </div>
+          ) : (
+            course.map((item: any, index: number) => (
+              <div key={index}>
+                <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                  Course Name:{" "}
+                </span>
+                <span style={{ fontSize: "20px" }}>{item.name}</span>
+              </div>
+            ))
+          )}
         </div>
       </Container>
       {/* {coursesList.length === 0 && (

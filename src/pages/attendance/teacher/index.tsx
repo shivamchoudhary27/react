@@ -1,10 +1,10 @@
 import View from "./view";
 import { useSelector } from "react-redux";
+import { pagination } from "../../../utils/pagination";
 import { useEffect, useState, useContext } from "react";
+import { getData } from "../../../adapters/microservices";
 import { getData as getAttendance } from "../../../adapters";
 import UserContext from "../../../features/context/user/user";
-import { getData } from "../../../adapters/microservices";
-import { pagination } from "../../../utils/pagination";
 import { getData as getUsers } from "../../../adapters/coreservices";
 
 type Props = {};
@@ -18,8 +18,8 @@ const TeacherAttendance = (props: Props) => {
     programs: [],
   });
   const [attendancedata, setAttendanceData] = useState([]);
-  const [allUsers, setAllUsers] = useState([])
-  const [selectedUsers, setSelectedUsers] = useState([])
+  const [allUsers, setAllUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [courseId, setCourseId] = useState<any>(0);
   const [apiStatus, setApiStatus] = useState("");
@@ -40,6 +40,7 @@ const TeacherAttendance = (props: Props) => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
     getData(endPoint, {}).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
+        console.log(res.data)
         setCoursesList(res.data.courses);
         setApiResponseData(res.data);
         if (res.data.length > 0) setCourseId(res.data.courses[0].id);
@@ -52,7 +53,7 @@ const TeacherAttendance = (props: Props) => {
       wsfunction: "mod_attendance_get_sessions_report",
       userid: userid,
       categoryid: 391,
-      role: "student",
+      role: "editingteacher",
     };
     getAttendance(query)
       .then((res) => {
@@ -68,6 +69,7 @@ const TeacherAttendance = (props: Props) => {
 
   // get users API call === >>>
   useEffect(() => {
+    setApiStatus("started");
     if (currentInstitute > 0) {
       getUsers(`/${currentInstitute}/users`, filterUpdate)
         .then((result: any) => {
@@ -75,24 +77,28 @@ const TeacherAttendance = (props: Props) => {
             // console.log(result.data)
             setAllUsers(result.data.items);
           }
+          setApiStatus("finished");
         })
         .catch((err: any) => {
           console.log(err);
+          setApiStatus("finished");
         });
     }
   }, [currentInstitute]);
 
   useEffect(() => {
     const selectedUsers = allUsers.reduce((selected: any, item: any) => {
-      if (item.roles.some((role: { shortName: string; }) => role.shortName === "student")) {
+      if (
+        item.roles.some(
+          (role: { shortName: string }) => role.shortName === "student"
+        )
+      ) {
         selected.push(item);
       }
       return selected;
     }, []);
     setSelectedUsers(selectedUsers);
-  }, [allUsers])
-
-  // console.log(selectedUsers)
+  }, [allUsers]);
 
   const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
@@ -102,6 +108,7 @@ const TeacherAttendance = (props: Props) => {
 
   return (
     <View
+      apiStatus={apiStatus}
       selectedUsers={selectedUsers}
       attendancedata={attendancedata}
       currentUserInfo={currentUserInfo}
