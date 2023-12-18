@@ -1,14 +1,17 @@
-import React from 'react'
-import Header from '../../../../newHeader'
-import Footer from '../../../../newFooter'
-import { Container } from 'react-bootstrap'
-import HeaderTabs from '../../../../headerTabs'
-import PageTitle from '../../../../../widgets/pageTitle'
-import BreadcrumbComponent from '../../../../../widgets/breadcrumb'
+import React from "react";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
+import { useNavigate } from "react-router-dom";
+import HeaderTabs from "../../../../headerTabs";
+import HelpdeskManagementTable from "../../table";
+import { Container, Button } from "react-bootstrap";
+import PageTitle from "../../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
-type Props = {}
+type Props = {};
 
 const Browser = (props: Props) => {
+  const navigate = useNavigate();
   return (
     <React.Fragment>
       <Header />
@@ -22,7 +25,14 @@ const Browser = (props: Props) => {
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="Helpdesk Management" gobacklink="/dashboard" />
+            <PageTitle
+              pageTitle="Helpdesk Management"
+              gobacklink="/dashboard"
+            />
+            <Button variant="primary" onClick={() => navigate("/managetopic")}>
+              Manage Topic
+            </Button>
+            <HelpdeskManagementTable />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
               activepage={props.commonProps.filterUpdate}
@@ -33,7 +43,7 @@ const Browser = (props: Props) => {
       </div>
       <Footer />
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Browser
+export default Browser;
