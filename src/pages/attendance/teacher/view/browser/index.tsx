@@ -15,6 +15,7 @@ type Props = {
     attendancedata: any[];
     apiResponseData: any;
     selectedUsers: any
+    apiStatus:string
   };
 };
 
@@ -36,8 +37,9 @@ const Browser = (props: Props) => {
             <TeacherAttendanceFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
-            />
+              />
             <TeacherAttendanceTable
+              apiStatus={props.commonProps.apiStatus}
               attendancedata={props.commonProps.attendancedata}
               currentUserInfo={props.commonProps.currentUserInfo}
               selectedUsers={props.commonProps.selectedUsers}

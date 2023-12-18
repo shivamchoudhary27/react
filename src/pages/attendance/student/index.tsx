@@ -59,8 +59,8 @@ const StudentAttendance = (props: Props) => {
     setCourseId(courseId);
   };
 
-  // console.log("attendancedata----", attendancedata)
-  // console.log("coursesList----", coursesList)
+  console.log("attendancedata----", attendancedata)
+  console.log("coursesList----", coursesList)
 
   return (
     <View
@@ -69,7 +69,6 @@ const StudentAttendance = (props: Props) => {
       apiResponseData={apiResponseData}
       getCourseId={getCourseId}
     />
-    // <p>hello</p>
   );
 };
 

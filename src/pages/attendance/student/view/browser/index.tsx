@@ -35,6 +35,7 @@ const Browser = (props: Props) => {
             <StudentAttendanceFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
+              attendancedata={props.commonProps.attendancedata}
             />
             <StudentAttendanceTable
               attendancedata={props.commonProps.attendancedata}
