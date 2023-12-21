@@ -1,19 +1,18 @@
-import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { RenderFilterElements } from "./studentDropdown";
 import StudentAttendanceFilterDropdown from "./studentDropdown";
+import { convertTimestampToDate } from "../../../lib/timestampConverter";
 
 type Props = {
   getCourseId: any;
   apiResponseData: any;
   attendancedata: any;
+  allAttendanceSessionRecords: any;
+  totalPointAndPercentage: any;
 };
 
 const StudentAttendanceFilter = (props: Props) => {
-  // const currentUserRole = useSelector(
-  //   (state: any) => state.globalFilters.currentUserRole
-  // );
   const [filterStatus, setFilterStatus] = useState({
     selectedValues: {
       department: 0,
@@ -108,21 +107,69 @@ const StudentAttendanceFilter = (props: Props) => {
             />
           </div>
         </div>
-        <div>
-          {props.attendancedata.length > 0 && (
+        {props.allAttendanceSessionRecords !== "undefined" && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="me-3">
+                <>
+                  <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                    Course Name:{" "}
+                  </span>
+                  <span style={{ fontSize: "20px" }}>
+                    {props.allAttendanceSessionRecords.coursename}
+                  </span>
+                </>
+              
+            </div>
+            <div className="me-3">
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Start Date:{" "}
+              </span>
+              <span style={{ fontSize: "20px" }}>
+                {convertTimestampToDate(
+                  props.allAttendanceSessionRecords.startdate
+                )}
+              </span>
+            </div>
             <div>
               <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                Course Name:{" "}
+                End Date:{" "}
+              </span>
+              <span style={{ fontSize: "20px" }}>
+                {convertTimestampToDate(
+                  props.allAttendanceSessionRecords.enddate
+                )}
+              </span>
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="me-3">
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Total Points:{" "}
+              </span>
+              <span style={{ fontSize: "20px" }}>
+                {props.totalPointAndPercentage.totalPoints > 0
+                  ? props.totalPointAndPercentage.totalPoints
+                  : 0}
+              </span>
+            </div>
+            <div className="me-3">
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Percentage:{" "}
               </span>
               <span
                 style={{ fontSize: "20px" }}
-                dangerouslySetInnerHTML={{
-                  __html: props.attendancedata[0].coursename,
-                }}
-              />
+              >{`${props.totalPointAndPercentage.percentage}%`}</span>
             </div>
-          )}
+          </div>
         </div>
+        )}
       </Container>
       {/* {coursesList.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />

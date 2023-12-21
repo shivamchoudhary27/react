@@ -2,10 +2,10 @@ import "./style.scss";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "./utils";
-import { addDays, format, startOfWeek, parse } from "date-fns";
 import React, { useMemo, useState, useEffect } from "react";
+import { addDays, format, startOfWeek, parse } from "date-fns";
 
-const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates }: any) => {
+const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, selectedMonth }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -19,6 +19,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({next: true, prev: true});
 
+  // render next week days === >>
   useEffect(() => {
     const nextWeekDates = calculateWeek(0);
     
@@ -29,12 +30,12 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
       setWeekNavs({next: false, prev: false})
     } else {
       setWeekNavs({next: true, prev: true})
-    }  
+    }
   }, [courseDates]);
 
+  // render week days === >>
   useEffect(() => {
     if (renderWeek.length > 0) {
-      
       updateTimetableDates({
         startDate: format(renderWeek[0], 'dd-MM-yyyy'),
         endDate: format(renderWeek[6], 'dd-MM-yyyy'),
@@ -48,8 +49,8 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
         ...renderWeek.map((date: Date, index: number) => ({
           Header: (
             <>
-              <div>{`${format(date, "d")}`} </div>
               <div>{`${format(date, "EEEE")}`}</div>
+              <div>{`${format(date, "dd-MMM-yy")}`} </div>
             </>
           ),
           accessor: format(date, "EEEE").toLowerCase(), // Use a dynamic accessor for each day
@@ -58,7 +59,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
               row.original[format(date, "EEEE").toLowerCase()]
             );
             return (
-              <div>
+              <div> 
                 {currentColumns.status === "booked" &&
                   currentColumns.bookedDetais}
                 {currentColumns.status === "available" && "Available"}
@@ -71,10 +72,17 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
       setTableColumn(newWeekColumns);
     }
   }, [renderWeek]);
+  
+  useEffect(() => {
+    // console.log(renderWeek)
+  }, [selectedMonth])
 
+  // next 7 days week handler === >>
   const handleNextWeek = () => {
     const nextWeekDates = calculateWeek(weekAmount + 7);
     const nextWeekAvailable = isNextWeekAvailable(nextWeekDates, courseDates.endDateTimeStamp);
+
+    // console.log(nextWeekDates)
 
     if (nextWeekAvailable) {
       setRenderWeek(nextWeekDates);
@@ -85,6 +93,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     }
   };
 
+  // previous 7 days handler === >>
   const handlePreviousWeek = () => {
     const previousWeekDates = calculateWeek(weekAmount - 7);
     const previousWeekAvailable = isPreviousWeekAvailable(previousWeekDates, courseDates.startDateTimeStamp);
@@ -98,6 +107,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     }
   };
 
+  // check the availability of next week === >>
   const isNextWeekAvailable = (nextWeekDates: any, endDate : number) => {
     if (endDate === 0) return false;
 
@@ -110,6 +120,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     else return false;
   }
 
+  // check the availability of previous week === >>
   const isPreviousWeekAvailable = (previousWeekDates: any, startDate : number) => {
     if (startDate === 0) return false;
 
@@ -122,11 +133,13 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     else return false;
   }
 
+  // convert week date to timestamp === >>
   const convertToTimestamp = (weekDate: string) => {
     const dateObject =  new Date(weekDate);
     return dateObject.getTime();
   } 
 
+  // calculate week days === >>
   const calculateWeek = (amount: number) => {
     const nextMonday = addDays(
       startOfWeek(currentDate, { weekStartsOn: 1 }),
@@ -138,7 +151,8 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     );
     return weekDates; 
   }
-
+  
+  // console.log("renderWeek----", renderWeek)
   return (
     <React.Fragment>
       <div className="next-previousbuttons">

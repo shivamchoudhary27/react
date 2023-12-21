@@ -8,6 +8,9 @@ type Props = {
   currentUserInfo: any;
   attendancedata: any[];
   apiResponseData: any;
+  apiStatus: string;
+  allAttendanceSessionRecords: any
+  totalPointAndPercentage: any
 };
 
 const View = (props: Props) => {
@@ -16,6 +19,9 @@ const View = (props: Props) => {
     attendancedata: props.attendancedata,
     currentUserInfo: props.currentUserInfo,
     apiResponseData: props.apiResponseData,
+    apiStatus: props.apiStatus,
+    allAttendanceSessionRecords: props.allAttendanceSessionRecords,
+    totalPointAndPercentage: props.totalPointAndPercentage
   };
   return (
     <React.Fragment>
