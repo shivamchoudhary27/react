@@ -13,6 +13,9 @@ type Props = {
     currentUserInfo: any;
     attendancedata: any[];
     apiResponseData: any;
+    apiStatus: string
+    allAttendanceSessionRecords: any
+    totalPointAndPercentage: any
   };
 };
 
@@ -33,10 +36,14 @@ const Mobile = (props: Props) => {
             <StudentAttendanceFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
+              attendancedata={props.commonProps.attendancedata}
+              totalPointAndPercentage={props.commonProps.totalPointAndPercentage}
+              allAttendanceSessionRecords={props.commonProps.allAttendanceSessionRecords}
             />
             <StudentAttendanceTable
               attendancedata={props.commonProps.attendancedata}
               currentUserInfo={props.commonProps.currentUserInfo}
+              apiStatus={props.commonProps.apiStatus}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}

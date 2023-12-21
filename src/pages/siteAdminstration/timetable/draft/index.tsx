@@ -4,9 +4,9 @@ import Filters from "./filter";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import DraftVersionTable from "./table";
+import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
-import { format, parse } from "date-fns";
 import HeaderTabs from "../../../headerTabs";
 import { useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
@@ -20,33 +20,36 @@ import CustomButton from "../../../../widgets/formInputFields/buttons";
 import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
 import {
-  getTimeslotData,
-  getCourseWorkloadtData,
   getUrlParams,
-  getSortedCategories,
-  getTableRenderTimeSlots,
   getMonthList,
+  getTimeslotData,
+  getSortedCategories,
+  getCourseWorkloadtData,
+  getTableRenderTimeSlots,
 } from "./local";
 import { courseDatesObj } from "./utils";
 
 const WeeklyDraftVersion = () => {
-  const location = useLocation();
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
-  const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [weekendTimeslots, setWeekendTimeslots] = useState([]);
+  const location = useLocation();
+  const [timeslots, setTimeslots] = useState([]);
+  const [apiStatus, setApiStatus] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [monthList, setMonthList] = useState<string[]>([]);
+  const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState(dummyData);
+  const [weekendTimeslots, setWeekendTimeslots] = useState([]);
+  const [timetableData, setTimetableData] = useState(dummyData);
+  const [sortedCategories, setSortedCategories] = useState<any>([]);
+  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
+  const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
+  const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-  const [timeslots, setTimeslots] = useState([]);
-  const [apiStatus, setApiStatus] = useState("");
-  const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
-  const [coursesStatus, setCoursesStatus] = useState(false);
   const [filters, setFilters] = useState({
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
@@ -55,14 +58,13 @@ const WeeklyDraftVersion = () => {
     startDate: 0,
     endDate: 0,
   });
-  const [timetableData, setTimetableData] = useState(dummyData);
-  const [monthList, setMonthList] = useState<string[]>([]);
 
   useEffect(() => {
     getUrlParams(location, setUrlArg);
   }, []);
 
-  useEffect(() => {
+  //  passing arguments to get timeslot data === >>
+  useEffect(() => { 
     if (urlArg.dpt > 0) {
       getTimeslotData(
         currentInstitute,
@@ -73,19 +75,23 @@ const WeeklyDraftVersion = () => {
     }
   }, [urlArg.dpt]);
 
+  // passing arguments to get course workload data === >>
   useEffect(() => {
-    if (urlArg.prgId > 0) {
+    if (urlArg.prgId > 0) {  
       getCourseWorkloadtData(urlArg, setCoursesList);
     }
   }, [urlArg.prgId]);
 
-  useEffect(() => {
+  //  passing arguments to get course workload data === >>
+  useEffect(() => { 
     if (coursesList.items.length > 0) {
       getSortedCategories(coursesList, setSortedCategories);
     }
   }, [coursesList.items]);
 
+  // set filters === >>
   useEffect(() => {
+    // console.log(courseDates.courseId)
     setFilters((previous: any) => ({
       ...previous,
       courseId: courseDates.courseId,
@@ -93,6 +99,7 @@ const WeeklyDraftVersion = () => {
     }));
   }, [courseDates]);
 
+  // Calling Timetable API to set timetable data === >>
   useEffect(() => {
     if (filters.courseId > 0 && filters.userId > 0 && filters) {
       getData(`/${urlArg.prgId}/timetable`, filters)
@@ -117,7 +124,7 @@ const WeeklyDraftVersion = () => {
     }
   }, [filters]);
 
-  // calling API to get weekdays === >>>
+  // calling API to get weekdays === >>
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
       getData(`/weekdays/${currentInstitute}`, {})
@@ -139,16 +146,18 @@ const WeeklyDraftVersion = () => {
   }, [departmentTimeslots]);
 
   useEffect(() => {
-    console.log(departmentTimeslots)
+    // console.log(departmentTimeslots)
     if (departmentTimeslots.items.length > 0) {
       getTableRenderTimeSlots(
         departmentTimeslots,
         timetableData,
         setTimeslots,
-        weekendTimeslots
+        weekendTimeslots,
+        courseDates,
+        filters
       );
     }
-  }, [departmentTimeslots, timetableData]);
+  }, [departmentTimeslots, timetableData, filters]);
 
   const updateCourseDates = (courseDates: any) => {
     setCourseDates(courseDates);
@@ -176,6 +185,13 @@ const WeeklyDraftVersion = () => {
       setMonthList(monthListArr);
     }
   }, [courseDates]);
+
+  // handle month filter === >>
+  const handleMonthFilterChange = (e: any) => {
+    if(e.type === "change"){
+      setSelectedMonth(e.target.value)
+    }
+  }
 
   return (
     <React.Fragment>
@@ -229,7 +245,7 @@ const WeeklyDraftVersion = () => {
                       className="form-select"
                       name="workloadCourse"
                       // value={monthList}
-                      // onChange={handleCourseFilterChange}
+                      onChange={handleMonthFilterChange}
                     >
                       <option value={0}>Select Month</option>
                       {monthList.map((option, index) => (
@@ -256,6 +272,7 @@ const WeeklyDraftVersion = () => {
                   SlotData={timeslots}
                   apiStatus={apiStatus}
                   courseDates={courseDates}
+                  selectedMonth={selectedMonth}
                   updateTimetableDates={updateTimetableDates}
                 />
               )}

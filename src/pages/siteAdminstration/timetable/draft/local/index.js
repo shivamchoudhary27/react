@@ -68,6 +68,9 @@ export const setHasChildProp = (data) => {
     return newArray;
 }
 
+// ========================================================
+//           reset the manage course object === >>
+// ========================================================
 export const resetManageCourseObj = (sortedCategoryData) => {
     const cloneObj = sortedCategoryData;
     for (let i = 0; i < cloneObj.length; i++) {
@@ -90,6 +93,9 @@ export const resetManageCourseObj = (sortedCategoryData) => {
     return cloneObj;
 }
 
+// ========================================================
+//                  get URL params === >>
+// ========================================================
 export const getUrlParams = (location, setUrlArg) => {
     const urlParams = new URLSearchParams(location.search);
     const dpt = parseInt(urlParams.get("dpt"));
@@ -98,6 +104,9 @@ export const getUrlParams = (location, setUrlArg) => {
     setUrlArg({ dpt, prg, prgId });
 }
 
+// ========================================================
+//                 get Timeslot data === >>
+// ========================================================
 export const getTimeslotData = (currentInstitute, urlArg, setDepartmentTimeslots, setApiStatus) => {
     let endPoint = `/${currentInstitute}/timetable/timeslot`;
     makeGetDataRequest(
@@ -108,6 +117,9 @@ export const getTimeslotData = (currentInstitute, urlArg, setDepartmentTimeslots
     );
 }
 
+// ========================================================
+//             get course workload data === >>
+// ========================================================
 export const getCourseWorkloadtData = (urlArg, setCoursesList) => {
     let endPoint = `${urlArg.prgId}/category/course/workloads`;
     makeGetDataRequest(
@@ -117,6 +129,9 @@ export const getCourseWorkloadtData = (urlArg, setCoursesList) => {
     );
 }
 
+// ========================================================
+//        get list of sorted course categories === >>
+// ========================================================
 export const getSortedCategories = (coursesList, setSortedCategories) => {
     const convertedResult = coursesList.items
         .filter((item) => item.parent === 0)
@@ -157,7 +172,7 @@ export const getRandomStatus = (weekend = false) => {
 // ========================================================
 //    render table with according to params data === >>
 // ========================================================
-export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setTimeslots, weekendTimeslots) => {
+export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setTimeslots, weekendTimeslots, courseDates, filters) => {
     let timeslotPacket = [];
     const sortedTimeSlots = departmentTimeslots.items.slice().sort((a, b) => {
       // Convert start times to Date objects for comparison
@@ -166,21 +181,22 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
 
       return timeA - timeB;
     });
-    
+
     sortedTimeSlots.map((item) => {
+        // console.log("sortedTimeSlots-----", timetableData.items)
         let currentPacket = {
             timeSlot: `${item.startTime} - ${item.endTime}`,
             breakTime: false,
-            monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items, weekendTimeslots),   //JSON.stringify(getRandomStatus()),
-            tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
-            wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
-            thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
-            friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
-            saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus()),
-            sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items, weekendTimeslots),//JSON.stringify(getRandomStatus(true)),
+            monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items, weekendTimeslots, courseDates, filters),   //JSON.stringify(getRandomStatus()),
+            tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
+            wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
+            thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
+            friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
+            saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
+            sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus(true)),
         };
         
-        // console.log(currentPacket,timetableData)
+        // console.log(item)
       if (item.breakTime === true) {
           currentPacket.breakTime = true;
           currentPacket.breakType =
@@ -188,7 +204,6 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
         }
         timeslotPacket.push(currentPacket);
     });
-
     setTimeslots(timeslotPacket);
 }
 
@@ -208,7 +223,7 @@ export const getMonthList = (courseData) => {
     let currentDate = new Date(startDate); // Initialize with the start date
 
     // Iterate through months between start and end date
-    while (currentDate <= endDate) {
+    while (currentDate <= endDate) {    
     months.push(currentDate.toLocaleString('default', { month: 'long' })); // Get month name
     currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
     }
@@ -216,27 +231,58 @@ export const getMonthList = (courseData) => {
 }
 
 // ========================================================
+// check sessionDate is lie between start & end date === >>
+// ========================================================
+const checkSessionDatesIsWithinRange = (filters, sessionDate) => {
+    const startDateString = filters.startDate;
+    const endDateString = filters.endDate;
+    const dateToCheckString = sessionDate;
+    
+    // Split date strings into day, month, year components
+    const [startDay, startMonth, startYear] = startDateString.split('-').map(Number);
+    const [endDay, endMonth, endYear] = endDateString.split('-').map(Number);
+    const [checkDay, checkMonth, checkYear] = dateToCheckString.split('-').map(Number);
+
+    // Construct Date objects using components (Month - 1 because months are zero-based in JavaScript Date)
+    const startDate = new Date(startYear, startMonth - 1, startDay);
+    const endDate = new Date(endYear, endMonth - 1, endDay);
+    const dateToCheck = new Date(checkYear, checkMonth - 1, checkDay);
+
+    // Check if dateToCheck is between startDate and endDate
+    const isWithinRange = dateToCheck >= startDate && dateToCheck <= endDate;
+
+    return isWithinRange;
+}
+// ========================================================
 //       set data according to timeslot & day === >>
 // ========================================================
-const getTimeSlotDayData = (slotId, day, packet, weekend) => {
+const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters) => {
     let response = {};
     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
     const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
-    
-    if (filteredData.length > 0) {
-        // console.log("filteredData-------", filteredData)
-        if (filteredData[0].status !== null) {
-            response = {status: "available"};
-        } else {
-            response = {status: "booked", bookedDetais: "TUT SB B204"} 
+
+    if(filteredData.length > 0){
+        const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
+        // console.log(x)
+        // console.log(filteredData[0].sessionDate)
+        if(filteredData[0].status === null){
+            if(filteredData[0].status === "available"){
+                response = { status: "available" }
+            }else if(x){  
+                response = { status: "booked", bookedDetais: filteredData[0].description }
+            }else{
+                response = { status: "available" }
+            }
         }
-    } 
-    else{
-        if (lowerCaseWeekdays.includes(day.toLowerCase())) {
-            response = { status: "weekend" };
-        } else {
-            response = { status: "available" };
+    }else{
+        if(lowerCaseWeekdays.includes(day.toLowerCase())){
+            response = { status: "weekend" }
+        }else if(courseDates.startDate === '--/--/----' && courseDates.endDate === '--/--/----'){
+            response = { status: "" }
         }
+        else{
+            response = { status: "available" }
+        }   
     }
 
     return JSON.stringify(response); 

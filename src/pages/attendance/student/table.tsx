@@ -1,50 +1,64 @@
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
+import Errordiv from "../../../widgets/alert/errordiv";
 import React, { useMemo, useState, useEffect } from "react";
+import TableSkeleton from "../../../widgets/skeleton/table";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { convertTimestampToDate } from "../../../lib/timestampConverter";
 
 type Props = {
   currentUserInfo: any;
   attendancedata: any[];
+  apiStatus: string;
 };
 
 const StudentAttendanceTable = (props: Props) => {
   const tableColumn = [
     {
       Header: "Date",
-      accessor: "date",
-      Cell: () => {
-        return <span>12/12/2023</span>;
+      Cell: ({ row }: any) => {
+        return (
+          row.original.sessdate !== "" &&
+          convertTimestampToDate(row.original.sessdate)
+        );
       },
+    },
+    {
+      Header: "Session Name",
+      accessor: "sessionname",
     },
     {
       Header: "Session Type",
-      accessor: "sessionType",
-      Cell: () => {
-        return <span>Offline</span>;
-      },
+      accessor: "mode",
     },
     {
       Header: "Present (P)",
-      accessor: "P",
+      Cell: ({ row }: any) => {
+        return row.original.description === "Present" ? "P" : "--";
+      },
     },
     {
       Header: "Late (L)",
-      accessor: "L",
+      Cell: ({ row }: any) => {
+        return row.original.description === "Late" ? "L" : "--";
+      },
     },
     {
       Header: "Excused (E)",
-      accessor: "E",
+      Cell: ({ row }: any) => {
+        return row.original.description === "Excused" ? "E" : "--";
+      },
     },
     {
       Header: "Absent (A)",
-      accessor: "A",
+      Cell: ({ row }: any) => {
+        return row.original.description === "Absent" ? "A" : "--";
+      },
     },
     {
       Header: "Points",
-      accessor: "",
-      Cell: () => {
-        return <span>56</span>;
+      Cell: ({ row }: any) => {
+        return row.original.point ? Math.round(row.original.point) : 0;
       },
     },
   ];
@@ -98,12 +112,13 @@ const StudentAttendanceTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {/* {apiStatus === "started" && timeslotList.length === 0 && (
+        {props.apiStatus === "started" && props.attendancedata.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && timeslotList.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="mt-3" />
-        )} */}
+        {props.apiStatus === "finished" &&
+          props.attendancedata.length === 0 && (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
       </div>
     </React.Fragment>
   );

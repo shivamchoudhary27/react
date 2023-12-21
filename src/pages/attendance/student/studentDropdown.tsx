@@ -184,14 +184,14 @@ const StudentAttendanceFilterDropdown = (props: Props) => {
 
   return (
     <React.Fragment>
-      <RenderFilterElements
+      {/* <RenderFilterElements
         component={"Department"}
         filterPacket={filters.filterData.departments}
         packetKeys={["id", "name"]}
         getFilterChange={getFilterChange}
         currentValue={filters.selectedValues.department}
         filterDisable={false}
-      />
+      /> */}
       <RenderFilterElements
         component={"Academic Year"}
         filterPacket={filters.filterData.batchYears}
