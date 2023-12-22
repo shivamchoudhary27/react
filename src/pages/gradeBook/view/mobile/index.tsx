@@ -7,6 +7,7 @@ import MobileHeader from "../../../newHeader/mobileHeader";
 import MobileFooter from "../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import FilterButtonWrapper from "../../../../widgets/filterButtonWrapper";
+import "./mobileStyles.css";
 
 type Props = {
   commonProps: {
