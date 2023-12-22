@@ -5,26 +5,35 @@ import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   onHide: any;
-  dummyData: any[];
+  apiStatus: any;
   modalShow: boolean;
+  enquiryData: any[];
   toggleModalShow: any;
   repliesModalShow: boolean;
   toggleRepliesModalShow: any;
   onRepliesHide: any;
-  repliesAction: any
+  repliesAction: any;
+  selectedTopic: any;
+  getAllComment: any
+  getSelectedTopicId: any
 };
 
 const View = (props: Props) => {
   const commonProps = {
     onHide: props.onHide,
-    dummyData: props.dummyData,
+    apiStatus:props.apiStatus,
     modalShow: props.modalShow,
+    enquiryData: props.enquiryData,
+    onRepliesHide: props.onRepliesHide,
+    repliesAction: props.repliesAction,
+    selectedTopic: props.selectedTopic,
     toggleModalShow: props.toggleModalShow,
     repliesModalShow: props.repliesModalShow,
     toggleRepliesModalShow: props.toggleRepliesModalShow,
-    onRepliesHide: props.onRepliesHide,
-    repliesAction:props.repliesAction
+    getAllComment: props.getAllComment,
+    getSelectedTopicId: props.getSelectedTopicId,
   };
+
   return (
     <React.Fragment>
       {isMobile ? (

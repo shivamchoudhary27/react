@@ -8,7 +8,13 @@ import { Container, Button } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
-type Props = {};
+type Props = {
+  commonProps: {
+    apiStatus: any;
+    toggleRepliesModalShow: any;
+    helpdeskManagementData: any[];
+  };
+};
 
 const Browser = (props: Props) => {
   const navigate = useNavigate();
@@ -25,14 +31,15 @@ const Browser = (props: Props) => {
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle
-              pageTitle="Helpdesk Management"
-              gobacklink="/helpdesk"
-            />
+            <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
             <Button variant="primary" onClick={() => navigate("/managetopic")}>
               Manage Topic
             </Button>
-            <HelpdeskManagementTable />
+            <HelpdeskManagementTable
+              apiStatus={props.commonProps.apiStatus}
+              toggleRepliesModalShow= {props.commonProps.toggleRepliesModalShow}
+              helpdeskManagementData={props.commonProps.helpdeskManagementData}
+            />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
               activepage={props.commonProps.filterUpdate}

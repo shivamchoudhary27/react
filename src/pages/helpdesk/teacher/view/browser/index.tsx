@@ -2,24 +2,28 @@ import React from "react";
 import Filter from "../../filter";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
+import RepliesForm from "../../repliesForm";
 import { Container } from "react-bootstrap";
 import TeacherHelpdeskTable from "../../table";
 import HeaderTabs from "../../../../headerTabs";
+import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import NewRequestForm from "../../newRequestForm";
-import RepliesForm from "../../repliesForm";
 
 type Props = {
   commonProps: {
     onHide: any;
-    dummyData: any[];
+    apiStatus:any;
+    enquiryData:any[];
     modalShow: boolean;
+    onRepliesHide: any;
+    repliesAction: any;
+    selectedTopic: any;
     toggleModalShow: any;
     repliesModalShow: any;
     toggleRepliesModalShow: any;
-    onRepliesHide: any;
-    repliesAction: any
+    getAllComment: any
+    getSelectedTopicId: any
   };
 };
 
@@ -40,9 +44,12 @@ const Browser = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
             <Filter toggleModalShow={props.commonProps.toggleModalShow} />
+
             <TeacherHelpdeskTable
-              dummyData={props.commonProps.dummyData}
+              enquiryData={props.commonProps.enquiryData}
+              apiStatus={props.commonProps.apiStatus}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+              getSelectedTopicId={props.commonProps.getSelectedTopicId}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
@@ -56,12 +63,14 @@ const Browser = (props: Props) => {
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
         toggleModalShow={props.commonProps.toggleModalShow}
+        selectedTopic={props.commonProps.selectedTopic}
       />
       <RepliesForm
         onHide={props.commonProps.onRepliesHide}
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        getAllComment={props.commonProps.getAllComment}
       />
       <Footer />
     </React.Fragment>

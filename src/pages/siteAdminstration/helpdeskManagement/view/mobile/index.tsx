@@ -6,7 +6,13 @@ import MobileFooter from "../../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import HelpdeskManagementTable from "../../table";
 
-type Props = {};
+type Props = {
+  commonProps: {
+    apiStatus: any;
+    toggleRepliesModalShow:any;
+    helpdeskManagementData: any[];
+  }
+};
 
 const Mobile = (props: Props) => {
   return (
@@ -21,11 +27,13 @@ const Mobile = (props: Props) => {
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle
-              pageTitle="Helpdesk Management"
-              gobacklink="/helpdesk"
+            <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
+
+            <HelpdeskManagementTable
+              apiStatus={props.commonProps.apiStatus}
+              toggleRepliesModalShow= {props.commonProps.toggleRepliesModalShow}
+              helpdeskManagementData={props.commonProps.helpdeskManagementData}
             />
-            <HelpdeskManagementTable />
             {/* <BuildPagination
             totalpages={props.commonProps.timeslotListPage}
             activepage={props.commonProps.filterUpdate}

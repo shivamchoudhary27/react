@@ -1,10 +1,10 @@
-import React from "react";
+import * as Yup from "yup";
 import { Formik, Form } from "formik";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import { postData } from "../../../adapters/microservices";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 
@@ -12,11 +12,46 @@ type Props = {
   onHide: any;
   modalShow: boolean;
   toggleModalShow: any;
+  selectedTopic: any;
 };
 
-const initialValues = {};
+const initialValues = {
+  query: "",
+  topicName: ""
+};
+
+// Formik Yup validation === >>>
+const queryFormSchema = Yup.object({
+  topicName: Yup.string().trim().required("Please select Topic"),
+  query: Yup.string().min(5).required("query is required"),
+});
 
 const NewRequestForm = (props: Props) => {
+  const [topicId, setTopicId] = useState("");
+
+  const handleFormSubmit = (values: any, action: any) => {
+    if (topicId !== "") {
+      action.setSubmitting(true);
+      postData(`/enquiry/${parseInt(topicId)}`, values)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            console.log(res.data);
+            props.toggleModalShow(false);
+            action.setSubmitting(false);
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const getCurrentValue = (e: any) => {
+    if (e.type === "change") {
+      setTopicId(e.target.value);
+    }
+  };
+
   return (
     <React.Fragment>
       <Modal
@@ -40,25 +75,37 @@ const NewRequestForm = (props: Props) => {
           /> */}
           <Formik
             initialValues={initialValues}
-            // validationSchema={commonProps.departmentSchema}
+            validationSchema={queryFormSchema}
             onSubmit={(values, action) => {
-              console.log(values);
-              action.resetForm();
+              handleFormSubmit(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting }) => (
+            {({ errors, touched, isSubmitting, setValues }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
-                    star="*"
-                    htmlfor="topic"
-                    labelText="Select Topic"
+                    htmlfor="topicName"
+                    labelText="Topic"
                     required="required"
+                    star="*"
                   />
-                  <FieldTypeText name="name" placeholder="Name" />
+                  <select
+                    className="form-select"
+                    name="topicName"
+                    onChange={getCurrentValue}
+                    // value={selectedValue}
+                  >
+                    <option value="0">Select Topic</option>
+                    {props.selectedTopic.map((option: any, index: number) => (
+                      <option key={index} value={option.id}>
+                        {option.topicName}
+                      </option>
+                    ))}
+                  </select>
                   <FieldErrorMessage
-                  // errors={errors}
-                  // touched={touched}
+                    errors={errors.topicName}
+                    touched={touched.topicName}
+                    // msgText="Please select Topic"
                   />
                 </div>
 
@@ -74,9 +121,10 @@ const NewRequestForm = (props: Props) => {
                     component="textarea"
                     placeholder="Type Here ..."
                   />
-                  <FieldErrorMessage
-                  // errors={errors}
-                  // touched={touched}
+                   <FieldErrorMessage
+                    errors={errors.query}
+                    touched={touched.query}
+                    // msgText="query is required"
                   />
                 </div>
 
@@ -109,7 +157,6 @@ const NewRequestForm = (props: Props) => {
                 </div>
               </Form>
             )}
-            
           </Formik>
         </Modal.Body>
       </Modal>

@@ -2,40 +2,18 @@ import { useTable } from "react-table";
 import { Table, Button } from "react-bootstrap";
 import React, { useMemo, useState, useEffect } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import Errordiv from "../../../widgets/alert/errordiv";
+import { Link } from "react-router-dom";
 
 type Props = {
-  //   dummyData: any[];
-  //   toggleRepliesModalShow: any;
+  apiStatus: string;
+  toggleRepliesModalShow:any;
+  helpdeskManagementData: any[];
 };
 
-const dummyData = [
-  {
-    topic: "Video viewing",
-    fullname: "Priya Nagaar",
-    latestReply:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    date: "December 19, 2023",
-    status: "Open",
-  },
-  {
-    topic: "Video viewing",
-    fullname: "Goutam Das",
-    latestReply:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    date: "December 19, 2023",
-    status: "Open",
-  },
-  {
-    topic: "Video viewing",
-    fullname: "Alok Rai",
-    latestReply:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-    date: "December 19, 2023",
-    status: "Open",
-  },
-];
-
 const HelpdeskManagementTable = (props: Props) => {
+
   const tableColumn = [
     {
       Header: "SN",
@@ -44,30 +22,75 @@ const HelpdeskManagementTable = (props: Props) => {
       },
     },
     {
-      Header: "Full Name",
+      Header: "FullName",
       accessor: "fullname",
+      Cell: ({ row }: any) => {
+        // Access the "FullName" value from the row object
+        const fullName = row.original.firstName + " " + row.original.lastName;
+        return fullName;
+      },
+    },
+    {
+      Header: "Email",
+      accessor: "email",
     },
     {
       Header: "Topic",
-      accessor: "topic",
+      accessor: "topicName",
     },
     {
-      Header: "Latest reply",
-      accessor: "latestReply",
+      Header: "Query",
+      accessor: "query",
     },
     {
       Header: "Date",
       accessor: "date",
     },
     {
+      Header: "All replies",
+      Cell: ({ row }: any) => {
+        return (
+          <Link
+            to=""
+            // onClick={() =>
+            //   onClickViewAllHandler({
+            //     topic: row.original.topic,
+            //     createDate: row.original.date,
+            //   })
+            // }
+          >
+            View All
+          </Link>
+        );
+      },
+    },
+    {
+      Header: "Action",
+      Cell: ({ row }: any) => {
+        return (
+          <Link
+            to=""
+            // onClick={() => {
+            //   props.toggleRepliesModalShow({ status: true, action: "reply" });
+            // }}
+          >
+            Reply
+          </Link>
+        );
+      },
+    },
+    {
       Header: "Status",
-      accessor: "status",
+      accessor: "published",
+      Cell: ({ value }: any) => {
+        return value ? "Open" : "Close";
+      },
     },
   ];
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => dummyData, [dummyData]);
+  const data = useMemo(() => props.helpdeskManagementData, [props.helpdeskManagementData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -76,7 +99,13 @@ const HelpdeskManagementTable = (props: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   
-
+  const onClickViewAllHandler = ({
+    topic: topic,
+    createDate: createDate,
+  }: any) => {
+    console.log(topic, createDate);
+    props.toggleRepliesModalShow({ status: true, action: "allview" });
+  };
   return (
     <React.Fragment>
       <div className="table-responsive admin-table-wrapper mt-3">
@@ -115,12 +144,12 @@ const HelpdeskManagementTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {/* {apiStatus === "started" && timeslotList.length === 0 && (
+        {props.apiStatus === "started" && props.helpdeskManagementData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && timeslotList.length === 0 && (
+        {props.apiStatus === "finished" && props.helpdeskManagementData.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
-        )} */}
+        )}
       </div>
     </React.Fragment>
   );
