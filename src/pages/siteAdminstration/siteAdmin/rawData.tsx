@@ -36,7 +36,7 @@ export const AdminRawData = [
   ],
   [        
     {
-      title: "Teaching Resource <br> Planner",
+      title: "Teaching Resources <br> Planner",
       image: timetablemanagement,
       link: "/timetable",
       classname: "timetable-management",
@@ -45,7 +45,7 @@ export const AdminRawData = [
       enabled: true,
     },
     {
-      title: "CO / PO <br>Management",
+      title: "NAAC <br> Framework",
       image: copomanagement,
       link: "/copomanagement",
       classname: "copo-management",
