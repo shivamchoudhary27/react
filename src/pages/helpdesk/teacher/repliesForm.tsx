@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form } from "formik";
+import * as Yup from "yup";
 import MessagesView from "./messages";
 import { Modal } from "react-bootstrap";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -8,17 +9,42 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import { pagination } from "../../../utils/pagination";
+import { postData } from "../../../adapters/microservices";
 
 type Props = {
   onHide: any;
   modalShow: any;
   toggleRepliesModalShow: any;
   repliesAction: any;
+  getAllComment: any;
 };
 
-const initialValues = {};
+const initialValues = {
+  comment: "",
+};
+
+// Formik Yup validation === >>>
+const queryFormSchema = Yup.object({
+  comment: Yup.string().min(5).required("Reply is required"),
+});
 
 const RepliesForm = (props: Props) => {
+  
+  const handleFormSubmit = (values: any, action: any) => {
+    console.log(values)
+    postData("/comment/4", values)
+      .then((result: any) => {
+        if(result.data !== "" && result.status === 200) {
+          console.log(result.data);
+          props.toggleRepliesModalShow(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
+
   return (
     <React.Fragment>
       <Modal
@@ -43,10 +69,9 @@ const RepliesForm = (props: Props) => {
           {props.repliesAction === "reply" ? (
             <Formik
               initialValues={initialValues}
-              // validationSchema={commonProps.departmentSchema}
+              validationSchema={queryFormSchema}
               onSubmit={(values, action) => {
-                console.log(values);
-                action.resetForm();
+                handleFormSubmit(values, action);
               }}
             >
               {({ errors, touched, isSubmitting }) => (
@@ -54,18 +79,18 @@ const RepliesForm = (props: Props) => {
                   <div className="mb-3">
                     <FieldLabel
                       star="*"
-                      htmlfor="reply"
+                      htmlfor="comment"
                       labelText="Reply"
                       // required="required"
                     />
                     <FieldTypeTextarea
-                      name="reply"
+                      name="comment"
                       component="textarea"
                       placeholder="Type Here ..."
                     />
                     <FieldErrorMessage
-                    // errors={errors}
-                    // touched={touched}
+                      errors={errors.comment}
+                      touched={touched.comment}
                     />
                   </div>
 
@@ -100,7 +125,7 @@ const RepliesForm = (props: Props) => {
               )}
             </Formik>
           ) : (
-            <MessagesView />
+            <MessagesView getAllComment={props.getAllComment} />
           )}
         </Modal.Body>
       </Modal>
