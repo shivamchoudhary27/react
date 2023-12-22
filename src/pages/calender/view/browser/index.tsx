@@ -4,6 +4,7 @@ import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import HeaderTabs from "../../../headerTabs";
 import { hexToRGB } from "../../local/utils";
+import { useNavigate } from "react-router-dom";
 import CalendarFilters from "../../calendar_filter";
 import PageTitle from "../../../../widgets/pageTitle";
 import { Calendar, momentLocalizer } from "react-big-calendar";
@@ -32,6 +33,7 @@ moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
 const Browser = (props: Props) => {
+  const navigate = useNavigate()
   return (
     <React.Fragment>
       <Header />
@@ -54,6 +56,16 @@ const Browser = (props: Props) => {
                 getCourseId={getCourseId}
               />
             } */}
+          <div className="d-flex align-items-center justify-content-end flex-wrap mitcomponet-heading">
+            <div className="row program-filter">
+              <Button
+                variant="primary"
+                onClick={() => navigate("/mytimetable")}
+              >
+                My Timetable
+              </Button>
+            </div>
+          </div>
           <Row>
             <Col md={2}>
               <CalendarFilters

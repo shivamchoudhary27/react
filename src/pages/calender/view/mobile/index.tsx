@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { hexToRGB } from "../../local/utils";
+import { useNavigate } from "react-router-dom";
 import CalendarFilters from "../../calendar_filter";
 import PageTitle from "../../../../widgets/pageTitle";
 import MobileHeader from "../../../newHeader/mobileHeader";
@@ -32,6 +33,7 @@ moment.locale("en-GB");
 const localizer = momentLocalizer(moment);
 
 const Mobile = (props: Props) => {
+const navigate = useNavigate()
   return (
     <React.Fragment>
       <MobileHeader />
@@ -54,6 +56,16 @@ const Mobile = (props: Props) => {
                 getCourseId={getCourseId}
               />
             } */}
+            <div className="d-flex align-items-center justify-content-end flex-wrap mitcomponet-heading">
+              <div className="row program-filter">
+                <Button
+                  variant="primary"
+                  onClick={() => navigate("/mytimetable")}
+                >
+                  My Timetable
+                </Button>
+              </div>
+            </div>
             <Row>
               <Col md={2}>
                 <CalendarFilters
