@@ -6,20 +6,20 @@ import { isMobile, isBrowser } from "react-device-detect";
 type Props = {
   getCourseId: any;
   currentUserInfo: any;
-  attendancedata: any[];
+  newAttendancePacket: any[];
   apiResponseData: any;
-  selectedUsers: any
   apiStatus:string
+  attendancedata: any
 };
 
 const View = (props: Props) => {
   const commonProps = {
     apiStatus:props.apiStatus,
-    selectedUsers: props.selectedUsers,
     getCourseId: props.getCourseId,
-    attendancedata: props.attendancedata,
     currentUserInfo: props.currentUserInfo,
     apiResponseData: props.apiResponseData,
+    newAttendancePacket: props.newAttendancePacket,
+    attendancedata: props.attendancedata,
   };
   return (
     <React.Fragment>

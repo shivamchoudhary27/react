@@ -12,10 +12,10 @@ type Props = {
   commonProps: {
     getCourseId: any;
     currentUserInfo: any;
-    attendancedata: any[];
+    newAttendancePacket: any[];
     apiResponseData: any;
-    selectedUsers: any
     apiStatus:string
+    attendancedata: any
   };
 };
 
@@ -37,12 +37,12 @@ const Browser = (props: Props) => {
             <TeacherAttendanceFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
+              attendancedata={props.commonProps.attendancedata}
               />
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
-              attendancedata={props.commonProps.attendancedata}
+              newAttendancePacket={props.commonProps.newAttendancePacket}
               currentUserInfo={props.commonProps.currentUserInfo}
-              selectedUsers={props.commonProps.selectedUsers}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
