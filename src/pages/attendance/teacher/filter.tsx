@@ -3,10 +3,12 @@ import { Container } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { RenderFilterElements } from "./teacherDropdown";
 import TeacherAttendanceFilterDropdown from "./teacherDropdown";
+import { convertTimestampToDate } from "../../../lib/timestampConverter";
 
 type Props = {
   getCourseId: any;
   apiResponseData: any;
+  attendancedata: any;
 };
 
 const TeacherAttendanceFilter = (props: Props) => {
@@ -87,8 +89,6 @@ const TeacherAttendanceFilter = (props: Props) => {
     props.getCourseId(value);
   };
 
-  // console.log();
-
   return (
     <React.Fragment>
       <Container fluid>
@@ -109,25 +109,66 @@ const TeacherAttendanceFilter = (props: Props) => {
             />
           </div>
         </div>
-        <div>
-          {course.length > 0 && filterStatus.selectedValues.department === 0 ? (
-            <div>
-              <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                Course Name:{" "}
-              </span>
-              <span style={{ fontSize: "20px" }}>{course[0].name}</span>
-            </div>
-          ) : (
-            course.map((item: any, index: number) => (
-              <div key={index}>
+        {props.attendancedata !== "undefined" && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div className="me-3">
                 <span style={{ fontSize: "22px", fontWeight: "500" }}>
                   Course Name:{" "}
                 </span>
-                <span style={{ fontSize: "20px" }}>{item.name}</span>
+                {course.length > 0 &&
+                  course.map(
+                    (item, index) =>
+                      item.idNumber == selectedCourse && (
+                        <span style={{ fontSize: "20px" }}>{item.name}</span>
+                      )
+                  )}
               </div>
-            ))
-          )}
-        </div>
+              <div className="me-3">
+                <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                  Start Date:{" "}
+                </span>
+                <span style={{ fontSize: "20px" }}>
+                  {convertTimestampToDate(props.attendancedata.startdate)}
+                </span>
+              </div>
+              <div>
+                <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                  End Date:{" "}
+                </span>
+                <span style={{ fontSize: "20px" }}>
+                  {convertTimestampToDate(props.attendancedata.enddate)}
+                </span>
+              </div>
+            </div>
+            {/* <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="me-3">
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Total Points:{" "}
+              </span>
+              <span style={{ fontSize: "20px" }}>
+                {props.totalPointAndPercentage.totalPoints > 0
+                  ? props.totalPointAndPercentage.totalPoints
+                  : 0}
+              </span>
+            </div>
+            <div className="me-3">
+              <span style={{ fontSize: "22px", fontWeight: "500" }}>
+                Percentage:{" "}
+              </span>
+              <span
+                style={{ fontSize: "20px" }}
+              >{`${props.totalPointAndPercentage.percentage}%`}</span>
+            </div>
+          </div> */}
+          </div>
+        )}
       </Container>
       {/* {coursesList.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />

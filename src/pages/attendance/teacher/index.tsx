@@ -5,11 +5,19 @@ import { useEffect, useState, useContext } from "react";
 import { getData } from "../../../adapters/microservices";
 import { getData as getAttendance } from "../../../adapters";
 import UserContext from "../../../features/context/user/user";
-import { getData as getUsers } from "../../../adapters/coreservices";
 
 type Props = {};
 
 const TeacherAttendance = (props: Props) => {
+  const dummyData = {
+    attendancedetail: [],
+    attendancename: "",
+    coursename: "",
+    enddate: "",
+    id: "",
+    startdate: "",
+    userdetail: [],
+  };
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
   const [apiResponseData, setApiResponseData] = useState<any>({
@@ -17,9 +25,8 @@ const TeacherAttendance = (props: Props) => {
     courses: [],
     programs: [],
   });
-  const [attendancedata, setAttendanceData] = useState([]);
-  const [allUsers, setAllUsers] = useState([]);
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [attendancedata, setAttendanceData] = useState(dummyData);
+  const [newAttendancePacket, setNewAttendancePacket] = useState<any>([]);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [courseId, setCourseId] = useState<any>(0);
   const [apiStatus, setApiStatus] = useState("");
@@ -40,7 +47,6 @@ const TeacherAttendance = (props: Props) => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
     getData(endPoint, {}).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
-        console.log(res.data)
         setCoursesList(res.data.courses);
         setApiResponseData(res.data);
         if (res.data.length > 0) setCourseId(res.data.courses[0].id);
@@ -49,70 +55,72 @@ const TeacherAttendance = (props: Props) => {
   }, [currentUserRole.id]);
 
   useEffect(() => {
-    const query = {
-      wsfunction: "mod_attendance_get_sessions_report",
-      userid: userid,
-      categoryid: 391,
-      role: "editingteacher",
-    };
-    getAttendance(query)
-      .then((res) => {
-        if (res.data !== "" && res.status === 200) {
-          const data: any = JSON.parse(res.data.attendancedata);
-          setAttendanceData(data.coursedata);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  // get users API call === >>>
-  useEffect(() => {
-    setApiStatus("started");
-    if (currentInstitute > 0) {
-      getUsers(`/${currentInstitute}/users`, filterUpdate)
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            // console.log(result.data)
-            setAllUsers(result.data.items);
+    if (courseId > 0) {
+      setApiStatus("started");
+      const query = {
+        wsfunction: "mod_attendance_get_attendance_sessions_report",
+        userid: userid,
+        courseid: courseId,
+        role: currentUserRole.shortName,
+      };
+      getAttendance(query)
+        .then((res) => {
+          if (res.data !== "" && res.status === 200) {
+            setAttendanceData(res.data);
           }
           setApiStatus("finished");
         })
-        .catch((err: any) => {
+        .catch((err) => {
           console.log(err);
           setApiStatus("finished");
         });
     }
-  }, [currentInstitute]);
+  }, [courseId]);
 
   useEffect(() => {
-    const selectedUsers = allUsers.reduce((selected: any, item: any) => {
-      if (
-        item.roles.some(
-          (role: { shortName: string }) => role.shortName === "student"
-        )
-      ) {
-        selected.push(item);
-      }
-      return selected;
-    }, []);
-    setSelectedUsers(selectedUsers);
-  }, [allUsers]);
+    if (
+      attendancedata.userdetail !== undefined &&
+      attendancedata.attendancedetail !== undefined
+    ) {
+      const attendancePacket = attendancedata.userdetail
+        .map((user) => {
+          const attendanceDetail = attendancedata.attendancedetail.find(
+            (item) => item.studentid === user.id
+          );
+          if (attendanceDetail) {
+            return {
+              email: user.email,
+              id: user.id,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              A: attendanceDetail.A,
+              L: attendanceDetail.L,
+              P: attendanceDetail.P,
+              attendancename: attendanceDetail.attendancename,
+              studentid: attendanceDetail.studentid,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean); // Remove null entries if no corresponding attendanceDetail was found
+
+      setNewAttendancePacket(attendancePacket);
+    } else {
+      setNewAttendancePacket([]);
+    }
+  }, [attendancedata, courseId]);
 
   const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
   };
 
-  // console.log("attendancedata-----", attendancedata);
-
   return (
     <View
       apiStatus={apiStatus}
-      selectedUsers={selectedUsers}
-      attendancedata={attendancedata}
       currentUserInfo={currentUserInfo}
       apiResponseData={apiResponseData}
+      attendancedata={attendancedata}
+      newAttendancePacket={newAttendancePacket}
       getCourseId={getCourseId}
     />
   );

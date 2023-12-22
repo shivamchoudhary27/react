@@ -8,8 +8,7 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 
 type Props = {
   currentUserInfo: any;
-  attendancedata: any[];
-  selectedUsers: any;
+  newAttendancePacket: any[];
   apiStatus: string
 };
 
@@ -19,22 +18,30 @@ const TeacherAttendanceTable = (props: Props) => {
       Header: "Full Name",
       Cell: ({row}: any) => {
         return (
-          <span>{`${row.original.userFirstName} ${row.original.userLastName}`}</span>
+          <span>{`${row.original.firstname} ${row.original.lastname}`}</span>
         );
       },
     },
     {
       Header: "Email",
-      accessor: "userEmail"
-      // Cell: () => {
-      //   return <span>{`${props.currentUserInfo.email}`}</span>;
-      // },
+      accessor: "email"
     },
+    // {
+    //   Header: "Attendance Name",
+    //   accessor: "attendancename"
+    // },
     {
       Header: "P L E A",
       accessor: "",
-      Cell: () => {
-        return <span>16 20 10 11</span>;
+      Cell: ({row}: any) => {
+        return (
+          <div>
+            {row.original.P !== undefined ? row.original.P : 0}{" "}
+            {row.original.L !== undefined ? row.original.L : 0}{" "}
+            {row.original.E !== undefined ? row.original.E : 0}{" "}
+            {row.original.A !== undefined ? row.original.A : 0}
+          </div>
+        );
       },
     },
     {
@@ -97,7 +104,7 @@ const TeacherAttendanceTable = (props: Props) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.selectedUsers, [props.selectedUsers]);
+  const data = useMemo(() => props.newAttendancePacket, [props.newAttendancePacket]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -144,10 +151,10 @@ const TeacherAttendanceTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {props.apiStatus === "started" && props.selectedUsers.length === 0 && (
+        {props.apiStatus === "started" && props.newAttendancePacket.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {props.apiStatus === "finished" && props.selectedUsers.length === 0 && (
+        {props.apiStatus === "finished" && props.newAttendancePacket.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
