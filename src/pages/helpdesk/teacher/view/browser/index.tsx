@@ -8,27 +8,32 @@ import TeacherHelpdeskTable from "../../table";
 import HeaderTabs from "../../../../headerTabs";
 import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
+import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
     onHide: any;
-    apiStatus:any;
-    enquiryData:any[];
+    apiStatus: any;
+    totalPages: any;
     modalShow: boolean;
     onRepliesHide: any;
     repliesAction: any;
     selectedTopic: any;
+    uniqueEnquiryData: any;
+    selectedTopicId: any;
+    getAllComment: any;
     toggleModalShow: any;
     repliesModalShow: any;
+    getSelectedTopicId: any;
+    updateTopicFilter: any;
+    updateInputFilters: any;
+    setGetAllComment: any;
     toggleRepliesModalShow: any;
-    getAllComment: any
-    getSelectedTopicId: any
   };
 };
 
 const Browser = (props: Props) => {
-
   return (
     <React.Fragment>
       <Header />
@@ -43,16 +48,21 @@ const Browser = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
-            <Filter toggleModalShow={props.commonProps.toggleModalShow} />
+            <Filter
+              toggleModalShow={props.commonProps.toggleModalShow}
+              selectedTopic={props.commonProps.selectedTopic}
+              updateTopicFilter={props.commonProps.updateTopicFilter}
+              updateInputFilters={props.commonProps.updateInputFilters}
+            />
 
             <TeacherHelpdeskTable
-              enquiryData={props.commonProps.enquiryData}
+              uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
               apiStatus={props.commonProps.apiStatus}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
             />
             {/* <BuildPagination
-              totalpages={props.commonProps.timeslotListPage}
+              totalpages={props.commonProps.totalpages}
               activepage={props.commonProps.filterUpdate}
               getrequestedpage={props.commonProps.newPageRequest}
             /> */}
@@ -69,6 +79,7 @@ const Browser = (props: Props) => {
         onHide={props.commonProps.onRepliesHide}
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
+        selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
         getAllComment={props.commonProps.getAllComment}
       />

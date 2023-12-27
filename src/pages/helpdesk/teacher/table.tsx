@@ -5,15 +5,17 @@ import React, { useMemo, useState } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
+import { parse, format } from "date-fns";
 
 type Props = {
-  enquiryData: any[];
+  uniqueEnquiryData: any;
   apiStatus: any;
   toggleRepliesModalShow: any;
   getSelectedTopicId: any;
 };
 
 const TeacherHelpdeskTable = (props: Props) => {
+
   const tableColumn = [
     {
       Header: "SN",
@@ -32,12 +34,24 @@ const TeacherHelpdeskTable = (props: Props) => {
     {
       Header: "Date",
       accessor: "date",
+      Cell: ({ value }: any) => {
+        // Assuming 'value' is a valid date string from the API
+        const dateObject = new Date(value);
+
+        const formattedDate = new Intl.DateTimeFormat("en-US", {
+          dateStyle: "long",
+        }).format(dateObject);
+
+        return <span>{formattedDate}</span>;
+      },
     },
     {
       Header: "All replies",
       Cell: ({ row }: any) => {
         return (
+          
           <Link to="" onClick={() => onClickViewAllHandler(row.original.id)}>
+
             View All
           </Link>
         );
@@ -49,10 +63,12 @@ const TeacherHelpdeskTable = (props: Props) => {
         return (
           <Link
             to=""
-            onClick={() => {
-              props.toggleRepliesModalShow({ status: true, action: "reply" });
-            }}
-          >
+            // onClick={() => {
+            //   props.toggleRepliesModalShow({ status: true, action: "reply" });
+              
+            //   }}
+            onClick={() => onClickReplyHandler(row.original.id)}>
+          
             Reply
           </Link>
         );
@@ -69,7 +85,7 @@ const TeacherHelpdeskTable = (props: Props) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.enquiryData, [props.enquiryData]);
+  const data = useMemo(() =>props.uniqueEnquiryData, [props.uniqueEnquiryData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -79,8 +95,13 @@ const TeacherHelpdeskTable = (props: Props) => {
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const onClickViewAllHandler = (id: number) => {
-    props.getSelectedTopicId(id)
+    props.getSelectedTopicId(id);
     props.toggleRepliesModalShow({ status: true, action: "allview" });
+  };
+
+  const onClickReplyHandler = (id: number) => {
+    props.getSelectedTopicId(id);
+    props.toggleRepliesModalShow({ status: true, action: "reply" });
   };
 
   return (
@@ -121,10 +142,10 @@ const TeacherHelpdeskTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {props.apiStatus === "started" && props.enquiryData.length === 0 && (
+        {props.apiStatus === "started" && props.uniqueEnquiryData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {props.apiStatus === "finished" && props.enquiryData.length === 0 && (
+        {props.apiStatus === "finished" && props.uniqueEnquiryData.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>
