@@ -17,13 +17,13 @@ type Props = {
 
 const initialValues = {
   query: "",
-  topicName: ""
+  topicName: "",
 };
 
 // Formik Yup validation === >>>
 const queryFormSchema = Yup.object({
-  topicName: Yup.string().trim().required("Please select Topic"),
-  query: Yup.string().min(5).required("query is required"),
+  // topicName: Yup.string().required("Please select Topic"),
+  query: Yup.string().trim().min(5).required("query is required"),
 });
 
 const NewRequestForm = (props: Props) => {
@@ -35,7 +35,6 @@ const NewRequestForm = (props: Props) => {
       postData(`/enquiry/${parseInt(topicId)}`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            console.log(res.data);
             props.toggleModalShow(false);
             action.setSubmitting(false);
           }
@@ -102,11 +101,10 @@ const NewRequestForm = (props: Props) => {
                       </option>
                     ))}
                   </select>
-                  <FieldErrorMessage
+                  {/* <FieldErrorMessage
                     errors={errors.topicName}
                     touched={touched.topicName}
-                    // msgText="Please select Topic"
-                  />
+                  /> */}
                 </div>
 
                 <div className="mb-3">
@@ -121,7 +119,7 @@ const NewRequestForm = (props: Props) => {
                     component="textarea"
                     placeholder="Type Here ..."
                   />
-                   <FieldErrorMessage
+                  <FieldErrorMessage
                     errors={errors.query}
                     touched={touched.query}
                     // msgText="query is required"

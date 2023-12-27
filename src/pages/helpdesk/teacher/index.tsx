@@ -1,14 +1,12 @@
 import View from "./view";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
-import { useParams } from "react-router-dom";
 
 type Props = {};
 
 const TeacherHelpdesk = (props: Props) => {
-  const { id } = useParams();
-
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
@@ -23,17 +21,27 @@ const TeacherHelpdesk = (props: Props) => {
     status: false,
     action: "",
   });
+  console.log(enquiryData)
+  // console.log(selectedTopic)
+  const selectTopic = useSelector(
+    (state) => state.globalFilters.currentTopicFilterId
+  );
+
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    topicId: selectTopic,
+    published: "",
+    topicName: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-
+ 
   // call api to get all enquiry === >>>
   useEffect(() => {
     setApiStatus("started");
     getData("/enquiry", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
+          // console.log(result.data, "-----------enquiry");
           setEnquiryData(result.data);
         }
         setApiStatus("finished");
@@ -49,6 +57,7 @@ const TeacherHelpdesk = (props: Props) => {
     getData("/topic", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
+          console.log(result.data);
           setSelectedTopic(result.data);
         }
       })
@@ -63,6 +72,7 @@ const TeacherHelpdesk = (props: Props) => {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
+            console.log(result.data);
             setGetAllComment(result.data);
           }
         })
@@ -91,14 +101,45 @@ const TeacherHelpdesk = (props: Props) => {
     setSelectedTopicId(id);
   };
 
+  // to update filters values in the main state filterUpdate
+  const updateTopicFilter = (topicId: string) => {
+    setFilterUpdate({
+      ...filterUpdate,
+      topicId: topicId,
+      pageNumber: 0,
+    });
+  };
+
+  const updateInputFilters = (inputvalues: any) => {
+    console.log(inputvalues);
+    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, published: inputvalues, pageNumber: 0 });
+  };
+
+  // display the data in table unique
+  const unique = enquiryData.items;
+  const uniqueEnquiryData = unique.filter(
+    (item, index, array) =>
+      index === array.findIndex((t) => t.topicId === item.topicId)
+  );
+  
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
   return (
     <View
       apiStatus={apiStatus}
       modalShow={modalShow}
       getAllComment={getAllComment}
       enquiryData={enquiryData.items}
+      totalPages={enquiryData.pager.totalPages}
+      uniqueEnquiryData={uniqueEnquiryData}
       getSelectedTopicId={getSelectedTopicId}
+      updateTopicFilter={updateTopicFilter}
+      updateInputFilters={updateInputFilters}
       toggleModalShow={toggleModalShow}
+      selectedTopicId={selectedTopicId}
+      setGetAllComment={setGetAllComment}
       selectedTopic={selectedTopic.items}
       onHide={() => toggleModalShow(false)}
       repliesAction={repliesModalShow.action}
