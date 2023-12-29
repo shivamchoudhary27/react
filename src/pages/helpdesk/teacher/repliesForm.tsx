@@ -25,7 +25,7 @@ const initialValues = {
 
 // Formik Yup validation === >>>
 const queryFormSchema = Yup.object({
-  comment: Yup.string().min(5).required("Reply is required"),
+  comment: Yup.string().min(5).max(1000).required("Reply is required"),
 });
 
 const RepliesForm = (props: Props) => {
@@ -135,8 +135,11 @@ const RepliesForm = (props: Props) => {
             <MessagesView getAllComment={props.getAllComment}/>
           )}
           
-          {props.repliesAction === "reply" && props.selectedTopicId !==0
-            ? sortComments.map((el: any, index: any) => {
+          
+          {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
+            // Wrap the card section in a div with a fixed height and scrollbar
+            <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+              {sortComments.map((el: any, index: any) => {
                 const formattedDate = new Date(el.date).toLocaleDateString(
                   "en-US",
                   {
@@ -157,8 +160,9 @@ const RepliesForm = (props: Props) => {
                     </Card.Body>
                   </Card>
                 );
-              })
-            : null}
+              })}
+            </div>
+          ) : null}
         </Modal.Body>
       </Modal>
     </React.Fragment>

@@ -34,7 +34,6 @@ const TeacherHelpdesk = (props: Props) => {
     pageSize: pagination.PERPAGE,
   });
    
-  console.log(enquiryData, 'enquiryData')
   
   // call api to get all enquiry === >>>
   useEffect(() => {

@@ -45,6 +45,15 @@ const HelpdeskManagementTable = (props: Props) => {
     {
       Header: "Date",
       accessor: "date",
+      Cell: ({ value }: any) => {
+        // Assuming 'value' is a valid date string from the API
+        const dateObject = new Date(value);
+
+        const formattedDate = new Intl.DateTimeFormat("en-US", {
+          dateStyle: "long",
+        }).format(dateObject);
+        return <span>{formattedDate}</span>;
+      },
     },
     {
       Header: "All replies",
