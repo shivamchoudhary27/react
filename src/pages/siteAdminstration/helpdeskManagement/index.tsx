@@ -16,6 +16,10 @@ const Helpdeskmanagement = () => {
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
   const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    topicId: "", 
+    topicName: "", 
+    published: "", 
+    date: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -70,6 +74,8 @@ const Helpdeskmanagement = () => {
       pageNumber: 0,
     });
   };
+
+  console.log(filterUpdate)
 
   const updateInputFilters = (inputvalues: any) => {
     setFilterUpdate({ ...filterUpdate, topicName: inputvalues, pageNumber: 0 });

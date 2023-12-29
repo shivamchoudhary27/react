@@ -7,7 +7,7 @@ const ManageDropdown = ({ updateTopicFilter, selectedTopic, setSelectedValue, se
       setSelectedValue(setSelectedValue);
     }
   }, [selectedTopic]);
-
+ 
   const getCurrentValue = (e : any) => {
     updateTopicFilter(e.target.value);
     setSelectedValue(e.target.value);

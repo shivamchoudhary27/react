@@ -34,7 +34,7 @@ const Filters = ({
       });
       // Clear selected published value
       setSelectedValue("");
-      setSelectPublish(""); 
+      setSelectPublish("");
       updateTopicFilter("");
     },
   });
@@ -54,11 +54,11 @@ const Filters = ({
   };
 
   // Function to handle changes in the selected value
-  const getCurrentPublishedValue = (e: any) => {
-    const newValue = e.target.value;
-    console.log(newValue);
-    setSelectPublish(newValue);
-    updateTopicFilter(newValue);
+  const getCurrentPublishedValue = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const value = e.target.value;
+    setSelectPublish(value);
   };
 
   return (
@@ -78,15 +78,12 @@ const Filters = ({
               <select
                 className="form-select"
                 name="published"
-                onChange={getCurrentPublishedValue}
+                onChange={(e) => getCurrentPublishedValue(e)}
                 value={selectPublished}
               >
                 <option value="0">All</option>
-                {selectedTopic.map((el: any, index: number) => (
-                  <option key={index} value={el.id}>
-                    {el.published ? "Open" : "Close"}
-                  </option>
-                ))}
+                <option value="Open">Open</option>
+                <option value="Close">Close</option>
               </select>
             </Col>
           </Row>

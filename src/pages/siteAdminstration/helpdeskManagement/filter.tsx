@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Button } from "react-bootstrap";
@@ -13,7 +14,6 @@ const initialValues = {
 const Filters = ({
   selectedTopic,
   updateTopicFilter,
-  toggleModalShow,
   updateInputFilters,
 }: any) => {
   const navigate = useNavigate();
@@ -24,41 +24,35 @@ const Filters = ({
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values: any) => {
-      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId);
       updateTopicFilter(selectedValue, selectPublished);
     },
     onReset: () => {
-      if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
+      if (timeoutId) clearTimeout(timeoutId);
       formik.setValues({
         topicName: "",
       });
-      // Clear selected published value
       setSelectedValue("");
-      setSelectPublish(""); 
-      updateTopicFilter("");
+      setSelectPublish("");
+      updateTopicFilter("", "");
     },
   });
 
-  // Event handler for filter input change with debounce
   const handleFilterChange = (event: any) => {
-    formik.handleChange(event); // Update formik values
+    formik.handleChange(event);
 
-    if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
+    if (timeoutId) clearTimeout(timeoutId);
 
-    // Set a new timeout to trigger updatefilters after a delay
     const newTimeoutId = setTimeout(() => {
       updateInputFilters(event.target.value);
-    }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
+    }, filterConfig.timeoutNumber);
 
-    setTimeoutId(newTimeoutId); // Update the timeout ID in state
+    setTimeoutId(newTimeoutId);
   };
 
-  // Function to handle changes in the selected value
-  const getCurrentPublishedValue = (e: any) => {
-    const newValue = e.target.value;
-    console.log(newValue);
-    setSelectPublish(newValue);
-    updateTopicFilter(newValue);
+  const getCurrentPublishedValue = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setSelectPublish(value);
   };
 
   return (
@@ -78,24 +72,19 @@ const Filters = ({
               <select
                 className="form-select"
                 name="published"
-                // onChange={getCurrentPublishedValue}
-                // value={selectPublished}
+                onChange={(e) => getCurrentPublishedValue(e)}
+                value={selectPublished}
               >
                 <option value="0">All</option>
-                <option>Open</option>
-                <option>Close</option>
-                {/* {selectedTopic.map((el: any, index: number) => (
-                  <option key={index} value={el.id}>
-                    {el.published ? "Open" : "Close"}
-                  </option>
-                ))} */}
+                <option value="Open">Open</option>
+                <option value="Close">Close</option>
               </select>
             </Col>
           </Row>
         </form>
         <div className="site-button-group">
           <div>
-           <Button variant="primary" onClick={() => navigate("/managetopic")}>
+            <Button variant="primary" onClick={() => navigate("/managetopic")}>
               Manage Topic
             </Button>
           </div>
@@ -106,3 +95,4 @@ const Filters = ({
 };
 
 export default Filters;
+

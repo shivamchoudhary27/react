@@ -12,7 +12,7 @@ const MessagesView = (props: Props) => {
 
   console.log(sortedComments);
   return (
-    <div className="list-group">
+    <div style={{ maxHeight: "400px", overflowY: "auto" }}>
       {sortedComments.length === 0 ? <p>No comments available</p> : null}
       {sortedComments.map((item: any, index: number) => (
         <a
