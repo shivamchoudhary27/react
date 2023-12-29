@@ -5,10 +5,10 @@ import React, { useMemo, useState } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
-import { parse, format } from "date-fns";
 
 type Props = {
-  uniqueEnquiryData: any;
+  enquiryData: any;
+  // uniqueEnquiryData: any;
   apiStatus: any;
   toggleRepliesModalShow: any;
   getSelectedTopicId: any;
@@ -41,7 +41,6 @@ const TeacherHelpdeskTable = (props: Props) => {
         const formattedDate = new Intl.DateTimeFormat("en-US", {
           dateStyle: "long",
         }).format(dateObject);
-
         return <span>{formattedDate}</span>;
       },
     },
@@ -49,9 +48,7 @@ const TeacherHelpdeskTable = (props: Props) => {
       Header: "All replies",
       Cell: ({ row }: any) => {
         return (
-          
           <Link to="" onClick={() => onClickViewAllHandler(row.original.id)}>
-
             View All
           </Link>
         );
@@ -63,12 +60,7 @@ const TeacherHelpdeskTable = (props: Props) => {
         return (
           <Link
             to=""
-            // onClick={() => {
-            //   props.toggleRepliesModalShow({ status: true, action: "reply" });
-              
-            //   }}
             onClick={() => onClickReplyHandler(row.original.id)}>
-          
             Reply
           </Link>
         );
@@ -78,6 +70,7 @@ const TeacherHelpdeskTable = (props: Props) => {
       Header: "Status",
       accessor: "published",
       Cell: ({ value }: any) => {
+        // console.log(value, 'value')
         return value ? "Open" : "Close";
       },
     },
@@ -85,7 +78,7 @@ const TeacherHelpdeskTable = (props: Props) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() =>props.uniqueEnquiryData, [props.uniqueEnquiryData]);
+  const data = useMemo(() =>props.enquiryData, [props.enquiryData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -142,10 +135,10 @@ const TeacherHelpdeskTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {props.apiStatus === "started" && props.uniqueEnquiryData.length === 0 && (
+        {props.apiStatus === "started" && props.enquiryData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {props.apiStatus === "finished" && props.uniqueEnquiryData.length === 0 && (
+        {props.apiStatus === "finished" && props.enquiryData.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
       </div>

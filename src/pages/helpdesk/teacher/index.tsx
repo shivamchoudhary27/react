@@ -21,8 +21,7 @@ const TeacherHelpdesk = (props: Props) => {
     status: false,
     action: "",
   });
-  console.log(enquiryData)
-  // console.log(selectedTopic)
+
   const selectTopic = useSelector(
     (state) => state.globalFilters.currentTopicFilterId
   );
@@ -34,7 +33,9 @@ const TeacherHelpdesk = (props: Props) => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
- 
+   
+  console.log(enquiryData, 'enquiryData')
+  
   // call api to get all enquiry === >>>
   useEffect(() => {
     setApiStatus("started");
@@ -57,7 +58,7 @@ const TeacherHelpdesk = (props: Props) => {
     getData("/topic", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          console.log(result.data);
+          // console.log(result.data);
           setSelectedTopic(result.data);
         }
       })
@@ -72,7 +73,6 @@ const TeacherHelpdesk = (props: Props) => {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data);
             setGetAllComment(result.data);
           }
         })
@@ -111,16 +111,18 @@ const TeacherHelpdesk = (props: Props) => {
   };
 
   const updateInputFilters = (inputvalues: any) => {
-    console.log(inputvalues);
-    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, published: inputvalues, pageNumber: 0 });
+    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, pageNumber: 0 });
   };
 
   // display the data in table unique
-  const unique = enquiryData.items;
-  const uniqueEnquiryData = unique.filter(
-    (item, index, array) =>
-      index === array.findIndex((t) => t.topicId === item.topicId)
-  );
+  // const unique = enquiryData.items;
+  // console.log(unique)
+  // const uniqueEnquiryData = unique.filter(
+  //   (item, index, array) =>
+  //     index === array.findIndex((t:any) => t.topicId === item.topicId)
+  // );
+
+  // console.log(uniqueEnquiryData, 'data');
   
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -131,9 +133,11 @@ const TeacherHelpdesk = (props: Props) => {
       apiStatus={apiStatus}
       modalShow={modalShow}
       getAllComment={getAllComment}
+      filterUpdate={filterUpdate}
+      newPageRequest={newPageRequest}
       enquiryData={enquiryData.items}
       totalPages={enquiryData.pager.totalPages}
-      uniqueEnquiryData={uniqueEnquiryData}
+      // uniqueEnquiryData={uniqueEnquiryData}
       getSelectedTopicId={getSelectedTopicId}
       updateTopicFilter={updateTopicFilter}
       updateInputFilters={updateInputFilters}

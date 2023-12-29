@@ -8,8 +8,10 @@ type Props = {
   apiStatus: any;
   modalShow: boolean;
   totalPages: any;
-  enquiryData: any[];
-  uniqueEnquiryData: any;
+  enquiryData: any;
+  filterUpdate: any;
+  newPageRequest: any;
+  // uniqueEnquiryData: any;
   toggleModalShow: any;
   repliesModalShow: boolean;
   selectedTopicId: any;
@@ -28,13 +30,15 @@ const View = (props: Props) => {
   const commonProps = {
     onHide: props.onHide,
     apiStatus:props.apiStatus,
+    enquiryData: props.enquiryData,
     modalShow: props.modalShow,
+    filterUpdate: props.filterUpdate,
+    newPageRequest: props.newPageRequest,
     selectedTopicId: props.selectedTopicId,
     setGetAllComment: props.setGetAllComment,
     updateTopicFilter: props.updateTopicFilter,
     updateInputFilters: props.updateInputFilters,
-    uniqueEnquiryData: props.uniqueEnquiryData,
-    enquiryData: props.enquiryData,
+    // uniqueEnquiryData: props.uniqueEnquiryData,
     totalPages: props.totalPages,
     onRepliesHide: props.onRepliesHide,
     repliesAction: props.repliesAction,

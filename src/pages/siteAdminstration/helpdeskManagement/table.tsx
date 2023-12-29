@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 
 type Props = {
   apiStatus: string;
-  toggleRepliesModalShow:any;
+  // toggleRepliesModalShow:any;
   helpdeskManagementData: any[];
 };
 
@@ -99,13 +99,6 @@ const HelpdeskManagementTable = (props: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   
-  const onClickViewAllHandler = ({
-    topic: topic,
-    createDate: createDate,
-  }: any) => {
-    console.log(topic, createDate);
-    props.toggleRepliesModalShow({ status: true, action: "allview" });
-  };
   return (
     <React.Fragment>
       <div className="table-responsive admin-table-wrapper mt-3">

@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MessagesView from "./messages";
 import { Modal } from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
@@ -15,7 +16,6 @@ type Props = {
   repliesAction: any;
   getAllComment: any;
   selectedTopicId: any;
-  setGetAllComment: any;
   toggleRepliesModalShow: any;
 };
 
@@ -29,13 +29,17 @@ const queryFormSchema = Yup.object({
 });
 
 const RepliesForm = (props: Props) => {
+
+  const sortComments = props.getAllComment.sort((a: any, b: any) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+
   const handleFormSubmit = (values: any, action: any) => {
     if (props.selectedTopicId !== "") {
       action.setSubmitting(true);
       postData(`/comment/${props.selectedTopicId}`, values)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data);
             props.toggleRepliesModalShow(false);
             action.setSubmitting(false);
             action.resetForm();
@@ -128,10 +132,33 @@ const RepliesForm = (props: Props) => {
               )}
             </Formik>
           ) : (
-            <MessagesView
-              getAllComment={props.getAllComment}
-            />
+            <MessagesView getAllComment={props.getAllComment}/>
           )}
+          
+          {props.repliesAction === "reply" && props.selectedTopicId !==0
+            ? sortComments.map((el: any, index: any) => {
+                const formattedDate = new Date(el.date).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  }
+                );
+                return (
+                  <Card
+                    style={{ backgroundColor: "#DCDCDC", marginTop: 20 }}
+                    key={index}
+                  >
+                    <Card.Body>
+                      <Card.Text>{el.comment}</Card.Text>
+                      <Card.Text>{el.firstName + " " + el.lastName}</Card.Text>
+                      <Card.Text>{formattedDate}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                );
+              })
+            : null}
         </Modal.Body>
       </Modal>
     </React.Fragment>
@@ -139,51 +166,3 @@ const RepliesForm = (props: Props) => {
 };
 
 export default RepliesForm;
-
-
-
-// import React from "react";
-
-// type Props = {
-//   getAllComment: any;
-// };
-
-// const MessagesView = (props: Props) => {
-//   console.log(props.getAllComment);
-//   console.log(props.getAllComment.length);
-
-// // Check if there are no comments
-// if (props.getAllComment.length === 0) {
-//   return <p>No comments available</p>;
-// }
-
-// const sortedComments = props.getAllComment.sort((a: any, b: any) => {
-//   return new Date(b.date) - new Date(a.date);
-// });
-
-// console.log(sortedComments)
-
-
-//   return (
-//     <div className="list-group">
-//       {sortedComments.map((item: any, index: number) => (
-//         <a
-//           href="#"
-//           key={index}
-//           className="list-group-item list-group-item-action flex-column align-items-start"
-//         >
-//           <div className="d-flex w-100 justify-content-between">
-//             <h5 className="mb-1">{item.title}</h5>
-//             <small className="text-muted">3 days ago</small>
-//           </div>
-//           <p className="mb-1">{item.comment}</p>
-//           <p className="mb-1">{item.date}</p>
-//           <p className="mb-1">{item.firstName +" "+item.lastName}</p>
-//         </a>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default MessagesView;
-

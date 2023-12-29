@@ -5,19 +5,16 @@ type Props = {
 };
 
 const MessagesView = (props: Props) => {
-  // Check if there are no comments
-  if (props.getAllComment.length === 0) {
-    return <p>No comments available</p>;
-  }
-
+ 
   const sortedComments = props.getAllComment.sort((a: any, b: any) => {
     return new Date(b.date) - new Date(a.date);
   });
-  
+
   console.log(sortedComments);
   return (
     <div className="list-group">
-      {props.getAllComment.map((item: any, index: number) => (
+      {sortedComments.length === 0 ? <p>No comments available</p> : null}
+      {sortedComments.map((item: any, index: number) => (
         <a
           href="#"
           key={index}
