@@ -17,7 +17,10 @@ type Props = {
     apiStatus: any;
     totalPages: any;
     modalShow: boolean;
+    enquiryData: any;
     onRepliesHide: any;
+    newPageRequest: any;
+    filterUpdate: any;
     repliesAction: any;
     selectedTopic: any;
     uniqueEnquiryData: any;
@@ -49,23 +52,26 @@ const Browser = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
             <Filter
+              enquiryData={props.commonProps.enquiryData}
               toggleModalShow={props.commonProps.toggleModalShow}
               selectedTopic={props.commonProps.selectedTopic}
               updateTopicFilter={props.commonProps.updateTopicFilter}
               updateInputFilters={props.commonProps.updateInputFilters}
+              uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
             />
 
             <TeacherHelpdeskTable
-              uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
+              enquiryData={props.commonProps.enquiryData}
+              // uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
               apiStatus={props.commonProps.apiStatus}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
             />
-            {/* <BuildPagination
-              totalpages={props.commonProps.totalpages}
-              activepage={props.commonProps.filterUpdate}
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
-            /> */}
+            />
           </Container>
         </div>
       </div>

@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { filterConfig } from "../../../utils/filterTimeout";
-import ManageDropdown from "./manageDropDown";
+import ManageDropdown from "./manageDropdown";
 
 const initialValues = {
   topicName: "",
@@ -78,29 +78,25 @@ const Filters = ({
               <select
                 className="form-select"
                 name="published"
-                onChange={getCurrentPublishedValue}
-                value={selectPublished}
+                // onChange={getCurrentPublishedValue}
+                // value={selectPublished}
               >
                 <option value="0">All</option>
-                {selectedTopic.map((el: any, index: number) => (
+                <option>Open</option>
+                <option>Close</option>
+                {/* {selectedTopic.map((el: any, index: number) => (
                   <option key={index} value={el.id}>
                     {el.published ? "Open" : "Close"}
                   </option>
-                ))}
+                ))} */}
               </select>
             </Col>
           </Row>
         </form>
         <div className="site-button-group">
           <div>
-            <Button variant="primary" onClick={() => toggleModalShow(true)}>
-              New Request
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => navigate("/helpdeskmanagement")}
-            >
-              Helpdesk Management
+           <Button variant="primary" onClick={() => navigate("/managetopic")}>
+              Manage Topic
             </Button>
           </div>
         </div>

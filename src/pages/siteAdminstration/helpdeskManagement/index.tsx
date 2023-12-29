@@ -13,32 +13,13 @@ const Helpdeskmanagement = () => {
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
+  const [selectedTopic, setSelectedTopic] = useState(dummyData);
   const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const permissions = useSelector(
-    (state: any) => state.userAuthorities.permissions.institute
-  );
  
-  // call api on delete handler === >>>
-  // useEffect(() => {
-  //   if (refreshOnDelete === true) {
-  //     getData("/enquiry/helpdesk", filterUpdate)
-  //       .then((result: any) => {
-  //         if (result.data !== "" && result.status === 200) {
-  //           if (result.data.items.length < 1) {
-  //           }
-  //           setTopicData(result.data);
-  //         }
-  //       })
-  //       .catch((err: any) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [refreshOnDelete]);
 
   // call api to get all topics === >>>
   useEffect(() => {
@@ -57,84 +38,58 @@ const Helpdeskmanagement = () => {
       });
   }, [refreshData, filterUpdate]);
 
+
+   // call api to get all topics === >>>
+   useEffect(() => {
+    setApiStatus("started");
+    getData("/topic", filterUpdate)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          console.log(result.data);
+          setSelectedTopic(result.data);
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }, [refreshData, filterUpdate]);
+
   console.log(helpdeskManagementData)
 
 
-  // const refreshToggle = () => {
-  //   setRefreshData(!refreshData);
-  // };
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
 
-  // const refreshOnDeleteToggle = (value: boolean) => {
-  //   setRefreshOnDelete(value);
-  // };
+   // to update filters values in the main state filterUpdate
+   const updateTopicFilter = (topicId: string) => {
+    setFilterUpdate({
+      ...filterUpdate,
+      topicId: topicId,
+      pageNumber: 0,
+    });
+  };
 
-  // const newPageRequest = (pageRequest: number) => {
-  //   setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
-  // };
+  const updateInputFilters = (inputvalues: any) => {
+    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, pageNumber: 0 });
+  };
+ 
 
-  // const updateSearchFilters = (newFilterRequest: any, reset = false) => {
-  //   console.log(updateSearchFilters);
-  //   if (reset === true) {
-  //     let updatedState = { ...filterUpdate, pageNumber: 0 };
-  //     if (updatedState.topicName !== undefined) delete updatedState.topicName;
-
-  //     setFilterUpdate(updatedState);
-  //   } else {
-  //     const { topicName } = newFilterRequest;
-  //     let updatedState = {
-  //       ...filterUpdate,
-  //       pageNumber: 0,
-  //       ...newFilterRequest,
-  //     };
-
-  //     if (topicName === "") delete updatedState.topicName;
-
-  //     setFilterUpdate(updatedState);
-  //   }
-  // };
-
-  // handle modal hide & show functionality === >>>
-  // const toggleModalShow = (status: boolean) => {
-  //   setModalShow(status);
-  // };
-
-  // get id, name from the department table === >>>
-  // const editHandlerById = ({ id, topicName, description, published }: any) => {
-  //   setTopicObj({
-  //     id: id,
-  //     topicName: topicName,
-  //     description: description,
-  //     published: published,
-  //   });
-  // };
-
-  // handle to open Add Discipline modal === >>>
-  // const openAddTopicModal = () => {
-  //   toggleModalShow(true);
-  //   setTopicObj({
-  //     id: 0,
-  //     topicName: "",
-  //     description: "",
-  //     published: false,
-  //   });
-  //   // setRefreshData(false);
-  // };
 
   return (
     <View
-      // topicObj={topicObj}
+      selectedTopic={selectedTopic.items}
       apiStatus={apiStatus}
+      newPageRequest={newPageRequest}
+      updateTopicFilter={updateTopicFilter}
+      updateInputFilters={updateInputFilters}
       helpdeskManagementData={helpdeskManagementData.items}
+      totalPages={helpdeskManagementData.pager.totalPages}
       // modalShow={modalShow}
       // permissions={permissions}
-      // filterUpdate={filterUpdate.pageNumber}
-      // topicDataPage={topicData.pager.totalPages}
-      // refreshToggle={refreshToggle}
-      // newPageRequest={newPageRequest}
-      // editHandlerById={editHandlerById}
-      // toggleModalShow={toggleModalShow}
-      // openAddTopicModal={openAddTopicModal}
-      // refreshOnDeleteToggle={refreshOnDeleteToggle}
+      filterUpdate={filterUpdate.pageNumber}
+
     />
   );
 };
