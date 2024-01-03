@@ -26,22 +26,23 @@ const TeacherHelpdesk = (props: Props) => {
     (state) => state.globalFilters.currentTopicFilterId
   );
 
+  console.log(selectTopic);
+
   const [filterUpdate, setFilterUpdate] = useState<any>({
     topicId: selectTopic,
-    published: "",
     topicName: "",
+    published: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
    
-  
   // call api to get all enquiry === >>>
   useEffect(() => {
     setApiStatus("started");
     getData("/enquiry", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          // console.log(result.data, "-----------enquiry");
+          console.log(result.data, "-----------enquiry");
           setEnquiryData(result.data);
         }
         setApiStatus("finished");
@@ -66,20 +67,25 @@ const TeacherHelpdesk = (props: Props) => {
       });
   }, []);
 
-  // call API for get all comments of specific topic === >>
   useEffect(() => {
     if (selectedTopicId > 0) {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
+            // console.log(result.data,"id select",selectedTopicId);
             setGetAllComment(result.data);
+          }
+          if (!repliesModalShow.status) {
+            console.log('Resetting getAllComment');
+            setGetAllComment([]);
           }
         })
         .catch((err: any) => {
           console.log(err);
         });
     }
-  }, [selectedTopicId, selectedTopic]);
+  }, [selectedTopicId, selectedTopic,repliesModalShow.status]);
+
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
@@ -100,17 +106,20 @@ const TeacherHelpdesk = (props: Props) => {
     setSelectedTopicId(id);
   };
 
-  // to update filters values in the main state filterUpdate
-  const updateTopicFilter = (topicId: string) => {
+   // to update filters values in the main state filterUpdate
+   const updateTopicFilter = (topicId: string, published:Boolean) => {
     setFilterUpdate({
       ...filterUpdate,
       topicId: topicId,
       pageNumber: 0,
+      published: published,
     });
   };
 
-  const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, pageNumber: 0 });
+
+  const updateInputFilters = (inputvalues: any, published:any) => {
+    console.log(inputvalues);
+    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, published: published, pageNumber: 0 });
   };
 
   // display the data in table unique
@@ -131,21 +140,21 @@ const TeacherHelpdesk = (props: Props) => {
     <View
       apiStatus={apiStatus}
       modalShow={modalShow}
-      getAllComment={getAllComment}
       filterUpdate={filterUpdate}
+      getAllComment={getAllComment}
       newPageRequest={newPageRequest}
       enquiryData={enquiryData.items}
-      totalPages={enquiryData.pager.totalPages}
-      // uniqueEnquiryData={uniqueEnquiryData}
-      getSelectedTopicId={getSelectedTopicId}
-      updateTopicFilter={updateTopicFilter}
-      updateInputFilters={updateInputFilters}
-      toggleModalShow={toggleModalShow}
       selectedTopicId={selectedTopicId}
+      toggleModalShow={toggleModalShow}
       setGetAllComment={setGetAllComment}
       selectedTopic={selectedTopic.items}
+      updateTopicFilter={updateTopicFilter}
       onHide={() => toggleModalShow(false)}
+      // uniqueEnquiryData={uniqueEnquiryData}
+      getSelectedTopicId={getSelectedTopicId}
+      updateInputFilters={updateInputFilters}
       repliesAction={repliesModalShow.action}
+      totalPages={enquiryData.pager.totalPages}
       repliesModalShow={repliesModalShow.status}
       toggleRepliesModalShow={toggleRepliesModalShow}
       onRepliesHide={() =>

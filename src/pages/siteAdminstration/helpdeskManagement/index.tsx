@@ -1,6 +1,5 @@
 
 import View from "./view";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
@@ -31,7 +30,7 @@ const Helpdeskmanagement = () => {
     getData("/enquiry/helpdesk", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          console.log(result.data)
+          // console.log(result.data)
           setHelpdeskManagementData(result.data);
         }
         setApiStatus("finished");
@@ -59,7 +58,7 @@ const Helpdeskmanagement = () => {
       });
   }, [refreshData, filterUpdate]);
 
-  console.log(helpdeskManagementData)
+  // console.log(helpdeskManagementData)
 
 
   const newPageRequest = (pageRequest: number) => {
@@ -67,11 +66,12 @@ const Helpdeskmanagement = () => {
   };
 
    // to update filters values in the main state filterUpdate
-   const updateTopicFilter = (topicId: string) => {
+   const updateTopicFilter = (topicId: string, published:Boolean) => {
     setFilterUpdate({
       ...filterUpdate,
       topicId: topicId,
       pageNumber: 0,
+      published: published,
     });
   };
 
@@ -81,8 +81,6 @@ const Helpdeskmanagement = () => {
     setFilterUpdate({ ...filterUpdate, topicName: inputvalues, pageNumber: 0 });
   };
  
-
-
   return (
     <View
       selectedTopic={selectedTopic.items}
@@ -96,6 +94,7 @@ const Helpdeskmanagement = () => {
       // permissions={permissions}
       filterUpdate={filterUpdate.pageNumber}
 
+    // toggleRepliesModalShow: props.toggleRepliesModalShow,
     />
   );
 };

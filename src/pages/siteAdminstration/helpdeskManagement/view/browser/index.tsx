@@ -8,7 +8,6 @@ import { Container } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-// import Filters from "../browser/filter";
 import Filters from "../../filter";
 
 type Props = {

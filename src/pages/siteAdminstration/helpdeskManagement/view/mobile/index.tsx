@@ -1,23 +1,34 @@
 import React from "react";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
+import { useNavigate } from "react-router-dom";
+import HeaderTabs from "../../../../headerTabs";
+import HelpdeskManagementTable from "../../table";
 import { Container } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
-import MobileHeader from "../../../../newHeader/mobileHeader";
-import MobileFooter from "../../../../newFooter/mobileFooter";
+import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import HelpdeskManagementTable from "../../table";
+import Filters from "../../filter";
 
 type Props = {
   commonProps: {
     apiStatus: any;
-    toggleRepliesModalShow:any;
+    totalPages: any;
+    newPageRequest: any;
+    filterUpdate: any;
+    selectedTopic: any;
+    updateTopicFilter: any;
+    // toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
-  }
+    updateInputFilters:any;
+  };
 };
 
 const Mobile = (props: Props) => {
   return (
     <React.Fragment>
-      <MobileHeader />
+      <Header />
+      <HeaderTabs activeTab="attendance" />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
@@ -28,21 +39,28 @@ const Mobile = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
-
+            {/* <Button variant="primary" onClick={() => navigate("/managetopic")}>
+              Manage Topic
+            </Button> */}
+            <Filters 
+            selectedTopic={props.commonProps.selectedTopic}
+            updateTopicFilter={props.commonProps.updateTopicFilter}
+            updateInputFilters={props.commonProps.updateInputFilters}
+            />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}
-              toggleRepliesModalShow= {props.commonProps.toggleRepliesModalShow}
+              // toggleRepliesModalShow= {props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}
             />
-            {/* <BuildPagination
-            totalpages={props.commonProps.timeslotListPage}
-            activepage={props.commonProps.filterUpdate}
-            getrequestedpage={props.commonProps.newPageRequest}
-          /> */}
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate}
+              getrequestedpage={props.commonProps.newPageRequest}
+            />
           </Container>
         </div>
       </div>
-      <MobileFooter />
+      <Footer />
     </React.Fragment>
   );
 };
