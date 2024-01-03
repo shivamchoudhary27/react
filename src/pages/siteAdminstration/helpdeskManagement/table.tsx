@@ -1,10 +1,12 @@
 import { useTable } from "react-table";
-import { Table, Button } from "react-bootstrap";
-import React, { useMemo, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Table } from "react-bootstrap";
+import React, { useMemo, useState } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
-import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   apiStatus: string;
@@ -88,11 +90,30 @@ const HelpdeskManagementTable = (props: Props) => {
         );
       },
     },
+    // {
+    //   Header: "Status",
+    //   accessor: "published",
+    //   Cell: ({ value }: any) => {
+    //     return value ? "Open" : "Close";
+    //   },
+    // },
     {
       Header: "Status",
       accessor: "published",
-      Cell: ({ value }: any) => {
-        return value ? "Open" : "Close";
+      Cell: ({ value, row }: any) => {
+        return (
+          <>
+            {value ? "Open" : "Close"}{" "}
+            {value && (
+              <Link
+                to={`/edit/${row.original.id}`}
+                onClick={() => handleEditClick(row.original.id)}
+              >
+                <FontAwesomeIcon icon={faEdit} />
+              </Link>
+            )}
+          </>
+        );
       },
     },
   ];
@@ -107,6 +128,11 @@ const HelpdeskManagementTable = (props: Props) => {
     });
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
+  const handleEditClick = (value: any) => {
+    // console.log("Edit clicked for ID:", row.original.id);
+    console.log(value)
+  }
   
   return (
     <React.Fragment>

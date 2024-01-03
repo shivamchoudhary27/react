@@ -10,7 +10,8 @@ const MessagesView = (props: Props) => {
     return new Date(b.date) - new Date(a.date);
   });
 
-  console.log(sortedComments);
+  
+  // console.log(sortedComments);
   return (
     <div style={{ maxHeight: "400px", overflowY: "auto" }}>
       {sortedComments.length === 0 ? <p>No comments available</p> : null}
