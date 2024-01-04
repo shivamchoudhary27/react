@@ -16,22 +16,23 @@ type Props = {
     onHide: any;
     apiStatus: any;
     totalPages: any;
-    modalShow: boolean;
     enquiryData: any;
-    onRepliesHide: any;
-    newPageRequest: any;
     filterUpdate: any;
+    onRepliesHide: any;
+    modalShow: boolean;
     repliesAction: any;
     selectedTopic: any;
-    uniqueEnquiryData: any;
-    selectedTopicId: any;
     getAllComment: any;
+    newPageRequest: any;
+    refreshToggle: any;
+    selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
-    getSelectedTopicId: any;
-    updateTopicFilter: any;
-    updateInputFilters: any;
     setGetAllComment: any;
+    updateTopicFilter: any;
+    uniqueEnquiryData: any;
+    getSelectedTopicId: any;
+    updateInputFilters: any;
     toggleRepliesModalShow: any;
   };
 };
@@ -52,25 +53,22 @@ const Browser = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
             <Filter
-              enquiryData={props.commonProps.enquiryData}
-              toggleModalShow={props.commonProps.toggleModalShow}
               selectedTopic={props.commonProps.selectedTopic}
+              toggleModalShow={props.commonProps.toggleModalShow}
               updateTopicFilter={props.commonProps.updateTopicFilter}
               updateInputFilters={props.commonProps.updateInputFilters}
-              uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
             />
 
             <TeacherHelpdeskTable
-              enquiryData={props.commonProps.enquiryData}
-              // uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
               apiStatus={props.commonProps.apiStatus}
-              toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+              enquiryData={props.commonProps.enquiryData}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
+              toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
-              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
+              activepage={props.commonProps.filterUpdate.pageNumber}
             />
           </Container>
         </div>
@@ -78,16 +76,18 @@ const Browser = (props: Props) => {
       <NewRequestForm
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
-        toggleModalShow={props.commonProps.toggleModalShow}
+        updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopic={props.commonProps.selectedTopic}
+        toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm
         onHide={props.commonProps.onRepliesHide}
+        updateAddRefresh={props.commonProps.refreshToggle}
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
+        getAllComment={props.commonProps.getAllComment}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
-        getAllComment={props.commonProps.getAllComment}
       />
       <Footer />
     </React.Fragment>

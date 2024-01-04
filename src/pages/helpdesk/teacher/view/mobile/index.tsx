@@ -16,22 +16,22 @@ type Props = {
     onHide: any;
     apiStatus: any;
     totalPages: any;
-    modalShow: boolean;
-    onRepliesHide: any;
-    newPageRequest: any;
+    enquiryData: any;
     filterUpdate: any;
+    onRepliesHide: any;
+    modalShow: boolean;
     repliesAction: any;
     selectedTopic: any;
-    enquiryData: any;
-    // uniqueEnquiryData: any;
-    selectedTopicId: any;
     getAllComment: any;
+    newPageRequest: any;
+    refreshToggle: any;
+    selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
-    getSelectedTopicId: any;
-    updateTopicFilter: any;
-    updateInputFilters: any;
     setGetAllComment: any;
+    updateTopicFilter: any;
+    getSelectedTopicId: any;
+    updateInputFilters: any;
     toggleRepliesModalShow: any;
   };
 };
@@ -52,24 +52,22 @@ const Mobile = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
             <Filter
-              toggleModalShow={props.commonProps.toggleModalShow}
               selectedTopic={props.commonProps.selectedTopic}
+              toggleModalShow={props.commonProps.toggleModalShow}
               updateTopicFilter={props.commonProps.updateTopicFilter}
               updateInputFilters={props.commonProps.updateInputFilters}
-              // uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
             />
 
             <TeacherHelpdeskTable
-              // uniqueEnquiryData={props.commonProps.uniqueEnquiryData}
-              enquiryData={props.commonProps.enquiryData}
               apiStatus={props.commonProps.apiStatus}
-              toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+              enquiryData={props.commonProps.enquiryData}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
+              toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
-              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
+              activepage={props.commonProps.filterUpdate.pageNumber}
             />
           </Container>
         </div>
@@ -77,16 +75,18 @@ const Mobile = (props: Props) => {
       <NewRequestForm
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
-        toggleModalShow={props.commonProps.toggleModalShow}
+        updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopic={props.commonProps.selectedTopic}
+        toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm
         onHide={props.commonProps.onRepliesHide}
+        updateAddRefresh={props.commonProps.refreshToggle}
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
+        getAllComment={props.commonProps.getAllComment}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
-        getAllComment={props.commonProps.getAllComment}
       />
       <Footer />
     </React.Fragment>

@@ -14,6 +14,7 @@ const TeacherHelpdesk = (props: Props) => {
   const [modalShow, setModalShow] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
   const [getAllComment, setGetAllComment] = useState([]);
+  const [refreshData, setRefreshData] = useState(true);
   const [enquiryData, setEnquiryData] = useState(dummyData);
   const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
@@ -22,16 +23,10 @@ const TeacherHelpdesk = (props: Props) => {
     action: "",
   });
 
-  const selectTopic = useSelector(
-    (state) => state.globalFilters.currentTopicFilterId
-  );
-
-  console.log(selectTopic);
 
   const [filterUpdate, setFilterUpdate] = useState<any>({
-    topicId: selectTopic,
+    topicId: "",
     topicName: "",
-    published: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -51,7 +46,11 @@ const TeacherHelpdesk = (props: Props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [filterUpdate]);
+  }, [refreshData,filterUpdate]);
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
 
   // call api to get all topics === >>>
   useEffect(() => {
@@ -72,7 +71,6 @@ const TeacherHelpdesk = (props: Props) => {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            // console.log(result.data,"id select",selectedTopicId);
             setGetAllComment(result.data);
           }
           if (!repliesModalShow.status) {
@@ -107,30 +105,24 @@ const TeacherHelpdesk = (props: Props) => {
   };
 
    // to update filters values in the main state filterUpdate
-   const updateTopicFilter = (topicId: string, published:Boolean) => {
+  const updateTopicFilter = (topicId: string,published: string | undefined) => {
     setFilterUpdate({
       ...filterUpdate,
       topicId: topicId,
       pageNumber: 0,
-      published: published,
+      published: published === "" ? undefined : published,
     });
   };
 
-
-  const updateInputFilters = (inputvalues: any, published:any) => {
-    console.log(inputvalues);
-    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, published: published, pageNumber: 0 });
+  const updateInputFilters = (inputvalues: any, published: any) => {
+    console.log(inputvalues, '----------inputvalues');
+    setFilterUpdate({
+      ...filterUpdate,
+      topicId: inputvalues,
+      pageNumber: 0,
+      published: published === "" ? undefined : published,
+    });
   };
-
-  // display the data in table unique
-  // const unique = enquiryData.items;
-  // console.log(unique)
-  // const uniqueEnquiryData = unique.filter(
-  //   (item, index, array) =>
-  //     index === array.findIndex((t:any) => t.topicId === item.topicId)
-  // );
-
-  // console.log(uniqueEnquiryData, 'data');
   
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -141,6 +133,7 @@ const TeacherHelpdesk = (props: Props) => {
       apiStatus={apiStatus}
       modalShow={modalShow}
       filterUpdate={filterUpdate}
+      refreshToggle={refreshToggle}
       getAllComment={getAllComment}
       newPageRequest={newPageRequest}
       enquiryData={enquiryData.items}
@@ -150,7 +143,6 @@ const TeacherHelpdesk = (props: Props) => {
       selectedTopic={selectedTopic.items}
       updateTopicFilter={updateTopicFilter}
       onHide={() => toggleModalShow(false)}
-      // uniqueEnquiryData={uniqueEnquiryData}
       getSelectedTopicId={getSelectedTopicId}
       updateInputFilters={updateInputFilters}
       repliesAction={repliesModalShow.action}

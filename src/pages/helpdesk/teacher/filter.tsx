@@ -66,8 +66,8 @@ const Filter = (props: Props) => {
                 value={selectedPublishedValue}
               >
                 <option value="">All</option>
-                <option value="true">Open</option> 
-                <option value="false">Close</option>
+                <option value="open">Open</option> 
+                <option value="close">Close</option>
                
               </select>
             </Col>

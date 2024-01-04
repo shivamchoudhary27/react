@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import MessagesView from "./messages";
@@ -16,6 +16,7 @@ type Props = {
   repliesAction: any;
   getAllComment: any;
   selectedTopicId: any;
+  updateAddRefresh: any;
   toggleRepliesModalShow: any;
 };
 
@@ -42,6 +43,7 @@ const RepliesForm = (props: Props) => {
           if (result.data !== "" && result.status === 200) {
             props.toggleRepliesModalShow(false);
             action.setSubmitting(false);
+            props.updateAddRefresh();
             action.resetForm();
           }
         })
@@ -138,7 +140,7 @@ const RepliesForm = (props: Props) => {
           
           {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
             // Wrap the card section in a div with a fixed height and scrollbar
-            <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+            <div style={{ maxHeight: "250px", maxWidth: "800px", overflowY: "auto" }}>
               {sortComments.map((el: any, index: any) => {
                 const formattedDate = new Date(el.date).toLocaleDateString(
                   "en-US",
