@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Button } from "react-bootstrap";
@@ -13,6 +12,7 @@ type Props = {
 
 const Filter = (props: Props) => {
   const navigate = useNavigate();
+  // const [selectDate, setSelectDate] = useState("");
   const [selectedTopicValue, setSelectedTopicValue] = useState("");
   const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
 
@@ -24,10 +24,9 @@ const Filter = (props: Props) => {
 
   const getCurrentValue = (e: any) => {
     console.log(e.target.value, "----------value");
-    props.updateTopicFilter(e.target.value,selectedPublishedValue);
+    props.updateTopicFilter(e.target.value, selectedPublishedValue);
     setSelectedTopicValue(e.target.value);
   };
-
 
   const getCurrentPublishedValue = (e: any) => {
     console.log(e.target.value, "----------published");
@@ -35,6 +34,7 @@ const Filter = (props: Props) => {
     setSelectedPublishedValue(e.target.value);
   };
 
+  
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
@@ -65,27 +65,30 @@ const Filter = (props: Props) => {
                 value={selectedPublishedValue}
               >
                 <option value="">All</option>
-                <option value="true">Open</option> 
-                <option value="false">Close</option>
-               
+                <option value="open">Open</option>
+                <option value="close">Close</option>
               </select>
             </Col>
-           
+            {/* <Col>
+              <select
+                className="form-select"
+                name="date"
+                onChange={getDateValue}
+                value={selectDate}
+              ></select>
+            </Col> */}
           </Row>
         </form>
         <div className="site-button-group">
-           <div>
-             <Button variant="primary" onClick={() => navigate("/managetopic")}>
-               Manage Topic
-             </Button>
-           </div>
-         </div>
+          <div>
+            <Button variant="primary" onClick={() => navigate("/managetopic")}>
+              Manage Topic
+            </Button>
+          </div>
+        </div>
       </div>
     </React.Fragment>
   );
 };
 
 export default Filter;
-
-
-

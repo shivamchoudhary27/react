@@ -11,6 +11,7 @@ import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaFiel
 type Props = {
   onHide: any;
   modalShow: boolean;
+  updateAddRefresh: any;
   toggleModalShow: any;
   selectedTopic: any;
 };
@@ -35,8 +36,10 @@ const NewRequestForm = (props: Props) => {
       postData(`/enquiry/${parseInt(topicId)}`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
+            console.log(res.data);
             props.toggleModalShow(false);
             action.setSubmitting(false);
+            props.updateAddRefresh()
           }
         })
         .catch((error: any) => {

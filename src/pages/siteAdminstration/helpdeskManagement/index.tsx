@@ -17,20 +17,17 @@ const Helpdeskmanagement = () => {
   const [filterUpdate, setFilterUpdate] = useState<any>({
     topicId: "", 
     topicName: "", 
-    published: "", 
-    date: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
  
-
   // call api to get all topics === >>>
   useEffect(() => {
     setApiStatus("started");
     getData("/enquiry/helpdesk", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          // console.log(result.data)
+          console.log(result.data)
           setHelpdeskManagementData(result.data);
         }
         setApiStatus("finished");
@@ -41,6 +38,10 @@ const Helpdeskmanagement = () => {
       });
   }, [refreshData, filterUpdate]);
 
+
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
 
    // call api to get all topics === >>>
    useEffect(() => {
@@ -58,27 +59,28 @@ const Helpdeskmanagement = () => {
       });
   }, [refreshData, filterUpdate]);
 
-  // console.log(helpdeskManagementData)
-
-
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
    // to update filters values in the main state filterUpdate
-   const updateTopicFilter = (topicId: string, published:Boolean) => {
+  const updateTopicFilter = (topicId: string,published: string | undefined) => {
     setFilterUpdate({
       ...filterUpdate,
       topicId: topicId,
       pageNumber: 0,
-      published: published,
+      published: published === "" ? undefined : published,
     });
   };
 
-  console.log(filterUpdate)
-
-  const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, topicName: inputvalues, pageNumber: 0 });
+  const updateInputFilters = (inputvalues: any, published: any) => {
+    console.log(inputvalues, '----------inputvalues');
+    setFilterUpdate({
+      ...filterUpdate,
+      topicId: inputvalues,
+      pageNumber: 0,
+      published: published === "" ? undefined : published,
+    });
   };
  
   return (
@@ -90,11 +92,7 @@ const Helpdeskmanagement = () => {
       updateInputFilters={updateInputFilters}
       helpdeskManagementData={helpdeskManagementData.items}
       totalPages={helpdeskManagementData.pager.totalPages}
-      // modalShow={modalShow}
-      // permissions={permissions}
       filterUpdate={filterUpdate.pageNumber}
-
-    // toggleRepliesModalShow: props.toggleRepliesModalShow,
     />
   );
 };

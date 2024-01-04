@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
-import { useNavigate } from "react-router-dom";
 import HeaderTabs from "../../../../headerTabs";
 import HelpdeskManagementTable from "../../table";
 import { Container } from "react-bootstrap";
@@ -14,13 +13,12 @@ type Props = {
   commonProps: {
     apiStatus: any;
     totalPages: any;
-    newPageRequest: any;
     filterUpdate: any;
     selectedTopic: any;
+    newPageRequest: any;
     updateTopicFilter: any;
-    // toggleRepliesModalShow: any;
-    helpdeskManagementData: any[];
     updateInputFilters:any;
+    helpdeskManagementData: any[];
   };
 };
 
@@ -39,9 +37,6 @@ const Mobile = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
-            {/* <Button variant="primary" onClick={() => navigate("/managetopic")}>
-              Manage Topic
-            </Button> */}
             <Filters 
             selectedTopic={props.commonProps.selectedTopic}
             updateTopicFilter={props.commonProps.updateTopicFilter}

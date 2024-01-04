@@ -5,17 +5,15 @@ import React, { useMemo, useState } from "react";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   apiStatus: string;
-  // toggleRepliesModalShow:any;
   helpdeskManagementData: any[];
 };
 
 const HelpdeskManagementTable = (props: Props) => {
-
   const tableColumn = [
     {
       Header: "SN",
@@ -90,26 +88,22 @@ const HelpdeskManagementTable = (props: Props) => {
         );
       },
     },
-    // {
-    //   Header: "Status",
-    //   accessor: "published",
-    //   Cell: ({ value }: any) => {
-    //     return value ? "Open" : "Close";
-    //   },
-    // },
     {
       Header: "Status",
-      accessor: "published",
+      accessor: "status",
       Cell: ({ value, row }: any) => {
+        const isEditable = value === "open";
+
         return (
           <>
-            {value ? "Open" : "Close"}{" "}
-            {value && (
+            {value === "open" ? "Open" : "Close"}
+            {value === "open" && (
               <Link
-                to={`/edit/${row.original.id}`}
-                onClick={() => handleEditClick(row.original.id)}
+                // to={`/edit/${row.original.id}`}
+                to={``}
+                // onClick={() => handleEditClick(row.original.id)}
               >
-                <FontAwesomeIcon icon={faEdit} />
+                <FontAwesomeIcon className="px-2" icon={faEdit} />
               </Link>
             )}
           </>
@@ -120,7 +114,10 @@ const HelpdeskManagementTable = (props: Props) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => props.helpdeskManagementData, [props.helpdeskManagementData]);
+  const data = useMemo(
+    () => props.helpdeskManagementData,
+    [props.helpdeskManagementData]
+  );
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -129,11 +126,11 @@ const HelpdeskManagementTable = (props: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
-  const handleEditClick = (value: any) => {
+  const handleOnClick = (value: any) => {
     // console.log("Edit clicked for ID:", row.original.id);
-    console.log(value)
-  }
-  
+    console.log(value);
+  };
+
   return (
     <React.Fragment>
       <div className="table-responsive admin-table-wrapper mt-3">
@@ -144,6 +141,7 @@ const HelpdeskManagementTable = (props: Props) => {
           variant={alertMsg.alertBoxColor}
           setShowAlert={setShowAlert}
         />
+
         <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -172,12 +170,14 @@ const HelpdeskManagementTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {props.apiStatus === "started" && props.helpdeskManagementData.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )}
-        {props.apiStatus === "finished" && props.helpdeskManagementData.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="mt-3" />
-        )}
+        {props.apiStatus === "started" &&
+          props.helpdeskManagementData.length === 0 && (
+            <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+          )}
+        {props.apiStatus === "finished" &&
+          props.helpdeskManagementData.length === 0 && (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
       </div>
     </React.Fragment>
   );

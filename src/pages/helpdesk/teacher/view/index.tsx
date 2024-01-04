@@ -6,48 +6,48 @@ import { isMobile, isDesktop } from "react-device-detect";
 type Props = {
   onHide: any;
   apiStatus: any;
-  modalShow: boolean;
   totalPages: any;
   enquiryData: any;
   filterUpdate: any;
-  newPageRequest: any;
-  // uniqueEnquiryData: any;
-  toggleModalShow: any;
-  repliesModalShow: boolean;
-  selectedTopicId: any;
-  setGetAllComment: any;
-  toggleRepliesModalShow: any;
-  onRepliesHide: any;
   repliesAction: any;
   selectedTopic: any;
   getAllComment: any;
+  modalShow: boolean;
+  onRepliesHide: any;
+  refreshToggle: any;
+  newPageRequest: any;
+  toggleModalShow: any;
+  selectedTopicId: any;
+  setGetAllComment: any;
+  updateTopicFilter: any;
   getSelectedTopicId: any;
   updateInputFilters: any;
-  updateTopicFilter: any;
+  repliesModalShow: boolean;
+  toggleRepliesModalShow: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
     onHide: props.onHide,
     apiStatus:props.apiStatus,
-    enquiryData: props.enquiryData,
     modalShow: props.modalShow,
+    totalPages: props.totalPages,
+    enquiryData: props.enquiryData,
     filterUpdate: props.filterUpdate,
+    selectedTopic: props.selectedTopic,
+    refreshToggle: props.refreshToggle,
+    repliesAction: props.repliesAction,
+    onRepliesHide: props.onRepliesHide,
+    getAllComment: props.getAllComment,
     newPageRequest: props.newPageRequest,
+    toggleModalShow: props.toggleModalShow,
     selectedTopicId: props.selectedTopicId,
+    repliesModalShow: props.repliesModalShow,
     setGetAllComment: props.setGetAllComment,
     updateTopicFilter: props.updateTopicFilter,
     updateInputFilters: props.updateInputFilters,
-    // uniqueEnquiryData: props.uniqueEnquiryData,
-    totalPages: props.totalPages,
-    onRepliesHide: props.onRepliesHide,
-    repliesAction: props.repliesAction,
-    selectedTopic: props.selectedTopic,
-    toggleModalShow: props.toggleModalShow,
-    repliesModalShow: props.repliesModalShow,
-    toggleRepliesModalShow: props.toggleRepliesModalShow,
-    getAllComment: props.getAllComment,
     getSelectedTopicId: props.getSelectedTopicId,
+    toggleRepliesModalShow: props.toggleRepliesModalShow,
   };
 
   return (

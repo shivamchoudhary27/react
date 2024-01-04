@@ -8,7 +8,6 @@ import Errordiv from "../../../widgets/alert/errordiv";
 
 type Props = {
   enquiryData: any;
-  // uniqueEnquiryData: any;
   apiStatus: any;
   toggleRepliesModalShow: any;
   getSelectedTopicId: any;
@@ -68,11 +67,7 @@ const TeacherHelpdeskTable = (props: Props) => {
     },
     {
       Header: "Status",
-      accessor: "published",
-      Cell: ({ value }: any) => {
-        // console.log(value, 'value')
-        return value ? "Open" : "Close";
-      },
+      accessor: "status",
     },
   ];
 

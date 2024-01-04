@@ -5,26 +5,25 @@ import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   apiStatus: any;
-  newPageRequest: any;
   totalPages: any;
-  selectedTopic: any;
   filterUpdate: any;
-  helpdeskManagementData: any[];
-  toggleRepliesModalShow: any;
+  refreshToggle: any;
+  selectedTopic: any;
+  newPageRequest: any;
   updateTopicFilter: any;
   updateInputFilters: any;
+  helpdeskManagementData: any[];
 };
 
 const View = (props: Props) => {
   const commonProps = {
     apiStatus: props.apiStatus,
+    totalPages: props.totalPages,
+    filterUpdate: props.filterUpdate,
     selectedTopic: props.selectedTopic,
+    newPageRequest: props.newPageRequest,
     updateTopicFilter: props.updateTopicFilter,
     updateInputFilters: props.updateInputFilters,
-    filterUpdate: props.filterUpdate,
-    totalPages: props.totalPages,
-    newPageRequest: props.newPageRequest,
-    toggleRepliesModalShow: props.toggleRepliesModalShow,
     helpdeskManagementData: props.helpdeskManagementData,
   };
   return (
