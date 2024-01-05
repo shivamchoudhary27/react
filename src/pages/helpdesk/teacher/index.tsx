@@ -1,5 +1,6 @@
 import View from "./view";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
 
@@ -17,6 +18,7 @@ const TeacherHelpdesk = (props: Props) => {
   const [enquiryData, setEnquiryData] = useState(dummyData);
   const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
+  const [selectedProgram, setSelectedProgram] = useState(dummyData);
   const [repliesModalShow, setRepliesModalShow] = useState({
     status: false,
     action: "",
@@ -24,13 +26,16 @@ const TeacherHelpdesk = (props: Props) => {
     dateValue: ""
   });
 
-
   const [filterUpdate, setFilterUpdate] = useState<any>({
     topicId: "",
     topicName: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+
+  const currentInstitute = useSelector(
+    (state) => state.globalFilters.currentInstitute
+  );
    
   // call api to get all enquiry === >>>
   useEffect(() => {
@@ -49,6 +54,23 @@ const TeacherHelpdesk = (props: Props) => {
       });
   }, [refreshData,filterUpdate]);
 
+  // call api to get all programs === >>>
+  useEffect(() => {
+    setApiStatus("started");
+    getData(`/${currentInstitute}/programs`, {pageNumber: 0,
+      pageSize: pagination.PERPAGE})
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          setSelectedProgram(result.data);
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  }, []);
+
   const refreshToggle = () => {
     setRefreshData(!refreshData);
   };
@@ -58,7 +80,6 @@ const TeacherHelpdesk = (props: Props) => {
     getData("/topic", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          // console.log(result.data);
           setSelectedTopic(result.data);
         }
       })
@@ -142,6 +163,7 @@ const TeacherHelpdesk = (props: Props) => {
       apiStatus={apiStatus}
       modalShow={modalShow}
       filterUpdate={filterUpdate}
+      selectedProgram={selectedProgram.items}
       modalTitle={repliesModalShow.topicname}
       modalTitleDate={repliesModalShow.dateValue}
       refreshToggle={refreshToggle}

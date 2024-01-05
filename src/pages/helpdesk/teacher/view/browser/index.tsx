@@ -24,6 +24,7 @@ type Props = {
     selectedTopic: any;
     getAllComment: any;
     newPageRequest: any;
+    selectedProgram: any;
     refreshToggle: any;
     selectedTopicId: any;
     toggleModalShow: any;
@@ -77,8 +78,9 @@ const Browser = (props: Props) => {
       <NewRequestForm
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
-        updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopic={props.commonProps.selectedTopic}
+        updateAddRefresh={props.commonProps.refreshToggle}
+        selectedProgram={props.commonProps.selectedProgram}
         toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm

@@ -20,6 +20,9 @@ type Props = {
 
 const StatusModalForm = (props: Props) => {
 
+  const [statusValue, setStatusValue] = useState("");
+
+  console.log(statusValue)
   const initialValues = {
     status: ""
   };  
@@ -38,8 +41,9 @@ const queryFormSchema = Yup.object({
           props.toggleModalShow(false);
           action.setSubmitting(false);
           props.updateAddRefresh();
-          action.resetForm();
         }
+        // Reset the form after a successful submission
+      action.resetForm();
       })
       .catch((error: any) => {
         console.log(error);
@@ -49,9 +53,18 @@ const queryFormSchema = Yup.object({
   const getCurrentValue = (e: any, handleChange: (e: React.ChangeEvent<any>) => void) => {
     if (e.type === "change") {
       handleChange(e);
+    setStatusValue(e.target.value)
+    console.log(e.target.value)
      
     }
   };
+  // const getCurrentValue = (e:any) => { 
+  //   setStatusValue(e.target.value)
+  // }
+
+  const handlesReset = () => {
+    setStatusValue("")
+  }
 
   return (
     <React.Fragment>
@@ -92,7 +105,9 @@ const queryFormSchema = Yup.object({
                     className="form-select"
                     name="status"
                     onChange={(e) => getCurrentValue(e, handleChange)}
-                    // value={selectedValue}
+                    // onChange={(e) => getCurrentValue(e)}
+                    value={statusValue}
+
                   >
                     <option value="">Select Status</option>
                      <option value="open">Open</option>
