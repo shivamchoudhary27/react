@@ -1,6 +1,5 @@
 import View from "./view";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
 
@@ -21,6 +20,8 @@ const TeacherHelpdesk = (props: Props) => {
   const [repliesModalShow, setRepliesModalShow] = useState({
     status: false,
     action: "",
+    topicname: "",
+    dateValue: ""
   });
 
 
@@ -37,7 +38,7 @@ const TeacherHelpdesk = (props: Props) => {
     getData("/enquiry", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          console.log(result.data, "-----------enquiry");
+          // console.log(result.data, "-----------enquiry");
           setEnquiryData(result.data);
         }
         setApiStatus("finished");
@@ -67,6 +68,7 @@ const TeacherHelpdesk = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    setApiStatus("started");
     if (selectedTopicId > 0) {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
@@ -74,15 +76,18 @@ const TeacherHelpdesk = (props: Props) => {
             setGetAllComment(result.data);
           }
           if (!repliesModalShow.status) {
-            console.log('Resetting getAllComment');
             setGetAllComment([]);
           }
+          setApiStatus("finished");
         })
         .catch((err: any) => {
-          console.log(err);
+          setApiStatus("finished");
+          if(err.response.status === 500){
+            console.log(err.response.data.message);
+          }
         });
     }
-  }, [selectedTopicId, selectedTopic,repliesModalShow.status]);
+  }, [selectedTopicId, selectedTopic, repliesModalShow.status]);
 
 
   // handle modal hide & show functionality === >>>
@@ -93,11 +98,15 @@ const TeacherHelpdesk = (props: Props) => {
   const toggleRepliesModalShow = ({
     status,
     action,
+    topicname,
+    dateValue
   }: {
     status: boolean;
     action: string;
+    topicname: string,
+    dateValue: any
   }) => {
-    setRepliesModalShow({ status: status, action: action });
+    setRepliesModalShow({ status: status, action: action, topicname: topicname, dateValue: dateValue });
   };
 
   const getSelectedTopicId = (id: number) => {
@@ -115,7 +124,7 @@ const TeacherHelpdesk = (props: Props) => {
   };
 
   const updateInputFilters = (inputvalues: any, published: any) => {
-    console.log(inputvalues, '----------inputvalues');
+    // console.log(inputvalues, '----------inputvalues');
     setFilterUpdate({
       ...filterUpdate,
       topicId: inputvalues,
@@ -128,11 +137,15 @@ const TeacherHelpdesk = (props: Props) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  console.log(repliesModalShow)
+
   return (
     <View
       apiStatus={apiStatus}
       modalShow={modalShow}
       filterUpdate={filterUpdate}
+      modalTitle={repliesModalShow.topicname}
+      modalTitleDate={repliesModalShow.dateValue}
       refreshToggle={refreshToggle}
       getAllComment={getAllComment}
       newPageRequest={newPageRequest}
@@ -150,7 +163,7 @@ const TeacherHelpdesk = (props: Props) => {
       repliesModalShow={repliesModalShow.status}
       toggleRepliesModalShow={toggleRepliesModalShow}
       onRepliesHide={() =>
-        toggleRepliesModalShow({ status: false, action: "" })
+        toggleRepliesModalShow({ status: false, action: "", topicname: "", dateValue: ''})
       }
     />
   );

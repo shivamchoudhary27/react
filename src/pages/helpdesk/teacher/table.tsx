@@ -2,9 +2,9 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useMemo, useState } from "react";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 type Props = {
   enquiryData: any;
@@ -14,7 +14,6 @@ type Props = {
 };
 
 const TeacherHelpdeskTable = (props: Props) => {
-
   const tableColumn = [
     {
       Header: "SN",
@@ -47,7 +46,16 @@ const TeacherHelpdeskTable = (props: Props) => {
       Header: "All replies",
       Cell: ({ row }: any) => {
         return (
-          <Link to="" onClick={() => onClickViewAllHandler(row.original.id)}>
+          <Link
+            to=""
+            onClick={() =>
+              onClickViewAllHandler(
+                row.original.id,
+                row.original.topicName,
+                row.original.date
+              )
+            }
+          >
             View All
           </Link>
         );
@@ -59,8 +67,15 @@ const TeacherHelpdeskTable = (props: Props) => {
         return (
           <Link
             to=""
-            onClick={() => onClickReplyHandler(row.original.id)}>
-            Reply
+            onClick={() =>
+              onClickReplyHandler(
+                row.original.id,
+                row.original.topicName,
+                row.original.date
+              )
+            }
+          >
+            {row.original.status !== "close" && "Reply"}
           </Link>
         );
       },
@@ -73,7 +88,7 @@ const TeacherHelpdeskTable = (props: Props) => {
 
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() =>props.enquiryData, [props.enquiryData]);
+  const data = useMemo(() => props.enquiryData, [props.enquiryData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
@@ -82,14 +97,33 @@ const TeacherHelpdeskTable = (props: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
-  const onClickViewAllHandler = (id: number) => {
+  const onClickViewAllHandler = (
+    id: number,
+    topicname: string,
+    dateValue: any
+  ) => {
+    console.log(topicname, dateValue);
     props.getSelectedTopicId(id);
-    props.toggleRepliesModalShow({ status: true, action: "allview" });
+    props.toggleRepliesModalShow({
+      status: true,
+      action: "allview",
+      topicname: topicname,
+      dateValue: dateValue,
+    });
   };
 
-  const onClickReplyHandler = (id: number) => {
+  const onClickReplyHandler = (
+    id: number,
+    topicname: string,
+    dateValue: any
+  ) => {
     props.getSelectedTopicId(id);
-    props.toggleRepliesModalShow({ status: true, action: "reply" });
+    props.toggleRepliesModalShow({
+      status: true,
+      action: "reply",
+      topicname: topicname,
+      dateValue: dateValue,
+    });
   };
 
   return (

@@ -34,6 +34,8 @@ type Props = {
     getSelectedTopicId: any;
     updateInputFilters: any;
     toggleRepliesModalShow: any;
+    modalTitle: any
+    modalTitleDate: any
   };
 };
 
@@ -88,6 +90,9 @@ const Browser = (props: Props) => {
         getAllComment={props.commonProps.getAllComment}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        apiStatus={props.commonProps.apiStatus}
+        modalTitle={props.commonProps.modalTitle}
+        modalTitleDate={props.commonProps.modalTitleDate}
       />
       <Footer />
     </React.Fragment>
