@@ -38,7 +38,7 @@ const Filter = (props: Props) => {
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper mt-2">
+      <div className="filter-wrapper mt-2 gap-3">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col>
