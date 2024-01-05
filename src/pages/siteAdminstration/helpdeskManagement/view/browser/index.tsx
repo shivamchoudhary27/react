@@ -43,7 +43,7 @@ const Browser = (props: Props) => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs activeTab="attendance" />
+      <HeaderTabs activeTab="helpdesk" />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
