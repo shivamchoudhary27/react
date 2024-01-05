@@ -1,6 +1,6 @@
+import React from "react";
 import * as Yup from "yup";
-import { Formik, Form, ErrorMessage } from "formik";
-import React, { useState } from "react";
+import { Formik, Form } from "formik";
 import { Modal } from "react-bootstrap";
 import { putData } from "../../../adapters/microservices";
 import FieldLabel from "../../../widgets/formInputFields/labels";
@@ -15,7 +15,7 @@ type Props = {
   toggleModalShow: any;
   updateTopicFilter: any;
   selectedTopic: any;
-};
+};  
 
 
 const StatusModalForm = (props: Props) => {
@@ -24,7 +24,8 @@ const StatusModalForm = (props: Props) => {
 
   console.log(statusValue)
   const initialValues = {
-    status: ""
+    status: "",
+    query: props.topicObj.query
   };  
 
 // Formik Yup validation === >>>
@@ -37,7 +38,6 @@ const queryFormSchema = Yup.object({
     putData(`/enquiry/admin/${props.topicObj.id}`, values)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          console.log(res.data, "----------status");
           props.toggleModalShow(false);
           action.setSubmitting(false);
           props.updateAddRefresh();
