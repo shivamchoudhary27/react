@@ -8,16 +8,33 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import Filters from "../../filter";
+import StatusModalForm from "../../form";
+import RepliesForm from "../../replyForm";
 
 type Props = {
   commonProps: {
+    onHide: any;
+    topicObj: any;
     apiStatus: any;
+    modalShow: any;
     totalPages: any;
+    modalTitle: any;
     filterUpdate: any;
+    getAllComment: any;
+    refreshToggle: any;
     selectedTopic: any;
+    onRepliesHide: any;
+    repliesAction: any;
     newPageRequest: any;
+    modalTitleDate: any;
+    editHandlerById: any;
+    toggleModalShow: any;
+    selectedTopicId: any;
+    repliesModalShow: any;
     updateTopicFilter: any;
-    updateInputFilters:any;
+    updateInputFilters: any;
+    getSelectedTopicId: any;
+    toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
   };
 };
@@ -37,14 +54,17 @@ const Mobile = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
-            <Filters 
-            selectedTopic={props.commonProps.selectedTopic}
-            updateTopicFilter={props.commonProps.updateTopicFilter}
-            updateInputFilters={props.commonProps.updateInputFilters}
+            <Filters
+              selectedTopic={props.commonProps.selectedTopic}
+              updateTopicFilter={props.commonProps.updateTopicFilter}
+              updateInputFilters={props.commonProps.updateInputFilters}
             />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}
-              // toggleRepliesModalShow= {props.commonProps.toggleRepliesModalShow}
+              toggleModalShow={props.commonProps.toggleModalShow}
+              editHandlerById={props.commonProps.editHandlerById}
+              getSelectedTopicId={props.commonProps.getSelectedTopicId}
+              toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}
             />
             <BuildPagination
@@ -55,6 +75,28 @@ const Mobile = (props: Props) => {
           </Container>
         </div>
       </div>
+
+      <StatusModalForm
+        onHide={props.commonProps.onHide}
+        topicObj={props.commonProps.topicObj}
+        modalShow={props.commonProps.modalShow}
+        selectedTopic={props.commonProps.selectedTopic}
+        updateAddRefresh={props.commonProps.refreshToggle}
+        toggleModalShow={props.commonProps.toggleModalShow}
+        updateTopicFilter={props.commonProps.updateTopicFilter}
+      />
+      <RepliesForm
+        apiStatus={props.commonProps.apiStatus}
+        onHide={props.commonProps.onRepliesHide}
+        modalTitle={props.commonProps.modalTitle}
+        modalShow={props.commonProps.repliesModalShow}
+        repliesAction={props.commonProps.repliesAction}
+        getAllComment={props.commonProps.getAllComment}
+        modalTitleDate={props.commonProps.modalTitleDate}
+        updateAddRefresh={props.commonProps.refreshToggle}
+        selectedTopicId={props.commonProps.selectedTopicId}
+        toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+      />
       <Footer />
     </React.Fragment>
   );
