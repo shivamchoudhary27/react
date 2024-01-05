@@ -142,8 +142,6 @@ const HelpdeskManagementTable = (props: Props) => {
 
   // edit event handler === >>>
   const handleStatusEditClick = ({ id, status, query }: any) => {
-    console.log(id);
-    console.log(status);
     props.toggleModalShow(true);
     props.editHandlerById({
       id,

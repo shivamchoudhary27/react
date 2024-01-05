@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { formattedDate } from "../../../lib/timestampConverter";
+import { formattedDate, timestampToDaysAgoConverter } from "../../../lib/timestampConverter";
 
 type Props = {
   apiStatus: string;
@@ -50,8 +50,6 @@ const MessagesView = (props: Props) => {
     }
   }, [currentUserInfo, sortedComments]);
 
-  // console.log(updatedCommentData);
-
   return (
     <div
       style={{
@@ -79,7 +77,7 @@ const MessagesView = (props: Props) => {
               textAlign: item.style.textAlign === "left" ? "right" : "left",
             }}
           >
-            <small className="text-muted mb-2">3 day ago</small>
+            <small className="text-muted mb-2">{timestampToDaysAgoConverter(item.date)}</small>
           </p>
           <p>{item.comment}</p>
           <p className="my-3">

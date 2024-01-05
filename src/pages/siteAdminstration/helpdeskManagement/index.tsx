@@ -32,7 +32,7 @@ const Helpdeskmanagement = () => {
 
   const [topicObj, setTopicObj] = useState({
     id: 0,
-    status: "close",
+    status: "",
     query: "",
   });
  
