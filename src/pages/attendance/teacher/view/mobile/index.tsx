@@ -11,7 +11,7 @@ type Props = {
   commonProps: {
     getCourseId: any;
     currentUserInfo: any;
-    newAttendancePacket: any[];
+    newAttendancePacket: any[]; 
     apiResponseData: any;
     apiStatus: string;
     attendancedata: any

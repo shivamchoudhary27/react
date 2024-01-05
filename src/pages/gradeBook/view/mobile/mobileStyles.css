@@ -2,6 +2,7 @@
     .program-filter{
         display: flex;
         gap: 6px 16px;
+        padding: 14px;
         div{
         width: max-content; 
         padding: 0;
