@@ -2,16 +2,18 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import React, { useMemo, useState } from "react";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 type Props = {
   apiStatus: string;
-  toggleModalShow: any;
   editHandlerById: any;
+  toggleModalShow: any;
+  getSelectedTopicId: any;
+  toggleRepliesModalShow: any;
   helpdeskManagementData: any[];
 };
 
@@ -63,12 +65,13 @@ const HelpdeskManagementTable = (props: Props) => {
         return (
           <Link
             to=""
-            // onClick={() =>
-            //   onClickViewAllHandler({
-            //     topic: row.original.topic,
-            //     createDate: row.original.date,
-            //   })
-            // }
+            onClick={() =>
+              onClickViewAllHandler(
+                row.original.id,
+                row.original.topicName,
+                row.original.date
+              )
+            }
           >
             View All
           </Link>
@@ -81,9 +84,13 @@ const HelpdeskManagementTable = (props: Props) => {
         return (
           <Link
             to=""
-            // onClick={() => {
-            //   props.toggleRepliesModalShow({ status: true, action: "reply" });
-            // }}
+            onClick={() =>
+              onClickReplyHandler(
+                row.original.id,
+                row.original.topicName,
+                row.original.date
+              )
+            }
           >
             {row.original.status !== "close" && "Reply"}
           </Link>
@@ -142,6 +149,35 @@ const HelpdeskManagementTable = (props: Props) => {
       id,
       status,
       query,
+    });
+  };
+
+  const onClickViewAllHandler = (
+    id: number,
+    topicname: string,
+    dateValue: any
+  ) => {
+    console.log(topicname, dateValue);
+    props.getSelectedTopicId(id);
+    props.toggleRepliesModalShow({
+      status: true,
+      action: "allview",
+      topicname: topicname,
+      dateValue: dateValue,
+    });
+  };
+
+  const onClickReplyHandler = (
+    id: number,
+    topicname: string,
+    dateValue: any
+  ) => {
+    props.getSelectedTopicId(id);
+    props.toggleRepliesModalShow({
+      status: true,
+      action: "reply",
+      topicname: topicname,
+      dateValue: dateValue,
     });
   };
 

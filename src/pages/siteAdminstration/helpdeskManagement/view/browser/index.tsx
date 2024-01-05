@@ -1,31 +1,41 @@
 import React from "react";
+import Filters from "../../filter";
+import StatusModalForm from "../../form";
+import RepliesForm from "../../replyForm";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
+import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import HelpdeskManagementTable from "../../table";
-import { Container } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import Filters from "../../filter";
-import StatusModalForm from "../../form";
 
 type Props = {
   commonProps: {
-    apiStatus: any;
-    totalPages: any;
-    modalShow: any;
-    toggleModalShow: any;
     onHide: any;
+    topicObj: any;
+    apiStatus: any;
+    modalShow: any;
+    totalPages: any;
+    modalTitle: any;
     filterUpdate: any;
+    getAllComment: any;
     refreshToggle: any;
     selectedTopic: any;
+    onRepliesHide: any;
+    repliesAction: any;
     newPageRequest: any;
+    modalTitleDate: any;
+    editHandlerById: any;
+    toggleModalShow: any;
+    selectedTopicId: any;
+    repliesModalShow: any;
     updateTopicFilter: any;
     updateInputFilters: any;
+    getSelectedTopicId: any;
+    toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
-    topicObj: any,
-    editHandlerById: any,
   };
 };
 
@@ -53,6 +63,8 @@ const Browser = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
+              getSelectedTopicId={props.commonProps.getSelectedTopicId}
+              toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}
             />
             <BuildPagination
@@ -65,13 +77,25 @@ const Browser = (props: Props) => {
       </div>
 
       <StatusModalForm
-      updateTopicFilter={props.commonProps.updateTopicFilter}
         onHide={props.commonProps.onHide}
-        modalShow={props.commonProps.modalShow}
-        updateAddRefresh={props.commonProps.refreshToggle}
         topicObj={props.commonProps.topicObj}
+        modalShow={props.commonProps.modalShow}
         selectedTopic={props.commonProps.selectedTopic}
+        updateAddRefresh={props.commonProps.refreshToggle}
         toggleModalShow={props.commonProps.toggleModalShow}
+        updateTopicFilter={props.commonProps.updateTopicFilter}
+      />
+      <RepliesForm
+        apiStatus={props.commonProps.apiStatus}
+        onHide={props.commonProps.onRepliesHide}
+        modalTitle={props.commonProps.modalTitle}
+        modalShow={props.commonProps.repliesModalShow}
+        repliesAction={props.commonProps.repliesAction}
+        getAllComment={props.commonProps.getAllComment}
+        modalTitleDate={props.commonProps.modalTitleDate}
+        updateAddRefresh={props.commonProps.refreshToggle}
+        selectedTopicId={props.commonProps.selectedTopicId}
+        toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
       />
       <Footer />
     </React.Fragment>
