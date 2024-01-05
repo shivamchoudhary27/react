@@ -11,6 +11,7 @@ import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaFiel
 type Props = {
   onHide: any;
   modalShow: boolean;
+  selectedProgram: any;
   updateAddRefresh: any;
   toggleModalShow: any;
   selectedTopic: any;
@@ -19,6 +20,7 @@ type Props = {
 const initialValues = {
   query: "",
   topicName: "",
+  name: "",
 };
 
 // Formik Yup validation === >>>
@@ -53,6 +55,13 @@ const NewRequestForm = (props: Props) => {
       setTopicId(e.target.value);
     }
   };
+
+  const getCurrentProgramValue = (e: any) => {
+    if (e.type === "change") {
+      console.log(e.target.value);
+    }
+  };
+  
 
   return (
     <React.Fragment>
@@ -101,6 +110,32 @@ const NewRequestForm = (props: Props) => {
                     {props.selectedTopic.map((option: any, index: number) => (
                       <option key={index} value={option.id}>
                         {option.topicName}
+                      </option>
+                    ))}
+                  </select>
+                  {/* <FieldErrorMessage
+                    errors={errors.topicName}
+                    touched={touched.topicName}
+                  /> */}
+                </div>
+
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="name"
+                    labelText="Program"
+                    required="required"
+                    star="*"
+                  />
+                  <select
+                    className="form-select"
+                    name="name"
+                    onChange={getCurrentProgramValue}
+                    // value={selectedValue}
+                  >
+                    <option value="0">Select Program</option>
+                    {props.selectedProgram.map((option: any, index: number) => (
+                      <option key={index} value={option.id}>
+                        {option.name}
                       </option>
                     ))}
                   </select>

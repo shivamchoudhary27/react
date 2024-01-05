@@ -22,6 +22,7 @@ type Props = {
   updateTopicFilter: any;
   getSelectedTopicId: any;
   updateInputFilters: any;
+  selectedProgram: any;
   repliesModalShow: boolean;
   toggleRepliesModalShow: any;
   modalTitle: any
@@ -44,8 +45,9 @@ const View = (props: Props) => {
     newPageRequest: props.newPageRequest,
     toggleModalShow: props.toggleModalShow,
     selectedTopicId: props.selectedTopicId,
-    repliesModalShow: props.repliesModalShow,
+    selectedProgram: props.selectedProgram,
     setGetAllComment: props.setGetAllComment,
+    repliesModalShow: props.repliesModalShow,
     updateTopicFilter: props.updateTopicFilter,
     updateInputFilters: props.updateInputFilters,
     getSelectedTopicId: props.getSelectedTopicId,

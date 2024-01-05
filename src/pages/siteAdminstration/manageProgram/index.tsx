@@ -38,6 +38,9 @@ const ManageProgram = () => {
   const currentInstitute = useSelector(
     (state) => state.globalFilters.currentInstitute
   );
+
+  console.log(currentInstitute);
+  
   const programAuthorities = useSelector(
     (state: any) => state.userAuthorities.permissions
   );

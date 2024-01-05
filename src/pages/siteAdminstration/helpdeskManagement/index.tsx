@@ -12,8 +12,8 @@ const Helpdeskmanagement = () => {
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
-  const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [getAllComment, setGetAllComment] = useState([]);
+  const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
   const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
