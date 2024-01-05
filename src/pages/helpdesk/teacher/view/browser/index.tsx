@@ -30,7 +30,6 @@ type Props = {
     repliesModalShow: any;
     setGetAllComment: any;
     updateTopicFilter: any;
-    uniqueEnquiryData: any;
     getSelectedTopicId: any;
     updateInputFilters: any;
     toggleRepliesModalShow: any;

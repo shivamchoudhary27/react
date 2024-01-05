@@ -7,17 +7,25 @@ type Props = {
   apiStatus: any;
   totalPages: any;
   filterUpdate: any;
-  refreshToggle: any;
   selectedTopic: any;
   newPageRequest: any;
   updateTopicFilter: any;
   updateInputFilters: any;
+  refreshToggle: any;
   helpdeskManagementData: any[];
+  modalShow: any,
+  toggleModalShow: any,
+  onHide: any,
+  topicObj: any,
+  editHandlerById: any,
 };
 
 const View = (props: Props) => {
   const commonProps = {
+    topicObj: props.topicObj,
+    editHandlerById: props.editHandlerById,
     apiStatus: props.apiStatus,
+    refreshToggle: props.refreshToggle,
     totalPages: props.totalPages,
     filterUpdate: props.filterUpdate,
     selectedTopic: props.selectedTopic,
@@ -25,6 +33,11 @@ const View = (props: Props) => {
     updateTopicFilter: props.updateTopicFilter,
     updateInputFilters: props.updateInputFilters,
     helpdeskManagementData: props.helpdeskManagementData,
+    modalShow: props.modalShow,
+    toggleModalShow: props.toggleModalShow,
+    onHide: props.onHide,
+
+
   };
   return (
     <React.Fragment>

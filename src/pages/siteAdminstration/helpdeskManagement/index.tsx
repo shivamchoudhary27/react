@@ -20,6 +20,12 @@ const Helpdeskmanagement = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+
+  const [topicObj, setTopicObj] = useState({
+    id: 0,
+    status: "close",
+    query: "",
+  });
  
   // call api to get all topics === >>>
   useEffect(() => {
@@ -41,6 +47,11 @@ const Helpdeskmanagement = () => {
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
+  };
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
   };
 
    // call api to get all topics === >>>
@@ -82,11 +93,29 @@ const Helpdeskmanagement = () => {
       published: published === "" ? undefined : published,
     });
   };
+
+  // get id, name from the department table === >>>
+  const editHandlerById = ({ id, status,query }: any) => {
+    setTopicObj({
+      id: id,
+      status: status,
+      query: query
+
+    });
+  };
+
+  console.log(topicObj, '-----------topicObj')
  
   return (
     <View
+    topicObj={topicObj}
+    editHandlerById={editHandlerById}
+    modalShow={modalShow}
+    toggleModalShow={toggleModalShow}
+    onHide={() => toggleModalShow(false)}
       selectedTopic={selectedTopic.items}
       apiStatus={apiStatus}
+      refreshToggle={refreshToggle}
       newPageRequest={newPageRequest}
       updateTopicFilter={updateTopicFilter}
       updateInputFilters={updateInputFilters}
