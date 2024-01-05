@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import { Modal } from "react-bootstrap";
@@ -15,23 +15,21 @@ type Props = {
   toggleModalShow: any;
   updateTopicFilter: any;
   selectedTopic: any;
-};  
-
+};
 
 const StatusModalForm = (props: Props) => {
-
   const [statusValue, setStatusValue] = useState("");
 
-  console.log(statusValue)
+  console.log(statusValue);
   const initialValues = {
     status: "",
-    query: props.topicObj.query
-  };  
+    query: props.topicObj.query,
+  };
 
-// Formik Yup validation === >>>
-const queryFormSchema = Yup.object({
-  status: Yup.string().required("Status is required"),
-});
+  // Formik Yup validation === >>>
+  const queryFormSchema = Yup.object({
+    status: Yup.string().required("Status is required"),
+  });
 
   const handleFormSubmit = (values: any, action: any) => {
     action.setSubmitting(true);
@@ -43,28 +41,30 @@ const queryFormSchema = Yup.object({
           props.updateAddRefresh();
         }
         // Reset the form after a successful submission
-      action.resetForm();
+        action.resetForm();
       })
       .catch((error: any) => {
         console.log(error);
       });
   };
 
-  const getCurrentValue = (e: any, handleChange: (e: React.ChangeEvent<any>) => void) => {
+  const getCurrentValue = (
+    e: any,
+    handleChange: (e: React.ChangeEvent<any>) => void
+  ) => {
     if (e.type === "change") {
       handleChange(e);
-    setStatusValue(e.target.value)
-    console.log(e.target.value)
-     
+      setStatusValue(e.target.value);
+      console.log(e.target.value);
     }
   };
-  // const getCurrentValue = (e:any) => { 
+  // const getCurrentValue = (e:any) => {
   //   setStatusValue(e.target.value)
   // }
 
   const handlesReset = () => {
-    setStatusValue("")
-  }
+    setStatusValue("");
+  };
 
   return (
     <React.Fragment>
@@ -75,7 +75,9 @@ const queryFormSchema = Yup.object({
         aria-labelledby="contained-modal-title-vcenter"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Update Status</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Update Status
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/* <TimerAlertBox
@@ -92,7 +94,7 @@ const queryFormSchema = Yup.object({
               handleFormSubmit(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting,handleChange }) => (
+            {({ errors, touched, isSubmitting, handleChange }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -107,11 +109,10 @@ const queryFormSchema = Yup.object({
                     onChange={(e) => getCurrentValue(e, handleChange)}
                     // onChange={(e) => getCurrentValue(e)}
                     value={statusValue}
-
                   >
                     <option value="">Select Status</option>
-                     <option value="open">Open</option>
-                     <option value="close">Close</option>
+                    <option value="open">Open</option>
+                    <option value="close">Close</option>
                   </select>
                   <FieldErrorMessage
                     errors={errors.status}
