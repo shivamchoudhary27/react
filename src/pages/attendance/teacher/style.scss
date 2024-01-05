@@ -1,7 +1,112 @@
 // .your-table-class th:nth-child(-n+5),
-.your-table-class td:nth-child(-n+5) {
-  position: sticky;
-  left: 0;
-  z-index: 1;
-  background-color: #E3F6FF;
+.attandence-table  {
+  td:nth-child(-n+5) {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: #E3F6FF;
+  }
+  th:nth-child(-n+5){
+    position: sticky;
+    z-index: 1;
+    background: #0E72E9;
+  }
+  th:nth-child(1){
+    left: 0;
+  }
+  th:nth-child(2),
+   td:nth-child(2) {
+    left: 90px;
+   }
+  th:nth-child(3),
+   td:nth-child(3) {
+    left: 351px;
+   }
+  th:nth-child(4),
+   td:nth-child(4) {
+    left: 378px;
+   }
+  th:nth-child(5),
+   td:nth-child(5) {
+    left: 439px;
+   }
+}
+
+// table filter 
+.filter-data {
+  width: 100%;
+  justify-content: space-between;
+  & div {
+    >span:first-of-type {
+      font-size: 20px;
+      font-weight: 500;
+      margin-right: 5px;
+    }
+    .course-name {
+      font-size: 18px;
+    }
+  }
+}
+.start-end-date {
+  img {
+    height: 20px;
+    margin-right: 6px;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    >span:first-of-type {
+      font-size: 20px;
+      font-weight: 500;
+      margin-right: 6px;
+    }
+    >span:nth-child(odd) {
+      font-size: 18px;
+    }
+  }
+}
+
+// For mobile Devices 
+@media only screen and (max-width: 767.98px) {
+  .filter-data {
+    flex-direction: column;
+    gap: 6px;
+    padding: 7px 0px;
+  }
+  // --- 
+  // .your-table-class th:nth-child(-n+5),
+.attandence-table  {
+  td:nth-child(-n+5) {
+    position: relative;
+    left: 0;
+    z-index: 1;
+    background-color: #E3F6FF;
+  }
+  th:nth-child(-n+5){
+    position: relative;
+    z-index: 1;
+    background: #0E72E9;
+  }
+  th:nth-child(1){
+    left: 0;
+  }
+  th:nth-child(2),
+   td:nth-child(2) {
+    left: 0;
+   }
+  th:nth-child(3),
+   td:nth-child(3) {
+    left: 0;
+   }
+  th:nth-child(4),
+   td:nth-child(4) {
+    left: 0;
+   }
+  th:nth-child(5),
+   td:nth-child(5) {
+    left: 0;
+   }
+}
+
 }

@@ -87,15 +87,29 @@ const TeacherAttendanceTable = (props: Props) => {
       },
     },
     {
-      Header: "Nov 25",
-      accessor: "nov25",
+      Header: "Nov 26",
+      accessor: "nov26",
       Cell: () => {
         return <span>A</span>;
       },
     },
     {
+      Header: "Nov 25",
+      accessor: "nov25",
+      Cell: () => {
+        return <span>P</span>;
+      },
+    },
+    {
       Header: "Nov 24",
       accessor: "nov24",
+      Cell: () => {
+        return <span>P</span>;
+      },
+    },
+    {
+      Header: "Nov 23",
+      accessor: "nov23",
       Cell: () => {
         return <span>P</span>;
       },
@@ -123,7 +137,7 @@ const TeacherAttendanceTable = (props: Props) => {
           variant={alertMsg.alertBoxColor}
           setShowAlert={setShowAlert}
         />
-        <Table borderless striped {...getTableProps} className="your-table-class">
+        <Table borderless striped {...getTableProps} className="attandence-table">
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>
