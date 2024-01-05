@@ -116,6 +116,8 @@ const TeacherAttendanceTable = (props: Props) => {
     },
   ];
 
+  // console.log(props.newAttendancePacket)
+
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => props.newAttendancePacket, [props.newAttendancePacket]);
