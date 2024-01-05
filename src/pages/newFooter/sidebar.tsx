@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CloseIcon from "../../assets/images/icons/close-icon.svg";
 import AdminIcon from "../../assets/images/icons/admin-color-icon.svg";
 import HelpdeskIcon from "../../assets/images/icons/help-desk-color-icon.svg";
-import LibraryIcon from "../../assets/images/icons/library-color-icon.svg";
+import AttendanceIcon from "../../assets/images/icons/mb-attendance.svg";
 
 import "./mobileStyle.scss";
 
@@ -15,8 +15,8 @@ const Sidebar = ({ onClose }) => {
       link: "/siteadmin",
     },
     {
-      icon: LibraryIcon,
-      title: "Attandance",
+      icon: AttendanceIcon,
+      title: "Attendance",
       link: "/attendance",
     },
     {

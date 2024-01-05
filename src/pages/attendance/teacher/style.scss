@@ -42,12 +42,16 @@
       font-weight: 500;
       margin-right: 5px;
     }
+    >span:nth-child(2) {
+      font-size: 18px;
+    }
     .course-name {
       font-size: 18px;
     }
   }
 }
 .start-end-date {
+  gap: 16px;
   img {
     height: 20px;
     margin-right: 6px;
@@ -62,6 +66,9 @@
       margin-right: 6px;
     }
     >span:nth-child(odd) {
+      font-size: 18px;
+    }
+    span:nth-child(3) {
       font-size: 18px;
     }
   }
@@ -108,5 +115,9 @@
     left: 0;
    }
 }
-
+.start-end-date {
+  gap: 6px;
+  flex-direction: column;
+  align-items: flex-start;
+}
 }

@@ -3,6 +3,9 @@ import React, { useState, useEffect } from "react";
 import { RenderFilterElements } from "./studentDropdown";
 import StudentAttendanceFilterDropdown from "./studentDropdown";
 import { convertTimestampToDate } from "../../../lib/timestampConverter";
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
+import calenderStartdate from "../../../assets/images/icons/calender-startdate.svg";
+import calenderEnddate from "../../../assets/images/icons/calender-enddate.svg";
 
 type Props = {
   getCourseId: any;
@@ -90,6 +93,7 @@ const StudentAttendanceFilter = (props: Props) => {
   return (
     <React.Fragment>
       <Container fluid>
+        <FilterButtonWrapper>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <div className="row program-filter">
             <StudentAttendanceFilterDropdown
@@ -107,64 +111,59 @@ const StudentAttendanceFilter = (props: Props) => {
             />
           </div>
         </div>
+        </FilterButtonWrapper>
         {props.allAttendanceSessionRecords !== "undefined" && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div className="me-3">
-                <>
-                  <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                    Course Name:{" "}
+        <div className="d-flex justify-content-between filter-data ">
+            <div>
+                  <span>
+                    Course Name:
                   </span>
-                  <span style={{ fontSize: "20px" }}>
+                  <span>
                     {props.allAttendanceSessionRecords.coursename}
                   </span>
-                </>
-              
             </div>
-            <div className="me-3">
-              <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                Start Date:{" "}
+       <div className="d-flex start-end-date">
+       <div>
+       <img src={calenderStartdate} alt="startdate" />
+
+              <span>
+                Start Date:
               </span>
-              <span style={{ fontSize: "20px" }}>
+              <span>
                 {convertTimestampToDate(
                   props.allAttendanceSessionRecords.startdate
                 )}
               </span>
             </div>
             <div>
-              <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                End Date:{" "}
+       <img src={calenderEnddate} alt="enddate" />
+              <span>
+                End Date:
               </span>
-              <span style={{ fontSize: "20px" }}>
+              <span>
                 {convertTimestampToDate(
                   props.allAttendanceSessionRecords.enddate
                 )}
               </span>
             </div>
-          </div>
+       </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <div className="me-3">
-              <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                Total Points:{" "}
+              <span>
+                Total Points:
               </span>
-              <span style={{ fontSize: "20px" }}>
+              <span>
                 {props.totalPointAndPercentage.totalPoints > 0
                   ? props.totalPointAndPercentage.totalPoints
                   : 0}
               </span>
             </div>
-            <div className="me-3">
-              <span style={{ fontSize: "22px", fontWeight: "500" }}>
-                Percentage:{" "}
+            <div>
+              <span>
+                Percentage:
               </span>
               <span
-                style={{ fontSize: "20px" }}
+              
               >{`${props.totalPointAndPercentage.percentage}%`}</span>
             </div>
           </div>
