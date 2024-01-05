@@ -137,8 +137,6 @@ const TeacherHelpdesk = (props: Props) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
-  console.log(repliesModalShow)
-
   return (
     <View
       apiStatus={apiStatus}

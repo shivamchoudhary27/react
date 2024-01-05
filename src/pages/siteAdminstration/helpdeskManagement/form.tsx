@@ -96,6 +96,7 @@ const queryFormSchema = Yup.object({
                     // value={selectedValue}
                   >
                     <option value="0">Select Status</option>
+                     <option value="open">Open</option>
                      <option value="close">Close</option>
                   </select>
                 </div>

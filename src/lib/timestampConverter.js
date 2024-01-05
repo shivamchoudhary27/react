@@ -22,3 +22,20 @@ export const formattedDate = (date) => {
   });
   return getFormatedDate;
 };
+
+// date Str to timestamp === >>
+const dateStrToTimmestamp = (date) => {
+  const dateStr = date;
+  const timestamp = new Date(dateStr).getTime() / 1000;
+  return timestamp
+}
+
+// 3 Days ago format date converter === >>
+export const timestampToDaysAgoConverter = (date) => {
+  const timestamp = dateStrToTimmestamp(date);
+  const currentTimestamp = Math.floor(Date.now() / 1000);
+  const differenceInSeconds = currentTimestamp - timestamp;
+  const differenceInDays = Math.floor(differenceInSeconds / (24 * 60 * 60));
+  const formattedDate = `${differenceInDays} days ago`;
+  return formattedDate;
+};

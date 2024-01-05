@@ -102,7 +102,6 @@ const TeacherHelpdeskTable = (props: Props) => {
     topicname: string,
     dateValue: any
   ) => {
-    console.log(topicname, dateValue);
     props.getSelectedTopicId(id);
     props.toggleRepliesModalShow({
       status: true,
