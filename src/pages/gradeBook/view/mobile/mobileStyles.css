@@ -1,7 +1,7 @@
 @media only screen and (max-width: 767.98px) {
     .program-filter{
         display: flex;
-        gap: 6px 16px;
+        gap: 6px 8px;
         padding: 14px;
         div{
         width: max-content; 

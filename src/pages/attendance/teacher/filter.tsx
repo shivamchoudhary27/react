@@ -128,7 +128,7 @@ const TeacherAttendanceFilter = (props: Props) => {
                       )
                   )}
               </div>
-            <div className="d-flex gap-3 start-end-date">
+            <div className="d-flex start-end-date">
             <div>
               <img src={calenderStartdate} alt="startdate" />
                 <span>
