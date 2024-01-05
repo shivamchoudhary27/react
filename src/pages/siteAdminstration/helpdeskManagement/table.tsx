@@ -85,7 +85,7 @@ const HelpdeskManagementTable = (props: Props) => {
             //   props.toggleRepliesModalShow({ status: true, action: "reply" });
             // }}
           >
-            Reply
+            {row.original.status !== "close" && "Reply"}
           </Link>
         );
       },
@@ -99,21 +99,20 @@ const HelpdeskManagementTable = (props: Props) => {
         return (
           <>
             {value === "open" ? "Open" : "Close"}
-            {value === "open" && (
-              <Link to={``}>
-                <FontAwesomeIcon
-                  className="px-2"
-                  icon={faEdit}
-                  onClick={() =>
-                    handleStatusEditClick({
-                      id: row.original.id,
-                      status: row.original.status,
-                      query: row.original.query
-                    })
-                  }
-                />
-              </Link>
-            )}
+            <Link to={``}>
+              <FontAwesomeIcon
+                style={{ color: value !== "open" ? "#FF9E9E" : "" }}
+                className="px-2"
+                icon={faEdit}
+                onClick={() =>
+                  handleStatusEditClick({
+                    id: row.original.id,
+                    status: row.original.status,
+                    query: row.original.query,
+                  })
+                }
+              />
+            </Link>
           </>
         );
       },
@@ -135,9 +134,9 @@ const HelpdeskManagementTable = (props: Props) => {
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   // edit event handler === >>>
-  const handleStatusEditClick = ({ id, status,query }: any) => {
+  const handleStatusEditClick = ({ id, status, query }: any) => {
     console.log(id);
-    console.log(status)
+    console.log(status);
     props.toggleModalShow(true);
     props.editHandlerById({
       id,
