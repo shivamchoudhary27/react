@@ -1,20 +1,24 @@
 import React from "react";
-import { Formik, Form } from "formik";
 import * as Yup from "yup";
+import { Formik, Form } from "formik";
 import MessagesView from "./messages";
 import { Modal } from "react-bootstrap";
-import Card from "react-bootstrap/Card";
+import Errordiv from "../../../widgets/alert/errordiv";
+import { postData } from "../../../adapters/microservices";
+import { formattedDate } from "../../../lib/timestampConverter";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import { postData } from "../../../adapters/microservices";
 
 type Props = {
   onHide: any;
   modalShow: any;
+  modalTitle: any;
+  apiStatus: string;
   repliesAction: any;
   getAllComment: any;
+  modalTitleDate: any;
   selectedTopicId: any;
   updateAddRefresh: any;
   toggleRepliesModalShow: any;
@@ -30,7 +34,6 @@ const queryFormSchema = Yup.object({
 });
 
 const RepliesForm = (props: Props) => {
-
   const sortComments = props.getAllComment.sort((a: any, b: any) => {
     return new Date(b.date) - new Date(a.date);
   });
@@ -64,17 +67,14 @@ const RepliesForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.repliesAction === "allview" ? "View All" : "Reply"}
+            {`${
+              props.modalTitle !== undefined &&
+              props.modalTitleDate !== undefined &&
+              props.modalTitle
+            } (${formattedDate(props.modalTitleDate)})`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* <TimerAlertBox
-            className="mt-3"
-            showAlert={commonProps.showAlert}
-            alertMsg={commonProps.alertMsg.message}
-            variant={commonProps.alertMsg.alertBoxColor}
-            setShowAlert={commonProps.setShowAlert}
-          /> */}
           {props.repliesAction === "reply" ? (
             <Formik
               initialValues={initialValues}
@@ -111,10 +111,6 @@ const RepliesForm = (props: Props) => {
                       name="file"
                       type="file"
                     />
-                    <FieldErrorMessage
-                    // errors={errors.file}
-                    // touched={touched.file}
-                    />
                   </div>
 
                   <div className="modal-buttons">
@@ -134,35 +130,31 @@ const RepliesForm = (props: Props) => {
               )}
             </Formik>
           ) : (
-            <MessagesView getAllComment={props.getAllComment}/>
+            <>
+              {props.apiStatus === "finished" &&
+              props.getAllComment.length === 0 ? (
+                <Errordiv
+                  msg="No comments available!"
+                  cstate
+                  className="mt-3"
+                />
+              ) : props.apiStatus === "started" &&
+                props.getAllComment.length === 0 ? (
+                <p>Loading.....</p>
+              ) : (
+                <MessagesView
+                  getAllComment={props.getAllComment}
+                  apiStatus={props.apiStatus}
+                />
+              )}
+            </>
           )}
-          
-          
           {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
-            // Wrap the card section in a div with a fixed height and scrollbar
-            <div style={{ maxHeight: "250px", maxWidth: "800px", overflowY: "auto" }}>
-              {sortComments.map((el: any, index: any) => {
-                const formattedDate = new Date(el.date).toLocaleDateString(
-                  "en-US",
-                  {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  }
-                );
-                return (
-                  <Card
-                    style={{ backgroundColor: "#DCDCDC", marginTop: 20 }}
-                    key={index}
-                  >
-                    <Card.Body>
-                      <Card.Text>{el.comment}</Card.Text>
-                      <Card.Text>{el.firstName + " " + el.lastName}</Card.Text>
-                      <Card.Text>{formattedDate}</Card.Text>
-                    </Card.Body>
-                  </Card>
-                );
-              })}
+            <div className="my-3">
+              <MessagesView
+                getAllComment={props.getAllComment}
+                apiStatus={props.apiStatus}
+              />
             </div>
           ) : null}
         </Modal.Body>

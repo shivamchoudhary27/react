@@ -24,6 +24,8 @@ type Props = {
   updateInputFilters: any;
   repliesModalShow: boolean;
   toggleRepliesModalShow: any;
+  modalTitle: any
+  modalTitleDate:any
 };
 
 const View = (props: Props) => {
@@ -48,6 +50,8 @@ const View = (props: Props) => {
     updateInputFilters: props.updateInputFilters,
     getSelectedTopicId: props.getSelectedTopicId,
     toggleRepliesModalShow: props.toggleRepliesModalShow,
+    modalTitle: props.modalTitle,
+    modalTitleDate: props.modalTitleDate,
   };
 
   return (

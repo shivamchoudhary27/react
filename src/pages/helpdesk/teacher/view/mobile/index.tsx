@@ -15,6 +15,7 @@ type Props = {
   commonProps: {
     onHide: any;
     apiStatus: any;
+    modalTitle: any;
     totalPages: any;
     enquiryData: any;
     filterUpdate: any;
@@ -23,8 +24,9 @@ type Props = {
     repliesAction: any;
     selectedTopic: any;
     getAllComment: any;
-    newPageRequest: any;
     refreshToggle: any;
+    newPageRequest: any;
+    modalTitleDate: any;
     selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
@@ -87,6 +89,8 @@ const Mobile = (props: Props) => {
         getAllComment={props.commonProps.getAllComment}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        modalTitle={props.commonProps.modalTitle}
+        modalTitleDate={props.commonProps.modalTitleDate}
       />
       <Footer />
     </React.Fragment>
