@@ -10,6 +10,8 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   apiStatus: string;
+  toggleModalShow: any;
+  editHandlerById: any;
   helpdeskManagementData: any[];
 };
 
@@ -98,12 +100,18 @@ const HelpdeskManagementTable = (props: Props) => {
           <>
             {value === "open" ? "Open" : "Close"}
             {value === "open" && (
-              <Link
-                // to={`/edit/${row.original.id}`}
-                to={``}
-                // onClick={() => handleEditClick(row.original.id)}
-              >
-                <FontAwesomeIcon className="px-2" icon={faEdit} />
+              <Link to={``}>
+                <FontAwesomeIcon
+                  className="px-2"
+                  icon={faEdit}
+                  onClick={() =>
+                    handleStatusEditClick({
+                      id: row.original.id,
+                      status: row.original.status,
+                      query: row.original.query
+                    })
+                  }
+                />
               </Link>
             )}
           </>
@@ -126,9 +134,16 @@ const HelpdeskManagementTable = (props: Props) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
-  const handleOnClick = (value: any) => {
-    // console.log("Edit clicked for ID:", row.original.id);
-    console.log(value);
+  // edit event handler === >>>
+  const handleStatusEditClick = ({ id, status,query }: any) => {
+    console.log(id);
+    console.log(status)
+    props.toggleModalShow(true);
+    props.editHandlerById({
+      id,
+      status,
+      query,
+    });
   };
 
   return (
