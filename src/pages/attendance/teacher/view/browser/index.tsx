@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
-import { Container } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import TeacherAttendanceTable from "../../table";
 import TeacherAttendanceFilter from "../../filter";
@@ -39,6 +39,16 @@ const Browser = (props: Props) => {
               apiResponseData={props.commonProps.apiResponseData}
               attendancedata={props.commonProps.attendancedata}
               />
+              <div className="d-flex gap-2 justify-content-end my-3">
+              <Button
+                variant="primary">
+                <i className="bi bi-arrow-left-circle"></i> Previous
+              </Button>
+              <Button
+                variant="primary">
+                Next <i className="bi bi-arrow-right-circle"></i>
+              </Button>
+              </div>
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
               newAttendancePacket={props.commonProps.newAttendancePacket}

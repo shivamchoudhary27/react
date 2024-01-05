@@ -10,6 +10,8 @@ import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import MobileHeader from "../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../newFooter/mobileFooter";
 
 type Props = {
   commonProps: {
@@ -41,8 +43,7 @@ type Props = {
 const Mobile = (props: Props) => {
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="helpdesk" />
+      <MobileHeader />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
@@ -92,7 +93,7 @@ const Mobile = (props: Props) => {
         modalTitle={props.commonProps.modalTitle}
         modalTitleDate={props.commonProps.modalTitleDate}
       />
-      <Footer />
+      <MobileFooter />
     </React.Fragment>
   );
 };
