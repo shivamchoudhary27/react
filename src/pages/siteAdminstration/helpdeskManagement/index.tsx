@@ -17,6 +17,8 @@ const Helpdeskmanagement = () => {
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
   const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    startDate: "",
+    endDate: "",
     topicId: "", 
     topicName: "", 
     pageNumber: 0,
@@ -35,8 +37,8 @@ const Helpdeskmanagement = () => {
     status: "",
     query: "",
   });
- 
-  // call api to get all topics === >>>
+
+  // call api to get all enquiry helpdesk management === >>>
   useEffect(() => {
     setApiStatus("started");
     getData("/enquiry/helpdesk", filterUpdate)
@@ -52,7 +54,6 @@ const Helpdeskmanagement = () => {
         setApiStatus("finished");
       });
   }, [refreshData, filterUpdate]);
-
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -125,23 +126,15 @@ const Helpdeskmanagement = () => {
     setSelectedTopicId(id);
   };
 
-   // to update filters values in the main state filterUpdate
-  const updateTopicFilter = (topicId: string,published: string | undefined) => {
+  // to update filters values in the main state filterUpdate
+  const updateTopicFilter = (inputvalues: string, published: string | undefined, startDate:any, endDate:any) => {
     setFilterUpdate({
       ...filterUpdate,
-      topicId: topicId,
       pageNumber: 0,
+      topicId: inputvalues === "" ? undefined : inputvalues,
       published: published === "" ? undefined : published,
-    });
-  };
-
-  const updateInputFilters = (inputvalues: any, published: any) => {
-    console.log(inputvalues, '----------inputvalues');
-    setFilterUpdate({
-      ...filterUpdate,
-      topicId: inputvalues,
-      pageNumber: 0,
-      published: published === "" ? undefined : published,
+      startDate: startDate === "" ? undefined : startDate,
+      endDate: endDate === "" ? undefined : endDate,
     });
   };
 
@@ -154,6 +147,8 @@ const Helpdeskmanagement = () => {
 
     });
   };
+
+  // console.log("filterUpdate------", filterUpdate)
  
   return (
     <View
@@ -171,7 +166,6 @@ const Helpdeskmanagement = () => {
     updateTopicFilter={updateTopicFilter}
     filterUpdate={filterUpdate.pageNumber}
     getSelectedTopicId={getSelectedTopicId}
-    updateInputFilters={updateInputFilters}
     repliesAction={repliesModalShow.action}
     modalTitle={repliesModalShow.topicname}
     repliesModalShow={repliesModalShow.status}

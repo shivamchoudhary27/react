@@ -51,6 +51,7 @@ const HelpdeskManagementTable = (props: Props) => {
       accessor: "date",
       Cell: ({ value }: any) => {
         // Assuming 'value' is a valid date string from the API
+        // console.log(value)
         const dateObject = new Date(value);
 
         const formattedDate = new Intl.DateTimeFormat("en-US", {
@@ -189,7 +190,6 @@ const HelpdeskManagementTable = (props: Props) => {
           variant={alertMsg.alertBoxColor}
           setShowAlert={setShowAlert}
         />
-
         <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (

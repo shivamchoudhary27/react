@@ -23,7 +23,6 @@ type Props = {
     selectedTopicId: any;
     repliesModalShow: any;
     updateTopicFilter: any;
-    updateInputFilters: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
@@ -50,7 +49,6 @@ const View = (props: Props) => {
     editHandlerById: props.editHandlerById,
     repliesModalShow: props.repliesModalShow,
     updateTopicFilter: props.updateTopicFilter,
-    updateInputFilters: props.updateInputFilters,
     getSelectedTopicId: props.getSelectedTopicId,
     helpdeskManagementData: props.helpdeskManagementData,
     toggleRepliesModalShow: props.toggleRepliesModalShow,

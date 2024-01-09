@@ -143,16 +143,6 @@ const TeacherHelpdesk = (props: Props) => {
       published: published === "" ? undefined : published,
     });
   };
-
-  const updateInputFilters = (inputvalues: any, published: any) => {
-    // console.log(inputvalues, '----------inputvalues');
-    setFilterUpdate({
-      ...filterUpdate,
-      topicId: inputvalues,
-      pageNumber: 0,
-      published: published === "" ? undefined : published,
-    });
-  };
   
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -177,7 +167,6 @@ const TeacherHelpdesk = (props: Props) => {
       updateTopicFilter={updateTopicFilter}
       onHide={() => toggleModalShow(false)}
       getSelectedTopicId={getSelectedTopicId}
-      updateInputFilters={updateInputFilters}
       repliesAction={repliesModalShow.action}
       totalPages={enquiryData.pager.totalPages}
       repliesModalShow={repliesModalShow.status}

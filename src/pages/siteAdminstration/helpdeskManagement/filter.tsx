@@ -1,41 +1,60 @@
+
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { dateConverterToDYM } from "../../../lib/timestampConverter";
 
 type Props = {
   selectedTopic: any;
   updateTopicFilter: any;
-  updateInputFilters: any;
+  
 };
 
 const Filter = (props: Props) => {
   const navigate = useNavigate();
-  // const [selectDate, setSelectDate] = useState("");
   const [selectedTopicValue, setSelectedTopicValue] = useState("");
   const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
-
+  const [selectStartDateValue, setSelectStartDateValue] = useState("");
+  const [selectEndDateValue, setSelectEndDateValue] = useState("");
+  
   const formik = useFormik({
-    initialValues: "",
+    initialValues: {
+      topicName: '',
+      published: '',
+      startDate: '',
+      endDate: '',
+    },
     onSubmit: (values: any) => {},
     onReset: () => {},
   });
 
   const getCurrentValue = (e: any) => {
-    console.log(e.target.value, "----------value");
-    props.updateTopicFilter(e.target.value, selectedPublishedValue);
+    props.updateTopicFilter(e.target.value, selectedPublishedValue,selectStartDateValue,selectEndDateValue);
     setSelectedTopicValue(e.target.value);
   };
 
   const getCurrentPublishedValue = (e: any) => {
-    console.log(e.target.value, "----------published");
-    props.updateTopicFilter(selectedTopicValue, e.target.value);
+    props.updateTopicFilter(selectedTopicValue, e.target.value,selectStartDateValue,selectEndDateValue);
     setSelectedPublishedValue(e.target.value);
   };
 
+  const handleDateChange = (e: any, type: string) => {
+    const dateValue = e.target.value;
+    const convertedDate = dateConverterToDYM(dateValue);
   
-  return (
+    if (type === 'startDate') {
+      formik.setFieldValue('startDate', dateValue);
+      setSelectStartDateValue(dateValue);
+      props.updateTopicFilter(selectedTopicValue, selectedPublishedValue, convertedDate, selectEndDateValue);
+    } else if (type === 'endDate') {
+      formik.setFieldValue('endDate', dateValue);
+      setSelectEndDateValue(dateValue);
+      props.updateTopicFilter(selectedTopicValue, selectedPublishedValue, dateConverterToDYM(selectStartDateValue), convertedDate);
+    }
+  };
+return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
@@ -69,14 +88,28 @@ const Filter = (props: Props) => {
                 <option value="close">Close</option>
               </select>
             </Col>
-            {/* <Col>
-              <select
-                className="form-select"
-                name="date"
-                onChange={getDateValue}
-                value={selectDate}
-              ></select>
-            </Col> */}
+            
+            <Col>
+              <label htmlFor="startDate">Start Date</label>
+              <input
+                type="date"
+                className="form-control"
+                name="startDate"
+                value={selectStartDateValue}
+                onChange={(e) => handleDateChange(e, 'startDate')}
+              />
+            </Col>
+            <Col>
+              <label htmlFor="endDate">End Date</label>
+              <input
+                type="date"
+                className="form-control"
+                name="endDate"
+                value={selectEndDateValue}
+                onChange={(e) => handleDateChange(e, 'endDate')}
+              />
+            </Col>
+
           </Row>
         </form>
         <div className="site-button-group">

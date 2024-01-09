@@ -1,15 +1,15 @@
 import React from "react";
-import Header from "../../../../newHeader";
-import Footer from "../../../../newFooter";
-import HeaderTabs from "../../../../headerTabs";
-import HelpdeskManagementTable from "../../table";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../../../../widgets/pageTitle";
-import BuildPagination from "../../../../../widgets/pagination";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import Filters from "../../filter";
 import StatusModalForm from "../../form";
 import RepliesForm from "../../replyForm";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
+import { Container } from "react-bootstrap";
+import HeaderTabs from "../../../../headerTabs";
+import HelpdeskManagementTable from "../../table";
+import PageTitle from "../../../../../widgets/pageTitle";
+import BuildPagination from "../../../../../widgets/pagination";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
@@ -32,7 +32,6 @@ type Props = {
     selectedTopicId: any;
     repliesModalShow: any;
     updateTopicFilter: any;
-    updateInputFilters: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
@@ -43,7 +42,7 @@ const Mobile = (props: Props) => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs activeTab="attendance" />
+      <HeaderTabs activeTab="helpdesk" />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
@@ -57,7 +56,6 @@ const Mobile = (props: Props) => {
             <Filters
               selectedTopic={props.commonProps.selectedTopic}
               updateTopicFilter={props.commonProps.updateTopicFilter}
-              updateInputFilters={props.commonProps.updateInputFilters}
             />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}

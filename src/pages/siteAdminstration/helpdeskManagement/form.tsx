@@ -5,7 +5,6 @@ import { Modal } from "react-bootstrap";
 import { putData } from "../../../adapters/microservices";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 
 type Props = {
   onHide: any;
@@ -20,16 +19,15 @@ type Props = {
 const StatusModalForm = (props: Props) => {
   const [statusValue, setStatusValue] = useState("");
 
-  console.log(statusValue);
   const initialValues = {
-    status: "",
+    status: props.topicObj.status,
     query: props.topicObj.query,
-  };
+  };  
 
-  // Formik Yup validation === >>>
-  const queryFormSchema = Yup.object({
-    status: Yup.string().required("Status is required"),
-  });
+// Formik Yup validation === >>>
+const queryFormSchema = Yup.object({
+  status: Yup.string().trim().required("status is required"),
+});
 
   const handleFormSubmit = (values: any, action: any) => {
     action.setSubmitting(true);
@@ -91,10 +89,11 @@ const StatusModalForm = (props: Props) => {
             initialValues={initialValues}
             validationSchema={queryFormSchema}
             onSubmit={(values, action) => {
+                console.log(values)
               handleFormSubmit(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting, handleChange }) => (
+            {({ errors, isSubmitting,handleChange,handleReset, setValues, resetForm  }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -114,10 +113,6 @@ const StatusModalForm = (props: Props) => {
                     <option value="open">Open</option>
                     <option value="close">Close</option>
                   </select>
-                  <FieldErrorMessage
-                    errors={errors.status}
-                    touched={touched.status}
-                  />
                 </div>
 
                 <div className="modal-buttons">
@@ -127,6 +122,19 @@ const StatusModalForm = (props: Props) => {
                     isSubmitting={isSubmitting}
                     btnText="Submit"
                   />{" "}
+                  <CustomButton
+                    type="reset"
+                    btnText="Reset"
+                    variant="outline-secondary"
+                    // onClick={() => {
+                    //   resetForm({ values: initialValues });
+                    // }}
+                    // onClick={() => {
+                    //   // Manually reset the dropdown value to its initial value
+                    //   handleChange({ target: { name: 'status', value: initialValues.status } });
+                    // }}
+                    onClick={handlesReset}
+                  />
                 </div>
               </Form>
             )}

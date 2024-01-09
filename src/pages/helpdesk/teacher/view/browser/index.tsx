@@ -32,7 +32,6 @@ type Props = {
     setGetAllComment: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
-    updateInputFilters: any;
     toggleRepliesModalShow: any;
     modalTitle: any
     modalTitleDate: any
@@ -58,7 +57,6 @@ const Browser = (props: Props) => {
               selectedTopic={props.commonProps.selectedTopic}
               toggleModalShow={props.commonProps.toggleModalShow}
               updateTopicFilter={props.commonProps.updateTopicFilter}
-              updateInputFilters={props.commonProps.updateInputFilters}
             />
 
             <TeacherHelpdeskTable

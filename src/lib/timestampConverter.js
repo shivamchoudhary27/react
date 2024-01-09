@@ -1,3 +1,5 @@
+import moment from "moment";
+
 // timestamp to 01/02/2024 this format date converter === >>
 export const convertTimestampToDate = (value) => {
   if (value !== undefined && value !== "" && value !== "0") {
@@ -39,3 +41,12 @@ export const timestampToDaysAgoConverter = (date) => {
   const formattedDate = `${differenceInDays} days ago`;
   return formattedDate;
 };
+
+//  convert the date format from "yyyy-MM-dd" to "dd-MM-yyyy" === >>
+export const dateConverterToDYM = (date) => {
+  console.log(date)
+  const originalDate = date;
+  const formattedDate = moment(originalDate).format("DD-MM-YYYY");
+  console.log(formattedDate)
+  return (formattedDate);
+}
