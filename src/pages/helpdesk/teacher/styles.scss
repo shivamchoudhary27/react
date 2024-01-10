@@ -1,0 +1,77 @@
+.helpdesk-messages-container {
+    padding: 0 10px;
+    max-height: 400px;
+    // max-width: 600px;
+    overflow-y: auto;
+    .reply-message-container {
+        display: flex;
+        gap: 6px;
+        margin: 16px 0;
+        flex-direction: row-reverse;
+        .chat-details {
+            max-width: 90%;
+            .right-text {
+                text-align: right;
+                font-size: 14px;
+            }
+            .left-text {
+                text-align: left;
+                font-size: 14px;
+            }
+            .reply-nickname {
+                color: #252525;
+                font-weight: 500;
+            }
+
+            .chat-date {
+                color: #666;
+            }
+        }
+        &.support-message {
+            flex-direction: row;
+        }
+        .reply-profileimg {
+            background-color: #737373;
+            color: white;
+            text-transform: uppercase;
+            width: 30px;
+            height: 30px;
+            padding: 1rem;
+            border-radius: 50px;
+            display: grid;
+            place-content: center;
+
+            &.user-profile {
+                background-color: #737373;
+                color: white;
+            }
+
+            &.support-profile {
+                background-color: #1667B7;
+                color: white;
+            }
+
+        }
+    }
+}
+.reply-message {
+    padding: 10px 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    p {
+        word-wrap: break-word;
+    }
+    &.user-message {
+        text-align: right;
+        border: 2px solid #dcdcdc;
+        background-color: #e4e4e4;
+        border-top-right-radius: 0;
+    }
+    &.support-message {
+        text-align: left;
+        background-color: #cbdff4;
+        border: 1px solid #dadadac7;
+        border-top-left-radius: 0;
+    }
+}

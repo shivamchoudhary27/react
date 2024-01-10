@@ -64,6 +64,7 @@ const RepliesForm = (props: Props) => {
         onHide={props.onHide}
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
+        size="lg"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
