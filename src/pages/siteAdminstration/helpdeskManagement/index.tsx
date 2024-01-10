@@ -1,6 +1,7 @@
 
 import View from "./view";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
 
@@ -15,6 +16,7 @@ const Helpdeskmanagement = () => {
   const [getAllComment, setGetAllComment] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
+  const [getAllProgram, setGetAllProgram] = useState(dummyData);
   const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     startDate: "",
@@ -24,6 +26,10 @@ const Helpdeskmanagement = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+
+  const currentInstitute = useSelector(
+    (state) => state.globalFilters.currentInstitute
+  );
 
   const [repliesModalShow, setRepliesModalShow] = useState({
     status: false,
@@ -77,12 +83,13 @@ const Helpdeskmanagement = () => {
       })
       .catch((err: any) => {
         console.log(err);
+        setApiStatus("finished")
       });
   }, [refreshData, filterUpdate]);
 
 
   useEffect(() => {
-    setApiStatus("started");
+    
     if (selectedTopicId > 0) {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
@@ -93,16 +100,35 @@ const Helpdeskmanagement = () => {
           if (!repliesModalShow.status) {
             setGetAllComment([]);
           }
-          setApiStatus("finished");
+          
         })
         .catch((err: any) => {
-          setApiStatus("finished");
+          
           if(err.response.status === 500){
             console.log(err.response.data.message);
           }
         });
     }
   }, [selectedTopicId, selectedTopic, repliesModalShow.status]);
+
+    // call api to get all programs === >>>
+    useEffect(() => {
+      setApiStatus("started");
+      getData(`/${currentInstitute}/programs`, {pageNumber: 0,
+        pageSize: pagination.PERPAGE})
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            console.log(result.data)
+            setGetAllProgram(result.data);
+          }
+          setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setApiStatus("finished");
+        });
+    }, [currentInstitute]);
+  console.log(getAllProgram, '--------getAllProgram')
 
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -161,6 +187,7 @@ const Helpdeskmanagement = () => {
     selectedTopicId={selectedTopicId}
     editHandlerById={editHandlerById}
     toggleModalShow={toggleModalShow}
+    getAllProgram={getAllProgram.items}
     selectedTopic={selectedTopic.items}
     onHide={() => toggleModalShow(false)}
     updateTopicFilter={updateTopicFilter}

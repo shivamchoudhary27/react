@@ -21,6 +21,7 @@ type Props = {
     editHandlerById: any;
     toggleModalShow: any;
     selectedTopicId: any;
+    getAllProgram: any;
     repliesModalShow: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
@@ -29,6 +30,7 @@ type Props = {
 };
 
 const View = (props: Props) => {
+  console.log(props.getAllProgram, 'view')
   const commonProps = {
     onHide: props.onHide,
     topicObj: props.topicObj,
@@ -45,6 +47,7 @@ const View = (props: Props) => {
     newPageRequest: props.newPageRequest,
     modalTitleDate: props.modalTitleDate,
     toggleModalShow: props.toggleModalShow,
+    getAllProgram: props.getAllProgram,
     selectedTopicId: props.selectedTopicId,
     editHandlerById: props.editHandlerById,
     repliesModalShow: props.repliesModalShow,
