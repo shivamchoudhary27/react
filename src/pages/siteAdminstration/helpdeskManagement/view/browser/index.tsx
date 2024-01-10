@@ -32,7 +32,6 @@ type Props = {
     selectedTopicId: any;
     repliesModalShow: any;
     updateTopicFilter: any;
-    updateInputFilters: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
@@ -57,7 +56,6 @@ const Browser = (props: Props) => {
             <Filters
               selectedTopic={props.commonProps.selectedTopic}
               updateTopicFilter={props.commonProps.updateTopicFilter}
-              updateInputFilters={props.commonProps.updateInputFilters}
             />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}

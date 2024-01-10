@@ -9,7 +9,6 @@ type Props = {
   toggleModalShow: any;
   selectedTopic: any;
   updateTopicFilter: any;
-  updateInputFilters: any;
 };
 
 const Filter = (props: Props) => {

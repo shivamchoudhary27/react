@@ -10,14 +10,11 @@ import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import MobileHeader from "../../../../newHeader/mobileHeader";
-import MobileFooter from "../../../../newFooter/mobileFooter";
 
 type Props = {
   commonProps: {
     onHide: any;
     apiStatus: any;
-    modalTitle: any;
     totalPages: any;
     enquiryData: any;
     filterUpdate: any;
@@ -26,24 +23,26 @@ type Props = {
     repliesAction: any;
     selectedTopic: any;
     getAllComment: any;
-    refreshToggle: any;
     newPageRequest: any;
-    modalTitleDate: any;
+    selectedProgram: any;
+    refreshToggle: any;
     selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
     setGetAllComment: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
-    updateInputFilters: any;
     toggleRepliesModalShow: any;
+    modalTitle: any
+    modalTitleDate: any
   };
 };
 
 const Mobile = (props: Props) => {
   return (
     <React.Fragment>
-      <MobileHeader />
+      <Header />
+      <HeaderTabs activeTab="helpdesk" />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
@@ -58,7 +57,6 @@ const Mobile = (props: Props) => {
               selectedTopic={props.commonProps.selectedTopic}
               toggleModalShow={props.commonProps.toggleModalShow}
               updateTopicFilter={props.commonProps.updateTopicFilter}
-              updateInputFilters={props.commonProps.updateInputFilters}
             />
 
             <TeacherHelpdeskTable
@@ -78,8 +76,9 @@ const Mobile = (props: Props) => {
       <NewRequestForm
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
-        updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopic={props.commonProps.selectedTopic}
+        updateAddRefresh={props.commonProps.refreshToggle}
+        selectedProgram={props.commonProps.selectedProgram}
         toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm
@@ -90,10 +89,11 @@ const Mobile = (props: Props) => {
         getAllComment={props.commonProps.getAllComment}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        apiStatus={props.commonProps.apiStatus}
         modalTitle={props.commonProps.modalTitle}
         modalTitleDate={props.commonProps.modalTitleDate}
       />
-      <MobileFooter />
+      <Footer />
     </React.Fragment>
   );
 };
