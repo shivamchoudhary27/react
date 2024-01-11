@@ -1,12 +1,11 @@
 .helpdesk-messages-container {
     padding: 0 10px;
     max-height: 400px;
-    // max-width: 600px;
     overflow-y: auto;
     .reply-message-container {
         display: flex;
         gap: 6px;
-        margin: 16px 0;
+        margin-bottom: 14px;
         flex-direction: row-reverse;
         .chat-details {
             max-width: 90%;
