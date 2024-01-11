@@ -31,8 +31,6 @@
             flex-direction: row;
         }
         .reply-profileimg {
-            background-color: #737373;
-            color: white;
             text-transform: uppercase;
             width: 30px;
             height: 30px;
@@ -74,4 +72,8 @@
         border: 1px solid #dadadac7;
         border-top-left-radius: 0;
     }
+}
+.chat-reverse{
+    display: flex;
+    flex-direction: column-reverse;
 }
