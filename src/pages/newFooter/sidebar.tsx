@@ -22,7 +22,7 @@ const Sidebar = ({ onClose }) => {
     {
       icon: HelpdeskIcon,
       title: "Help Desk",
-      link: "#",
+      link: "/helpdesk",
     },
   ];
 

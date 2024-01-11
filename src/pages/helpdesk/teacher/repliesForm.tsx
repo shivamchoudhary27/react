@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MessagesView from "./messages";
@@ -10,6 +10,8 @@ import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
+import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
 
 type Props = {
   onHide: any;
@@ -34,6 +36,23 @@ const queryFormSchema = Yup.object({
 });
 
 const RepliesForm = (props: Props) => {
+  const fileInputRef = useRef(null);
+  const [selectedFileName, setSelectedFileName] = useState("");
+
+  const handleFileButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      setSelectedFileName(file.name);
+
+    }
+  };
+
   const sortComments = props.getAllComment.sort((a: any, b: any) => {
     return new Date(b.date) - new Date(a.date);
   });
@@ -113,36 +132,49 @@ const RepliesForm = (props: Props) => {
             onSubmit={(values, action) => {
               handleFormSubmit(values, action);
             }}
+            onReset={(values, action) => {
+              setSelectedFileName("");
+            }}
           >
             {({ errors, touched, isSubmitting }) => (
               <Form>
-                <div className="mb-3">
-                  <FieldLabel
+                <div className="d-flex flex-column">
+                <div className="w-100">
+                  {/* <FieldLabel
                     star="*"
                     htmlfor="comment"
                     labelText="Reply"
                     // required="required"
-                  />
+                  /> */}
                   <FieldTypeTextarea
                     name="comment"
                     component="textarea"
-                    placeholder="Type Here ..."
+                    placeholder="Type your reply here..."
                   />
                   <FieldErrorMessage
                     errors={errors.comment}
                     touched={touched.comment}
                   />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="file">Upload Image:</label>
+                {selectedFileName && (
+                      <div className="attachedfile"> <img src={AttachmentIcon} alt="attachedfile" /> {selectedFileName}</div>
+                    )}
+                  <div className="modal-buttons d-flex gap-1 w-100 justify-content-center">
                   <input
-                    className="form-control"
-                    id="file"
-                    name="file"
-                    type="file"
-                  />
-                </div>
-                <div className="modal-buttons">
+                      ref={fileInputRef}
+                      className="d-none"
+                      id="file"
+                      name="file"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
+                  <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={handleFileButtonClick}
+                    >
+                      <img src={AttachmentWhiteIcon} alt="attachment" />
+                    </button>
                   <CustomButton
                     type="submit"
                     variant="primary"
@@ -154,6 +186,7 @@ const RepliesForm = (props: Props) => {
                     btnText="Reset"
                     variant="outline-secondary"
                   />
+                </div>
                 </div>
               </Form>
             )}
