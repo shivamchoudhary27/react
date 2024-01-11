@@ -35,10 +35,12 @@ type Props = {
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
+    getAllProgram: any;
   };
 };
 
 const Mobile = (props: Props) => {
+  console.log(props.commonProps.getAllProgram, "mobile-------")
   return (
     <React.Fragment>
       <Header />
@@ -56,6 +58,7 @@ const Mobile = (props: Props) => {
             <Filters
               selectedTopic={props.commonProps.selectedTopic}
               updateTopicFilter={props.commonProps.updateTopicFilter}
+              getAllProgram={props.commonProps.getAllProgram}
             />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}

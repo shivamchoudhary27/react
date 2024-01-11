@@ -1,4 +1,3 @@
-
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
@@ -8,8 +7,8 @@ import { dateConverterToDYM } from "../../../lib/timestampConverter";
 
 type Props = {
   selectedTopic: any;
+  getAllProgram: any;
   updateTopicFilter: any;
-  
 };
 
 const Filter = (props: Props) => {
@@ -18,43 +17,70 @@ const Filter = (props: Props) => {
   const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
   const [selectStartDateValue, setSelectStartDateValue] = useState("");
   const [selectEndDateValue, setSelectEndDateValue] = useState("");
-  
+
   const formik = useFormik({
     initialValues: {
-      topicName: '',
-      published: '',
-      startDate: '',
-      endDate: '',
+      topicName: "",
+      published: "",
+      startDate: "",
+      endDate: "",
     },
     onSubmit: (values: any) => {},
     onReset: () => {},
   });
 
   const getCurrentValue = (e: any) => {
-    props.updateTopicFilter(e.target.value, selectedPublishedValue,selectStartDateValue,selectEndDateValue);
+    props.updateTopicFilter(
+      e.target.value,
+      selectedPublishedValue,
+      selectStartDateValue,
+      selectEndDateValue
+    );
     setSelectedTopicValue(e.target.value);
   };
 
   const getCurrentPublishedValue = (e: any) => {
-    props.updateTopicFilter(selectedTopicValue, e.target.value,selectStartDateValue,selectEndDateValue);
+    props.updateTopicFilter(
+      selectedTopicValue,
+      e.target.value,
+      selectStartDateValue,
+      selectEndDateValue
+    );
     setSelectedPublishedValue(e.target.value);
   };
 
   const handleDateChange = (e: any, type: string) => {
     const dateValue = e.target.value;
     const convertedDate = dateConverterToDYM(dateValue);
-  
-    if (type === 'startDate') {
-      formik.setFieldValue('startDate', dateValue);
+
+    if (type === "startDate") {
+      formik.setFieldValue("startDate", dateValue);
       setSelectStartDateValue(dateValue);
-      props.updateTopicFilter(selectedTopicValue, selectedPublishedValue, convertedDate, selectEndDateValue);
-    } else if (type === 'endDate') {
-      formik.setFieldValue('endDate', dateValue);
+      props.updateTopicFilter(
+        selectedTopicValue,
+        selectedPublishedValue,
+        convertedDate,
+        selectEndDateValue
+      );
+    } else if (type === "endDate") {
+      formik.setFieldValue("endDate", dateValue);
       setSelectEndDateValue(dateValue);
-      props.updateTopicFilter(selectedTopicValue, selectedPublishedValue, dateConverterToDYM(selectStartDateValue), convertedDate);
+      props.updateTopicFilter(
+        selectedTopicValue,
+        selectedPublishedValue,
+        dateConverterToDYM(selectStartDateValue),
+        convertedDate
+      );
     }
   };
-return (
+
+  const getCurrentProgram = (e: any) => {
+    if (e.type === "change") {
+      console.log(e.target.value);
+    }
+  };
+
+  return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
@@ -88,7 +114,7 @@ return (
                 <option value="close">Close</option>
               </select>
             </Col>
-            
+
             <Col>
               <label htmlFor="startDate">Start Date</label>
               <input
@@ -96,7 +122,7 @@ return (
                 className="form-control"
                 name="startDate"
                 value={selectStartDateValue}
-                onChange={(e) => handleDateChange(e, 'startDate')}
+                onChange={(e) => handleDateChange(e, "startDate")}
               />
             </Col>
             <Col>
@@ -106,10 +132,26 @@ return (
                 className="form-control"
                 name="endDate"
                 value={selectEndDateValue}
-                onChange={(e) => handleDateChange(e, 'endDate')}
+                onChange={(e) => handleDateChange(e, "endDate")}
               />
             </Col>
 
+            <Col>
+              <label htmlFor="name">Program</label>
+              <select
+                className="form-select"
+                name="name"
+                onChange={getCurrentProgram}
+                // value={selectedValue}
+              >
+                <option value="0">Select Program</option>
+                {props.getAllProgram.map((option: any, index: number) => (
+                      <option key={index} value={option.id}>
+                        {option.name}
+                      </option>
+                    ))}
+              </select>
+            </Col>
           </Row>
         </form>
         <div className="site-button-group">

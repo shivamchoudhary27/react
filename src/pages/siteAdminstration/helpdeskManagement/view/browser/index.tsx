@@ -31,6 +31,7 @@ type Props = {
     toggleModalShow: any;
     selectedTopicId: any;
     repliesModalShow: any;
+    getAllProgram: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
@@ -39,6 +40,7 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
+  console.log(props.commonProps.getAllProgram, '-----browser')
   return (
     <React.Fragment>
       <Header />
@@ -55,6 +57,7 @@ const Browser = (props: Props) => {
             <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
             <Filters
               selectedTopic={props.commonProps.selectedTopic}
+              getAllProgram={props.commonProps.getAllProgram}
               updateTopicFilter={props.commonProps.updateTopicFilter}
             />
             <HelpdeskManagementTable
