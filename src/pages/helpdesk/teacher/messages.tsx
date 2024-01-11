@@ -60,9 +60,9 @@ const MessagesView: React.FC<Props> = (props) => {
             </div>
             <div className={`reply-message ${item.style}`}>
               <p className="m-0">{item.comment}</p>
-              <span className="text-muted">
+              {/* <span className="text-muted">
                 {timestampToDaysAgoConverter(item.date)}
-              </span>
+              </span> */}
               {/* <span className="text-muted">{item.subTitle}</span> */}
             </div>
           </div>
