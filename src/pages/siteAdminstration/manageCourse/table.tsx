@@ -83,6 +83,19 @@ const CourseTable = ({
       ),
       draggable: true,
     },
+    { 
+      Header: "Course Type",
+      Cell: ({ row }: any) => (
+        <>
+          {row.original.coursedetails !== undefined && (
+            <>
+            {row.original.coursedetails.courseType}
+            </>
+          )}
+        </>
+      ),
+      draggable: true,
+    },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (

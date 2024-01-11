@@ -55,7 +55,8 @@ const CourseModal = ({
     deleteImage: false,
     file: null,
     startDate: "",
-    endDate: ""
+    endDate: "",
+    type: null
   });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -74,7 +75,8 @@ const CourseModal = ({
       deleteImage: false,
       file: null,
       startDate: courseobj.startDate !== null ? initialDateFormatHandler(courseobj.startDate) : getCurrentMonth(currentDate),
-      endDate: courseobj.endDate !== null ? initialDateFormatHandler(courseobj.endDate) : getNextMonth(currentDate)
+      endDate: courseobj.endDate !== null ? initialDateFormatHandler(courseobj.endDate) : getNextMonth(currentDate),
+      type: courseobj.type !== null ?  courseobj.type : ""
     });
     // }
   }, [courseobj]);
@@ -233,6 +235,7 @@ const CourseModal = ({
               isSubmitting,
               setValues,
               values,
+              handleChange,
               setFieldValue,
             }) => (
               <Form>
@@ -378,6 +381,28 @@ const CourseModal = ({
                     touched={touched.published}
                     msgText="Please Check Required Field"
                   />
+                </div>
+                <div>
+                  <label className="me-3">
+                    <input
+                      type="radio"
+                      name="type"
+                      value="minor"
+                      onChange={handleChange}
+                      checked={values.type === "minor"}
+                    />
+                    Minor
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="type"
+                      value="major"
+                      onChange={handleChange}
+                      checked={values.type === "major"}
+                    />
+                    Major
+                  </label>
                 </div>
                 {isSubmitting === false ? (
                   <div className="modal-buttons">
