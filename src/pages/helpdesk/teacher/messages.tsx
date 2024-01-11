@@ -5,6 +5,7 @@ import "./styles.scss";
 type Props = {
   getAllComment: any;
   apiStatus: string;
+  customClass: string;
 };
 
 const MessagesView: React.FC<Props> = (props) => {
@@ -38,7 +39,7 @@ const MessagesView: React.FC<Props> = (props) => {
   // console.log(updatedCommentData);
 
   return (
-    <div className="helpdesk-messages-container">
+    <div className={`helpdesk-messages-container ${props.customClass || ""}`}>
       {updatedCommentData.map((item: any, index: number) => (
         <div key={index} className={`reply-message-container ${item.style}`}>
           <div 
