@@ -15,7 +15,7 @@ import { setHasChildProp } from "./local";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
-import { addMonths, format, getMonth, getDate, getYear } from 'date-fns';
+import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -56,7 +56,7 @@ const CourseModal = ({
     file: null,
     startDate: "",
     endDate: "",
-    type: null
+    type: null,
   });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -74,10 +74,19 @@ const CourseModal = ({
       files: courseobj.files,
       deleteImage: false,
       file: null,
-      startDate: courseobj.startDate !== null ? initialDateFormatHandler(courseobj.startDate) : getCurrentMonth(currentDate),
-      endDate: courseobj.endDate !== null ? initialDateFormatHandler(courseobj.endDate) : getNextMonth(currentDate),
-      type: courseobj.type !== null ?  courseobj.type : ""
+      type: courseobj.courseType? courseobj.courseType.toLowerCase() : null,
+      startDate:
+        courseobj.startDate !== null
+          ? initialDateFormatHandler(courseobj.startDate)
+          : getCurrentMonth(currentDate),
+      endDate:
+        courseobj.endDate !== null
+          ? initialDateFormatHandler(courseobj.endDate)
+          : getNextMonth(currentDate),
+          // type: courseobj.type !== null ? courseobj.type : null, 
+
     });
+
     // }
   }, [courseobj]);
 
@@ -91,6 +100,7 @@ const CourseModal = ({
     getData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
+          // console.log(res.data);
           setCategoriesList(res.data.items);
         }
       })
@@ -124,28 +134,28 @@ const CourseModal = ({
   }, [categorieslist]);
 
   const getCurrentMonth = (currentDate) => {
-    return format(currentDate, 'yyyy-MM-dd')
-  }
+    return format(currentDate, "yyyy-MM-dd");
+  };
 
   const getNextMonth = (currentDate) => {
     const endDate = addMonths(currentDate, 1);
-    console.log('next onght', endDate)
-    return format(endDate, 'yyyy-MM-dd');
-  }
+    console.log("next onght", endDate);
+    return format(endDate, "yyyy-MM-dd");
+  };
 
   const dateFormatHandlers = (date: string) => {
-    const [year, month, day] = date.split('-');
+    const [year, month, day] = date.split("-");
     return `${day}-${month}-${year}`;
-  }
+  };
 
   const initialDateFormatHandler = (inputDate: string) => {
     const date = new Date(inputDate);
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
     const year = date.getFullYear();
 
     return `${year}-${month}-${day}`;
-  }
+  };
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
@@ -157,7 +167,7 @@ const CourseModal = ({
 
     values.startDate = dateFormatHandlers(values.startDate);
     values.endDate = dateFormatHandlers(values.endDate);
-    
+
     let courseImage = values.file;
     delete courseImage?.file;
 
@@ -289,21 +299,21 @@ const CourseModal = ({
                 </div>
                 {/* --------------------------------  */}
                 <div className="mb-3">
-                    <FieldLabel
-                      htmlfor="startDate"
-                      labelText="Start Date"
-                      required="required"
-                    />
-                    <FieldTypeText
-                      type="date"
-                      name="startDate"
-                      placeholder="dd/mm/yyyy"
-                    />
-                    <FieldErrorMessage
-                      errors={errors.startDate}
-                      touched={touched.startDate}
-                      msgText="Required"
-                    />
+                  <FieldLabel
+                    htmlfor="startDate"
+                    labelText="Start Date"
+                    required="required"
+                  />
+                  <FieldTypeText
+                    type="date"
+                    name="startDate"
+                    placeholder="dd/mm/yyyy"
+                  />
+                  <FieldErrorMessage
+                    errors={errors.startDate}
+                    touched={touched.startDate}
+                    msgText="Required"
+                  />
                 </div>
 
                 <div className="mb-3">
@@ -382,26 +392,34 @@ const CourseModal = ({
                     msgText="Please Check Required Field"
                   />
                 </div>
-                <div>
+                <div className="mb-3">
                   <label className="me-3">
-                    <input
-                      type="radio"
-                      name="type"
-                      value="minor"
-                      onChange={handleChange}
-                      checked={values.type === "minor"}
-                    />
-                    Minor
-                  </label>
-                  <label>
                     <input
                       type="radio"
                       name="type"
                       value="major"
                       onChange={handleChange}
                       checked={values.type === "major"}
+                      // checked={
+                      //   values.type === "major" ||
+                      //   categorieslist[0].courses[2].courseType === "MAJOR"
+                      // }
                     />
                     Major
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
+                      name="type"
+                      value="minor"
+                      onChange={handleChange}
+                      checked={values.type === "minor"}
+                      // checked={
+                      //   values.type === "minor" ||
+                      //   categorieslist[0].courses[2].courseType === "MINOR"
+                      // }
+                    />
+                    Minor
                   </label>
                 </div>
                 {isSubmitting === false ? (
