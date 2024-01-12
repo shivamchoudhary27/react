@@ -50,6 +50,7 @@ const CourseManagment = () => {
     files: [],
     startDate: "",
     endDate: "",
+    courseType: null,
   });
   const coursePermission = useSelector(
     (state: any) => state.userAuthorities.permissions.course
@@ -132,7 +133,8 @@ const CourseManagment = () => {
     published,
     files,
     startDate,
-    endDate
+    endDate,
+    courseType,
   }: any) => {
     setCourseObj({
       id,
@@ -144,6 +146,7 @@ const CourseManagment = () => {
       files,
       startDate,
       endDate,
+      courseType,
     });
   };
 
@@ -190,7 +193,7 @@ const CourseManagment = () => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
-          {coursePermission.canView &&
+          {coursePermission.canView && (
             <CourseTable
               categoryData={sortedCategories}
               modalShow={modalShow}
@@ -204,10 +207,10 @@ const CourseManagment = () => {
               cleanFormValues={cleanFormValues}
               toggleCourseModal={toggleCourseModal}
               editHandlerById={editHandlerById}
-              apiStatus={apiStatus}  
-              coursePermission={coursePermission}    
+              apiStatus={apiStatus}
+              coursePermission={coursePermission}
             />
-          }
+          )}
         </Container>
         <CourseModal
           show={addCourseModal}

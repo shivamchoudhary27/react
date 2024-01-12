@@ -121,7 +121,8 @@ const CourseTable = ({
                         published: row.original.coursedetails.published,
                         files: row.original.coursedetails.files,
                         startDate: row.original.coursedetails.startDate,
-                        endDate: row.original.coursedetails.endDate
+                        endDate: row.original.coursedetails.endDate,
+                        courseType: row.original.coursedetails.courseType
                       })
                     }
                     />
@@ -169,7 +170,8 @@ const CourseTable = ({
                     description: "",
                     published: false,
                     startDate: null,
-                    endDate: null
+                    endDate: null,
+                    courseType: null,
                   })
                 }
               >
@@ -218,13 +220,15 @@ const CourseTable = ({
         published: updatecourse.data.coursedetail.published,
         category: { id: updatecourse.data.category },
         startDate: updatecourse.data.coursedetail.startDate,
-        endDate: updatecourse.data.coursedetail.endDate
+        endDate: updatecourse.data.coursedetail.endDate,
+        courseType: updatecourse.data.coursedetail.courseType
       };
       const endPoint = `${programId}/course/${updatingcourseid}`;
 
       putData(endPoint, updateCourseData)
         .then((res: any) => {
           if (res.status === 200) {
+            console.log(res.status)
             setUpdateCourse({ data: {}, status: "nutral" });
             refreshcategories();
           }
@@ -252,6 +256,7 @@ const CourseTable = ({
     let endPoint = `${programId}/course/${coursePacket.courseid}`;
     putData(endPoint, coursePacket.coursedetails)
       .then((res: any) => {
+        console.log(res)
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
@@ -276,7 +281,8 @@ const CourseTable = ({
     published,
     files,
     startDate,
-    endDate
+    endDate,
+    courseType
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -289,7 +295,8 @@ const CourseTable = ({
       published,
       files,
       startDate,
-      endDate
+      endDate,
+      courseType
     });
   };
 
