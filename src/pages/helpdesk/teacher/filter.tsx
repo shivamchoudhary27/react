@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { isMobile } from 'react-device-detect';
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 type Props = {
   toggleModalShow: any;
@@ -38,8 +40,10 @@ const Filter = (props: Props) => {
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2 gap-3">
+      <div className={`${isMobile ? 'w-100' : ''}`}>
+ <FilterButtonWrapper>
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <Row className="g-2">
+        <Row className="g-2">
             <Col>
               <label htmlFor="topicName">Select Topic</label>
               <select
@@ -73,6 +77,9 @@ const Filter = (props: Props) => {
            
           </Row>
         </form>
+        </FilterButtonWrapper>
+ </div>
+         
         <div className="site-button-group">
           <div>
             <Button

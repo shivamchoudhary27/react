@@ -8,7 +8,7 @@ type Props = {
   customClass: string;
 };
 
-const MessagesView: React.FC<Props> = (props) => {
+const MessagesView = (props: Props) => {
   const sortedComments = props.getAllComment.sort((a: any, b: any) => {
     return new Date(b.date) - new Date(a.date);
   });
