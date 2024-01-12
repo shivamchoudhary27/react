@@ -4,6 +4,9 @@ import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { dateConverterToDYM } from "../../../lib/timestampConverter";
+import { isMobile } from 'react-device-detect';
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
+
 
 type Props = {
   selectedTopic: any;
@@ -83,8 +86,10 @@ const Filter = (props: Props) => {
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <Row className="g-2">
+    <div className={`${isMobile ? 'w-100' : ''}`}>
+      <FilterButtonWrapper>
+      <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+          <Row className={`g-2 ${isMobile ? 'd-flex flex-column mb-2' : ''}`}>
             <Col>
               <label htmlFor="topicName">Select Topic</label>
               <select
@@ -154,6 +159,8 @@ const Filter = (props: Props) => {
             </Col>
           </Row>
         </form>
+      </FilterButtonWrapper>
+    </div>
         <div className="site-button-group">
           <div>
             <Button variant="primary" onClick={() => navigate("/managetopic")}>

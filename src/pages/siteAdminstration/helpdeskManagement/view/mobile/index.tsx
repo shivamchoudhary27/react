@@ -2,14 +2,13 @@ import React from "react";
 import Filters from "../../filter";
 import StatusModalForm from "../../form";
 import RepliesForm from "../../replyForm";
-import Header from "../../../../newHeader";
-import Footer from "../../../../newFooter";
 import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../../headerTabs";
 import HelpdeskManagementTable from "../../table";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import MobileHeader from "../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../newFooter/mobileFooter";
 
 type Props = {
   commonProps: {
@@ -43,8 +42,7 @@ const Mobile = (props: Props) => {
   console.log(props.commonProps.getAllProgram, "mobile-------")
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="helpdesk" />
+      <MobileHeader />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
@@ -98,7 +96,7 @@ const Mobile = (props: Props) => {
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
       />
-      <Footer />
+      <MobileFooter />
     </React.Fragment>
   );
 };
