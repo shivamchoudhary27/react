@@ -62,6 +62,7 @@ const CourseManagment = () => {
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
+          console.log(res.data, 'res.data')
           setCategoryData(res.data.items);
         }
         setApiStatus("finished");

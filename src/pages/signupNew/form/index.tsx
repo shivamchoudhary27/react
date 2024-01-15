@@ -32,7 +32,7 @@ const SignupForm = () => {
         "character-allowed",
         "Only specific characters are allowed",
         function (value) {
-          return /^[A-Za-z]+$/.test(value);
+          return /^[A-Za-z0-9]+$/.test(value);
         }
       )
       .trim()
@@ -43,7 +43,7 @@ const SignupForm = () => {
         "character-allowed",
         "Only specific characters are allowed",
         function (value) {
-          return /^[A-Za-z]+$/.test(value);
+          return /^[A-Za-z0-9]+$/.test(value);
         }
       )
       .trim()

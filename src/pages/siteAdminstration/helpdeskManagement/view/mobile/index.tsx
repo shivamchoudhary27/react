@@ -39,7 +39,6 @@ type Props = {
 };
 
 const Mobile = (props: Props) => {
-  console.log(props.commonProps.getAllProgram, "mobile-------")
   return (
     <React.Fragment>
       <MobileHeader />

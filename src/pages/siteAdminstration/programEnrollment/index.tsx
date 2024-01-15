@@ -9,8 +9,11 @@ import Footer from "../../newFooter";
 import HeaderTabs from "../../headerTabs";
 import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
 import { pagination } from "../../../utils/pagination";
+import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
+import ManageTable from "../manageProgram/table";
+import Errordiv from "../../../widgets/alert/errordiv";
 
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
@@ -41,8 +44,7 @@ const ProgramEnrollment = () => {
       pageNumber: 0,
     });
   };
-
-  const updateInputFilters = (inputvalues: any) => {
+const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.reset !== undefined) {
       console.log('reseting all input filters', inputvalues);
 
@@ -71,6 +73,10 @@ const ProgramEnrollment = () => {
     }
   };
 
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
   return (
     <>
       <Header />
@@ -90,6 +96,15 @@ const ProgramEnrollment = () => {
             currentInstitute={currentInstitute}
           />
           <ProgramEnrollTable enrollmentData={enrollmentData.items} apiStatus={apiStatus} />
+
+          
+              <BuildPagination
+                totalpages={enrollmentData.pager.totalPages}
+                activepage={filterUpdate.pageNumber}
+                getrequestedpage={newPageRequest}
+              />
+            
+          
         </Container>
       </div>
       <Footer />

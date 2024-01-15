@@ -25,20 +25,22 @@ const initialValues = {
 
 // Formik Yup validation === >>>
 const queryFormSchema = Yup.object({
-  // topicName: Yup.string().required("Please select Topic"),
   query: Yup.string().trim().min(5).required("query is required"),
 });
 
 const NewRequestForm = (props: Props) => {
   const [topicId, setTopicId] = useState("");
+  const [programId, setProgramId] = useState(0);
 
   const handleFormSubmit = (values: any, action: any) => {
-    if (topicId !== "") {
+    console.log(values, '-------values')
+    if (topicId !== "" && programId !==0) {
       action.setSubmitting(true);
-      postData(`/enquiry/${parseInt(topicId)}`, values)
+      // postData(`/enquiry/${parseInt(topicId)}`, {...values, programId})
+      postData(`/enquiry/${parseInt(topicId)}?programId=${programId}`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            console.log(res.data);
+            console.log(res.data, '------------response data')
             props.toggleModalShow(false);
             action.setSubmitting(false);
             props.updateAddRefresh()
@@ -57,11 +59,9 @@ const NewRequestForm = (props: Props) => {
   };
 
   const getCurrentProgramValue = (e: any) => {
-    if (e.type === "change") {
+      setProgramId(e.target.value);
       console.log(e.target.value);
-    }
   };
-  
 
   return (
     <React.Fragment>
@@ -77,13 +77,6 @@ const NewRequestForm = (props: Props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* <TimerAlertBox
-            className="mt-3"
-            showAlert={commonProps.showAlert}
-            alertMsg={commonProps.alertMsg.message}
-            variant={commonProps.alertMsg.alertBoxColor}
-            setShowAlert={commonProps.setShowAlert}
-          /> */}
           <Formik
             initialValues={initialValues}
             validationSchema={queryFormSchema}
@@ -121,16 +114,16 @@ const NewRequestForm = (props: Props) => {
 
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="name"
+                    htmlfor="programId"
                     labelText="Program"
                     required="required"
                     star="*"
                   />
                   <select
                     className="form-select"
-                    name="name"
+                    name="programId"
                     onChange={getCurrentProgramValue}
-                    // value={selectedValue}
+                    value={programId}
                   >
                     <option value="0">Select Program</option>
                     {props.selectedProgram.map((option: any, index: number) => (

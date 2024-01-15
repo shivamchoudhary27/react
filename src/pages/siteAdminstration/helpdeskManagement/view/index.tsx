@@ -30,7 +30,6 @@ type Props = {
 };
 
 const View = (props: Props) => {
-  console.log(props.getAllProgram, 'view')
   const commonProps = {
     onHide: props.onHide,
     topicObj: props.topicObj,
