@@ -50,7 +50,6 @@ const Helpdeskmanagement = () => {
     getData("/enquiry/helpdesk", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          console.log(result.data)
           setHelpdeskManagementData(result.data);
         }
         setApiStatus("finished");
@@ -76,7 +75,6 @@ const Helpdeskmanagement = () => {
     getData("/topic", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          console.log(result.data);
           setSelectedTopic(result.data);
         }
         setApiStatus("finished");
@@ -94,7 +92,6 @@ const Helpdeskmanagement = () => {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data, "...............all comment ")
             setGetAllComment(result.data);
           }
           if (!repliesModalShow.status) {
@@ -118,7 +115,6 @@ const Helpdeskmanagement = () => {
         pageSize: pagination.PERPAGE})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data)
             setGetAllProgram(result.data);
           }
           setApiStatus("finished");
@@ -128,7 +124,6 @@ const Helpdeskmanagement = () => {
           setApiStatus("finished");
         });
     }, [currentInstitute]);
-  console.log(getAllProgram, '--------getAllProgram')
 
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -153,7 +148,7 @@ const Helpdeskmanagement = () => {
   };
 
   // to update filters values in the main state filterUpdate
-  const updateTopicFilter = (inputvalues: string, published: string | undefined, startDate:any, endDate:any) => {
+  const updateTopicFilter = (inputvalues: string, published: string | undefined, startDate:any, endDate:any, programId:string) => {
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
@@ -161,6 +156,7 @@ const Helpdeskmanagement = () => {
       published: published === "" ? undefined : published,
       startDate: startDate === "" ? undefined : startDate,
       endDate: endDate === "" ? undefined : endDate,
+      programId: programId,
     });
   };
 

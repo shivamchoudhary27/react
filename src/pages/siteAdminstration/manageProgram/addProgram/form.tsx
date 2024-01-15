@@ -468,7 +468,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                           <input
                             type="radio"
                             name="modeOfStudy"
-                            value="Partvtime"
+                            value="Part time"
                             onChange={handleChange}
                             checked={
                               values.modeOfStudy === "Part time" ? true : false

@@ -400,10 +400,6 @@ const CourseModal = ({
                       value="major"
                       onChange={handleChange}
                       checked={values.type === "major"}
-                      // checked={
-                      //   values.type === "major" ||
-                      //   categorieslist[0].courses[2].courseType === "MAJOR"
-                      // }
                     />
                     Major
                   </label>
@@ -414,10 +410,6 @@ const CourseModal = ({
                       value="minor"
                       onChange={handleChange}
                       checked={values.type === "minor"}
-                      // checked={
-                      //   values.type === "minor" ||
-                      //   categorieslist[0].courses[2].courseType === "MINOR"
-                      // }
                     />
                     Minor
                   </label>

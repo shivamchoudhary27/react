@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
+import { globalFilterActions } from "../../../store/slices/globalFilters";
 
 const ProgramEnrollDropdown = ({updateDepartment, currentInstitute, selectedValue, setSelectedValue}: any) => {
   const dispatch = useDispatch();

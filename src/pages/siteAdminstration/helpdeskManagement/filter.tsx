@@ -16,10 +16,12 @@ type Props = {
 
 const Filter = (props: Props) => {
   const navigate = useNavigate();
+  const [selectProgram, setSelectProgram] = useState("");
   const [selectedTopicValue, setSelectedTopicValue] = useState("");
   const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
   const [selectStartDateValue, setSelectStartDateValue] = useState("");
   const [selectEndDateValue, setSelectEndDateValue] = useState("");
+  const [endDateError, setEndDateError] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -46,8 +48,8 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       selectedTopicValue,
       e.target.value,
-      selectStartDateValue,
-      selectEndDateValue
+      selectEndDateValue,
+      selectStartDateValue
     );
     setSelectedPublishedValue(e.target.value);
   };
@@ -56,6 +58,26 @@ const Filter = (props: Props) => {
     const dateValue = e.target.value;
     const convertedDate = dateConverterToDYM(dateValue);
 
+    // if (type === "startDate") {
+    //   formik.setFieldValue("startDate", dateValue);
+    //   setSelectStartDateValue(dateValue);
+    //   props.updateTopicFilter(
+    //     selectedTopicValue,
+    //     selectedPublishedValue,
+    //     convertedDate,
+    //     dateConverterToDYM(selectEndDateValue)
+    //   );
+    // } else if (type === "endDate") {
+    //   formik.setFieldValue("endDate", dateValue);
+    //   setSelectEndDateValue(dateValue);
+    //   props.updateTopicFilter(
+    //     selectedTopicValue,
+    //     selectedPublishedValue,
+    //     dateConverterToDYM(selectStartDateValue),
+    //     convertedDate
+    //   );
+    // }
+
     if (type === "startDate") {
       formik.setFieldValue("startDate", dateValue);
       setSelectStartDateValue(dateValue);
@@ -63,24 +85,41 @@ const Filter = (props: Props) => {
         selectedTopicValue,
         selectedPublishedValue,
         convertedDate,
-        selectEndDateValue
+        // dateConverterToDYM(selectEndDateValue)
+        selectEndDateValue==""?selectEndDateValue:dateConverterToDYM(selectEndDateValue),
       );
     } else if (type === "endDate") {
+
       formik.setFieldValue("endDate", dateValue);
       setSelectEndDateValue(dateValue);
       props.updateTopicFilter(
         selectedTopicValue,
         selectedPublishedValue,
-        dateConverterToDYM(selectStartDateValue),
+        selectStartDateValue==""?selectStartDateValue:dateConverterToDYM(selectStartDateValue),
         convertedDate
       );
+  };
+
+    // Validate endDate
+    const startDate = new Date(selectStartDateValue);
+    const endDate = new Date(dateValue);
+
+    if (startDate > endDate) {
+      setEndDateError("Invalid date");
+    } else {
+      setEndDateError(""); // Reset error if valid
     }
   };
 
   const getCurrentProgram = (e: any) => {
-    if (e.type === "change") {
-      console.log(e.target.value);
-    }
+    props.updateTopicFilter(
+      selectedTopicValue,
+      selectedPublishedValue,
+      selectStartDateValue,
+      selectEndDateValue,
+      e.target.value
+    );
+    setSelectProgram(e.target.value);
   };
 
   return (
@@ -139,6 +178,9 @@ const Filter = (props: Props) => {
                 value={selectEndDateValue}
                 onChange={(e) => handleDateChange(e, "endDate")}
               />
+              {endDateError && (
+                <div style={{ color: "red" }}>{endDateError}</div>
+              )}
             </Col>
 
             <Col>
@@ -147,14 +189,14 @@ const Filter = (props: Props) => {
                 className="form-select"
                 name="name"
                 onChange={getCurrentProgram}
-                // value={selectedValue}
+                value={selectProgram}
               >
-                <option value="0">Select Program</option>
+                <option value="">Select Program</option>
                 {props.getAllProgram.map((option: any, index: number) => (
-                      <option key={index} value={option.id}>
-                        {option.name}
-                      </option>
-                    ))}
+                  <option key={index} value={option.id}>
+                    {option.name}
+                  </option>
+                ))}
               </select>
             </Col>
           </Row>

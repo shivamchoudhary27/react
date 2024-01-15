@@ -40,7 +40,6 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
-  console.log(props.commonProps.getAllProgram, '-----browser')
   return (
     <React.Fragment>
       <Header />
