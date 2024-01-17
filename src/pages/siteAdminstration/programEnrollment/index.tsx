@@ -91,6 +91,7 @@ const updateInputFilters = (inputvalues: any) => {
         <Container fluid>
           <PageTitle pageTitle="Program Enrollment" gobacklink="/siteadmin" />
           <ProgramEnrollFilter
+            apiStatus={apiStatus}
             updateDepartment={updateDepartmentFilter}
             updateinputfilters={updateInputFilters}
             currentInstitute={currentInstitute}

@@ -1,12 +1,12 @@
+import UserTable from "./userTable";
 import React, { useState } from "react";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
 // import Sidebar from "../../../sidebar";
-import { Container, Button } from "react-bootstrap";
-import UserTable from "./userTable";
 import EnrolCourseFilter from "./filter";
+import HeaderTabs from "../../../headerTabs";
 import EnrolUserModal from "./enrolUserModal";
+import { Container, Button } from "react-bootstrap";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 
 const EnrolUsersCourse = () => {

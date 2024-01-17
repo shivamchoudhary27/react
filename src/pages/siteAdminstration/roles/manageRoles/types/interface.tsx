@@ -38,6 +38,8 @@ export interface IFilter {
   updateSearchFilters: (params: { name: string }, params2?: boolean) => void;
   toggleModalShow: (params: boolean) => void;
   openAddRoleModal: () => void;
+  rolePermissions: any,
+  apiStatus: string
 }
 
 export interface IRoleTable {

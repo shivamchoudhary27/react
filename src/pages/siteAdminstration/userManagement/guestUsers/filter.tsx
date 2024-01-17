@@ -2,13 +2,14 @@ import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../../utils/filtersLoading";
 
 const initialValues = {
   firstName: "",
   email: "",
 };
 
-const GuestFilter = ({ updatefilters }: any) => {
+const GuestFilter = ({ updatefilters, apiStatus }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
 
   const formik = useFormik({
@@ -89,9 +90,7 @@ const GuestFilter = ({ updatefilters }: any) => {
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button
                 variant="outline-secondary"
                 type="reset"

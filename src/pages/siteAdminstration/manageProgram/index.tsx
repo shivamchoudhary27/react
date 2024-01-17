@@ -27,7 +27,7 @@ const ManageProgram = () => {
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState("");
   const selectedDepartment = useSelector(
-    (state) => state.globalFilters.currentDepartmentFilterId
+    (state: any) => state.globalFilters.currentDepartmentFilterId
   );
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: selectedDepartment,
@@ -36,7 +36,7 @@ const ManageProgram = () => {
     pageSize: pagination.PERPAGE,
   });
   const currentInstitute = useSelector(
-    (state) => state.globalFilters.currentInstitute
+    (state: any) => state.globalFilters.currentInstitute
   );
 
   // console.log(currentInstitute);
@@ -98,7 +98,7 @@ const ManageProgram = () => {
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.reset !== undefined) {
-      console.log("reseting all input filters", inputvalues);
+      // console.log("reseting all input filters", inputvalues);
 
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       delete updatedState.name;

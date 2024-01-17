@@ -3,14 +3,16 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { dateConverterToDYM } from "../../../lib/timestampConverter";
 import { isMobile } from "react-device-detect";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
+import { dateConverterToDYM } from "../../../lib/timestampConverter";
 import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 type Props = {
   selectedTopic: any;
   getAllProgram: any;
   updateTopicFilter: any;
+  apiStatus: string
 };
 
 const Filter = (props: Props) => {
@@ -191,11 +193,8 @@ const Filter = (props: Props) => {
                     ))}
                   </select>
                 </Col>
-
                 <Col>
-                  <Button variant="primary" type="submit" className="me-2">
-                    Filter
-                  </Button>
+                  {FiltersLoadingBtn(props.apiStatus)}
                   <Button
                     variant="outline-secondary"
                     type="reset"

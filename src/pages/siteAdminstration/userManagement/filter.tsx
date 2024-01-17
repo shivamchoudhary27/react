@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { getData } from "../../../adapters/coreservices";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 
 const initialValues = {
   name: "",
@@ -12,7 +13,7 @@ const initialValues = {
   roleId: ""
 }
 
-const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermissions} : any) => {
+const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermissions, apiStatus} : any) => {
   const currentInstitute = useSelector((state: any) => state.globalFilters.currentInstitute);
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
@@ -120,7 +121,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
               </select>
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
           </Row>          

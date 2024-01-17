@@ -54,6 +54,7 @@ const Mobile = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Help Desk" gobacklink="/dashboard" />
             <Filter
+              apiStatus={props.commonProps.apiStatus}
               selectedTopic={props.commonProps.selectedTopic}
               toggleModalShow={props.commonProps.toggleModalShow}
               updateTopicFilter={props.commonProps.updateTopicFilter}

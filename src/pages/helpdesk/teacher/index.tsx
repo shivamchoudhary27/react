@@ -34,7 +34,7 @@ const TeacherHelpdesk = (props: Props) => {
   });
 
   const currentInstitute = useSelector(
-    (state) => state.globalFilters.currentInstitute
+    (state: any) => state.globalFilters.currentInstitute
   );
    
   // call api to get all enquiry === >>>

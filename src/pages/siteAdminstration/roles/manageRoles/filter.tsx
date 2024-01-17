@@ -1,9 +1,10 @@
+import { useFormik } from "formik";
 import React, { useState } from "react";
+import { IFilter } from "./types/interface";
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
-import { useFormik } from "formik";
 import { filterConfig } from "../../../../utils/filterTimeout";
-import { IFilter } from "./types/interface";
+import { FiltersLoadingBtn } from "../../../../utils/filtersLoading";
 
 interface IInitialValues {
   name: string;
@@ -17,7 +18,8 @@ const Filter: React.FunctionComponent<IFilter> = ({
   updateSearchFilters,
   toggleModalShow,
   openAddRoleModal,
-  rolePermissions
+  rolePermissions,
+  apiStatus,
 }: IFilter) => {
   const navigate = useNavigate();
   const [timeoutId, setTimeoutId] = useState<any>(null);
@@ -81,9 +83,7 @@ const Filter: React.FunctionComponent<IFilter> = ({
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button
                 variant="outline-secondary"
                 type="reset"
@@ -99,11 +99,11 @@ const Filter: React.FunctionComponent<IFilter> = ({
             Manage Authorities
           </Button>{" "} */}
           {/* <Button variant="primary" onClick={toggleModalShow}>Assign Institute Admin</Button>{" "} */}
-          {rolePermissions.canAdd &&
+          {rolePermissions.canAdd && (
             <Button variant="primary" onClick={openAddRoleModal}>
               Add Role
             </Button>
-          }
+          )}
         </div>
       </div>
     </React.Fragment>
