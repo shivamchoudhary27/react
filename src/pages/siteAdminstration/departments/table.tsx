@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import { useTable } from "react-table";
 import { useDispatch } from "react-redux";
 import "sweetalert2/src/sweetalert2.scss";
@@ -172,11 +173,20 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             props.refreshOnDelete(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 2000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              title: "Department Deleted!",
             });
+            // setShowAlert(true);
+            // setAlertMsg({
+            //   message: "Deleted successfully!",
+            //   alertBoxColor: "success",
+            // });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({

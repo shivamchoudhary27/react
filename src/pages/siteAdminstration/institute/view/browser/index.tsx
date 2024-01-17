@@ -53,6 +53,7 @@ const Browser = (props: Props) => {
         <Container fluid>
           <PageTitle pageTitle="Institute Management" gobacklink="/siteadmin" />
           <Filter
+            apiStatus={props.commonProps.apiStatus}
             permissions={props.commonProps.permissions}
             updatefilters={props.commonProps.updateSearchFilters}
             openAddUserModal={props.commonProps.openAddUserModal}

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Button, Container, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
-import { filterConfig } from "../../../utils/filterTimeout";
+import React, { useState } from "react";
 import { TypeFilter } from "./types/type";
+import { Button, Row, Col } from "react-bootstrap";
+import { filterConfig } from "../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 
 type TypeInitialValues = {
   name: string;
@@ -14,7 +15,7 @@ const initialValues: TypeInitialValues = {
   shortCode: "",
 }
 
-const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploadModal, openAddUserModal, permissions} : TypeFilter) => {
+const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploadModal, openAddUserModal, permissions, apiStatus} : TypeFilter) => {
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const formik = useFormik({
     initialValues: initialValues,
@@ -85,7 +86,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploa
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
           </Row>          

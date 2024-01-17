@@ -55,6 +55,7 @@ const Mobile = (props: Props) => {
               gobacklink="/siteadmin"
             />
             <Filter
+              apiStatus={props.commonProps.apiStatus}
               permissions={props.commonProps.permissions}
               updatefilters={props.commonProps.updateSearchFilters}
               openAddUserModal={props.commonProps.openAddUserModal}
