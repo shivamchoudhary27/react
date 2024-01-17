@@ -122,7 +122,8 @@ const CourseTable = ({
                         files: row.original.coursedetails.files,
                         startDate: row.original.coursedetails.startDate,
                         endDate: row.original.coursedetails.endDate,
-                        courseType: row.original.coursedetails.courseType
+                        courseType: row.original.coursedetails.courseType,
+                        enrollmentCapacity: row.original.coursedetails. enrollmentCapacity
                       })
                     }
                     />
@@ -221,14 +222,14 @@ const CourseTable = ({
         category: { id: updatecourse.data.category },
         startDate: updatecourse.data.coursedetail.startDate,
         endDate: updatecourse.data.coursedetail.endDate,
-        courseType: updatecourse.data.coursedetail.courseType
+        courseType: updatecourse.data.coursedetail.courseType,
+        enrollmentCapacity: updatecourse.data.coursedetails.enrollmentCapacity
       };
       const endPoint = `${programId}/course/${updatingcourseid}`;
 
       putData(endPoint, updateCourseData)
         .then((res: any) => {
           if (res.status === 200) {
-            console.log(res.status)
             setUpdateCourse({ data: {}, status: "nutral" });
             refreshcategories();
           }
@@ -256,7 +257,6 @@ const CourseTable = ({
     let endPoint = `${programId}/course/${coursePacket.courseid}`;
     putData(endPoint, coursePacket.coursedetails)
       .then((res: any) => {
-        console.log(res)
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
@@ -282,7 +282,8 @@ const CourseTable = ({
     files,
     startDate,
     endDate,
-    courseType
+    courseType,
+    enrollmentCapacity
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -296,7 +297,8 @@ const CourseTable = ({
       files,
       startDate,
       endDate,
-      courseType
+      courseType,
+      enrollmentCapacity
     });
   };
 

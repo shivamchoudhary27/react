@@ -43,7 +43,6 @@ const TeacherHelpdesk = (props: Props) => {
     getData("/enquiry", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          // console.log(result.data, "-----------enquiry");
           setEnquiryData(result.data);
         }
         setApiStatus("finished");

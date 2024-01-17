@@ -33,14 +33,12 @@ const NewRequestForm = (props: Props) => {
   const [programId, setProgramId] = useState(0);
 
   const handleFormSubmit = (values: any, action: any) => {
-    console.log(values, '-------values')
     if (topicId !== "" && programId !==0) {
       action.setSubmitting(true);
       // postData(`/enquiry/${parseInt(topicId)}`, {...values, programId})
       postData(`/enquiry/${parseInt(topicId)}?programId=${programId}`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
-            console.log(res.data, '------------response data')
             props.toggleModalShow(false);
             action.setSubmitting(false);
             props.updateAddRefresh()
@@ -60,7 +58,6 @@ const NewRequestForm = (props: Props) => {
 
   const getCurrentProgramValue = (e: any) => {
       setProgramId(e.target.value);
-      console.log(e.target.value);
   };
 
   return (
@@ -117,7 +114,7 @@ const NewRequestForm = (props: Props) => {
                     htmlfor="programId"
                     labelText="Program"
                     required="required"
-                    star="*"
+                    // star="*"
                   />
                   <select
                     className="form-select"
@@ -132,10 +129,6 @@ const NewRequestForm = (props: Props) => {
                       </option>
                     ))}
                   </select>
-                  {/* <FieldErrorMessage
-                    errors={errors.topicName}
-                    touched={touched.topicName}
-                  /> */}
                 </div>
 
                 <div className="mb-3">

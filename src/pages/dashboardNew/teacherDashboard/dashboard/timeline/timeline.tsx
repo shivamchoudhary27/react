@@ -1,3 +1,4 @@
+
 import "./style.scss";
 import TimelineTable from "./timelineTable";
 import FilterDropdown from "./filterDropdown";
@@ -15,6 +16,8 @@ type Props = {
 };
 
 const Timeline: React.FC<Props> = (props) => {
+  
+  
   return (
     <div className="mitblock activityTimeline-block">
       <h3 className="mitblock-title">Activity Timeline</h3>
@@ -30,10 +33,11 @@ const Timeline: React.FC<Props> = (props) => {
         showAlert={props.showAlert}
         eventsPacket={props.eventsPacket}
         apiStatusCourse={props.apiStatusCourse}
-        courseFilterActive={props.courseFilterActive}
+        filterTimestampSort={props.filterTimestampSort}
       />
     </div>
   );
 };
 
 export default Timeline;
+

@@ -24,6 +24,10 @@ const formSchema = Yup.object({
   category: Yup.string().required("Select category"),
   startDate: Yup.string().nullable().required("Please choose a start date"),
   endDate: Yup.string().nullable().required("Please choose an end date"),
+  enrollmentCapacity: Yup.number()
+    .integer("Must be an integer")
+    .positive("Must be a positive integer")
+    .min(0, "Must be greater than or equal to 0"),
   // description: Yup.string().max(100).required(),
 });
 
@@ -35,6 +39,7 @@ const CourseModal = ({
   toggleCourseModal,
   refreshcategories,
 }: any) => {
+  console.log(programId)
   const currentDate = new Date();
   const [courseDetail, setCourseDetails] = useState({});
   const [categorieslist, setCategoriesList] = useState([]);
@@ -57,6 +62,7 @@ const CourseModal = ({
     startDate: "",
     endDate: "",
     type: null,
+    enrollmentCapacity: "",
   });
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -74,7 +80,8 @@ const CourseModal = ({
       files: courseobj.files,
       deleteImage: false,
       file: null,
-      type: courseobj.courseType? courseobj.courseType.toLowerCase() : null,
+      enrollmentCapacity:  courseobj.enrollmentCapacity,
+      type: courseobj.courseType ? courseobj.courseType.toLowerCase() : null,
       startDate:
         courseobj.startDate !== null
           ? initialDateFormatHandler(courseobj.startDate)
@@ -83,8 +90,6 @@ const CourseModal = ({
         courseobj.endDate !== null
           ? initialDateFormatHandler(courseobj.endDate)
           : getNextMonth(currentDate),
-          // type: courseobj.type !== null ? courseobj.type : null, 
-
     });
 
     // }
@@ -199,6 +204,7 @@ const CourseModal = ({
       setSubmitting(true);
       putData(endPoint, requestData)
         .then((res: any) => {
+          console.log(res);
           toggleCourseModal(false);
           setSubmitting(true);
           refreshcategories();
@@ -380,18 +386,6 @@ const CourseModal = ({
                     }}
                   />
                 </div>
-
-                <div className="mb-3">
-                  <FieldTypeCheckbox
-                    name="published"
-                    checkboxLabel="Published"
-                  />{" "}
-                  <FieldErrorMessage
-                    errors={errors.published}
-                    touched={touched.published}
-                    msgText="Please Check Required Field"
-                  />
-                </div>
                 <div className="mb-3">
                   <label className="me-3">
                     <input
@@ -413,6 +407,39 @@ const CourseModal = ({
                     />
                     Minor
                   </label>
+                  {values.type === "minor" && (
+                    <div style={{ color: "red" }}></div>
+                  )}
+                </div>
+                {values.type === "minor" && (
+                  <div className="mb-3">
+                    <FieldLabel
+                    htmlfor="enrollmentCapacity"
+                    labelText="EnrollmentCapacity"
+                    number
+                    required="required"
+                  />
+                  <FieldTypeText 
+                  type="number"
+                  name="enrollmentCapacity" 
+                  placeholder="EnrollmentCapacity" 
+                  />
+                  <FieldErrorMessage
+                    errors={errors.enrollmentCapacity}
+                    touched={touched.enrollmentCapacity}
+                  />
+                  </div>
+                )}
+                 <div className="mb-3">
+                  <FieldTypeCheckbox
+                    name="published"
+                    checkboxLabel="Published"
+                  />{" "}
+                  <FieldErrorMessage
+                    errors={errors.published}
+                    touched={touched.published}
+                    msgText="Please Check Required Field"
+                  />
                 </div>
                 {isSubmitting === false ? (
                   <div className="modal-buttons">

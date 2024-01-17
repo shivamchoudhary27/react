@@ -36,8 +36,6 @@ const MessagesView = (props: Props) => {
     }
   }, [currentUserInfo, sortedComments]);
 
-  // console.log(updatedCommentData);
-
   return (
     <div className={`helpdesk-messages-container ${props.customClass || ""}`}>
       {updatedCommentData.map((item: any, index: number) => (
@@ -60,10 +58,6 @@ const MessagesView = (props: Props) => {
             </div>
             <div className={`reply-message ${item.style}`}>
               <p className="m-0">{item.comment}</p>
-              {/* <span className="text-muted">
-                {timestampToDaysAgoConverter(item.date)}
-              </span> */}
-              {/* <span className="text-muted">{item.subTitle}</span> */}
             </div>
           </div>
         </div>  

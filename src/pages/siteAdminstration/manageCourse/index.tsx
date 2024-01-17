@@ -51,6 +51,7 @@ const CourseManagment = () => {
     startDate: "",
     endDate: "",
     courseType: null,
+    enrollmentCapacity: "",
   });
   const coursePermission = useSelector(
     (state: any) => state.userAuthorities.permissions.course
@@ -62,7 +63,6 @@ const CourseManagment = () => {
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          console.log(res.data, 'res.data')
           setCategoryData(res.data.items);
         }
         setApiStatus("finished");
@@ -136,6 +136,7 @@ const CourseManagment = () => {
     startDate,
     endDate,
     courseType,
+    enrollmentCapacity
   }: any) => {
     setCourseObj({
       id,
@@ -148,6 +149,7 @@ const CourseManagment = () => {
       startDate,
       endDate,
       courseType,
+      enrollmentCapacity
     });
   };
 

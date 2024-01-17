@@ -59,7 +59,7 @@ const Browser = (props: Props) => {
           {TIMETABLE_TABLE_COMPONENT}
           {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}
           <BuildPagination
-            totalpages=""
+            totalpages={props.commonProps.timeTableData}
             activepage={props.commonProps.filterUpdate}
             getrequestedpage={props.commonProps.newPageRequest}
           />
