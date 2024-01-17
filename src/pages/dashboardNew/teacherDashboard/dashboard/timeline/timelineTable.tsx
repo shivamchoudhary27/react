@@ -1,3 +1,4 @@
+
 import "./style.scss";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -9,7 +10,7 @@ type Props = {
   apiStatus: string;
   showAlert: boolean;
   apiStatusCourse: string;
-  courseFilterActive: boolean;
+  filterTimestampSort: string;
 };
 
 const TimelineTable: React.FC<Props> = (props) => {
@@ -69,50 +70,83 @@ const TimelineTable: React.FC<Props> = (props) => {
   return (
     <div className="mitblock-body">
       {props.eventsPacket.length > 0 &&
-        props.eventsPacket.map((event: any, index: number) => (
-          <div className="d-flex align-items-center atb-row" key={index}>
-            {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
-            <div className="atb-info">
-              {props.courseFilterActive !== false && (
-                <h6 style={{ fontSize: "18px", fontWeight: "700" }}>
-                  {event.course.fullname}
+        props.eventsPacket.map((event: any, index: number) =>
+          props.filterTimestampSort !== "course" ? (
+            <div className="d-flex align-items-center atb-row" key={index}>
+              {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
+              <div className="atb-info">
+                <h6>
+                  <a href={event.viewurl} className="me-2">
+                    {formatDynamicTimestamp(event.timesort)}
+                  </a>
+                  {event.timesort < currentTimestamp && (
+                    <span
+                      style={{
+                        padding: "3px",
+                        fontSize: "11px",
+                        fontWeight: 410,
+                        borderRadius: "10px",
+                        backgroundColor: "#FF8989",
+                        display: "inline-block",
+                      }}
+                    >
+                      Overdue
+                    </span>
+                  )}
                 </h6>
-              )}
-              <h6>
-                <a href={event.viewurl} className="me-2">
-                  {formatDynamicTimestamp(event.timesort)}
-                </a>
-                {event.timesort < currentTimestamp && (
-                  <span
-                    style={{
-                      padding: "3px",
-                      fontSize: "11px",
-                      fontWeight: 410,
-                      borderRadius: "10px",
-                      backgroundColor: "#FF8989",
-                      display: "inline-block",
-                    }}
-                  >
-                    Overdue
-                  </span>
-                )}
-              </h6>
-              <p>
-                {event.name}.{" "}
-                {props.courseFilterActive !== true && (
-                  <b>{event.course.fullname}</b>
-                )}
-              </p>
-              <p>{getTimetableTime(event.timestart)}</p>
+                <p>
+                  {event.name}. <b>{event.course.fullname}</b>
+                </p>
+                <p>{getTimetableTime(event.timestart)}</p>
+              </div>
+              <Link
+                to={event.action.url}
+                className="btn btn-light btn-sm atb-button"
+              >
+                {event.action.name}
+              </Link>
             </div>
-            <Link
-              to={event.action.url}
-              className="btn btn-light btn-sm atb-button"
-            >
-              {event.action.name}
-            </Link>
-          </div>
-        ))}
+          ) : (
+            <div className="d-flex align-items-center atb-row" key={index}>
+              {/* <div className="align-self-start me-3"><img src={el.course.courseimage} alt="" /></div> */}
+              <div className="atb-info">
+                <h6>
+                  <a href={event.viewurl} className="me-2">
+                    {event.course.fullname}
+                  </a>
+                  {event.timesort < currentTimestamp && (
+                    <span
+                      style={{
+                        padding: "3px",
+                        fontSize: "11px",
+                        fontWeight: 410,
+                        borderRadius: "10px",
+                        backgroundColor: "#FF8989",
+                        display: "inline-block",
+                      }}
+                    >
+                      Overdue
+                    </span>
+                  )}
+                  <p>
+                    {event.name}
+                    {".  "}
+                  </p>
+                </h6>
+                <p>
+                  <b>{formatDynamicTimestamp(event.timesort)}</b>
+                </p>
+                <p>{getTimetableTime(event.timestart)}</p>
+              </div>
+              <Link
+                to={event.action.url}
+                className="btn btn-light btn-sm atb-button"
+              >
+                {event.action.name}
+              </Link>
+            </div>
+          )
+        )}
 
       {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
         <ListSkeleton />
@@ -125,3 +159,5 @@ const TimelineTable: React.FC<Props> = (props) => {
 };
 
 export default TimelineTable;
+
+

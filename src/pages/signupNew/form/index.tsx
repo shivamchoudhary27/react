@@ -11,10 +11,13 @@ import * as Yup from "yup";
 import ReCAPTCHA from "react-google-recaptcha";
 import googleReCaptcha from "../../../utils/recaptcha";
 import Errordiv from "../../../widgets/alert/errordiv";
+import { useNavigate } from "react-router-dom";
 
 const SignupForm = () => {
+  const navigate = useNavigate();
   const [alertStatus, setAlertStatus] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+
 
   const initialValues = {
     lastName: "",
@@ -52,8 +55,8 @@ const SignupForm = () => {
     recaptcha: Yup.string().required("Recaptcha is required"),
   });
 
-  // handle Form CRUD operations === >>>
-  const handleFormData = (
+   // handle Form CRUD operations === >>>
+   const handleFormData = (
     values: any,
     { setSubmitting, resetForm, setFieldError }: any
   ) => {
@@ -69,6 +72,9 @@ const SignupForm = () => {
                 "Signup Successful! Please check your email to confirm your signup.",
               alertBoxColor: "",
             });
+            setTimeout(() => {
+              navigate("/oauth2-service/oauth2/login");
+            }, 3000);
           } else {
             setAlertStatus(true);
             setAlertMsg({

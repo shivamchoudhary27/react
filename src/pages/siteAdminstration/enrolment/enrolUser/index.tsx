@@ -16,6 +16,7 @@ import { setHasChildProp, resetManageCourseObj } from "./local";
 import PageTitle from "../../../../widgets/pageTitle";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
+import ModalForm from "./form";
 
 const EnrolUsers = () => {
   const navigate = useNavigate();
@@ -28,12 +29,21 @@ const EnrolUsers = () => {
   const [modalShow, setModalShow] = useState(false);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
+  const [formLebel, setFormLebel] = useState<number>(0);
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",
+    level: 0,
     weight: 0,
     parent: 0,
   });
+  const [maxMinorCoursesObj, setMaxMinorCoursesObj] = useState<any>({
+    id: "",
+    name: "",
+    level: "",
+    weight: "",
+    parent: ""
+  })
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
@@ -131,12 +141,31 @@ const EnrolUsers = () => {
 
   const setEditCategoryValues = (catInfo: any) => {
     setEditCategory(catInfo);
+    setFormLebel(catInfo.level);
     setFormWeight(catInfo.weight);
     setFormParent(catInfo.parent);
   };
 
   const cleanFormValues = () => {
-    setEditCategory({ id: 0, name: "", weight: 0, parent: 0 });
+    setEditCategory({ id: 0, name: "", level:0, weight: 0, parent: 0 });
+  };
+
+   // category Table Elements Update handler === >>
+   const editHandlerById = ({
+    id,
+    name,
+    level,
+    weight,
+    parent,
+  }: any) => {
+    toggleModalShow(true);
+    setMaxMinorCoursesObj({
+      id,
+      name,
+      level,
+      weight,
+      parent,
+    });
   };
 
   return (
@@ -168,6 +197,7 @@ const EnrolUsers = () => {
               setEditCategoryValues={setEditCategoryValues}
               refreshcategories={refreshToggle}
               cleanFormValues={cleanFormValues}
+              editHandlerById={editHandlerById}
               apiStatus={apiStatus}
               name={name}
             />
@@ -180,7 +210,16 @@ const EnrolUsers = () => {
             ))
           )}
         </Container>
+        <ModalForm
+        onHide={() => toggleModalShow(false)}
+        modalShow={modalShow}
+        programId={id}
+        toggleModalShow={toggleModalShow}
+        refreshcategories={refreshToggle}
+        maxMinorCoursesObj={maxMinorCoursesObj}
+      />
       </div>
+      
       <Footer />
     </>
   );

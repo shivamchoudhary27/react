@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import plusIcon from "../../../../assets/images/icons/plus-action.svg";
+import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -18,14 +19,15 @@ const EnrolUserTable = ({
   categoryData,
   toggleModalShow,
   programId,
-  setFormParentValue, 
+  editHandlerById,
+  setFormParentValue,
   setFormWeightValue,
   updatedeleterefresh,
   setEditCategoryValues,
   refreshcategories,
   cleanFormValues,
   apiStatus,
-  name
+  name,
 }: any) => {
   const navigate = useNavigate();
 
@@ -49,34 +51,64 @@ const EnrolUserTable = ({
       Header: "Courses",
       accessor: "coursename",
       Cell: ({ row }: any) => {
-
         return (
           <div
             style={{
               paddingLeft: setLevelPadding(row.original.level),
             }}
           >
-            { 
-             row.original.coursename !== undefined
-             &&
-             <>
-              {row.original.coursename}
-             </>
-            }
+            {row.original.coursename !== undefined && (
+              <>{row.original.coursename}</>
+            )}
           </div>
         );
       },
     },
     {
+      Header: "Max Minor Course",
+      accessor: "maxMinorCoursesAllowed",
+        Cell: ({ row }: any) => {
+          return (
+            <div
+              style={{
+                paddingLeft: setLevelPadding(row.original.level),
+              }}
+            >
+              {row.original.maxMinorCoursesAllowed}
+            </div>
+          );
+        },
+    },
+    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {
-            (row.original.coursename !== undefined) &&
-            <Link className="action-icons small-icon" to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}>
-                <img src={plusIcon} alt="Add Course" /> Enrol Users            
-            </Link>
-          }
+            {row.original.level === 2 && (
+              <img
+               style={{cursor:'pointer'}}
+                src={gearIcon}
+                alt="Setting"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    level: row.original.level,
+                    weight: row.original.weight,
+                    parent: row.original.parent,
+                  })
+                }
+              />
+            )}
+          {row.original.coursename !== undefined && (
+            <>
+              <Link
+                className="action-icons small-icon"
+                to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}
+              >
+                <img src={plusIcon} alt="Add Course" /> Enrol Users
+              </Link>
+            </>
+          )}
         </span>
       ),
     },
@@ -91,56 +123,59 @@ const EnrolUserTable = ({
       data,
     });
 
-    console.log("categoryData----",categoryData)
-
-  const enrolToCourses = (courseid : number) => {
+  const enrolToCourses = (courseid: number) => {
     // console.log(courseid);
-  }
+  };
 
-  const setLevelPadding = (level : number) => {
-    let padding = ((level - 1) * 50) + "px";
-      return padding;
-  }
+  const setLevelPadding = (level: number) => {
+    let padding = (level - 1) * 50 + "px";
+    return padding;
+  };
+
+  // category Table Elements Update handler === >>
+  const editHandler = ({ id, name, level, weight, parent }: any) => {
+    toggleModalShow(true);
+    editHandlerById({
+      id,
+      name,
+      level,
+      weight,
+      parent,
+    });
+  };
 
   return (
     <>
       <div className="table-responsive admin-table-wrapper mt-3">
-          <Table borderless striped {...getTableProps()}>
-            <thead>
-              {headerGroups.map((headerGroup, index) => (
-                <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                  {headerGroup.headers.map((column, index) => (
-                    <th {...column.getHeaderProps()} key={index}>
-                      {column.render("Header")}
-                    </th>
+        <Table borderless striped {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup, index) => (
+              <tr {...headerGroup.getHeaderGroupProps()} key={index}>
+                {headerGroup.headers.map((column, index) => (
+                  <th {...column.getHeaderProps()} key={index}>
+                    {column.render("Header")}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row, index) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell, index) => (
+                    <td {...cell.getCellProps()} key={index}>
+                      {cell.render("Cell")}
+                    </td>
                   ))}
                 </tr>
-              ))}
-            </thead>
-
-                <tbody
-                  {...getTableBodyProps()}
-                >
-                  {rows.map((row, index) => {
-                    prepareRow(row);
-                    return (
-                          <tr
-                            {...row.getRowProps()}
-                          >
-                            {row.cells.map((cell, index) => (
-                              <td
-                                {...cell.getCellProps()}
-                                key={index}
-                              >
-                                {cell.render("Cell")}
-                              </td>
-                            ))}
-                          </tr>
-                    );
-                  })}
-                </tbody>
-          </Table>
-          {/* {apiStatus === "started" && selectedData.length === 0 && (
+              );
+            })}
+          </tbody>
+        </Table>
+        {/* {apiStatus === "started" && selectedData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
         {apiStatus === "finished" && selectedData.length === 0 && (

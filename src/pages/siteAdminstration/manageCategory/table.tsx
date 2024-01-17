@@ -65,17 +65,18 @@ const CategoryTable = ({
       Header: "Add Subcategory",
       accessor: "subCategory",
       Cell: ({ row }: any) => (
-        <>
-          {categoryPermission.canAdd && row.original.courses.length === 0 && (
-            <Link
-              className="action-icons small-icon"
-              to=""
-              onClick={() => addSubCategoryHandler(row.original.id)}
-            >
-              <img src={plusIcon} alt="Add Subcategory" />
-            </Link>
-          )}
-        </>
+        console.log(row)
+        // <>
+        //   {categoryPermission.canAdd && row.original.courses.length === 0 && (
+        //     <Link
+        //       className="action-icons small-icon"
+        //       to=""
+        //       onClick={() => addSubCategoryHandler(row.original.id)}
+        //     >
+        //       <img src={plusIcon} alt="Add Subcategory" />
+        //     </Link>
+        //   )}
+        // </>
       ),
     },
     {

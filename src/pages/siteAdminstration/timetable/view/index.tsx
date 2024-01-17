@@ -7,6 +7,7 @@ type Props = {
   apiStatus: any;
   filterUpdate: any;
   timeTableData: any;
+  totalPages: any;
   newPageRequest: any;
   editHandlerById: any;
   currentInstitute: any;
@@ -18,6 +19,7 @@ const View = (props: Props) => {
   const commonProps = {
     apiStatus: props.apiStatus,
     filterUpdate: props.filterUpdate,
+    totalPages: props.totalPages,
     timeTableData: props.timeTableData,
     newPageRequest: props.newPageRequest,
     editHandlerById: props.editHandlerById,

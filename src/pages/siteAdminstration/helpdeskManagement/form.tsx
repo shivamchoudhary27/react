@@ -53,12 +53,8 @@ const queryFormSchema = Yup.object({
     if (e.type === "change") {
       handleChange(e);
       setStatusValue(e.target.value);
-      console.log(e.target.value);
     }
   };
-  // const getCurrentValue = (e:any) => {
-  //   setStatusValue(e.target.value)
-  // }
 
   const handlesReset = () => {
     setStatusValue("");
@@ -78,18 +74,10 @@ const queryFormSchema = Yup.object({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* <TimerAlertBox
-            className="mt-3"
-            showAlert={commonProps.showAlert}
-            alertMsg={commonProps.alertMsg.message}
-            variant={commonProps.alertMsg.alertBoxColor}
-            setShowAlert={commonProps.setShowAlert}
-          /> */}
           <Formik
             initialValues={initialValues}
             validationSchema={queryFormSchema}
             onSubmit={(values, action) => {
-                console.log(values)
               handleFormSubmit(values, action);
             }}
           >
@@ -126,13 +114,6 @@ const queryFormSchema = Yup.object({
                     type="reset"
                     btnText="Reset"
                     variant="outline-secondary"
-                    // onClick={() => {
-                    //   resetForm({ values: initialValues });
-                    // }}
-                    // onClick={() => {
-                    //   // Manually reset the dropdown value to its initial value
-                    //   handleChange({ target: { name: 'status', value: initialValues.status } });
-                    // }}
                     onClick={handlesReset}
                   />
                 </div>

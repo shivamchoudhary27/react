@@ -51,9 +51,7 @@ const HelpdeskManagementTable = (props: Props) => {
       accessor: "date",
       Cell: ({ value }: any) => {
         // Assuming 'value' is a valid date string from the API
-        // console.log(value)
         const dateObject = new Date(value);
-
         const formattedDate = new Intl.DateTimeFormat("en-US", {
           dateStyle: "long",
         }).format(dateObject);
@@ -156,7 +154,6 @@ const HelpdeskManagementTable = (props: Props) => {
     topicname: string,
     dateValue: any
   ) => {
-    console.log(topicname, dateValue);
     props.getSelectedTopicId(id);
     props.toggleRepliesModalShow({
       status: true,

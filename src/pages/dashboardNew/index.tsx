@@ -1,3 +1,4 @@
+
 import { getData } from "../../adapters";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
@@ -36,7 +37,7 @@ const DashboardNew: React.FC<Props> = (props) => {
   const [todaySessionPacket, setTodaySessionPacket] = useState<any[]>([]);
   const [filterTimestampValue, setTimestampFilterValue] = useState("7days");
   const [filterTimestampSort, setTimestampFilterSort] =
-    useState("Sort by date");
+    useState("date");
   const next7Days = next7DaysTimestamp(timestamp);
   const next30Days = next30DaysTimestamp(timestamp);
   const overdueDays = overdueTimestamp(timestamp);
@@ -45,7 +46,7 @@ const DashboardNew: React.FC<Props> = (props) => {
   const setDaysTimeSortTo = () => {
     if (filterTimestampValue !== "") {
       if (filterTimestampValue === "all") {
-        return;
+        return ;
       } else if (filterTimestampValue === "7days") {
         return next7Days;
       } else if (filterTimestampValue === "30days") {
@@ -56,13 +57,13 @@ const DashboardNew: React.FC<Props> = (props) => {
     }
   };
 
-  const setSortByTimeSortTo = () => {
-    if (filterTimestampSort !== "") {
-      if (filterTimestampSort === "course") {
-        return null;
-      }
-    }
-  };
+  // const setSortByTimeSortTo = () => {
+  //   if (filterTimestampSort !== "") {
+  //     if (filterTimestampSort === "course") {
+  //       return null;
+  //     }
+  //   }
+  // };
 
   // dashboard API call to get courses data === >>>
   useEffect(() => {
@@ -83,6 +84,7 @@ const DashboardNew: React.FC<Props> = (props) => {
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
             setEnrolCoreCoursesObj(res.data);
+            console.log(res.data)
           }
         })
         .catch((err) => {
@@ -111,7 +113,8 @@ const DashboardNew: React.FC<Props> = (props) => {
       const query = {
         wsfunction: "block_bltimeline_get_action_events_by_timesort",
         userid: userId,
-        timesortfrom: filterTimestampValue === "all" ? null : filterTimestampValue === "overdue" ?  overdueDays : timestamp,
+        timesortfrom:
+          filterTimestampValue === "all" ? null : filterTimestampValue === "overdue" ? overdueDays : timestamp,
         timesortto:
           filterTimestampValue !== "" ? setDaysTimeSortTo() : next7Days,
         limitnum: 20,
@@ -121,7 +124,7 @@ const DashboardNew: React.FC<Props> = (props) => {
       getData(query)
         .then((res) => {
           if (res.status === 200 && res.data !== "") {
-            // console.log("timeslot data------", res.data)
+            console.log("timeslot data------", res.data)
             setEventsPacket(res.data.events);
             setCourseFilterActive(false);
           }
@@ -138,36 +141,35 @@ const DashboardNew: React.FC<Props> = (props) => {
 
   // console.log(eventsPacket)
 
-  // API call for filter by course === >>>
-  useEffect(() => {
-    if (filterTimestampSort === "course" && coursesIds.length > 0) {
-      const query = {
-        wsfunction: "block_bltimeline_get_action_events_by_courses",
-        userid: userId,
-        timesortfrom: timestamp,
-        timesortto: setSortByTimeSortTo(),
-        limitnum: 20,
-        courseids: JSON.stringify(coursesIds),
-      };
-      setApiStatusCourse("started");
-      getData(query)
-        .then((res) => {
-          if (res.status === 200 && res.data !== "") {
-            res.data.groupedbycourse.map((item: any) => {
-              console.log(item);
-              setEventsPacket(item.events);
-              setCourseFilterActive(true);
-            });
-          }
-          setApiStatusCourse("finished");
-        })
-        .catch((err) => {
-          console.log(err);
-          setApiStatusCourse("finished");
-          setCourseFilterActive(false);
-        });
-    }
-  }, [coursesIds, filterTimestampSort]);
+  // API call for filter by course === >>>                      //-----------comment made by Akshay.
+  // useEffect(() => {
+  //   if (filterTimestampSort === "course" && coursesIds.length > 0) {
+  //     const query = {
+  //       wsfunction: "block_bltimeline_get_action_events_by_courses",
+  //       userid: userId,
+  //       timesortfrom: timestamp,
+  //       timesortto: setSortByTimeSortTo(),
+  //       limitnum: 20,
+  //       courseids: JSON.stringify(coursesIds),
+  //     };
+  //     setApiStatusCourse("started");
+  //     getData(query)
+  //       .then((res) => {
+  //         if (res.status === 200 && res.data !== "") {
+  //           res.data.groupedbycourse.map((item: any) => {
+  //             setEventsPacket(item.events);
+  //             setCourseFilterActive(true);
+  //           });
+  //         }
+  //         setApiStatusCourse("finished");
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //         setApiStatusCourse("finished");
+  //         setCourseFilterActive(false);
+  //       });
+  //   }
+  // }, [coursesIds, filterTimestampSort]);
 
   const getFilterSelectValue = (val: string) => {
     setTimestampFilterValue(val);
@@ -176,7 +178,7 @@ const DashboardNew: React.FC<Props> = (props) => {
   const getSortFilterValue = (val: string) => {
     setTimestampFilterSort(val);
     if (val === "date") {
-      setTimestampFilterValue("all");
+      // setTimestampFilterValue("all");          //---------comment made by Akshay.
       setTimestampFilterSort("");
     }
   };
@@ -206,6 +208,7 @@ const DashboardNew: React.FC<Props> = (props) => {
               });
               setTodaySessionPacket(accumulatedData);
               setCourseSession(res.data);
+              console.log(res.data)
               setSessionApiStatus("finished");
             } else {
               setTodaySessionPacket([]);
@@ -232,7 +235,8 @@ const DashboardNew: React.FC<Props> = (props) => {
       {/* Render component according to user current role */}
       {currentUserRole !== undefined &&
       currentUserRole.shortName === "student" ? (
-        <StudentDashboard // student dashboard component === >>>
+        <StudentDashboard
+          // student dashboard component === >>>
           // showAlert={showAlert}
           // apiStatus={apiStatus}
           // eventsPacket={eventsPacket}
@@ -285,3 +289,4 @@ const DashboardNew: React.FC<Props> = (props) => {
 };
 
 export default DashboardNew;
+

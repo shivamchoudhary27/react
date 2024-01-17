@@ -96,6 +96,7 @@ const TimeTable = () => {
         filterUpdate={filterUpdate}
         currentInstitute={currentInstitute}
         timeTableData={timeTableData.items}
+        totalPages={timeTableData.pager.totalPages}
         newPageRequest={newPageRequest}
         editHandlerById={editHandlerById}
         updateInputFilters={updateInputFilters}
