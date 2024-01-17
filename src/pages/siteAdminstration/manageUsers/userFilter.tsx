@@ -1,10 +1,11 @@
+import "./style.scss";
+import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import "./style.scss";
-import { Button, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
+import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 
 const initialValues = {
   name: "",
@@ -16,7 +17,8 @@ const UserFilter = ({
   updateinputfilters,
   programname,
   toggleModalShow,
-  AddUsersModalShow
+  AddUsersModalShow,
+  apiStatus
 }: any) => {
   const navigate = useNavigate();
   const { programid } = useParams();
@@ -121,9 +123,7 @@ const UserFilter = ({
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>{" "}
+              {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>
                 Reset
               </Button>

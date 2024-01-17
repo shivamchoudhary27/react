@@ -142,19 +142,20 @@ const ManageProgramEnrollment = () => {
             gobacklink="/programenrollment"
           />
           <UserFilter
-            updateinputfilters={updateSearchFilters}
+            apiStatus={apiStatus}
             programname={programname}
             toggleModalShow={toggleModalShow}
             AddUsersModalShow={AddUsersModalShow}
+            updateinputfilters={updateSearchFilters}
           />
             <UsersTable
-              enrolleduserdata={enrolUserData.items}
-              programid={parsedProgramid}
-              refreshdata={refreshOnDeleteToggle}
-              programname={programname}
-              editHandlerById={editHandlerById}
-              AddUsersModalShow={AddUsersModalShow}
               apiStatus={apiStatus}
+              programname={programname}
+              programid={parsedProgramid}
+              enrolleduserdata={enrolUserData.items}
+              editHandlerById={editHandlerById}
+              refreshdata={refreshOnDeleteToggle}
+              AddUsersModalShow={AddUsersModalShow}
             /> 
           
           <BuildPagination
@@ -173,11 +174,11 @@ const ManageProgramEnrollment = () => {
       />
       <AddUsersModal
         show={usersModalShow}
-        onHide={() => AddUsersModalShow(false)}
-        addusersmodalshow={AddUsersModalShow}
         usersdataobj={usersDataObj}
         refreshToggle={refreshToggle}
         currentInstitute={currentInstitute}
+        addusersmodalshow={AddUsersModalShow}
+        onHide={() => AddUsersModalShow(false)}
       />
       <Footer />
     </React.Fragment>

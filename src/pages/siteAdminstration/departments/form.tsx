@@ -1,5 +1,7 @@
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 import React, { useState } from "react";
+import "sweetalert2/src/sweetalert2.scss";
 import MobileForm from "./view/mobile/form";
 import BrowserForm from "./view/browser/form";
 import { isMobile, isDesktop } from "react-device-detect";
@@ -82,6 +84,15 @@ const DepartmentModal: React.FunctionComponent<Props> = ({ ...props }: Props) =>
             props.togglemodalshow(false);
             setSubmitting(false);
             props.refreshdepartmentdata();
+            Swal.fire({
+              timer: 2000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              title: "Department Added!",
+            });
             resetForm();
           }
         })
@@ -102,7 +113,15 @@ const DepartmentModal: React.FunctionComponent<Props> = ({ ...props }: Props) =>
             props.togglemodalshow(false);
             setSubmitting(false);
             props.refreshdepartmentdata();
-            resetForm();
+            Swal.fire({
+              timer: 2000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              title: "Department Updated!",
+            });
           }
         })
         .catch((err: any) => {

@@ -26,4 +26,5 @@ export type TypeFilter = {
   updatefilters: (params: any, params2?: boolean) => void;
   toggleUploadModal: () => void;
   openAddUserModal: () => void;
+  apiStatus: string
 };
