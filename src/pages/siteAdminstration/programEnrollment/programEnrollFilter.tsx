@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
 import "./style.scss";
+import { useFormik } from "formik";
+import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import ProgramEnrollDropdown from "./programEnrollDropdown";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 
-const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInstitute }: any) => {
+const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInstitute, apiStatus }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const [selectedValue, setSelectedValue] = useState('');
   const initialValues = {
@@ -90,7 +91,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">Filter</Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
           </Row>          

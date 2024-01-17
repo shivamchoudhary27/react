@@ -44,6 +44,7 @@ const Mobile = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Manage Roles" gobacklink="/usermanagement" />
             <Filter
+              apiStatus={props.commonProps.apiStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               rolePermissions={props.commonProps.rolePermissions}
               openAddRoleModal={props.commonProps.openAddRoleModal}

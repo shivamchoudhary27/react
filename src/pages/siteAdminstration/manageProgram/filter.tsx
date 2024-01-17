@@ -5,6 +5,7 @@ import ManageDropdown from "./manageDropdown";
 import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 
 const ManageFilter = ({
   apiStatus,
@@ -111,9 +112,7 @@ const ManageFilter = ({
               />
             </Col>
             <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
+              {FiltersLoadingBtn(apiStatus)}
               <Button
                 variant="outline-secondary"
                 type="reset"

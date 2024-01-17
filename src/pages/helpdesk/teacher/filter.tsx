@@ -4,12 +4,14 @@ import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 type Props = {
   toggleModalShow: any;
   selectedTopic: any;
   updateTopicFilter: any;
+  apiStatus: string;
 };
 
 const Filter = (props: Props) => {
@@ -38,13 +40,11 @@ const Filter = (props: Props) => {
   });
 
   const getCurrentValue = (e: any) => {
-    console.log(e.target.value, "----------value");
     props.updateTopicFilter(e.target.value, selectedPublishedValue);
     setSelectedTopicValue(e.target.value);
   };
 
   const getCurrentPublishedValue = (e: any) => {
-    console.log(e.target.value, "----------published");
     props.updateTopicFilter(selectedTopicValue, e.target.value);
     setSelectedPublishedValue(e.target.value);
   };
@@ -85,11 +85,8 @@ const Filter = (props: Props) => {
                     <option value="close">Close</option>
                   </select>
                 </Col>
-                <div>
-                {/* <Col> */}
-                  <Button variant="primary" type="submit" className="me-2">
-                    Filter
-                  </Button>
+                <Col>
+                  {FiltersLoadingBtn(props.apiStatus)}
                   <Button
                     variant="outline-secondary"
                     type="reset"
@@ -97,8 +94,7 @@ const Filter = (props: Props) => {
                   >
                     Reset
                   </Button>
-                {/* </Col> */}
-                </div>
+                </Col>
               </Row>
             </form>
           </FilterButtonWrapper>

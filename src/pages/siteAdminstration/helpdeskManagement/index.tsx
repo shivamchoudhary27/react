@@ -1,7 +1,7 @@
 
 import View from "./view";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
 
@@ -28,7 +28,7 @@ const Helpdeskmanagement = () => {
   });
 
   const currentInstitute = useSelector(
-    (state) => state.globalFilters.currentInstitute
+    (state: any) => state.globalFilters.currentInstitute
   );
 
   const [repliesModalShow, setRepliesModalShow] = useState({

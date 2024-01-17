@@ -39,7 +39,6 @@ const GuestUsers = (props: Props) => {
 
   // get institute list API call === >>>
   useEffect(() => {
-    setApiStatus("started");
     getInstitute("/institutes", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
@@ -49,11 +48,9 @@ const GuestUsers = (props: Props) => {
           result.data.items = instituteData;
           setInstuituteList(result.data);
         }
-        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished");
       });
   }, []);
 
@@ -75,17 +72,14 @@ const GuestUsers = (props: Props) => {
 
   // refresh on delete === >>>
   useEffect(() => {
-    setApiStatus("started");
     getData("/user/all_users", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);
         }
-        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished");
       });
   }, [refreshOnDelete]);
 
@@ -190,7 +184,7 @@ const GuestUsers = (props: Props) => {
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle pageTitle="Guest User" gobacklink="/usermanagement" />
-          <GuestFilter updatefilters={updateSearchFilters} />
+          <GuestFilter updatefilters={updateSearchFilters} apiStatus={apiStatus} />
           <GuestUsersTable
             apiStatus={apiStatus}
             guestUsersData={guestUsersData.items}

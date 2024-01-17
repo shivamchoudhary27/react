@@ -97,7 +97,6 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
     newFilterRequest: { name: string },
     reset: boolean = false
   ): void => {
-    console.log(newFilterRequest);
     if (reset === true) {
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       if (updatedState.name !== undefined) delete updatedState.name;

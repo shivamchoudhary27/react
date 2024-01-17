@@ -53,6 +53,7 @@ const Mobile = (props: Props) => {
           <Container fluid>
             <PageTitle pageTitle="Helpdesk Management" gobacklink="/helpdesk" />
             <Filters
+              apiStatus={props.commonProps.apiStatus}
               selectedTopic={props.commonProps.selectedTopic}
               updateTopicFilter={props.commonProps.updateTopicFilter}
               getAllProgram={props.commonProps.getAllProgram}
