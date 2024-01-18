@@ -33,6 +33,7 @@ const TeacherHelpdeskTable = (props: Props) => {
     {
       Header: "Topic",
       accessor: "topicName",
+      Cell: ({ value }: any) =>`${value.charAt(0).toUpperCase()}${value.slice(1)}`
     },
     {
       Header: "Query",
