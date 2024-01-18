@@ -11,10 +11,12 @@ type Props = {
   commonProps: {
     getCourseId: any;
     currentUserInfo: any;
-    newAttendancePacket: any[]; 
+    newAttendancePacket: any[];
     apiResponseData: any;
     apiStatus: string;
-    attendancedata: any
+    attendancedata: any;
+    attTableHeader: any;
+    courseDetails:any
   };
 };
 
@@ -34,13 +36,14 @@ const Mobile = (props: Props) => {
             <PageTitle pageTitle="Attendance" gobacklink="/dashboard" />
             <TeacherAttendanceFilter
               getCourseId={props.commonProps.getCourseId}
+              courseDetails={props.commonProps.courseDetails}
               apiResponseData={props.commonProps.apiResponseData}
               attendancedata={props.commonProps.attendancedata}
             />
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
-              newAttendancePacket={props.commonProps.newAttendancePacket}
-              currentUserInfo={props.commonProps.currentUserInfo}
+              attendancedata={props.commonProps.attendancedata}
+              attTableHeader={props.commonProps.attTableHeader}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}

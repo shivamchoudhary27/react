@@ -11,6 +11,7 @@ type Props = {
   getCourseId: any;
   apiResponseData: any;
   attendancedata: any;
+  courseDetails: any;
 };
 
 const TeacherAttendanceFilter = (props: Props) => {
@@ -94,32 +95,30 @@ const TeacherAttendanceFilter = (props: Props) => {
   return (
     <React.Fragment>
       <Container fluid>
-      <FilterButtonWrapper>
-        <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
-          <div className="row program-filter">
-            <TeacherAttendanceFilterDropdown
-              apiResponseData={props.apiResponseData}
-              updateCourses={updateCourses}
-            />
-            <RenderFilterElements
-              component={"Course"}
-              filterPacket={course}
-              packetKeys={["idNumber", "name"]}
-              getFilterChange={getSelectedCourse}
-              currentValue={selectedCourse}
-              filterDisable={false}
-              addAllOption={false}
-            />
+        <FilterButtonWrapper>
+          <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
+            <div className="row program-filter">
+              <TeacherAttendanceFilterDropdown
+                apiResponseData={props.apiResponseData}
+                updateCourses={updateCourses}
+              />
+              <RenderFilterElements
+                component={"Course"}
+                filterPacket={course}
+                packetKeys={["idNumber", "name"]}
+                getFilterChange={getSelectedCourse}
+                currentValue={selectedCourse}
+                filterDisable={false}
+                addAllOption={false}
+              />
+            </div>
           </div>
-        </div>
-       </FilterButtonWrapper>
-        {props.attendancedata !== "undefined" && (
+        </FilterButtonWrapper>
+        {props.courseDetails !== "undefined" && (
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex filter-data">
               <div>
-                <span>
-                  Course Name:
-                </span>
+                <span>Course Name:</span>
                 {course.length > 0 &&
                   course.map(
                     (item, index) =>
@@ -128,26 +127,22 @@ const TeacherAttendanceFilter = (props: Props) => {
                       )
                   )}
               </div>
-            <div className="d-flex start-end-date">
-            <div>
-              <img src={calenderStartdate} alt="startdate" />
-                <span>
-                  Start Date:
-                </span>
-                <span>
-                  {convertTimestampToDate(props.attendancedata.startdate)}
-                </span>
+              <div className="d-flex start-end-date">
+                <div>
+                  <img src={calenderStartdate} alt="startdate" />
+                  <span>Start Date:</span>
+                  <span>
+                    {convertTimestampToDate(props.courseDetails.startdate)}
+                  </span>
+                </div>
+                <div>
+                  <img src={calenderEnddate} alt="enddate" />
+                  <span>End Date:</span>
+                  <span>
+                    {convertTimestampToDate(props.courseDetails.enddate)}
+                  </span>
+                </div>
               </div>
-              <div>
-              <img src={calenderEnddate} alt="enddate" />
-                <span>
-                  End Date:
-                </span>
-                <span>
-                  {convertTimestampToDate(props.attendancedata.enddate)}
-                </span>
-              </div>
-            </div>
             </div>
           </div>
         )}
