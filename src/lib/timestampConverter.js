@@ -25,6 +25,16 @@ export const formattedDate = (date) => {
   return getFormatedDate;
 };
 
+// =========================================================================
+export const formattedDateNew = (timestamp) => {
+  const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+
+  const options = { month: 'short', day: 'numeric', year: 'numeric' };
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+
+  return formatter.format(date);
+}
+
 // date Str to timestamp === >>
 const dateStrToTimmestamp = (date) => {
   const dateStr = date;

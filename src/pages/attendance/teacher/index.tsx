@@ -10,13 +10,9 @@ type Props = {};
 
 const TeacherAttendance = (props: Props) => {
   const dummyData = {
-    attendancedetail: [],
-    attendancename: "",
-    coursename: "",
-    enddate: "",
-    id: "",
-    startdate: "",
-    userdetail: [],
+    coursedata: {},
+    dateheaders: "",
+    userdata: [],
   };
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
@@ -26,6 +22,7 @@ const TeacherAttendance = (props: Props) => {
     programs: [],
   });
   const [attendancedata, setAttendanceData] = useState(dummyData);
+  const [attTableHeader, setAttTableHeader] = useState([]);
   const [newAttendancePacket, setNewAttendancePacket] = useState<any>([]);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [courseId, setCourseId] = useState<any>(0);
@@ -67,6 +64,21 @@ const TeacherAttendance = (props: Props) => {
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
             setAttendanceData(res.data);
+            if (res.data.dateheaders !== undefined) {
+              const headerArr = res.data.dateheaders
+                .split(",")
+                .sort((a: number, b: number) => b - a);
+              const filterHeaderDate = headerArr.filter((el: any) => {
+                return el >= res.data.coursedata.startdate;
+              });
+              setAttTableHeader(filterHeaderDate);
+            } else {
+              setAttendanceData({
+                ...attendancedata,
+                userdata: [],
+              });
+              setAttTableHeader([]);
+            }
           }
           setApiStatus("finished");
         })
@@ -77,39 +89,6 @@ const TeacherAttendance = (props: Props) => {
     }
   }, [courseId]);
 
-  useEffect(() => {
-    if (
-      attendancedata.userdetail !== undefined &&
-      attendancedata.attendancedetail !== undefined
-    ) {
-      const attendancePacket = attendancedata.userdetail
-        .map((user) => {
-          const attendanceDetail = attendancedata.attendancedetail.find(
-            (item) => item.studentid === user.id
-          );
-          if (attendanceDetail) {
-            return {
-              email: user.email,
-              id: user.id,
-              firstname: user.firstname,
-              lastname: user.lastname,
-              A: attendanceDetail.A,
-              L: attendanceDetail.L,
-              P: attendanceDetail.P,
-              attendancename: attendanceDetail.attendancename,
-              studentid: attendanceDetail.studentid,
-            };
-          }
-          return null;
-        })
-        .filter(Boolean); // Remove null entries if no corresponding attendanceDetail was found
-
-      setNewAttendancePacket(attendancePacket);
-    } else {
-      setNewAttendancePacket([]);
-    }
-  }, [attendancedata, courseId]);
-
   const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
   };
@@ -119,7 +98,9 @@ const TeacherAttendance = (props: Props) => {
       apiStatus={apiStatus}
       currentUserInfo={currentUserInfo}
       apiResponseData={apiResponseData}
-      attendancedata={attendancedata}
+      attTableHeader={attTableHeader}
+      attendancedata={attendancedata.userdata}
+      courseDetails={attendancedata.coursedata}
       newAttendancePacket={newAttendancePacket}
       getCourseId={getCourseId}
     />

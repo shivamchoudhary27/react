@@ -10,6 +10,8 @@ type Props = {
   apiResponseData: any;
   apiStatus:string
   attendancedata: any
+  attTableHeader: any
+  courseDetails: any
 };
 
 const View = (props: Props) => {
@@ -20,6 +22,8 @@ const View = (props: Props) => {
     apiResponseData: props.apiResponseData,
     newAttendancePacket: props.newAttendancePacket,
     attendancedata: props.attendancedata,
+    attTableHeader: props.attTableHeader,
+    courseDetails: props.courseDetails,
   };
   return (
     <React.Fragment>
