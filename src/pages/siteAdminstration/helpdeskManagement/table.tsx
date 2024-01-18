@@ -15,33 +15,46 @@ type Props = {
   getSelectedTopicId: any;
   toggleRepliesModalShow: any;
   helpdeskManagementData: any[];
-  filterUpdateTable:any;
+  filterUpdateTable: any;
 };
 
 const HelpdeskManagementTable = (props: Props) => {
-  
-  const [serialPageNo, setSerialPageNo] = useState(props.filterUpdateTable.pageNumber)
+  const [serialPageNo, setSerialPageNo] = useState(
+    props.filterUpdateTable.pageNumber
+  );
   useEffect(() => {
-    setSerialPageNo(props.filterUpdateTable.pageNumber * props.filterUpdateTable.pageSize)
-  }, [props.filterUpdateTable.pageNumber])
+    setSerialPageNo(
+      props.filterUpdateTable.pageNumber * props.filterUpdateTable.pageSize
+    );
+  }, [props.filterUpdateTable.pageNumber]);
 
   const tableColumn = [
     {
       Header: "SN",
       Cell: ({ row }: any) => {
-        let serialNumber= serialPageNo + row.index + 1
-            return serialNumber
+        let serialNumber = serialPageNo + row.index + 1;
+        return serialNumber;
       },
     },
     {
       Header: "FullName",
       accessor: "fullname",
       Cell: ({ row }: any) => {
-        // Access the "FullName" value from the row object
-        const fullName = row.original.firstName + " " + row.original.lastName;
-        return fullName;
+        // Access the first and last names from the row object
+        const firstName = row.original.firstName;
+        const lastName = row.original.lastName;
+
+        // Capitalize the first character of the full name
+        const capitalizedFullName = `${firstName
+          .charAt(0)
+          .toUpperCase()}${firstName.slice(1)} ${lastName
+          .charAt(0)
+          .toUpperCase()}${lastName.slice(1)}`;
+
+        return capitalizedFullName;
       },
     },
+
     {
       Header: "Email",
       accessor: "email",
@@ -49,6 +62,7 @@ const HelpdeskManagementTable = (props: Props) => {
     {
       Header: "Topic",
       accessor: "topicName",
+      Cell: ({ value }: any) =>`${value.charAt(0).toUpperCase()}${value.slice(1)}`
     },
     {
       Header: "Query",
