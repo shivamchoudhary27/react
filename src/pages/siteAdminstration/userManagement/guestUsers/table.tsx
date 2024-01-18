@@ -34,8 +34,10 @@ const GuestUsersTable = ({
     {
       Header: "Name",
       accessor: "name",
-      Cell: ({ row }: any) =>
-        `${row.original.firstName} ${row.original.lastName}`,
+      Cell: ({ row }: any) => (
+        `${row.original.firstName.charAt(0).toUpperCase()}${row.original.firstName.slice(1)} 
+        ${row.original.lastName.charAt(0).toUpperCase()}${row.original.lastName.slice(1)}`
+      )
     },
     {
       Header: "Email",

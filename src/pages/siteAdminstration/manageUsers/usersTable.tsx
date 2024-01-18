@@ -31,9 +31,13 @@ const UsersTable = ({
   const tableColumn = [
     {
       Header: "Full Name",
-      Cell: ({ row }: any) =>
-        `${row.original.userFirstName} ${row.original.userLastName}`,
+      Cell: ({ row }: any) => (
+        <>
+          {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)} ${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}
+        </>
+      ),
     },
+    
     {
       Header: "Email",
       accessor: "userEmail",

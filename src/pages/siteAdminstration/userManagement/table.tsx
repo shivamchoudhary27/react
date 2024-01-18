@@ -32,6 +32,7 @@ const UserManagementTable = ({
   currentInstitute,
   userPermissions,
 }: any) => {
+  
   const tableColumn = [
     {
       Header: "Name",
@@ -41,10 +42,12 @@ const UserManagementTable = ({
           className="action-icons"
           to={`/userprofile/${row.original.userId}`}
         >
-        {`${row.original.userFirstName} ${row.original.userLastName}`}
+          {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)}
+           ${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}
         </Link>
       )
     },
+    
     {
       Header: "Email",
       accessor: "userEmail",
