@@ -39,6 +39,8 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
+  // console.log(props.commonProps.filterUpdate.pageNumber,"pageNumber")
+  //       console.log(props.commonProps.filterUpdate.pageSize,"page size")
   return (
     <React.Fragment>
       <Header />
@@ -63,9 +65,11 @@ const Browser = (props: Props) => {
             <TeacherHelpdeskTable
               apiStatus={props.commonProps.apiStatus}
               enquiryData={props.commonProps.enquiryData}
+              filterUpdate={props.commonProps.filterUpdate}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
             />
+            
             <BuildPagination
               totalpages={props.commonProps.totalPages}
               getrequestedpage={props.commonProps.newPageRequest}

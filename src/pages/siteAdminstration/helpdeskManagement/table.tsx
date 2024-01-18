@@ -1,7 +1,7 @@
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Errordiv from "../../../widgets/alert/errordiv";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import TableSkeleton from "../../../widgets/skeleton/table";
@@ -15,14 +15,22 @@ type Props = {
   getSelectedTopicId: any;
   toggleRepliesModalShow: any;
   helpdeskManagementData: any[];
+  filterUpdateTable:any;
 };
 
 const HelpdeskManagementTable = (props: Props) => {
+  
+  const [serialPageNo, setSerialPageNo] = useState(props.filterUpdateTable.pageNumber)
+  useEffect(() => {
+    setSerialPageNo(props.filterUpdateTable.pageNumber * props.filterUpdateTable.pageSize)
+  }, [props.filterUpdateTable.pageNumber])
+
   const tableColumn = [
     {
       Header: "SN",
       Cell: ({ row }: any) => {
-        return row.index + 1;
+        let serialNumber= serialPageNo + row.index + 1
+            return serialNumber
       },
     },
     {
@@ -126,7 +134,7 @@ const HelpdeskManagementTable = (props: Props) => {
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [serialPageNo]);
   const data = useMemo(
     () => props.helpdeskManagementData,
     [props.helpdeskManagementData]

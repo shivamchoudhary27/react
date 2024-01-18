@@ -170,7 +170,6 @@ const Helpdeskmanagement = () => {
     });
   };
 
-  // console.log("filterUpdate------", filterUpdate)
  
   return (
     <View
@@ -188,6 +187,7 @@ const Helpdeskmanagement = () => {
     onHide={() => toggleModalShow(false)}
     updateTopicFilter={updateTopicFilter}
     filterUpdate={filterUpdate.pageNumber}
+    filterUpdateTable={filterUpdate}
     getSelectedTopicId={getSelectedTopicId}
     repliesAction={repliesModalShow.action}
     modalTitle={repliesModalShow.topicname}

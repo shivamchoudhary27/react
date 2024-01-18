@@ -63,6 +63,7 @@ const Mobile = (props: Props) => {
             <TeacherHelpdeskTable
               apiStatus={props.commonProps.apiStatus}
               enquiryData={props.commonProps.enquiryData}
+              filterUpdate={props.commonProps.filterUpdate}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
             />
