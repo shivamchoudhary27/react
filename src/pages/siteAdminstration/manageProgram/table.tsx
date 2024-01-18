@@ -49,6 +49,7 @@ const ManageTable = ({
     {
       Header: "Program Code",
       accessor: "programCode",
+      Cell: ({ value }: any) => value.toUpperCase(),
     },
     {
       Header: "Manage Categories",

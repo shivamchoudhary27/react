@@ -46,7 +46,7 @@ const CourseTable = ({
   editHandlerById,
   getDeleteCourseID,
   apiStatus,
-  coursePermission
+  coursePermission,
 }: any) => {
   const tableColumn = [
     {
@@ -59,7 +59,10 @@ const CourseTable = ({
               paddingLeft: setLevelPadding(row.original.level),
             }}
           >
-            {row.values.name}
+            {row.original.name &&
+              `${row.original.name
+                .charAt(0)
+                .toUpperCase()}${row.original.name.slice(1)}`}
           </div>
         );
       },
@@ -73,38 +76,62 @@ const CourseTable = ({
           {row.original.coursename !== undefined && (
             <>
               <img src={moveIcon} className="me-3" alt="Move course" />
-              {row.original.coursename}
-              {row.original.files.length > 0 && 
-                <img src={row.original.files[0].url} alt="course image" height="25px" />
-              }
+              {`${row.original.coursename
+                .charAt(0)
+                .toUpperCase()}${row.original.coursename.slice(1)}`}
+              {row.original.files.length > 0 && (
+                <img
+                  src={row.original.files[0].url}
+                  alt="course image"
+                  height="25px"
+                />
+              )}
             </>
           )}
         </>
       ),
       draggable: true,
     },
-    { 
+    // {
+    //   Header: "Course Type",
+    //   Cell: ({ row }: any) => (
+    //     <>
+    //       {row.original.coursedetails !== undefined && (
+    //         <>{row.original.coursedetails.courseType}</>
+    //       )}
+    //     </>
+    //   ),
+    //   draggable: true,
+    // },
+    {
       Header: "Course Type",
       Cell: ({ row }: any) => (
         <>
-          {row.original.coursedetails !== undefined && (
-            <>
-            {row.original.coursedetails.courseType}
-            </>
-          )}
+          {row.original.coursedetails !== undefined &&
+            row.original.coursedetails !== null && (
+              <>
+                {row.original.coursedetails.courseType &&
+                  `${row.original.coursedetails.courseType
+                    .charAt(0)
+                    .toUpperCase()}${row.original.coursedetails.courseType.slice(
+                    1
+                  )}`}
+              </>
+            )}
         </>
       ),
       draggable: true,
     },
+
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {row.original.coursename !== undefined ? (
             <>
-              {coursePermission.canEdit &&
+              {coursePermission.canEdit && (
                 <Link
-                className="action-icons"
+                  className="action-icons"
                   to=""
                   // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
                 >
@@ -123,13 +150,14 @@ const CourseTable = ({
                         startDate: row.original.coursedetails.startDate,
                         endDate: row.original.coursedetails.endDate,
                         courseType: row.original.coursedetails.courseType,
-                        enrollmentCapacity: row.original.coursedetails. enrollmentCapacity
+                        enrollmentCapacity:
+                          row.original.coursedetails.enrollmentCapacity,
                       })
                     }
-                    />
+                  />
                 </Link>
-              }
-              {coursePermission.canDelete &&
+              )}
+              {coursePermission.canDelete && (
                 <Link className="action-icons" to="">
                   <img
                     src={deleteIcon}
@@ -137,10 +165,10 @@ const CourseTable = ({
                     onClick={() => {
                       deleteHandler(row.original.courseid);
                     }}
-                    />
+                  />
                 </Link>
-              }
-              {coursePermission.canEdit &&
+              )}
+              {coursePermission.canEdit && (
                 <Link
                   className="action-icons"
                   to=""
@@ -149,11 +177,15 @@ const CourseTable = ({
                   }}
                 >
                   <img
-                    src={row.original.coursedetails.published !== false ? showIcon : hideIcon}
+                    src={
+                      row.original.coursedetails.published !== false
+                        ? showIcon
+                        : hideIcon
+                    }
                     alt="Show"
-                    />
+                  />
                 </Link>
-              }
+              )}
             </>
           ) : (
             coursePermission.canEdit &&
@@ -223,7 +255,7 @@ const CourseTable = ({
         startDate: updatecourse.data.coursedetail.startDate,
         endDate: updatecourse.data.coursedetail.endDate,
         courseType: updatecourse.data.coursedetail.courseType,
-        enrollmentCapacity: updatecourse.data.coursedetails.enrollmentCapacity
+        enrollmentCapacity: updatecourse.data.coursedetails.enrollmentCapacity,
       };
       const endPoint = `${programId}/course/${updatingcourseid}`;
 
@@ -238,8 +270,7 @@ const CourseTable = ({
           console.log(err);
           dispatch({
             type: ACTIONSLIST.mitGlobalAlert,
-            alertMsg:
-              "Some error occurred!",
+            alertMsg: "Some error occurred!",
             status: true,
           });
           setUpdateCourse({ data: {}, status: "nutral" });
@@ -248,9 +279,9 @@ const CourseTable = ({
   }, [updatecourse]);
 
   const toggleCoursePublished = (coursePacket: any) => {
-
-    coursePacket.coursedetails.published = !coursePacket.coursedetails.published;
-    coursePacket.coursedetails.category = { id: coursePacket.catid}
+    coursePacket.coursedetails.published =
+      !coursePacket.coursedetails.published;
+    coursePacket.coursedetails.category = { id: coursePacket.catid };
 
     setForceRender((prevState) => !prevState);
 
@@ -262,12 +293,12 @@ const CourseTable = ({
       .catch((err: any) => {
         dispatch({
           type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg:
-            "Action failed due to some error",
+          alertMsg: "Action failed due to some error",
           status: true,
         });
-        coursePacket.coursedetails.published = !coursePacket.coursedetails.published
-        setForceRender(prevState => !prevState);
+        coursePacket.coursedetails.published =
+          !coursePacket.coursedetails.published;
+        setForceRender((prevState) => !prevState);
       });
   };
 
@@ -283,7 +314,7 @@ const CourseTable = ({
     startDate,
     endDate,
     courseType,
-    enrollmentCapacity
+    enrollmentCapacity,
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
     toggleCourseModal(true);
@@ -298,7 +329,7 @@ const CourseTable = ({
       startDate,
       endDate,
       courseType,
-      enrollmentCapacity
+      enrollmentCapacity,
     });
   };
 

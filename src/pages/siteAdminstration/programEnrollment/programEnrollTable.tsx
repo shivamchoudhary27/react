@@ -18,7 +18,8 @@ const tableColumn = [
   },
   {
     Header: "Program Code",
-    accessor: "programCode",
+      accessor: "programCode",
+    Cell: ({ value }: any) => value.toUpperCase(),
   },
   {
     Header: "Manage Users",
