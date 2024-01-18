@@ -11,6 +11,7 @@ type Props = {
     totalPages: any;
     modalTitle: any;
     filterUpdate: any;
+    getAllProgram: any;
     getAllComment: any;
     refreshToggle: any;
     selectedTopic: any;
@@ -21,7 +22,7 @@ type Props = {
     editHandlerById: any;
     toggleModalShow: any;
     selectedTopicId: any;
-    getAllProgram: any;
+    filterUpdateTable:any;
     repliesModalShow: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
@@ -42,14 +43,15 @@ const View = (props: Props) => {
     getAllComment: props.getAllComment,
     refreshToggle: props.refreshToggle,
     onRepliesHide: props.onRepliesHide,
+    getAllProgram: props.getAllProgram,
     repliesAction: props. repliesAction,
     newPageRequest: props.newPageRequest,
     modalTitleDate: props.modalTitleDate,
     toggleModalShow: props.toggleModalShow,
-    getAllProgram: props.getAllProgram,
     selectedTopicId: props.selectedTopicId,
     editHandlerById: props.editHandlerById,
     repliesModalShow: props.repliesModalShow,
+    filterUpdateTable:props.filterUpdateTable,
     updateTopicFilter: props.updateTopicFilter,
     getSelectedTopicId: props.getSelectedTopicId,
     helpdeskManagementData: props.helpdeskManagementData,

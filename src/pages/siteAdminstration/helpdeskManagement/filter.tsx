@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ type Props = {
   selectedTopic: any;
   getAllProgram: any;
   updateTopicFilter: any;
-  apiStatus: string
+  apiStatus: string;
 };
 
 const Filter = (props: Props) => {
@@ -62,6 +62,17 @@ const Filter = (props: Props) => {
     setSelectedPublishedValue(e.target.value);
   };
 
+  const getCurrentProgram = (e: any) => {
+    props.updateTopicFilter(
+      selectedTopicValue,
+      selectedPublishedValue,
+      selectStartDateValue,
+      selectEndDateValue,
+      e.target.value
+    );
+    setSelectProgram(e.target.value);
+  };
+
   const handleDateChange = (e: any, type: string) => {
     const dateValue = e.target.value;
     const convertedDate = dateConverterToDYM(dateValue);
@@ -90,29 +101,22 @@ const Filter = (props: Props) => {
         convertedDate
       );
     }
+  };
+  // Validate endDate
+  const startDate = selectStartDateValue;
+  const endDate = selectEndDateValue;
 
-    // Validate endDate
-    const startDate = new Date(selectStartDateValue);
-    const endDate = new Date(dateValue);
+  console.log(startDate, endDate);
 
-    if (startDate > endDate) {
+  useEffect(() => {
+    if (startDate && endDate && startDate > endDate) {
       setEndDateError("Invalid date");
-      setSelectEndDateValue("");
     } else {
-      setEndDateError(""); // Reset error if valid
+      setEndDateError("");
     }
-  };
+  }, [startDate, endDate]);
 
-  const getCurrentProgram = (e: any) => {
-    props.updateTopicFilter(
-      selectedTopicValue,
-      selectedPublishedValue,
-      selectStartDateValue,
-      selectEndDateValue,
-      e.target.value
-    );
-    setSelectProgram(e.target.value);
-  };
+
 
   return (
     <React.Fragment>
@@ -162,6 +166,9 @@ const Filter = (props: Props) => {
                     value={selectStartDateValue}
                     onChange={(e) => handleDateChange(e, "startDate")}
                   />
+                  {endDateError && (
+                    <div style={{ color: "red" }}>{endDateError}</div>
+                  )}
                 </Col>
                 <Col>
                   <label htmlFor="endDate">End Date</label>
