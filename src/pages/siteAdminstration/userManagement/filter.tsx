@@ -87,7 +87,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
                 id="name"
                 name="name"
                 type="text"
-                placeholder="Firstname / Surname"
+                placeholder="Firstname / Lastname"
                 onChange={handleFilterChange}
                 value={formik.values.name}
               />

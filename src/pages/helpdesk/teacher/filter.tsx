@@ -56,7 +56,7 @@ const Filter = (props: Props) => {
           <FilterButtonWrapper>
             <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
               <Row className="g-2">
-                <Col>
+                <Col className="col-auto">
                   <label htmlFor="topicName">Select Topic</label>
                   <select
                     className="form-select"
@@ -72,7 +72,7 @@ const Filter = (props: Props) => {
                     ))}
                   </select>
                 </Col>
-                <Col>
+                <Col className="col-auto">
                   <label htmlFor="published">Status</label>
                   <select
                     className="form-select"
@@ -86,7 +86,8 @@ const Filter = (props: Props) => {
                   </select>
                 </Col>
                 <Col>
-                  {FiltersLoadingBtn(props.apiStatus)}
+                 <div className="d-flex align-items-end h-100">
+                 {FiltersLoadingBtn(props.apiStatus)}
                   <Button
                     variant="outline-secondary"
                     type="reset"
@@ -94,6 +95,7 @@ const Filter = (props: Props) => {
                   >
                     Reset
                   </Button>
+                 </div>
                 </Col>
               </Row>
             </form>

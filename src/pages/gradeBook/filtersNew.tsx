@@ -126,8 +126,7 @@ const HeirarchyFilter = (props: Props) => {
 
   return (
     <React.Fragment>
-      <Container fluid>
-        <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
+        <div className="mitcomponet-heading filter-wrapper">
           <div className="row program-filter">
 
             {currentUserRole !== undefined &&
@@ -155,7 +154,6 @@ const HeirarchyFilter = (props: Props) => {
             />
           </div>
         </div>
-      </Container>
       {/* {coursesList.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )} */}
