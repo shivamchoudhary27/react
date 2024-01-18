@@ -19,12 +19,6 @@ const Filter = (props: Props) => {
   const [selectedTopicValue, setSelectedTopicValue] = useState("");
   const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
 
-  // const formik = useFormik({
-  //   initialValues: "",
-  //   onSubmit: (values: any) => {},
-  //   onReset: () => {},
-  // });
-
   const hendleReset = () => {
     setSelectedTopicValue("");
     setSelectedPublishedValue("");

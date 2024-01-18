@@ -51,7 +51,9 @@ const SignupForm = () => {
       )
       .trim()
       .required("Last name is required"),
-    country: Yup.string().required("Country is required"),
+    country: Yup.string()
+    .required('Country is required')
+    .notOneOf(['0'], 'Country is required'),
     recaptcha: Yup.string().required("Recaptcha is required"),
   });
 

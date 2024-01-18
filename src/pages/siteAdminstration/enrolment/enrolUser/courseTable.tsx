@@ -95,6 +95,7 @@ const EnrolUserTable = ({
                     level: row.original.level,
                     weight: row.original.weight,
                     parent: row.original.parent,
+                    maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed
                   })
                 }
               />
@@ -124,7 +125,7 @@ const EnrolUserTable = ({
     });
 
   const enrolToCourses = (courseid: number) => {
-    // console.log(courseid);
+
   };
 
   const setLevelPadding = (level: number) => {
@@ -133,7 +134,7 @@ const EnrolUserTable = ({
   };
 
   // category Table Elements Update handler === >>
-  const editHandler = ({ id, name, level, weight, parent }: any) => {
+  const editHandler = ({ id, name, level, weight, parent, maxMinorCoursesAllowed }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
@@ -141,6 +142,7 @@ const EnrolUserTable = ({
       level,
       weight,
       parent,
+      maxMinorCoursesAllowed
     });
   };
 

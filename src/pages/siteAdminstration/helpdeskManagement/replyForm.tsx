@@ -62,7 +62,6 @@ const RepliesForm = (props: Props) => {
       postData(`/comment/${props.selectedTopicId}`, values)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data, "--------reply form")
             props.toggleRepliesModalShow(false);
             action.setSubmitting(false);
             props.updateAddRefresh();
@@ -140,12 +139,6 @@ const RepliesForm = (props: Props) => {
               <Form>
                 <div className="d-flex flex-column">
                 <div className="w-100">
-                  {/* <FieldLabel
-                    star="*"
-                    htmlfor="comment"
-                    labelText="Reply"
-                    // required="required"
-                  /> */}
                   <FieldTypeTextarea
                     name="comment"
                     component="textarea"

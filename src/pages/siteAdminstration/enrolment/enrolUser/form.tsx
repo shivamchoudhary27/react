@@ -1,13 +1,12 @@
 import * as Yup from "yup";
-import { Formik, Form } from "formik";
-import React, { useState, useEffect } from "react";
+import { Formik, Form, Field } from "formik";
+import React from "react";
 import { Modal } from "react-bootstrap";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
-import { putData } from "../../../../adapters/microservices";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import { putData } from "../../../../adapters/microservices";
 
 type Props = {
   onHide: any;
@@ -28,8 +27,12 @@ const validationSchema = Yup.object({
 
 const ModalForm = (props: Props) => {
   const initialValues = {
-    ...props.maxMinorCoursesObj,
-    maxMinorCoursesAllowed: "",
+    id: props.maxMinorCoursesObj.id,
+    name: props.maxMinorCoursesObj.name,
+    level: props.maxMinorCoursesObj.level,
+    weight: props.maxMinorCoursesObj.weight,
+    parent: props.maxMinorCoursesObj.parent,
+    maxMinorCoursesAllowed: props.maxMinorCoursesObj.maxMinorCoursesAllowed,
   };
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
@@ -58,7 +61,7 @@ const ModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-          Max Minor Courses Allowed
+            Max Minor Courses Allowed
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -69,27 +72,21 @@ const ModalForm = (props: Props) => {
               handleFormSubmit(values, action);
             }}
           >
-            {({ errors, touched, handleChange, isSubmitting, setValues }) => (
+            {({ errors, touched, isSubmitting }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
-                    htmlfor="maxMinorCoursesAllowed"
-                    // labelText="Max Minor Courses Allowed"
-                    // required="required"
-                  />
-                  <FieldTypeText
+                    htmlFor="maxMinorCoursesAllowed" />
+                  <Field
                     type="number"
                     name="maxMinorCoursesAllowed"
-                    placeholder="Maximum Number Of Minor Courses"
-                    onChange={handleChange}
+                    as={FieldTypeText}
                   />
                   <FieldErrorMessage
                     errors={errors.maxMinorCoursesAllowed}
                     touched={touched.maxMinorCoursesAllowed}
-                    // msgText="query is required"
                   />
                 </div>
-                {isSubmitting === false && (
                   <div className="modal-buttons">
                     <CustomButton
                       type="submit"
@@ -103,7 +100,6 @@ const ModalForm = (props: Props) => {
                       variant="outline-secondary"
                     />
                   </div>
-                )}
               </Form>
             )}
           </Formik>
