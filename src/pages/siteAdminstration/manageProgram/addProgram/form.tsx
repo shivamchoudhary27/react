@@ -183,12 +183,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
             uploadFile('program', res.data.id, programImage);
-
             Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
               icon: "success",
-              title: "Added Successfully",
+              background: "#e7eef5",
               showConfirmButton: false,
-              timer: 1500,
+              text: "Program has been successfully added"
             });
             actions.setSubmitting(false);
             actions.resetForm();
@@ -218,10 +220,13 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
               icon: "success",
-              title: "Update Successfully",
+              background: "#e7eef5",
               showConfirmButton: false,
-              timer: 1500,
+              text: "Program has been successfully updated"
             });
             actions.setSubmitting(false);
             actions.resetForm();

@@ -1,6 +1,8 @@
+import Swal from "sweetalert2";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import "sweetalert2/src/sweetalert2.scss";
 import { Type_AlertMsg } from "./type/type";
 import MobileDiciplineTable from "./view/mobile/table";
 import BrowserDiciplineTable from "./view/browser/table";
@@ -12,6 +14,7 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+
 import {
   putData,
   deleteData as deleteDisciplineData,
@@ -167,10 +170,14 @@ const DiciplineTable: React.FunctionComponent<props> = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             props.refreshOnDelete(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully.",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Discipline has been successfully deleted"
             });
           } else if (res.status === 500) {
             setShowAlert(true);

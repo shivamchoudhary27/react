@@ -1,9 +1,9 @@
+// import "./style.scss"
 import React from "react";
 import { Table } from "react-bootstrap";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import { formattedDateNew } from "../../../lib/timestampConverter";
-// import "./style.scss"
 
 type Props = {
   attendancedata: any;

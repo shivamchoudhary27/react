@@ -1,7 +1,9 @@
 import * as Yup from "yup"; 
+import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import "sweetalert2/src/sweetalert2.scss";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
@@ -45,6 +47,15 @@ const TagsModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Tag has been successfully added"
+            });
             resetForm();
           }
         })
@@ -63,6 +74,15 @@ const TagsModal = ({
         togglemodalshow(false);
         setSubmitting(false);
         updateAddRefresh();
+        Swal.fire({
+          timer: 3000,
+          width: "25em",
+          color: "#666",
+          icon: "success",
+          background: "#e7eef5",
+          showConfirmButton: false,
+          text: "Tag has been successfully updated"
+        });
       });
     }
   };
