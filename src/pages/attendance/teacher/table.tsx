@@ -4,7 +4,7 @@ import { Table, Button } from "react-bootstrap";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import { formattedDateNew } from "../../../lib/timestampConverter";
-
+import './style.scss';
 type Props = {
   attendancedata: any;
   attTableHeader: any;
@@ -72,7 +72,7 @@ const TeacherAttendanceTable = (props: Props) => {
       <div className="d-flex gap-2 justify-content-end my-3">
         {/* {backButtonDisplayed && ( */}
         <Button
-          variant="primary"
+           variant={!nextButtonDisplayed ? "secondary" : "primary"}
           disabled={!backButtonDisplayed}
           onClick={handleNextPrevious}
         >
@@ -81,7 +81,7 @@ const TeacherAttendanceTable = (props: Props) => {
         {/* )} */}
         {/* {nextButtonDisplayed && ( */}
         <Button
-          variant="primary"
+           variant={!nextButtonDisplayed ? "secondary" : "primary"}
           disabled={!nextButtonDisplayed}
           onClick={handleNextPrevious}
         >
@@ -90,8 +90,9 @@ const TeacherAttendanceTable = (props: Props) => {
         {/* )} */}
       </div>
       <div className="table-responsive admin-table-wrapper mt-3">
-        <Table bordered striped className="attandence-table">
-          <thead style={{ backgroundColor: "blue" }}>
+        <Table borderless striped className="attandence-table">
+          <thead>
+            <tr>
             <th>Full Name</th>
             <th>Email</th>
             <th>P L E A</th>
@@ -101,6 +102,7 @@ const TeacherAttendanceTable = (props: Props) => {
               count7Header.map((header: any, index: number) => (
                 <th key={index}>{formattedDateNew(header)}</th>
               ))}
+            </tr>
           </thead>
           <tbody>
             {props.attendancedata.length > 0 &&

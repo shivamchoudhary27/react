@@ -96,7 +96,7 @@ const TeacherAttendanceFilter = (props: Props) => {
     <React.Fragment>
       <Container fluid>
         <FilterButtonWrapper>
-          <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
+          <div className="filter-wrapper mitcomponet-heading">
             <div className="row program-filter">
               <TeacherAttendanceFilterDropdown
                 apiResponseData={props.apiResponseData}
