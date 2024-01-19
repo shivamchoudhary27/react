@@ -25,9 +25,13 @@ const formSchema = Yup.object({
   startDate: Yup.string().nullable().required("Please choose a start date"),
   endDate: Yup.string().nullable().required("Please choose an end date"),
   enrollmentCapacity: Yup.number()
-    .integer("Must be an integer")
-    .positive("Must be a positive integer")
-    .min(0, "Must be greater than or equal to 0"),
+  .integer("Must be an integer")
+  .positive("Must be a positive integer")
+  .min(0, "Must be greater than or equal to 0")
+  .when("type", {
+    is: "minor",
+    then: Yup.number().required("Enrollment capacity is required"),
+  }),
 });
 
 const CourseModal = ({
@@ -400,9 +404,6 @@ const CourseModal = ({
                     />
                     Minor
                   </label>
-                  {values.type === "minor" && (
-                    <div style={{ color: "red" }}></div>
-                  )}
                 </div>
                 {values.type === "minor" && (
                   <div className="mb-3">
