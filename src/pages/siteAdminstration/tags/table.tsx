@@ -1,6 +1,8 @@
+import Swal from "sweetalert2";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "sweetalert2/src/sweetalert2.scss";
 import { useDispatch } from "react-redux";
 import Errordiv from "../../../widgets/alert/errordiv";
 import React, { useMemo, useState, useEffect } from "react";
@@ -133,10 +135,14 @@ const TagsTable = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             updateDeleteRefresh(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Tag has been successfully deleted"
             });
           } else if (res.status === 500) {
             setShowAlert(true);

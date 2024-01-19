@@ -1,20 +1,22 @@
-import React, { useMemo, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Table } from "react-bootstrap";
+import Swal from "sweetalert2";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import TableSkeleton from "../../../widgets/skeleton/table";
-import { putData, deleteData } from "../../../adapters/coreservices";
-import Errordiv from "../../../widgets/alert/errordiv";
-import { searchCountryNameById } from "../../../globals/getCountry";
-import DeleteAlert from "../../../widgets/alert/deleteAlert";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import editIcon from "../../../assets/images/icons/edit-action.svg";
-import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import showIcon from "../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { Table } from "react-bootstrap";
+import "sweetalert2/src/sweetalert2.scss";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../store/actions";
+import Errordiv from "../../../widgets/alert/errordiv";
+import React, { useMemo, useState, useEffect } from "react";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import DeleteAlert from "../../../widgets/alert/deleteAlert";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { searchCountryNameById } from "../../../globals/getCountry";
+import editIcon from "../../../assets/images/icons/edit-action.svg";
+import showIcon from "../../../assets/images/icons/show-action.svg";
+import hideIcon from "../../../assets/images/icons/hide-action.svg";
+import { putData, deleteData } from "../../../adapters/coreservices";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -172,14 +174,22 @@ const UserManagementTable = ({
       let endPoint = `/${currentInstitute}/users/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
-          // console.log("delet data------",res)
           if (res.status === 200) {
             refreshdata(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Removed successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully deleted"
             });
+            // setShowAlert(true);
+            // setAlertMsg({
+            //   message: "Removed successfully!",
+            //   alertBoxColor: "success",
+            // });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
@@ -189,8 +199,6 @@ const UserManagementTable = ({
           }
         })
         .catch((result: any) => {
-          // console.log("delete data------",result)
-
           if (result.response.status === 400) {
             setShowAlert(true);
             setAlertMsg({

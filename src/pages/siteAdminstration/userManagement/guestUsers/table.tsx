@@ -1,8 +1,10 @@
+import Swal from "sweetalert2";
 import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import "sweetalert2/src/sweetalert2.scss";
 import ACTIONSLIST from "../../../../store/actions";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import React, { useMemo, useState, useEffect } from "react";
@@ -142,10 +144,14 @@ const GuestUsersTable = ({
         .then((res: any) => {
           if (res.status === 200) {
             refreshdata(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully deleted"
             });
           } else if (res.status === 500) {
             setShowAlert(true);

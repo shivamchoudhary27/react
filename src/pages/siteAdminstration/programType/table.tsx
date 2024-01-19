@@ -10,6 +10,8 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 import {
   putData,
   deleteData as deleteProgramData,
@@ -171,10 +173,14 @@ const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             props.refreshOnDelete(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully.",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Program type has been successfully deleted"
             });
           } else if (res.status === 500) {
             setShowAlert(true);
