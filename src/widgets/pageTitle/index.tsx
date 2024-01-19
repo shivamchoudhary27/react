@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.scss";
+import "./mobileStyle.scss";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -201,6 +201,7 @@ const Filter = (props: Props) => {
                   </select>
                 </Col>
                 <Col>
+                <div className="d-flex align-items-end h-100">
                   {FiltersLoadingBtn(props.apiStatus)}
                   <Button
                     variant="outline-secondary"
@@ -209,6 +210,7 @@ const Filter = (props: Props) => {
                   >
                     Reset
                   </Button>
+                  </div>
                 </Col>
               </Row>
             </form>
