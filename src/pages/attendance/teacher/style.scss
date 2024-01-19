@@ -1,36 +1,36 @@
 // .your-table-class th:nth-child(-n+5),
-.attandence-table  {
-  td:nth-child(-n+5) {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    background-color: #E3F6FF;
-  }
-  th:nth-child(-n+5){
-    position: sticky;
-    z-index: 1;
-    background: #0E72E9;
-  }
-  th:nth-child(1){
-    left: 0;
-  }
-  th:nth-child(2),
-   td:nth-child(2) {
-    left: 90px;
-   }
-  th:nth-child(3),
-   td:nth-child(3) {
-    left: 351px;
-   }
-  th:nth-child(4),
-   td:nth-child(4) {
-    left: 378px;
-   }
-  th:nth-child(5),
-   td:nth-child(5) {
-    left: 439px;
-   }
-}
+// .attandence-table  {
+//   td:nth-child(-n+5) {
+//     position: sticky;
+//     left: 0;
+//     z-index: 1;
+//     background-color: #E3F6FF;
+//   }
+//   th:nth-child(-n+5){
+//     position: sticky;
+//     z-index: 1;
+//     background: #0E72E9;
+//   }
+//   th:nth-child(1){
+//     left: 0;
+//   }
+//   th:nth-child(2),
+//    td:nth-child(2) {
+//     left: 90px;
+//    }
+//   th:nth-child(3),
+//    td:nth-child(3) {
+//     left: 351px;
+//    }
+//   th:nth-child(4),
+//    td:nth-child(4) {
+//     left: 378px;
+//    }
+//   th:nth-child(5),
+//    td:nth-child(5) {
+//     left: 439px;
+//    }
+// }
 
 // table filter 
 .filter-data {
@@ -83,38 +83,38 @@
   }
   // --- 
   // .your-table-class th:nth-child(-n+5),
-.attandence-table  {
-  td:nth-child(-n+5) {
-    position: relative;
-    left: 0;
-    z-index: 1;
-    background-color: #E3F6FF;
-  }
-  th:nth-child(-n+5){
-    position: relative;
-    z-index: 1;
-    background: #0E72E9;
-  }
-  th:nth-child(1){
-    left: 0;
-  }
-  th:nth-child(2),
-   td:nth-child(2) {
-    left: 0;
-   }
-  th:nth-child(3),
-   td:nth-child(3) {
-    left: 0;
-   }
-  th:nth-child(4),
-   td:nth-child(4) {
-    left: 0;
-   }
-  th:nth-child(5),
-   td:nth-child(5) {
-    left: 0;
-   }
-}
+// .attandence-table  {
+//   td:nth-child(-n+5) {
+//     position: relative;
+//     left: 0;
+//     z-index: 1;
+//     background-color: #E3F6FF;
+//   }
+//   th:nth-child(-n+5){
+//     position: relative;
+//     z-index: 1;
+//     background: #0E72E9;
+//   }
+//   th:nth-child(1){
+//     left: 0;
+//   }
+//   th:nth-child(2),
+//    td:nth-child(2) {
+//     left: 0;
+//    }
+//   th:nth-child(3),
+//    td:nth-child(3) {
+//     left: 0;
+//    }
+//   th:nth-child(4),
+//    td:nth-child(4) {
+//     left: 0;
+//    }
+//   th:nth-child(5),
+//    td:nth-child(5) {
+//     left: 0;
+//    }
+// }
 .start-end-date {
   gap: 6px;
   flex-direction: column;

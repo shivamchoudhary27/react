@@ -5,6 +5,8 @@ import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import bgRight from "../../../../../assets/images/background/bg-admin-right.svg";
+import bgLeft from "../../../../../assets/images/background/bg-admin-left.svg";
 
 type Props = {
   commonProps: {
@@ -25,6 +27,8 @@ const Browser = (props: Props) => {
         ]}
       />
       <div className="contentarea-wrapper mt-4 mb-5">
+        <img src={bgLeft} className="bg-left" alt="bg-left" />
+        <img src={bgRight} className="bg-right" alt="bg-right" />
         <Container fluid>
           <PageTitle pageTitle="Site Administration" gobacklink="/dashboard" />
         </Container>
