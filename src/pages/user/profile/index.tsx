@@ -2,6 +2,7 @@ import "./style.scss";
 import { pagination } from "../../../utils/pagination";
 import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../../../adapters/coreservices";
+import { postData } from "../../../adapters/microservices";
 import React, { useEffect, useContext, useState } from "react";
 // import UserContext from "../../../features/context/user/user";
 import { getData as get } from "../../../adapters/microservices";
@@ -39,6 +40,7 @@ const UserProfile = () => {
   const [timeSlotList, setTimeSlotList] = useState<any>([]);
   const [workloadList, setWorkloadList] = useState(dummyData);
   const [editComponent, setEditComponent] = useState("changePassword");
+  const [filesIds, setFilesIds] = useState([]);
 
   const userProfileInfo = useSelector(
     (state: any) => state.userProfile.userProfile
@@ -134,7 +136,38 @@ const UserProfile = () => {
     });
   }, [workloadList]);
 
-  // console.log(timeSlotList)
+  // ============================================================
+  //                  Get Files data from local
+  // ============================================================
+  useEffect(() => {
+    try {
+      const storedData = JSON.parse(localStorage.getItem("userInfo"));
+      if (storedData.userInfo.files && storedData.userInfo.files.length > 0) {
+        storedData.userInfo.files.forEach((fileId: any) => {
+          setFilesIds(prevFilesIds => [...prevFilesIds, { id: fileId.id }]);
+        });
+      }
+    } catch (error) {
+      console.error("Error parsing userInfo:", error);
+    }
+  }, [])
+
+  useEffect(() => {
+    if(filesIds.length > 0){
+      postData(`/files`, filesIds)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            console.log(result.data)
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [filesIds])
+  // ============================================================
+  //                            End
+  // ============================================================
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (component: string) => {

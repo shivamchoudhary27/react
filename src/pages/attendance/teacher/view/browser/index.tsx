@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
 import HeaderTabs from "../../../../headerTabs";
@@ -22,6 +22,12 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
+  const [buttonText, setButtonText] = useState("")
+
+  const handleNextPrevious = (e: any) => {
+    setButtonText(e.target.innerText)
+  }
+
   return (
     <React.Fragment>
       <Header />
@@ -42,14 +48,14 @@ const Browser = (props: Props) => {
               apiResponseData={props.commonProps.apiResponseData}
               attendancedata={props.commonProps.attendancedata}
             />
-            <div className="d-flex gap-2 justify-content-end my-3">
-              <Button variant="primary">
+            {/* <div className="d-flex gap-2 justify-content-end my-3">
+              <Button variant="primary" onClick={handleNextPrevious}>
                 <i className="bi bi-arrow-left-circle"></i> Previous
               </Button>
-              <Button variant="primary">
+              <Button variant="primary" onClick={handleNextPrevious}>
                 Next <i className="bi bi-arrow-right-circle"></i>
               </Button>
-            </div>
+            </div> */}
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
               attendancedata={props.commonProps.attendancedata}
