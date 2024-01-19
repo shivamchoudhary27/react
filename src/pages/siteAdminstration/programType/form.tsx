@@ -1,4 +1,6 @@
+import Swal from "sweetalert2";
 import React, { useState } from "react";
+import "sweetalert2/src/sweetalert2.scss";
 import MobileProgramModal from "./view/mobile/form";
 import BrowserProgramModal from "./view/browser/form";
 import { isMobile, isDesktop } from "react-device-detect";
@@ -73,6 +75,15 @@ const AddProgramModal: React.FunctionComponent<Props> = ({
             props.togglemodalshow(false);
             setSubmitting(false);
             props.refreshprogramdata();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Program type has been successfully added"
+            });
             resetForm();
           }
         })
@@ -93,6 +104,15 @@ const AddProgramModal: React.FunctionComponent<Props> = ({
             props.togglemodalshow(false);
             setSubmitting(false);
             props.refreshprogramdata();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Program type has been successfully updated"
+            });
             resetForm();
           }
         })

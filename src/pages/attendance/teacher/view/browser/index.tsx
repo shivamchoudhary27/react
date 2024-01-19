@@ -1,10 +1,10 @@
 import React from "react";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
-import { Button, Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import TeacherAttendanceTable from "../../table";
 import TeacherAttendanceFilter from "../../filter";
+import { Button, Container } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
@@ -14,8 +14,10 @@ type Props = {
     currentUserInfo: any;
     newAttendancePacket: any[];
     apiResponseData: any;
-    apiStatus:string
-    attendancedata: any
+    apiStatus: string;
+    attendancedata: any;
+    attTableHeader: any;
+    courseDetails: any
   };
 };
 
@@ -36,23 +38,22 @@ const Browser = (props: Props) => {
             <PageTitle pageTitle="Attendance" gobacklink="/dashboard" />
             <TeacherAttendanceFilter
               getCourseId={props.commonProps.getCourseId}
+              courseDetails={props.commonProps.courseDetails}
               apiResponseData={props.commonProps.apiResponseData}
               attendancedata={props.commonProps.attendancedata}
-              />
-              <div className="d-flex gap-2 justify-content-end my-3">
-              <Button
-                variant="primary">
+            />
+            <div className="d-flex gap-2 justify-content-end my-3">
+              <Button variant="primary">
                 <i className="bi bi-arrow-left-circle"></i> Previous
               </Button>
-              <Button
-                variant="primary">
+              <Button variant="primary">
                 Next <i className="bi bi-arrow-right-circle"></i>
               </Button>
-              </div>
+            </div>
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
-              newAttendancePacket={props.commonProps.newAttendancePacket}
-              currentUserInfo={props.commonProps.currentUserInfo}
+              attendancedata={props.commonProps.attendancedata}
+              attTableHeader={props.commonProps.attTableHeader}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}

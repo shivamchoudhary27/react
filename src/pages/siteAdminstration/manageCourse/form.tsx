@@ -28,7 +28,6 @@ const formSchema = Yup.object({
     .integer("Must be an integer")
     .positive("Must be a positive integer")
     .min(0, "Must be greater than or equal to 0"),
-  // description: Yup.string().max(100).required(),
 });
 
 const CourseModal = ({
@@ -39,7 +38,6 @@ const CourseModal = ({
   toggleCourseModal,
   refreshcategories,
 }: any) => {
-  console.log(programId)
   const currentDate = new Date();
   const [courseDetail, setCourseDetails] = useState({});
   const [categorieslist, setCategoriesList] = useState([]);
@@ -69,7 +67,6 @@ const CourseModal = ({
 
   // Get category Data from API === >>
   useEffect(() => {
-    // if (courseobj.id > 0) {
     setInitValues({
       id: courseobj.id,
       name: courseobj.name,
@@ -92,7 +89,6 @@ const CourseModal = ({
           : getNextMonth(currentDate),
     });
 
-    // }
   }, [courseobj]);
 
   // Get category Data from API === >>
@@ -105,7 +101,6 @@ const CourseModal = ({
     getData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          // console.log(res.data);
           setCategoriesList(res.data.items);
         }
       })
@@ -144,7 +139,6 @@ const CourseModal = ({
 
   const getNextMonth = (currentDate) => {
     const endDate = addMonths(currentDate, 1);
-    console.log("next onght", endDate);
     return format(endDate, "yyyy-MM-dd");
   };
 
@@ -204,7 +198,6 @@ const CourseModal = ({
       setSubmitting(true);
       putData(endPoint, requestData)
         .then((res: any) => {
-          console.log(res);
           toggleCourseModal(false);
           setSubmitting(true);
           refreshcategories();
@@ -446,7 +439,6 @@ const CourseModal = ({
                     <CustomButton
                       type="submit"
                       variant="primary"
-                      // isSubmitting={isSubmitting}
                       btnText={courseobj.id === 0 ? "Submit" : "Update"}
                     />{" "}
                     {courseobj.id === 0 && (

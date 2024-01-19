@@ -1,6 +1,8 @@
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import "sweetalert2/src/sweetalert2.scss";
 import { Formik, Form, ErrorMessage } from "formik";
 import CountryList from "../../../../globals/country";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -97,6 +99,15 @@ const UpdateUserModal = ({
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully updated"
+            });
           }
         })
         .catch((err: any) => {

@@ -30,6 +30,7 @@ type Props = {
     editHandlerById: any;
     toggleModalShow: any;
     selectedTopicId: any;
+    filterUpdateTable: any;
     repliesModalShow: any;
     getAllProgram: any;
     updateTopicFilter: any;
@@ -40,6 +41,9 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
+
+  // console.log(props.commonProps.filterUpdateTable)
+  
   return (
     <React.Fragment>
       <Header />
@@ -64,6 +68,7 @@ const Browser = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
+              filterUpdateTable={props.commonProps.filterUpdateTable}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}

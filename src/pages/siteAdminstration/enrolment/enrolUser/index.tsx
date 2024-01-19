@@ -42,7 +42,8 @@ const EnrolUsers = () => {
     name: "",
     level: "",
     weight: "",
-    parent: ""
+    parent: "",
+    maxMinorCoursesAllowed: ""
   })
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -157,6 +158,7 @@ const EnrolUsers = () => {
     level,
     weight,
     parent,
+    maxMinorCoursesAllowed
   }: any) => {
     toggleModalShow(true);
     setMaxMinorCoursesObj({
@@ -165,9 +167,9 @@ const EnrolUsers = () => {
       level,
       weight,
       parent,
+      maxMinorCoursesAllowed
     });
   };
-
   return (
     <>
       <Header />

@@ -30,6 +30,7 @@ type Props = {
     toggleModalShow: any;
     selectedTopicId: any;
     repliesModalShow: any;
+    filterUpdateTable: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
@@ -62,6 +63,7 @@ const Mobile = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
+              filterUpdateTable={props.commonProps.filterUpdateTable}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}

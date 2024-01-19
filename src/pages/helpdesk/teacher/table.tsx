@@ -1,7 +1,7 @@
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
@@ -11,19 +11,29 @@ type Props = {
   apiStatus: any;
   toggleRepliesModalShow: any;
   getSelectedTopicId: any;
+  filterUpdate:any;
+  
 };
-
 const TeacherHelpdeskTable = (props: Props) => {
+
+  const [serialPageNo, setSerialPageNo] = useState(props.filterUpdate.pageNumber)
+
+  useEffect(() => {
+    setSerialPageNo(props.filterUpdate.pageNumber * props.filterUpdate.pageSize)
+  }, [props.filterUpdate.pageNumber])
+
   const tableColumn = [
     {
       Header: "SN",
       Cell: ({ row }: any) => {
-        return row.index + 1;
+        let serialNumber= serialPageNo + row.index + 1
+            return serialNumber
       },
     },
     {
       Header: "Topic",
       accessor: "topicName",
+      Cell: ({ value }: any) =>`${value.charAt(0).toUpperCase()}${value.slice(1)}`
     },
     {
       Header: "Query",
@@ -87,7 +97,7 @@ const TeacherHelpdeskTable = (props: Props) => {
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [serialPageNo]);
   const data = useMemo(() => props.enquiryData, [props.enquiryData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

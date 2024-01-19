@@ -174,19 +174,14 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
           if (res.data !== "" && res.status === 200) {
             props.refreshOnDelete(true);
             Swal.fire({
-              timer: 2000,
+              timer: 3000,
               width: "25em",
               color: "#666",
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              title: "Department Deleted!",
+              text: "Department has been successfully deleted."
             });
-            // setShowAlert(true);
-            // setAlertMsg({
-            //   message: "Deleted successfully!",
-            //   alertBoxColor: "success",
-            // });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({

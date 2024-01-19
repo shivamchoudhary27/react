@@ -1,4 +1,6 @@
+import Swal from "sweetalert2";
 import React, { useState } from "react";
+import "sweetalert2/src/sweetalert2.scss";
 import MobileDiciplineModal from "./view/mobile/form";
 import BrowserDiciplineModal from "./view/browser/form";
 import { isMobile, isDesktop } from "react-device-detect";
@@ -65,6 +67,15 @@ const DiciplineModal: React.FunctionComponent<props> = ({
             props.togglemodalshow(false);
             setSubmitting(false);
             props.refreshDisciplineData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Discipline has been successfully added"
+            });
             resetForm();
           }
         })
@@ -85,6 +96,15 @@ const DiciplineModal: React.FunctionComponent<props> = ({
             props.togglemodalshow(false);
             setSubmitting(false);
             props.refreshDisciplineData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Discipline has been successfully updated"
+            });
           }
         })
         .catch((err: any) => {
