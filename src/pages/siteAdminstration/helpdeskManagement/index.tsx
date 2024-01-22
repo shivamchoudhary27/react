@@ -19,10 +19,6 @@ const Helpdeskmanagement = () => {
   const [getAllProgram, setGetAllProgram] = useState(dummyData);
   const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
-    startDate: "",
-    endDate: "",
-    topicId: "", 
-    topicName: "", 
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -148,15 +144,15 @@ const Helpdeskmanagement = () => {
   };
 
   // to update filters values in the main state filterUpdate
-  const updateTopicFilter = (inputvalues: string, published: string | undefined, startDate:any, endDate:any, programId:string) => {
+  const updateTopicFilter = (topicId: string, published: string | undefined, startDate:any, endDate:any, programId:string) => {
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
-      topicId: inputvalues === "" ? undefined : inputvalues,
+      topicId: topicId === "" ? undefined : topicId,
       published: published === "" ? undefined : published,
       startDate: startDate === "" ? undefined : startDate,
       endDate: endDate === "" ? undefined : endDate,
-      programId: programId,
+      programId: programId === "" ? undefined : programId,
     });
   };
 

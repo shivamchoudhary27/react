@@ -10,7 +10,8 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import Errordiv from "../../../../widgets/alert/errordiv";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 const ManageTopicModal = ({
   show,
   onHide,
@@ -43,6 +44,15 @@ const ManageTopicModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Topic has been successfully added"
+            });
             resetForm();
           }
         })
@@ -65,6 +75,15 @@ const ManageTopicModal = ({
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Topic has been successfully updated"
+            });
           }
         })
         .catch((err: any) => {

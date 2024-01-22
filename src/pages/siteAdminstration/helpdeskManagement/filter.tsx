@@ -46,8 +46,13 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       e.target.value,
       selectedPublishedValue,
-      selectStartDateValue,
-      selectEndDateValue
+      selectStartDateValue == ""
+          ? selectStartDateValue
+          : dateConverterToDYM(selectStartDateValue),
+          selectEndDateValue == ""
+          ? selectEndDateValue
+          : dateConverterToDYM(selectEndDateValue),
+      selectProgram
     );
     setSelectedTopicValue(e.target.value);
   };
@@ -56,8 +61,13 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       selectedTopicValue,
       e.target.value,
-      selectEndDateValue,
-      selectStartDateValue
+      selectStartDateValue == ""
+          ? selectStartDateValue
+          : dateConverterToDYM(selectStartDateValue),
+          selectEndDateValue == ""
+          ? selectEndDateValue
+          : dateConverterToDYM(selectEndDateValue),
+      selectProgram,
     );
     setSelectedPublishedValue(e.target.value);
   };
@@ -66,8 +76,12 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       selectedTopicValue,
       selectedPublishedValue,
-      selectStartDateValue,
-      selectEndDateValue,
+      selectStartDateValue == ""
+          ? selectStartDateValue
+          : dateConverterToDYM(selectStartDateValue),
+          selectEndDateValue == ""
+          ? selectEndDateValue
+          : dateConverterToDYM(selectEndDateValue),
       e.target.value
     );
     setSelectProgram(e.target.value);
@@ -84,10 +98,10 @@ const Filter = (props: Props) => {
         selectedTopicValue,
         selectedPublishedValue,
         convertedDate,
-        // dateConverterToDYM(selectEndDateValue)
         selectEndDateValue == ""
           ? selectEndDateValue
-          : dateConverterToDYM(selectEndDateValue)
+          : dateConverterToDYM(selectEndDateValue),
+          selectProgram,
       );
     } else if (type === "endDate") {
       formik.setFieldValue("endDate", dateValue);
@@ -98,7 +112,8 @@ const Filter = (props: Props) => {
         selectStartDateValue == ""
           ? selectStartDateValue
           : dateConverterToDYM(selectStartDateValue),
-        convertedDate
+        convertedDate,
+        selectProgram,
       );
     }
   };

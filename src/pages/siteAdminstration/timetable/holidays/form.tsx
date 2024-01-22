@@ -10,7 +10,8 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 // Formik Yup validation === >>>
 const Schema = Yup.object({
   name: Yup.string().min(1).required(),
@@ -81,6 +82,15 @@ const HolidaysModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             refreshHolidaysData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Holiday has been successfully added"
+            });
             resetForm();
           }
         })
@@ -101,6 +111,15 @@ const HolidaysModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             refreshHolidaysData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Holiday has been successfully updated"
+            }); 
             resetForm();
           }
         })

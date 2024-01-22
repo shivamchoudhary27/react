@@ -11,6 +11,8 @@ import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
@@ -119,6 +121,15 @@ const CourseWorkLoadModal = ({
           toggleCourseModal(false);
           setSubmitting(true);
           refreshcategories();
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "	Course Work Load has been successfully  Update "
+          });
         })
         .catch((err: any) => {
           setSubmitting(true);
@@ -130,7 +141,7 @@ const CourseWorkLoadModal = ({
           });
         });
     }
-    // resetForm();
+    // resetForm();	Courses
   };
 
   return (

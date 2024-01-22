@@ -26,14 +26,15 @@ const initialValues = {
 // Formik Yup validation === >>>
 const queryFormSchema = Yup.object({
   query: Yup.string().trim().min(5).required("query is required"),
+  topicName: Yup.string().required("topicName is required"),
 });
 
 const NewRequestForm = (props: Props) => {
   const [topicId, setTopicId] = useState("");
   const [programId, setProgramId] = useState(0);
-
+console.log(topicId,"topic id")
   const handleFormSubmit = (values: any, action: any) => {
-    if (topicId !== "" && programId !==0) {
+    if (topicId !== "" && programId !== 0) {
       action.setSubmitting(true);
       // postData(`/enquiry/${parseInt(topicId)}`, {...values, programId})
       postData(`/enquiry/${parseInt(topicId)}?programId=${programId}`, values)
@@ -41,7 +42,7 @@ const NewRequestForm = (props: Props) => {
           if (res.data !== "" && res.status === 200) {
             props.toggleModalShow(false);
             action.setSubmitting(false);
-            props.updateAddRefresh()
+            props.updateAddRefresh();
           }
         })
         .catch((error: any) => {
@@ -57,7 +58,7 @@ const NewRequestForm = (props: Props) => {
   };
 
   const getCurrentProgramValue = (e: any) => {
-      setProgramId(e.target.value);
+    setProgramId(e.target.value);
   };
 
   return (
@@ -81,7 +82,7 @@ const NewRequestForm = (props: Props) => {
               handleFormSubmit(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting, setValues }) => (
+            {({ errors, touched, isSubmitting, setValues, handleChange }) => (
               <Form>
                 <div className="mb-3">
                   <FieldLabel
@@ -93,20 +94,23 @@ const NewRequestForm = (props: Props) => {
                   <select
                     className="form-select"
                     name="topicName"
-                    onChange={getCurrentValue}
-                    // value={selectedValue}
+                    onChange={(e) => {
+                      getCurrentValue(e);
+                      handleChange(e);
+                    }} // value={selectedValue}
                   >
-                    <option value="0">Select Topic</option>
+                    <option value="">Select Topic</option>
                     {props.selectedTopic.map((option: any, index: number) => (
                       <option key={index} value={option.id}>
                         {option.topicName}
                       </option>
                     ))}
+                   
                   </select>
-                  {/* <FieldErrorMessage
+                  <FieldErrorMessage
                     errors={errors.topicName}
                     touched={touched.topicName}
-                  /> */}
+                  />
                 </div>
 
                 <div className="mb-3">
@@ -119,10 +123,13 @@ const NewRequestForm = (props: Props) => {
                   <select
                     className="form-select"
                     name="programId"
-                    onChange={getCurrentProgramValue}
+                    onChange={(e) => {
+                      getCurrentProgramValue(e);
+                      handleChange(e);
+                    }} 
                     value={programId}
                   >
-                    <option value="0">Select Program</option>
+                    <option value={0}>Select Program</option>
                     {props.selectedProgram.map((option: any, index: number) => (
                       <option key={index} value={option.id}>
                         {option.name}
@@ -187,3 +194,4 @@ const NewRequestForm = (props: Props) => {
 };
 
 export default NewRequestForm;
+

@@ -16,7 +16,8 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
 import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 // Formik Yup validation === >>>
 const formSchema = Yup.object({
   name: Yup.string().trim().required("Course name is required"),
@@ -186,6 +187,16 @@ const CourseModal = ({
               toggleCourseModal(false);
               setSubmitting(false);
               refreshcategories();
+              Swal.fire({
+                timer: 3000,
+                width: "25em",
+                color: "#666",
+                icon: "success",
+                background: "#e7eef5",
+                showConfirmButton: false,
+                text: "Courses has been successfully added"
+              });
+              
             }, 3000);
           }
         })
@@ -205,6 +216,16 @@ const CourseModal = ({
           toggleCourseModal(false);
           setSubmitting(true);
           refreshcategories();
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "Courses has been successfully updated"
+          });
+
         })
         .catch((err: any) => {
           setSubmitting(true);
