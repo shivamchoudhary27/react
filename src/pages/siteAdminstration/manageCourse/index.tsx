@@ -6,7 +6,7 @@ import HeaderTabs from "../../headerTabs";
 import { Container } from "react-bootstrap";
 import CourseTable from "./table";
 import { useParams } from "react-router-dom";
-import { getData as getCategoryData } from "../../../adapters/microservices/index";
+import { postData, getData as getCategoryData } from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
@@ -16,6 +16,7 @@ import { setHasChildProp, resetManageCourseObj } from "./local";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import CourseModal from "./form";
+import { pagination } from "../../../utils/pagination";
 
 const CourseManagment = () => {
   const { id, name } = useParams();
@@ -28,6 +29,7 @@ const CourseManagment = () => {
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
   const [apiStatus, setApiStatus] = useState("");
+  const [filesIds, setFilesIds] = useState([]);
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",
@@ -36,8 +38,8 @@ const CourseManagment = () => {
   });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    // pageSize: pagination.PERPAGE,
-    pageSize: 300,
+    pageSize: pagination.PERPAGE,
+    // pageSize: 300,
   });
   const [addCourseModal, setAddCourseModal] = useState(false);
   const [courseObj, setCourseObj] = useState({
@@ -106,6 +108,40 @@ const CourseManagment = () => {
       setSortedCategories(courseObjAdded);
     }
   }, [categoryData]);
+
+  // ============================================================
+  //                      Set Files Ids
+  // ============================================================
+  useEffect(() => {
+    categoryData.map((category: any) => {
+      if(category.courses.length > 0){
+        category.courses.map((course: any) => {
+          if(course.files.length > 0){
+            course.files.forEach((fileId: any) => {
+              setFilesIds(prevFilesIds => [...prevFilesIds, { id: fileId.id }]);
+            });
+          }
+        })
+      }
+    })
+  }, [categoryData])
+
+  useEffect(() => {
+    if(filesIds.length > 0){
+      postData(`/files`, filesIds)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            console.log(result.data)
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [filesIds])
+  // ============================================================
+  //                            End
+  // ============================================================
 
   // handle to count weight for acategory === >>
   useEffect(() => {

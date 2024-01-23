@@ -11,8 +11,8 @@ import { Container, Button } from "react-bootstrap";
 import { pagination } from "../../../utils/pagination";
 import Errordiv from "../../../widgets/alert/errordiv";
 import BuildPagination from "../../../widgets/pagination";
-import { getData } from "../../../adapters/microservices";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import { getData, postData } from "../../../adapters/microservices";
 import View from "./view";
 
 const ManageProgram = () => {
@@ -23,6 +23,7 @@ const ManageProgram = () => {
     institute: 0,
   };
   const [programData, setProgramData] = useState<any>(dummyData);
+  const [filesIds, setFilesIds] = useState([]);
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState("");
@@ -39,8 +40,6 @@ const ManageProgram = () => {
     (state: any) => state.globalFilters.currentInstitute
   );
 
-  // console.log(currentInstitute);
-  
   const programAuthorities = useSelector(
     (state: any) => state.userAuthorities.permissions
   );
@@ -78,6 +77,38 @@ const ManageProgram = () => {
     if (refreshOnDelete === true && currentInstitute > 0)
       getProgramData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshOnDelete]);
+
+  // ============================================================
+  //                      Set Files Ids
+  // ============================================================
+  useEffect(() => {
+    if (programData.items.length > 0) {
+      programData.items.map((item: any) => {
+        if (item.files.length > 0) {
+          item.files.forEach((fileId: any) => {
+            setFilesIds((prevFilesIds) => [...prevFilesIds, { id: fileId.id }]);
+          });
+        }
+      });
+    }
+  }, [programData]);
+
+  useEffect(() => {
+    if (filesIds.length > 0) {
+      postData(`/files`, filesIds)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            console.log(result.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [filesIds]);
+  // ============================================================
+  //                            End
+  // ============================================================
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
