@@ -8,6 +8,7 @@ import { getData as getCourses } from "../../../adapters/microservices";
 type Props = {};
 
 const StudentAttendance = (props: Props) => {
+  let obtainedPoints = 0;
   const userCtx = useContext(UserContext);
   const userid = userCtx.userInfo.userid;
   const [apiResponseData, setApiResponseData] = useState<any>({
@@ -78,12 +79,13 @@ const StudentAttendance = (props: Props) => {
     if (attendancedata && attendancedata.length > 0) {
       const totalPoints = attendancedata.reduce((accumulator, point: any) => {
         let valPoint = point.point === undefined ? 2 : point.point;
+        obtainedPoints += point.point === undefined ? 0 : parseInt(point.point);
         return accumulator + Math.round(valPoint);
       }, 0);
 
       let percentage = 0;
       if (totalPoints !== 0) {
-        percentage = (2 / totalPoints) * 100;
+        percentage = (obtainedPoints / totalPoints) * 100;
       }
 
       setTotalPointAndPercentage({

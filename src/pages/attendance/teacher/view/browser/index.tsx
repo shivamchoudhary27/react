@@ -48,14 +48,6 @@ const Browser = (props: Props) => {
               apiResponseData={props.commonProps.apiResponseData}
               attendancedata={props.commonProps.attendancedata}
             />
-            {/* <div className="d-flex gap-2 justify-content-end my-3">
-              <Button variant="primary" onClick={handleNextPrevious}>
-                <i className="bi bi-arrow-left-circle"></i> Previous
-              </Button>
-              <Button variant="primary" onClick={handleNextPrevious}>
-                Next <i className="bi bi-arrow-right-circle"></i>
-              </Button>
-            </div> */}
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
               attendancedata={props.commonProps.attendancedata}

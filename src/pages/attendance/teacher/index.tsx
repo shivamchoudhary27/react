@@ -69,7 +69,15 @@ const TeacherAttendance = (props: Props) => {
                 .split(",")
                 .sort((a: number, b: number) => b - a);
               const filterHeaderDate = headerArr.filter((el: any) => {
-                return el >= res.data.coursedata.startdate;
+                if (res.data.coursedata.enddate !== "0") {
+                  // return (
+                  //   el >= res.data.coursedata.startdate &&
+                  //   el <= res.data.coursedata.enddate
+                  // );
+                  return el >= res.data.coursedata.startdate;
+                } else {
+                  return el >= res.data.coursedata.startdate;
+                }
               });
               setAttTableHeader(filterHeaderDate);
             } else {

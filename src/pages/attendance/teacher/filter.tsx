@@ -121,9 +121,9 @@ const TeacherAttendanceFilter = (props: Props) => {
                 <span>Course Name:</span>
                 {course.length > 0 &&
                   course.map(
-                    (item, index) =>
+                    (item: any, index: number) =>
                       item.idNumber == selectedCourse && (
-                        <span className="course-name">{item.name}</span>
+                        <span key={index} className="course-name">{item.name}</span>
                       )
                   )}
               </div>

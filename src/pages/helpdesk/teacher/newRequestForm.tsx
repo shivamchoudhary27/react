@@ -32,7 +32,6 @@ const queryFormSchema = Yup.object({
 const NewRequestForm = (props: Props) => {
   const [topicId, setTopicId] = useState("");
   const [programId, setProgramId] = useState(0);
-console.log(topicId,"topic id")
   const handleFormSubmit = (values: any, action: any) => {
     if (topicId !== "" && programId !== 0) {
       action.setSubmitting(true);
