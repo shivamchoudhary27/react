@@ -69,6 +69,10 @@ a, a:visited, .btn-link {
         cursor: default;
     }
 }
+.btn:disabled{
+    background: #666666;
+    border-color: #666666;
+}
 /**** Button End ****/
 
 
