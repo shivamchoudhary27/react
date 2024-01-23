@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
@@ -101,11 +101,14 @@ const Browser = (props: Props) => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses</h3>
-          <FilterProgramDropdown 
+ <div className="d-flex align-items-end justify-content-between gap-3">
+ <FilterProgramDropdown 
             getCourseStatus={getCourseStatus} 
             coursesList={props.coursesList} 
             updateCourses={updateCourses}
           />
+           <Button variant="primary">Minor Courses</Button>
+ </div>
         </div>
         <Row className="g-4 mylearning-card">
           {course.map((item: any, index: number) => (
