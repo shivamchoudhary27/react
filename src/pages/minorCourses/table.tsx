@@ -13,8 +13,6 @@ type Props = {
 };
 
 const StudentMinorCourseTable = (props: Props) => {
-  console.log(props.minorCourseData);
-  console.log(props.minorCourseData.length);
 
   return (
     <div className="table-responsive admin-table-wrapper mt-3">

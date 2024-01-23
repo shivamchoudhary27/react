@@ -42,11 +42,11 @@ const Mobile = (props: Props) => {
               toggleModalShow={props.commonProps.toggleModalShow}
               minorCourseData={props.commonProps.minorCourseData}
             />
-            {/* <BuildPagination
+            <BuildPagination
               totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate}
               getrequestedpage={props.commonProps.newPageRequest}
-              activepage={props.commonProps.filterUpdate.pageNumber}
-            /> */}
+            />
           </Container>
         </div>
       </div>
