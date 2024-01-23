@@ -79,7 +79,7 @@ const CourseTable = ({
               <img src={moveIcon} className="me-3" alt="Move course" />
               {`${row.original.coursename
                 .charAt(0)
-                .toUpperCase()}${row.original.coursename.slice(1)}`}
+                .toUpperCase()}${row.original.coursename.slice(1)}`}{" "}
               {row.original.files.length > 0 && (
                 <img
                   src={row.original.files[0].url}

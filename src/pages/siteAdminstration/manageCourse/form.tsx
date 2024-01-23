@@ -18,11 +18,8 @@ import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
 import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
-import { Console } from "console";
 
 // Formik Yup validation === >>>
-
-
 const formSchema = Yup.object().shape({
   name: Yup.string().trim().required("Course name is required"),
   courseCode: Yup.string().trim().required("Course code is required"),
@@ -30,7 +27,6 @@ const formSchema = Yup.object().shape({
   startDate: Yup.string()
     .nullable()
     .required("Please choose a start date"),
-  
   endDate: Yup.string()
     .nullable()
     .required("Please choose an end date")
@@ -46,14 +42,14 @@ const formSchema = Yup.object().shape({
         },
       });
     }),
-  enrollmentCapacity: Yup.number()
-    .integer("Must be an integer")
-    .positive("Must be a positive integer")
-    .min(0, "Must be greater than or equal to 0")
-    .when("type", {
-      is: "minor",
-      then: Yup.number().required("Enrollment capacity is required"),
-    }),
+  // enrollmentCapacity: Yup.number()
+  //   .integer("Must be an integer")
+  //   .positive("Must be a positive integer")
+  //   .min(0, "Must be greater than or equal to 0")
+  //   .when("type", {
+  //     is: "minor",
+  //     then: Yup.number().required("Enrollment capacity is required"),
+  //   }),
 });
 
 
