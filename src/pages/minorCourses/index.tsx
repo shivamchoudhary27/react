@@ -19,10 +19,10 @@ const MinorCourse = (props: Props) => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  
+
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
-    );
+  );
   //   1/minorCourses
   useEffect(() => {
     setApiStatus("started");
@@ -37,7 +37,7 @@ const MinorCourse = (props: Props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [currentInstitute]);
+  }, [currentInstitute, filterUpdate]);
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {

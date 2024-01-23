@@ -46,8 +46,8 @@ const Browser = (props: Props) => {
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate}
               getrequestedpage={props.commonProps.newPageRequest}
-              activepage={props.commonProps.filterUpdate.pageNumber}
             />
           </Container>
         </div>
