@@ -90,7 +90,7 @@ const TeacherAttendanceTable = (props: Props) => {
         {/* )} */}
       </div>
       <div className="table-responsive admin-table-wrapper mt-3">
-        <Table borderless striped className="attandence-table">
+        <Table bordered striped className="attandence-table">
           <thead>
             <tr>
             <th>Full Name</th>
