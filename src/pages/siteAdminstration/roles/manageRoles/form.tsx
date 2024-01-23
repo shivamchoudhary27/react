@@ -15,6 +15,7 @@ import Swal from "sweetalert2";
 
 
 
+
 const initialValues = {
   email: "",
 };
@@ -101,6 +102,7 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
           if ((res.data !== "", res.status === 201)) {
             togglemodalshow(false);
             updateAddRefresh();
+            resetForm();
             setSubmitting(false);
             Swal.fire({
               timer: 3000,
@@ -111,7 +113,6 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
               showConfirmButton: false,
               text: "Role has been successfully added"
             });
-            resetForm();
           }
         })
         .catch((err: any) => {
@@ -131,6 +132,7 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
           if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
             updateAddRefresh();
+            setSubmitting(false);
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -140,7 +142,6 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
               showConfirmButton: false,
               text: "Role has been successfully updated"
             });
-            setSubmitting(false);
           }
         })
         .catch((err: any) => {

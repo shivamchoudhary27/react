@@ -9,7 +9,7 @@ import { putData } from "../../../adapters/coreservices";
 import config from "../../../utils/config";
 import * as Yup from "yup";
 import Errordiv from "../../../widgets/alert/errordiv";
-
+import { useNavigate } from "react-router-dom";
 const initialValues = {
   newPassword: "",
   confirmPassword: "",
@@ -22,7 +22,7 @@ const ResetPasswordForm = () => {
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   const [alertStatus, setAlertStatus] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-
+  const navigate = useNavigate();
   // Formik Yup validation === >>>
   const userFormSchema = Yup.object({
     newPassword: Yup.string().required(),
@@ -49,6 +49,9 @@ const ResetPasswordForm = () => {
             message: "Password successfully updated. You can now sign in using your new password.",
             alertBoxColor: "",
           });
+          setTimeout(() => {
+            navigate("/oauth2-service/oauth2/login");
+          }, 2000);
         } else {
           setAlertStatus(true);
           setAlertMsg({
@@ -138,6 +141,6 @@ const ResetPasswordForm = () => {
       </p>
     </React.Fragment>
   );
-};
+}; 
 
 export default ResetPasswordForm;

@@ -358,6 +358,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <div className="d-flex">
                         <FieldTypeText
                           className="me-2"
+                          min="0"
                           type="number"
                           name="durationValue"
                           placeholder="#duration"
