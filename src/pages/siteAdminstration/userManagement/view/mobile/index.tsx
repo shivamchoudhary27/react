@@ -1,7 +1,5 @@
 import React from "react";
 import Filter from "../../filter";
-import Header from "../../../../newHeader";
-import Footer from "../../../../newFooter";
 import AddUserModal from "../../modalForm";
 import { Container } from "react-bootstrap";
 import UserManagementTable from "../../table";
@@ -13,7 +11,7 @@ import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import MobileFooter from "../../../../newFooter/mobileFooter";
 import MobileHeader from "../../../../newHeader/mobileHeader";
-
+import "./mobileStyle.scss";
 type Props = {
   commonProps: {
     userObj: any;
