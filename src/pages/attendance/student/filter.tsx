@@ -94,80 +94,78 @@ const StudentAttendanceFilter = (props: Props) => {
     <React.Fragment>
       <Container fluid>
         <FilterButtonWrapper>
-        <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
-          <div className="row program-filter">
-            <StudentAttendanceFilterDropdown
-              apiResponseData={props.apiResponseData}
-              updateCourses={updateCourses}
-            />
-            <RenderFilterElements
-              component={"Course"}
-              filterPacket={course}
-              packetKeys={["idNumber", "name"]}
-              getFilterChange={getSelectedCourse}
-              currentValue={selectedCourse}
-              filterDisable={false}
-              addAllOption={false}
-            />
+          <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
+            <div className="row program-filter">
+              <StudentAttendanceFilterDropdown
+                apiResponseData={props.apiResponseData}
+                updateCourses={updateCourses}
+              />
+              <RenderFilterElements
+                component={"Course"}
+                filterPacket={course}
+                packetKeys={["idNumber", "name"]}
+                getFilterChange={getSelectedCourse}
+                currentValue={selectedCourse}
+                filterDisable={false}
+                addAllOption={false}
+              />
+            </div>
           </div>
-        </div>
         </FilterButtonWrapper>
         {props.allAttendanceSessionRecords !== "undefined" && (
-        <div className="d-flex justify-content-between filter-data ">
+          <div className="d-flex justify-content-between filter-data ">
             <div>
-                  <span>
-                    Course Name:
-                  </span>
-                  <span>
-                    {props.allAttendanceSessionRecords.coursename}
-                  </span>
+              <span>Course Name:</span>
+              {course.length > 0 &&
+                course.map(
+                  (item: any, index: number) =>
+                    item.idNumber == selectedCourse && (
+                      <span key={index} className="course-name">
+                        {item.name}
+                      </span>
+                    )
+                )}
             </div>
-       <div className="d-flex start-end-date">
-       <div>
-       <img src={calenderStartdate} alt="startdate" />
+            <div className="d-flex start-end-date">
+              <div>
+                <img src={calenderStartdate} alt="startdate" />
 
-              <span>
-                Start Date:
-              </span>
-              <span>
-                {convertTimestampToDate(
-                  props.allAttendanceSessionRecords.startdate
+                <span>Start Date:</span>
+                {props.allAttendanceSessionRecords.coursedata !== undefined && (
+                  <span>
+                    {convertTimestampToDate(
+                      props.allAttendanceSessionRecords.coursedata.startdate
+                    )}
+                  </span>
                 )}
-              </span>
-            </div>
-            <div>
-       <img src={calenderEnddate} alt="enddate" />
-              <span>
-                End Date:
-              </span>
-              <span>
-                {convertTimestampToDate(
-                  props.allAttendanceSessionRecords.enddate
+              </div>
+              <div>
+                <img src={calenderEnddate} alt="enddate" />
+                <span>End Date:</span>
+                {props.allAttendanceSessionRecords.coursedata !== undefined && (
+                  <span>
+                    {convertTimestampToDate(
+                      props.allAttendanceSessionRecords.coursedata.enddate
+                    )}
+                  </span>
                 )}
-              </span>
+              </div>
             </div>
-       </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div className="me-3">
-              <span>
-                Total Points:
-              </span>
-              <span>
-                {props.totalPointAndPercentage.totalPoints > 0
-                  ? props.totalPointAndPercentage.totalPoints
-                  : 0}
-              </span>
-            </div>
-            <div>
-              <span>
-                Percentage:
-              </span>
-              <span
-              
-              >{`${props.totalPointAndPercentage.percentage}%`}</span>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <div className="me-3">
+                <span>Total Points:</span>
+                <span>
+                  {props.totalPointAndPercentage.totalPoints > 0
+                    ? props.totalPointAndPercentage.totalPoints
+                    : 0}
+                </span>
+              </div>
+              <div>
+                <span>Percentage:</span>
+                <span>{`${props.totalPointAndPercentage.percentage}%`}</span>
+              </div>
             </div>
           </div>
-        </div>
         )}
       </Container>
       {/* {coursesList.length === 0 && (
