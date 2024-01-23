@@ -11,7 +11,8 @@ import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
 import { generateHours, saperateHours, saperateMinutes } from "../../timesSlot/utils";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 // Formik Yup validation === >>>
 const Schema = Yup.object({
   startHr: Yup.string().required("Required"),
@@ -136,6 +137,15 @@ const InstituteTimeSlotModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             refreshClassroomData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Time slot has been successfully added"
+            });
             resetForm();
           }
         })
@@ -157,6 +167,15 @@ const InstituteTimeSlotModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             refreshClassroomData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Time slot has been successfully updated"
+            });
             resetForm();
           }
         })

@@ -10,7 +10,8 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import gearIcon from "../../../assets/images/icons/setting-action.svg";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -138,9 +139,14 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
           if (res.status === 200) {
             refreshdata(true);
             setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Institute has been successfully deleted"
             });
           } else if (res.status === 500) {
             setShowAlert(true);

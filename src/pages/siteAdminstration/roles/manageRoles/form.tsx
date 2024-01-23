@@ -10,6 +10,10 @@ import { postData, putData } from "../../../../adapters/coreservices";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
 import { IAlertMsg, IUserObj } from "./types/interface";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
+
+
 
 const initialValues = {
   email: "",
@@ -98,6 +102,15 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Role has been successfully added"
+            });
             resetForm();
           }
         })
@@ -118,6 +131,15 @@ const AssignInstituteModal: React.FunctionComponent<IAssignInstituteModal> = ({
           if ((res.data !== "", res.status === 200)) {
             togglemodalshow(false);
             updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Role has been successfully updated"
+            });
             setSubmitting(false);
           }
         })

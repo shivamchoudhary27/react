@@ -10,7 +10,8 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 // Formik Yup validation === >>>
 const departmentSchema = Yup.object({
   type: Yup.string().required(),
@@ -88,6 +89,16 @@ const ClassRoomModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             refreshClassroomData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Classroom has been successfully added"
+            });
+            
             resetForm();
           }
         })
@@ -108,6 +119,15 @@ const ClassRoomModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             refreshClassroomData();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Classroom has been successfully added"
+            });
             resetForm();
           }
         })

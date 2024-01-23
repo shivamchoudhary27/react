@@ -13,7 +13,8 @@ import editIcon from "../../../../assets/images/icons/edit-action.svg";
 import { deleteData, putData } from "../../../../adapters/microservices";
 import { globalAlertActions } from "../../../../store/slices/globalAlerts";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 type Props = {
   topicData: any[];
   apiStatus: string;
@@ -114,10 +115,14 @@ const ManageTopicTable = (props: Props) => {
         .then((res: any) => {
           if (res.status === 200) {
             props.refreshdata(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Topic has been successfully deleted"
             });
           } else if (res.status === 500) {
             setShowAlert(true);

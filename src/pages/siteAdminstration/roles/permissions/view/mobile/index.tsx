@@ -16,6 +16,7 @@ type Props = {
   };
 };
 
+
 const Mobile = (props: Props) => {
   return (
     <React.Fragment>
@@ -28,6 +29,7 @@ const Mobile = (props: Props) => {
           { name: "Role Permissions", path: "" },
         ]}
       />
+
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>

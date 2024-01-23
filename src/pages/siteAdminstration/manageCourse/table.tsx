@@ -23,7 +23,8 @@ import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { useDispatch } from "react-redux";
 import ACTIONSLIST from "../../../store/actions";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -380,10 +381,16 @@ const CourseTable = ({
           if (res.status === 200) {
             updatedeleterefresh(true);
             setShowAlert(true);
-            setAlertMsg({
-              message: "deleted successfully",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Courses has been successfully deleted"
             });
+            
           }
         })
         .catch((result: any) => {

@@ -15,6 +15,8 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 // import { putData } from "../../../../adapters/microservices";
 import { IUserData, IUserObj, IAlertMsg, IRoleTable } from "./types/interface";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -93,6 +95,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
               />
             </Link>
           }
+         
           {/* <Link
             className="action-icons"
             to=""
@@ -164,10 +167,19 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             refreshOnDeleteToggle(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "role has been successfully deleted"
+            
+            // setShowAlert(true);
+            // // setAlertMsg({
+            // //   message: "Deleted successfully!",
+            // //   alertBoxColor: "success",
             });
           }
         })

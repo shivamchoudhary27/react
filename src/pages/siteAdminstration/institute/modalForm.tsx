@@ -9,7 +9,8 @@ import * as Yup from "yup";
 import { postData, putData } from "../../../adapters/microservices";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
-
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 const AddUserModal = ({
   show,
   onHide,
@@ -49,6 +50,15 @@ const AddUserModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Institute has been successfully added"
+            });
             resetForm();
           }
         })
@@ -78,6 +88,15 @@ const AddUserModal = ({
             togglemodalshow(false);
             setSubmitting(false);
             updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Institute has been successfully updated"
+            });
           }
         })
         .catch((err: any) => {
