@@ -12,6 +12,8 @@ import { putData, postData } from "../../../adapters/microservices";
 import * as Yup from "yup";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -92,6 +94,15 @@ const AddUsersModal = ({
             addusersmodalshow(false);
             setSubmitting(false);
             refreshToggle();
+             Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully updated"
+            });
           }
         })
         .catch((err: any) => {
@@ -113,6 +124,15 @@ const AddUsersModal = ({
             addusersmodalshow(false);
             setSubmitting(false);
             refreshToggle();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully added"
+            });
           }
         })
         .catch((err: any) => {

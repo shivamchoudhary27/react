@@ -7,6 +7,7 @@ const FieldTypeText = ({
   type = "text",
   className,
   disabled,
+  min
   // onBlur = () => {}
 }: any) => {
   return (
@@ -18,6 +19,7 @@ const FieldTypeText = ({
         className={cx("form-control", className)}
         placeholder={placeholder}
         disabled={disabled}
+        min={min}
         // onBlur={onBlur}
       />
     </>

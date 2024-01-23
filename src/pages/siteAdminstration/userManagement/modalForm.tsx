@@ -90,7 +90,7 @@ const AddUserModal = ({
         })
         .catch((err: any) => {
           console.log(err);
-          if (err.response.status === 404) {
+          if (err.response.status === 404||400) {
             setSubmitting(false);
             setShowAlert(true);
             setAlertMsg({

@@ -18,22 +18,44 @@ import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
 import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { Console } from "console";
+
 // Formik Yup validation === >>>
-const formSchema = Yup.object({
+
+
+const formSchema = Yup.object().shape({
   name: Yup.string().trim().required("Course name is required"),
   courseCode: Yup.string().trim().required("Course code is required"),
   category: Yup.string().required("Select category"),
-  startDate: Yup.string().nullable().required("Please choose a start date"),
-  endDate: Yup.string().nullable().required("Please choose an end date"),
+  startDate: Yup.string()
+    .nullable()
+    .required("Please choose a start date"),
+  
+  endDate: Yup.string()
+    .nullable()
+    .required("Please choose an end date")
+    .when(['startDate'], (startDate, schema) => {
+      return schema.test({
+        name: 'endDate',
+        exclusive: true,
+        message: 'End date must be greater than the start date',
+        test: (endDate:any) => {
+          const selectedEndDate = new Date(endDate);
+          const selectedStartDate = new Date(startDate);
+          return selectedEndDate >= selectedStartDate;
+        },
+      });
+    }),
   enrollmentCapacity: Yup.number()
-  .integer("Must be an integer")
-  .positive("Must be a positive integer")
-  .min(0, "Must be greater than or equal to 0")
-  .when("type", {
-    is: "minor",
-    then: Yup.number().required("Enrollment capacity is required"),
-  }),
+    .integer("Must be an integer")
+    .positive("Must be a positive integer")
+    .min(0, "Must be greater than or equal to 0")
+    .when("type", {
+      is: "minor",
+      then: Yup.number().required("Enrollment capacity is required"),
+    }),
 });
+
 
 const CourseModal = ({
   show,
@@ -85,19 +107,21 @@ const CourseModal = ({
       enrollmentCapacity:  courseobj.enrollmentCapacity,
       type: courseobj.courseType ? courseobj.courseType.toLowerCase() : null,
       startDate:
-        courseobj.startDate !== null
-          ? initialDateFormatHandler(courseobj.startDate)
-          : getCurrentMonth(currentDate),
+      courseobj.startDate
+      !== null
+      ? initialDateFormatHandler(courseobj.startDate)
+      : getCurrentMonth(currentDate),
       endDate:
-        courseobj.endDate !== null
+          courseobj.endDate
+          !== null
           ? initialDateFormatHandler(courseobj.endDate)
-          : getNextMonth(currentDate),
-    });
-
-  }, [courseobj]);
-
-  // Get category Data from API === >>
-  useEffect(() => {
+          : getCurrentMonth(currentDate),
+        });
+        
+      }, [courseobj]);
+      
+      // Get category Data from API === >>
+      useEffect(() => {
     getCategoriesData();
   }, []);
 
@@ -203,8 +227,10 @@ const CourseModal = ({
         .catch((err: any) => {
           console.log(err);
           setShowAlert(true);
+          setSubmitting(false);
+          
           setAlertMsg({
-            message: "Failed to add course! Please try again.",
+            message:`${err.response.data.message}`,
             alertBoxColor: "danger",
           });
         });
@@ -214,7 +240,7 @@ const CourseModal = ({
       putData(endPoint, requestData)
         .then((res: any) => {
           toggleCourseModal(false);
-          setSubmitting(true);
+          setSubmitting(false);
           refreshcategories();
           Swal.fire({
             timer: 3000,
@@ -228,9 +254,9 @@ const CourseModal = ({
 
         })
         .catch((err: any) => {
-          setSubmitting(true);
           toggleCourseModal(false);
           setShowAlert(true);
+          setSubmitting(false);
           setAlertMsg({
             message: "Failed to add course! Please try again.",
             alertBoxColor: "danger",
@@ -255,6 +281,14 @@ const CourseModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
+
           <Formik
             enableReinitialize={true}
             initialValues={initValues}
@@ -331,7 +365,8 @@ const CourseModal = ({
                   <FieldTypeText
                     type="date"
                     name="startDate"
-                    placeholder="dd/mm/yyyy"
+                    min={new Date()}
+                    placeholder="Start Date"
                   />
                   <FieldErrorMessage
                     errors={errors.startDate}
@@ -483,13 +518,7 @@ const CourseModal = ({
               </Form>
             )}
           </Formik>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
+          
         </Modal.Body>
       </Modal>
     </React.Fragment>

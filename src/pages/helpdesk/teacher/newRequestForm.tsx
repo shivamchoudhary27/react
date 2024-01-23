@@ -7,6 +7,8 @@ import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 type Props = {
   onHide: any;
@@ -42,6 +44,15 @@ const NewRequestForm = (props: Props) => {
             props.toggleModalShow(false);
             action.setSubmitting(false);
             props.updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "New request has been added successfully"
+            });
           }
         })
         .catch((error: any) => {
