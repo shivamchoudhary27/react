@@ -1,7 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
@@ -12,19 +13,20 @@ type Props = {
 };
 
 const courseStatusOptions = [
-  {id: 'inprogress', name: 'In Progress'},
-  {id: 'completed', name: 'Completed'},
-  {id: 'notstarted', name: 'Not Started'},
+  { id: "inprogress", name: "In Progress" },
+  { id: "completed", name: "Completed" },
+  { id: "notstarted", name: "Not Started" },
 ];
 
 const Browser = (props: Props) => {
+  const navigate = useNavigate();
   const [filterStatus, setFilterStatus] = useState({
     selectedValues: {
       // department: 0,
       batchYear: 0,
       program: 0,
       category: 0,
-      status: 0
+      status: 0,
     },
     filterData: {
       // departments: [],
@@ -38,19 +40,19 @@ const Browser = (props: Props) => {
 
   useEffect(() => {
     if (filterStatus.selectedValues.program > 0) {
-        if (filterStatus.selectedValues.category > 0) {
-          const filteredCourses =  props.coursesList.courses.filter(item => 
-            item.programId === filterStatus.selectedValues.program 
-            && 
+      if (filterStatus.selectedValues.category > 0) {
+        const filteredCourses = props.coursesList.courses.filter(
+          (item) =>
+            item.programId === filterStatus.selectedValues.program &&
             item.categoryId === filterStatus.selectedValues.category
-          );
-          setCourses(filteredCourses);
-        } else {
-          const filteredCourses =  props.coursesList.courses.filter(item => 
-            item.programId === filterStatus.selectedValues.program 
-          );
-          setCourses(filteredCourses);
-        }
+        );
+        setCourses(filteredCourses);
+      } else {
+        const filteredCourses = props.coursesList.courses.filter(
+          (item) => item.programId === filterStatus.selectedValues.program
+        );
+        setCourses(filteredCourses);
+      }
     } else {
       const uniqueProgramIds = new Set();
 
@@ -58,15 +60,16 @@ const Browser = (props: Props) => {
         uniqueProgramIds.add(item.id);
       });
 
-      const filteredData = props.coursesList.courses.filter(item => uniqueProgramIds.has(item.programId));
+      const filteredData = props.coursesList.courses.filter((item) =>
+        uniqueProgramIds.has(item.programId)
+      );
       setCourses(filteredData);
     }
-
   }, [filterStatus]);
 
   const updateCourses = (filterValues: any) => {
     setFilterStatus(filterValues);
-  }
+  };
 
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
@@ -101,24 +104,28 @@ const Browser = (props: Props) => {
       <Container fluid>
         <div className="d-flex align-items-center justify-content-between flex-wrap mitcomponet-heading">
           <h3>My Courses</h3>
- <div className="d-flex align-items-end justify-content-between gap-3">
- <FilterProgramDropdown 
-            getCourseStatus={getCourseStatus} 
-            coursesList={props.coursesList} 
-            updateCourses={updateCourses}
-          />
-           <Button variant="primary">Minor Courses</Button>
- </div>
+          <div className="d-flex align-items-end justify-content-between gap-3">
+            <FilterProgramDropdown
+              getCourseStatus={getCourseStatus}
+              coursesList={props.coursesList}
+              updateCourses={updateCourses}
+            />
+            <Button variant="primary" onClick={() => navigate("/minorcourse")}>
+              Minor Courses
+            </Button>
+          </div>
         </div>
         <Row className="g-4 mylearning-card">
           {course.map((item: any, index: number) => (
             <Col sm={6} lg={4} xl={3} key={index}>
               <Card body className="h-100">
-                  <a href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}>
-                    <div className="mlcard-image">
-                      <Card.Img src={courseImage} alt={item.shortname} />
-                    </div>
-                  </a>
+                <a
+                  href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
+                >
+                  <div className="mlcard-image">
+                    <Card.Img src={courseImage} alt={item.shortname} />
+                  </div>
+                </a>
                 <div className="mlcard-title">
                   <h5>{item.name}</h5>
                   <span className="my-progress">
