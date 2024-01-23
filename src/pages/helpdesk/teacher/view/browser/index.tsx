@@ -10,6 +10,8 @@ import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BottomWave from "../../../../../assets/images/background/bg-bottom.svg";
+import bgLeft from "../../../../../assets/images/background/bg-admin-left.svg";
 
 type Props = {
   commonProps: {
@@ -99,6 +101,12 @@ const Browser = (props: Props) => {
         modalTitleDate={props.commonProps.modalTitleDate}
       />
       <Footer />
+      <div className="position-relative">
+        <img src={bgLeft} className="left-cicle" alt="left-cicle" />
+        </div>
+      <div  className="bottom-bg">
+        <img src={BottomWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

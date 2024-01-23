@@ -27,8 +27,6 @@ const Browser = (props: Props) => {
         ]}
       />
       <div className="contentarea-wrapper mt-4 mb-5">
-        <img src={bgLeft} className="bg-left" alt="bg-left" />
-        <img src={bgRight} className="bg-right" alt="bg-right" />
         <Container fluid>
           <PageTitle pageTitle="Site Administration" gobacklink="/dashboard" />
         </Container>
@@ -42,6 +40,13 @@ const Browser = (props: Props) => {
             )}
           </Container>
         ))}
+      </div>
+     
+      <div className="position-relative">
+        <img src={bgLeft} className="bg-left" alt="bg-left" />
+        </div>
+      <div>
+      <img src={bgRight} className="bg-right" alt="bg-right" />
       </div>
       <Footer />
     </React.Fragment>

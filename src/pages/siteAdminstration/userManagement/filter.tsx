@@ -6,6 +6,7 @@ import { Button, Row, Col } from "react-bootstrap";
 import { getData } from "../../../adapters/coreservices";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 const initialValues = {
   name: "",
@@ -79,8 +80,9 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
     <React.Fragment>
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <Row className="g-2">
-            <Col>
+
+          <div className="d-flex gap-2 flex-wrap">
+            <Col className="col-auto">
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
@@ -92,7 +94,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
                 value={formik.values.name}
               />
             </Col>
-            <Col>
+            <Col className="col-auto">
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -104,7 +106,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
                 value={formik.values.email}
               />
             </Col>
-            <Col>
+            <Col className="col-auto">
               <label htmlFor="roleId" hidden>Role</label>
               <select 
                 className="form-select" 
@@ -120,13 +122,14 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
                 ))}
               </select>
             </Col>
-            <Col>
+       
+            <Col className="col-auto">
               {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
-          </Row>          
+          </div>       
         </form>
-        <div className="site-button-group">
+        <div className="d-flex gap-3 um-btn-group">
         <Button variant="primary" onClick={()=>navigate("/guestusers")}>Guest Users</Button>
           {userPermissions.role.canView && 
             <Button variant="primary" onClick={()=>navigate("/manageroles")}>Manage Roles</Button>
