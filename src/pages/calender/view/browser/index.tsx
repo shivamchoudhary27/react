@@ -14,6 +14,7 @@ import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import multiUser from "../../../../assets/images/icons/multi-user.svg";
 import singleUser from "../../../../assets/images/icons/single-user.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
+import BottomLeftWave from "../../../../assets/images/background/bg-bottomleft.svg";
 
 type Props = {
   commonProps: {
@@ -212,6 +213,9 @@ const Browser = (props: Props) => {
         </Container>
       </div>
       <Footer />
+      <div className="bottomLeftWave">
+        <img src={BottomLeftWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

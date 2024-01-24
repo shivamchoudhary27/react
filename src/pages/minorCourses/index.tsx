@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { getData } from "../../adapters/microservices";
 import { pagination } from "../../utils/pagination";
+import "./style.scss";
 
 type Props = {};
 

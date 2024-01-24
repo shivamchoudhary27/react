@@ -10,6 +10,8 @@ import HelpdeskManagementTable from "../../table";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
+
 
 type Props = {
   commonProps: {
@@ -104,6 +106,9 @@ const Browser = (props: Props) => {
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
       />
       <Footer />
+      <div className="bottomLeftWave">
+        <img src={BottomLeftWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

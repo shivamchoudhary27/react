@@ -14,7 +14,7 @@ import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import PageTitle from "../../../widgets/pageTitle";
 import ManageTable from "../manageProgram/table";
 import Errordiv from "../../../widgets/alert/errordiv";
-
+import BottomLeftWave from "../../../assets/images/background/bg-bottomleft.svg";
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
   const [enrollmentData, setEnrollmentData] = useState<any>(dummyData);
@@ -109,6 +109,9 @@ const updateInputFilters = (inputvalues: any) => {
         </Container>
       </div>
       <Footer />
+      <div className="bottomLeftWave">
+        <img src={BottomLeftWave} alt="bottom wave" />
+      </div>
     </>
   );
   

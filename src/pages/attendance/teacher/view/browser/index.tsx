@@ -7,6 +7,7 @@ import TeacherAttendanceFilter from "../../filter";
 import { Button, Container } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
 
 type Props = {
   commonProps: {
@@ -62,6 +63,9 @@ const Browser = (props: Props) => {
         </div>
       </div>
       <Footer />
+      <div  className="bottomLeftWave">
+        <img src={BottomLeftWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

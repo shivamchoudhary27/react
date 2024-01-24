@@ -102,7 +102,7 @@ const TeacherAttendanceTable = (props: Props) => {
           Next <i className="bi bi-arrow-right-circle"></i>
         </Button>
       </div>
-      <div className="table-responsive admin-table-wrapper mt-3">
+      <div className="table-responsive admin-table-wrapper grey-table-lines mt-3">
         <Table bordered striped className="attandence-table">
           <thead>
             <tr>
