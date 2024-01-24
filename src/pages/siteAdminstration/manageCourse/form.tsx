@@ -18,30 +18,31 @@ import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
 import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { time } from "console";
+import { dateConverterToDYM } from "../../../lib/timestampConverter";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object().shape({
   name: Yup.string().trim().required("Course name is required"),
   courseCode: Yup.string().trim().required("Course code is required"),
   category: Yup.string().required("Select category"),
-  startDate: Yup.string()
-    .nullable()
-    .required("Please choose a start date"),
+  startDate: Yup.string().nullable().required("Please choose a start date"),
   endDate: Yup.string()
     .nullable()
     .required("Please choose an end date")
-    .when(['startDate'], (startDate, schema) => {
+    .when(["startDate"], (startDate, schema) => {
       return schema.test({
-        name: 'endDate',
+        name: "endDate",
         exclusive: true,
-        message: 'End date must be greater than the start date',
-        test: (endDate:any) => {
+        message: "End date must be greater than the start date",
+        test: (endDate: any) => {
           const selectedEndDate = new Date(endDate);
           const selectedStartDate = new Date(startDate);
           return selectedEndDate >= selectedStartDate;
         },
       });
     }),
+  // Comment BY AKSHAY ALKAMA SIR Review
   // enrollmentCapacity: Yup.number()
   //   .integer("Must be an integer")
   //   .positive("Must be a positive integer")
@@ -50,8 +51,16 @@ const formSchema = Yup.object().shape({
   //     is: "minor",
   //     then: Yup.number().required("Enrollment capacity is required"),
   //   }),
-});
 
+  enrollmentCapacity: Yup.number().when("type", {
+    is: "minor",
+    then: Yup.number()
+      .required("Enrollment capacity is required")
+      .integer("Must be an integer")
+      .positive("Must be a positive integer")
+      .min(0, "Must be greater than or equal to 0"),
+  }),
+});
 
 const CourseModal = ({
   show,
@@ -70,6 +79,11 @@ const CourseModal = ({
     // pageSize: pagination.PERPAGE,
     pageSize: 100,
   });
+
+  const [currentUTC, setCurrentUTC] = useState('');
+
+  
+
   const [initValues, setInitValues] = useState({
     id: "",
     name: "",
@@ -100,26 +114,39 @@ const CourseModal = ({
       files: courseobj.files,
       deleteImage: false,
       file: null,
-      enrollmentCapacity:  courseobj.enrollmentCapacity,
+      enrollmentCapacity: courseobj.enrollmentCapacity
+        ? courseobj.enrollmentCapacity
+        : "",
       type: courseobj.courseType ? courseobj.courseType.toLowerCase() : null,
       startDate:
-      courseobj.startDate
-      !== null
-      ? initialDateFormatHandler(courseobj.startDate)
-      : getCurrentMonth(currentDate),
-      endDate:
-          courseobj.endDate
-          !== null
-          ? initialDateFormatHandler(courseobj.endDate)
-          : getCurrentMonth(currentDate),
-        });
-        
-      }, [courseobj]);
-      
-      // Get category Data from API === >>
-      useEffect(() => {
+      courseobj.id === 0
+        ? (courseobj.startDate !== null
+            ? initialDateFormatHandler(courseobj.startDate)
+            : getCurrentMonth(currentDate))
+        : (courseobj.startDate !== null
+            ? initialDateFormatHandler(courseobj.startDate)
+            : dateConverterToDYM(getCurrentMonth(currentDate))),
+
+            endDate:
+            courseobj.id === 0
+              ? (courseobj.endDate !== null
+                  ? initialDateFormatHandler(courseobj.endDate)
+                  : getCurrentMonth(currentDate))
+              : (courseobj.endDate !== null
+                  ? initialDateFormatHandler(courseobj.endDate)
+                  : dateConverterToDYM(getCurrentMonth(currentDate))),
+    });
+  }, [courseobj]);
+
+  
+
+  // Get category Data from API === >>
+  useEffect(() => {
     getCategoriesData();
   }, []);
+
+  
+  
 
   const getCategoriesData = () => {
     const endPoint = `/${programId}/category`;
@@ -161,16 +188,16 @@ const CourseModal = ({
   const getCurrentMonth = (currentDate) => {
     return format(currentDate, "yyyy-MM-dd");
   };
+                                             // Comment BY AKSHAY ALKAMA SIR Review
+  // const getNextMonth = (currentDate) => {
+  //   const endDate = addMonths(currentDate, 1);
+  //   return format(endDate, "yyyy-MM-dd");
+  // };
 
-  const getNextMonth = (currentDate) => {
-    const endDate = addMonths(currentDate, 1);
-    return format(endDate, "yyyy-MM-dd");
-  };
-
-  const dateFormatHandlers = (date: string) => {
-    const [year, month, day] = date.split("-");
-    return `${day}-${month}-${year}`;
-  };
+  // const dateFormatHandlers = (date: string) => {
+  //   const [year, month, day] = date.split("-");
+  //   return `${day}-${month}-${year}`;
+  // };
 
   const initialDateFormatHandler = (inputDate: string) => {
     const date = new Date(inputDate);
@@ -188,9 +215,9 @@ const CourseModal = ({
       delete values.deleteImage;
       values.files = addRemoveFileProperty(values.files);
     }
-
-    values.startDate = dateFormatHandlers(values.startDate);
-    values.endDate = dateFormatHandlers(values.endDate);
+                                                     // Comment BY AKSHAY ALKAMA SIR Review
+    // values.startDate = dateFormatHandlers(values.startDate);
+    // values.endDate = dateFormatHandlers(values.endDate);
 
     let courseImage = values.file;
     delete courseImage?.file;
@@ -214,9 +241,8 @@ const CourseModal = ({
                 icon: "success",
                 background: "#e7eef5",
                 showConfirmButton: false,
-                text: "Courses has been successfully added"
+                text: "Courses has been successfully added",
               });
-              
             }, 3000);
           }
         })
@@ -224,9 +250,9 @@ const CourseModal = ({
           console.log(err);
           setShowAlert(true);
           setSubmitting(false);
-          
+
           setAlertMsg({
-            message:`${err.response.data.message}`,
+            message: `${err.response.data.message}`,
             alertBoxColor: "danger",
           });
         });
@@ -245,9 +271,8 @@ const CourseModal = ({
             icon: "success",
             background: "#e7eef5",
             showConfirmButton: false,
-            text: "Courses has been successfully updated"
+            text: "Courses has been successfully updated",
           });
-
         })
         .catch((err: any) => {
           toggleCourseModal(false);
@@ -263,6 +288,10 @@ const CourseModal = ({
     }
   };
 
+
+
+
+
   return (
     <React.Fragment>
       <Modal
@@ -277,7 +306,7 @@ const CourseModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <TimerAlertBox
+          <TimerAlertBox
             alertMsg={alertMsg.message}
             className="mt-3"
             variant={alertMsg.alertBoxColor}
@@ -351,6 +380,7 @@ const CourseModal = ({
                     msgText="Please Select Category"
                   />
                 </div>
+
                 {/* --------------------------------  */}
                 <div className="mb-3">
                   <FieldLabel
@@ -460,23 +490,25 @@ const CourseModal = ({
                 {values.type === "minor" && (
                   <div className="mb-3">
                     <FieldLabel
-                    htmlfor="enrollmentCapacity"
-                    labelText="EnrollmentCapacity"
-                    number
-                    required="required"
-                  />
-                  <FieldTypeText 
-                  type="number"
-                  name="enrollmentCapacity" 
-                  placeholder="EnrollmentCapacity" 
-                  />
-                  <FieldErrorMessage
-                    errors={errors.enrollmentCapacity}
-                    touched={touched.enrollmentCapacity}
-                  />
+                      htmlfor="enrollmentCapacity"
+                      labelText="EnrollmentCapacity"
+                      min={0}
+                      number
+                      required="required"
+                    />
+                    <FieldTypeText
+                      min={0}
+                      type="number"
+                      name="enrollmentCapacity"
+                      placeholder="EnrollmentCapacity"
+                    />
+                    <FieldErrorMessage
+                      errors={errors.enrollmentCapacity}
+                      touched={touched.enrollmentCapacity}
+                    />
                   </div>
                 )}
-                 <div className="mb-3">
+                <div className="mb-3">
                   <FieldTypeCheckbox
                     name="published"
                     checkboxLabel="Published"
@@ -514,7 +546,6 @@ const CourseModal = ({
               </Form>
             )}
           </Formik>
-          
         </Modal.Body>
       </Modal>
     </React.Fragment>
