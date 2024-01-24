@@ -1,10 +1,14 @@
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import React, { useEffect, useMemo, useState } from "react";
 import Errordiv from "../../widgets/alert/errordiv";
 import TableSkeleton from "../../widgets/skeleton/table";
 import TimerAlertBox from "../../widgets/alert/timerAlert";
+import EnrolledIcon from "../../assets/images/icons/enrolleduser.svg";
+import EnrollIcon from "../../assets/images/icons/enrolluser.svg";
+import WaitListIcon from "../../assets/images/icons/waitlistuser.svg";
+
 
 type Props = {
   apiStatus: string;
@@ -68,9 +72,30 @@ const StudentMinorCourseTable = (props: Props) => {
                     <td>60</td>
                     <td>40</td>
                     <td>
-                      <Link to="#" className="action-icons small-icon">
+
+                    {/* ---- enrolled ---- */}
+                      <Button
+                      className="enrolled-btn"
+                      >
+                        <img src={EnrolledIcon} alt="Enroll" />
                         Enrolled
-                      </Link>
+                      </Button>
+
+                    {/* ---- Enroll me ---- */}
+                      {/* <Button
+                      className="enroll-btn"
+                      >
+                        <img src={EnrollIcon} alt="Enroll" />
+                       Enroll me
+                      </Button> */}
+
+                    {/* ---- Waitlist ---- */}
+                      {/* <Button
+                      className="waitlist-btn"
+                      >
+                        <img src={WaitListIcon} alt="Enroll" />
+                        waitlist
+                      </Button> */}
                     </td>
                   </tr>
                 )}
