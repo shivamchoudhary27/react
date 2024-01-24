@@ -6,6 +6,7 @@ import MyCourses from "../../dashboard/myCourses";
 import { Container, Row, Col } from "react-bootstrap";
 import Timeline from "../../dashboard/timeline/timeline";
 import MyScheduleComp from "../../dashboard/schedule/scheduleComp";
+import BottomWave from "../../../../../assets/images/background/bg-bottom.svg";
 
 type Props = {
   commonProps: {
@@ -69,6 +70,9 @@ const Browser = (props: Props) => {
         />
       </div>
       <Footer />
+      <div  className="bottom-bg">
+        <img src={BottomWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

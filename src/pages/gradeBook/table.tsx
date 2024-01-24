@@ -116,8 +116,8 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
 
   return (
     <React.Fragment>
-      <div className="table-responsive table-wrapper mt-3 mygradebook">
-        <Table borderless striped {...getTableProps}>
+      <div className="table-responsive table-wrapper mt-3 mygradebook mb-5">
+        <Table borderless striped {...getTableProps} className="mb-0">
           <thead>
             {headerGroups.map((headerGroup, index) => (
               <tr {...headerGroup.getHeaderGroupProps()} key={index}>

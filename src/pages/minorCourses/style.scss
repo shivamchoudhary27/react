@@ -1,0 +1,12 @@
+.grey-table-lines{
+    border: 1px solid #1193f8;
+    .table{
+        margin-bottom: 0;
+        th {
+            border: none;
+        }
+        td {
+            border: 1px solid #E6E6E6;
+        }
+    } 
+}

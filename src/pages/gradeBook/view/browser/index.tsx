@@ -7,6 +7,7 @@ import HeaderTabs from "../../../headerTabs";
 import HeirarchyFilter from "../../filtersNew";
 import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import BottomWave from "../../../../assets/images/background/bg-bottom.svg";
 
 type Props = {
   commonProps: {
@@ -51,6 +52,9 @@ const Browser = (props: Props) => {
         </Container>
       </div>
       <Footer />
+      <div  className="bottom-bg">
+        <img src={BottomWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

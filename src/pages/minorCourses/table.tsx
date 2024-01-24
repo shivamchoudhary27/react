@@ -15,9 +15,9 @@ type Props = {
 const StudentMinorCourseTable = (props: Props) => {
 
   return (
-    <div className="table-responsive admin-table-wrapper mt-3">
+    <div className="table-responsive admin-table-wrapper grey-table-lines mt-3">
       <Table bordered striped className="attandence-table">
-        <thead style={{ backgroundColor: "#0d6efd" }}>
+        <thead>
           <tr>
             <th>Program Name</th>
             <th>Blocks</th>

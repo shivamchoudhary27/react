@@ -8,6 +8,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import PerformanceOverview from "../../dashboard/performance";
 import EnrolCoursesList from "../../dashboard/enrolCoursesList";
 import MyScheduleComp from "../../../teacherDashboard/dashboard/schedule/scheduleComp";
+import BottomWave from "../../../../../assets/images/background/bg-bottom.svg";
 
 type Props = {
   // apiStatus: any;
@@ -96,6 +97,9 @@ const Browser: React.FC<Props> = (props) => {
         </div>
       </div>
       <Footer />
+      <div  className="bottom-bg">
+        <img src={BottomWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

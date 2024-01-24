@@ -7,7 +7,8 @@ import StudentAttendanceTable from "../../table";
 import StudentAttendanceFilter from "../../filter";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-
+import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
+import "../../style.scss";
 type Props = {
   commonProps: {
     getCourseId: any;
@@ -56,6 +57,9 @@ const Browser = (props: Props) => {
         </div>
       </div>
       <Footer />
+      <div className="bottomLeftWave">
+        <img src={BottomLeftWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };
