@@ -13,6 +13,7 @@ import Errordiv from "../../../widgets/alert/errordiv";
 import BuildPagination from "../../../widgets/pagination";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import { getData, postData } from "../../../adapters/microservices";
+import BottomWave from "../../../assets/images/background/bg-bottom.svg";
 import View from "./view";
 
 const ManageProgram = () => {
@@ -254,6 +255,9 @@ const ManageProgram = () => {
         </Container>
       </div>
       <Footer />
+      <div className="bottom-bg">
+        <img src={BottomWave} alt="bottom wave" />
+      </div>
     </React.Fragment>
   );
 };

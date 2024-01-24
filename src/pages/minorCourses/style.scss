@@ -10,3 +10,40 @@
         }
     } 
 }
+
+.enroll-btn{
+    box-shadow: none;
+    border-radius: 2rem;
+    background-color: #247BC7;
+    border: none;
+    img{
+        margin-right: 8px;
+    }
+    &:hover, &:active, &:focus{
+        background-color: #176ab2;
+    }
+}
+.enrolled-btn{
+    box-shadow: none;
+    border-radius: 2rem;
+    background-color: #8B8F89;
+    border: none;
+    img{
+        margin-right: 8px;
+    }
+    &:hover, &:active, &:focus{
+        background-color: #757774;
+    }
+}
+.waitlist-btn{
+    box-shadow: none;
+    border-radius: 2rem;
+    background-color: #2091F5;
+    border: none;
+    img{
+        margin-right: 8px;
+    }
+    &:hover, &:active, &:focus{
+        background-color: #177dd6;
+    }
+}
