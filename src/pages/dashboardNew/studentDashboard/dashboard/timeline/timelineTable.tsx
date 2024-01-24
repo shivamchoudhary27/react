@@ -1,27 +1,19 @@
-import FilterDropdown from "../../filterDropdown";
-import Errordiv from "../../../../../../../widgets/alert/errordiv";
-import ListSkeleton from "../../../../../../../widgets/skeleton/list";
+
+import "./style.scss";
+import React from "react";
 import { Link } from "react-router-dom";
+import Errordiv from "../../../../../widgets/alert/errordiv";
+import ListSkeleton from "../../../../../widgets/skeleton/list";
 
 type Props = {
-  // apiStatus: string;
-  // eventsPacket: any;
-  // showAlert: boolean;
-  // getTimetableTime: any;
-  // formatDynamicTimestamp: any;
-
   eventsPacket: any;
   apiStatus: string;
   showAlert: boolean;
   apiStatusCourse: string;
-  getSortFilterValue: any;
-  getFilterSelectValue: any;
-  courseFilterActive: boolean;
   filterTimestampSort: string;
-  filterTimestampValue: string;
 };
 
-const Mobile: React.FC<Props> = (props) => {
+const TimelineTable: React.FC<Props> = (props) => {
   const currentDate = new Date();
   const currentTimestamp = Math.floor(currentDate.getTime() / 1000);
 
@@ -76,22 +68,7 @@ const Mobile: React.FC<Props> = (props) => {
   };
 
   return (
-    <div className="mitblock activityTimeline-block">
-      <h3 className="mitblock-title">Activity Timeline</h3>
-      <FilterDropdown
-        // eventsPacket={props.eventsPacket}
-        // getFilterSelectValue={props.getFilterSelectValue}
-        // filterTimestampValue={props.filterTimestampValue}
-        // getSortFilterValue={props.getSortFilterValue}
-        // filterTimestampSort={props.filterTimestampSort}
-
-        eventsPacket={props.eventsPacket}
-        getFilterSelectValue={props.getFilterSelectValue}
-        filterTimestampValue={props.filterTimestampValue}
-        getSortFilterValue={props.getSortFilterValue}
-        filterTimestampSort={props.filterTimestampSort}
-      />
-      <div className="mitblock-body">
+    <div className="mitblock-body">
       {props.eventsPacket.length > 0 &&
         props.eventsPacket.map((event: any, index: number) =>
           props.filterTimestampSort !== "course" ? (
@@ -170,15 +147,17 @@ const Mobile: React.FC<Props> = (props) => {
             </div>
           )
         )}
-        {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
-          <ListSkeleton />
-        )}
-        {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="" />
-        )}
-      </div>
+
+      {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
+        <ListSkeleton />
+      )}
+      {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
+        <Errordiv msg="No record found!" cstate className="" />
+      )}
     </div>
   );
 };
 
-export default Mobile;
+export default TimelineTable;
+
+
