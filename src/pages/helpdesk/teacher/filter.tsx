@@ -43,6 +43,8 @@ const Filter = (props: Props) => {
     setSelectedPublishedValue(e.target.value);
   };
 
+  console.log(props.apiStatus)
+
   return (
     <React.Fragment>
       <div className="filter-wrapper mt-2 me gap-3">

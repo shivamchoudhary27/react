@@ -22,6 +22,8 @@ import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxF
 import { isMobile, isDesktop } from "react-device-detect";
 import MobileHeader from "../../../newHeader/mobileHeader";
 import MobileFooter from "../../../newFooter/mobileFooter";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 type Props = {};
 
@@ -81,14 +83,21 @@ const EditProfile = (props: Props) => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    console.log(values);
     postData(`/user/profile`, values)
       .then((res: any) => {
         if (res.status === 200) {
           // togglemodalshow(false);
           // updateAddRefresh();
           setSubmitting(false);
-          resetForm();
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "Profile has been successfully updated"
+          });
           navigate("/profile");
         }
       })

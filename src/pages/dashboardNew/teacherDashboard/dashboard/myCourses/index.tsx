@@ -4,6 +4,7 @@ import CardComponent from "./cardComp";
 import FilterProgramDropdown from "./filterDropdown";
 import filterIcon from "../../../../../assets/images/icons/mb-filterIcon.svg";
 // import Course_Pagination from "./pagination";
+import Errordiv from "../../../../../widgets/alert/errordiv";
 
 type Props = {
   userCoursesData: any;
@@ -77,6 +78,10 @@ const MyCourses = (props: Props) => {
             />
           </div>
         </div>
+        {
+          props.userCoursesData.courses.length === 0 &&
+          <Errordiv msg="No courses available!" cstate />
+        }
         <CardComponent 
           courseList={props.userCoursesData} 
           filterStatus={filterStatus}

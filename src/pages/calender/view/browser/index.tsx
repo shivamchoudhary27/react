@@ -59,12 +59,13 @@ const Browser = (props: Props) => {
             } */}
           <div className="d-flex align-items-center justify-content-end flex-wrap mitcomponet-heading">
             <div className="row program-filter">
-              <Button
+              {/* =============== My Timeline Navigation ================ */}
+              {/* <Button
                 variant="primary"
                 onClick={() => navigate("/mytimetable")}
               >
                 My Timetable
-              </Button>
+              </Button> */}
             </div>
           </div>
           <Row>

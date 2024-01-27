@@ -93,10 +93,11 @@ const ScheduleTable: React.FC<Props> = (props) => {
       )}
       {props.sessionApiStatus === "started" &&
         props.todaySessionPacket.length === 0 && <ListSkeleton />}
-      {props.sessionApiStatus === "finished" &&
-        props.todaySessionPacket.length === 0 && (
+      {(props.sessionApiStatus === "finished" &&
+        props.todaySessionPacket.length === 0) ||
+        (props.todaySessionPacket.length === 0 && (
           <Errordiv msg="No session available!" cstate />
-        )}
+        ))}
     </div>
   );
 };

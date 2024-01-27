@@ -1,4 +1,3 @@
-
 import "./style.scss";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -151,13 +150,12 @@ const TimelineTable: React.FC<Props> = (props) => {
       {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
         <ListSkeleton />
       )}
-      {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
-        <Errordiv msg="No record found!" cstate className="" />
-      )}
+      {(props.apiStatus === "finished" && props.eventsPacket.length === 0) ||
+        (props.eventsPacket.length === 0 && (
+          <Errordiv msg="No timeline available!" cstate className="" />
+        ))}
     </div>
   );
 };
 
 export default TimelineTable;
-
-
