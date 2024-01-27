@@ -10,6 +10,8 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import { globalUserInfoActions } from "../../../../store/slices/userInfo";
 import { addRemoveFileProperty, uploadFile } from "../../../../globals/storefile";
 import '../style.scss'
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 const EditPicture = ({
   userobj,
@@ -35,6 +37,15 @@ const EditPicture = ({
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Profile picture has been successfully added"
+            });
             resetForm();
         }
     })
@@ -82,6 +93,15 @@ const EditPicture = ({
           togglemodalshow(false);
           updateAddRefresh(); 
           dispatch(globalUserInfoActions.removeUserPicture());
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "Profile picture has been successfully removed"
+          });
         }
         setRemoveStatus(false);
     })

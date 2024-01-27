@@ -116,7 +116,7 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
 
   return (
     <React.Fragment>
-      <div className="table-responsive table-wrapper mt-3 mygradebook mb-5">
+      <div className="table-responsive table-wrapper mt-3 mygradebook mb-2">
         <Table borderless striped {...getTableProps} className="mb-0">
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -145,13 +145,13 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
             })}
           </tbody>
         </Table>
+      </div>
         {apiStatus === "started" && gradebookObj.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {apiStatus === "finished" && gradebookObj.length === 0 && (
+        {(apiStatus === "finished" && gradebookObj.length === 0) || gradebookObj.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
-      </div>
     </React.Fragment>
   );
 };

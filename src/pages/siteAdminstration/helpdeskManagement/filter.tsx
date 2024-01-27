@@ -121,7 +121,7 @@ const Filter = (props: Props) => {
   const startDate = selectStartDateValue;
   const endDate = selectEndDateValue;
 
-  console.log(startDate, endDate);
+  // console.log(startDate, endDate);
 
   useEffect(() => {
     if (startDate && endDate && startDate > endDate) {
