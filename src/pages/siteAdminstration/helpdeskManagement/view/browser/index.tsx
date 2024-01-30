@@ -23,6 +23,7 @@ type Props = {
     modalTitle: any;
     filterUpdate: any;
     getAllComment: any;
+    setGetAllComment: any;
     refreshToggle: any;
     selectedTopic: any;
     onRepliesHide: any;
@@ -100,6 +101,7 @@ const Browser = (props: Props) => {
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
         getAllComment={props.commonProps.getAllComment}
+        setGetAllComment={props.commonProps.setGetAllComment}
         modalTitleDate={props.commonProps.modalTitleDate}
         updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopicId={props.commonProps.selectedTopicId}

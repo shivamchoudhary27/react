@@ -25,6 +25,19 @@ export const formattedDate = (date) => {
   return getFormatedDate;
 };
 
+export const formattedDateTime = (date) => {
+  const getFormatedDate = new Date(date).toLocaleString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    // second: "numeric",
+  });
+  return getFormatedDate;
+};
+
+
 // =========================================================================
 export const formattedDateNew = (timestamp) => {
   const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
@@ -60,3 +73,4 @@ export const dateConverterToDYM = (date) => {
   console.log(formattedDate)
   return (formattedDate);
 }
+
