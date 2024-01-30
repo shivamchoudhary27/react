@@ -161,7 +161,6 @@ const TeacherHelpdesk = (props: Props) => {
       enquiryData={enquiryData.items}
       selectedTopicId={selectedTopicId}
       toggleModalShow={toggleModalShow}
-      setGetAllComment={setGetAllComment}
       selectedTopic={selectedTopic.items}
       updateTopicFilter={updateTopicFilter}
       onHide={() => toggleModalShow(false)}

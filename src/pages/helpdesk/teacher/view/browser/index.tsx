@@ -31,7 +31,6 @@ type Props = {
     selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
-    setGetAllComment: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
@@ -41,8 +40,6 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
-  // console.log(props.commonProps.filterUpdate.pageNumber,"pageNumber")
-  //       console.log(props.commonProps.filterUpdate.pageSize,"page size")
   return (
     <React.Fragment>
       <Header />
@@ -89,16 +86,16 @@ const Browser = (props: Props) => {
         toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm
+        apiStatus={props.commonProps.apiStatus}
         onHide={props.commonProps.onRepliesHide}
-        updateAddRefresh={props.commonProps.refreshToggle}
+        modalTitle={props.commonProps.modalTitle}
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
         getAllComment={props.commonProps.getAllComment}
+        modalTitleDate={props.commonProps.modalTitleDate}
+        updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
-        apiStatus={props.commonProps.apiStatus}
-        modalTitle={props.commonProps.modalTitle}
-        modalTitleDate={props.commonProps.modalTitleDate}
       />
       <Footer />
       <div className="position-relative">

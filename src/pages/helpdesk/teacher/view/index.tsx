@@ -18,7 +18,6 @@ type Props = {
   newPageRequest: any;
   toggleModalShow: any;
   selectedTopicId: any;
-  setGetAllComment: any;
   updateTopicFilter: any;
   getSelectedTopicId: any;
   selectedProgram: any;
@@ -45,7 +44,6 @@ const View = (props: Props) => {
     toggleModalShow: props.toggleModalShow,
     selectedTopicId: props.selectedTopicId,
     selectedProgram: props.selectedProgram,
-    setGetAllComment: props.setGetAllComment,
     repliesModalShow: props.repliesModalShow,
     updateTopicFilter: props.updateTopicFilter,
     getSelectedTopicId: props.getSelectedTopicId,

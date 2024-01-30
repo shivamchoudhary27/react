@@ -34,13 +34,19 @@ const queryFormSchema = Yup.object({
 const NewRequestForm = (props: Props) => {
   const [topicId, setTopicId] = useState("");
   const [programId, setProgramId] = useState(0);
+
   const handleFormSubmit = (values: any, action: any) => {
-    if (topicId !== "" && programId !== 0) {
+    if (topicId !== "") {
       action.setSubmitting(true);
-      // postData(`/enquiry/${parseInt(topicId)}`, {...values, programId})
-      postData(`/enquiry/${parseInt(topicId)}?programId=${programId}`, values)
+      // Construct the API URL
+      let apiUrl = `/enquiry/${parseInt(topicId)}`;
+      if (programId !== 0) {
+        apiUrl += `?programId=${programId}`;
+      }
+      postData(apiUrl, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
+            // Handle success case
             props.toggleModalShow(false);
             action.setSubmitting(false);
             props.updateAddRefresh();
@@ -51,12 +57,15 @@ const NewRequestForm = (props: Props) => {
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "New request has been added successfully"
+              text: "New request has been added successfully",
             });
           }
         })
         .catch((error: any) => {
           console.log(error);
+
+          // Handle errors as needed
+          action.setSubmitting(false);
         });
     }
   };
@@ -115,7 +124,6 @@ const NewRequestForm = (props: Props) => {
                         {option.topicName}
                       </option>
                     ))}
-                   
                   </select>
                   <FieldErrorMessage
                     errors={errors.topicName}
@@ -136,7 +144,7 @@ const NewRequestForm = (props: Props) => {
                     onChange={(e) => {
                       getCurrentProgramValue(e);
                       handleChange(e);
-                    }} 
+                    }}
                     value={programId}
                   >
                     <option value={0}>Select Program</option>
@@ -204,4 +212,3 @@ const NewRequestForm = (props: Props) => {
 };
 
 export default NewRequestForm;
-
