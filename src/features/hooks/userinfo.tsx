@@ -24,7 +24,9 @@ const useUserinfo = () => {
             } else {
               userCtx.setUserStatus(200);
             }
-            res.data.userissiteadmin = res.data.userissiteadmin.toString();
+            if(res.data !== undefined && res.data.userissiteadmin !== undefined){
+              res.data.userissiteadmin = res.data.userissiteadmin.toString();
+            }
             userCtx.setUserInfo(res.data);
             setTriggerEnrolApi({ status : true, userid : res.data.userid})
           }
