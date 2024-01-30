@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
+import { useSelector } from "react-redux";
 
 type Props = {
   toggleModalShow: any;
@@ -18,6 +19,10 @@ const Filter = (props: Props) => {
   const navigate = useNavigate();
   const [selectedTopicValue, setSelectedTopicValue] = useState("");
   const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
+
+  const menuPermission = useSelector(
+    (state: any) => state.userAuthorities.permissions.menu
+);
 
   const hendleReset = () => {
     setSelectedTopicValue("");
@@ -104,12 +109,16 @@ const Filter = (props: Props) => {
             >
               New Request
             </Button>
+            { 
+            (menuPermission.admin.canView)
+            &&
             <Button
               variant="primary"
               onClick={() => navigate("/helpdeskmanagement")}
             >
               Helpdesk Management
             </Button>
+            }
           </div>
         </div>
       </div>

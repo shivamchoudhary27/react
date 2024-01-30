@@ -7,6 +7,7 @@ import HeaderTabs from "../../../../../headerTabs";
 import { Container, Button } from "react-bootstrap";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { useSelector } from "react-redux";
 
 type Props = {
   commonProps: {
@@ -26,6 +27,11 @@ type Props = {
 
 const Browser = (props: Props) => {
   const navigate = useNavigate();
+
+  const authenticatedUserPermission = useSelector(
+    (state: any) => state.authenticatedUser.permissions.menu
+  );
+  
   return (
     <React.Fragment>
       <Header />
@@ -50,7 +56,7 @@ const Browser = (props: Props) => {
                     props.commonProps.user.userLastName
                   ).replace(/\b\w/g, (match) => match.toUpperCase())}
                 </h3>
-                <Button
+                <Button disabled={!authenticatedUserPermission.profile.canEdit}
                   onClick={() =>
                     navigate(`/edituserprofile/${props.commonProps.userid}`)
                   }

@@ -40,13 +40,13 @@ const StudentAttendanceTable = (props: Props) => {
     {
       Header: "Late (L)",
       Cell: ({ row }: any) => {
-        return row.original.description === "Late" ? "L" : "--";
+        return row.original.description === "Late comer" ? "L" : "--";
       },
     },
     {
       Header: "Excused (E)",
       Cell: ({ row }: any) => {
-        return row.original.description === "Excused" ? "E" : "--";
+        return row.original.description === "Early leaver" ? "E" : "--";
       },
     },
     {

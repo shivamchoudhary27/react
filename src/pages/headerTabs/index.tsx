@@ -15,11 +15,15 @@ const HeaderTabs = ({activeTab} : any) => {
         (state: any) => state.userAuthorities.permissions.menu
     );
 
+    const authenticatedUserPermission = useSelector(
+        (state: any) => state.authenticatedUser.permissions.menu
+    );
+
     return(
         <div className="site-header-tab">
             <Nav as="ul">
                 {
-                    menuPermission.dashboard.canView 
+                    (menuPermission.dashboard.canView || authenticatedUserPermission.dashboard.canView) 
                     &&
                     <Nav.Item as="li">
                         <Link to="/dashboard" className={activeTab === 'studentdashboard' ? 'active-tab' : activeTab === 'teacherdashboard' ? 'active-tab' : ''}>
@@ -29,7 +33,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Nav.Item>
                 }
                 {
-                    menuPermission.calendar.canView
+                    (menuPermission.calendar.canView || authenticatedUserPermission.calendar.canView)
                     &&
                     <Nav.Item as="li" >
                         <Link to="/calender" className={activeTab === 'calender' ? 'active-tab' : ''}>
@@ -39,7 +43,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Nav.Item>
                 }
                 {
-                    menuPermission.performance.canView
+                    (menuPermission.performance.canView || authenticatedUserPermission.performance.canView)
                     &&
                     <Nav.Item as="li">
                         <Link to="" className={activeTab === 'performance' ? 'active-tab' : ''}>
@@ -49,7 +53,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Nav.Item>
                 }
                 {
-                    menuPermission.gradebook.canView
+                    (menuPermission.gradebook.canView || authenticatedUserPermission.gradebook.canView)
                     &&
                     <Nav.Item as="li">
                         <Link to="/gradebook" className={activeTab === 'gradebook' ? 'active-tab' : ''}>
@@ -59,7 +63,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Nav.Item>
                 }
                 {
-                    menuPermission.attendance.canView
+                    (menuPermission.attendance.canView || authenticatedUserPermission.attendance.canView)
                     &&
                     <Nav.Item as="li">
                         <Link to="/attendance" className={activeTab === 'attendance' ? 'active-tab' : ''}>
@@ -75,7 +79,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Link>             
                 </Nav.Item>
                 {
-                    menuPermission.admin.canView
+                    (menuPermission.admin.canView)
                     &&
                     <Nav.Item as="li">
                         <Link to="/siteadmin" className={activeTab === 'siteadmin' ? 'active-tab' : ''}>
