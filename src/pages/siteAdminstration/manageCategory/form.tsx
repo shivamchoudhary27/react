@@ -15,6 +15,8 @@ import { useParams } from "react-router-dom";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
@@ -56,6 +58,15 @@ const CategoryModal = ({
           if ((res.data != "" && res.status === 201)) {
             toggleModalShow(false);
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Category has been successfully added"
+            });
             refreshcategories();
           }
         })
@@ -88,6 +99,15 @@ const CategoryModal = ({
         .then((res: any) => {
           toggleModalShow(false);
           setSubmitting(false);
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "Category has been successfully updated"
+          });
           refreshcategories();
         })
         .catch((err: any) => {

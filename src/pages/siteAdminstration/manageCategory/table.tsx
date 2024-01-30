@@ -22,6 +22,8 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import { useDispatch } from "react-redux";
 import { globalAlertActions } from "../../../store/slices/globalAlerts";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -65,18 +67,17 @@ const CategoryTable = ({
       Header: "Add Subcategory",
       accessor: "subCategory",
       Cell: ({ row }: any) => (
-        console.log(row)
-        // <>
-        //   {categoryPermission.canAdd && row.original.courses.length === 0 && (
-        //     <Link
-        //       className="action-icons small-icon"
-        //       to=""
-        //       onClick={() => addSubCategoryHandler(row.original.id)}
-        //     >
-        //       <img src={plusIcon} alt="Add Subcategory" />
-        //     </Link>
-        //   )}
-        // </>
+        <>
+          {categoryPermission.canAdd && row.original.courses.length === 0 && (
+            <Link
+              className="action-icons small-icon"
+              to=""
+              onClick={() => addSubCategoryHandler(row.original.id)}
+            >
+              <img src={plusIcon} alt="Add Subcategory" />
+            </Link>
+          )}
+        </>
       ),
     },
     {
@@ -288,10 +289,14 @@ const CategoryTable = ({
       deleteCategoryData(endPoint)
         .then((res: any) => {
           if (res.status === 200) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Category has been successfully deleted"
             });
             updatedeleterefresh(true);
           }
