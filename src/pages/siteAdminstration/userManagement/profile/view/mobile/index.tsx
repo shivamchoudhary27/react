@@ -6,6 +6,7 @@ import PageTitle from "../../../../../../widgets/pageTitle";
 import MobileHeader from "../../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { useSelector } from "react-redux";
 
 type Props = {
   commonProps: {
@@ -25,6 +26,11 @@ type Props = {
 
 const Mobile = (props: Props) => {
   const navigate = useNavigate();
+
+  const authenticatedUserPermission = useSelector(
+    (state: any) => state.authenticatedUser.permissions.menu
+  );
+  
   return (
     <React.Fragment>
       <MobileHeader />
@@ -49,7 +55,7 @@ const Mobile = (props: Props) => {
                       props.commonProps.user.userLastName
                     ).replace(/\b\w/g, (match) => match.toUpperCase())}
                   </h3>
-                  <Button
+                  <Button disabled={!authenticatedUserPermission.profile.canEdit}
                     onClick={() =>
                       navigate(`/edituserprofile/${props.commonProps.userid}`)
                     }

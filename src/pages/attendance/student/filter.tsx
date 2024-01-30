@@ -162,7 +162,7 @@ const StudentAttendanceFilter = (props: Props) => {
               </div>
               <div>
                 <span>Percentage:</span>
-                <span>{`${props.totalPointAndPercentage.percentage}%`}</span>
+                <span>{`${Math.round(props.totalPointAndPercentage.percentage)}%`}</span>
               </div>
             </div>
           </div>

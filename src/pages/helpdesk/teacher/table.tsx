@@ -5,6 +5,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { useSelector } from "react-redux";
 
 type Props = {
   enquiryData: any;
@@ -17,6 +18,14 @@ type Props = {
 const TeacherHelpdeskTable = (props: Props) => {
 
   const [serialPageNo, setSerialPageNo] = useState(props.filterUpdate.pageNumber)
+
+  const authenticatedUserPermission = useSelector(
+    (state: any) => state.authenticatedUser.permissions.menu
+);
+
+const menuPermission = useSelector(
+  (state: any) => state.userAuthorities.permissions.menu
+);
 
   useEffect(() => {
     setSerialPageNo(props.filterUpdate.pageNumber * props.filterUpdate.pageSize)
@@ -52,25 +61,51 @@ const TeacherHelpdeskTable = (props: Props) => {
         return <span>{formattedDate}</span>;
       },
     },
-    {
-      Header: "All replies",
-      Cell: ({ row }: any) => {
-        return (
-          <Link
-            to=""
-            onClick={() =>
-              onClickViewAllHandler(
-                row.original.id,
-                row.original.topicName,
-                row.original.date
-              )
-            }
-          >
-            View All
-          </Link>
-        );
-      },
-    },
+    // {
+    //   Header: "All replies",
+    //   Cell: ({ row }: any) => {
+    //     return (
+    //       <Link
+    //         to=""
+    //         onClick={() =>
+    //           onClickViewAllHandler(
+    //             row.original.id,
+    //             row.original.topicName,
+    //             row.original.date
+    //           )
+    //         }
+    //       >
+    //         {
+    //           (menuPermission.admin.canView || authenticatedUserPermission.enquiry.canView) ? 'View All': ''
+    //         }
+    //       </Link>
+    //     );
+    //   },
+    // },
+
+    ...(menuPermission.admin.canView || !authenticatedUserPermission.enquiry.canView
+      ? [
+          {
+            Header: "All replies",
+            accessor: "__dummy__", // Dummy accessor
+            Cell: ({ row }: any) => (
+              <Link
+                to=""
+                onClick={() =>
+                  onClickViewAllHandler(
+                    row.original.id,
+                    row.original.topicName,
+                    row.original.date
+                  )
+                }
+              >
+                View All
+              </Link>
+            ),
+          },
+        ]
+      : []),
+
     {
       Header: "Action",
       Cell: ({ row }: any) => {

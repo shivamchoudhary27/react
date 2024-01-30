@@ -34,6 +34,10 @@ const UserManagementTable = ({
   currentInstitute,
   userPermissions,
 }: any) => {
+
+  const authenticatedUserPermission = useSelector(
+    (state: any) => state.authenticatedUser.permissions.menu
+  );
   
   const tableColumn = [
     {
@@ -42,7 +46,8 @@ const UserManagementTable = ({
       Cell: ({ row }: any) => (
         <Link
           className="action-icons"
-          to={`/userprofile/${row.original.userId}`}
+          to={(authenticatedUserPermission.profile.canView)
+            ? `/userprofile/${row.original.userId}` : "#"}
         >
           {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)}
            ${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}

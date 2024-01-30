@@ -8,7 +8,7 @@ import { getData } from "../../adapters/coreservices";
 import UserContext from "../../features/context/user/user";
 import React, { useContext, useEffect, useState } from "react";
 import { globalAlertActions } from "../../store/slices/globalAlerts";
-import { userAuthoritiesActions } from "../../store/slices/userRoles";
+import { authenticatedUserActions, userAuthoritiesActions } from "../../store/slices/userRoles";
 import { createAxiosInstance } from "../../adapters/microservices/utils";
 import { createCoreAxiosInstance } from "../../adapters/coreservices/utils";
 import { globalUserInfoActions } from "../../store/slices/userInfo";
@@ -67,6 +67,11 @@ const AuthLogin = () => {
                     console.log(res)
                     res.data.authorities[1] !== undefined && dispatch(userAuthoritiesActions.updateUserAuthorities(res.data.authorities[1]));
                     res.data.authorities[1] !== undefined && localStorage.setItem('userAuthorities', JSON.stringify(res.data.authorities[1]));
+
+                    //Authenticated User
+                    res.data.authorities[0] !== undefined && dispatch(authenticatedUserActions.updateUserAuthorities(res.data.authorities[0]));
+                    res.data.authorities[0] !== undefined && localStorage.setItem('authenticatedUser', JSON.stringify(res.data.authorities[0]));
+
                     res.data !== "" && dispatch(globalUserInfoActions.userInfo(res.data));
                     res.data !== "" && localStorage.setItem('userInfo', JSON.stringify({userInfo: res.data}))
                     res.data.roles[1] !== undefined && localStorage.setItem('roles', JSON.stringify(res.data.roles[1]));
