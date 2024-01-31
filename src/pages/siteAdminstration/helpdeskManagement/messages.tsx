@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {formattedDateTime} from "../../../lib/timestampConverter";
+import { formattedDateTime } from "../../../lib/timestampConverter";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import { deleteData, putData } from "../../../adapters/microservices";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
@@ -13,18 +13,24 @@ type Props = {
 };
 
 const MessagesView = (props: Props) => {
-
   // getAllComment is always initialized as an arra
-  const commentsArray = Array.isArray(props.getAllComment) ? props.getAllComment : [];
-  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  const commentsArray = Array.isArray(props.getAllComment)
+    ? props.getAllComment
+    : [];
 
+  // Sort the comments
+  const sortedComments = commentsArray.sort((a: any, b: any) => {
+    return new Date(b.date) - new Date(a.date);
+  });
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  
   const [comments, setComments] = useState<any[]>([]);
   const [editingCommentId, setEditingCommentId] = useState(0);
   const [editedComment, setEditedComment] = useState<string>("");
 
   useEffect(() => {
-    if (commentsArray.length > 0) {
-      const updatedComments = commentsArray.map((comment: any) => {
+    if (sortedComments.length > 0) {
+      const updatedComments = sortedComments.map((comment: any) => {
         const isCurrentUser =
           currentUserInfo &&
           currentUserInfo.first_name &&
@@ -34,12 +40,14 @@ const MessagesView = (props: Props) => {
         return {
           ...comment,
           style: isCurrentUser ? "user-message" : "support-message",
-          nickName: isCurrentUser ? "You" : `${comment.firstName} ${comment.lastName}`,
+          nickName: isCurrentUser
+            ? "You"
+            : `${comment.firstName} ${comment.lastName}`,
         };
       });
       setComments(updatedComments);
     }
-  }, [currentUserInfo, commentsArray]);
+  }, [currentUserInfo, sortedComments]);
 
   const handleEditSubmit = (commentId: number) => {
     putData(`/comment/${props.selectedTopicId}/${commentId}`, {
@@ -50,7 +58,9 @@ const MessagesView = (props: Props) => {
           // Update the specific comment in the state
           setComments((prevComments) =>
             prevComments.map((comment) =>
-              comment.id === commentId ? { ...comment, comment: editedComment } : comment
+              comment.id === commentId
+                ? { ...comment, comment: editedComment }
+                : comment
             )
           );
           setEditedComment("");
@@ -67,7 +77,9 @@ const MessagesView = (props: Props) => {
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           // deleted comment by id
-          const deleteComments = comments.filter(comment => comment.id !== commentId);
+          const deleteComments = comments.filter(
+            (comment) => comment.id !== commentId
+          );
           setComments(deleteComments);
         }
       })
@@ -75,7 +87,7 @@ const MessagesView = (props: Props) => {
         console.log(err);
       });
   };
-  
+
   const editHandler = (commentId: number, currentComment: string) => {
     setEditingCommentId(commentId);
     setEditedComment(currentComment);
@@ -128,18 +140,23 @@ const MessagesView = (props: Props) => {
               )}
             </div>
             <div>
-              <button
-                className="action-icons"
-                onClick={() => deleteHandler(item.id)}
-              >
-                <img src={deleteIcon} alt="Delete" />
-              </button>
-              <button
-                className="action-icons"
-                onClick={() => editHandler(item.id, item.comment)}
-              >
-                <img src={editIcon} alt="Edit" />
-              </button>
+              {item.firstName === currentUserInfo.first_name &&
+                item.lastName === currentUserInfo.last_name && (
+                  <>
+                    <button
+                      className="action-icons"
+                      onClick={() => deleteHandler(item.id)}
+                    >
+                      <img src={deleteIcon} alt="Delete" />
+                    </button>
+                    <button
+                      className="action-icons"
+                      onClick={() => editHandler(item.id, item.comment)}
+                    >
+                      <img src={editIcon} alt="Edit" />
+                    </button>
+                  </>
+                )}
             </div>
           </div>
         </div>
@@ -149,4 +166,3 @@ const MessagesView = (props: Props) => {
 };
 
 export default MessagesView;
-

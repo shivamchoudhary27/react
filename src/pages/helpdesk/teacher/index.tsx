@@ -39,17 +39,17 @@ const TeacherHelpdesk = (props: Props) => {
    
   // call api to get all enquiry === >>>
   useEffect(() => {
-    // setApiStatus("started");
+    setApiStatus("started");
     getData("/enquiry", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setEnquiryData(result.data);
         }
-        // setApiStatus("finished");
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        // setApiStatus("finished");
+        setApiStatus("finished");
       });
   }, [refreshData,filterUpdate]);
 
@@ -73,19 +73,19 @@ const TeacherHelpdesk = (props: Props) => {
 
   // call api to get all topics === >>>
   useEffect(() => {
-    setApiStatus("started");
+    // setApiStatus("started");
     getData("/topic", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setSelectedTopic(result.data);
         }
-        setApiStatus("finished");
+        // setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished");
+        // setApiStatus("finished");
       });
-  }, []);
+  }, [refreshData]);
 
   useEffect(() => {
     // setApiStatus("started");

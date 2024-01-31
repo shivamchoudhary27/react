@@ -25,7 +25,6 @@ type Props = {
     filterUpdateTable:any;
     repliesModalShow: any;
     updateTopicFilter: any;
-    setGetAllComment: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
@@ -42,7 +41,6 @@ const View = (props: Props) => {
     filterUpdate: props.filterUpdate,
     selectedTopic: props.selectedTopic,
     getAllComment: props.getAllComment,
-    setGetAllComment: props.setGetAllComment,
     refreshToggle: props.refreshToggle,
     onRepliesHide: props.onRepliesHide,
     getAllProgram: props.getAllProgram,
