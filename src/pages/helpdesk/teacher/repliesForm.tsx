@@ -57,7 +57,7 @@ const RepliesForm = (props: Props) => {
       postData(`/comment/${props.selectedTopicId}`, values)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            props.toggleRepliesModalShow(false);
+            // props.toggleRepliesModalShow(false);
             action.setSubmitting(false);
             props.updateAddRefresh();
             action.resetForm();

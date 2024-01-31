@@ -1,4 +1,3 @@
-
 import View from "./view";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -17,7 +16,8 @@ const Helpdeskmanagement = () => {
   const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
   const [getAllProgram, setGetAllProgram] = useState(dummyData);
-  const [helpdeskManagementData, setHelpdeskManagementData] = useState(dummyData);
+  const [helpdeskManagementData, setHelpdeskManagementData] =
+    useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -31,7 +31,7 @@ const Helpdeskmanagement = () => {
     status: false,
     action: "",
     topicname: "",
-    dateValue: ""
+    dateValue: "",
   });
 
   const [topicObj, setTopicObj] = useState({
@@ -65,8 +65,8 @@ const Helpdeskmanagement = () => {
     setModalShow(status);
   };
 
-   // call api to get all topics === >>>
-   useEffect(() => {
+  // call api to get all topics === >>>
+  useEffect(() => {
     setApiStatus("started");
     getData("/topic", filterUpdate)
       .then((result: any) => {
@@ -77,13 +77,11 @@ const Helpdeskmanagement = () => {
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished")
+        setApiStatus("finished");
       });
   }, [refreshData, filterUpdate]);
 
-
   useEffect(() => {
-    
     if (selectedTopicId > 0) {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
@@ -93,33 +91,33 @@ const Helpdeskmanagement = () => {
           if (!repliesModalShow.status) {
             setGetAllComment([]);
           }
-          
         })
         .catch((err: any) => {
-          
-          if(err.response.status === 500){
+          if (err.response.status === 500) {
             console.log(err.response.data.message);
           }
         });
     }
   }, [selectedTopicId, selectedTopic, repliesModalShow.status]);
 
-    // call api to get all programs === >>>
-    useEffect(() => {
-      setApiStatus("started");
-      getData(`/${currentInstitute}/programs`, {pageNumber: 0,
-        pageSize: pagination.PERPAGE})
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            setGetAllProgram(result.data);
-          }
-          setApiStatus("finished");
-        })
-        .catch((err: any) => {
-          console.log(err);
-          setApiStatus("finished");
-        });
-    }, [currentInstitute]);
+  // call api to get all programs === >>>
+  useEffect(() => {
+    setApiStatus("started");
+    getData(`/${currentInstitute}/programs`, {
+      pageNumber: 0,
+      pageSize: pagination.PERPAGE,
+    })
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          setGetAllProgram(result.data);
+        }
+        setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setApiStatus("finished");
+      });
+  }, [currentInstitute]);
 
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
@@ -129,14 +127,19 @@ const Helpdeskmanagement = () => {
     status,
     action,
     topicname,
-    dateValue
+    dateValue,
   }: {
     status: boolean;
     action: string;
-    topicname: string,
-    dateValue: any
+    topicname: string;
+    dateValue: any;
   }) => {
-    setRepliesModalShow({ status: status, action: action, topicname: topicname, dateValue: dateValue });
+    setRepliesModalShow({
+      status: status,
+      action: action,
+      topicname: topicname,
+      dateValue: dateValue,
+    });
   };
 
   const getSelectedTopicId = (id: number) => {
@@ -144,7 +147,13 @@ const Helpdeskmanagement = () => {
   };
 
   // to update filters values in the main state filterUpdate
-  const updateTopicFilter = (topicId: string, published: string | undefined, startDate:any, endDate:any, programId:string) => {
+  const updateTopicFilter = (
+    topicId: string,
+    published: string | undefined,
+    startDate: any,
+    endDate: any,
+    programId: string
+  ) => {
     setFilterUpdate({
       ...filterUpdate,
       pageNumber: 0,
@@ -157,43 +166,46 @@ const Helpdeskmanagement = () => {
   };
 
   // get id, name from the department table === >>>
-  const editHandlerById = ({ id, status,query }: any) => {
+  const editHandlerById = ({ id, status, query }: any) => {
     setTopicObj({
       id: id,
       status: status,
-      query: query
-
+      query: query,
     });
   };
 
- 
   return (
     <View
-    topicObj={topicObj}
-    modalShow={modalShow}
-    apiStatus={apiStatus}
-    refreshToggle={refreshToggle}
-    getAllComment={getAllComment}
-    newPageRequest={newPageRequest}
-    selectedTopicId={selectedTopicId}
-    editHandlerById={editHandlerById}
-    toggleModalShow={toggleModalShow}
-    getAllProgram={getAllProgram.items}
-    selectedTopic={selectedTopic.items}
-    onHide={() => toggleModalShow(false)}
-    updateTopicFilter={updateTopicFilter}
-    filterUpdate={filterUpdate.pageNumber}
-    filterUpdateTable={filterUpdate}
-    getSelectedTopicId={getSelectedTopicId}
-    repliesAction={repliesModalShow.action}
-    modalTitle={repliesModalShow.topicname}
-    repliesModalShow={repliesModalShow.status}
-    modalTitleDate={repliesModalShow.dateValue}
-    toggleRepliesModalShow={toggleRepliesModalShow}
-    totalPages={helpdeskManagementData.pager.totalPages}
-    helpdeskManagementData={helpdeskManagementData.items}
+      topicObj={topicObj}
+      modalShow={modalShow}
+      apiStatus={apiStatus}
+      refreshToggle={refreshToggle}
+      getAllComment={getAllComment}
+      newPageRequest={newPageRequest}
+      selectedTopicId={selectedTopicId}
+      editHandlerById={editHandlerById}
+      toggleModalShow={toggleModalShow}
+      getAllProgram={getAllProgram.items}
+      selectedTopic={selectedTopic.items}
+      onHide={() => toggleModalShow(false)}
+      updateTopicFilter={updateTopicFilter}
+      filterUpdate={filterUpdate.pageNumber}
+      filterUpdateTable={filterUpdate}
+      getSelectedTopicId={getSelectedTopicId}
+      repliesAction={repliesModalShow.action}
+      modalTitle={repliesModalShow.topicname}
+      repliesModalShow={repliesModalShow.status}
+      modalTitleDate={repliesModalShow.dateValue}
+      toggleRepliesModalShow={toggleRepliesModalShow}
+      totalPages={helpdeskManagementData.pager.totalPages}
+      helpdeskManagementData={helpdeskManagementData.items}
       onRepliesHide={() =>
-        toggleRepliesModalShow({ status: false, action: "", topicname: "", dateValue: ''})
+        toggleRepliesModalShow({
+          status: false,
+          action: "",
+          topicname: "",
+          dateValue: "",
+        })
       }
     />
   );

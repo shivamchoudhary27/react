@@ -1,4 +1,5 @@
 import moment from "moment";
+import 'moment-timezone';
 
 // timestamp to 01/02/2024 this format date converter === >>
 export const convertTimestampToDate = (value) => {
@@ -25,26 +26,20 @@ export const formattedDate = (date) => {
   return getFormatedDate;
 };
 
+// converted date time UTC to IST
 export const formattedDateTime = (date) => {
-  const getFormatedDate = new Date(date).toLocaleString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    // second: "numeric",
-  });
-  return getFormatedDate;
+  const utcDate = moment.utc(date);
+  const istDate = utcDate.tz('Asia/Kolkata').format('MMMM DD, YYYY [at] h:mm A');
+  // console.log(istDate, 'istDate')
+  return istDate;
 };
 
 
 // =========================================================================
 export const formattedDateNew = (timestamp) => {
   const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
-
   const options = { month: 'short', day: 'numeric', year: 'numeric' };
   const formatter = new Intl.DateTimeFormat('en-US', options);
-
   return formatter.format(date);
 }
 
@@ -67,10 +62,10 @@ export const timestampToDaysAgoConverter = (date) => {
 
 //  convert the date format from "yyyy-MM-dd" to "dd-MM-yyyy" === >>
 export const dateConverterToDYM = (date) => {
-  console.log(date)
+  // console.log(date)
   const originalDate = date;
   const formattedDate = moment(originalDate).format("DD-MM-YYYY");
-  console.log(formattedDate)
+  // console.log(formattedDate)
   return (formattedDate);
 }
 
