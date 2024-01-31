@@ -1,9 +1,11 @@
-import React from "react";
-import { Container, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container, Button, Row, Col } from "react-bootstrap";
 import config from "../../utils/config";
-import logo from "../../assets/images/logo.png";
+import logo from "../../assets/images/circlelogo-blue.svg";
 import "./home.scss";
+import "./mobileStyle.scss";
 import { useNavigate } from "react-router-dom";
+import SearchIcon from "../../assets/images/icons/searchbold.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -11,41 +13,67 @@ const Home = () => {
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   console.log("redirect uri " + redirectUri);
   console.log(oAuthUrl);
-  const dashStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "90vh",
-    textAlign: "center",
-  };
+  const [showSearchInput, setShowSearchInput] = useState(false);
 
+  const handleSearchClick = () => {
+    setShowSearchInput(true);
+  };
   return (
     <>
-      <section className="ai-home-wrapper">
-        <Container style={dashStyle} className="ai-home-container">
-          <div>
-            <div className="ai-logo-wrapper">
-              <img className="ai-logo" src={logo} alt="logo" />
+      <div className="landing-wrapper">
+        <div className="landing-header">
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="logo-wrapper">
+              <img src={logo} alt="logo" className="img img-fluid" />
             </div>
-            <h1 className="mb-5">
-              Welcome to <span>Ballistic University Premium</span>
-            </h1>
-            <a href={oAuthUrl}>
-              <Button variant="warning btn-lg" className="button-link">
-                Sign in
+            <div className="d-flex">
+              <div className="position-relative rounded-pill search-expand">
+                {showSearchInput ? (
+                  <div className="d-flex">
+                    <input type="text" placeholder="Search" className="search-input" />
+                    <button className="search-btn">
+                      <img src={SearchIcon} alt="logo" className="img img-fluid" />
+                    </button>
+                  </div>
+                ) : (
+                  <button className="search-btn bg-dark" onClick={handleSearchClick}>
+                    <img src={SearchIcon} alt="logo" className="img img-fluid" />
+                  </button>
+                )}
+              </div>
+              <Button variant="btn-lg rounded-pill px-4 text-white mx-2" >
+                Demo couses
               </Button>
-            </a>{" "}
-            <Button variant="dark btn-lg" className="button-link ms-3" onClick={()=>navigate("/signupnew")}>
-               Sign up
-            </Button>
+            </div>
+          </div>
+        </div>
+        <Container fluid>
+          <div className="landing-content">
+            <div className="login-btn mt-5">
+              <a href={oAuthUrl}>
+                <Button variant="btn-lg rounded-pill px-4">
+                 Login
+                </Button>
+              </a>
+            </div>
+            <div className="demovideo-wrapper">
+            <iframe src="https://player.vimeo.com/video/898700168" title="Ballistic University Admin"></iframe>
+            </div>
           </div>
         </Container>
-        <div>
-          <p>© Copyright Ballistic Learning Pvt Ltd. All Rights Reserved.</p>
-        </div>
-      </section>
+      </div>
+      <div className="footer-links">
+        <Container fluid>
+          <Row>
+            <Col xs={12} md={4}>Teaching Resources Planner Management </Col>
+            <Col xs={12} md={4}>NAAC Compliances</Col>
+            <Col xs={12} md={4}>Personal Learning Paths</Col>
+          </Row>
+        </Container>
+      </div>
     </>
   );
 };
 
 export default Home;
+
