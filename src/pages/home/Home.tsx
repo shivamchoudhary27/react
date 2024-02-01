@@ -6,6 +6,7 @@ import "./home.scss";
 import "./mobileStyle.scss";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "../../assets/images/icons/searchbold.svg";
+import BgLaptop from "../../assets/images/landingImage.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -13,11 +14,7 @@ const Home = () => {
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   console.log("redirect uri " + redirectUri);
   console.log(oAuthUrl);
-  const [showSearchInput, setShowSearchInput] = useState(false);
 
-  const handleSearchClick = () => {
-    setShowSearchInput(true);
-  };
   return (
     <>
       <div className="landing-wrapper">
@@ -26,25 +23,9 @@ const Home = () => {
             <div className="logo-wrapper">
               <img src={logo} alt="logo" className="img img-fluid" />
             </div>
-            <div className="d-flex">
-              <div className="position-relative rounded-pill search-expand">
-                {showSearchInput ? (
-                  <div className="d-flex">
-                    <input type="text" placeholder="Search" className="search-input" />
-                    <button className="search-btn">
-                      <img src={SearchIcon} alt="logo" className="img img-fluid" />
-                    </button>
-                  </div>
-                ) : (
-                  <button className="search-btn bg-dark" onClick={handleSearchClick}>
+                  <button className="search-btn bg-dark">
                     <img src={SearchIcon} alt="logo" className="img img-fluid" />
                   </button>
-                )}
-              </div>
-              <Button variant="btn-lg rounded-pill px-4 text-white mx-2" >
-                Demo couses
-              </Button>
-            </div>
           </div>
         </div>
         <Container fluid>
@@ -69,6 +50,11 @@ const Home = () => {
             <Col xs={12} md={4}>NAAC Compliances</Col>
             <Col xs={12} md={4}>Personal Learning Paths</Col>
           </Row>
+        </Container>
+      </div>
+      <div className="landing-courses">
+      <Container fluid>
+        {/* Course card here  */}
         </Container>
       </div>
     </>
