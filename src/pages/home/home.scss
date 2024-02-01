@@ -32,23 +32,17 @@
   .search-btn{
     height: 2.8rem;
     width: 2.8rem;
-    position: absolute;
-    right: 0;
     img{
       height: 1rem;
       width: 1rem;
     }
-  }
-  .search-input{
-    width: 13rem;
-    transition: width 0.5s ease-in-out;
   }
 }
 
 .login-btn {
     position: absolute;
     top: 50%; 
-    left: 6%;
+    left: 5%;
   Button{
     background: linear-gradient(90deg, #13568A -0.02%, #076BD0 100%);
     color: white;
@@ -82,14 +76,15 @@
 .landing-content {
   height: 80.2vh;
   width: 100%;
+  position: relative;
   background: url("../../assets/images/landingImage.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   .demovideo-wrapper {
     position: absolute;
-    top: 33vh;
-    right: 12.8vw;
+    top: 23vh;
+    right: 10.8vw;
     iframe {
       width: 37vw;
       height: 42vh;
