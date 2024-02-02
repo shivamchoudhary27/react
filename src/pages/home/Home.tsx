@@ -6,7 +6,8 @@ import "./home.scss";
 import "./mobileStyle.scss";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "../../assets/images/icons/searchbold.svg";
-import BgLaptop from "../../assets/images/landingImage.svg";
+import Butext from "../../assets/images/landing-butext.svg";
+// import PriceRequestModal from "../../widgets/priceRequestModal/PriceRequestModal";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -14,6 +15,11 @@ const Home = () => {
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   console.log("redirect uri " + redirectUri);
   console.log(oAuthUrl);
+
+  // const [showModal, setShowModal] = useState(false);
+
+  // const handleShowModal = () => setShowModal(true);
+  // const handleCloseModal = () => setShowModal(false);
 
   return (
     <>
@@ -30,6 +36,7 @@ const Home = () => {
         </div>
         <Container fluid>
           <div className="landing-content">
+            <img src={Butext} alt="Ballistic University" className="butext" />
             <div className="login-btn mt-5">
               <a href={oAuthUrl}>
                 <Button variant="btn-lg rounded-pill px-4">
@@ -52,6 +59,8 @@ const Home = () => {
           </Row>
         </Container>
       </div>
+      {/* onClick={handleShowModal} */}
+   {/* <PriceRequestModal show={showModal} handleClose={handleCloseModal}/> */}
       <div className="landing-courses">
       <Container fluid>
         {/* Course card here  */}
