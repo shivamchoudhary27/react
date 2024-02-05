@@ -209,14 +209,15 @@ const CourseModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
+    if(values !== undefined){
+      values.startDate = dateConverterToDYM(values.startDate)
+      values.endDate = dateConverterToDYM(values.endDate)
+    }
     if (values.deleteImage === true) {
       values.deleted = true;
       delete values.deleteImage;
       values.files = addRemoveFileProperty(values.files);
     }
-                                                     // Comment BY AKSHAY ALKAMA SIR Review
-    // values.startDate = dateFormatHandlers(values.startDate);
-    // values.endDate = dateFormatHandlers(values.endDate);
 
     let courseImage = values.file;
     delete courseImage?.file;

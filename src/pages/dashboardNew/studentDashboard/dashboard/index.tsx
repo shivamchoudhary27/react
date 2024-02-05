@@ -27,6 +27,7 @@ type Props = {
   showAlert: boolean;
   userCoursesData: any;
   apiStatusCourse: string;
+  sessionApiStatus: string;
   setUserCoursesData: any;
   todaySessionPacket: any;
   getSortFilterValue: any;
@@ -78,6 +79,7 @@ const StudentDashboard: React.FC<Props> = (props) => {
             apiStatus={props.apiStatus}
             eventsPacket={props.eventsPacket}
             courseSession={props.courseSession}
+            sessionApiStatus={props.sessionApiStatus}
             apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             courseFilterActive={props.courseFilterActive}
@@ -111,6 +113,7 @@ const StudentDashboard: React.FC<Props> = (props) => {
             apiStatus={props.apiStatus}
             eventsPacket={props.eventsPacket}
             courseSession={props.courseSession}
+            sessionApiStatus={props.sessionApiStatus}
             apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             courseFilterActive={props.courseFilterActive}
@@ -144,6 +147,7 @@ const StudentDashboard: React.FC<Props> = (props) => {
             apiStatus={props.apiStatus}
             eventsPacket={props.eventsPacket}
             courseSession={props.courseSession}
+            sessionApiStatus={props.sessionApiStatus}
             apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             courseFilterActive={props.courseFilterActive}

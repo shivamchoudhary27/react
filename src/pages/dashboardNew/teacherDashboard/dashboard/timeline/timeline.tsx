@@ -1,5 +1,5 @@
-
 import "./style.scss";
+import React, { Suspense } from "react";
 import TimelineTable from "./timelineTable";
 import FilterDropdown from "./filterDropdown";
 
@@ -17,7 +17,6 @@ type Props = {
 
 const Timeline: React.FC<Props> = (props) => {
   
-  
   return (
     <div className="mitblock activityTimeline-block">
       <h3 className="mitblock-title">Activity Timeline</h3>
@@ -28,13 +27,15 @@ const Timeline: React.FC<Props> = (props) => {
         getFilterSelectValue={props.getFilterSelectValue}
         filterTimestampValue={props.filterTimestampValue}
       />
-      <TimelineTable
-        apiStatus={props.apiStatus}
-        showAlert={props.showAlert}
-        eventsPacket={props.eventsPacket}
-        apiStatusCourse={props.apiStatusCourse}
-        filterTimestampSort={props.filterTimestampSort}
-      />
+      <Suspense fallback={<h3>Loading...</h3>}>
+        <TimelineTable
+          apiStatus={props.apiStatus}
+          showAlert={props.showAlert}
+          eventsPacket={props.eventsPacket}
+          apiStatusCourse={props.apiStatusCourse}
+          filterTimestampSort={props.filterTimestampSort}
+        />
+      </Suspense>
     </div>
   );
 };

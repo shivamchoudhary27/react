@@ -67,13 +67,18 @@ const DashboardNew: React.FC<Props> = (props) => {
 
   // dashboard API call to get courses data === >>>
   useEffect(() => {
+    setUserCoursesData({
+      departments: {},
+      courses: [],
+      programs: [],
+    })
     if (
       currentUserRole.id !== undefined &&
       currentUserRole.id > 0 &&
       userId !== undefined
     ) {
       let endPoint = `/${currentUserRole.id}/dashboard`;
-      makeGetDataRequest(endPoint, {}, setUserCoursesData);
+      makeGetDataRequest(endPoint, {}, setUserCoursesData, setApiStatusCourse);
 
       // get moodle enrole courses data for course status
       const query = {
@@ -124,7 +129,7 @@ const DashboardNew: React.FC<Props> = (props) => {
       getData(query)
         .then((res) => {
           if (res.status === 200 && res.data !== "") {
-            console.log("timeslot data------", res.data)
+            // console.log("timeslot data------", res.data)
             setEventsPacket(res.data.events);
             setCourseFilterActive(false);
           }
@@ -178,7 +183,6 @@ const DashboardNew: React.FC<Props> = (props) => {
   const getSortFilterValue = (val: string) => {
     setTimestampFilterSort(val);
     if (val === "date") {
-      // setTimestampFilterValue("all");          //---------comment made by Akshay.
       setTimestampFilterSort("");
     }
   };
@@ -199,16 +203,15 @@ const DashboardNew: React.FC<Props> = (props) => {
           if (res.status === 200 && res.data !== "") {
             if (res.data.errorcode === undefined) {
               res.data.map((item: any) => {
-                // console.log(res.data)
                 item.attendance_instances.map((el: any) => {
                   el.today_sessions.map((session: any) => {
+                    session["courseName"] = el.name
                     accumulatedData.push(session);
                   });
                 });
               });
               setTodaySessionPacket(accumulatedData);
               setCourseSession(res.data);
-              console.log(res.data)
               setSessionApiStatus("finished");
             } else {
               setTodaySessionPacket([]);
@@ -256,6 +259,7 @@ const DashboardNew: React.FC<Props> = (props) => {
           courseSession={courseSession}
           apiStatusCourse={apiStatusCourse}
           userCoursesData={userCoursesData}
+          sessionApiStatus={sessionApiStatus}
           courseFilterActive={courseFilterActive}
           todaySessionPacket={todaySessionPacket}
           enrolCoreCoursesObj={enrolCoreCoursesObj}

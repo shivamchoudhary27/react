@@ -64,6 +64,7 @@ const Browser = (props: Props) => {
       </div>
       <div className="dashboard-bottomPanel mt-4 mb-5">
         <MyCourses
+          apiStatusCourse={props.commonProps.apiStatusCourse}
           userCoursesData={props.commonProps.userCoursesData}
           setUserCoursesData={props.commonProps.setUserCoursesData}
           enrolCoreCoursesObj={props.commonProps.enrolCoreCoursesObj}

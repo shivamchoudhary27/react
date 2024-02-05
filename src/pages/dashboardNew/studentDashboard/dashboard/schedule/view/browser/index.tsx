@@ -6,6 +6,7 @@ type Props = {
   apiStatus: string;
   courseSession: any;
   sessionMode: string[];
+  sessionApiStatus: string
   todaySessionPacket: any;
 };
 
@@ -59,8 +60,7 @@ const Browser: React.FC<Props> = (props) => {
         <span className="tsb-date">{formattedDate}</span>
       </h3>
       <div className="mitblock-body">
-        {props.courseSession.map((item: any, index: number) =>
-          props.todaySessionPacket.map((session: any) => (
+        {props.todaySessionPacket.map((session: any, index: number) => (
             <div className="d-flex align-items-center tsb-row mb-3" key={index}>
               <div className="align-self-start me-3">
                 <img src={calendarIcon} alt="Schedule Icon" />
@@ -71,7 +71,7 @@ const Browser: React.FC<Props> = (props) => {
                 </h6>
                 <p>
                   <b>Course: </b>
-                  {item.fullname}
+                  {session.courseName}
                 </p>
                 <p>
                   <b>Venue: </b>
@@ -88,11 +88,10 @@ const Browser: React.FC<Props> = (props) => {
                   props.sessionMode[session.mode].slice(1)}
               </span>
             </div>
-          ))
-        )}
-        {props.apiStatus === "started" &&
-          props.todaySessionPacket.length === 0 && <ListSkeleton />}
-        {props.apiStatus === "finished" &&
+          ))}
+          {props.sessionApiStatus === "started" &&
+            props.todaySessionPacket.length === 0 && <ListSkeleton />}
+          {props.sessionApiStatus === "finished" &&
           props.todaySessionPacket.length === 0 && (
             <Errordiv msg="No session available!" cstate />
           )}

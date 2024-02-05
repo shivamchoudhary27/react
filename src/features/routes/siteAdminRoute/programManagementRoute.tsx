@@ -1,13 +1,15 @@
+import React from 'react'
 import { Route } from 'react-router-dom'
-import Tags from '../../../pages/siteAdminstration/tags'
-import Discipline from '../../../pages/siteAdminstration/discipline'
-import Departments from '../../../pages/siteAdminstration/departments'
-import ProgramType from '../../../pages/siteAdminstration/programType'
-import ManageProgram from '../../../pages/siteAdminstration/manageProgram'
-import CourseManagment from '../../../pages/siteAdminstration/manageCourse'
-import ManageCategory from '../../../pages/siteAdminstration/manageCategory'
-import Preview from '../../../pages/siteAdminstration/manageProgram/preview/'
-import AddProgram from '../../../pages/siteAdminstration/manageProgram/addProgram'
+
+const Tags = React.lazy(() => import('../../../pages/siteAdminstration/tags'))
+const Discipline = React.lazy(() => import('../../../pages/siteAdminstration/discipline')) 
+const Departments = React.lazy(() => import  ('../../../pages/siteAdminstration/departments'))
+const ProgramType = React.lazy(() => import('../../../pages/siteAdminstration/programType')) 
+const ManageProgram = React.lazy(() => import('../../../pages/siteAdminstration/manageProgram')) 
+const CourseManagment = React.lazy(() => import('../../../pages/siteAdminstration/manageCourse')) 
+const ManageCategory = React.lazy(() => import('../../../pages/siteAdminstration/manageCategory')) 
+const Preview = React.lazy(() => import('../../../pages/siteAdminstration/manageProgram/preview/')) 
+const AddProgram = React.lazy(() => import('../../../pages/siteAdminstration/manageProgram/addProgram'))
 
 const ProgramManagementRoute = () => {
   return [

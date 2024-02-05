@@ -148,9 +148,9 @@ const TimelineTable: React.FC<Props> = (props) => {
           )
         )}
 
-      {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
+      {/* {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
         <ListSkeleton />
-      )}
+      )} */}
       {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
         <Errordiv msg="No record found!" cstate className="" />
       )}

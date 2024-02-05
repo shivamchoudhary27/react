@@ -4,11 +4,12 @@ type Props = {
   status?: string;
   batchList?: any;
   programList?: any;
-  userCoursesData?: any;
+  coursesList?: any;
   categoryList?: any;
   departmentList?: any;
   setUserCoursesData?: any;
   updateCourses?: any;
+  enrolCoreCoursesObj: any
   getCourseStatus?: (params: any) => void;
   getSelectedValue?: ChangeEventHandler<HTMLSelectElement> | undefined;
 };
@@ -19,27 +20,27 @@ const courseStatusOptions = [
   {id: 'notstarted', name: 'Not Started'},
 ];
 
-const departmentOptions = (departments) => {
+const departmentOptions = (departments: { [s: string]: unknown; } | ArrayLike<unknown>) => {
   return Object.entries(departments).map(([id, name]) => ({
     id: parseInt(id),
     name
   }));
 }
 
-const filterProgramOptions = (departmentId, allPrograms) => {
+const filterProgramOptions = (departmentId: number, allPrograms: any[]) => {
   if (departmentId === 0) return allPrograms;
   return allPrograms.filter(item => item.department.id === departmentId);
 }
 
-const filterBatchYearPrograms = (batchYear, programs) => {
+const filterBatchYearPrograms = (batchYear: string, programs: any[]) => {
   const intBatchYear = parseInt(batchYear);
   if (intBatchYear === 0) {
     return programs;
   }
-  return programs.filter(item => item.batchYear === batchYear);
+  return programs.filter((item: { batchYear: any; }) => item.batchYear === batchYear);
 }
 
-const batchYearOptions = (programs) => {
+const batchYearOptions = (programs: any[]) => {
   const uniqueBatchYears = new Set();
 
   // Iterate over the dataArray and add unique batch years to the Set
@@ -54,7 +55,7 @@ const batchYearOptions = (programs) => {
   }));
 }
 
-const categoriesOptions = (programId, coursePacket) => {
+const categoriesOptions = (programId: any, coursePacket: any[]) => {
   const filteredData = coursePacket.filter(item => item.programId === programId);
 
   const categoriesData = filteredData.map(item => ({
@@ -65,8 +66,10 @@ const categoriesOptions = (programId, coursePacket) => {
   return trimDuplicateCategories;
 }
 
+
 const FilterProgramDropdown = (props: Props) => {
   const [userEnrolData, setUserEnrolData] = useState({programs: [], courses: []});
+  const [filteredStatusData, setFilteredStatusData] = useState([])
   const [filters, setFilters] = useState({
     selectedValues: {
       // department: 0,
@@ -83,6 +86,33 @@ const FilterProgramDropdown = (props: Props) => {
       status: courseStatusOptions,
     },
   });
+
+  useEffect(() => {
+    if (props.coursesList.courses.length > 0 && props.enrolCoreCoursesObj.length > 0) {
+      let x: any = []
+      let y = props.enrolCoreCoursesObj.filter((item: any) => {
+        return props.coursesList.courses.some((el: any) => {
+          return el.idNumber === item.id;
+        });
+      });
+      // console.log(y);
+      setFilteredStatusData(y)
+    }
+  }, [props.enrolCoreCoursesObj, props.coursesList]);
+  
+  const filterStatusCourse = (val: any) => {
+    if(val !== ""){
+      if(val === "completed"){
+        return filteredStatusData.filter((item: any) => item.completed)
+      }
+      if(val === "inprogress"){
+        return filteredStatusData.filter((item: any) => !item.completed && item.progress != null)
+      }
+      if(val === "notstarted"){
+        return filteredStatusData.filter((item: any) => !item.completed && item.progress == null)
+      }
+    }
+  }
 
   useEffect(() => {
     // let departmentPacket = departmentOptions(props.userCoursesData.departments);
@@ -106,14 +136,17 @@ const FilterProgramDropdown = (props: Props) => {
     }
   }, [filters]);
 
-  const getFilterChange = (value, component) => {
+  const getFilterChange = (value: any, component: string) => {
     let originalValue = value;
     value = parseInt(value);
 
     if (component === 'Status') {
+      let filteredStatus = filterStatusCourse(originalValue);
+      console.log(filteredStatus)
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, status: originalValue}
+        selectedValues: {...prevFilterData.selectedValues, status: originalValue},
+        // filterData: {...prevFilterData.filterData, status: filteredStatus}
       }));
     }
     

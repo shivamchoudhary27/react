@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ScheduleTable from "./scheduleTable";
 
 type Props = {
@@ -28,13 +28,15 @@ const MyScheduleComp: React.FC<Props> = (props) => {
           Today's session
           <span className="tsb-date">{formattedDate}</span>
         </h3>
-        <ScheduleTable
-          sessionMode={props.sessionMode}
-          courseSession={props.courseSession}
-          sessionApiStatus={props.sessionApiStatus}
-          todaySessionPacket={props.todaySessionPacket}
-          userCoursesData={props.userCoursesData.courses}
-        />
+        <Suspense fallback={<h3>Loading...</h3>}>
+          <ScheduleTable
+            sessionMode={props.sessionMode}
+            courseSession={props.courseSession}
+            sessionApiStatus={props.sessionApiStatus}
+            todaySessionPacket={props.todaySessionPacket}
+            userCoursesData={props.userCoursesData.courses}
+          />
+        </Suspense>
       </div>
     </>
   );

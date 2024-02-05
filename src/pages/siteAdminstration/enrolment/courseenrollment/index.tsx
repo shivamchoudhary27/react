@@ -216,7 +216,7 @@ const CourseEnrollment = () => {
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
       <div className="filter-wrapper mt-2">
-        <ManageFilter updateinputfilters={updateSearchFilters} />
+        <ManageFilter updateinputfilters={updateSearchFilters} apiStatus={apiStatus} />
       </div>
       </>
   );

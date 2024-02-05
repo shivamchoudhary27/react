@@ -46,58 +46,51 @@ const ScheduleTable: React.FC<Props> = (props) => {
     return `${startTime} - ${endTime}`;
   };
 
-  // console.log(props.courseSession)
-
   const getValue = () => {
     console.log(props.userCoursesData.length);
     if (props.userCoursesData.length > 0) {
       // let filteredArray = props.userCoursesData.filter((item: any) => {
       //   return props.courseSession.some((el: any) => el.fullname == item.name);
       // });
-
-      console.log("hello");
     }
     return true;
   };
 
   return (
     <div className="mitblock-body">
-      {props.courseSession.map((item: any, index: number) =>
-        props.todaySessionPacket.map((session: any) => (
-          <div className="d-flex align-items-center tsb-row mb-3" key={index}>
-            <div className="align-self-start me-3">
-              <img src={calendarIcon} alt="Schedule Icon" />
-            </div>
-            <div className="tsb-info">
-              <h6>
-                {session.name.charAt(0).toUpperCase() + session.name.slice(1)}
-              </h6>
-              <p>
-                <b>Course: </b>
-                {item.fullname}
-              </p>
-              <p>
-                <b>Venue: </b>
-                {session.venue !== "" ? session.venue : "Not available"}
-              </p>
-              <p>{getSessionTime(session.sessdate)}</p>
-            </div>
-            <span
-              className={`badge tsb-button ${props.sessionMode[session.mode]}`}
-            >
-              {props.sessionMode[session.mode].charAt(0).toUpperCase() +
-                props.sessionMode[session.mode].slice(1)}
-            </span>
-          </div>
-        ))
-      )}
-      {props.sessionApiStatus === "started" &&
-        props.todaySessionPacket.length === 0 && <ListSkeleton />}
-      {(props.sessionApiStatus === "finished" &&
-        props.todaySessionPacket.length === 0) ||
-        (props.todaySessionPacket.length === 0 && (
+      {props.sessionApiStatus === "finished" &&
+        props.todaySessionPacket.length === 0 && (
           <Errordiv msg="No session available!" cstate />
-        ))}
+        )}
+      {props.todaySessionPacket.map((session: any, index: number) => (
+        <div className="d-flex align-items-center tsb-row mb-3" key={index}>
+          <div className="align-self-start me-3">
+            <img src={calendarIcon} alt="Schedule Icon" />
+          </div>
+          <div className="tsb-info">
+            <h6>
+              {session.name.charAt(0).toUpperCase() + session.name.slice(1)}
+            </h6>
+            <p>
+              <b>Course: </b>
+              {session.courseName}
+            </p>
+            <p>
+              <b>Venue: </b>
+              {session.venue !== "" ? session.venue : "Not available"}
+            </p>
+            <p>{getSessionTime(session.sessdate)}</p>
+          </div>
+          <span
+            className={`badge tsb-button ${props.sessionMode[session.mode]}`}
+          >
+            {props.sessionMode[session.mode].charAt(0).toUpperCase() +
+              props.sessionMode[session.mode].slice(1)}
+          </span>
+        </div>
+      ))}
+      {/* {props.sessionApiStatus === "started" &&
+        props.todaySessionPacket.length === 0 && <ListSkeleton />} */}
     </div>
   );
 };

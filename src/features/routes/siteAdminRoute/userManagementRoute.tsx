@@ -1,13 +1,15 @@
+import React from 'react'
 import { Route } from 'react-router-dom'
-import Permission from '../../../pages/siteAdminstration/roles/permissions'
-import AssignRoles from '../../../pages/siteAdminstration/roles/assignRoles'
-import UserManagement from '../../../pages/siteAdminstration/userManagement'
-import InstituteManagement from '../../../pages/siteAdminstration/institute'
-import ManageRoles from '../../../pages/siteAdminstration/roles/manageRoles'
-import ManageAuthorities from '../../../pages/siteAdminstration/roles/authorities'
-import GuestUsers from '../../../pages/siteAdminstration/userManagement/guestUsers'
-import ViewUserProfile from '../../../pages/siteAdminstration/userManagement/profile'
-import EditUserProfile from '../../../pages/siteAdminstration/userManagement/profile/forms/editProfile';
+
+const Permission = React.lazy(() => import("../../../pages/siteAdminstration/roles/permissions"))
+const InstituteManagement = React.lazy(() => import("../../../pages/siteAdminstration/institute"))
+const UserManagement = React.lazy(() => import("../../../pages/siteAdminstration/userManagement"))
+const AssignRoles = React.lazy(() => import("../../../pages/siteAdminstration/roles/assignRoles"))
+const ManageRoles = React.lazy(() => import("../../../pages/siteAdminstration/roles/manageRoles"))
+const ManageAuthorities = React.lazy(() => import("../../../pages/siteAdminstration/roles/authorities"))
+const GuestUsers = React.lazy(() => import("../../../pages/siteAdminstration/userManagement/guestUsers"))
+const ViewUserProfile = React.lazy(() => import("../../../pages/siteAdminstration/userManagement/profile"))
+const EditUserProfile = React.lazy(() => import("../../../pages/siteAdminstration/userManagement/profile/forms/editProfile"))
 
 const UserManagementRoute = () => {
   return [

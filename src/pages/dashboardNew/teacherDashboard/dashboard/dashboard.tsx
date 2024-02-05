@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense} from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import MyScheduleComp from "./schedule/scheduleComp";
 import Timeline from "./timeline/timeline";

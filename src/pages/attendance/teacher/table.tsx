@@ -181,8 +181,8 @@ const TeacherAttendanceTable = (props: Props) => {
         {props.apiStatus === "started" && props.attendancedata.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {(props.apiStatus === "finished" &&
-          props.attendancedata.length === 0) || props.attendancedata.length === 0 && (
+        {props.apiStatus === "finished" &&
+          props.attendancedata.length === 0 && (
             <Errordiv msg="No record found!" cstate className="mt-3" />
           )}
     </React.Fragment>

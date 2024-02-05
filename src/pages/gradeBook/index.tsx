@@ -62,19 +62,17 @@ const GradeBook = (props: Props) => {
 
   useEffect(() => {
     if (courseId === -1) {
-      setApiStatus("started");
       setTimeout(() => {
-        setApiStatus("finished");
         setGradebookData(dummyData);
       }, 400);
     }
     if (courseId > 0) {
-      setApiStatus("started");
       const query = {
         wsfunction: "gradereport_user_get_grades_table",
         userid: id,
         courseid: courseId,
       };
+      setApiStatus("started");
       getData(query)
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
