@@ -6,7 +6,7 @@ const initialState = {
     currentUserRole : localStorage.getItem("currentUserRole") ? 
     JSON.parse(localStorage.getItem("currentUserRole")) 
     : 
-    { id: 1, shortName: ""},
+    { id: 0, shortName: ""},
 }
 
 const globalFilterSlice = createSlice({
