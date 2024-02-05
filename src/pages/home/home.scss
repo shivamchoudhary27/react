@@ -136,5 +136,14 @@
       font-size: 21px;
     }
     }
+    .allcourses-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    button {
+      background: white;
+      border-radius: 50rem;
+    }
+  } 
   }
 }

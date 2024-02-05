@@ -90,6 +90,9 @@ const Home = () => {
             </div>
             <div className="course-title">Data Structure</div>
           </div>
+          <div className="allcourses-btn">
+           <button className="btn"> <i className="fa fa-chevron-right"></i> </button>
+          </div>
         </div>
       </div>
     </>
