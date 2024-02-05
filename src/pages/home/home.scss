@@ -95,7 +95,46 @@
   display: none;
 }
 
-// ------------- 
-// .landing-courses{
-//   background: grey;
-// }
+// -----Couses Section-------- 
+.landing-courses{
+  background: url(../../assets/images/ligh-wave-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 4rem 0rem;
+  justify-content: space-between;
+  .title-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0rem 3rem;
+    width: 35%;
+    h4{
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    div{
+      font-size: 18px;
+    }
+  }
+  .courseswrapper{
+    background: url(../../assets/images/dark-wave-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    .course-container{
+      // display: flex;
+    .course-image{
+      background: white;
+      border-radius: 1rem;
+    }
+    .course-title{
+      text-align: center;
+      color: white;
+      margin-top: 1rem;
+      font-size: 21px;
+    }
+    }
+  }
+}
