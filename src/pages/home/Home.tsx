@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import SearchIcon from "../../assets/images/icons/searchbold.svg";
 import Butext from "../../assets/images/landing-butext.svg";
 // import PriceRequestModal from "../../widgets/priceRequestModal/PriceRequestModal";
+import DsaImage from "../../assets/images/course-data-structure.svg";
+import CloudImage from "../../assets/images/course-cloud-computing.svg";
+import MathsImage from "../../assets/images/course-discreate-mathematics.svg";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -61,10 +64,33 @@ const Home = () => {
       </div>
       {/* onClick={handleShowModal} */}
    {/* <PriceRequestModal show={showModal} handleClose={handleCloseModal}/> */}
-      <div className="landing-courses">
-      <Container fluid>
-        {/* Course card here  */}
-        </Container>
+     <div className="landing-courses d-flex">
+        <div className="title-wrapper">
+          <h4>Courses</h4>
+          <div>
+          Embark on your learning transformation journey with a Ballistic Quickstart, be it online coaching, K12, higher education, medical education, banking or workplace learning. Our expert teams will collaborate closely to guide you through strategy, design, hosting, and ongoing support.
+          </div>
+        </div>
+        <div className="courseswrapper">
+          <div className="course-container">
+            <div className="course-image">
+            <img src={MathsImage} className="img img-fluid" alt="Discrete Mathematics" />
+            </div>
+            <div className="course-title">Discrete Mathematics</div>
+          </div>
+          <div className="course-container">
+            <div className="course-image">
+            <img src={CloudImage} className="img img-fluid" alt="Cloud Computing" />
+            </div>
+            <div className="course-title">Cloud Computing</div>
+          </div>
+          <div className="course-container">
+            <div className="course-image">
+            <img src={DsaImage} className="img img-fluid" alt="Data Structure" />
+            </div>
+            <div className="course-title">Data Structure</div>
+          </div>
+        </div>
       </div>
     </>
   );

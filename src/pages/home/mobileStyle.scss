@@ -39,5 +39,18 @@
            }
          }
      }
-   
+  //  ---- Courses section ---- 
+  .landing-courses{
+    flex-direction: column;
+    .title-wrapper{
+      width: 100%;
+      text-align: center;
+      padding: 1rem;
+      margin-bottom: 3rem;
+    }
+    .courseswrapper{
+    flex-direction: column;
+
+    }
+  }
    }
