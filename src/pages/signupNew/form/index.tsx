@@ -12,8 +12,12 @@ import ReCAPTCHA from "react-google-recaptcha";
 import googleReCaptcha from "../../../utils/recaptcha";
 import Errordiv from "../../../widgets/alert/errordiv";
 import { useNavigate } from "react-router-dom";
+// import  config  from "util";
+import config from "../../../utils/config";
 
 const SignupForm = () => {
+  const redirectUri = config.REDIRECT_URI;
+  const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   const navigate = useNavigate();
   const [alertStatus, setAlertStatus] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
@@ -75,7 +79,7 @@ const SignupForm = () => {
               alertBoxColor: "",
             });
             setTimeout(() => {
-              navigate("/oauth2-service/oauth2/login");
+              navigate(oAuthUrl);
             }, 3000);
           } else {
             setAlertStatus(true);
