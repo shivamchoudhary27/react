@@ -3,13 +3,14 @@ import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../../utils/filterTimeout";
 import "./style.scss";
+import { FiltersLoadingBtn } from "../../../../utils/filtersLoading";
 
 const initialValues = {
   name: "",
   email: "",
 };
 
-const ManageFilter = ({ updateinputfilters }: any) => {
+const ManageFilter = ({ updateinputfilters, apiStatus }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const formik = useFormik({
     initialValues: initialValues,
@@ -75,9 +76,7 @@ const ManageFilter = ({ updateinputfilters }: any) => {
             />
           </Col>
           <Col>
-            <Button variant="primary" type="submit" className="me-2">
-              Filter
-            </Button>
+            {FiltersLoadingBtn(apiStatus)}
             <Button
               variant="outline-secondary"
               type="reset"

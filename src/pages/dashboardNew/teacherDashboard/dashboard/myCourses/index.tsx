@@ -10,6 +10,7 @@ type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any
   setUserCoursesData:any
+  apiStatusCourse: string
 };
 
 const courseStatusOptions = [
@@ -78,13 +79,10 @@ const MyCourses = (props: Props) => {
             />
           </div>
         </div>
-        {
-          props.userCoursesData.courses.length === 0 &&
-          <Errordiv msg="No courses available!" cstate />
-        }
         <CardComponent 
           courseList={props.userCoursesData} 
           filterStatus={filterStatus}
+          apiStatusCourse={props.apiStatusCourse}
         />
       </Container>
     </>

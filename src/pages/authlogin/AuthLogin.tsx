@@ -43,7 +43,7 @@ const AuthLogin = () => {
           if (response.data === '') {
             console.log('verifycode , no token found', response);
             dispatch(globalAlertActions.globalAlert({alertMsg: "User verification failed, please try again!", status : true}))
-            navigate('/');
+            navigate('/');  
           } else {
               let result = response.data;
               setIsLoaded(true);

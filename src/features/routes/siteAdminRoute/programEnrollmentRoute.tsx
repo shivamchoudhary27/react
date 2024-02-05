@@ -1,13 +1,15 @@
+import React from 'react';
 import { Route } from 'react-router-dom'
-import SiteAdminHome from "../../../pages/siteAdminstration/siteAdmin";
-import ManageUsers from "../../../pages/siteAdminstration/manageUsers";
-import Preview from "../../../pages/siteAdminstration/manageProgram/preview";
-import EnrolUsers from '../../../pages/siteAdminstration/enrolment/enrolUser'
-import ManageGroups from '../../../pages/siteAdminstration/enrolment/manageGroups'
-import ProgramEnrollment from '../../../pages/siteAdminstration/programEnrollment'
-import ManageProgramEnrollment from '../../../pages/siteAdminstration/manageUsers'
-import EnrolUserToProgram from '../../../pages/siteAdminstration/manageUsers/addUsers'
-import CourseEnrollment from '../../../pages/siteAdminstration/enrolment/courseenrollment'
+
+const SiteAdminHome = React.lazy(() => import("../../../pages/siteAdminstration/siteAdmin"))
+const ManageUsers = React.lazy(() => import("../../../pages/siteAdminstration/manageUsers"))   
+const Preview = React.lazy(() => import("../../../pages/siteAdminstration/manageProgram/preview"))   
+const EnrolUsers = React.lazy(() => import('../../../pages/siteAdminstration/enrolment/enrolUser'))   
+const ManageGroups = React.lazy(() => import('../../../pages/siteAdminstration/enrolment/manageGroups'))   
+const ProgramEnrollment = React.lazy(() => import('../../../pages/siteAdminstration/programEnrollment'))   
+const ManageProgramEnrollment = React.lazy(() => import('../../../pages/siteAdminstration/manageUsers'))   
+const EnrolUserToProgram = React.lazy(() => import('../../../pages/siteAdminstration/manageUsers/addUsers'))   
+const CourseEnrollment = React.lazy(() => import('../../../pages/siteAdminstration/enrolment/courseenrollment'))
 
 const ProgramEnrollmentRoute = () => {
   return [

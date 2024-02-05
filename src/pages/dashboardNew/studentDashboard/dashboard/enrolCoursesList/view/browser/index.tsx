@@ -10,6 +10,7 @@ import courseImage from "../../../../../../../assets/images/course-default.jpg";
 type Props = {
   coursesList: any;
   enrolCoreCoursesObj: any;
+  apiStatusCourse: string
 };
 
 const courseStatusOptions = [
@@ -73,7 +74,7 @@ const Browser = (props: Props) => {
 
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
-      (item: any) => item.idNumber === id
+      (item: any) => item.id === id
     );
     if (foundObject) {
       return foundObject.progress !== null
@@ -109,52 +110,54 @@ const Browser = (props: Props) => {
               getCourseStatus={getCourseStatus}
               coursesList={props.coursesList}
               updateCourses={updateCourses}
+              enrolCoreCoursesObj={props.enrolCoreCoursesObj}
             />
-            <Button variant="primary" onClick={() => navigate("/minorcourse")}>
+            {/* ============== left for second phase ============ */}
+            {/* <Button variant="primary" onClick={() => navigate("/minorcourse")}>
               Minor Courses
-            </Button>
+            </Button> */}
           </div>
         </div>
         <Row className="g-4 mylearning-card">
-          {course.map((item: any, index: number) => (
-            <Col sm={6} lg={4} xl={3} key={index}>
-              <Card body className="h-100">
-                <a
-                  href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
-                >
-                  <div className="mlcard-image">
-                    <Card.Img src={courseImage} alt={item.shortname} />
+          {course.length > 0 ? (
+            course.map((item: any, index: number) => (
+              <Col sm={6} lg={4} xl={3} key={index}>
+                <Card body className="h-100">
+                  <a
+                    href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
+                  >
+                    <div className="mlcard-image">
+                      <Card.Img src={courseImage} alt={item.shortname} />
+                    </div>
+                  </a>
+                  <div className="mlcard-title">
+                    <h5>{item.name}</h5>
+                    <span className="my-progress">
+                      {getCourseProgress(item.idNumber)}
+                    </span>
                   </div>
-                </a>
-                <div className="mlcard-title">
-                  <h5>{item.name}</h5>
-                  <span className="my-progress">
-                    {getCourseProgress(item.idNumber)}
-                  </span>
-                </div>
-                <div className="mlcard-info">
-                  <div>
-                    <img src={gradeIcon} alt="Grade" className="small-icon" />
-                    Grade:
-                    <span>30%</span>
+                  <div className="mlcard-info">
+                    <div>
+                      <img src={gradeIcon} alt="Grade" className="small-icon" />
+                      Grade:
+                      <span>30%</span>
+                    </div>
+                    <div>
+                      <img src={badgesIcon} alt="Badges" />
+                      Badges:
+                      <span>1</span>
+                    </div>
                   </div>
-                  <div>
-                    <img src={badgesIcon} alt="Badges" />
-                    Badges:
-                    <span>1</span>
-                  </div>
-                </div>
-              </Card>
-            </Col>
-          ))}
+                </Card>
+              </Col>
+            ))
+          ) : 
+            props.apiStatusCourse === "started" && course.length === 0 ? <h3>Loading...</h3> :
+            props.apiStatusCourse === "finished" && course.length === 0 &&
+            <Errordiv msg="No course available!" cstate className="mt-3" />
+          }
         </Row>
       </Container>
-      {/* {coursesList.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )} */}
-      {/* {props.coursesList.length === 0 && (
-        <Errordiv msg="No course available!" cstate className="mt-3" />
-      )} */}
     </React.Fragment>
   );
 };

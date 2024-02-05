@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
 import "./style.scss";
 import { Card, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import Errordiv from "../../../../../widgets/alert/errordiv";
 import gradeIcon from "../../../../../assets/images/icons/grade.svg";
 import sessionIcon from "../../../../../assets/images/icons/session.svg";
 import courseImage from "../../../../../assets/images/course-default.jpg";
@@ -8,27 +9,30 @@ import attendanceIcon from "../../../../../assets/images/icons/attendance-black.
 
 type Props = {
   courseList: any;
-  filterStatus: any
+  filterStatus: any;
+  apiStatusCourse: string
 };
 
 const CardComponent = (props: Props) => {
   const [course, setCourses] = useState([]);
 
+  console.log(props.apiStatusCourse)
+
   useEffect(() => {
     if (props.filterStatus.selectedValues.program > 0) {
-        if (props.filterStatus.selectedValues.category > 0) {
-          const filteredCourses =  props.courseList.courses.filter(item => 
-            item.programId === props.filterStatus.selectedValues.program 
-            && 
+      if (props.filterStatus.selectedValues.category > 0) {
+        const filteredCourses = props.courseList.courses.filter(
+          (item) =>
+            item.programId === props.filterStatus.selectedValues.program &&
             item.categoryId === props.filterStatus.selectedValues.category
-          );
-          setCourses(filteredCourses);
-        } else {
-          const filteredCourses =  props.courseList.courses.filter(item => 
-            item.programId === props.filterStatus.selectedValues.program 
-          );
-          setCourses(filteredCourses);
-        }
+        );
+        setCourses(filteredCourses);
+      } else {
+        const filteredCourses = props.courseList.courses.filter(
+          (item) => item.programId === props.filterStatus.selectedValues.program
+        );
+        setCourses(filteredCourses);
+      }
     } else {
       const uniqueProgramIds = new Set();
 
@@ -36,49 +40,58 @@ const CardComponent = (props: Props) => {
         uniqueProgramIds.add(item.id);
       });
 
-      const filteredData = props.courseList.courses.filter(item => uniqueProgramIds.has(item.programId));
+      const filteredData = props.courseList.courses.filter((item) =>
+        uniqueProgramIds.has(item.programId)
+      );
       setCourses(filteredData);
     }
-
   }, [props.filterStatus]);
 
   return (
     <Row className="g-4 myteaching-card">
-      {course.map((item: any, index: number) => (
-        <Col sm={6} lg={4} xl={3} key={index}>
-          <Card body className="h-100">
-            <a href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}>
-              <div className="mlcard-image">
-                <Card.Img src={courseImage} alt={item.title} />
+      {course.length > 0 ? (
+        course.map((item: any, index: number) => (
+          <Col sm={6} lg={4} xl={3} key={index}>
+            <Card body className="h-100">
+              <a
+                href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
+              >
+                <div className="mlcard-image">
+                  <Card.Img src={courseImage} alt={item.title} />
+                </div>
+              </a>
+              <div className="mlcard-title">
+                <h5>{item.name}</h5>
               </div>
-            </a>
-            <div className="mlcard-title">
-              <h5>{item.name}</h5>
-            </div>
-            <div className="mlcard-info">
-              <div>
-                <img src={gradeIcon} alt="Grade" />
-                Av Grade
-                <span>{item.grade}</span>
+              <div className="mlcard-info">
+                <div>
+                  <img src={gradeIcon} alt="Grade" />
+                  Av Grade
+                  <span>{item.grade}</span>
+                </div>
+                <div>
+                  <img src={sessionIcon} alt="Session" />
+                  Session
+                  <span>{item.session}</span>
+                </div>
+                <div>
+                  <img
+                    src={attendanceIcon}
+                    alt="Attendance"
+                    className="small-icon"
+                  />
+                  Attendance
+                  <span>{item.attendance}</span>
+                </div>
               </div>
-              <div>
-                <img src={sessionIcon} alt="Session" />
-                Session
-                <span>{item.session}</span>
-              </div>
-              <div>
-                <img
-                  src={attendanceIcon}
-                  alt="Attendance"
-                  className="small-icon"
-                />
-                Attendance
-                <span>{item.attendance}</span>
-              </div>
-            </div>
-          </Card>
-        </Col>
-      ))}
+            </Card>
+          </Col>
+        ))
+      ) :
+        props.apiStatusCourse === "started" && course.length === 0 ? <h3>Loading...</h3>
+        : props.apiStatusCourse === "finished" && course.length === 0 && 
+          <Errordiv msg="No course available!" cstate className="mt-3" />
+      }
     </Row>
   );
 };

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { ProtectedRoutes } from './ProtectedRoutes';
 import Video from '../../pages/courses/video';
@@ -24,29 +24,27 @@ import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import HelpdeskManagementRoute from './siteAdminRoute/helpdeskManagementRoute';
 import StudentDashRoutes from './studentDashRoutes';
 import TeacherDashRoutes from './teacherDashRoutes';
-import ProgramOverview from '../../pages/programOverview';
 import PageNotFound from '../../pages/404';
-import GradeBook from '../../pages/gradeBook';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
 import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';
 // import { Navigate, Outlet } from 'react-router-dom';
-import DashboardNew from '../../pages/dashboardNew';
-import ClassRoom from '../../pages/siteAdminstration/timetable/classroom';
-import WorkLoad from '../../pages/siteAdminstration/timetable/workLoad';
-import Holidays from '../../pages/siteAdminstration/timetable/holidays';
-import ManageCoursesWorkLoad from '../../pages/siteAdminstration/timetable/manageCoursesWorkLoad';
-import TimesSlot from '../../pages/siteAdminstration/timetable/timesSlot';
-import UserProfile from '../../pages/user/profile';
-import EditProfile from '../../pages/user/profile/forms/editProfile';
-import Attendance from '../../pages/attendance';
-import Helpdesk from '../../pages/helpdesk';
 import MinorCourse from '../../pages/minorCourses';
+import RouterLadyLoader from '../../globals/globalLazyLoader/routerLadyLoader';
+
+
+const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
+const Attendance = React.lazy(() => import('../../pages/attendance'))
+const UserProfile = React.lazy(() => import('../../pages/user/profile'))
+const DashboardNew = React.lazy(() => import('../../pages/dashboardNew'))
+const ProgramOverview = React.lazy(() => import('../../pages/programOverview'))
+const EditProfile = React.lazy(() => import('../../pages/user/profile/forms/editProfile'))
 
 export default function NewCustomRoutes() {
   const userCtx = useContext(UserContext);
   const isLoggedIn = userCtx.isLoggedIn;
   return (
     <BrowserRouter>
+    <Suspense fallback={<RouterLadyLoader />}>
       <Routes>
         {/* <Route element={<><Outlet /><MitGlobalAlert /></>}> 
          * create a new component for global imports
@@ -65,19 +63,18 @@ export default function NewCustomRoutes() {
             {TimetableManagementRoute()}
             {HelpdeskManagementRoute()}
           
+          <Route path='/programoverview' element={<ProgramOverview />} />
           <Route path="/profile" key="profile" element={<UserProfile />} />
-          <Route path="/editprofile" key="editprofile" element={<EditProfile />} />
           <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
+          <Route path="/attendance" key="attendance" element={<Attendance />} />
+          <Route path="/editprofile" key="editprofile" element={<EditProfile />} />
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}
-            <Route path="/attendance" key="attendance" element={<Attendance />} />
-            <Route path="/helpdesk" key="helpdesk" element={<Helpdesk />} />
             <Route path="/minorcourse" element={<MinorCourse />} />
             <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/teachergradebook' element={<TeacherGradebook />} />
             <Route path='/studentgradeview' element={<SelectedStudentGrade />} />
-            <Route path='/programoverview' element={<ProgramOverview />} />
             <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
             <Route path="/mod/video/report" element={<Report />} />
             <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />
@@ -91,6 +88,7 @@ export default function NewCustomRoutes() {
           </Route>
         {/* </Route> */}
       </Routes>
+    </Suspense>
     </BrowserRouter>
   );
 }

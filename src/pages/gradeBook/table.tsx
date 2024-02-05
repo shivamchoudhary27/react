@@ -7,9 +7,10 @@ import Errordiv from "../../widgets/alert/errordiv";
 type Props = {
   gradebookData: any[];
   apiStatus: string;
+  currentUserRole: any
 };
 
-const GradeTable = ({ gradebookData, apiStatus }: Props) => {
+const GradeTable = ({ gradebookData, apiStatus, currentUserRole }: Props) => {
   const [gradebookObj, setgradebookObj] = useState<any>([]);
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
       }
     });
     setgradebookObj(strippedPacket);
-  }, [gradebookData]);
+  }, [gradebookData, currentUserRole]);
 
   const decodeHtmlEntities = (htmlString: any) => {
     const parser = new DOMParser();
@@ -149,7 +150,7 @@ const GradeTable = ({ gradebookData, apiStatus }: Props) => {
         {apiStatus === "started" && gradebookObj.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
-        {(apiStatus === "finished" && gradebookObj.length === 0) || gradebookObj.length === 0 && (
+        {apiStatus === "finished" && gradebookObj.length === 0 && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
     </React.Fragment>

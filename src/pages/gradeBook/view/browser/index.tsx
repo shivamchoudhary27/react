@@ -1,5 +1,5 @@
-import React from "react";
-import GradeTable from "../../table";
+import React, { Suspense } from "react";
+// import GradeTable from "../../table";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import { Container } from "react-bootstrap";
@@ -8,6 +8,16 @@ import HeirarchyFilter from "../../filtersNew";
 import PageTitle from "../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import BottomWave from "../../../../assets/images/background/bg-bottom.svg";
+
+const GradeTable = React.lazy(() => wait(2000).then(() => import("../../table")))
+
+const wait = (time: number | undefined) => {
+  return new Promise<void>(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, time)
+  })
+}
 
 type Props = {
   commonProps: {
@@ -44,11 +54,14 @@ const Browser = (props: Props) => {
               getCourseId={props.commonProps.getCourseId}
             />
           )}
-          <GradeTable
-            courseId={props.commonProps.courseId}
-            apiStatus={props.commonProps.apiStatus}
-            gradebookData={props.commonProps.gradebookData}
-          />
+          <Suspense fallback={<h3>Loading...</h3>}>
+            <GradeTable
+              courseId={props.commonProps.courseId}
+              apiStatus={props.commonProps.apiStatus}
+              gradebookData={props.commonProps.gradebookData}
+              currentUserRole={props.commonProps.currentUserRole}
+            />
+          </Suspense>
         </Container>
       </div>
       <Footer />

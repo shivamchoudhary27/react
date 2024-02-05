@@ -8,6 +8,7 @@ type Props = {
   sessionMode: any;
   apiStatus: string;
   courseSession: any;
+  sessionApiStatus: any;
   userCoursesData: any;
   todaySessionPacket: any;
 };
@@ -20,6 +21,7 @@ const ScheduleTable: React.FC<Props> = (props) => {
         <Mobile
           apiStatus={props.apiStatus}
           sessionMode={props.sessionMode}
+          sessionApiStatus={props.sessionApiStatus}
           courseSession={props.courseSession}
           todaySessionPacket={props.todaySessionPacket}
         />
@@ -27,6 +29,7 @@ const ScheduleTable: React.FC<Props> = (props) => {
         <Browser
           apiStatus={props.apiStatus}
           sessionMode={props.sessionMode}
+          sessionApiStatus={props.sessionApiStatus}
           courseSession={props.courseSession}
           todaySessionPacket={props.todaySessionPacket}
         />
@@ -34,6 +37,7 @@ const ScheduleTable: React.FC<Props> = (props) => {
         <Browser
           apiStatus={props.apiStatus}
           sessionMode={props.sessionMode}
+          sessionApiStatus={props.sessionApiStatus}
           courseSession={props.courseSession}
           todaySessionPacket={props.todaySessionPacket}
         />

@@ -11,7 +11,8 @@ import "./mobileStyle.scss";
 
 type Props = {
   coursesList: any;
-  enrolCoreCoursesObj: any
+  enrolCoreCoursesObj: any;
+  apiStatusCourse:string
 };
 
 const Mobile: React.FC<Props> = (props) => {
@@ -54,46 +55,55 @@ const Mobile: React.FC<Props> = (props) => {
           <button onClick={toggleFilterDropdown} className="filter-btn">
             <img src={filterIcon} alt="filter-icon" />
           </button>
-          <div className={showFilterDropdown ? "FilterProgramDropdown-wrapper" : "FilterProgramDropdown-wrapper hidden"}>
-          <FilterProgramDropdown getCourseStatus={getCourseStatus} coursesList={props.coursesList} />
+          <div
+            className={
+              showFilterDropdown
+                ? "FilterProgramDropdown-wrapper"
+                : "FilterProgramDropdown-wrapper hidden"
+            }
+          >
+            <FilterProgramDropdown
+              enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+              getCourseStatus={getCourseStatus}
+              coursesList={props.coursesList}
+            />
           </div>
         </div>
         <Row className="g-4 mylearning-card">
-          {props.coursesList.courses.map((item: any, index: number) => (
-            <Col sm={6} lg={4} xl={3} key={index}>
-              <Card body className="h-100">
-                <div className="mlcard-image">
-                  <Card.Img src={courseImage} alt={item.shortname} />
-                </div>
-                <div className="mlcard-title">
-                  <h5>{item.name}</h5>
-                  <span className="my-progress">
-                    {getCourseProgress(item.idNumber)}
-                  </span>
-                </div>
-                <div className="mlcard-info mb-cardinfo">
-                  <div>
-                    <img src={gradeIcon} alt="Grade" className="small-icon" />
-                    Grade:
-                    <span>30%</span>
+          {props.coursesList.courses.length > 0 ? (
+            props.coursesList.courses.map((item: any, index: number) => (
+              <Col sm={6} lg={4} xl={3} key={index}>
+                <Card body className="h-100">
+                  <div className="mlcard-image">
+                    <Card.Img src={courseImage} alt={item.shortname} />
                   </div>
-                  <div>
-                    <img src={badgesIcon} alt="Badges" />
-                    Badges:
-                    <span>1</span>
+                  <div className="mlcard-title">
+                    <h5>{item.name}</h5>
+                    <span className="my-progress">
+                      {getCourseProgress(item.idNumber)}
+                    </span>
                   </div>
-                </div>
-              </Card>
-            </Col>
-          ))}
+                  <div className="mlcard-info mb-cardinfo">
+                    <div>
+                      <img src={gradeIcon} alt="Grade" className="small-icon" />
+                      Grade:
+                      <span>30%</span>
+                    </div>
+                    <div>
+                      <img src={badgesIcon} alt="Badges" />
+                      Badges:
+                      <span>1</span>
+                    </div>
+                  </div>
+                </Card>
+              </Col>
+            ))
+          ) :  props.apiStatusCourse === "started" && props.coursesList.courses.length === 0 ? <h3>Loading...</h3> :
+            props.apiStatusCourse === "finished" && props.coursesList.courses.length === 0 &&
+            <Errordiv msg="No course available!" cstate className="mt-3" />
+          }
         </Row>
       </Container>
-      {/* {coursesList.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )} */}
-      {/* {props.coursesList.length === 0 && (
-        <Errordiv msg="No course available!" cstate className="mt-3" />
-      )} */}
     </React.Fragment>
   );
 };

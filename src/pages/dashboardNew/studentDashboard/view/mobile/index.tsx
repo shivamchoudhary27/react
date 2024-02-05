@@ -15,6 +15,7 @@ type Props = {
   showAlert: boolean;
   userCoursesData: any;
   apiStatusCourse: string;
+  sessionApiStatus:string;
   setUserCoursesData: any;
   todaySessionPacket: any;
   getSortFilterValue: any;
@@ -63,6 +64,7 @@ const Mobile = (props: Props) => {
         </div>
         <div className="dashboard-bottomPanel mt-4 mb-5">
           <EnrolCoursesList
+            apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           />

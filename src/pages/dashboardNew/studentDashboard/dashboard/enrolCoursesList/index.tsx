@@ -1,12 +1,23 @@
 import "./style.scss";
-import React from "react";
+import React, { Suspense } from "react";
 import Mobile from "./view/mobile";
 import Browser from "./view/browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
+// const Browser = React.lazy(() => wait(2000).then(() => import("./view/browser")))
+
+// const wait = (time: number | undefined) => {
+//   return new Promise<void>(resolve => {
+//     setTimeout(() => {
+//       resolve()
+//     }, time)
+//   })
+// }
+
 type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any;
+  apiStatusCourse: string
 };
 
 const EnrolCoursesList: React.FC<Props> = (props) => {
@@ -29,16 +40,21 @@ const EnrolCoursesList: React.FC<Props> = (props) => {
     <React.Fragment>
       {isMobile ? (
         <Mobile
+          apiStatusCourse={props.apiStatusCourse}
           coursesList={props.userCoursesData}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
         />
       ) : isDesktop ? (
-        <Browser
-          coursesList={props.userCoursesData}
-          enrolCoreCoursesObj={props.enrolCoreCoursesObj}
-        />
+        // <Suspense fallback={<h3>Loading...</h3>}>
+            <Browser
+              apiStatusCourse={props.apiStatusCourse}
+              coursesList={props.userCoursesData}
+              enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            />
+        // </Suspense>
       ) : (
         <Browser
+          apiStatusCourse={props.apiStatusCourse}
           coursesList={props.userCoursesData}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
         />

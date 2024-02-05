@@ -68,6 +68,9 @@ const TimelineTable: React.FC<Props> = (props) => {
 
   return (
     <div className="mitblock-body">
+      {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
+        <Errordiv msg="No timeline available!" cstate className="" />
+      )}
       {props.eventsPacket.length > 0 &&
         props.eventsPacket.map((event: any, index: number) =>
           props.filterTimestampSort !== "course" ? (
@@ -147,13 +150,9 @@ const TimelineTable: React.FC<Props> = (props) => {
           )
         )}
 
-      {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
+      {/* {props.apiStatus === "started" && props.eventsPacket.length === 0 && (
         <ListSkeleton />
-      )}
-      {(props.apiStatus === "finished" && props.eventsPacket.length === 0) ||
-        (props.eventsPacket.length === 0 && (
-          <Errordiv msg="No timeline available!" cstate className="" />
-        ))}
+      )} */}
     </div>
   );
 };

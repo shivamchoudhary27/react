@@ -31,6 +31,7 @@ type Props = {
   showAlert: boolean;
   userCoursesData: any;
   apiStatusCourse: string;
+  sessionApiStatus: String;
   getSortFilterValue: any;
   setUserCoursesData: any;
   todaySessionPacket: any;
@@ -81,6 +82,7 @@ const Browser: React.FC<Props> = (props) => {
                 <ScheduleTable
                   sessionMode={sessionMode}
                   apiStatus={props.apiStatus}
+                  sessionApiStatus={props.sessionApiStatus}
                   courseSession={props.courseSession}
                   todaySessionPacket={props.todaySessionPacket}
                   userCoursesData={props.userCoursesData.courses}
@@ -91,6 +93,7 @@ const Browser: React.FC<Props> = (props) => {
         </div>
         <div className="dashboard-bottomPanel mt-4 mb-5">
           <EnrolCoursesList
+            apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
           />
