@@ -125,7 +125,7 @@ const CourseModal = ({
             : getCurrentMonth(currentDate))
         : (courseobj.startDate !== null
             ? initialDateFormatHandler(courseobj.startDate)
-            : dateConverterToDYM(getCurrentMonth(currentDate))),
+            : (getCurrentMonth(currentDate))),
 
             endDate:
             courseobj.id === 0
@@ -134,12 +134,11 @@ const CourseModal = ({
                   : getCurrentMonth(currentDate))
               : (courseobj.endDate !== null
                   ? initialDateFormatHandler(courseobj.endDate)
-                  : dateConverterToDYM(getCurrentMonth(currentDate))),
+                  : (getCurrentMonth(currentDate))),
     });
   }, [courseobj]);
 
   
-
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
