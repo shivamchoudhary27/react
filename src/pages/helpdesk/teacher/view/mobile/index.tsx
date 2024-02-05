@@ -1,10 +1,8 @@
 import React from "react";
 import Filter from "../../filter";
-import Footer from "../../../../newFooter";
 import RepliesForm from "../../repliesForm";
 import { Container } from "react-bootstrap";
 import TeacherHelpdeskTable from "../../table";
-import HeaderTabs from "../../../../headerTabs";
 import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
