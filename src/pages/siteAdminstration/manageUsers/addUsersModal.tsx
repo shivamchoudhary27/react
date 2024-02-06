@@ -136,6 +136,7 @@ const AddUsersModal = ({
           }
         })
         .catch((err: any) => {
+          console.log(err)
           setSubmitting(false);
           if (err.response.status === 400) {
             setShowAlert(true);
@@ -145,6 +146,13 @@ const AddUsersModal = ({
             });
           }
           if (err.response.status === 404) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "danger",
+            });
+          }
+          if (err.response.status === 500) {
             setShowAlert(true);
             setAlertMsg({
               message: err.response.data.message,
@@ -169,6 +177,13 @@ const AddUsersModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             enableReinitialize={true}
             initialValues={formValues}
@@ -278,13 +293,6 @@ const AddUsersModal = ({
               </Form>
             )}
           </Formik>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
         </Modal.Body>
       </Modal>
     </React.Fragment>

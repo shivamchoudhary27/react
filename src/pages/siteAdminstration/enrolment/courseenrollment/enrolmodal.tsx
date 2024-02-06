@@ -140,6 +140,13 @@ const DiciplineModal = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      <TimerAlertBox
+          alertMsg={alertMsg.message}
+          className="mt-3"
+          variant={alertMsg.alertBoxColor}
+          setShowAlert={setShowAlert}
+          showAlert={showAlert}
+        />
         <Formik
           initialValues={initialValues}
           validationSchema={Schema}
@@ -204,13 +211,13 @@ const DiciplineModal = ({
             </Form>
           )}
         </Formik>
-        <TimerAlertBox
+        {/* <TimerAlertBox
           alertMsg={alertMsg.message}
           className="mt-3"
           variant={alertMsg.alertBoxColor}
           setShowAlert={setShowAlert}
           showAlert={showAlert}
-        />
+        /> */}
       </Modal.Body>
     </Modal>
   );

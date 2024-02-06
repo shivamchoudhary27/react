@@ -11,6 +11,7 @@ import MobileFooter from "../../../../../newFooter/mobileFooter";
 
 type Props = {
   commonProps: {
+    onHide: any;
     apiStatus: any;
     modalShow: any;
     totalPages: any;
@@ -45,24 +46,29 @@ const Mobile = (props: Props) => {
           { name: "Guest Users", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Guest User" gobacklink="/usermanagement" />
-          <GuestFilter updatefilters={props.commonProps.updateSearchFilters} />
-          <GuestUsersTable
-            apiStatus={props.commonProps.apiStatus}
-            guestUsersData={props.commonProps.guestUsersData}
-            editHandlerById={props.commonProps.editHandlerById}
-            toggleModalShow={props.commonProps.toggleModalShow}
-            refreshdata={props.commonProps.refreshOnDeleteToggle}
-            // userPermissions={userAuthorities}
-          />
-          <BuildPagination
-            totalpages={props.commonProps.totalPages}
-            getrequestedpage={props.commonProps.newPageRequest}
-            activepage={props.commonProps.filterUpdate.pageNumber}
-          />
-        </Container>
+      <div className="contentarea-wrapper mb-wraper">
+        <div className="contentarea-wrapper mt-3 mb-5">
+          <Container fluid>
+            <PageTitle pageTitle="Guest User" gobacklink="/usermanagement" />
+            <GuestFilter
+              apiStatus={props.commonProps.apiStatus}
+              updatefilters={props.commonProps.updateSearchFilters}
+            />
+            <GuestUsersTable
+              apiStatus={props.commonProps.apiStatus}
+              guestUsersData={props.commonProps.guestUsersData}
+              editHandlerById={props.commonProps.editHandlerById}
+              toggleModalShow={props.commonProps.toggleModalShow}
+              refreshdata={props.commonProps.refreshOnDeleteToggle}
+              // userPermissions={userAuthorities}
+            />
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              getrequestedpage={props.commonProps.newPageRequest}
+              activepage={props.commonProps.filterUpdate.pageNumber}
+            />
+          </Container>
+        </div>
       </div>
       {/* <UploadNewUsers
         show={uploadModalShow}
@@ -77,7 +83,7 @@ const Mobile = (props: Props) => {
         instituteList={props.commonProps.instituteList}
         updateAddRefresh={props.commonProps.refreshToggle}
         togglemodalshow={props.commonProps.toggleModalShow}
-        onHide={() => props.commonProps.toggleModalShow(false)}
+        onHide={props.commonProps.onHide}
         // currentInstitute={currentInstitute}
       />
       <MobileFooter />

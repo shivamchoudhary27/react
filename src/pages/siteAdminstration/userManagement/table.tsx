@@ -188,7 +188,7 @@ const UserManagementTable = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "User has been successfully deleted"
+              text: "User has been successfully deleted and added to guest list."
             });
             // setShowAlert(true);
             // setAlertMsg({

@@ -95,7 +95,7 @@ const UpdateUserModal = ({
     if (guestUserObj.id !== 0) {
       putData(`/user/${guestUserObj.id}`, values)
         .then((res: any) => {
-          if ((res.data !== "", res.status === 200)) {
+          if ((res.data !== "" && res.status === 200)) {
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
@@ -111,10 +111,11 @@ const UpdateUserModal = ({
           }
         })
         .catch((err: any) => {
+          console.log(err)
           setSubmitting(false);
           setShowAlert(true);
           setAlertMsg({
-            message: `Not able to update, Please try again!`,
+            message: `${err.response.data.message}`,
             alertBoxColor: "danger",
           });
         });

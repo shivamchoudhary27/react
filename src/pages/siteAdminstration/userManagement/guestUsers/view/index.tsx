@@ -5,7 +5,9 @@ import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   apiStatus: any;
+  onHide: any;
   modalShow: any;
+  activepage: any;
   totalPages: any;
   filterUpdate: any;
   guestUserObj: any;
@@ -21,18 +23,20 @@ type Props = {
 
 const View = (props: Props) => {
   const commonProps = {
+    onHide: props.onHide,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
+    totalPages: props.totalPages,
+    activepage: props.activepage,
     guestUserObj: props.guestUserObj,
+    filterUpdate: props.filterUpdate,
+    instituteList: props.instituteList,
     refreshToggle: props.refreshToggle,
+    guestUsersData: props.guestUsersData,
     newPageRequest: props.newPageRequest,
     editHandlerById: props.editHandlerById,
     toggleModalShow: props.toggleModalShow,
-    instituteList: props.instituteList.items,
-    guestUsersData: props.guestUsersData.items,
-    filterUpdate: props.filterUpdate,
     updateSearchFilters: props.updateSearchFilters,
-    totalPages: props.totalPages,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
   };
   return (
