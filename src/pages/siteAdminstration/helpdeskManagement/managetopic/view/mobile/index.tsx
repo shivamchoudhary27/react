@@ -1,13 +1,12 @@
 import React from "react";
 import ManageTopicModal from "../../form";
 import ManageTopicTable from "../../table";
-import Header from "../../../../../newHeader";
-import Footer from "../../../../../newFooter";
-import HeaderTabs from "../../../../../headerTabs";
 import { Container, Button } from "react-bootstrap";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import MobileHeader from "../../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../../newFooter/mobileFooter";
 
 type Props = {
   commonProps: {
@@ -30,8 +29,7 @@ type Props = {
 const Mobile = (props: Props) => {
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="helpdesk" />
+      <MobileHeader />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
@@ -71,7 +69,7 @@ const Mobile = (props: Props) => {
           </Container>
         </div>
       </div>
-      <Footer />
+      <MobileFooter />
     </React.Fragment>
   );
 };
