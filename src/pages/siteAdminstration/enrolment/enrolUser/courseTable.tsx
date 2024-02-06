@@ -67,48 +67,61 @@ const EnrolUserTable = ({
     {
       Header: "Max Minor Course",
       accessor: "maxMinorCoursesAllowed",
-        Cell: ({ row }: any) => {
-          return (
-            <div
-              style={{
-                paddingLeft: setLevelPadding(row.original.level),
-              }}
-            >
-              {row.original.maxMinorCoursesAllowed}
-            </div>
-          );
-        },
+      Cell: ({ row }: any) => {
+        return (
+          <div
+            style={{
+              paddingLeft: setLevelPadding(row.original.level),
+            }}
+          >
+            {row.original.maxMinorCoursesAllowed}
+          </div>
+        );
+      },
     },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-            {row.original.level === 2 && (
-              <img
-               style={{cursor:'pointer'}}
-                src={gearIcon}
-                alt="Setting"
-                onClick={() =>
-                  editHandler({
-                    id: row.original.id,
-                    name: row.original.name,
-                    level: row.original.level,
-                    weight: row.original.weight,
-                    parent: row.original.parent,
-                    maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed
-                  })
-                }
-              />
-            )}
+          {row.original.level === 2 && (
+            <img
+              style={{ cursor: "pointer" }}
+              src={gearIcon}
+              alt="Setting"
+              onClick={() =>
+                editHandler({
+                  id: row.original.id,
+                  name: row.original.name,
+                  level: row.original.level,
+                  weight: row.original.weight,
+                  parent: row.original.parent,
+                  maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed,
+                })
+              }
+            />
+          )}
           {row.original.coursename !== undefined && (
-            <>
-              <Link
-                className="action-icons small-icon"
-                to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}
-              >
-                <img src={plusIcon} alt="Add Course" /> Enrol Users
-              </Link>
-            </>
+            <span>
+              {row.original !== undefined &&
+              row.original.coursedetails.published !== false ? (
+                <Link
+                  className="action-icons small-icon"
+                  to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}
+                >
+                  <img src={plusIcon} alt="Add Course" /> Enrol Users
+                </Link>
+              ) : (
+                <span
+                  className="action-icons small-icon"
+                  style={{
+                    backgroundColor: "#eeeeee",
+                  }}
+                >
+                  {" "}
+                  <img src={plusIcon} alt="Add Course" /> Enrol Users
+                </span>
+              )}
+            </span>
           )}
         </span>
       ),
@@ -124,9 +137,7 @@ const EnrolUserTable = ({
       data,
     });
 
-  const enrolToCourses = (courseid: number) => {
-
-  };
+  const enrolToCourses = (courseid: number) => {};
 
   const setLevelPadding = (level: number) => {
     let padding = (level - 1) * 50 + "px";
@@ -134,7 +145,14 @@ const EnrolUserTable = ({
   };
 
   // category Table Elements Update handler === >>
-  const editHandler = ({ id, name, level, weight, parent, maxMinorCoursesAllowed }: any) => {
+  const editHandler = ({
+    id,
+    name,
+    level,
+    weight,
+    parent,
+    maxMinorCoursesAllowed,
+  }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
@@ -142,7 +160,7 @@ const EnrolUserTable = ({
       level,
       weight,
       parent,
-      maxMinorCoursesAllowed
+      maxMinorCoursesAllowed,
     });
   };
 

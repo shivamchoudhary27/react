@@ -1,17 +1,7 @@
 import View from "./view";
-import GuestFilter from "./filter";
-import GuestUsersTable from "./table";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import UpdateUserModal from "./modalForm";
-import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
-import React, { useState, useEffect } from "react";
-import PageTitle from "../../../../widgets/pageTitle";
+import { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
-import BuildPagination from "../../../../widgets/pagination";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { getData as getInstitute } from "../../../../adapters/microservices";
 
 type Props = {};
@@ -155,70 +145,25 @@ const GuestUsers = (props: Props) => {
   };
 
   return (
-    <React.Fragment>
-      {/* <View
+    // <React.Fragment>
+       <View
         apiStatus={apiStatus}
         modalShow={modalShow}
-        guestUserObj={guestUserObj}
-        instituteList={instituteList.items}
-        guestUsersData={guestUsersData.items}
         filterUpdate={filterUpdate}
-        totalPages={guestUsersData.pager.totalPages}
+        guestUserObj={guestUserObj}
         refreshToggle={refreshToggle}
         newPageRequest={newPageRequest}
         editHandlerById={editHandlerById}
         toggleModalShow={toggleModalShow}
-        updateSearchFilters={updateSearchFilters}
-        refreshOnDeleteToggle={refreshOnDeleteToggle}
-      /> */}
-
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "User Management", path: "/usermanagement" },
-          { name: "Guest Users", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Guest User" gobacklink="/usermanagement" />
-          <GuestFilter updatefilters={updateSearchFilters} apiStatus={apiStatus} />
-          <GuestUsersTable
-            apiStatus={apiStatus}
-            guestUsersData={guestUsersData.items}
-            editHandlerById={editHandlerById}
-            toggleModalShow={toggleModalShow}
-            refreshdata={refreshOnDeleteToggle}
-            // userPermissions={userAuthorities}
-          />
-          <BuildPagination
-            totalpages={guestUsersData.pager.totalPages}
-            activepage={filterUpdate.pageNumber}
-            getrequestedpage={newPageRequest}
-          />
-        </Container>
-      </div>
-      {/* <UploadNewUsers
-        show={uploadModalShow}
-        onHide={() => setUploadModalShow(false)}
-        setUploadModalShow={setUploadModalShow}
-        updateAddRefresh={refreshToggle}
-        currentInstitute={currentInstitute}
-      /> */}
-      <UpdateUserModal
-        show={modalShow}
-        guestUserObj={guestUserObj}
         instituteList={instituteList.items}
-        updateAddRefresh={refreshToggle}
-        togglemodalshow={toggleModalShow}
+        activepage={filterUpdate.pageNumber}
         onHide={() => toggleModalShow(false)}
-        // currentInstitute={currentInstitute}
-      />
-      <Footer />
-    </React.Fragment>
-  );
-};
-
-export default GuestUsers;
+        guestUsersData={guestUsersData.items}
+        updateSearchFilters={updateSearchFilters}
+        totalPages={guestUsersData.pager.totalPages}
+        refreshOnDeleteToggle={refreshOnDeleteToggle}
+      /> 
+      );
+    };
+    
+    export default GuestUsers;
