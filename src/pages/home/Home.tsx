@@ -32,9 +32,9 @@ const Home = () => {
             <div className="logo-wrapper">
               <img src={logo} alt="logo" className="img img-fluid" />
             </div>
-                  <button className="search-btn bg-dark">
+                  {/* <button className="search-btn bg-dark">
                     <img src={SearchIcon} alt="logo" className="img img-fluid" />
-                  </button>
+                  </button> */}
           </div>
         </div>
         <Container fluid>
@@ -90,9 +90,9 @@ const Home = () => {
             </div>
             <div className="course-title">Data Structure</div>
           </div>
-          <div className="allcourses-btn">
+          {/* <div className="allcourses-btn">
            <button className="btn"> <i className="fa fa-chevron-right"></i> </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

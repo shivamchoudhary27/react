@@ -5,6 +5,8 @@ import { deleteData, putData } from "../../../adapters/microservices";
 import editIcon from "../../../assets/images/icons/edit-action.svg";
 import { formattedDateTime } from "../../../lib/timestampConverter";
 import "./styles.scss";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import { Dropdown, DropdownButton  } from "react-bootstrap";
 
 type Props = {
   apiStatus: string;
@@ -29,6 +31,10 @@ const MessagesView = (props: Props) => {
   const [editingCommentId, setEditingCommentId] = useState(0);
   const [editedComment, setEditedComment] = useState<string>("");
 
+  const handleCancelEdit = () => {
+    setEditingCommentId(0);
+    setEditedComment("");
+  };
   useEffect(() => {
     if (sortedComments.length > 0) {
       const updatedComments = sortedComments.map((comment: any) => {
@@ -124,27 +130,48 @@ const MessagesView = (props: Props) => {
             <div className={`reply-message ${item.style}`}>
               {editingCommentId === item.id ? (
                 <div>
-                  <input
+                  <textarea
                     value={editedComment}
                     onChange={(e) => setEditedComment(e.target.value)}
+                    className="form-control"
+                  />          
+                   <CustomButton
+                    btnText="cancel"
+                    variant="outline-secondary"
+                    onClick={handleCancelEdit}
                   />
                   <button
                     onClick={() => {
                       handleEditSubmit(item.id);
                     }}
+                    className="btn btn-primary m-2"
                   >
                     Update
                   </button>
                 </div>
               ) : (
-                <p className="m-0">{item.comment}</p>
+                <p className={`m-0 ${item.style}`}>
+                {item.comment}
+                {item.firstName === currentUserInfo.first_name &&
+                  item.lastName === currentUserInfo.last_name && (
+                    <div className="chat-moreoption">
+                      <DropdownButton title={<i className="bi bi-three-dots-vertical"></i>}>
+                        <Dropdown.Item onClick={() => editHandler(item.id, item.comment)}>
+                        Edit
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={() => deleteHandler(item.id)}>
+                       Delete
+                        </Dropdown.Item>
+                      </DropdownButton>
+                    </div>
+                  )}
+              </p>
               )}
             </div>
-            <div>
               {item.firstName === currentUserInfo.first_name &&
                 item.lastName === currentUserInfo.last_name && (
                   <>
-                    <button
+                    {/* <button
                       className="action-icons"
                       onClick={() => deleteHandler(item.id)}
                     >
@@ -155,10 +182,9 @@ const MessagesView = (props: Props) => {
                       onClick={() => editHandler(item.id, item.comment)}
                     >
                       <img src={editIcon} alt="Edit" />
-                    </button>
+                    </button> */}
                   </>
                 )}
-            </div>
           </div>
         </div>
       ))}
