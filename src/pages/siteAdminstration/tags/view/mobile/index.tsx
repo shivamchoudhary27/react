@@ -9,10 +9,12 @@ import MobileFooter from "../../../../newFooter/mobileFooter";
 import BuildPagination from "../../../../../widgets/pagination";
 
 type Props = {
+  commonProps: {
     tagObj: any;
     setTagObj: any;
     apiStatus: any;
     modalShow: any;
+    totalpages: any;
     allTagsData: any;
     filterUpdate: any;
     setModalShow: any;
@@ -24,9 +26,10 @@ type Props = {
     currentInstitute: any;
     updateInputFilters: any;
     updateDeleteRefresh: any;
+  }
 };
 
-const Browser = (commonProps: Props) => {
+const Browser = (props: Props) => {
   return (
     <React.Fragment>
       <MobileHeader />
@@ -34,33 +37,33 @@ const Browser = (commonProps: Props) => {
         <Container fluid>
           <PageTitle pageTitle={`Tags`} gobacklink="/manageprogram" />
           <Filters
-            apiStatus={commonProps.apiStatus}
-            setTagObj={commonProps.setTagObj}
-            userPermissions={commonProps.userAuthorities}
-            toggleModalShow={commonProps.toggleModalShow}
-            updateInputFilters={commonProps.updateInputFilters}
+            apiStatus={props.commonProps.apiStatus}
+            setTagObj={props.commonProps.setTagObj}
+            userPermissions={props.commonProps.userAuthorities}
+            toggleModalShow={props.commonProps.toggleModalShow}
+            updateInputFilters={props.commonProps.updateInputFilters}
           />
           <TagsModal
-            tagObj={commonProps.tagObj}
-            show={commonProps.modalShow}
-            updateAddRefresh={commonProps.refreshToggle}
-            togglemodalshow={commonProps.toggleModalShow}
-            currentInstitute={commonProps.currentInstitute}
-            onHide={() => commonProps.toggleModalShow(false)}
+            tagObj={props.commonProps.tagObj}
+            show={props.commonProps.modalShow}
+            updateAddRefresh={props.commonProps.refreshToggle}
+            togglemodalshow={props.commonProps.toggleModalShow}
+            currentInstitute={props.commonProps.currentInstitute}
+            onHide={() => props.commonProps.toggleModalShow(false)}
           />
           <TagsTable
-            apiStatus={commonProps.apiStatus}
-            allTags={commonProps.allTagsData.items}
-            userPermissions={commonProps.userAuthorities}
-            toggleModalShow={commonProps.toggleModalShow}
-            editHandlerById={commonProps.editHandlerById}
-            currentInstitute={commonProps.currentInstitute}
-            updateDeleteRefresh={commonProps.updateDeleteRefresh}
+            apiStatus={props.commonProps.apiStatus}
+            allTags={props.commonProps.allTagsData}
+            userPermissions={props.commonProps.userAuthorities}
+            toggleModalShow={props.commonProps.toggleModalShow}
+            editHandlerById={props.commonProps.editHandlerById}
+            currentInstitute={props.commonProps.currentInstitute}
+            updateDeleteRefresh={props.commonProps.updateDeleteRefresh}
           />
           <BuildPagination
-            getrequestedpage={commonProps.newPageRequest}
-            activepage={commonProps.filterUpdate.pageNumber}
-            totalpages={commonProps.allTagsData.pager.totalPages}
+            totalpages={props.commonProps.totalpages}
+            getrequestedpage={props.commonProps.newPageRequest}
+            activepage={props.commonProps.filterUpdate.pageNumber}
           />
         </Container>
       </div>

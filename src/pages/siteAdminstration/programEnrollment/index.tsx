@@ -1,24 +1,13 @@
-import React, { useState, useEffect } from "react";
+import View from "./view";
 import { useSelector } from 'react-redux';
-import "./style.scss";
-import { Container } from "react-bootstrap";
-import ProgramEnrollFilter from "./programEnrollFilter";
-import ProgramEnrollTable from "./programEnrollTable";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
+import { useState, useEffect } from "react";
 import { pagination } from "../../../utils/pagination";
-import BuildPagination from "../../../widgets/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
-import ManageTable from "../manageProgram/table";
-import Errordiv from "../../../widgets/alert/errordiv";
-import BottomLeftWave from "../../../assets/images/background/bg-bottomleft.svg";
+import { makeGetDataRequest } from "../../../features/apiCalls/getdata";
+
 const ProgramEnrollment = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [enrollmentData, setEnrollmentData] = useState<any>(dummyData);
   const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [enrollmentData, setEnrollmentData] = useState<any>(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: "",
     name: "",
@@ -78,8 +67,21 @@ const updateInputFilters = (inputvalues: any) => {
   };
 
   return (
-    <>
-      <Header />
+    <View 
+     apiStatus={apiStatus}
+     filterUpdate={filterUpdate}
+     newPageRequest={newPageRequest}
+     currentInstitute={currentInstitute}
+     enrollmentData={enrollmentData.items}
+     updateinputfilters={updateInputFilters}
+     updateDepartment={updateDepartmentFilter}
+     totalpages={enrollmentData.pager.totalPages}
+    />
+ )
+};
+export default ProgramEnrollment;
+ 
+      {/* <Header />
       <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
         routes={[
@@ -112,9 +114,5 @@ const updateInputFilters = (inputvalues: any) => {
       <div className="bottomLeftWave">
         <img src={BottomLeftWave} alt="bottom wave" />
       </div>
-    </>
-  );
-  
-};
-
-export default ProgramEnrollment;
+    </> */}
+ 

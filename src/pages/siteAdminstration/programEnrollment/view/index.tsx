@@ -1,38 +1,31 @@
 import React from "react";
-import Mobile from "./mobile";
-import Browser from "./browser";
+import Browser from "../../programEnrollment/view/browser";
+import Mobile from "../../programEnrollment/view/mobile";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   apiStatus: any;
-  programData: any;
+  totalpages: any;
   filterUpdate: any;
-  refreshToggle: any;
+  enrollmentData: any;
   newPageRequest: any;
+  updateDepartment: any;
   currentInstitute: any;
-  programDataPager: any;
-  programAuthorities: any;
-  programPermissions: any;
-  updateInputFilters: any;
-  refreshOnDeleteToggle: any;
-  updateDepartmentFilter: any;
+  updateinputfilters: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
     apiStatus: props.apiStatus,
-    programData: props.programData,
+    totalpages: props.totalpages,
     filterUpdate: props.filterUpdate,
-    refreshToggle: props.refreshToggle,
     newPageRequest: props.newPageRequest,
-    programDataPager: props.programDataPager,
+    enrollmentData: props.enrollmentData,
     currentInstitute: props.currentInstitute,
-    updateInputFilters: props.updateInputFilters,
-    programAuthorities: props.programAuthorities,
-    programPermissions: props.programAuthorities,
-    refreshOnDeleteToggle: props.refreshOnDeleteToggle,
-    updateDepartmentFilter: props.updateDepartmentFilter,
+    updateDepartment: props.updateDepartment,
+    updateinputfilters: props.updateinputfilters,
   };
+ 
   return (
     <React.Fragment>
       {isMobile ? (
