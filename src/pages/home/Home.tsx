@@ -7,7 +7,6 @@ import "./mobileStyle.scss";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "../../assets/images/icons/searchbold.svg";
 import Butext from "../../assets/images/landing-butext.svg";
-// import PriceRequestModal from "../../widgets/priceRequestModal/PriceRequestModal";
 import DsaImage from "../../assets/images/course-data-structure.svg";
 import CloudImage from "../../assets/images/course-cloud-computing.svg";
 import MathsImage from "../../assets/images/course-discreate-mathematics.svg";
@@ -18,11 +17,6 @@ const Home = () => {
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
   console.log("redirect uri " + redirectUri);
   console.log(oAuthUrl);
-
-  // const [showModal, setShowModal] = useState(false);
-
-  // const handleShowModal = () => setShowModal(true);
-  // const handleCloseModal = () => setShowModal(false);
 
   return (
     <>
@@ -62,8 +56,6 @@ const Home = () => {
           </Row>
         </Container>
       </div>
-      {/* onClick={handleShowModal} */}
-   {/* <PriceRequestModal show={showModal} handleClose={handleCloseModal}/> */}
      <div className="landing-courses d-flex">
         <div className="title-wrapper">
           <h4>Courses</h4>

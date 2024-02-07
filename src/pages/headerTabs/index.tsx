@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import Nav from 'react-bootstrap/Nav';
 import { Link } from "react-router-dom";
@@ -9,8 +10,11 @@ import gradeboolIcon from "../../assets/images/icons/gradebook.svg";
 import attendanceIcon from "../../assets/images/icons/attendance.svg";
 import helpdeskIcon from "../../assets/images/icons/helpdesk.svg";
 import siteadminIcon from "../../assets/images/icons/siteadmin.svg";
+import PriceRequestModal from "../../widgets/priceRequestModal/PriceRequestModal";
 
 const HeaderTabs = ({activeTab} : any) => {
+    const [showModal, setShowModal] = useState(false);
+
     const menuPermission = useSelector(
         (state: any) => state.userAuthorities.permissions.menu
     );
@@ -18,6 +22,9 @@ const HeaderTabs = ({activeTab} : any) => {
     const authenticatedUserPermission = useSelector(
         (state: any) => state.authenticatedUser.permissions.menu
     );
+
+    const handleShowModal = () => setShowModal(true);
+    const handleCloseModal = () => setShowModal(false);
 
     return(
         <div className="site-header-tab">
@@ -45,7 +52,7 @@ const HeaderTabs = ({activeTab} : any) => {
                 {
                     (menuPermission.performance.canView || authenticatedUserPermission.performance.canView)
                     &&
-                    <Nav.Item as="li">
+                    <Nav.Item as="li" onClick={handleShowModal}>
                         <Link to="" className={activeTab === 'performance' ? 'active-tab' : ''}>
                             <img src={performanceIcon} alt="Performance" />
                             <span>Performance</span>
@@ -89,6 +96,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     </Nav.Item>
                 }
             </Nav>
+            <PriceRequestModal show={showModal} handleClose={handleCloseModal}/>
         </div>
     );
 }

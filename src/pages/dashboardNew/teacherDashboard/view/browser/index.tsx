@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
 import HeaderTabs from "../../../../headerTabs";
