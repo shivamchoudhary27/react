@@ -119,23 +119,15 @@ const CourseModal = ({
         : "",
       type: courseobj.courseType ? courseobj.courseType.toLowerCase() : null,
       startDate:
-      courseobj.id === 0
-        ? (courseobj.startDate !== null
-            ? initialDateFormatHandler(courseobj.startDate)
-            : getCurrentMonth(currentDate))
-        : (courseobj.startDate !== null
-            ? initialDateFormatHandler(courseobj.startDate)
-            : (getCurrentMonth(currentDate))),
+       (courseobj.startDate !== null
+          ? initialDateFormatHandler(courseobj.startDate)
+          : getCurrentMonth(currentDate)),
 
-            endDate:
-            courseobj.id === 0
-              ? (courseobj.endDate !== null
-                  ? initialDateFormatHandler(courseobj.endDate)
-                  : getCurrentMonth(currentDate))
-              : (courseobj.endDate !== null
-                  ? initialDateFormatHandler(courseobj.endDate)
-                  : (getCurrentMonth(currentDate))),
-    });
+        endDate:
+          (courseobj.endDate !== null
+          ? initialDateFormatHandler(courseobj.endDate)
+          : getCurrentMonth(currentDate)),
+        });
   }, [courseobj]);
 
   
@@ -209,10 +201,10 @@ const CourseModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    if(values !== undefined){
-      values.startDate = dateConverterToDYM(values.startDate)
-      values.endDate = dateConverterToDYM(values.endDate)
-    }
+    // if(values !== undefined){
+    //   values.startDate = dateConverterToDYM(values.startDate)
+    //   values.endDate = dateConverterToDYM(values.endDate)
+    // }
     if (values.deleteImage === true) {
       values.deleted = true;
       delete values.deleteImage;

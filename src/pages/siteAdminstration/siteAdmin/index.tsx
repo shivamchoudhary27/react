@@ -1,13 +1,20 @@
 import "./style.scss";
 import View from "./view";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AdminRawData } from "./rawData";
 import { useSelector } from "react-redux";
+import PriceRequestModal from "../../../widgets/priceRequestModal/PriceRequestModal";
 
 const SiteAdminHome = () => {
+  const [showModal, setShowModal] = useState(false);
+  
   const permissions = useSelector(
     (state: any) => state.userAuthorities.permissions
-  );
+    );
+    
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   const renderComponent = (item: any, index: number) => {
     let componentEnabled = true;
@@ -34,6 +41,11 @@ const SiteAdminHome = () => {
       <div key={index} className={`box ${item.boxclassname}`}>
         <Link
           to={item.link}
+          onClick={() => {
+            if (item.component === "copo" || item.component === "timetable") {
+              handleShowModal();
+            }
+          }}
           className={`default-item ${item.classname}`}
           style={
             item.enabled
@@ -51,7 +63,12 @@ const SiteAdminHome = () => {
     );
   };
 
-  return <View adminRawData={AdminRawData} renderComponent={renderComponent} />;
+  return (
+    <>
+      <View adminRawData={AdminRawData} renderComponent={renderComponent} />;
+      <PriceRequestModal show={showModal} handleClose={handleCloseModal}/>
+    </>
+  )
 };
 
 export default SiteAdminHome;
