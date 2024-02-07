@@ -4,35 +4,44 @@ import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
+  tagObj: any;
+  modalShow: any;
+  setTagObj: any;
   apiStatus: any;
-  programData: any;
+  totalpages: any;
+  allTagsData: any;
   filterUpdate: any;
+  setModalShow: any;
   refreshToggle: any;
   newPageRequest: any;
+  toggleModalShow: any;
+  editHandlerById: any;
+  userAuthorities: any;
   currentInstitute: any;
-  programDataPager: any;
-  programAuthorities: any;
-  programPermissions: any;
   updateInputFilters: any;
-  refreshOnDeleteToggle: any;
-  updateDepartmentFilter: any;
+  updateDeleteRefresh: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
+    tagObj: props.tagObj,
     apiStatus: props.apiStatus,
-    programData: props.programData,
+    modalShow: props.modalShow,
+    setTagObj: props.setTagObj,
+    totalpages: props.totalpages,
+    allTagsData: props.allTagsData,
     filterUpdate: props.filterUpdate,
+    setModalShow: props.setModalShow,
     refreshToggle: props.refreshToggle,
     newPageRequest: props.newPageRequest,
-    programDataPager: props.programDataPager,
+    toggleModalShow: props.toggleModalShow,
+    userAuthorities: props.userAuthorities,
+    editHandlerById: props.editHandlerById,
     currentInstitute: props.currentInstitute,
     updateInputFilters: props.updateInputFilters,
-    programAuthorities: props.programAuthorities,
-    programPermissions: props.programAuthorities,
-    refreshOnDeleteToggle: props.refreshOnDeleteToggle,
-    updateDepartmentFilter: props.updateDepartmentFilter,
+    updateDeleteRefresh: props.updateDeleteRefresh,
   };
+
   return (
     <React.Fragment>
       {isMobile ? (

@@ -96,7 +96,7 @@ const Browser = (props: Props) => {
             <React.Fragment>
               <ManageTable
                 apiStatus={props.commonProps.apiStatus}
-                programData={props.commonProps.programData.items}
+                programData={props.commonProps.programData}
                 currentInstitute={props.commonProps.currentInstitute}
                 refreshDepartmentData={props.commonProps.refreshToggle}
                 refreshOnDelete={props.commonProps.refreshOnDeleteToggle}

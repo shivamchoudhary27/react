@@ -1,23 +1,11 @@
-import ManageTable from "./table";
-import ManageFilter from "./filter";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import { useSelector } from "react-redux";
-import HeaderTabs from "../../headerTabs";
-import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import PageTitle from "../../../widgets/pageTitle";
-import { Container, Button } from "react-bootstrap";
-import { pagination } from "../../../utils/pagination";
-import Errordiv from "../../../widgets/alert/errordiv";
-import BuildPagination from "../../../widgets/pagination";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import { getData, postData } from "../../../adapters/microservices";
-import BottomWave from "../../../assets/images/background/bg-bottom.svg";
+
 import View from "./view";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { pagination } from "../../../utils/pagination";
+import { getData, postData } from "../../../adapters/microservices";
 
 const ManageProgram = () => {
-  const navigate = useNavigate();
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
@@ -159,107 +147,20 @@ const ManageProgram = () => {
   };
 
   return (
-    <React.Fragment>
-      {/* <View
+      <View
         apiStatus={apiStatus}
-        programData={programData.items}
         currentInstitute={currentInstitute}
+        programPermissions={programAuthorities.program}
+        updateInputFilters={updateInputFilters}
+        updateDepartmentFilter={updateDepartmentFilter}
+        programData={programData.items}
         filterUpdate={filterUpdate.pageNumber}
         programAuthorities={programAuthorities}
         programDataPager={programData.pager.totalPages}
-        programPermissions={programAuthorities.program}
         refreshToggle={refreshToggle}
         newPageRequest={newPageRequest}
-        updateInputFilters={updateInputFilters}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
-        updateDepartmentFilter={updateDepartmentFilter}
-      /> */}
-
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "" },
-        ]}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle={`Program Management`} gobacklink="/siteadmin" />
-          <div className="site-button-group mb-3">
-            {programAuthorities.department.canView && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => navigate("/department")}
-              >
-                Department
-              </Button>
-            )}
-            {programAuthorities.programtype.canView && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => navigate("/programtype")}
-              >
-                Program Type
-              </Button>
-            )}
-            {programAuthorities.discipline.canView && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => navigate("/discipline")}
-              >
-                Discipline
-              </Button>
-            )}
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => navigate("/tags")}
-            >
-              Tags
-            </Button>
-          </div>
-          <ManageFilter
-            apiStatus={apiStatus}
-            currentInstitute={currentInstitute}
-            programPermissions={programAuthorities.program}
-            updateinputfilters={updateInputFilters}
-            updatedepartment={updateDepartmentFilter}
-          />
-          {!programAuthorities.program.canView ? (
-            <Errordiv
-              msg="You don't have permission to view programs."
-              cstate
-              className="mt-3"
-            />
-          ) : (
-            <React.Fragment>
-              <ManageTable
-                apiStatus={apiStatus}
-                programData={programData.items}
-                currentInstitute={currentInstitute}
-                programPermissions={programAuthorities.program}
-                refreshDepartmentData={refreshToggle}
-                refreshOnDelete={refreshOnDeleteToggle}
-              />
-              <BuildPagination
-                totalpages={programData.pager.totalPages}
-                activepage={filterUpdate.pageNumber}
-                getrequestedpage={newPageRequest}
-              />
-            </React.Fragment>
-          )}
-        </Container>
-      </div>
-      <Footer />
-      <div className="bottom-bg">
-        <img src={BottomWave} alt="bottom wave" />
-      </div>
-    </React.Fragment>
-  );
-};
-
-export default ManageProgram;
+      );
+    };
+    export default ManageProgram;
