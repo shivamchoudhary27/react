@@ -45,7 +45,6 @@ const ShortByDaysDropdowns = ({
   handlerChange,
   filterTimestampValue,
 }: any) => {
-  console.log(eventsPacket)
   return (
     <select
       value={filterTimestampValue}

@@ -38,21 +38,70 @@ const Browser = (props: Props) => {
     },
   });
   const [course, setCourses] = useState([]);
+  const [courseData, setCourseData] = useState(props.coursesList)
 
   useEffect(() => {
+    setCourseData(props.coursesList)
+    if (props.coursesList.courses.length > 0) {
+      setCourseData((prevState: { courses: any[]; }) => ({
+        ...prevState,
+        courses: prevState.courses.map(course => {
+          const matchingCourse = props.enrolCoreCoursesObj.find((enrolCourse: { id: any; }) => enrolCourse.id === course.idNumber);
+          if (matchingCourse) {
+            return {
+              ...course,
+              completed: matchingCourse.completed,
+              progress: matchingCourse.progress
+            };
+          }
+          return course;
+        })
+      }));
+    }
+  }, [props.coursesList, props.enrolCoreCoursesObj]);
+
+  useEffect(() => {
+
+    const filterdStatus = (status: any, filterCourses: any) => {
+
+      if (filterCourses.length > 0) {
+
+        if (status == 'inprogress') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.progress != null && !data.completed
+          })
+          setCourses(updatedCourse);
+        }
+        if (status == 'completed') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.completed
+          })
+          setCourses(updatedCourse);
+        }
+        if (status == 'notstarted') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.progress == null && !data.completed
+          })
+          setCourses(updatedCourse);
+        }
+      };
+    }
+
     if (filterStatus.selectedValues.program > 0) {
       if (filterStatus.selectedValues.category > 0) {
-        const filteredCourses = props.coursesList.courses.filter(
+        const filteredCourses = courseData.courses.filter(
           (item) =>
             item.programId === filterStatus.selectedValues.program &&
             item.categoryId === filterStatus.selectedValues.category
         );
         setCourses(filteredCourses);
+        filterdStatus(filterStatus.selectedValues.status, filteredCourses)
       } else {
-        const filteredCourses = props.coursesList.courses.filter(
+        const filteredCourses = courseData.courses.filter(
           (item) => item.programId === filterStatus.selectedValues.program
         );
         setCourses(filteredCourses);
+        filterdStatus(filterStatus.selectedValues.status, filteredCourses)
       }
     } else {
       const uniqueProgramIds = new Set();
@@ -61,10 +110,11 @@ const Browser = (props: Props) => {
         uniqueProgramIds.add(item.id);
       });
 
-      const filteredData = props.coursesList.courses.filter((item) =>
+      const filteredData = courseData.courses.filter((item) =>
         uniqueProgramIds.has(item.programId)
       );
       setCourses(filteredData);
+      filterdStatus(filterStatus.selectedValues.status, filteredData)
     }
   }, [filterStatus]);
 
@@ -84,22 +134,6 @@ const Browser = (props: Props) => {
     return "0%";
   };
 
-  const getCourseStatus = (val: string) => {
-    const currentDate = new Date();
-    const unixTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
-    props.enrolCoreCoursesObj.map((item: any) => {
-      console.log(item);
-    });
-
-    if (val === "progress") {
-      console.log("progress");
-    } else if (val === "notStarted") {
-      console.log("notStarted");
-    } else {
-      console.log("completed");
-    }
-  };
-
   return (
     <React.Fragment>
       <Container fluid>
@@ -107,10 +141,8 @@ const Browser = (props: Props) => {
           <h3>My Courses</h3>
           <div className="d-flex align-items-end justify-content-between gap-3">
             <FilterProgramDropdown
-              getCourseStatus={getCourseStatus}
               coursesList={props.coursesList}
               updateCourses={updateCourses}
-              enrolCoreCoursesObj={props.enrolCoreCoursesObj}
             />
             {/* ============== left for second phase ============ */}
             {/* <Button variant="primary" onClick={() => navigate("/minorcourse")}>

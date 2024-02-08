@@ -9,7 +9,6 @@ type Props = {
   departmentList?: any;
   setUserCoursesData?: any;
   updateCourses?: any;
-  enrolCoreCoursesObj: any
   getCourseStatus?: (params: any) => void;
   getSelectedValue?: ChangeEventHandler<HTMLSelectElement> | undefined;
 };
@@ -86,19 +85,6 @@ const FilterProgramDropdown = (props: Props) => {
       status: courseStatusOptions,
     },
   });
-
-  useEffect(() => {
-    if (props.coursesList.courses.length > 0 && props.enrolCoreCoursesObj.length > 0) {
-      let x: any = []
-      let y = props.enrolCoreCoursesObj.filter((item: any) => {
-        return props.coursesList.courses.some((el: any) => {
-          return el.idNumber === item.id;
-        });
-      });
-      // console.log(y);
-      setFilteredStatusData(y)
-    }
-  }, [props.enrolCoreCoursesObj, props.coursesList]);
   
   const filterStatusCourse = (val: any) => {
     if(val !== ""){
@@ -155,7 +141,7 @@ const FilterProgramDropdown = (props: Props) => {
       let newCategories = categoriesOptions(value, userEnrolData.courses);
       
       setFilters((prevFilterData) => ({
-        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0},
+        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0, status:0},
         filterData: {...prevFilterData.filterData, categories: newCategories}
       }));
 
@@ -173,14 +159,14 @@ const FilterProgramDropdown = (props: Props) => {
 
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, category: value}
+        selectedValues: {...prevFilterData.selectedValues, category: value, status:0}
       }));    
 
     } else if (component === 'Batch Year') {
 
       let filteredPrograms = filterBatchYearPrograms(originalValue, userEnrolData.programs);
       setFilters((prevFilterData: any) => ({
-        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0},
+        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0, status:0},
         filterData: {...prevFilterData.filterData, programs: filteredPrograms}
       }));
     }

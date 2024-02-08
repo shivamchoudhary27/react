@@ -58,10 +58,6 @@ const ScheduleTable: React.FC<Props> = (props) => {
 
   return (
     <div className="mitblock-body">
-      {props.sessionApiStatus === "finished" &&
-        props.todaySessionPacket.length === 0 && (
-          <Errordiv msg="No session available!" cstate />
-        )}
       {props.todaySessionPacket.map((session: any, index: number) => (
         <div className="d-flex align-items-center tsb-row mb-3" key={index}>
           <div className="align-self-start me-3">
@@ -89,8 +85,9 @@ const ScheduleTable: React.FC<Props> = (props) => {
           </span>
         </div>
       ))}
-      {/* {props.sessionApiStatus === "started" &&
-        props.todaySessionPacket.length === 0 && <ListSkeleton />} */}
+      {(props.todaySessionPacket.length == 0 &&
+        <Errordiv msg="No session available!" cstate className="" />
+      )}
     </div>
   );
 };

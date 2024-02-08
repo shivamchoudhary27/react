@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
@@ -12,8 +12,14 @@ import "./mobileStyle.scss";
 type Props = {
   coursesList: any;
   enrolCoreCoursesObj: any;
-  apiStatusCourse:string
+  apiStatusCourse: string
 };
+
+const courseStatusOptions = [
+  { id: "inprogress", name: "In Progress" },
+  { id: "completed", name: "Completed" },
+  { id: "notstarted", name: "Not Started" },
+];
 
 const Mobile: React.FC<Props> = (props) => {
   const getCourseProgress = (id: number) => {
@@ -28,21 +34,108 @@ const Mobile: React.FC<Props> = (props) => {
     return "0%";
   };
 
-  const getCourseStatus = (val: string) => {
-    const currentDate = new Date();
-    const unixTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
-    props.enrolCoreCoursesObj.map((item: any) => {
-      console.log(item);
-    });
+  const [filterStatus, setFilterStatus] = useState({
+    selectedValues: {
+      // department: 0,
+      batchYear: 0,
+      program: 0,
+      category: 0,
+      status: 0,
+    },
+    filterData: {
+      // departments: [],
+      batchYears: [],
+      programs: [],
+      categories: [],
+      status: courseStatusOptions,
+    },
+  });
+  const [course, setCourses] = useState([]);
+  const [courseData, setCourseData] = useState(props.coursesList)
 
-    if (val === "progress") {
-      console.log("progress");
-    } else if (val === "notStarted") {
-      console.log("notStarted");
-    } else {
-      console.log("completed");
+
+  useEffect(() => {
+    setCourseData(props.coursesList)
+    if (props.coursesList.courses.length > 0) {
+      setCourseData((prevState: { courses: any[]; }) => ({
+        ...prevState,
+        courses: prevState.courses.map(course => {
+          const matchingCourse = props.enrolCoreCoursesObj.find((enrolCourse: { id: any; }) => enrolCourse.id === course.idNumber);
+          if (matchingCourse) {
+            return {
+              ...course,
+              completed: matchingCourse.completed,
+              progress: matchingCourse.progress
+            };
+          }
+          return course;
+        })
+      }));
     }
+  }, [props.coursesList, props.enrolCoreCoursesObj]);
+
+  useEffect(() => {
+
+    const filterdStatus = (status: any, filterCourses: any) => {
+
+      if (filterCourses.length > 0) {
+
+        if (status == 'inprogress') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.progress != null && !data.completed
+          })
+          setCourses(updatedCourse);
+        }
+        if (status == 'completed') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.completed
+          })
+          setCourses(updatedCourse);
+        }
+        if (status == 'notstarted') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.progress == null && !data.completed
+          })
+          setCourses(updatedCourse);
+        }
+      };
+    }
+
+    if (filterStatus.selectedValues.program > 0) {
+      if (filterStatus.selectedValues.category > 0) {
+        const filteredCourses = courseData.courses.filter(
+          (item) =>
+            item.programId === filterStatus.selectedValues.program &&
+            item.categoryId === filterStatus.selectedValues.category
+        );
+        setCourses(filteredCourses);
+        filterdStatus(filterStatus.selectedValues.status, filteredCourses)
+      } else {
+        const filteredCourses = courseData.courses.filter(
+          (item) => item.programId === filterStatus.selectedValues.program
+        );
+        setCourses(filteredCourses);
+        filterdStatus(filterStatus.selectedValues.status, filteredCourses)
+      }
+    } else {
+      const uniqueProgramIds = new Set();
+
+      filterStatus.filterData.programs.forEach((item) => {
+        uniqueProgramIds.add(item.id);
+      });
+
+      const filteredData = courseData.courses.filter((item) =>
+        uniqueProgramIds.has(item.programId)
+      );
+      setCourses(filteredData);
+      filterdStatus(filterStatus.selectedValues.status, filteredData)
+    }
+  }, [filterStatus]);
+
+  const updateCourses = (filterValues: any) => {
+    setFilterStatus(filterValues);
   };
+
   const [showFilterDropdown, setShowFilterDropdown] = useState(true);
   const toggleFilterDropdown = () => {
     setShowFilterDropdown(!showFilterDropdown);
@@ -55,23 +148,13 @@ const Mobile: React.FC<Props> = (props) => {
           <button onClick={toggleFilterDropdown} className="filter-btn">
             <img src={filterIcon} alt="filter-icon" />
           </button>
-          <div
-            className={
-              showFilterDropdown
-                ? "FilterProgramDropdown-wrapper"
-                : "FilterProgramDropdown-wrapper hidden"
-            }
-          >
-            <FilterProgramDropdown
-              enrolCoreCoursesObj={props.enrolCoreCoursesObj}
-              getCourseStatus={getCourseStatus}
-              coursesList={props.coursesList}
-            />
+          <div className={showFilterDropdown ? "FilterProgramDropdown-wrapper" : "FilterProgramDropdown-wrapper hidden"}>
+            <FilterProgramDropdown coursesList={props.coursesList} updateCourses={updateCourses} />
           </div>
         </div>
         <Row className="g-4 mylearning-card">
-          {props.coursesList.courses.length > 0 ? (
-            props.coursesList.courses.map((item: any, index: number) => (
+          {course.length > 0 ? (
+            course.map((item: any, index: number) => (
               <Col sm={6} lg={4} xl={3} key={index}>
                 <Card body className="h-100">
                   <div className="mlcard-image">
@@ -83,6 +166,7 @@ const Mobile: React.FC<Props> = (props) => {
                       {getCourseProgress(item.idNumber)}
                     </span>
                   </div>
+
                   <div className="mlcard-info mb-cardinfo">
                     <div>
                       <img src={gradeIcon} alt="Grade" className="small-icon" />
@@ -98,9 +182,10 @@ const Mobile: React.FC<Props> = (props) => {
                 </Card>
               </Col>
             ))
-          ) :  props.apiStatusCourse === "started" && props.coursesList.courses.length === 0 ? <h3>Loading...</h3> :
-            props.apiStatusCourse === "finished" && props.coursesList.courses.length === 0 &&
-            <Errordiv msg="No course available!" cstate className="mt-3" />
+          ) : 
+          props.apiStatusCourse === "started" && course.length === 0 ? <h3>Loading...</h3> :
+          props.apiStatusCourse === "finished" && course.length === 0 &&
+          <Errordiv msg="No course available!" cstate className="mt-3" />
           }
         </Row>
       </Container>

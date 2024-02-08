@@ -98,6 +98,7 @@ const RolesGlobalFilter = (props: Props) => {
                 anchorSelect=".my-role-element"
                 content="Switch Role"
                 place="bottom"
+                style={{zIndex:2}}
               />
             </div>
           ) 

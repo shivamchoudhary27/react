@@ -80,9 +80,6 @@ const Browser: React.FC<Props> = (props) => {
         filterTimestampSort={props.filterTimestampSort}
       />
       <div className="mitblock-body">
-        {props.apiStatus === "finished" && props.eventsPacket.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="" />
-        )}
         {props.eventsPacket.length > 0 &&
           props.eventsPacket.map((event: any, index: number) =>
             props.filterTimestampSort !== "course" ? (
@@ -161,6 +158,9 @@ const Browser: React.FC<Props> = (props) => {
               </div>
             )
           )}
+        {(props.eventsPacket.length == 0 &&
+          <Errordiv msg="No timeline available!" cstate className="" />
+        )}
       </div>
     </div>
   );
