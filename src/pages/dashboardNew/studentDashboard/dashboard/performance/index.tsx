@@ -36,10 +36,9 @@ const PerformanceOverview: React.FC<Props> = (props) => {
     getData(query)
       .then((res: any) => {
         if (res.status === 200 && res.data !== "") {
-          const dataObject = JSON.parse(res.data.info);
+          const dataObject = res.data.info? JSON.parse(res.data.info): dummyObj;
           setUserPerformance(dataObject);
-        }
-      })
+      }})
       .catch((err: any) => {
         console.log(err);
       });

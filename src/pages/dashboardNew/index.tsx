@@ -89,7 +89,6 @@ const DashboardNew: React.FC<Props> = (props) => {
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
             setEnrolCoreCoursesObj(res.data);
-            console.log(res.data)
           }
         })
         .catch((err) => {

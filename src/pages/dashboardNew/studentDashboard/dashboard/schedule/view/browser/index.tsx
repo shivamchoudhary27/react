@@ -44,12 +44,10 @@ const Browser: React.FC<Props> = (props) => {
     const endMinute = startMinute;
 
     // Format the start and end times
-    const startTime = `${startHour}:${
-      startMinute < 10 ? "0" : ""
-    }${startMinute} ${startHour >= 12 ? "PM" : "AM"}`;
-    const endTime = `${endHour}:${endMinute < 10 ? "0" : ""}${endMinute} ${
-      endHour >= 12 ? "PM" : "AM"
-    }`;
+    const startTime = `${startHour}:${startMinute < 10 ? "0" : ""
+      }${startMinute} ${startHour >= 12 ? "PM" : "AM"}`;
+    const endTime = `${endHour}:${endMinute < 10 ? "0" : ""}${endMinute} ${endHour >= 12 ? "PM" : "AM"
+      }`;
     return `${startTime} - ${endTime}`;
   };
 
@@ -61,40 +59,36 @@ const Browser: React.FC<Props> = (props) => {
       </h3>
       <div className="mitblock-body">
         {props.todaySessionPacket.map((session: any, index: number) => (
-            <div className="d-flex align-items-center tsb-row mb-3" key={index}>
-              <div className="align-self-start me-3">
-                <img src={calendarIcon} alt="Schedule Icon" />
-              </div>
-              <div className="tsb-info">
-                <h6>
-                  {session.name.charAt(0).toUpperCase() + session.name.slice(1)}
-                </h6>
-                <p>
-                  <b>Course: </b>
-                  {session.courseName}
-                </p>
-                <p>
-                  <b>Venue: </b>
-                  {session.venue !== "" ? session.venue : "Not available"}
-                </p>
-                <p>{getSessionTime(session.sessdate)}</p>
-              </div>
-              <span
-                className={`badge tsb-button ${
-                  props.sessionMode[session.mode]
-                }`}
-              >
-                {props.sessionMode[session.mode].charAt(0).toUpperCase() +
-                  props.sessionMode[session.mode].slice(1)}
-              </span>
+          <div className="d-flex align-items-center tsb-row mb-3" key={index}>
+            <div className="align-self-start me-3">
+              <img src={calendarIcon} alt="Schedule Icon" />
             </div>
-          ))}
-          {props.sessionApiStatus === "started" &&
-            props.todaySessionPacket.length === 0 && <ListSkeleton />}
-          {props.sessionApiStatus === "finished" &&
-          props.todaySessionPacket.length === 0 && (
-            <Errordiv msg="No session available!" cstate />
-          )}
+            <div className="tsb-info">
+              <h6>
+                {session.name.charAt(0).toUpperCase() + session.name.slice(1)}
+              </h6>
+              <p>
+                <b>Course: </b>
+                {session.courseName}
+              </p>
+              <p>
+                <b>Venue: </b>
+                {session.venue !== "" ? session.venue : "Not available"}
+              </p>
+              <p>{getSessionTime(session.sessdate)}</p>
+            </div>
+            <span
+              className={`badge tsb-button ${props.sessionMode[session.mode]
+                }`}
+            >
+              {props.sessionMode[session.mode].charAt(0).toUpperCase() +
+                props.sessionMode[session.mode].slice(1)}
+            </span>
+          </div>
+        ))}
+        {(props.todaySessionPacket.length == 0 &&
+          <Errordiv msg="No session available!" cstate className="" />
+        )}
       </div>
     </div>
   );

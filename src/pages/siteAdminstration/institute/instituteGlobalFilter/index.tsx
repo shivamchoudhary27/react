@@ -94,6 +94,7 @@ const InstituteFilter = () => {
             anchorSelect=".my-institute-element"
             content="Select Institute"
             place="bottom"
+            style={{zIndex:2}}
           />
       </div>
     </>

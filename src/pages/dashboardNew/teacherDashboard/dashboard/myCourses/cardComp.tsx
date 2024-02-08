@@ -10,28 +10,76 @@ import attendanceIcon from "../../../../../assets/images/icons/attendance-black.
 type Props = {
   courseList: any;
   filterStatus: any;
-  apiStatusCourse: string
+  enrolCourse: any;
 };
 
 const CardComponent = (props: Props) => {
   const [course, setCourses] = useState([]);
-
-  console.log(props.apiStatusCourse)
+  const [courseData, setCourseData] = useState(props.courseList)
 
   useEffect(() => {
+    setCourseData(props.courseList)
+    if (props.courseList.courses.length > 0) {
+      setCourseData((prevState: { courses: any[]; }) => ({
+        ...prevState,
+        courses: prevState.courses.map(course => {
+          const matchingCourse = props.enrolCourse.find((enrolCourse: { id: any; }) => enrolCourse.id === course.idNumber);
+          if (matchingCourse) {
+            return {
+              ...course,
+              completed: matchingCourse.completed,
+              progress: matchingCourse.progress
+            };
+          }
+          return course;
+        })
+      }));
+    }
+  }, [props.courseList, props.enrolCourse]);
+
+  useEffect(() => {
+
+    const filterStatus = (status: any, filterCourses: any) => {
+
+      if (filterCourses.length > 0) {
+
+        if (status == 'inprogress') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.progress != null && !data.completed
+          })
+          setCourses(updatedCourse);
+        }
+        if (status == 'completed') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.completed
+          })
+          setCourses(updatedCourse);
+        }
+        if (status == 'notstarted') {
+          let updatedCourse = filterCourses.filter((data: any) => {
+            return data.progress == null && !data.completed
+          })
+          setCourses(updatedCourse);
+        }
+      };
+    }
+ 
     if (props.filterStatus.selectedValues.program > 0) {
       if (props.filterStatus.selectedValues.category > 0) {
-        const filteredCourses = props.courseList.courses.filter(
-          (item) =>
-            item.programId === props.filterStatus.selectedValues.program &&
-            item.categoryId === props.filterStatus.selectedValues.category
+        const filteredCourses = courseData.courses.filter(item =>
+          item.programId === props.filterStatus.selectedValues.program
+          &&
+          item.categoryId === props.filterStatus.selectedValues.category
         );
         setCourses(filteredCourses);
-      } else {
-        const filteredCourses = props.courseList.courses.filter(
-          (item) => item.programId === props.filterStatus.selectedValues.program
+        filterStatus(props.filterStatus.selectedValues.status, filteredCourses)
+      }
+      else {
+        const filteredCourses = courseData.courses.filter(item =>
+          item.programId === props.filterStatus.selectedValues.program
         );
         setCourses(filteredCourses);
+        filterStatus(props.filterStatus.selectedValues.status, filteredCourses)
       }
     } else {
       const uniqueProgramIds = new Set();
@@ -40,14 +88,14 @@ const CardComponent = (props: Props) => {
         uniqueProgramIds.add(item.id);
       });
 
-      const filteredData = props.courseList.courses.filter((item) =>
-        uniqueProgramIds.has(item.programId)
-      );
+      const filteredData = courseData.courses.filter(item => uniqueProgramIds.has(item.programId));
       setCourses(filteredData);
+      filterStatus(props.filterStatus.selectedValues.status, filteredData)
     }
   }, [props.filterStatus]);
 
   return (
+    <React.Fragment>
     <Row className="g-4 myteaching-card">
       {course.length > 0 ? (
         course.map((item: any, index: number) => (
@@ -93,6 +141,12 @@ const CardComponent = (props: Props) => {
           <Errordiv msg="No course available!" cstate className="mt-3" />
       }
     </Row>
+
+     {course.length === 0 && (
+        <Errordiv msg="No course available!" cstate className="mt-3" />
+      )} 
+</React.Fragment>
+
   );
 };
 

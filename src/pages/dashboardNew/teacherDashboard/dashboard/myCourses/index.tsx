@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Tabs, Tab } from "react-bootstrap";
 import CardComponent from "./cardComp";
 import FilterProgramDropdown from "./filterDropdown";
@@ -10,7 +10,6 @@ type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any
   setUserCoursesData:any
-  apiStatusCourse: string
 };
 
 const courseStatusOptions = [
@@ -41,22 +40,6 @@ const MyCourses = (props: Props) => {
   const toggleFilterDropdown = () => {
     setShowFilterDropdown(!showFilterDropdown);
   };
-  
-  const getCourseStatus = (val: string) => {
-    const currentDate = new Date();
-    const unixTimestampInSeconds = Math.floor(currentDate.getTime() / 1000);
-    props.enrolCoreCoursesObj.map((item: any) => {
-      console.log(item);
-    });
-
-    if (val === "progress") {
-      console.log("progress");
-    } else if (val === "notStarted") {
-      console.log("notStarted");
-    } else {
-      console.log("completed");
-    }
-  };
 
   const updateCourses = (filterValues: any) => {
     setFilterStatus(filterValues);
@@ -73,8 +56,7 @@ const MyCourses = (props: Props) => {
           <div className={showFilterDropdown ? "FilterProgramDropdown-wrapper" : "FilterProgramDropdown-wrapper hidden"}>
             <FilterProgramDropdown 
               userCoursesData={props.userCoursesData} 
-              setUserCoursesData={props.setUserCoursesData} 
-              getCourseStatus={getCourseStatus} 
+              setUserCoursesData={props.setUserCoursesData}
               updateCourses={updateCourses}
             />
           </div>
@@ -82,7 +64,7 @@ const MyCourses = (props: Props) => {
         <CardComponent 
           courseList={props.userCoursesData} 
           filterStatus={filterStatus}
-          apiStatusCourse={props.apiStatusCourse}
+          enrolCourse={props.enrolCoreCoursesObj}
         />
       </Container>
     </>
