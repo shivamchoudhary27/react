@@ -29,7 +29,7 @@ type Props = {
   }
 };
 
-const Browser = (props: Props) => {
+const Mobile = (props: Props) => {
   return (
     <React.Fragment>
       <MobileHeader />
@@ -72,4 +72,4 @@ const Browser = (props: Props) => {
   );
 };
 
-export default Browser;
+export default Mobile;
