@@ -1,8 +1,8 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
-import StarRating from "../../../../../widgets/rating";
 import { Button } from "react-bootstrap";
-
+import StarRating from "../../../../../widgets/rating";
+import WaveBottom from "../../../../../assets/images/background/bg-modal.svg";
 
 interface IProps {
   show: boolean;
@@ -30,6 +30,7 @@ const StartRatingModal: React.FunctionComponent<IProps> = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">Rating</Modal.Title>
@@ -50,6 +51,7 @@ const StartRatingModal: React.FunctionComponent<IProps> = ({
             Reset Rating
           </Button>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

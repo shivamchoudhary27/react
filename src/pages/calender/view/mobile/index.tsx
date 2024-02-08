@@ -12,6 +12,7 @@ import eventsTime from "../../../../assets/images/icons/clock.svg";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import multiUser from "../../../../assets/images/icons/multi-user.svg";
 import singleUser from "../../../../assets/images/icons/single-user.svg";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
 import "./mobileStyle.scss";
 
@@ -145,7 +146,7 @@ const navigate = useNavigate()
                   }}
                 />
                 <Modal
-                  className="cal-events-modal"
+                  className="cal-events-modal modal-design-wrapper"
                   show={props.commonProps.showModal}
                   onHide={() => props.commonProps.setShowModal(false)}
                 >
@@ -210,6 +211,7 @@ const navigate = useNavigate()
                       </a>
                     </div>
                   </Modal.Body>
+                  <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
                 </Modal>
               </Col>
             </Row>

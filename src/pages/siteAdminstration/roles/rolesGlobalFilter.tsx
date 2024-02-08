@@ -5,6 +5,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import switchrole from "../../../assets/images/icons/switch-role-icon.svg";
 import { Button } from "react-bootstrap";
+import { Tooltip } from "react-tooltip";
 
 type Props = {};
 
@@ -89,10 +90,15 @@ const RolesGlobalFilter = (props: Props) => {
                 }
                 rootClose
               >                
-                <Button variant="link" className="head-icon" title="Switch Role">
+                <Button variant="link" className="head-icon my-role-element" data-tooltip-variant="light" title="">
                 <img src={switchrole} alt="Switch Role" />
                 </Button>
               </OverlayTrigger>
+              <Tooltip
+                anchorSelect=".my-role-element"
+                content="Switch Role"
+                place="bottom"
+              />
             </div>
           ) 
           : 

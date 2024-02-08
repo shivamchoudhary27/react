@@ -1,10 +1,11 @@
+import * as Yup from "yup";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { Formik, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import { postData } from "../../../adapters/coreservices";
-import CustomButton from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 
@@ -71,6 +72,7 @@ const UploadNewUsers = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -130,6 +132,7 @@ const UploadNewUsers = ({
           />
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

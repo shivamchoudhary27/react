@@ -1,16 +1,17 @@
 import React from "react";
-import { Modal } from "react-bootstrap";
+import * as Yup from "yup";
 import { Formik, Form } from "formik";
+import { Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import { postData, putData } from "../../../../adapters/microservices";
+import { globalAlertActions } from "../../../../store/slices/globalAlerts";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
-import * as Yup from "yup";
-import { postData, putData } from "../../../../adapters/microservices";
-import { useDispatch } from "react-redux";
-import { globalAlertActions } from "../../../../store/slices/globalAlerts";
-import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -83,6 +84,7 @@ const GroupModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -159,6 +161,7 @@ const GroupModal = ({
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

@@ -6,6 +6,7 @@ import switchinstitute from "../../../../assets/images/icons/switch-institue-ico
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import { Button } from "react-bootstrap";
+import { Tooltip } from "react-tooltip";
 
 const InstituteFilter = () => {
   const dispatch = useDispatch();
@@ -85,10 +86,15 @@ const InstituteFilter = () => {
             </Popover>
           }
         >
-            <Button variant="link" className="head-icon" title="Select Institute">
-              <img src={switchinstitute} alt="Select Institute" />
-            </Button>
+        <Button variant="link" className="head-icon my-institute-element" data-tooltip-variant="light" title="">
+          <img src={switchinstitute} alt="Select Institute" />
+        </Button>
         </OverlayTrigger>
+        <Tooltip
+            anchorSelect=".my-institute-element"
+            content="Select Institute"
+            place="bottom"
+          />
       </div>
     </>
   ); 
