@@ -13,6 +13,7 @@ import eventsTime from "../../../../assets/images/icons/clock.svg";
 import { Container, Row, Col, Modal, Button } from "react-bootstrap";
 import multiUser from "../../../../assets/images/icons/multi-user.svg";
 import singleUser from "../../../../assets/images/icons/single-user.svg";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
 import BottomLeftWave from "../../../../assets/images/background/bg-bottomleft.svg";
 
@@ -143,7 +144,7 @@ const Browser = (props: Props) => {
                 }}
               />
               <Modal
-                className="cal-events-modal"
+                className="cal-events-modal modal-design-wrapper"
                 show={props.commonProps.showModal}
                 onHide={() => props.commonProps.setShowModal(false)}
               >
@@ -208,6 +209,7 @@ const Browser = (props: Props) => {
                     </a>
                   </div>
                 </Modal.Body>
+                <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
               </Modal>
             </Col>
           </Row>

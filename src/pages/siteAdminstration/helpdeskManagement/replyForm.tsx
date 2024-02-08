@@ -7,6 +7,7 @@ import Errordiv from "../../../widgets/alert/errordiv";
 import { postData } from "../../../adapters/microservices";
 import { formattedDate } from "../../../lib/timestampConverter";
 import CustomButton from "../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
@@ -78,6 +79,7 @@ const RepliesForm = (props: Props) => {
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
         size="lg"
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -188,6 +190,7 @@ const RepliesForm = (props: Props) => {
             </Formik>
           ) : null}
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

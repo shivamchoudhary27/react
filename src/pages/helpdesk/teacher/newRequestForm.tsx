@@ -1,14 +1,15 @@
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import "sweetalert2/src/sweetalert2.scss";
 import { postData } from "../../../adapters/microservices";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
-import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
 
 type Props = {
   onHide: any;
@@ -87,6 +88,7 @@ const NewRequestForm = (props: Props) => {
         onHide={props.onHide}
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -99,6 +101,10 @@ const NewRequestForm = (props: Props) => {
             validationSchema={queryFormSchema}
             onSubmit={(values, action) => {
               handleFormSubmit(values, action);
+            }}
+            onReset={() => {
+              setTopicId("")
+              setProgramId(0)
             }}
           >
             {({ errors, touched, isSubmitting, setValues, handleChange }) => (
@@ -116,7 +122,8 @@ const NewRequestForm = (props: Props) => {
                     onChange={(e) => {
                       getCurrentValue(e);
                       handleChange(e);
-                    }} // value={selectedValue}
+                    }} 
+                    value={topicId}
                   >
                     <option value="">Select Topic</option>
                     {props.selectedTopic.map((option: any, index: number) => (
@@ -206,6 +213,7 @@ const NewRequestForm = (props: Props) => {
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

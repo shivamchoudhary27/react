@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { Modal } from "react-bootstrap";
+import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
+import { Modal } from "react-bootstrap";
+import "sweetalert2/src/sweetalert2.scss";
+import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
+import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import {
   postData as addCategoriesData,
   putData,
 } from "../../../adapters/microservices";
-import { useParams } from "react-router-dom";
-import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
 
 // Formik Yup validation === >>>
 const categorySchema = Yup.object({
@@ -129,6 +130,7 @@ const CategoryModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -222,6 +224,7 @@ const CategoryModal = ({
           {/* <p>Parent: {parent === 0 ? "Top" : editCategory.name}</p> */}
           {/* <p>Weight: {weight}</p> */}
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </>
   );

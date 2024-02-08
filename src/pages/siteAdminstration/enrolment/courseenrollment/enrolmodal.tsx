@@ -1,17 +1,18 @@
-import { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import { Formik, Form } from "formik";
-import { postData, putData } from "../../../../adapters/microservices";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import { pagination } from "../../../../utils/pagination";
 import * as Yup from "yup";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
-import Custom_Button from "../../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
-import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
+import { Formik, Form } from "formik";
+import Modal from "react-bootstrap/Modal";
+import { useEffect, useState } from "react";
+import { pagination } from "../../../../utils/pagination";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import { postData, putData } from "../../../../adapters/microservices";
+import Custom_Button from "../../../../widgets/formInputFields/buttons";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
 // Formik Yup Validation === >>>
 const Schema = Yup.object({
@@ -133,6 +134,7 @@ const DiciplineModal = ({
       onHide={onHide}
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="modal-design-wrapper"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -219,6 +221,7 @@ const DiciplineModal = ({
           showAlert={showAlert}
         /> */}
       </Modal.Body>
+      <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
     </Modal>
   );
 };

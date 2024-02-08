@@ -1,19 +1,20 @@
+import * as Yup from "yup";
+import Swal from "sweetalert2";
+import { Formik, Form } from "formik";
+import { Modal } from "react-bootstrap";
+import "sweetalert2/src/sweetalert2.scss";
+import { useParams } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getData } from "../../../adapters/coreservices";
-import { Modal } from "react-bootstrap";
-import { Formik, Form } from "formik";
-import FieldLabel from "../../../widgets/formInputFields/labels";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
-import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import { useParams } from "react-router-dom";
-import { putData, postData } from "../../../adapters/microservices";
-import * as Yup from "yup";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
+import FieldLabel from "../../../widgets/formInputFields/labels";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import { putData, postData } from "../../../adapters/microservices";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -170,6 +171,7 @@ const AddUsersModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -294,6 +296,7 @@ const AddUsersModal = ({
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

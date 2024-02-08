@@ -1,16 +1,17 @@
+import * as Yup from "yup";
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form } from "formik";
+import Errordiv from "../../../widgets/alert/errordiv";
+import { putData } from "../../../adapters/microservices";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import * as Yup from "yup";
-import { putData } from "../../../adapters/microservices";
-import Errordiv from "../../../widgets/alert/errordiv";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 const Schema = Yup.object({
   instanceUrl: Yup.string()
@@ -81,6 +82,7 @@ const ConfigModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -184,6 +186,7 @@ const ConfigModal = ({
             showAlert={showAlert}
           />
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

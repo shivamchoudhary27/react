@@ -6,6 +6,7 @@ import Modal from "react-bootstrap/Modal";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
@@ -56,6 +57,7 @@ const MobileProgramModal: React.FunctionComponent<Props> = ({
       show={CommonProps.show}
       onHide={CommonProps.onHide}
       aria-labelledby="contained-modal-title-vcenter"
+      className="modal-design-wrapper"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -168,6 +170,7 @@ const MobileProgramModal: React.FunctionComponent<Props> = ({
           )}
         </Formik>
       </Modal.Body>
+      <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
     </Modal>
   );
 };

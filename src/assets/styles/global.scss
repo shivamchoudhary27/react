@@ -217,6 +217,27 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
 .modal-title {
     font-size: 1.25rem;
 }
+
+// 
+.modal-design-wrapper {
+    .modal-body{
+        padding-top: 0;
+        padding-bottom: 2rem;
+        padding-top: 1rem;
+        z-index: 2;
+    }
+    .modal-content {
+    //   background: #f3f6fa url(../../../assets/images/landing-bg.png);
+        background: white url(../../assets/images/landing-bg.png);
+        border: none;
+    }
+    .wavebg{
+        width: 55%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+}
 /**** Modal End ****/
 
 /**** Alert Start ****/

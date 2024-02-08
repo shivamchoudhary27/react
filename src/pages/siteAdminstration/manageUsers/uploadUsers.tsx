@@ -1,11 +1,12 @@
+import * as Yup from "yup";
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form } from "formik";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import * as Yup from "yup";
 import { postData } from "../../../adapters/microservices";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -66,6 +67,7 @@ const UploadUsersEnrollment = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -124,6 +126,7 @@ const UploadUsersEnrollment = ({
             showAlert={showAlert}
           />
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

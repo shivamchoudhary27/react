@@ -7,6 +7,7 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import plusIcon from "../../../../assets/images/icons/plus-action.svg";
 import gearIcon from "../../../../assets/images/icons/setting-action.svg";
+import { Tooltip } from "react-tooltip";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -102,25 +103,28 @@ const EnrolUserTable = ({
           )}
           {row.original.coursename !== undefined && (
             <span>
-              {row.original !== undefined &&
-              row.original.coursedetails.published !== false ? (
-                <Link
-                  className="action-icons small-icon"
-                  to={`/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`}
-                >
-                  <img src={plusIcon} alt="Add Course" /> Enrol Users
-                </Link>
-              ) : (
-                <span
-                  className="action-icons small-icon"
-                  style={{
-                    backgroundColor: "#eeeeee",
-                  }}
-                >
-                  {" "}
-                  <img src={plusIcon} alt="Add Course" /> Enrol Users
-                </span>
-              )}
+              <Link
+                className={`action-icons small-icon ${
+                  row.original !== undefined &&
+                  row.original.coursedetails.published !== false
+                    ? ""
+                    : "disabled my-anchor-element"
+                }`}
+                to={`${
+                  row.original !== undefined &&
+                  row.original.coursedetails.published !== false
+                    ? `/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`
+                    : "#"
+                }`}
+              >
+                <img src={plusIcon} alt="Add Course" /> Enrol Users
+              </Link>
+              <Tooltip
+                anchorSelect=".my-anchor-element"
+                style={{ backgroundColor: "#F0EDD4", color: "#222" }}
+                content="course disabled"
+                place="left"
+              />
             </span>
           )}
         </span>

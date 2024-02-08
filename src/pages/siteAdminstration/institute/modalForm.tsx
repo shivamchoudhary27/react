@@ -1,16 +1,18 @@
+import * as Yup from "yup";
+import Swal from "sweetalert2";
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form } from "formik";
+import "sweetalert2/src/sweetalert2.scss";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import { postData, putData } from "../../../adapters/microservices";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import * as Yup from "yup";
-import { postData, putData } from "../../../adapters/microservices";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
+
 const AddUserModal = ({
   show,
   onHide,
@@ -120,6 +122,7 @@ const AddUserModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -213,6 +216,7 @@ const AddUserModal = ({
             showAlert={showAlert}
           />
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

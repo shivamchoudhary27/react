@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
-import { Formik, Form } from "formik";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
-import { postData, putData } from "../../../../adapters/coreservices";
+import Swal from "sweetalert2";
+import { Formik, Form } from "formik";
+import "sweetalert2/src/sweetalert2.scss";
+import { Button, Modal } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { IAlertMsg, IUserObj } from "./types/interface";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
-import { IAlertMsg, IUserObj } from "./types/interface";
-import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
-
-
-
+import FieldLabel from "../../../../widgets/formInputFields/labels";
+import { postData, putData } from "../../../../adapters/coreservices";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
 const initialValues = {
   email: "",

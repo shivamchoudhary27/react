@@ -5,6 +5,7 @@ import { Modal } from "react-bootstrap";
 import { putData } from "../../../adapters/microservices";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 
 type Props = {
   onHide: any;
@@ -67,6 +68,7 @@ const queryFormSchema = Yup.object({
         onHide={props.onHide}
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -121,6 +123,7 @@ const queryFormSchema = Yup.object({
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

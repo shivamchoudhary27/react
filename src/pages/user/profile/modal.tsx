@@ -3,6 +3,8 @@ import { Modal } from "react-bootstrap";
 import EditPicture from "./forms/editPicture";
 import ChangePassword from "./forms/changePassword";
 import SetPreferences from "./forms/setPreferences";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+
 
 const EditUserProfile = ({
   show,
@@ -22,6 +24,7 @@ const EditUserProfile = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -55,6 +58,7 @@ const EditUserProfile = ({
             />
           )}
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );

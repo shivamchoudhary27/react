@@ -1,25 +1,24 @@
-import React, { useState, useEffect } from "react";
+import * as Yup from "yup";
+import Swal from "sweetalert2";
 import { Formik, Form } from "formik";
 import { Modal } from "react-bootstrap";
-import * as Yup from "yup";
-import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import { setHasChildProp } from "./local";
+import "sweetalert2/src/sweetalert2.scss";
+import React, { useState, useEffect } from "react";
+import { getChildren, updateCategoryLevels } from "./utils";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
+import CustomButton from "../../../widgets/formInputFields/buttons";
+import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
+import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import { getData, postData, putData } from "../../../adapters/microservices";
+import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
+import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import { getData, postData, putData } from "../../../adapters/microservices";
-import { getChildren, updateCategoryLevels } from "./utils";
-import { setHasChildProp } from "./local";
-import { LoadingButton } from "../../../widgets/formInputFields/buttons";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
-import { uploadFile, addRemoveFileProperty } from "../../../globals/storefile";
-import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
-import "sweetalert2/src/sweetalert2.scss";
-import Swal from "sweetalert2";
-import { time } from "console";
-import { dateConverterToDYM } from "../../../lib/timestampConverter";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object().shape({
@@ -201,10 +200,6 @@ const CourseModal = ({
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
-    // if(values !== undefined){
-    //   values.startDate = dateConverterToDYM(values.startDate)
-    //   values.endDate = dateConverterToDYM(values.endDate)
-    // }
     if (values.deleteImage === true) {
       values.deleted = true;
       delete values.deleteImage;
@@ -280,10 +275,6 @@ const CourseModal = ({
     }
   };
 
-
-
-
-
   return (
     <React.Fragment>
       <Modal
@@ -291,6 +282,7 @@ const CourseModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -539,6 +531,7 @@ const CourseModal = ({
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );
