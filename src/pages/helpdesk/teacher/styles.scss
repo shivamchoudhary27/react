@@ -72,6 +72,11 @@
     border-radius: 20px;
     display: flex;
     flex-direction: column;
+    &:hover {
+        .chat-moreoption {
+          visibility: visible;
+        }
+      }
     p {
         word-wrap: break-word;
     }
@@ -126,13 +131,14 @@
 //     }
 // }
 
-.chat-moreoption    {
+.chat-moreoption{
+    visibility: hidden;
     button , .btn.show , .btn:active
     {
         background: none;
         border: none;
         box-shadow: none;
-        color: #9f9d9d;
+        color: #3d3d3d;
         padding: 0 11px;
         margin-left: -22px;
         &::after{

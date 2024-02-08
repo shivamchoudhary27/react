@@ -391,3 +391,29 @@ input[type="text"]:focus, input[type="password"]:focus, .form-control:focus {
 .bs-popover-bottom>.popover-arrow::before {
     border-bottom-color: #0F80EF;
 }
+
+// -------------- Background Waves Start -------------
+.left-cicle {
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    bottom: 22rem;
+    height: 17rem;
+}
+
+.bottom-bg{
+    display: flex;
+    justify-content: flex-end;
+    height: max-content;
+    position: relative;
+    z-index: -1;
+    margin-top: -13rem;
+}
+.bottomLeftWave{
+    display: flex;
+    height: max-content;
+    position: relative;
+    z-index: -1;
+    margin-top: -17rem;
+}
+// -------------- Background Waves End -------------
