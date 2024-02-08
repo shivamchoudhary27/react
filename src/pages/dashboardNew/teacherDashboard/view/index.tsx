@@ -5,7 +5,7 @@ import { Container } from "react-bootstrap";
 import NewLoader from "../../../../widgets/loader";
 import { isMobile, isDesktop } from "react-device-detect";
 import useUserinfo from "../../../../features/hooks/userinfo";
-
+import "./style.scss";
 type Props = {
   apiStatus: string;
   eventsPacket: any;

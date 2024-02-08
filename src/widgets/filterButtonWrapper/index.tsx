@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import filterIcon from '../../assets/images/icons/mb-filterIcon.svg';
+import "./style.scss";
 const FilterButtonWrapper = ({ children }) => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(true);
 
