@@ -66,7 +66,7 @@ export const UserContextProvider = (props: { children: any}) => {
   // logout handler
   const logoutHandler = () => {
 
-    const LOGOUT_URL = `${config.OAUTH2_URL}/api/verifycode/logout`;
+    const LOGOUT_URL = `${config.OAUTH2_URL}/logout`;
 
     var requestOptions: any = {
       method: 'GET',
@@ -75,6 +75,7 @@ export const UserContextProvider = (props: { children: any}) => {
   
     axios.get(LOGOUT_URL, requestOptions)
     .then((response: any) => {
+      console.log(response)
     })
 
     // setToken(null);
