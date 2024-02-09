@@ -29,7 +29,7 @@ const MobileHeader = (props: Props) => {
 
   const logout = () => {
     userCtx.logout();
-    navigate("/");
+    // navigate("/");
   };
 
   const [searchBoxVisible, setSearchBoxVisible] = useState(false);

@@ -30,6 +30,7 @@ import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selecte
 // import { Navigate, Outlet } from 'react-router-dom';
 import MinorCourse from '../../pages/minorCourses';
 import RouterLadyLoader from '../../globals/globalLazyLoader/routerLadyLoader';
+import Logout from '../../pages/logout';
 
 
 const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
@@ -51,6 +52,7 @@ export default function NewCustomRoutes() {
         */}  
           <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/dashboard" />} />
           <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
+          <Route path="/logout" element={isLoggedIn === false ? <Logout /> : <Navigate to="/dashboard" />} />
           <Route path='/authlogin' element={<AuthLogin />} />
           <Route path="/signupnew" element={<SignUpNew />} />
           <Route element={<ProtectedRoutes />}>
