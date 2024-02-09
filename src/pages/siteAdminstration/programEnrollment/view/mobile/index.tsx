@@ -53,9 +53,6 @@ const Mobile = (props: Props) => {
           />
         </Container>
       </div>
-      <div className="bottomLeftWave">
-        <img src={BottomLeftWave} alt="bottom wave" />
-      </div>
       <MobileFooter />
     </React.Fragment>
   );

@@ -11,11 +11,11 @@ const ManageProgram = () => {
     pager: { totalElements: 0, totalPages: 0 },
     institute: 0,
   };
-  const [programData, setProgramData] = useState<any>(dummyData);
   const [filesIds, setFilesIds] = useState([]);
-  const [refreshData, setRefreshData] = useState<boolean>(true);
-  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [apiStatus, setApiStatus] = useState("");
+  const [refreshData, setRefreshData] = useState<boolean>(true);
+  const [programData, setProgramData] = useState<any>(dummyData);
+  const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const selectedDepartment = useSelector(
     (state: any) => state.globalFilters.currentDepartmentFilterId
   );
@@ -149,17 +149,17 @@ const ManageProgram = () => {
   return (
       <View
         apiStatus={apiStatus}
-        currentInstitute={currentInstitute}
-        programPermissions={programAuthorities.program}
-        updateInputFilters={updateInputFilters}
-        updateDepartmentFilter={updateDepartmentFilter}
-        programData={programData.items}
-        filterUpdate={filterUpdate.pageNumber}
-        programAuthorities={programAuthorities}
-        programDataPager={programData.pager.totalPages}
+        // programPermissions={programAuthorities.program}
         refreshToggle={refreshToggle}
+        programData={programData.items}
         newPageRequest={newPageRequest}
+        currentInstitute={currentInstitute}
+        filterUpdate={filterUpdate.pageNumber}
+        updateInputFilters={updateInputFilters}
+        programAuthorities={programAuthorities}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
+        updateDepartmentFilter={updateDepartmentFilter}
+        programDataPager={programData.pager.totalPages}
       />
       );
     };

@@ -1,16 +1,10 @@
-import { useEffect, useState } from "react";
 import { useSelector } from 'react-redux';
-import { getData as getProgramData } from "../../../../adapters/microservices";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import { Container } from "react-bootstrap";
-import AddProgramForm from "./form";
+import { useEffect, useState } from "react";
+import View from "../addProgram/view/index"
 import { useParams } from "react-router-dom";
 import { initialValues, generateIinitialValues } from "./utils";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import PageTitle from "../../../../widgets/pageTitle";
-import "./style.scss";
+import { getData as getProgramData } from "../../../../adapters/microservices";
+
 
 const AddProgram = () => {
   const { id } = useParams();
@@ -42,31 +36,12 @@ const AddProgram = () => {
   }, [instituteId]);
 
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin"/>
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Add Program", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle={currentProgram.id == 0 ? "Add Program" : "Update Program"} gobacklink="/manageprogram" />
-          {currentProgram.status === true && (
-            <AddProgramForm
-              initialformvalues={currentProgram.data}
-              programid={currentProgram.id}
-              instituteId={instituteId}
-            />
-          )}
-        </Container>
-      </div>
-      <Footer />
-    </>
-  );
-};
-
-export default AddProgram;
+    <View 
+    currentProgram={currentProgram}
+    instituteId={instituteId}
+    />
+    );
+  };
+  export default AddProgram;
+     
+ 

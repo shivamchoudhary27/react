@@ -1,36 +1,28 @@
-import React, { useState, useEffect } from "react";
+import View from "./view";
 import { useSelector } from "react-redux";
-import HeaderTabs from "../../headerTabs";
-import Footer from "../../newFooter";
-import Header from "../../newHeader";
-import { Container } from "react-bootstrap";
-import CategoryTable from "./table";
-import Addcategory from "./addCategory";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getData as getCategoryData } from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
-  setHasChildProp
+  setHasChildProp,
 } from "./utils";
-import CategoryModal from "./form";
 import Alert from "react-bootstrap/Alert";
 import { alertMsgProps } from "../manageCourse/type";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import PageTitle from "../../../widgets/pageTitle";
 
 const ManageCategory = () => {
   const { id, name } = useParams();
-  const [categoryData, setCategoryData] = useState([]);
-  const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [parentWeight, setParentWeight] = useState<number>(0);
-  const [refreshData, setRefreshData] = useState<boolean>(false);
-  const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
+  const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [categoryData, setCategoryData] = useState([]);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
-  const [apiStatus, setApiStatus] = useState("");
+  const [parentWeight, setParentWeight] = useState<number>(0);
+  const [refreshData, setRefreshData] = useState<boolean>(false);
+  const [sortedCategories, setSortedCategories] = useState<any>([]);
+  const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",
@@ -79,7 +71,11 @@ const ManageCategory = () => {
         .filter((item: any) => item.parent === 0)
         .sort((a: any, b: any) => a.weight - b.weight)
         .reduce(
-          (acc: any, item: any) => [...acc, item, ...getChildren(item, categoryData)],
+          (acc: any, item: any) => [
+            ...acc,
+            item,
+            ...getChildren(item, categoryData),
+          ],
           []
         );
 
@@ -90,12 +86,16 @@ const ManageCategory = () => {
         }
       });
       const hasChildPropAdded = setHasChildProp(convertedResult);
-      const canBeDeletedPropAdded = hasChildPropAdded.map((packet : any) => {
+      const canBeDeletedPropAdded = hasChildPropAdded.map((packet: any) => {
         if (packet.haschild === true) {
-          const childPackets = hasChildPropAdded.filter((child : any) => child.parent === packet.id);
-          packet.canBeDeleted = !childPackets.some((child : any) => child.courses.length > 0);
+          const childPackets = hasChildPropAdded.filter(
+            (child: any) => child.parent === packet.id
+          );
+          packet.canBeDeleted = !childPackets.some(
+            (child: any) => child.courses.length > 0
+          );
         } else {
-          packet.canBeDeleted = (packet.courses.length > 0) ? false : true;
+          packet.canBeDeleted = packet.courses.length > 0 ? false : true;
         }
         return packet;
       });
@@ -160,63 +160,25 @@ const ManageCategory = () => {
   };
 
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Manage Category", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle="Manage Categories"
-            gobacklink="/manageprogram"
-          />
-          {categoryPermission.canView &&
-            <CategoryTable
-              categoryData={sortedCategories}
-              modalShow={modalShow}
-              toggleModalShow={toggleModalShow}
-              id={id}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              updatedeleterefresh={updateDeleteRefresh}
-              setEditCategoryValues={setEditCategoryValues}
-              refreshcategories={refreshToggle}
-              cleanFormValues={cleanFormValues}
-              apiStatus={apiStatus}
-              categoryPermission={categoryPermission}
-            />
-          }
-
-          <Addcategory
-            latestparentweight={parentWeight}
-            toggleModalShow={toggleModalShow}
-            modalShow={modalShow}
-            setFormParentValue={setFormParentValue}
-            setFormWeightValue={setFormWeightValue}
-            onClick={cleanFormValues}
-            setEditCategoryValues={setEditCategoryValues}
-          />
-          
-          <CategoryModal
-            show={modalShow}
-            toggleModalShow={toggleModalShow}
-            onHide={() => resetModalForm()}
-            weight={formWeight}
-            parent={formParent}
-            refreshcategories={refreshToggle}
-            editCategory={editCategory}
-          />
-        </Container>
-      </div>
-      <Footer />
-    </>
+    <View
+      id={id}
+      modalShow={modalShow}
+      apiStatus={apiStatus}
+      formWeight={formWeight}
+      formParent={formParent}
+      parentWeight={parentWeight}
+      editCategory={editCategory}
+      refreshToggle={refreshToggle}
+      resetModalForm={resetModalForm}
+      cleanFormValues={cleanFormValues}
+      toggleModalShow={toggleModalShow}
+      sortedCategories={sortedCategories}
+      categoryPermission={categoryPermission}
+      setFormParentValue={setFormParentValue}
+      setFormWeightValue={setFormWeightValue}
+      updateDeleteRefresh={updateDeleteRefresh}
+      setEditCategoryValues={setEditCategoryValues}
+    />
   );
 };
-
 export default ManageCategory;

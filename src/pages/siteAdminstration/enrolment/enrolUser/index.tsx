@@ -1,35 +1,26 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import { Container, Button } from "react-bootstrap";
-import EnrolUserTable from "./courseTable";
-import { useNavigate, useParams } from "react-router-dom";
-import { getData as getCategoryData } from "../../../../adapters/microservices/index";
+import View from "./view";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
 } from "./utils";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { setHasChildProp, resetManageCourseObj } from "./local";
-import PageTitle from "../../../../widgets/pageTitle";
-import TableSkeleton from "../../../../widgets/skeleton/table";
-import Errordiv from "../../../../widgets/alert/errordiv";
-import ModalForm from "./form";
+import { getData as getCategoryData } from "../../../../adapters/microservices/index";
 
 const EnrolUsers = () => {
   const navigate = useNavigate();
   const { id, name } = useParams();
-  const [categoryData, setCategoryData] = useState([]);
-  const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [parentWeight, setParentWeight] = useState<number>(0);
-  const [refreshData, setRefreshData] = useState<boolean>(false);
-  const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
   const [modalShow, setModalShow] = useState(false);
+  const [categoryData, setCategoryData] = useState([]);
+  const [formLebel, setFormLebel] = useState<number>(0);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
-  const [formLebel, setFormLebel] = useState<number>(0);
+  const [parentWeight, setParentWeight] = useState<number>(0);
+  const [refreshData, setRefreshData] = useState<boolean>(false);
+  const [sortedCategories, setSortedCategories] = useState<any>([]);
+  const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",
@@ -43,8 +34,8 @@ const EnrolUsers = () => {
     level: "",
     weight: "",
     parent: "",
-    maxMinorCoursesAllowed: ""
-  })
+    maxMinorCoursesAllowed: "",
+  });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
@@ -148,17 +139,17 @@ const EnrolUsers = () => {
   };
 
   const cleanFormValues = () => {
-    setEditCategory({ id: 0, name: "", level:0, weight: 0, parent: 0 });
+    setEditCategory({ id: 0, name: "", level: 0, weight: 0, parent: 0 });
   };
 
-   // category Table Elements Update handler === >>
-   const editHandlerById = ({
+  // category Table Elements Update handler === >>
+  const editHandlerById = ({
     id,
     name,
     level,
     weight,
     parent,
-    maxMinorCoursesAllowed
+    maxMinorCoursesAllowed,
   }: any) => {
     toggleModalShow(true);
     setMaxMinorCoursesObj({
@@ -167,63 +158,26 @@ const EnrolUsers = () => {
       level,
       weight,
       parent,
-      maxMinorCoursesAllowed
+      maxMinorCoursesAllowed,
     });
   };
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Programs Enrollment", path: "/programenrollment" },
-          { name: name, path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle={`Program: <span>${name}</span>`}
-            gobacklink={`/manageprogramenrollment/${id}/${name}`}
-          />
-          {sortedCategories.length !== 0 ? (
-            <EnrolUserTable
-              categoryData={sortedCategories}
-              modalShow={modalShow}
-              toggleModalShow={toggleModalShow}
-              programId={id}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              updatedeleterefresh={updateDeleteRefresh}
-              setEditCategoryValues={setEditCategoryValues}
-              refreshcategories={refreshToggle}
-              cleanFormValues={cleanFormValues}
-              editHandlerById={editHandlerById}
-              apiStatus={apiStatus}
-              name={name}
-            />
-          ) : (
-            (apiStatus === "started" && sortedCategories.length === 0 && (
-              <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-            )) ||
-            (apiStatus === "finished" && sortedCategories.length === 0 && (
-              <Errordiv msg="No record found!" cstate className="mt-3" />
-            ))
-          )}
-        </Container>
-        <ModalForm
-        onHide={() => toggleModalShow(false)}
-        modalShow={modalShow}
-        programId={id}
-        toggleModalShow={toggleModalShow}
-        refreshcategories={refreshToggle}
-        maxMinorCoursesObj={maxMinorCoursesObj}
-      />
-      </div>
-      
-      <Footer />
-    </>
+    <View
+      name={name}
+      programid={id}
+      modalShow={modalShow}
+      apiStatus={apiStatus}
+      refreshToggle={refreshToggle}
+      toggleModalShow={toggleModalShow}
+      cleanFormValues={cleanFormValues}
+      editHandlerById={editHandlerById}
+      sortedCategories={sortedCategories}
+      setFormParentValue={setFormParentValue}
+      setFormWeightValue={setFormWeightValue}
+      maxMinorCoursesObj={maxMinorCoursesObj}
+      updateDeleteRefresh={updateDeleteRefresh}
+      setEditCategoryValues={setEditCategoryValues}
+    />
   );
 };
 

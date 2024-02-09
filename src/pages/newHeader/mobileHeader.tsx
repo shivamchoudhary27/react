@@ -45,7 +45,7 @@ const MobileHeader = (props: Props) => {
   return (
     <header className="mb-header py-3">
       <div className="d-flex align-items-center justify-content-between">
-        <Link to="/studentdashboard" className="mb-site-logo">
+        <Link to="/dashboard" className="mb-site-logo">
           <img src={Logo} alt="Ballistic Learning Pvt Ltd" />
         </Link>
         <Nav as="ul" className="mb-navWrapper">

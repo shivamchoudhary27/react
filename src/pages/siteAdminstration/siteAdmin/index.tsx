@@ -65,7 +65,7 @@ const SiteAdminHome = () => {
 
   return (
     <>
-      <View adminRawData={AdminRawData} renderComponent={renderComponent} />;
+      <View adminRawData={AdminRawData} renderComponent={renderComponent} />
       <PriceRequestModal show={showModal} handleClose={handleCloseModal}/>
     </>
   )

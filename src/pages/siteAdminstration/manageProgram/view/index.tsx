@@ -12,7 +12,7 @@ type Props = {
   currentInstitute: any;
   programDataPager: any;
   programAuthorities: any;
-  programPermissions: any;
+  // programPermissions: any;
   updateInputFilters: any;
   refreshOnDeleteToggle: any;
   updateDepartmentFilter: any;
@@ -29,7 +29,7 @@ const View = (props: Props) => {
     currentInstitute: props.currentInstitute,
     updateInputFilters: props.updateInputFilters,
     programAuthorities: props.programAuthorities,
-    programPermissions: props.programAuthorities,
+    // programPermissions: props.programAuthorities,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
     updateDepartmentFilter: props.updateDepartmentFilter,
   };

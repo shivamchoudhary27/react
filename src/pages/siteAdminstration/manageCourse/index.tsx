@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import { Container } from "react-bootstrap";
-import CourseTable from "./table";
 import { useParams } from "react-router-dom";
-import { postData, getData as getCategoryData } from "../../../adapters/microservices/index";
+import {
+  postData,
+  getData as getCategoryData,
+} from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
 } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from "./local";
-import PageTitle from "../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import CourseModal from "./form";
 import { pagination } from "../../../utils/pagination";
+import View from "./view";
 
 const CourseManagment = () => {
   const { id, name } = useParams();
@@ -114,31 +110,34 @@ const CourseManagment = () => {
   // ============================================================
   useEffect(() => {
     categoryData.map((category: any) => {
-      if(category.courses.length > 0){
+      if (category.courses.length > 0) {
         category.courses.map((course: any) => {
-          if(course.files.length > 0){
+          if (course.files.length > 0) {
             course.files.forEach((fileId: any) => {
-              setFilesIds(prevFilesIds => [...prevFilesIds, { id: fileId.id }]);
+              setFilesIds((prevFilesIds) => [
+                ...prevFilesIds,
+                { id: fileId.id },
+              ]);
             });
           }
-        })
+        });
       }
-    })
-  }, [categoryData])
+    });
+  }, [categoryData]);
 
   useEffect(() => {
-    if(filesIds.length > 0){
+    if (filesIds.length > 0) {
       postData(`/files`, filesIds)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data)
+            console.log(result.data);
           }
         })
         .catch((err: any) => {
           console.log(err);
         });
     }
-  }, [filesIds])
+  }, [filesIds]);
   // ============================================================
   //                            End
   // ============================================================
@@ -172,7 +171,7 @@ const CourseManagment = () => {
     startDate,
     endDate,
     courseType,
-    enrollmentCapacity
+    enrollmentCapacity,
   }: any) => {
     setCourseObj({
       id,
@@ -185,7 +184,7 @@ const CourseManagment = () => {
       startDate,
       endDate,
       courseType,
-      enrollmentCapacity
+      enrollmentCapacity,
     });
   };
 
@@ -219,50 +218,24 @@ const CourseManagment = () => {
   };
 
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Manage Courses", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
-          {coursePermission.canView && (
-            <CourseTable
-              categoryData={sortedCategories}
-              modalShow={modalShow}
-              toggleModalShow={toggleModalShow}
-              programId={id}
-              setFormParentValue={setFormParentValue}
-              setFormWeightValue={setFormWeightValue}
-              updatedeleterefresh={updateDeleteRefresh}
-              setEditCategoryValues={setEditCategoryValues}
-              refreshcategories={refreshToggle}
-              cleanFormValues={cleanFormValues}
-              toggleCourseModal={toggleCourseModal}
-              editHandlerById={editHandlerById}
-              apiStatus={apiStatus}
-              coursePermission={coursePermission}
-            />
-          )}
-        </Container>
-        <CourseModal
-          show={addCourseModal}
-          onHide={() => toggleCourseModal(false)}
-          courseobj={courseObj}
-          programId={id}
-          toggleCourseModal={toggleCourseModal}
-          updateAddRefresh={refreshToggle}
-          refreshcategories={refreshToggle}
-        />
-      </div>
-      <Footer />
-    </>
+    <View
+      programId={id}
+      courseObj={courseObj}
+      modalShow={modalShow}
+      apiStatus={apiStatus}
+      refreshToggle={refreshToggle}
+      addCourseModal={addCourseModal}
+      toggleModalShow={toggleModalShow}
+      editHandlerById={editHandlerById}
+      cleanFormValues={cleanFormValues}
+      sortedCategories={sortedCategories}
+      coursePermission={coursePermission}
+      toggleCourseModal={toggleCourseModal}
+      setFormParentValue={setFormParentValue}
+      setFormWeightValue={setFormWeightValue}
+      updateDeleteRefresh={updateDeleteRefresh}
+      setEditCategoryValues={setEditCategoryValues}
+    />
   );
 };
 

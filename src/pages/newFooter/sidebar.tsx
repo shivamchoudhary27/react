@@ -38,10 +38,10 @@ const Sidebar = ({ onClose }) => {
         </button>
         <ul className="sidebar-menu">
           {sidebarIcons.map((item, index) => (
-            <>
+            <div key={index}>
               {item.title === "Administration" &&
               menuPermission.admin.canView ? (
-                <li key={index}>
+                <li>
                   <img src={item.icon} alt={item.title} />
                   <Link to={item.link}>{item.title}</Link>
                 </li>
@@ -55,7 +55,7 @@ const Sidebar = ({ onClose }) => {
                   )}
                 </>
               )}
-            </>
+            </div>
           ))}
         </ul>
       </div>
