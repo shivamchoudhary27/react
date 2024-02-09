@@ -1,28 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import { Container, Button } from "react-bootstrap";
-import ManageGroupTable from "./table";
-import GroupModal from "./form";
+import View from "./view";
+import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import { getData } from "../../../../adapters/microservices/index";
-import BuildPagination from "../../../../widgets/pagination";
 import { pagination } from "../../../../utils/pagination";
-import PageTitle from "../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import { getData } from "../../../../adapters/microservices/index";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import Errordiv from "../../../../widgets/alert/errordiv";
-
 const ManageGroups = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const { courseid, name, programid, coursename } = useParams();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
+  const { courseid, name, programid, coursename } = useParams();
   const [manageGroupList, setManageGroupList] = useState<any>(dummyData);
   const [programData, setProgramData] = useState({
     items: [],
@@ -135,62 +126,26 @@ const ManageGroups = () => {
   };
 
   return (
-    <React.Fragment>
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Program Enrollment", path: "/programenrollment" },
-          { name: name, path: `/enrolusers/${programid}/${name}` },
-          {
-            name: coursename,
-            path: `/courseenrollment/${programid}/${name}/${courseid}/${coursename}`,
-          },
-          { name: "Manage Groups", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle="Manage Group"
-            gobacklink={`/courseenrollment/${programid}/${name}/${courseid}/${coursename}`}
-          />
-          {userAuthorities.canAdd === true && <Add_Groups_Btn />}
-          <GroupModal
-            show={modalShow}
-            onHide={() => setModalShow(false)}
-            setModalShow={setModalShow}
-            courseid={courseid}
-            groupObj={groupObj}
-            refreshGroupData={refreshToggle}
-          />
-          {!userAuthorities.canView ? (
-            <Errordiv msg="You don't have permission to view group." cstate className="mt-3" />
-          ) : (
-            <React.Fragment>
-              <ManageGroupTable
-                manageGroupList={manageGroupList.items}
-                courseid={courseid}
-                refreshOnDelete={refreshOnDeleteToggle}
-                setModalShow={setModalShow}
-                editHandlerById={editHandlerById}
-                refreshGroupData={refreshToggle}
-                apiStatus={apiStatus}
-                currentInstitute={currentInstitute}
-                userPermissions={userAuthorities}
-              />
-              <BuildPagination
-                totalpages={manageGroupList.pager.totalPages}
-                activepage={filterUpdate.pageNumber}
-                getrequestedpage={newPageRequest}
-              />
-            </React.Fragment>
-          )}
-        </Container>
-      </div>
-      <Footer />
-    </React.Fragment>
+    <View
+      name={name}
+      programid={programid}
+      coursename={coursename}
+      courseid={courseid}
+      groupObj={groupObj}
+      Add_Groups_Btn={Add_Groups_Btn}
+      modalShow={modalShow}
+      apiStatus={apiStatus}
+      setModalShow={setModalShow}
+      refreshToggle={refreshToggle}
+      newPageRequest={newPageRequest}
+      userAuthorities={userAuthorities}
+      editHandlerById={editHandlerById}
+      currentInstitute={currentInstitute}
+      filterUpdate={filterUpdate.pageNumber}
+      manageGroupList={manageGroupList.items}
+      totalPages={manageGroupList.pager.totalPages}
+      refreshOnDeleteToggle={refreshOnDeleteToggle}
+    />
   );
 };
 

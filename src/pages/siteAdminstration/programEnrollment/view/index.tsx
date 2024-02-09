@@ -1,6 +1,6 @@
 import React from "react";
-import Browser from "../../programEnrollment/view/browser";
-import Mobile from "../../programEnrollment/view/mobile";
+import Mobile from "./mobile";
+import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {

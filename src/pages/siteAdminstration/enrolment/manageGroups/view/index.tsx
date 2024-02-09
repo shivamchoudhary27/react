@@ -5,37 +5,45 @@ import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   name: any;
-  apiStatus: any;
+  courseid: any;
   programid: any;
+  coursename: any;
+  groupObj: any;
   modalShow: any;
+  apiStatus: any;
+  totalPages: any;
+  setModalShow: any;
+  filterUpdate: any;
   refreshToggle: any;
-  cleanFormValues: any;
-  toggleModalShow: any;
+  newPageRequest: any;
+  manageGroupList: any;
+  userAuthorities: any;
   editHandlerById: any;
-  sortedCategories: any;
-  maxMinorCoursesObj: any;
-  setFormParentValue: any;
-  setFormWeightValue: any;
-  updateDeleteRefresh: any;
-  setEditCategoryValues: any;
+  currentInstitute: any;
+  Add_Groups_Btn: any;
+  refreshOnDeleteToggle: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
     name: props.name,
     programid: props.programid,
+      coursename: props.coursename,
+      Add_Groups_Btn: props.Add_Groups_Btn,
+    groupObj: props.groupObj,
+    courseid: props.courseid,
     modalShow: props.modalShow,
     apiStatus: props.apiStatus,
+    totalPages: props.totalPages,
+    setModalShow: props.setModalShow,
+    filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
-    toggleModalShow: props.toggleModalShow,
+    newPageRequest: props.newPageRequest,
+    userAuthorities: props.userAuthorities,
     editHandlerById: props.editHandlerById,
-    cleanFormValues: props.cleanFormValues,
-    sortedCategories: props.sortedCategories,
-    setFormParentValue: props.setFormParentValue,
-    setFormWeightValue: props.setFormWeightValue,
-    maxMinorCoursesObj: props.maxMinorCoursesObj,
-    updateDeleteRefresh: props.updateDeleteRefresh,
-    setEditCategoryValues: props.setEditCategoryValues,
+    manageGroupList: props.manageGroupList,
+    currentInstitute: props.currentInstitute,
+    refreshOnDeleteToggle: props.refreshOnDeleteToggle,
   };
 
   return (

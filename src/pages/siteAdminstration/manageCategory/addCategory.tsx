@@ -5,6 +5,7 @@ interface Props {
   toggleModalShow: any 
   setFormParentValue: any
   setFormWeightValue: any
+  setEditCategoryValues: any;
 }
 const Addcategory = ({ latestparentweight, toggleModalShow, setFormParentValue, setFormWeightValue, setEditCategoryValues }: Props) => {
   

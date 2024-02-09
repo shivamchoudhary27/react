@@ -4,16 +4,19 @@ import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  name: any;
-  apiStatus: any;
-  programid: any;
+  id: any;
   modalShow: any;
+  apiStatus: any;
+  formWeight: any;
+  formParent: any;
+  editCategory: any;
+  parentWeight: any;
   refreshToggle: any;
+  resetModalForm: any;
   cleanFormValues: any;
   toggleModalShow: any;
-  editHandlerById: any;
   sortedCategories: any;
-  maxMinorCoursesObj: any;
+  categoryPermission: any;
   setFormParentValue: any;
   setFormWeightValue: any;
   updateDeleteRefresh: any;
@@ -22,22 +25,24 @@ type Props = {
 
 const View = (props: Props) => {
   const commonProps = {
-    name: props.name,
-    programid: props.programid,
-    modalShow: props.modalShow,
+    id: props.id,
     apiStatus: props.apiStatus,
+    modalShow: props.modalShow,
+    formWeight: props.formWeight,
+    formParent: props.formParent,
+    editCategory: props.editCategory,
+    parentWeight: props.parentWeight,
     refreshToggle: props.refreshToggle,
-    toggleModalShow: props.toggleModalShow,
-    editHandlerById: props.editHandlerById,
+    resetModalForm: props.resetModalForm,
     cleanFormValues: props.cleanFormValues,
+    toggleModalShow: props.toggleModalShow,
     sortedCategories: props.sortedCategories,
     setFormParentValue: props.setFormParentValue,
     setFormWeightValue: props.setFormWeightValue,
-    maxMinorCoursesObj: props.maxMinorCoursesObj,
+    categoryPermission: props.categoryPermission,
     updateDeleteRefresh: props.updateDeleteRefresh,
     setEditCategoryValues: props.setEditCategoryValues,
   };
-
   return (
     <React.Fragment>
       {isMobile ? (

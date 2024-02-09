@@ -1,21 +1,15 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import "./style.scss";
+import View from "./view";
+import ManageFilter from "./filters";
 import { useSelector } from "react-redux";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import { pagination } from "../../../../utils/pagination";
-import { Container, Button, Row, Col } from "react-bootstrap";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import DiciplineTable from "./enroltable";
 import DiciplineModal from "./enrolmodal";
-import BuildPagination from "../../../../widgets/pagination";
-import ManageFilter from "./filters";
+import { useState, useEffect } from "react";
+import { Button, Row, Col } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import { pagination } from "../../../../utils/pagination";
 import EnglishLetterFilter from "../../../../widgets/filters/alphabets";
-import UploadCourseUsersEnrollment from "./uploadUsers";
-import PageTitle from "../../../../widgets/pageTitle";
-import "./style.scss";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 const CourseEnrollment = () => {
   const navigate = useNavigate();
@@ -39,29 +33,33 @@ const CourseEnrollment = () => {
   const [disciplineObj, setDisciplineObj] = useState({
     userId: 0,
     userEmail: "",
-    groups:[]
+    groups: [],
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
-    teachersOnly: false
+    teachersOnly: false,
   });
   const [apiStatus, setApiStatus] = useState("");
-  const currentInstitute = useSelector((state : any) => state.globalFilters.currentInstitute);
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
 
   // get programs API call === >>>
   useEffect(() => {
     makeGetDataRequest(
       `/course/${parsedCourseid}/enrol-user`,
       filterUpdate,
-      setDiciplineData, setApiStatus
+      setDiciplineData,
+      setApiStatus
     );
     makeGetDataRequest(
       `${currentInstitute}/programs`,
       { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
-      setProgramData, setApiStatus
+      setProgramData,
+      setApiStatus
     );
   }, [refreshData, filterUpdate]);
 
@@ -77,7 +75,7 @@ const CourseEnrollment = () => {
       if (role) {
         return { ...item, userRole: role };
       } else {
-        return { ...item, userRole: "" }; 
+        return { ...item, userRole: "" };
       }
     });
     setFinalTableData(updatedItems);
@@ -89,7 +87,8 @@ const CourseEnrollment = () => {
       makeGetDataRequest(
         `/course/${parsedCourseid}/enrol-user`,
         filterUpdate,
-        setDiciplineData, setApiStatus
+        setDiciplineData,
+        setApiStatus
       );
   }, [refreshOnDelete]);
 
@@ -102,7 +101,7 @@ const CourseEnrollment = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({userId, userEmail, groups}: any) => {
+  const editHandlerById = ({ userId, userEmail, groups }: any) => {
     setDisciplineObj({ userId: userId, userEmail: userEmail, groups: groups });
   };
 
@@ -114,7 +113,7 @@ const CourseEnrollment = () => {
   // handle to open Add Discipline modal === >>>
   const openAddDiscipline = () => {
     toggleModalShow(true);
-    setDisciplineObj({ userId: 0, userEmail: "", groups: []});
+    setDisciplineObj({ userId: 0, userEmail: "", groups: [] });
     setRefreshData(false);
   };
 
@@ -123,8 +122,8 @@ const CourseEnrollment = () => {
   };
 
   const toggleUploadModal = () => {
-    setUploadModalShow(true)
-  }
+    setUploadModalShow(true);
+  };
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.userEmail !== "") {
@@ -165,7 +164,7 @@ const CourseEnrollment = () => {
       refreshDisciplineData={refreshToggle}
       courseid={parsedCourseid}
     />
-  ); 
+  );
 
   const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
@@ -196,71 +195,62 @@ const CourseEnrollment = () => {
   const addAlphabetLastNameFilter = (letter: string) => {
     setFilterUpdate({ ...filterUpdate, lastNameStart: letter });
   };
- 
+
   const DISCIPLINE_BUTTONS = (
     <>
       <div className="site-button-group mb-3">
-        <Button variant="secondary" size="sm" onClick={() => navigate(`/managegroups/${programid}/${name}/${courseid}/${coursename}`)}>
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={() =>
+            navigate(
+              `/managegroups/${programid}/${name}/${courseid}/${coursename}`
+            )
+          }
+        >
           Manage Groups
         </Button>{" "}
         <Button variant="secondary" size="sm" onClick={openAddDiscipline}>
           Enrol User
         </Button>{" "}
-        <Button variant="secondary" size="sm" onClick={toggleUploadModal}>Upload Users</Button>{" "}
-      </div>   
+        <Button variant="secondary" size="sm" onClick={toggleUploadModal}>
+          Upload Users
+        </Button>{" "}
+      </div>
       <div className="">
-        First Name {" "}
+        First Name{" "}
         <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
         <br />
-        Last Name {" "}
+        Last Name{" "}
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
       <div className="filter-wrapper mt-2">
-        <ManageFilter updateinputfilters={updateSearchFilters} apiStatus={apiStatus} />
+        <ManageFilter
+          updateinputfilters={updateSearchFilters}
+          apiStatus={apiStatus}
+        />
       </div>
-      </>
+    </>
   );
   // <<< ==== END COMPONENTS ==== >>>
 
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="siteadmin"/>
-      <BreadcrumbComponent
-            routes={[
-              { name: "Site Administration", path: "/siteadmin" },
-              { name: "Program Enrollment", path: "/programenrollment" },
-              { name: name, path: `/enrolusers/${programid}/${name}`},
-              { name: coursename, path: "" },       
-            ]}
-          />
-        <div className="contentarea-wrapper mt-3 mb-5">
-          <Container fluid>
-          <PageTitle 
-            pageTitle ={`Course: ${coursename}`} gobacklink = {`/enrolusers/${programid}/${name}`}
-          />
-            {DISCIPLINE_BUTTONS}
-            {DISCIPLINE_TABLE_COMPONENT}
-            <BuildPagination
-              totalpages={diciplineData.pager.totalPages}
-              activepage={filterUpdate.pageNumber}
-              getrequestedpage={newPageRequest}
-            />
-            <Button variant="primary" onClick={openAddDiscipline}>
-              Enrol User
-            </Button>{" "}
-            {DISCIPLINE_MODAL_COMPONENT}
-          </Container>
-        </div>
-        <UploadCourseUsersEnrollment
-          courseid={courseid}
-          show={uploadModalShow}
-          onHide={() => setUploadModalShow(false)}
-          setUploadModalShow={setUploadModalShow}
-          updateAddRefresh={refreshToggle}
-        />
-      <Footer />
-    </>
+    <View
+      name={name}
+      courseid={courseid}
+      programid={programid}
+      coursename={coursename}
+      newPageRequest={newPageRequest}
+      uploadModalShow={uploadModalShow}
+      refreshToggle={refreshToggle}
+      openAddDiscipline={openAddDiscipline}
+      filterUpdate={filterUpdate.pageNumber}
+      setUploadModalShow={setUploadModalShow}
+      DISCIPLINE_BUTTONS={DISCIPLINE_BUTTONS}
+      totalPages={diciplineData.pager.totalPages}
+      DISCIPLINE_TABLE_COMPONENT={DISCIPLINE_TABLE_COMPONENT}
+      DISCIPLINE_MODAL_COMPONENT={DISCIPLINE_MODAL_COMPONENT}
+    />
   );
 };
 

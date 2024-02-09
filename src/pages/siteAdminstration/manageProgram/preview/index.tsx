@@ -1,4 +1,4 @@
-import View from "../preview/view/index";
+import View from "./view";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -79,8 +79,8 @@ const Preview = () => {
 
   return (
     <View
-      currentProgram={currentProgram}
       instructorsData={instructors}
+      currentProgram={currentProgram}
       previewTagfields={previewTagfields}
       previewMetafields={previewMetafields}
     />

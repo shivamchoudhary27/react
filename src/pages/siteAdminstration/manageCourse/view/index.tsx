@@ -4,40 +4,43 @@ import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  name: any;
-  apiStatus: any;
-  programid: any;
+  programId: any;
   modalShow: any;
+  apiStatus: any;
+  courseObj: any;
   refreshToggle: any;
+  addCourseModal: any;
+  editHandlerById: any;
   cleanFormValues: any;
   toggleModalShow: any;
-  editHandlerById: any;
   sortedCategories: any;
-  maxMinorCoursesObj: any;
-  setFormParentValue: any;
+  coursePermission: any;
+  toggleCourseModal: any;
   setFormWeightValue: any;
+  setFormParentValue: any;
   updateDeleteRefresh: any;
   setEditCategoryValues: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
-    name: props.name,
-    programid: props.programid,
+    programId: props.programId,
     modalShow: props.modalShow,
     apiStatus: props.apiStatus,
+    courseObj: props.courseObj,
     refreshToggle: props.refreshToggle,
-    toggleModalShow: props.toggleModalShow,
-    editHandlerById: props.editHandlerById,
+    addCourseModal: props.addCourseModal,
     cleanFormValues: props.cleanFormValues,
+    editHandlerById: props.editHandlerById,
+    toggleModalShow: props.toggleModalShow,
     sortedCategories: props.sortedCategories,
+    coursePermission: props.coursePermission,
+    toggleCourseModal: props.toggleCourseModal,
     setFormParentValue: props.setFormParentValue,
     setFormWeightValue: props.setFormWeightValue,
-    maxMinorCoursesObj: props.maxMinorCoursesObj,
     updateDeleteRefresh: props.updateDeleteRefresh,
     setEditCategoryValues: props.setEditCategoryValues,
   };
-
   return (
     <React.Fragment>
       {isMobile ? (

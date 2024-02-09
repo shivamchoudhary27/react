@@ -11,14 +11,14 @@ type Props = {
   commonProps: {
     instituteId: any;
     currentProgram: any;
-  }
+  };
 };
 
 const Browser = (props: Props) => {
   return (
     <React.Fragment>
       <Header />
-      <HeaderTabs activeTab="siteadmin"/>
+      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
@@ -26,19 +26,26 @@ const Browser = (props: Props) => {
           { name: "Add Program", path: "" },
         ]}
       />
-       <div className="contentarea-wrapper mb-wraper">
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle={props.commonProps.currentProgram.id === 0 ? "Add Program" : "Update Program"} gobacklink="/manageprogram" />
-          {props.commonProps.currentProgram.status === true && (
-            <AddProgramForm
-              initialformvalues={props.commonProps.currentProgram.data}
-              programid={props.commonProps.currentProgram.id}
-              instituteId={props.commonProps.instituteId}
+      <div className="contentarea-wrapper mb-wraper">
+        <div className="contentarea-wrapper mt-3 mb-5">
+          <Container fluid>
+            <PageTitle
+              pageTitle={
+                props.commonProps.currentProgram.id === 0
+                  ? "Add Program"
+                  : "Update Program"
+              }
+              gobacklink="/manageprogram"
             />
-          )}
-        </Container>
-      </div>
+            {props.commonProps.currentProgram.status === true && (
+              <AddProgramForm
+                initialformvalues={props.commonProps.currentProgram.data}
+                programid={props.commonProps.currentProgram.id}
+                instituteId={props.commonProps.instituteId}
+              />
+            )}
+          </Container>
+        </div>
       </div>
       <Footer />
     </React.Fragment>
