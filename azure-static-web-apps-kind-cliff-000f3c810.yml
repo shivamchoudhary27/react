@@ -30,5 +30,8 @@ jobs:
       output_location: "build" # Built app content directory - optional
 ###### End of Repository/Build Configurations ######
   - env: # Add environment variables here
-  REACT_APP_RECAPTCHA_SITE_KEY: 6Lfyy28pAAAAAJSvz0dvCP7j2vJu07TeH2QO815d 
+    REACT_APP_RECAPTCHA_SITE_KEY: 6Lfyy28pAAAAAJSvz0dvCP7j2vJu07TeH2QO815d
+    REACT_APP_NAME: BL Mircolearning
+    REACT_API_URL: 
+
 
