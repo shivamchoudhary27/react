@@ -1,7 +1,7 @@
 const googleReCaptcha = {
     END_POINT : "https://www.google.comrecaptcha/api/siteverify",
-    SITE_KEY : "6LejSUAmAAAAAFmngSNYvY8SzmyGbwlvEGCAG08l",
-    SECRET_KEY : "6LejSUAmAAAAANhFWyJKv7Bn-OrZDNY01iYG7wkg"
+    SITE_KEY : process.env.REACT_APP_RECAPTCHA_SITE_KEY,
+    SECRET_KEY : process.env.REACT_APP_RECAPTCHA_SECRET_KEY,
 }
 
 export default googleReCaptcha;

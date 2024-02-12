@@ -9,8 +9,8 @@ import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
+import CkEditor from "../../../../widgets/editor/CKEditor";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
-import TinymceEditor from "../../../../widgets/editor/tinyMceEditor";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
@@ -497,7 +497,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                 <Row className="gy-4">
                   <Col md={6}>
                     <FieldLabel htmlfor="description" labelText="Description" />
-                    <TinymceEditor
+                    <CkEditor
                       name="description"
                       handleChange={handleChange}
                     />
@@ -508,7 +508,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   </Col>
                   <Col md={6}>
                     <FieldLabel htmlfor="objective" labelText="Objective" />
-                    <TinymceEditor
+                    <CkEditor
                       name="objective"
                       handleChange={handleChange}
                     />
@@ -542,7 +542,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                                 htmlfor={`meta[${index}][description]`}
                                 labelText="Description"
                               />
-                              <TinymceEditor
+                              <CkEditor
                                 name={`meta[${index}][description]`}
                                 handleChange={handleChange}
                               />
