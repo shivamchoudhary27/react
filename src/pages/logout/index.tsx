@@ -6,8 +6,9 @@ type Props = {}
 const Logout = (props: Props) => {
     const navigate = useNavigate()
     useEffect(() => {
-      localStorage.clear();
-        navigate('/')
+      console.log("Navigated to Logout Page");
+      // localStorage.clear();
+      //   navigate('/')
     }, [])
 
   return (
