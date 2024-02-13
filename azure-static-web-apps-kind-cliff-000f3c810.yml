@@ -41,8 +41,8 @@ jobs:
       REACT_APP_JAVA_API_URL: http://api.microlearning.ballisticlearning.com/learning-service/api/v1
       REACT_APP_CORE_SERVICE_URL: http://api.microlearning.ballisticlearning.com:8081/core-service/api/v1
       REACT_APP_WSTOKEN: 
-      REACT_APP_SIGNUP_TOKEN: 8d03740114d7a608cd93b89bb2b726f9' #dummy token of admin to signup user moodle api
-      REACT_APP_ADMIN_MOODLE_TOKEN: c1bd1822d7c4609a5e259cb897fe77ea' #dummy token of moodle admin
+      REACT_APP_SIGNUP_TOKEN: 8d03740114d7a608cd93b89bb2b726f9 #dummy token of admin to signup user moodle api
+      REACT_APP_ADMIN_MOODLE_TOKEN: c1bd1822d7c4609a5e259cb897fe77ea #dummy token of moodle admin
       REACT_APP_OAUTH2_ACCESS_TOKEN: 
      
       
