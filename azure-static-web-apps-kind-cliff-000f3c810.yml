@@ -30,11 +30,11 @@ jobs:
       output_location: "build" # Built app content directory - optional
 ###### End of Repository/Build Configurations ######
     env: # Add environment variables here
-      REACT_APP_RECAPTCHA_SITE_KEY: 6Lfyy28pAAAAAJSvz0dvCP7j2vJu07TeH2QO815d
+      REACT_APP_RECAPTCHA_SITE_KEY: 6Lfyy28pAAAAAP5BK5IK_3Yq487LNvh5o_u2s8aE
       REACT_APP_RECAPTCHA_SECRET_KEY: 6Lfyy28pAAAAAJSvz0dvCP7j2vJu07TeH2QO815d
       REACT_APP_NAME: BL Mircolearning
       REACT_API_URL: http://api.microlearning.ballisticlearning.com:8443/oauth2-service
-      REACT_APP_MOODLE_BASE_URL:
+      REACT_APP_MOODLE_BASE_URL: https://demo.learn.ballisticlearning.com
       REACT_APP_REST_ENDPOINT: /webservice/blrest/server.php
       REACT_APP_TOKEN_ENDPOINT:  /login/token.php
       REACT_APP_OAUTH2_URL: http://api.microlearning.ballisticlearning.com:8443/oauth2-service/oauth2
