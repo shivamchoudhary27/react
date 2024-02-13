@@ -11,10 +11,17 @@ import PerformanceIconActive from "../../assets/images/icons/mb-performance-icon
 import MenuIcon from "../../assets/images/icons/mb-menu-icon.svg";
 import "./mobileStyle.scss";
 import Sidebar from "./sidebar";
+import PriceRequestModal from "../../widgets/priceRequestModal/PriceRequestModal";
 type Props = {};
 
 const MobileFooter = (props: Props) => {
   const location = useLocation();
+
+  const [showModal, setShowModal] = useState(false);
+
+
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const toggleSidebar = () => {
@@ -35,8 +42,15 @@ const MobileFooter = (props: Props) => {
                 className={`text-center list-unstyled md-footer-list ${
                   location.pathname === list.link ? "active" : ""
                 }`}
-                onClick={list.title === "Menu" ? toggleSidebar : undefined}
-              >
+                onClick={
+                  list.title === "Menu" 
+                    ? toggleSidebar 
+                    : () => {
+                        if (list.link = "#") {
+                           handleShowModal();
+                        } 
+                      }
+                }              >
                 <img src={
                     location.pathname === list.link
                       ? list.activeIcon
@@ -55,7 +69,9 @@ const MobileFooter = (props: Props) => {
         </ul>
       </div>
       {isSidebarVisible && <Sidebar onClose={closeSidebar} />}
+      <PriceRequestModal show={showModal} handleClose={handleCloseModal}/>
     </footer>
+
   );
 };
 
