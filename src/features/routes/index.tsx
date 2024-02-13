@@ -32,6 +32,8 @@ import MinorCourse from '../../pages/minorCourses';
 import RouterLadyLoader from '../../globals/globalLazyLoader/routerLadyLoader';
 import Logout from '../../pages/logout';
 
+import ProgramSummary from "../../pages/home/programSummary";
+import ProgramList from "../../pages/home/programList"
 
 const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
 const Attendance = React.lazy(() => import('../../pages/attendance'))
@@ -50,11 +52,17 @@ export default function NewCustomRoutes() {
         {/* <Route element={<><Outlet /><MitGlobalAlert /></>}> 
          * create a new component for global imports
         */}  
+
           <Route path="/"element={isLoggedIn === false ? <Home /> : <Navigate to="/dashboard" />} />
           <Route path="/login" element={isLoggedIn === false ? <LoginForm /> : <Navigate to="/dashboard" />} />
           <Route path="/logout" element={<Logout />} />
           <Route path='/authlogin' element={<AuthLogin />} />
           <Route path="/signupnew" element={<SignUpNew />} />
+
+          {/* Home page */}
+          <Route path="/programlist" key="programlist" element={<ProgramList />} />
+          <Route path="/programsummary/:Programid" key="programummary" element={<ProgramSummary />} />
+
           <Route element={<ProtectedRoutes />}>
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
             {UserManagementRoute()}
