@@ -24,9 +24,9 @@ const Header = ({ showRightNavs = true }: any) => {
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
   const logout = () => {
-    localStorage.clear();
+    // localStorage.clear();
     userCtx.logout();
-    navigate("/");
+    // navigate("/");
   };
 
   const profileNavigate = () => {
@@ -72,7 +72,7 @@ const Header = ({ showRightNavs = true }: any) => {
             <Dropdown.Menu>
               {/* <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item> */}
               <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
-              <Dropdown.Item href="#/action-2" onClick={logout}>
+              <Dropdown.Item href="https://api.microlearning.ballisticlearning.com:8443/oauth2-service/oauth2/logout">
                 Logout
               </Dropdown.Item>
             </Dropdown.Menu>
