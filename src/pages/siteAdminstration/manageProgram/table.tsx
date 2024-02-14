@@ -81,14 +81,14 @@ const ManageTable = ({
         <span style={actionsStyle}>
           {programPermissions.canEdit && (
             <Link
-              className="action-icons"
+              className="action-icons m-1"
               to={createEditLink(row.original.id, row.original.instituteId)}
             >
               <img src={editIcon} alt="Edit" />
             </Link>
           )}
           {programPermissions.canDelete && (
-            <Link className="action-icons" to="">
+            <Link className="action-icons m-1" to="">
               <img
                 src={deleteIcon}
                 alt="Delete"
@@ -100,7 +100,7 @@ const ManageTable = ({
           )}
           {programPermissions.canEdit && (
             <Link
-              className="action-icons"
+              className="action-icons m-1"
               to=""
               onClick={() => {
                 toggleProgramPublished(row.original);

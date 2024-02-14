@@ -9,6 +9,7 @@ import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
+import "./mobileStyle.scss";
 
 type Props = {
   commonProps: {
