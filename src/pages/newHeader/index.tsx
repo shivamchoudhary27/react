@@ -18,15 +18,14 @@ if (config.WSTOKEN === "") {
 }
 
 const Header = ({ showRightNavs = true }: any) => {
+  // const history = useHistory();
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
   const userid = userCtx.userInfo.userid ?? 0;
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
   const logout = () => {
-    // localStorage.clear();
     userCtx.logout();
-    // navigate("/");
   };
 
   const profileNavigate = () => {
