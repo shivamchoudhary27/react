@@ -2,6 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { pagination } from "../../utils/pagination";
 import { useParams } from "react-router-dom";
+import Footer from "../newFooter";
+import { Link } from "react-router-dom";
+import logo from "../../assets/images/circlelogo-blue.svg";
+import { Container } from "react-bootstrap";
 
 function ProgramSummary() {
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -31,16 +35,30 @@ function ProgramSummary() {
 
   return (
     <>
-      <div className="card-container">
+     <div className="landing-wrapper programlist-wrapper">
+      <div className="landing-header program-summary">
+        <div className="d-flex justify-content-between align-items-center">
+          <div className="logo-wrapper">
+            <Link to="/">
+              <img src={logo} alt="logo" className="img img-fluid" />
+            </Link>
+          </div>
+        </div>
+      </div>
+  <Container fluid>
         {programs.map((program: any) => (
-          <div key={program.id} className="card">
-            <img src={program.files[0].url} alt="ADD IMAGE" className="card-img-top" style={{width:"500px"}}/>
-            <div className="card-body">
-              <h5 className="card-title">{program.name}</h5>
+          <div key={program.id} className="card1 bg-white p-2 rounded shadow">
+       <div className="d-flex gap-3 flex-wrap">
+       <img src={program.files[0].url} alt={program.name} className="img img-fluid rounded" style={{width:"500px"}}/>
+             <div className="d-flex flex-column">
+             <h5 className="card-title">{program.name}</h5>
               <p
                 className="card-text"
                 dangerouslySetInnerHTML={{ __html: program.description }}
-              ></p>
+              ></p> 
+             </div>
+       </div>
+            <div className="">
               <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                   <strong>Program Code:</strong> {program.programCode}
@@ -72,7 +90,9 @@ function ProgramSummary() {
             </div>
           </div>
         ))}
-      </div>
+  </Container>
+  </div>
+      {/* <Footer/> */}
     </>
   );
 }
