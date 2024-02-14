@@ -71,7 +71,7 @@ const Header = ({ showRightNavs = true }: any) => {
             <Dropdown.Menu>
               {/* <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item> */}
               <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
-              <Dropdown.Item href="https://api.microlearning.ballisticlearning.com:8443/oauth2-service/oauth2/logout">
+              <Dropdown.Item href={`${config.OAUTH2_URL}/logout`}>
                 Logout
               </Dropdown.Item>
             </Dropdown.Menu>
