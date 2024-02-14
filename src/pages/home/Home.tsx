@@ -1,7 +1,7 @@
 import "./home.scss";
 import "./mobileStyle.scss";
 import config from "../../utils/config";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { pagination } from "../../utils/pagination";
 import logo from "../../assets/images/circlelogo-blue.svg";
@@ -12,6 +12,13 @@ import DsaImage from "../../assets/images/course-data-structure.svg";
 import CloudImage from "../../assets/images/course-cloud-computing.svg";
 import MathsImage from "../../assets/images/course-discreate-mathematics.svg";
 import axios from "axios";
+import ClockIcon from "../../assets/images/icons/clock-white.svg";
+import BuildingIcon from "../../assets/images/icons/building.svg";
+import CalenderIcon from "../../assets/images/icons/calender-white.svg";
+import BookIcon from "../../assets/images/icons/book-open.svg";
+import CapIcon from "../../assets/images/icons/graduation-cap.svg";
+import CardIcon from "../../assets/images/icons/card.svg";
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -59,6 +66,9 @@ return (
               <a href={oAuthUrl}>
                 <Button variant="btn-lg rounded-pill px-4">Login</Button>
               </a>
+              <a href={oAuthUrl}>
+                <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
+              </a>
             </div>
             <div className="demovideo-wrapper">
               <iframe
@@ -86,18 +96,18 @@ return (
       </div>
       <div className="landing-courses d-flex">
         <div className="title-wrapper">
-          <h4>Courses</h4>
+          <h4>Programs</h4>
           <div>
-            Embark on your learning transformation journey with a Ballistic
-            Quickstart, be it online coaching, K12, higher education, medical
-            education, banking or workplace learning. Our expert teams will
-            collaborate closely to guide you through strategy, design, hosting,
-            and ongoing support.
+          Embark on Your Academic Journey with Our Comprehensive Array of College Programs, Unleashing Opportunities Across Engineering, Sciences, Arts, and More. Cultivate Your Interests, Ignite Your Ambitions – Your Path to Success Begins Here!
           </div>
         </div>
         <div className="courseswrapper">
           {allPrograms.length > 0 &&
             allPrograms.map((item: any, index: number) => (
+              <Link
+                key={item.id}
+                to={{ pathname: `/programsummary/${item.id}` }}
+              >
               <div className="course-container" key={index}>
                 <div className="course-image">
                   <img
@@ -106,11 +116,42 @@ return (
                     alt={item.name}
                     style={{width:"500px"}}
                   />
+                  <div className="course-keypoints">
+                    <div>
+                     <img src={ClockIcon} alt="duration" />
+                      <span> {item.durationValue}{" "} {item.durationUnit}</span>
+                    </div>
+                    <div>
+                     <img src={CardIcon} alt="program code" />
+                      <span>{item.programCode}</span>
+                    </div>
+                    <div>
+                     <img src={BuildingIcon} alt="department" />
+                      <span> {item.departmentName}</span>
+                    </div>
+                    <div>
+                     <img src={CapIcon} alt="program type" />
+                      <span> {item.programTypeName}</span>
+                    </div>
+                    <div>
+                     <img src={CalenderIcon} alt="batch year" />
+                      <span> {item.batchYear}</span>
+                    </div>
+                    <div>
+                     <img src={BookIcon} alt="study mode" />
+                      <span>{item.modeOfStudy}</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="course-title">{item.name}</div>
               </div>
+              </Link>
             ))}
-<button onClick={() => navigate("/programlist")}>VIEW MORE</button>
+            <div className="allcourses-btn">
+<button onClick={() => navigate("/programlist")}>
+  <i className="fa fa-angle-right"></i>
+</button>
+            </div>
         </div>
       </div>
     </>

@@ -55,4 +55,14 @@
 
     }
   }
+
+  //Course catalogue 
+  .programlist-wrapper{
+    height: auto;
+  }
+  .program-catalogue 
+    .programlist
+      > div{
+      justify-content: center;
    }
+  }
