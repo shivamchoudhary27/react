@@ -2,6 +2,7 @@ import React from "react";
 import config from "../../../utils/config";
 import { string } from "yup";
 import axios from 'axios';
+import { redirect } from "react-router-dom";
 
 /**
  * Initializing ContextApi with requried fields.
@@ -65,31 +66,19 @@ export const UserContextProvider = (props: { children: any}) => {
   };
   // logout handler
   const logoutHandler = () => {
-
-    const LOGOUT_URL = `${config.OAUTH2_URL}/logout`;
-
-    var requestOptions: any = {
-      method: 'GET',
-      redirect: 'follow'
-    };
-  
-    axios.get(LOGOUT_URL, requestOptions)
-    .then((response: any) => {
-      console.log(response)
-    })
-
     setToken(null);
     setStatus(0);
     setUserInfo(null);
     config.WSTOKEN = '';
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("loggedIn");
-    // localStorage.removeItem("fullname");
-    // localStorage.removeItem("userid");
-    // localStorage.removeItem("name");
-    // localStorage.removeItem("userpictureurl");
-    // localStorage.removeItem("userissiteadmin");
-    // localStorage.removeItem("enroled_courses");
+    localStorage.removeItem("token");
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("fullname");
+    localStorage.removeItem("userid");
+    localStorage.removeItem("name");
+    localStorage.removeItem("userpictureurl");
+    localStorage.removeItem("userissiteadmin");
+    localStorage.removeItem("enroled_courses");
+    localStorage.clear();
   };
   // Initializing token
   const setUserToken = (token: any) => {

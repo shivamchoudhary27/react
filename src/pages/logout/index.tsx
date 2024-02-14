@@ -8,10 +8,7 @@ const Logout = (props: Props) => {
   const userCtx = useContext(UserContext)
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("Navigated to Logout Page");
-    console.log(userCtx.token)
-    console.log(userCtx.isLoggedIn);
-    localStorage.clear();
+    userCtx.logout();
     navigate("/");
   }, []);
 
