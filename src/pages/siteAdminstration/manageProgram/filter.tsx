@@ -73,9 +73,9 @@ const ManageFilter = ({
   return (
     <>
       <div className="filter-wrapper mt-2 input-styles">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
-            <Col>
+            <Col md="auto">
               <ManageDropdown
                 updatedepartment={updatedepartment}
                 currentInstitute={currentInstitute}
@@ -83,7 +83,7 @@ const ManageFilter = ({
                 selectedValue={selectedValue}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="name" hidden>
                 Program Name
               </label>
@@ -97,7 +97,7 @@ const ManageFilter = ({
                 value={formik.values.name}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="code" hidden>
                 Program Code
               </label>
@@ -111,7 +111,7 @@ const ManageFilter = ({
                 value={formik.values.code}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               {FiltersLoadingBtn(apiStatus)}
               <Button
                 variant="outline-secondary"

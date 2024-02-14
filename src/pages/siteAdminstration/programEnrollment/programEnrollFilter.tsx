@@ -58,7 +58,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
       <div className="filter-wrapper mt-2 input-styles">  
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
-            <Col>
+            <Col md="auto">
               <ProgramEnrollDropdown 
                 updateDepartment={updateDepartment} 
                 currentInstitute={currentInstitute}
@@ -66,7 +66,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
                 setSelectedValue ={setSelectedValue}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="name" hidden>Program Name</label>
               <input
                 className="form-control"
@@ -78,7 +78,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
                 value={formik.values.name}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="code" hidden>Program Code</label>
               <input
                 className="form-control"
@@ -90,7 +90,7 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
                 value={formik.values.code}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>

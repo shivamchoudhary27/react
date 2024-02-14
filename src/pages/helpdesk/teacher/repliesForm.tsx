@@ -90,7 +90,7 @@ const RepliesForm = (props: Props) => {
             } (${formattedDate(props.modalTitleDate)})`}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="helpdeskmodlebody">
           {props.repliesAction !== "reply" ? (
             <>
               {props.apiStatus === "finished" &&

@@ -88,7 +88,7 @@
         p{
             display: flex;
             justify-content: space-between;
-            flex-direction: row-reverse;
+            text-align: left;
         }
     }
     &.support-message {
@@ -132,7 +132,8 @@
 // }
 
 .chat-moreoption{
-    visibility: hidden;
+    // visibility: hidden;
+    margin-right: -20px;
     button , .btn.show , .btn:active
     {
         background: none;
@@ -140,7 +141,7 @@
         box-shadow: none;
         color: #3d3d3d;
         padding: 0 11px;
-        margin-left: -22px;
+        // margin-left: -22px;
         &::after{
             display: none;
         }

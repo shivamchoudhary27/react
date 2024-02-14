@@ -100,7 +100,7 @@ const Browser: React.FC<Props> = (props) => {
         </div>
       </div>
       <Footer />
-      <div  className="bottom-bg">
+      <div className="bottom-bg">
         <img src={BottomWave} alt="bottom wave" />
       </div>
     </React.Fragment>

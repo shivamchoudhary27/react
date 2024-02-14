@@ -86,7 +86,7 @@ const Filter = ({
       <div className="filter-wrapper mt-2">
         <form onSubmit={formik.handleSubmit}>
           <Row className="g-2">
-            <Col>
+            <Col xs="auto">
               <label htmlFor="name" hidden>
                 Name
               </label>
@@ -110,7 +110,7 @@ const Filter = ({
                 </p>
               )}
             </Col>
-            <Col>
+            <Col xs="auto">
               <Button variant="primary" type="submit" className="me-2">
                 Search Email
               </Button>
