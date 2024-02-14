@@ -52,6 +52,11 @@
     background: linear-gradient(90deg, #0e456e -0.02%, #034c95 100%);
     color: white;
   }
+  .signup{
+    background: white;
+    border: 2px solid #2778c4;
+    color: #1b609d;
+  }
 }
 .footer-links{
   background-image: url("../../assets/images/landing-linksbg.svg");
@@ -96,6 +101,9 @@
 }
 
 // -----Couses Section-------- 
+.programlist-wrapper{
+height: 96vh;
+}
 .landing-courses{
   background: url(../../assets/images/ligh-wave-bg.png);
   background-repeat: no-repeat;
@@ -127,13 +135,49 @@
       // display: flex;
     .course-image{
       background: white;
+      cursor: pointer;
       border-radius: 1rem;
+      position: relative;
+      > img{
+        border-radius: 1rem;
+      }
+      .course-keypoints{
+        position: absolute;
+        top: 0;
+        background: #000000bf;
+        width: 100%;
+        height: 100%;
+        color: white;
+        border-radius: 1rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        // gap: 10px;
+        // padding: 10px;
+        font-size: 18px;
+        padding: 28px;
+        justify-items: start;
+        opacity: 0;
+        // transform: translateY(100%);
+        transition: opacity 0.3s, transform 0.3s;
+        div{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 8px;
+        }
+      }
+      &:hover {
+        .course-keypoints {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
     }
     .course-title{
       text-align: center;
       color: white;
       margin-top: 1rem;
-      font-size: 21px;
+      font-size: 20px;
     }
     }
     .allcourses-btn {
@@ -143,7 +187,42 @@
     button {
       background: white;
       border-radius: 50rem;
+      width: 2rem;
+      height: 2rem;
+      border: none;
+      box-shadow: none;
     }
   } 
+  }
+}
+
+
+// ---------------- Program List -------------
+.program-catalogue { 
+  background: none;
+  .programlist{
+    background: none;
+    > div{
+      display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    .course-container {
+      .course-title{
+        color: black;
+        font-weight: 500;
+      }
+      .course-image > img{
+        width: 400px;
+      }
+    }
+    }
+  }
+}
+
+// ---------------- Program Summary -------------
+
+.programlist-wrapper{
+  .program-summary{
+    height:15vh;
   }
 }
