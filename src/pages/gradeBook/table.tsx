@@ -7,10 +7,11 @@ import Errordiv from "../../widgets/alert/errordiv";
 type Props = {
   gradebookData: any[];
   apiStatus: string;
-  currentUserRole: any
+  currentUserRole: any;
+  statusfilter:any;
 };
 
-const GradeTable = ({ gradebookData, apiStatus, currentUserRole }: Props) => {
+const GradeTable = ({ gradebookData, apiStatus, currentUserRole,statusfilter }: Props) => {
   const [gradebookObj, setgradebookObj] = useState<any>([]);
 
   useEffect(() => {
@@ -24,8 +25,23 @@ const GradeTable = ({ gradebookData, apiStatus, currentUserRole }: Props) => {
         }
       }
     });
-    setgradebookObj(strippedPacket);
-  }, [gradebookData, currentUserRole]);
+  
+    // Apply additional filtering based on statusfilter
+    const filteredData = strippedPacket.filter(item => {
+      if (item.hasOwnProperty('contributiontocoursetotal')) {
+        if (statusfilter === 'inprogress') {
+          return parseFloat(item.contributiontocoursetotal.content) > 0 && parseFloat(item.contributiontocoursetotal.content) < 100;
+        } else if (statusfilter === 'completed') {
+          return parseFloat(item.contributiontocoursetotal.content) === 100 || item.contributiontocoursetotal.content === '-';
+        } else if (statusfilter === 'notstarted') {
+          return parseFloat(item.contributiontocoursetotal.content) === 0;
+        }
+      }
+      return true;
+    });
+  
+    setgradebookObj(filteredData);
+  }, [gradebookData, currentUserRole, statusfilter]);
 
   const decodeHtmlEntities = (htmlString: any) => {
     const parser = new DOMParser();

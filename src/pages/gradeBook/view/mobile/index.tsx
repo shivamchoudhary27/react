@@ -18,6 +18,8 @@ type Props = {
     updateCourses: any;
     gradebookData: any;
     currentUserRole: any;
+    statusfilter:any;
+  setStatusfilter:any;
   };
 };
 
@@ -43,6 +45,7 @@ const Mobile = (props: Props) => {
                 setUserCoursesData={() => {}}
                 coursesList={props.commonProps.apiData}
                 getCourseId={props.commonProps.getCourseId}
+                setStatusfilter={props.commonProps.setStatusfilter}
               />
             )}
             </FilterButtonWrapper>
@@ -50,6 +53,8 @@ const Mobile = (props: Props) => {
               courseId={props.commonProps.courseId}
               apiStatus={props.commonProps.apiStatus}
               gradebookData={props.commonProps.gradebookData}
+              currentUserRole={props.commonProps.currentUserRole}
+              statusfilter={props.commonProps.statusfilter.selectedValues.status}
             />
           </Container>
         </div>

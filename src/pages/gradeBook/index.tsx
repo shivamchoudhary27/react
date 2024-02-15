@@ -8,11 +8,6 @@ import "./style.scss";
 
 type Props = {};
 
-const courseStatusOptions = [
-  { id: "inprogress", name: "In Progress" },
-  { id: "completed", name: "Completed" },
-  { id: "notstarted", name: "Not Started" },
-];
 
 const GradeBook = (props: Props) => {
   const dummyData = { tabledata: [] };
@@ -21,32 +16,26 @@ const GradeBook = (props: Props) => {
   const [coursesList, setCoursesList] = useState<any>([]);
   const [apiStatus, setApiStatus] = useState("");
   const [courseId, setCourseId] = useState<any>(0);
-  const [courseIdNumber, setCourseIdNumber] = useState<any>(0);
   const currentUserRole = useSelector(
     (state) => state.globalFilters.currentUserRole
   );
-  const [enrolCoreCoursesObj, setEnrolCoreCoursesObj] = useState([]);
   const [apiData, setApiData] = useState<any>({
     departments: {},
     courses: [],
     programs: [],
   });
-  const [filterStatus, setFilterStatus] = useState({
+
+  const [statusfilter,setStatusfilter]=useState({
     selectedValues: {
       department: 0,
       batchYear: 0,
       program: 0,
       category: 0,
-      status: 0,
+      status: 0
     },
-    filterData: {
-      departments: [],
-      batchYears: [],
-      programs: [],
-      categories: [],
-      status: courseStatusOptions,
-    },
-  });
+    
+  })
+
 
   useEffect(() => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
@@ -108,6 +97,8 @@ const GradeBook = (props: Props) => {
         gradebookData={gradebookData.tabledata}
         getCourseId={getCourseId}
         updateCourses={updateCourses}
+        statusfilter={statusfilter}
+        setStatusfilter={setStatusfilter}
       />
     </React.Fragment>
   );

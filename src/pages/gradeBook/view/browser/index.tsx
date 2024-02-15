@@ -28,6 +28,8 @@ type Props = {
     updateCourses: any;
     gradebookData: any;
     currentUserRole: any;
+    setStatusfilter:any;
+    statusfilter:any;
   };
 };
 
@@ -52,6 +54,7 @@ const Browser = (props: Props) => {
               setUserCoursesData={() => {}}
               coursesList={props.commonProps.apiData}
               getCourseId={props.commonProps.getCourseId}
+              setStatusfilter={props.commonProps.setStatusfilter}
             />
           )}
           <Suspense fallback={<h3>Loading...</h3>}>
@@ -60,6 +63,7 @@ const Browser = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               gradebookData={props.commonProps.gradebookData}
               currentUserRole={props.commonProps.currentUserRole}
+              statusfilter={props.commonProps.statusfilter.selectedValues.status}
             />
           </Suspense>
         </Container>

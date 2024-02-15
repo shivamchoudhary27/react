@@ -12,6 +12,7 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
+import Swal from "sweetalert2";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -43,6 +44,15 @@ const GroupModal = ({
             setModalShow(false);
             refreshGroupData();
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Group has been successfully added"
+            });
             resetForm();
           }
         })
@@ -63,6 +73,15 @@ const GroupModal = ({
             setModalShow(false);
             refreshGroupData();
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Group has been successfully updated"
+            });
           }
         })
         .catch((err: any) => {

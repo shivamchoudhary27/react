@@ -73,7 +73,7 @@ const FilterProgramDropdownStudent = (props: Props) => {
       batchYear: 0,
       program: 0,
       category: 0,
-      status: 0
+      status: 0,
     },
     filterData: {
       // departments: [],
@@ -104,23 +104,18 @@ const FilterProgramDropdownStudent = (props: Props) => {
     props.updateCourses(filters);
   }, [filters]);
 
-  const getFilterChange = (value, component) => {
+  const getFilterChange = (value : any , component : any) => {
     let originalValue = value;
     value = parseInt(value);
 
-    if (component === 'Status') {
-      setFilters((prevFilterData: any) => ({
-        ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, status: originalValue}
-      }));
-    }
+    
     
     if (component === 'Program') {
 
       let newCategories = categoriesOptions(value, userEnrolData.courses);
       
-      setFilters((prevFilterData) => ({
-        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0},
+      setFilters((prevFilterData :any) => ({
+        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0, status:0},
         filterData: {...prevFilterData.filterData, categories: newCategories}
       }));
 
@@ -138,14 +133,14 @@ const FilterProgramDropdownStudent = (props: Props) => {
 
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, category: value}
+        selectedValues: {...prevFilterData.selectedValues, category: value, status:0}
       }));    
 
     } else if (component === 'Batch Year') {
 
       let filteredPrograms = filterBatchYearPrograms(originalValue, userEnrolData.programs);
       setFilters((prevFilterData: any) => ({
-        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0},
+        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0, status:0},
         filterData: {...prevFilterData.filterData, programs: filteredPrograms}
       }));
     }

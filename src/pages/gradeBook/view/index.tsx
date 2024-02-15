@@ -11,6 +11,8 @@ type Props = {
   gradebookData: any;
   updateCourses: any;
   currentUserRole: any;
+  statusfilter:any;
+  setStatusfilter:any;
 };
 
 const View = (props: Props) => {
@@ -18,6 +20,8 @@ const View = (props: Props) => {
     apiData: props.apiData,
     courseId: props.courseId,
     apiStatus: props.apiStatus,
+    statusfilter: props.statusfilter,
+    setStatusfilter: props.setStatusfilter,
     getCourseId: props.getCourseId,
     gradebookData: props.gradebookData,
     updateCourses: props.updateCourses,
