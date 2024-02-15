@@ -6,6 +6,7 @@ import gradeIcon from "../../../../../assets/images/icons/grade.svg";
 import sessionIcon from "../../../../../assets/images/icons/session.svg";
 import courseImage from "../../../../../assets/images/course-default.jpg";
 import attendanceIcon from "../../../../../assets/images/icons/attendance-black.svg";
+import config from "../../../../../utils/config";
 
 type Props = {
   courseList: any;
@@ -102,7 +103,7 @@ const CardComponent = (props: Props) => {
           <Col sm={6} lg={4} xl={3} key={index}>
             <Card body className="h-100">
               <a
-                href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
+                href={`${config.MOODLE_BASE_URL}/course/view.php?id=${item.idNumber}`}
               >
                 <div className="mlcard-image">
                   <Card.Img src={courseImage} alt={item.title} />
