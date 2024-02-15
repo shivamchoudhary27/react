@@ -8,7 +8,10 @@ type Props = {
   modalShow: any;
   apiStatus: any;
   courseObj: any;
+  totalPages: any;
+  filterUpdate: any;
   refreshToggle: any;
+  newPageRequest: any;
   addCourseModal: any;
   editHandlerById: any;
   cleanFormValues: any;
@@ -28,7 +31,10 @@ const View = (props: Props) => {
     modalShow: props.modalShow,
     apiStatus: props.apiStatus,
     courseObj: props.courseObj,
+    totalPages: props.totalPages,
+    filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
+    newPageRequest: props.newPageRequest,
     addCourseModal: props.addCourseModal,
     cleanFormValues: props.cleanFormValues,
     editHandlerById: props.editHandlerById,

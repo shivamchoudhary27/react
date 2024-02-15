@@ -9,14 +9,21 @@ import {
   getChildren,
   setHasChildProp,
 } from "./utils";
+import { pagination } from "../../../utils/pagination";
 import Alert from "react-bootstrap/Alert";
 import { alertMsgProps } from "../manageCourse/type";
 
 const ManageCategory = () => {
+
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+
   const { id, name } = useParams();
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
-  const [categoryData, setCategoryData] = useState([]);
+  const [categoryData, setCategoryData] = useState(dummyData);
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
   const [parentWeight, setParentWeight] = useState<number>(0);
@@ -29,9 +36,15 @@ const ManageCategory = () => {
     weight: 0,
     parent: 0,
   });
+  // const [filterUpdate, setFilterUpdate] = useState<any>({
+  //   pageNumber: 0,
+  //   pageSize: 200,
+  // });
+
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    pageSize: 200,
+    pageSize: pagination.PERPAGE,
+    // pageSize: 300,
   });
   const categoryPermission = useSelector(
     (state: any) => state.userAuthorities.permissions.course
@@ -43,7 +56,7 @@ const ManageCategory = () => {
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          setCategoryData(res.data.items);
+          setCategoryData(res.data);
         }
         setApiStatus("finished");
       })
@@ -63,18 +76,18 @@ const ManageCategory = () => {
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
-  }, [id, refreshData]);
+  }, [id, refreshData, filterUpdate]);
 
   useEffect(() => {
-    if (categoryData.length > 0) {
-      const convertedResult = categoryData
+    if (categoryData.items.length > 0) {
+      const convertedResult = categoryData.items
         .filter((item: any) => item.parent === 0)
         .sort((a: any, b: any) => a.weight - b.weight)
         .reduce(
           (acc: any, item: any) => [
             ...acc,
             item,
-            ...getChildren(item, categoryData),
+            ...getChildren(item, categoryData.items),
           ],
           []
         );
@@ -105,7 +118,7 @@ const ManageCategory = () => {
 
   // handle to count weight for acategory === >>
   useEffect(() => {
-    if (categoryData.length > 0) {
+    if (categoryData.items.length > 0) {
       let largestWeight = getLatestWeightForCategory(0, categoryData);
       setParentWeight(largestWeight);
     }
@@ -159,6 +172,10 @@ const ManageCategory = () => {
     );
   };
 
+const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
   return (
     <View
       id={id}
@@ -169,14 +186,17 @@ const ManageCategory = () => {
       parentWeight={parentWeight}
       editCategory={editCategory}
       refreshToggle={refreshToggle}
+      newPageRequest={newPageRequest}
       resetModalForm={resetModalForm}
       cleanFormValues={cleanFormValues}
       toggleModalShow={toggleModalShow}
       sortedCategories={sortedCategories}
+      filterUpdate={filterUpdate.pageNumber}
       categoryPermission={categoryPermission}
       setFormParentValue={setFormParentValue}
       setFormWeightValue={setFormWeightValue}
       updateDeleteRefresh={updateDeleteRefresh}
+      totalPages={categoryData.pager.totalPages}
       setEditCategoryValues={setEditCategoryValues}
     />
   );

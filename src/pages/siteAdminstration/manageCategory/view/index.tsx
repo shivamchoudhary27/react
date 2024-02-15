@@ -9,9 +9,12 @@ type Props = {
   apiStatus: any;
   formWeight: any;
   formParent: any;
+  totalPages: any;
   editCategory: any;
   parentWeight: any;
+  filterUpdate: any;
   refreshToggle: any;
+  newPageRequest: any;
   resetModalForm: any;
   cleanFormValues: any;
   toggleModalShow: any;
@@ -30,9 +33,12 @@ const View = (props: Props) => {
     modalShow: props.modalShow,
     formWeight: props.formWeight,
     formParent: props.formParent,
+    totalPages: props.totalPages,
+    filterUpdate: props.filterUpdate,
     editCategory: props.editCategory,
     parentWeight: props.parentWeight,
     refreshToggle: props.refreshToggle,
+    newPageRequest: props.newPageRequest,
     resetModalForm: props.resetModalForm,
     cleanFormValues: props.cleanFormValues,
     toggleModalShow: props.toggleModalShow,

@@ -163,7 +163,7 @@ export const generateAcademicYears = () => {
 
 export const durationTypeObj = () => {
     return [
-        {id: 'year', name: 'Year'},
+        {id: 'year', name: 'Years'},
         {id: 'month', name: 'Months'},
         {id: 'week', name: 'Weeks'},
         {id: 'day', name: 'Days'},

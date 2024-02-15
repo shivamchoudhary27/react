@@ -8,6 +8,7 @@ import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BuildPagination from "../../../../../widgets/pagination";
 
 type Props = {
   commonProps: {
@@ -15,10 +16,13 @@ type Props = {
     modalShow: any;
     apiStatus: any;
     formWeight: any;
+    totalPages: any;
     formParent: any;
     editCategory: any;
+    filterUpdate: any;
     parentWeight: any;
     refreshToggle: any;
+    newPageRequest: any;
     resetModalForm: any;
     cleanFormValues: any;
     toggleModalShow: any;
@@ -55,8 +59,8 @@ const Browser = (props: Props) => {
                 id={props.commonProps.id}
                 modalShow={props.commonProps.modalShow}
                 apiStatus={props.commonProps.apiStatus}
-                refreshcategories={props.commonProps.refreshToggle}
                 categoryData={props.commonProps.sortedCategories}
+                refreshcategories={props.commonProps.refreshToggle}
                 cleanFormValues={props.commonProps.cleanFormValues}
                 toggleModalShow={props.commonProps.toggleModalShow}
                 setFormParentValue={props.commonProps.setFormParentValue}
@@ -84,6 +88,11 @@ const Browser = (props: Props) => {
               onHide={() => props.commonProps.resetModalForm()}
               refreshcategories={props.commonProps.refreshToggle}
               toggleModalShow={props.commonProps.toggleModalShow}
+            />
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate}
+              getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>
         </div>

@@ -14,14 +14,13 @@ import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 type Props = {
   commonProps: {
     apiStatus: any;
+    totalPages: any;
     programData: any;
     filterUpdate: any;
     refreshToggle: any;
     newPageRequest: any;
     currentInstitute: any;
-    programDataPager: any;
     programAuthorities: any;
-    // programPermissions: any;
     updateInputFilters: any;
     refreshOnDeleteToggle: any;
     updateDepartmentFilter: any;
@@ -109,7 +108,7 @@ const Browser = (props: Props) => {
                   }
                 />
                 <BuildPagination
-                  totalpages={props.commonProps.programDataPager}
+                  totalpages={props.commonProps.totalPages}
                   getrequestedpage={props.commonProps.newPageRequest}
                   activepage={props.commonProps.filterUpdate.pageNumber}
                 />

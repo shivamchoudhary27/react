@@ -118,8 +118,6 @@ const ManageProgram = () => {
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.reset !== undefined) {
-      // console.log("reseting all input filters", inputvalues);
-
       let updatedState = { ...filterUpdate, pageNumber: 0 };
       delete updatedState.name;
       delete updatedState.programCode;
@@ -149,17 +147,16 @@ const ManageProgram = () => {
   return (
       <View
         apiStatus={apiStatus}
-        // programPermissions={programAuthorities.program}
+        filterUpdate={filterUpdate}
         refreshToggle={refreshToggle}
         programData={programData.items}
         newPageRequest={newPageRequest}
         currentInstitute={currentInstitute}
-        filterUpdate={filterUpdate.pageNumber}
         updateInputFilters={updateInputFilters}
         programAuthorities={programAuthorities}
+        totalPages={programData.pager.totalPages}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
         updateDepartmentFilter={updateDepartmentFilter}
-        programDataPager={programData.pager.totalPages}
       />
       );
     };

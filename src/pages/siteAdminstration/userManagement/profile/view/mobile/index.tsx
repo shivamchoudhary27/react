@@ -30,7 +30,7 @@ const Mobile = (props: Props) => {
   const authenticatedUserPermission = useSelector(
     (state: any) => state.authenticatedUser.permissions.menu
   );
-  
+
   return (
     <React.Fragment>
       <MobileHeader />
@@ -55,7 +55,8 @@ const Mobile = (props: Props) => {
                       props.commonProps.user.userLastName
                     ).replace(/\b\w/g, (match) => match.toUpperCase())}
                   </h3>
-                  <Button disabled={!authenticatedUserPermission.profile.canEdit}
+                  <Button
+                    disabled={!authenticatedUserPermission.profile.canEdit}
                     onClick={() =>
                       navigate(`/edituserprofile/${props.commonProps.userid}`)
                     }
@@ -145,7 +146,7 @@ const Mobile = (props: Props) => {
           </Container>
         </div>
       </div>
-      <MobileFooter />
+
       <EditUserProfile
         userobj={props.commonProps.user}
         show={props.commonProps.modalShow}
@@ -157,6 +158,7 @@ const Mobile = (props: Props) => {
         currentInstitute={props.commonProps.currentInstitute}
         onHide={() => props.commonProps.toggleModalShow(false)}
       />
+      <MobileFooter />
     </React.Fragment>
   );
 };

@@ -13,7 +13,10 @@ type Props = {
     modalShow: any;
     apiStatus: any;
     courseObj: any;
+    totalPages: any;
+    filterUpdate: any;
     refreshToggle: any;
+    newPageRequest: any;
     addCourseModal: any;
     editHandlerById: any;
     cleanFormValues: any;

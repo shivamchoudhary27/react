@@ -7,6 +7,7 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import MobileFooter from "../../../../newFooter/mobileFooter";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BuildPagination from "../../../../../widgets/pagination";
 
 type Props = {
   commonProps: {
@@ -14,10 +15,13 @@ type Props = {
     modalShow: any;
     apiStatus: any;
     formWeight: any;
+    totalPages: any;
     formParent: any;
+    filterUpdate: any;
     editCategory: any;
     parentWeight: any;
     refreshToggle: any;
+    newPageRequest: any;
     resetModalForm: any;
     cleanFormValues: any;
     toggleModalShow: any;
@@ -83,6 +87,11 @@ const Mobile = (props: Props) => {
               onHide={() => props.commonProps.resetModalForm()}
               refreshcategories={props.commonProps.refreshToggle}
               toggleModalShow={props.commonProps.toggleModalShow}
+            />
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate}
+              getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>
         </div>
