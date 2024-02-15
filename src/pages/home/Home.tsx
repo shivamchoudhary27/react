@@ -18,6 +18,7 @@ import CalenderIcon from "../../assets/images/icons/calender-white.svg";
 import BookIcon from "../../assets/images/icons/book-open.svg";
 import CapIcon from "../../assets/images/icons/graduation-cap.svg";
 import CardIcon from "../../assets/images/icons/card.svg";
+import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 
 
 const Home = () => {
@@ -25,8 +26,7 @@ const Home = () => {
   const [allPrograms, setAllPrograms] = useState([]);
   const redirectUri = config.REDIRECT_URI;
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
-  console.log("redirect uri " + redirectUri);
-  console.log(oAuthUrl);
+
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -66,9 +66,9 @@ return (
               <a href={oAuthUrl}>
                 <Button variant="btn-lg rounded-pill px-4">Login</Button>
               </a>
-              <a href={oAuthUrl}>
+              <Link to="/signupnew">
                 <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
-              </a>
+              </Link>
             </div>
             <div className="demovideo-wrapper">
               <iframe
@@ -111,7 +111,8 @@ return (
               <div className="course-container" key={index}>
                 <div className="course-image">
                   <img
-                    src={item.files[0].url}
+                    // src={item.files.length > 0 !== undefined ? item.files[0].url : ProgramDefaultImg}
+                    src={item.files && item.files.length > 0 ? item.files[0].url : ProgramDefaultImg}
                     className="img img-fluid"
                     alt={item.name}
                     style={{width:"500px"}}

@@ -13,6 +13,10 @@ import Footer from "../newFooter";
 import Header from "../newHeader";
 import BottomWave from "../../assets/images/background/bg-bottom.svg";
 import bgLeft from "../../assets/images/background/bg-admin-left.svg";
+import { Container, Image } from "react-bootstrap";
+import PageTitle from "../../widgets/pageTitle";
+// import ProgramDefaultImg from "../../assets/images/course-default.jpg"
+import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 
 function ProgramList() {
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -36,75 +40,88 @@ function ProgramList() {
       });
   }, [filterUpdate]);
 
-
   return (
     <>
-    <div className="landing-wrapper programlist-wrapper">
+      <div className="landing-wrapper programlist-wrapper">
         <div className="landing-header">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo-wrapper">
               <Link to="/">
                 <img src={logo} alt="logo" className="img img-fluid" />
               </Link>
-              </div>
+            </div>
           </div>
+          <PageTitle pageTitle={``} gobacklink="/" />
         </div>
 
-      <div className="landing-courses program-catalogue">
-        <div className="courseswrapper programlist">
-          <div>
-            {allPrograms.map((program:any) => (
-              <Link
-                key={program.id}
-                to={{ pathname: `/programsummary/${program.id}` }}
-              >
-                <div className="course-container">
-                  <div className="course-image">
-                    <img
-                      src={program.files[0].url}
-                      className="img img-fluid"
-                      alt={program.name}
-                    />
-                     <div className="course-keypoints">
-                    <div>
-                     <img src={ClockIcon} alt="duration" />
-                      <span> {program.durationValue}{" "} {program.durationUnit}</span>
+        <div className="landing-courses program-catalogue">
+          <div className="courseswrapper programlist">
+            <div>
+              {allPrograms.map((program: any) => (
+                <Link
+                  key={program.id}
+                  to={{ pathname: `/programsummary/${program.id}` }}
+                >
+                  <div className="course-container">
+                    <div className="course-image">
+                      {/* <img
+                        src={ProgramDefaultImg}
+                        className="img img-fluid"
+                        alt={program.name}
+                      /> */}
+                      <Image
+                        src={
+                          program.files && program.files.length > 0
+                            ? program.files[0].url
+                            : ProgramDefaultImg
+                        }
+                        alt={program.name}
+                        fluid
+                        rounded
+                      />
+                      <div className="course-keypoints">
+                        <div>
+                          <img src={ClockIcon} alt="duration" />
+                          <span>
+                            {" "}
+                            {program.durationValue} {program.durationUnit}
+                          </span>
+                        </div>
+                        <div>
+                          <img src={CardIcon} alt="program code" />
+                          <span>{program.programCode}</span>
+                        </div>
+                        <div>
+                          <img src={BuildingIcon} alt="department" />
+                          <span> {program.departmentName}</span>
+                        </div>
+                        <div>
+                          <img src={CapIcon} alt="program type" />
+                          <span> {program.programTypeName}</span>
+                        </div>
+                        <div>
+                          <img src={CalenderIcon} alt="batch year" />
+                          <span> {program.batchYear}</span>
+                        </div>
+                        <div>
+                          <img src={BookIcon} alt="study mode" />
+                          <span>{program.modeOfStudy}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                     <img src={CardIcon} alt="program code" />
-                      <span>{program.programCode}</span>
-                    </div>
-                    <div>
-                     <img src={BuildingIcon} alt="department" />
-                      <span> {program.departmentName}</span>
-                    </div>
-                    <div>
-                     <img src={CapIcon} alt="program type" />
-                      <span> {program.programTypeName}</span>
-                    </div>
-                    <div>
-                     <img src={CalenderIcon} alt="batch year" />
-                      <span> {program.batchYear}</span>
-                    </div>
-                    <div>
-                     <img src={BookIcon} alt="study mode" />
-                      <span>{program.modeOfStudy}</span>
-                    </div>
+                    <div className="course-title">{program.name}</div>
                   </div>
-                  </div>
-                  <div className="course-title">{program.name}</div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <Footer/>
-    <div className="position-relative">
+      <Footer />
+      <div className="position-relative">
         <img src={bgLeft} className="left-cicle" alt="left-cicle" />
-        </div>
-      <div  className="bottom-bg">
+      </div>
+      <div className="bottom-bg">
         <img src={BottomWave} alt="bottom wave" />
       </div>
     </>

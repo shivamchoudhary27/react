@@ -33,6 +33,7 @@ import RouterLadyLoader from '../../globals/globalLazyLoader/routerLadyLoader';
 import Logout from '../../pages/logout';
 
 import ProgramSummary from "../../pages/home/programSummary";
+// import ProgramSummary from '../../pages/home/preview/index';
 import ProgramList from "../../pages/home/programList"
 
 const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
