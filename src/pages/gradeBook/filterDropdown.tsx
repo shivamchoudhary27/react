@@ -128,8 +128,8 @@ const FilterProgramDropdown = (props: Props) => {
 
       let newCategories = categoriesOptions(value, userEnrolData.courses);
       
-      setFilters((prevFilterData) => ({
-        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0},
+      setFilters((prevFilterData: any) => ({
+        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0, status:0},
         filterData: {...prevFilterData.filterData, categories: newCategories}
       }));
 
@@ -139,7 +139,7 @@ const FilterProgramDropdown = (props: Props) => {
       let newBatchYears = batchYearOptions(newPrograms);
  
       setFilters((prevFilterData: any) => ({
-        selectedValues: {...prevFilterData.selectedValues, department: value, program: 0, category: 0, batchYear: 0},
+        selectedValues: {...prevFilterData.selectedValues, department: value, program: 0, category: 0, batchYear: 0, status:0},
         filterData: {...prevFilterData.filterData, programs: newPrograms, batchYears: newBatchYears}
       }));
 
@@ -147,14 +147,14 @@ const FilterProgramDropdown = (props: Props) => {
 
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, category: value}
+        selectedValues: {...prevFilterData.selectedValues, category: value , status:0}
       }));    
 
     } else if (component === 'Batch Year') {
 
       let filteredPrograms = filterBatchYearPrograms(originalValue, filters.selectedValues.department, userEnrolData.programs);
       setFilters((prevFilterData: any) => ({
-        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0},
+        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0, status:0},
         filterData: {...prevFilterData.filterData, programs: filteredPrograms}
       }));
     }

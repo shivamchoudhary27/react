@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux";
 import { globalAlertActions } from "../../../../store/slices/globalAlerts";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
+import "sweetalert2/src/sweetalert2.scss";
+import Swal from "sweetalert2";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -152,10 +154,14 @@ const ManageGroupTable = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Group has been successfully deleted"
             });
           }
         })

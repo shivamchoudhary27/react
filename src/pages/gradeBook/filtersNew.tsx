@@ -8,6 +8,7 @@ import FilterProgramDropdownStudent from "./filterDropdownStudent";
 type Props = {
   coursesList: any;
   enrolCoreCoursesObj: any;
+  setStatusfilter:any;
 };
 
 const courseStatusOptions = [
@@ -67,7 +68,7 @@ const HeirarchyFilter = (props: Props) => {
       }
       setCourses(filteredData);
     }
-
+        props.setStatusfilter(filterStatus)
   }, [filterStatus]);
 
   useEffect(() => {
@@ -123,7 +124,6 @@ const HeirarchyFilter = (props: Props) => {
     setSelectedCourse(value);
     props.getCourseId(value);
   }
-
   return (
     <React.Fragment>
         <div className="mitcomponet-heading filter-wrapper">
