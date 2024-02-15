@@ -1,10 +1,8 @@
+import View from "./view";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  postData,
-  getData as getCategoryData,
-} from "../../../adapters/microservices/index";
+import {postData, getData as getCategoryData} from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
@@ -12,11 +10,15 @@ import {
 } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from "./local";
 import { pagination } from "../../../utils/pagination";
-import View from "./view";
 
 const CourseManagment = () => {
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+
   const { id, name } = useParams();
-  const [categoryData, setCategoryData] = useState([]);
+  const [categoryData, setCategoryData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
   const [refreshData, setRefreshData] = useState<boolean>(false);
@@ -61,7 +63,7 @@ const CourseManagment = () => {
     getCategoryData(endPoint, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          setCategoryData(res.data.items);
+          setCategoryData(res.data);
         }
         setApiStatus("finished");
       })
@@ -81,15 +83,19 @@ const CourseManagment = () => {
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
-  }, [id, refreshData]);
+  }, [id, refreshData, filterUpdate]);
 
   useEffect(() => {
-    if (categoryData.length > 0) {
-      const convertedResult = categoryData
+    if (categoryData.items.length > 0) {
+      const convertedResult = categoryData.items
         .filter((item) => item.parent === 0)
         .sort((a, b) => a.weight - b.weight)
         .reduce(
-          (acc, item) => [...acc, item, ...getChildren(item, categoryData)],
+          (acc, item) => [
+            ...acc,
+            item,
+            ...getChildren(item, categoryData.items),
+          ],
           []
         );
 
@@ -109,7 +115,7 @@ const CourseManagment = () => {
   //                      Set Files Ids
   // ============================================================
   useEffect(() => {
-    categoryData.map((category: any) => {
+    categoryData.items.map((category: any) => {
       if (category.courses.length > 0) {
         category.courses.map((course: any) => {
           if (course.files.length > 0) {
@@ -144,7 +150,7 @@ const CourseManagment = () => {
 
   // handle to count weight for acategory === >>
   useEffect(() => {
-    if (categoryData.length > 0) {
+    if (categoryData.items.length > 0) {
       let largestWeight = getLatestWeightForCategory(0, categoryData);
       setParentWeight(largestWeight);
     }
@@ -217,14 +223,20 @@ const CourseManagment = () => {
     setEditCategory({ id: 0, name: "", weight: 0, parent: 0 });
   };
 
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
   return (
     <View
       programId={id}
       courseObj={courseObj}
       modalShow={modalShow}
       apiStatus={apiStatus}
+      filterUpdate={filterUpdate}
       refreshToggle={refreshToggle}
       addCourseModal={addCourseModal}
+      newPageRequest={newPageRequest}
       toggleModalShow={toggleModalShow}
       editHandlerById={editHandlerById}
       cleanFormValues={cleanFormValues}
@@ -234,6 +246,7 @@ const CourseManagment = () => {
       setFormParentValue={setFormParentValue}
       setFormWeightValue={setFormWeightValue}
       updateDeleteRefresh={updateDeleteRefresh}
+      totalPages={categoryData.pager.totalPages}
       setEditCategoryValues={setEditCategoryValues}
     />
   );

@@ -5,14 +5,13 @@ import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   apiStatus: any;
+  totalPages: any;
   programData: any;
   filterUpdate: any;
   refreshToggle: any;
   newPageRequest: any;
   currentInstitute: any;
-  programDataPager: any;
   programAuthorities: any;
-  // programPermissions: any;
   updateInputFilters: any;
   refreshOnDeleteToggle: any;
   updateDepartmentFilter: any;
@@ -21,15 +20,14 @@ type Props = {
 const View = (props: Props) => {
   const commonProps = {
     apiStatus: props.apiStatus,
+    totalPages: props.totalPages,
     programData: props.programData,
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
     newPageRequest: props.newPageRequest,
-    programDataPager: props.programDataPager,
     currentInstitute: props.currentInstitute,
     updateInputFilters: props.updateInputFilters,
     programAuthorities: props.programAuthorities,
-    // programPermissions: props.programAuthorities,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
     updateDepartmentFilter: props.updateDepartmentFilter,
   };

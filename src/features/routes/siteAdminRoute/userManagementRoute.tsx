@@ -9,7 +9,7 @@ const ManageRoles = React.lazy(() => import("../../../pages/siteAdminstration/ro
 const ManageAuthorities = React.lazy(() => import("../../../pages/siteAdminstration/roles/authorities"))
 const GuestUsers = React.lazy(() => import("../../../pages/siteAdminstration/userManagement/guestUsers"))
 const ViewUserProfile = React.lazy(() => import("../../../pages/siteAdminstration/userManagement/profile"))
-const EditUserProfile = React.lazy(() => import("../../../pages/siteAdminstration/userManagement/profile/forms/editProfile"))
+const EditUserProfile = React.lazy(()=> import("../../../pages/siteAdminstration/userManagement/profile/forms/editProfile/index"))
 
 const UserManagementRoute = () => {
   return [

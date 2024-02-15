@@ -18,7 +18,7 @@ type Props = {
     refreshToggle: any;
     newPageRequest: any;
     currentInstitute: any;
-    programDataPager: any;
+    totalPages: any;
     programAuthorities: any;
     // programPermissions: any;
     updateInputFilters: any;
@@ -107,7 +107,7 @@ const Mobile = (props: Props) => {
                   }
                 />
                 <BuildPagination
-                  totalpages={props.commonProps.programDataPager}
+                  totalpages={props.commonProps.totalPages}
                   getrequestedpage={props.commonProps.newPageRequest}
                   activepage={props.commonProps.filterUpdate.pageNumber}
                 />

@@ -6,6 +6,7 @@ import Footer from "../../../../newFooter";
 import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
+import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
@@ -14,7 +15,10 @@ type Props = {
     modalShow: any;
     apiStatus: any;
     courseObj: any;
+    totalPages: any;
+    filterUpdate: any;
     refreshToggle: any;
+    newPageRequest: any;
     addCourseModal: any;
     cleanFormValues: any;
     toggleModalShow: any;
@@ -47,33 +51,38 @@ const Browser = (props: Props) => {
             <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
             {props.commonProps.coursePermission.canView && (
               <CourseTable
-                categoryData={props.commonProps.sortedCategories}
+                apiStatus={props.commonProps.apiStatus}
                 modalShow={props.commonProps.modalShow}
-                toggleModalShow={props.commonProps.toggleModalShow}
                 programId={props.commonProps.programId}
+                categoryData={props.commonProps.sortedCategories}
+                toggleModalShow={props.commonProps.toggleModalShow}
+                refreshcategories={props.commonProps.refreshToggle}
+                cleanFormValues={props.commonProps.cleanFormValues}
+                editHandlerById={props.commonProps.editHandlerById}
+                coursePermission={props.commonProps.coursePermission}
+                toggleCourseModal={props.commonProps.toggleCourseModal}
                 setFormParentValue={props.commonProps.setFormParentValue}
                 setFormWeightValue={props.commonProps.setFormWeightValue}
                 updatedeleterefresh={props.commonProps.updateDeleteRefresh}
                 setEditCategoryValues={props.commonProps.setEditCategoryValues}
-                refreshcategories={props.commonProps.refreshToggle}
-                cleanFormValues={props.commonProps.cleanFormValues}
-                toggleCourseModal={props.commonProps.toggleCourseModal}
-                editHandlerById={props.commonProps.editHandlerById}
-                apiStatus={props.commonProps.apiStatus}
-                coursePermission={props.commonProps.coursePermission}
               />
             )}
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate.pageNumber}
+              getrequestedpage={props.commonProps.newPageRequest}
+            />
           </Container>
         </div>
       </div>
       <CourseModal
         show={props.commonProps.addCourseModal}
-        onHide={() => props.commonProps.toggleCourseModal(false)}
         courseobj={props.commonProps.courseObj}
         programId={props.commonProps.programId}
-        toggleCourseModal={props.commonProps.toggleCourseModal}
         updateAddRefresh={props.commonProps.refreshToggle}
         refreshcategories={props.commonProps.refreshToggle}
+        toggleCourseModal={props.commonProps.toggleCourseModal}
+        onHide={() => props.commonProps.toggleCourseModal(false)}
       />
       <Footer />
     </React.Fragment>
