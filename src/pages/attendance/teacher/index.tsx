@@ -41,14 +41,16 @@ const TeacherAttendance = (props: Props) => {
 
   // call API to get courses list === >>>
   useEffect(() => {
-    let endPoint = `/${currentUserRole.id}/dashboard`;
-    getData(endPoint, {}).then((res: any) => {
-      if (res.data !== "" && res.status === 200) {
-        setCoursesList(res.data.courses);
-        setApiResponseData(res.data);
-        if (res.data.length > 0) setCourseId(res.data.courses[0].id);
-      }
-    });
+    if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
+      let endPoint = `/${currentUserRole.id}/dashboard`;
+      getData(endPoint, {}).then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          setCoursesList(res.data.courses);
+          setApiResponseData(res.data);
+          if (res.data.length > 0) setCourseId(res.data.courses[0].id);
+        }
+      });
+    }
   }, [currentUserRole.id]);
 
   useEffect(() => {

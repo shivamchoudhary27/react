@@ -9,9 +9,10 @@ type Props = {
   apiStatus: string;
   currentUserRole: any;
   statusfilter:any;
+  coursesList: any;
 };
 
-const GradeTable = ({ gradebookData, apiStatus, currentUserRole,statusfilter }: Props) => {
+const GradeTable = ({ gradebookData, apiStatus, currentUserRole,statusfilter, coursesList }: Props) => {
   const [gradebookObj, setgradebookObj] = useState<any>([]);
 
   useEffect(() => {

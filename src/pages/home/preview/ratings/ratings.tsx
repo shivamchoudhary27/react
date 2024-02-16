@@ -4,6 +4,7 @@ import Review from "./review";
 import { Row, Col } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import StarRating from "../../../../widgets/rating";
+import config from "../../../../utils/config";
 
 interface IProps {
   programid: any
@@ -38,7 +39,7 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   const ratingBars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
 
   useEffect(() => {
-    axios.get(`https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/rating/${programid}`).then((res: any) => {
+    axios.get(`${config.JAVA_API_URL}/public/rating/${programid}`).then((res: any) => {
       console.log(res)
       if (res.status === 200 && res.data.averageRating !== undefined) {
         setProgramRating(res.data);

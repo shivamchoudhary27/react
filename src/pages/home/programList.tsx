@@ -17,6 +17,7 @@ import { Container, Image } from "react-bootstrap";
 import PageTitle from "../../widgets/pageTitle";
 // import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
+import config from "../../utils/config";
 
 function ProgramList() {
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -28,7 +29,7 @@ function ProgramList() {
   useEffect(() => {
     axios
       .get(
-        `https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}`
+        `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}`
       )
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {

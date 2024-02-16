@@ -60,6 +60,7 @@ const Browser = (props: Props) => {
           <Suspense fallback={<h3>Loading...</h3>}>
             <GradeTable
               courseId={props.commonProps.courseId}
+              coursesList={props.commonProps.apiData}
               apiStatus={props.commonProps.apiStatus}
               gradebookData={props.commonProps.gradebookData}
               currentUserRole={props.commonProps.currentUserRole}

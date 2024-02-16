@@ -5,6 +5,7 @@ import { updateCategoryLevels, getChildren } from "./../utils";
 import { setHasChildProp, resetManageCourseObj } from './../local';
 import { pagination } from "../../../../utils/pagination";
 import axios from "axios";
+import config from "../../../../utils/config";
 
 const Curriculum = ({programId}: any) => {
     const [selectedProgram, setSelectedProgram] = useState(0);
@@ -23,7 +24,7 @@ const Curriculum = ({programId}: any) => {
 
     // Get category Data from API === >>
     useEffect(() => {
-        const endPoint = `https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${programId}`;
+        const endPoint = `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${programId}`;
         axios.get(endPoint)
         .then((res: any) => { 
             if (res.data !== "" && res.status === 200) {

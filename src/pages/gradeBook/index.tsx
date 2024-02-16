@@ -8,7 +8,6 @@ import "./style.scss";
 
 type Props = {};
 
-
 const GradeBook = (props: Props) => {
   const dummyData = { tabledata: [] };
   const id = localStorage.getItem("userid");
@@ -25,31 +24,30 @@ const GradeBook = (props: Props) => {
     programs: [],
   });
 
-  const [statusfilter,setStatusfilter]=useState({
+  const [statusfilter, setStatusfilter] = useState({
     selectedValues: {
       department: 0,
       batchYear: 0,
       program: 0,
       category: 0,
-      status: 0
+      status: 0,
     },
-    
-  })
-
+  });
 
   useEffect(() => {
-    let endPoint = `/${currentUserRole.id}/dashboard`;
-    getCourses(endPoint, {}).then((res: any) => {
-      if (res.data !== "" && res.status === 200) {
-        setCoursesList(res.data.courses);
-        setApiData(res.data);
-        if (res.data.courses.length == 0 && res.status === 200) {
-          setCourseId(0)
-          setGradebookData(dummyData);
-      } 
-    } else if (res.status === 500) {
-      } 
-    });
+    if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
+      let endPoint = `/${currentUserRole.id}/dashboard`;
+      getCourses(endPoint, {}).then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          setCoursesList(res.data.courses);
+          setApiData(res.data);
+          if (res.data.courses.length == 0 && res.status === 200) {
+            setCourseId(0);
+            setGradebookData(dummyData);
+          }
+        }
+      });
+    }
   }, [currentUserRole.id]);
 
   useEffect(() => {
@@ -69,6 +67,8 @@ const GradeBook = (props: Props) => {
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
             setGradebookData(res.data.tables[0]);
+          } else {
+            console.log("bye----------");
           }
           setApiStatus("finished");
         })
