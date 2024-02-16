@@ -8,9 +8,6 @@ import logo from "../../assets/images/circlelogo-blue.svg";
 import Butext from "../../assets/images/landing-butext.svg";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import SearchIcon from "../../assets/images/icons/searchbold.svg";
-import DsaImage from "../../assets/images/course-data-structure.svg";
-import CloudImage from "../../assets/images/course-cloud-computing.svg";
-import MathsImage from "../../assets/images/course-discreate-mathematics.svg";
 import axios from "axios";
 import ClockIcon from "../../assets/images/icons/clock-white.svg";
 import BuildingIcon from "../../assets/images/icons/building.svg";
@@ -105,8 +102,10 @@ return (
           </div>
         </div>
         <div className="courseswrapper">
+          <Row>
           {allPrograms.length > 0 &&
             allPrograms.map((item: any, index: number) => (
+              <Col key={item.id} xl={4} lg={4} md={6} sm={12}>
               <Link
                 key={item.id}
                 to={{ pathname: `/programsummary/${item.id}` }}
@@ -114,11 +113,9 @@ return (
               <div className="course-container" key={index}>
                 <div className="course-image">
                   <img
-                    // src={item.files.length > 0 !== undefined ? item.files[0].url : ProgramDefaultImg}
                     src={item.files && item.files.length > 0 ? item.files[0].url : ProgramDefaultImg}
                     className="img img-fluid"
                     alt={item.name}
-                    style={{width:"500px"}}
                   />
                   <div className="course-keypoints">
                     <div>
@@ -150,12 +147,14 @@ return (
                 <div className="course-title">{item.name}</div>
               </div>
               </Link>
+              </Col>
             ))}
-            <div className="allcourses-btn">
-<button onClick={() => navigate("/programlist")}>
-  <i className="fa fa-angle-right"></i>
-</button>
-            </div>
+</Row>
+        <div className="allcourses-btn">
+          <button onClick={() => navigate("/programlist")}>
+            <i className="fa fa-angle-right"></i>
+          </button>
+        </div>
         </div>
       </div>
     </>
