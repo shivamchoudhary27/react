@@ -39,13 +39,16 @@ const Home = () => {
       )
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
-          setAllPrograms(result.data.items);
+          const firstThreeElements = result.data.items.slice(0, 3);
+          setAllPrograms(firstThreeElements);
         }
       })
       .catch((err: any) => {
         console.log(err);
       });
   }, [filterUpdate]);
+
+  console.log(allPrograms)
 return (
     <>
       <div className="landing-wrapper">

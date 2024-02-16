@@ -41,6 +41,7 @@ const UserProfile = () => {
   const [workloadList, setWorkloadList] = useState(dummyData);
   const [editComponent, setEditComponent] = useState("changePassword");
   const [filesIds, setFilesIds] = useState([]);
+  const [profilePic, setProfilePic] = useState([]);
 
   const userProfileInfo = useSelector(
     (state: any) => state.userProfile.userProfile
@@ -57,8 +58,6 @@ const UserProfile = () => {
     pageSize: pagination.PERPAGE,
     userId: currentUserInfo.uid,
   });
-
-  // console.log(userProfileInfo, currentUserInfo);
 
   useEffect(() => {
     setUser(userProfileInfo);
@@ -77,6 +76,9 @@ const UserProfile = () => {
             institutes: currentUserInfo.institutes,
             authorities: currentUserInfo.authorities,
           };
+          if(result.data.files.length === 0){
+            setProfilePic([])
+          }
           dispatch(globalUserInfoActions.updateUserPicture(result.data.files));
           dispatch(globalUserProfileActions.userProfile(result.data));
           localStorage.setItem(
@@ -141,23 +143,23 @@ const UserProfile = () => {
   // ============================================================
   useEffect(() => {
     try {
-      const storedData = JSON.parse(localStorage.getItem("userInfo"));
-      if (storedData.userInfo.files && storedData.userInfo.files.length > 0) {
-        storedData.userInfo.files.forEach((fileId: any) => {
-          setFilesIds(prevFilesIds => [...prevFilesIds, { id: fileId.id }]);
+      // const storedData = JSON.parse(localStorage.getItem("userInfo"));
+      if (currentUserInfo.files && currentUserInfo.files.length > 0) {
+        currentUserInfo.files.forEach((fileId: any) => {
+          setFilesIds([{ id: fileId.id }]);
         });
       }
     } catch (error) {
       console.error("Error parsing userInfo:", error);
     }
-  }, [])
+  }, [currentUserInfo.files])
 
   useEffect(() => {
     if(filesIds.length > 0){
       postData(`/files`, filesIds)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            // console.log(result.data)
+            setProfilePic(result.data)
           }
         })
         .catch((err: any) => {
@@ -192,6 +194,7 @@ const UserProfile = () => {
       <View
         user={user}
         modalShow={modalShow}
+        profilePic={profilePic}
         timeSlotList={timeSlotList}
         workloadList={workloadList}
         editComponent={editComponent}

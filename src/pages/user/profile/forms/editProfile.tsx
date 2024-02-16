@@ -53,7 +53,7 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
-  genderType: Yup.string().required("Gender is required"),
+  // genderType: Yup.string().required("Gender is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
 
@@ -215,8 +215,8 @@ const EditProfile = (props: Props) => {
                       <FieldLabel
                         htmlfor="genderType"
                         labelText="Gender"
-                        required="required"
-                        star="*"
+                        // required="required"
+                        // star="*"
                       />
                       <FieldTypeSelect
                         name="genderType"
@@ -229,10 +229,10 @@ const EditProfile = (props: Props) => {
                         currentformvalue={values}
                         selectDefaultLabel={"Gender"}
                       />
-                      <FieldErrorMessage
+                      {/* <FieldErrorMessage
                         errors={errors.genderType}
                         touched={touched.genderType}
-                      />
+                      /> */}
                     </Col>
 
                     <Col sm={6} lg={4}>

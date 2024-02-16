@@ -22,6 +22,7 @@ type Props = {
     currentUserRole: any;
     currentInstitute: any;
     capitalizeFirstLetter: any;
+    profilePic: any;
   };
 };
 
@@ -52,15 +53,15 @@ const Mobile = (props: Props) => {
                 >
                   <img
                     src={
-                      props.commonProps.user.files !== undefined &&
-                      props.commonProps.user.files.length > 0
-                        ? props.commonProps.user.files[0].url
+                      props.commonProps.profilePic !== undefined &&
+                      props.commonProps.profilePic.length > 0
+                        ? props.commonProps.profilePic[0].url
                         : DefaultProfileImage
                     }
                     alt={
-                      props.commonProps.user.files !== undefined &&
-                      props.commonProps.user.files.length > 0
-                        ? props.commonProps.user.files[0].originalFileName
+                      props.commonProps.profilePic !== undefined &&
+                      props.commonProps.profilePic.length > 0
+                        ? props.commonProps.profilePic[0].originalFileName
                         : props.commonProps.user.userFirstName
                     }
                     className="userPix"
