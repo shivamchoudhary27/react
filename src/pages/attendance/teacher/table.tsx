@@ -9,6 +9,7 @@ type Props = {
   attendancedata: any;
   attTableHeader: any;
   apiStatus: string;
+  apiResponseData:any
 };
 
 const TeacherAttendanceTable = (props: Props) => {

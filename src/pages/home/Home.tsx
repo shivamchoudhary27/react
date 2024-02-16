@@ -35,7 +35,7 @@ const Home = () => {
   useEffect(() => {
     axios
       .get(
-        `https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}`
+        `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}`
       )
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {

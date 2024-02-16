@@ -13,6 +13,7 @@ import RatingComp from "./preview/ratings/ratings";
 import "../newHeader/style.scss";
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import Curriculum from "./preview/curriculum";
+import config from "../../utils/config";
 
 // import RatingComp from "./ratings/ratings";
 
@@ -38,7 +39,7 @@ const ProgramSummary = () => {
   useEffect(() => {
     axios
       .get(
-        `https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${Programid}`
+        `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${Programid}`
       )
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {

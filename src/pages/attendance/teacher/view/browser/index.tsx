@@ -51,6 +51,7 @@ const Browser = (props: Props) => {
             />
             <TeacherAttendanceTable
               apiStatus={props.commonProps.apiStatus}
+              apiResponseData={props.commonProps.apiResponseData}
               attendancedata={props.commonProps.attendancedata}
               attTableHeader={props.commonProps.attTableHeader}
             />

@@ -19,7 +19,7 @@ type Props = {
     gradebookData: any;
     currentUserRole: any;
     statusfilter:any;
-  setStatusfilter:any;
+    setStatusfilter:any;
   };
 };
 
@@ -51,6 +51,7 @@ const Mobile = (props: Props) => {
             </FilterButtonWrapper>
             <GradeTable
               courseId={props.commonProps.courseId}
+              coursesList={props.commonProps.apiData}
               apiStatus={props.commonProps.apiStatus}
               gradebookData={props.commonProps.gradebookData}
               currentUserRole={props.commonProps.currentUserRole}

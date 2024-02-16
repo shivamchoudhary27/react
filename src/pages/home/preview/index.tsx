@@ -33,7 +33,7 @@ const ProgramSummary = () => {
   });
 
   useEffect(() => {
-    axios.get(`https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${Programid}`).then((res: any) => {
+    axios.get(`${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${Programid}`).then((res: any) => {
       if(res.data !== "" && res.status === 200){
         setCurrentProgram({ data: res.data.items, status: true, id: Programid });
         setInstructors(res.data.instructors);
