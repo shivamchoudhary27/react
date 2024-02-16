@@ -45,6 +45,7 @@ const RepliesForm = (props: Props) => {
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e)
     const file = e.target.files && e.target.files[0];
 
     if (file) {

@@ -14,11 +14,13 @@ type Props = {
   toggleModalShow: any;
   currentInstitute: any;
   capitalizeFirstLetter: any;
+  profilePic: any
 };
 
 const View = (props: Props) => {
   const commonProps = {
     user: props.user,
+    profilePic: props.profilePic,
     modalShow: props.modalShow,
     timeSlotList: props.timeSlotList,
     workloadList: props.workloadList,

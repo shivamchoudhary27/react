@@ -10,6 +10,7 @@ import {
   next30DaysTimestamp,
   overdueTimestamp,
 } from "./utils";
+import {getData as getDashboard} from "../../adapters/microservices"
 
 type Props = {};
 
@@ -41,6 +42,7 @@ const DashboardNew: React.FC<Props> = (props) => {
   const next7Days = next7DaysTimestamp(timestamp);
   const next30Days = next30DaysTimestamp(timestamp);
   const overdueDays = overdueTimestamp(timestamp);
+
 
   // === >>>
   const setDaysTimeSortTo = () => {
@@ -78,7 +80,17 @@ const DashboardNew: React.FC<Props> = (props) => {
       userId !== undefined
     ) {
       let endPoint = `/${currentUserRole.id}/dashboard`;
-      makeGetDataRequest(endPoint, {}, setUserCoursesData, setApiStatusCourse);
+      // makeGetDataRequest(endPoint, {}, setUserCoursesData, setApiStatusCourse);
+      setApiStatusCourse("started")
+      getDashboard(endPoint, {}).then((res: any) => {
+        console.log(res)
+        if(res.data !== "" && res.status === 200){
+          setUserCoursesData(res.data)
+        }
+        setApiStatusCourse("finished")
+      }).catch((err: any) => {
+        console.log(err)
+      })
 
       // get moodle enrole courses data for course status
       const query = {
