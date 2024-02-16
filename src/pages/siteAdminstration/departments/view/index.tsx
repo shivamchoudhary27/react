@@ -2,7 +2,8 @@ import React from "react";
 import Mobile from "./mobile";
 import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+// import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import {
   Type_ApiResponse,
   Type_FilterUpdate,
