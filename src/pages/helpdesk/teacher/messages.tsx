@@ -156,12 +156,14 @@ const MessagesView = (props: Props) => {
                   item.lastName === currentUserInfo.last_name && (
                     <div className="chat-moreoption">
                       <DropdownButton title={<i className="bi bi-three-dots-vertical"></i>}>
-                        <Dropdown.Item onClick={() => editHandler(item.id, item.comment)}>
+                       <div>
+                       <Dropdown.Item onClick={() => editHandler(item.id, item.comment)}>
                         Edit
                         </Dropdown.Item>
                         <Dropdown.Item onClick={() => deleteHandler(item.id)}>
                        Delete
                         </Dropdown.Item>
+                       </div>
                       </DropdownButton>
                     </div>
                   )}

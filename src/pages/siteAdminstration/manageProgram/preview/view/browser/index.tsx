@@ -45,6 +45,7 @@ const Browser = (props: Props) => {
                       alt={el.name}
                       fluid
                       rounded
+                      className="program-summary-img"
                     />
                   </Col>
                   <Col md={9}>

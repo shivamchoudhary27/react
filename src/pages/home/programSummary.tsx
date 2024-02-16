@@ -14,7 +14,8 @@ import "../newHeader/style.scss";
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import Curriculum from "./preview/curriculum";
 import config from "../../utils/config";
-
+import Footer from "../newFooter";
+import "../../pages/siteAdminstration/manageProgram/style.scss";
 // import RatingComp from "./ratings/ratings";
 
 interface ICurrentProgram {
@@ -84,7 +85,7 @@ const ProgramSummary = () => {
 
   return (
     <>
-      <div className="landing-wrapper programlist-wrapper">
+      <div className="landing-wrapper programlist-wrapper h-100">
         <div className="landing-header program-summary">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo-wrapper">
@@ -110,16 +111,17 @@ const ProgramSummary = () => {
                     alt={el.name}
                     fluid
                     rounded
+                    className="program-summary-img"
                   />
                 </Col>
                 <Col md={9}>
                   <h5 className="program-title">
-                    {el.name} <span></span> {el.disciplineName}
+                    {el.name} <span></span>  {el.discipline.name}
                   </h5>
-                  {/* <div dangerouslySetInnerHTML={{ __html: el.description }} /> */}
+                  <div dangerouslySetInnerHTML={{ __html: el.description }} />
                   <div className="key-information">
                     <strong>Key Information</strong>
-                    <ul>
+                    <ul className="bg-white">
                       <li>
                         Duration:{" "}
                         <strong>
@@ -195,7 +197,7 @@ const ProgramSummary = () => {
                   <ProgramInstructors instructorsData={instructors} />
                 </div>
                 <RatingComp programid={Programid} />
-                <div className="program-tags mt-5">
+                <div className="program-tags mt-5 bg-white">
                     {el.tags.length > 0
                       ? previewTagfields(el.tags)
                       : ""}
@@ -204,7 +206,7 @@ const ProgramSummary = () => {
             </div>
           ))}
         </Container>
-      {/* <Footer/> */}
+      <Footer/>
       </div>
     </>
   );
