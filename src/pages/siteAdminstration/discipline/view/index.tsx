@@ -3,7 +3,8 @@ import Mobile from "./mobile";
 import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 import { Type_DisciplineFilterUpdate } from "../type/type";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+// import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import { Interface_DisciplineCustomObject } from "../type/interface";
 
 type Props = {

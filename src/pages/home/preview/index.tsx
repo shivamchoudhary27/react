@@ -12,6 +12,7 @@ import programImage from "../../../assets/images/course-default.jpg";
 import ProgramInstructors from "./instructors";
 import RatingComp from "./ratings/ratings";
 import Curriculum from "./curriculum";
+import config from "../../../utils/config";
 
 interface ICurrentProgram {
   data: [];
