@@ -43,8 +43,8 @@ const ManageCategory = () => {
 
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    pageSize: pagination.PERPAGE,
-    // pageSize: 300,
+    // pageSize: pagination.PERPAGE,
+    pageSize: 300,
   });
   const categoryPermission = useSelector(
     (state: any) => state.userAuthorities.permissions.course

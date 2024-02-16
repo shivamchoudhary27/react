@@ -6,7 +6,7 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import { formattedDateTime } from "../../../lib/timestampConverter";
 import "./styles.scss";
 import CustomButton from "../../../widgets/formInputFields/buttons";
-import { Dropdown, DropdownButton  } from "react-bootstrap";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 
 type Props = {
   apiStatus: string;
@@ -134,8 +134,8 @@ const MessagesView = (props: Props) => {
                     value={editedComment}
                     onChange={(e) => setEditedComment(e.target.value)}
                     className="form-control"
-                  />          
-                   <CustomButton
+                  />
+                  <CustomButton
                     btnText="cancel"
                     variant="outline-secondary"
                     onClick={handleCancelEdit}
@@ -169,11 +169,18 @@ const MessagesView = (props: Props) => {
                   )}
               </p>
               )}
+            {item.files.length > 0 && (
+              <img
+                src={item.files[0].url}
+                alt={item.files[0].originalFileName}
+                width="150px"
+              />
+            )}
             </div>
-              {item.firstName === currentUserInfo.first_name &&
-                item.lastName === currentUserInfo.last_name && (
-                  <>
-                    {/* <button
+            {item.firstName === currentUserInfo.first_name &&
+              item.lastName === currentUserInfo.last_name && (
+                <>
+                  {/* <button
                       className="action-icons"
                       onClick={() => deleteHandler(item.id)}
                     >
@@ -185,8 +192,8 @@ const MessagesView = (props: Props) => {
                     >
                       <img src={editIcon} alt="Edit" />
                     </button> */}
-                  </>
-                )}
+                </>
+              )}
           </div>
         </div>
       ))}

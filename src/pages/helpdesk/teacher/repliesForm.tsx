@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MessagesView from "./messages";
@@ -12,6 +12,7 @@ import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { Value } from "sass";
 
 type Props = {
   onHide: any;
@@ -38,6 +39,7 @@ const queryFormSchema = Yup.object({
 const RepliesForm = (props: Props) => {
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [commentId, setCommentId] = useState("");
 
   const handleFileButtonClick = () => {
     if (fileInputRef.current) {
@@ -45,7 +47,6 @@ const RepliesForm = (props: Props) => {
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e)
     const file = e.target.files && e.target.files[0];
 
     if (file) {
@@ -53,22 +54,30 @@ const RepliesForm = (props: Props) => {
     }
   };
 
-  const handleFormSubmit = (values: any, action: any) => {
+  const handleFormSubmit = async (values: any, action: any) => {
+
     if (props.selectedTopicId !== "") {
       action.setSubmitting(true);
-      postData(`/comment/${props.selectedTopicId}`, values)
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            // props.toggleRepliesModalShow(false);
-            action.setSubmitting(false);
+      try {
+        const commentResponse = await postData(
+          `/comment/${props.selectedTopicId}`,values);
+        if (commentResponse.status === 200) {
+          const commentData = commentResponse.data;
+          if (commentData && commentData.id) {
+            const commentId = commentData.id;
+            setCommentId(commentId);
             props.updateAddRefresh();
             action.resetForm();
+            if (values.file) {
+              await postData(`/files/comment/${commentId}`, {}, values.file);
+            }
           }
-        })
-        .catch((err: any) => {
-          console.log(err);
-          action.setSubmitting(false);
-        });
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        action.setSubmitting(false);
+      }
     }
   };
 
@@ -136,7 +145,7 @@ const RepliesForm = (props: Props) => {
                 setSelectedFileName("");
               }}
             >
-              {({ errors, touched, isSubmitting }) => (
+              {({ errors, touched, isSubmitting, setFieldValue }) => (
                 <Form>
                   <div className="d-flex flex-column">
                     <div className="w-100">
@@ -149,7 +158,10 @@ const RepliesForm = (props: Props) => {
                         errors={errors.comment}
                         touched={touched.comment}
                       />
+
+                      <div className="user-picture-form"></div>
                     </div>
+
                     {selectedFileName && (
                       <div className="attachedfile">
                         {" "}
@@ -164,7 +176,11 @@ const RepliesForm = (props: Props) => {
                         id="file"
                         name="file"
                         type="file"
-                        onChange={handleFileChange}
+                        // onChange={handleFileChange}
+                        onChange={(event) => {
+                          handleFileChange(event);
+                          setFieldValue("file", event.currentTarget.files[0]);
+                        }}
                       />
                       <button
                         type="button"
@@ -191,7 +207,7 @@ const RepliesForm = (props: Props) => {
             </Formik>
           ) : null}
         </Modal.Body>
-        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg" />
       </Modal>
     </React.Fragment>
   );
