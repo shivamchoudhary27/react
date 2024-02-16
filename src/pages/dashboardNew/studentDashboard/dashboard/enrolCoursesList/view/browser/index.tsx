@@ -6,6 +6,7 @@ import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
+import config from "../../../../../../../utils/config";
 
 type Props = {
   coursesList: any;
@@ -156,7 +157,7 @@ const Browser = (props: Props) => {
               <Col sm={6} lg={4} xl={3} key={index}>
                 <Card body className="h-100">
                   <a
-                    href={`https://demo.learn.ballisticlearning.com/course/view.php?id=${item.idNumber}`}
+                    href={`${config.MOODLE_BASE_URL}?id=${item.idNumber}`}
                   >
                     <div className="mlcard-image">
                       <Card.Img src={courseImage} alt={item.shortname} />

@@ -8,6 +8,7 @@ import courseImage from "../../../../../../../assets/images/course-default.jpg";
 import filterIcon from "../../../../../../../assets/images/icons/mb-filterIcon.svg";
 
 import "./mobileStyle.scss";
+import config from "../../../../../../../utils/config";
 
 type Props = {
   coursesList: any;
@@ -157,9 +158,13 @@ const Mobile: React.FC<Props> = (props) => {
             course.map((item: any, index: number) => (
               <Col sm={6} lg={4} xl={3} key={index}>
                 <Card body className="h-100">
+                <a
+                    href={`${config.MOODLE_BASE_URL}?id=${item.idNumber}`}
+                  >
                   <div className="mlcard-image">
                     <Card.Img src={courseImage} alt={item.shortname} />
                   </div>
+                  </a>
                   <div className="mlcard-title">
                     <h5>{item.name}</h5>
                     <span className="my-progress">
