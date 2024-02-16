@@ -6,7 +6,7 @@ import { deleteData, putData } from "../../../adapters/microservices";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { Dropdown, DropdownButton  } from "react-bootstrap";
 import CustomButton from "../../../widgets/formInputFields/buttons";
-
+import "../../helpdesk/teacher/styles.scss";
 type Props = {
   apiStatus: string;
   selectedTopicId: any;
