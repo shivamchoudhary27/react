@@ -131,15 +131,20 @@ height: 96vh;
     padding: 2rem;
     display: flex;
     gap: 2rem;
+    height: max-content;
     .course-container{
       // display: flex;
     .course-image{
       background: white;
-      cursor: pointer;
+      height: 300px;
+      overflow: hidden;
       border-radius: 1rem;
       position: relative;
       > img{
-        border-radius: 1rem;
+        // border-radius: 1rem;
+        height: -webkit-fill-available;
+        // width: 100%;
+        object-fit: cover;
       }
       .course-keypoints{
         position: absolute;
@@ -203,16 +208,16 @@ height: 96vh;
   .programlist{
     background: none;
     > div{
-      display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+    //   display: flex;
+    // flex-wrap: wrap;
+    // gap: 2rem;
     .course-container {
       .course-title{
         color: black;
         font-weight: 500;
       }
       .course-image > img{
-        width: 400px;
+        width: 100%;
       }
     }
     }

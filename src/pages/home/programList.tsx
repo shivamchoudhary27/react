@@ -13,7 +13,7 @@ import Footer from "../newFooter";
 import Header from "../newHeader";
 import BottomWave from "../../assets/images/background/bg-bottom.svg";
 import bgLeft from "../../assets/images/background/bg-admin-left.svg";
-import { Container, Image } from "react-bootstrap";
+import { Col, Container, Image, Row } from "react-bootstrap";
 import PageTitle from "../../widgets/pageTitle";
 // import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
@@ -57,19 +57,15 @@ function ProgramList() {
 
         <div className="landing-courses program-catalogue">
           <div className="courseswrapper programlist">
-            <div>
+            <Row>
               {allPrograms.map((program: any) => (
+                  <Col key={program.id} xl={3} lg={4} sm={6}>
+                <div className="course-container">
                 <Link
                   key={program.id}
                   to={{ pathname: `/programsummary/${program.id}` }}
                 >
-                  <div className="course-container">
                     <div className="course-image">
-                      {/* <img
-                        src={ProgramDefaultImg}
-                        className="img img-fluid"
-                        alt={program.name}
-                      /> */}
                       <Image
                         src={
                           program.files && program.files.length > 0
@@ -84,7 +80,6 @@ function ProgramList() {
                         <div>
                           <img src={ClockIcon} alt="duration" />
                           <span>
-                            {" "}
                             {program.durationValue} {program.durationUnit}
                           </span>
                         </div>
@@ -111,10 +106,12 @@ function ProgramList() {
                       </div>
                     </div>
                     <div className="course-title">{program.name}</div>
-                  </div>
                 </Link>
+                  </div>
+                </Col>
+                
               ))}
-            </div>
+            </Row>
           </div>
         </div>
       </div>
