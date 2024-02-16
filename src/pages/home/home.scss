@@ -22,7 +22,7 @@
     }
   }
   div {
-    button{
+  >  button{
       background: linear-gradient(90deg, #6498B2 -0.07%, #0873CD 100.04%);
       border-radius: 2rem;
       padding: 10px;
@@ -205,8 +205,10 @@ height: 96vh;
 // ---------------- Program List -------------
 .program-catalogue { 
   background: none;
+  padding: 0;
   .programlist{
     background: none;
+    padding-top: 0;
     > div{
     //   display: flex;
     // flex-wrap: wrap;

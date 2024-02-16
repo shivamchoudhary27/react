@@ -44,7 +44,7 @@ function ProgramList() {
   return (
     <>
       <div className="landing-wrapper programlist-wrapper">
-        <div className="landing-header">
+        <div className="landing-header h-auto">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo-wrapper">
               <Link to="/">
@@ -52,9 +52,10 @@ function ProgramList() {
               </Link>
             </div>
           </div>
-          <PageTitle pageTitle={``} gobacklink="/" />
+         <div className="mt-5">
+         <PageTitle pageTitle={`Programs`} gobacklink="/" />
+         </div>
         </div>
-
         <div className="landing-courses program-catalogue">
           <div className="courseswrapper programlist">
             <Row>
