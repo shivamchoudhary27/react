@@ -57,6 +57,9 @@
   // --- for mobile --- 
   @media only screen and (max-width: 767.98px) {
   .pricerequest-wrapper{
+    .modal-header{
+      padding-right: 4px;
+    }
     .modal-body{
      div{
       flex-direction: column-reverse;

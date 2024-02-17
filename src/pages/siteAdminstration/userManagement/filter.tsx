@@ -7,7 +7,7 @@ import { getData } from "../../../adapters/coreservices";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
-
+import "./mobileStyle.scss";
 const initialValues = {
   name: "",
   email: "",
@@ -78,11 +78,11 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper mt-2">
+      <div className="filter-wrapper mt-2 umanagement-filter">
+        <FilterButtonWrapper>
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-
-          <div className="d-flex gap-2 flex-wrap">
-            <Col className="col-auto">
+          <Row className="g-2">
+            <Col md="auto">
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
@@ -94,7 +94,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
                 value={formik.values.name}
               />
             </Col>
-            <Col className="col-auto">
+            <Col md="auto">
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -106,7 +106,7 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
                 value={formik.values.email}
               />
             </Col>
-            <Col className="col-auto">
+            <Col md="auto">
               <label htmlFor="roleId" hidden>Role</label>
               <select 
                 className="form-select" 
@@ -123,12 +123,13 @@ const Filter = ({updatefilters, toggleUploadModal, openAddUserModal, userPermiss
               </select>
             </Col>
        
-            <Col className="col-auto">
+            <Col md="auto">
               {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
-          </div>       
+          </Row>       
         </form>
+        </FilterButtonWrapper>
         <div className="d-flex gap-3 um-btn-group">
         <Button variant="primary" onClick={()=>navigate("/guestusers")}>Guest Users</Button>
           {userPermissions.role.canView && 

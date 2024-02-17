@@ -1,3 +1,13 @@
+// desktop footer style
+.site-footer{
+  background-size: cover;
+  > ul {
+    justify-content: center;
+  }
+}
+// desktop footer style END
+
+
 .md-stickyFooter {
   position: fixed;
   bottom: 0;

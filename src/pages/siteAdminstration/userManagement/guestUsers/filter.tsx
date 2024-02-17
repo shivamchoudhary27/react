@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../../utils/filtersLoading";
-
+import FilterButtonWrapper from "../../../../widgets/filterButtonWrapper";
+import "./mobileStyle.scss";
 const initialValues = {
   firstName: "",
   email: "",
@@ -58,10 +59,11 @@ const GuestFilter = ({ updatefilters, apiStatus }: any) => {
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+       <div className={`filter-wrapper mt-2 guestuser-filter`}>
+        <FilterButtonWrapper>
+          <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
-            <Col>
+            <Col md="auto">
               <label htmlFor="firstName" hidden>
                 Name
               </label>
@@ -75,7 +77,7 @@ const GuestFilter = ({ updatefilters, apiStatus }: any) => {
                 value={formik.values.firstName}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="email" hidden>
                 Email
               </label>
@@ -89,7 +91,7 @@ const GuestFilter = ({ updatefilters, apiStatus }: any) => {
                 value={formik.values.email}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               {FiltersLoadingBtn(apiStatus)}
               <Button
                 variant="outline-secondary"
@@ -101,6 +103,7 @@ const GuestFilter = ({ updatefilters, apiStatus }: any) => {
             </Col>
           </Row>
         </form>
+        </FilterButtonWrapper>
       </div>
     </React.Fragment>
   );

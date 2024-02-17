@@ -6,6 +6,7 @@ import PageTitle from "../../../../../../widgets/pageTitle";
 import MobileHeader from "../../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import "./mobileStyle.scss";
 
 type Props = {
   commonProps: {
@@ -36,7 +37,8 @@ const Mobile = (props: Props) => {
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle
+          <div className="role-title">
+          <PageTitle
               pageTitle={`Assign Roles${
                 props.commonProps.userSelectedEmail !== ""
                   ? ": " + props.commonProps.userSelectedEmail
@@ -44,6 +46,7 @@ const Mobile = (props: Props) => {
               }`}
               gobacklink="/usermanagement"
             />
+          </div>
             <Filter
               getValidateUser={props.commonProps.getValidateUser}
               currentInstitute={props.commonProps.currentInstitute}

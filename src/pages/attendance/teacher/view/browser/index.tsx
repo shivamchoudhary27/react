@@ -64,7 +64,7 @@ const Browser = (props: Props) => {
         </div>
       </div>
       <Footer />
-      <div  className="bottomLeftWave">
+      <div className="bottomLeftWave">
         <img src={BottomLeftWave} alt="bottom wave" />
       </div>
     </React.Fragment>

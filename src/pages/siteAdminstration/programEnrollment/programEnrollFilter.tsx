@@ -1,10 +1,11 @@
-import "./style.scss";
+import "./mobileStyle.scss";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import ProgramEnrollDropdown from "./programEnrollDropdown";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInstitute, apiStatus }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
@@ -55,7 +56,9 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper mt-2 input-styles">  
+      <div className="filter-wrapper mt-2 enrollment-filter" >  
+      {/* <div className="filterdropdows"> */}
+         <FilterButtonWrapper>
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col md="auto">
@@ -96,6 +99,8 @@ const ProgramEnrollFilter = ({ updateDepartment, updateinputfilters, currentInst
             </Col>
           </Row>          
         </form>
+        </FilterButtonWrapper>
+        {/* </div> */}
       </div>
     </React.Fragment>
   );
