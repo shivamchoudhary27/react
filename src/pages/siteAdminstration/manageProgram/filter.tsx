@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 const ManageFilter = ({
   apiStatus,
@@ -72,8 +73,17 @@ const ManageFilter = ({
   };
   return (
     <>
-      <div className="filter-wrapper mt-2 input-styles">
-       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+      <div className="filter-wrapper mt-2 top-filter">
+      {programPermissions.canAdd && (
+          <div className="site-button-group">
+            <Button variant="primary" onClick={handleAddProgram}>
+              Add Program
+            </Button>
+          </div>
+        )}
+        <div className="filterdropdown">
+          <FilterButtonWrapper>
+          <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
             <Col md="auto">
               <ManageDropdown
@@ -123,13 +133,10 @@ const ManageFilter = ({
             </Col>
           </Row>
         </form>
-        {programPermissions.canAdd && (
-          <div className="site-button-group">
-            <Button variant="primary" onClick={handleAddProgram}>
-              Add Program
-            </Button>
-          </div>
-        )}
+          </FilterButtonWrapper>
+        </div>
+ 
+        
       </div>
     </>
   );

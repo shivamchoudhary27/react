@@ -4,6 +4,7 @@ import { TypeFilter } from "./types/type";
 import { Button, Row, Col } from "react-bootstrap";
 import { filterConfig } from "../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
+import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 type TypeInitialValues = {
   name: string;
@@ -58,10 +59,17 @@ const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploa
 
   return (
     <React.Fragment>
-      <div className="filter-wrapper mt-2">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+      <div className="filter-wrapper mt-2 top-filter">
+      <div className="site-button-group">
+          {permissions.canAdd &&
+            <Button variant="primary" onClick={openAddUserModal}>Add Institute</Button>
+          }
+        </div>
+   <div className="filterdropdown">
+   <FilterButtonWrapper>
+   <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
-            <Col>
+            <Col md="auto">
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
@@ -73,7 +81,7 @@ const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploa
                 value={formik.values.name}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -85,17 +93,15 @@ const Filter: React.FunctionComponent<TypeFilter> = ({updatefilters, toggleUploa
                 value={formik.values.shortCode}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               {FiltersLoadingBtn(apiStatus)}
               <Button variant="outline-secondary" type="reset" onClick={formik.handleReset}>Reset</Button>
             </Col>
           </Row>          
         </form>
-        <div className="site-button-group">
-          {permissions.canAdd &&
-            <Button variant="primary" onClick={openAddUserModal}>Add Institute</Button>
-          }
-        </div>
+   </FilterButtonWrapper>
+   </div>
+       
       </div>
     </React.Fragment>
   );

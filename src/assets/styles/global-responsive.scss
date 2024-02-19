@@ -19,6 +19,9 @@
             }
         }
     }
+        td>span>.action-icons { //action icons of table
+            margin-right: 7px;
+        }
 }
 
 // `sm` applies to x-small devices (portrait phones, less than 576px)
@@ -26,7 +29,21 @@
     /**** Filter Start ****/
     .filter-wrapper {
         flex-wrap: wrap;
+        position: relative;
     }
+    .top-filter{
+        flex-direction: row;
+    }
+    .filterdropdown {
+        .filter-btn{
+            position: absolute;
+            top: 24px;
+        }    
+        .FilterProgramDropdown-wrapper{
+            margin-top: 22px;
+        }
+    } 
+        
     /**** Filter End ****/
     .mitblock {
         background-color: #ebf2fc8c;

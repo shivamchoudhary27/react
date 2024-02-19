@@ -52,7 +52,9 @@
     }
     .courseswrapper{
     flex-direction: column;
-
+      > div{
+        gap: 30px;
+      }
     }
   }
 
