@@ -46,7 +46,7 @@ const MobileFooter = (props: Props) => {
                   list.title === "Menu" 
                     ? toggleSidebar 
                     : () => {
-                        if (list.link = "#") {
+                        if (list.link === "#" && list.title === 'Performance') {
                            handleShowModal();
                         } 
                       }

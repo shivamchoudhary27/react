@@ -4,7 +4,7 @@ type Props = {
   status?: string;
   batchList?: any;
   programList?: any;
-  userCoursesData?: any;
+  coursesList?: any;
   categoryList?: any;
   departmentList?: any;
   setUserCoursesData?: any;
@@ -144,6 +144,14 @@ const FilterProgramDropdownStudent = (props: Props) => {
         filterData: {...prevFilterData.filterData, programs: filteredPrograms}
       }));
     }
+
+    else if (component === 'Status') {
+      setFilters((prevFilterData: any) => ({
+        ...prevFilterData,
+        selectedValues: {...prevFilterData.selectedValues, status: originalValue}
+      }));
+    }
+
   }
 
   return (
