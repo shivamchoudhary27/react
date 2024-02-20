@@ -46,9 +46,9 @@ const Header = ({ showRightNavs = true }: any) => {
           <RolesGlobalFilter />
           
           <Nav as="ul" className="sh-toolbar">
-            <Nav.Item as="li">
+            {/* <Nav.Item as="li">
               <img src={searchIcon} alt="Search" />
-            </Nav.Item>
+            </Nav.Item> */}
             <Nav.Item as="li" className="sh-notification">
               <NotificationOverlay userid={userid} />
             </Nav.Item>

@@ -51,9 +51,9 @@ const MobileHeader = (props: Props) => {
         <Nav as="ul" className="mb-navWrapper">
         <InstituteFilter />
         <RolesGlobalFilter />
-          <Nav.Item as="li">
+          {/* <Nav.Item as="li">
             <img src={SearchIcon} alt="Search-icon" onClick={toggleSearchBox} />
-          </Nav.Item>
+          </Nav.Item> */}
           <Nav.Item as="li" className="mb-notification">
             <NotificationOverlay userid={userid} />
           </Nav.Item>

@@ -25,9 +25,11 @@ const Curriculum = ({programId}: any) => {
     // Get category Data from API === >>
     useEffect(() => {
         const endPoint = `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${programId}`;
+        setApiStatus("started")
         axios.get(endPoint)
         .then((res: any) => { 
             if (res.data !== "" && res.status === 200) {
+              setApiStatus("finished")
                 setProgramData(res.data.items[0].categories);
             }
         })
@@ -70,14 +72,17 @@ const Curriculum = ({programId}: any) => {
           <div className="po-section curriculum-step mt-5">
             <h5 id="po-curriculum">
                 Curriculum
-                <select
-                    className="form-select"
-                    value={selectedProgram} 
-                    onChange={getCurrentValue}>
-                    {curriculumDropdown.map((el: any, index: number) => (
-                      <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
-                      ))}
-                </select>
+                {(curriculumDropdown.length > 0) &&
+                  <select
+                  className="form-select"
+                  value={selectedProgram} 
+                  onChange={getCurrentValue}>
+                  {curriculumDropdown.map((el: any, index: number) => (
+                    <option key={index} value={el.id} data-name={el.name}>{el.name}</option>
+                    ))}
+                    </select>
+                
+                  }
             </h5>
             <div className="table-responsive">
             <CurriculumTable
