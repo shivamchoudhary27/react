@@ -166,6 +166,13 @@ const MessagesView = (props: Props) => {
                   )}
               </p>
               )}
+                {item.files.length > 0 && (
+              <img
+                src={item.files[0].url}
+                alt={item.files[0].originalFileName}
+                width="150px"
+              />
+            )}
             </div>
               {item.firstName === currentUserInfo.first_name &&
                 item.lastName === currentUserInfo.last_name && (

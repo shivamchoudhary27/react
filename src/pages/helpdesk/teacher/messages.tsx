@@ -1,8 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { deleteData, putData } from "../../../adapters/microservices";
-import editIcon from "../../../assets/images/icons/edit-action.svg";
 import { formattedDateTime } from "../../../lib/timestampConverter";
 import "./styles.scss";
 import CustomButton from "../../../widgets/formInputFields/buttons";

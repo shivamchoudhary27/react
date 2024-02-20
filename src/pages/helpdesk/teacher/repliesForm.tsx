@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useRef, useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MessagesView from "./messages";
@@ -12,7 +12,6 @@ import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
-import { Value } from "sass";
 
 type Props = {
   onHide: any;
@@ -39,7 +38,6 @@ const queryFormSchema = Yup.object({
 const RepliesForm = (props: Props) => {
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState("");
-  const [commentId, setCommentId] = useState("");
 
   const handleFileButtonClick = () => {
     if (fileInputRef.current) {
@@ -60,16 +58,22 @@ const RepliesForm = (props: Props) => {
       action.setSubmitting(true);
       try {
         const commentResponse = await postData(
-          `/comment/${props.selectedTopicId}`,values);
+          `/comment/${props.selectedTopicId}`, values);
         if (commentResponse.status === 200) {
           const commentData = commentResponse.data;
           if (commentData && commentData.id) {
             const commentId = commentData.id;
-            setCommentId(commentId);
-            props.updateAddRefresh();
             action.resetForm();
             if (values.file) {
-              await postData(`/files/comment/${commentId}`, {}, values.file);
+              await postData(`/files/comment/${commentId}`, {}, values.file)
+              .then((response) => {
+                if (response.status === 200) {
+                  props.updateAddRefresh();
+                  } 
+                });
+            }
+            else {
+              props.updateAddRefresh();
             }
           }
         }
@@ -80,7 +84,6 @@ const RepliesForm = (props: Props) => {
       }
     }
   };
-
   return (
     <React.Fragment>
       <Modal
@@ -177,7 +180,7 @@ const RepliesForm = (props: Props) => {
                         name="file"
                         type="file"
                         // onChange={handleFileChange}
-                        onChange={(event) => {
+                        onChange={(event: any) => {
                           handleFileChange(event);
                           setFieldValue("file", event.currentTarget.files[0]);
                         }}

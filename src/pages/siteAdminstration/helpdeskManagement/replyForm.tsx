@@ -52,22 +52,36 @@ const RepliesForm = (props: Props) => {
     }
   };
 
-  const handleFormSubmit = (values: any, action: any) => {
+  const handleFormSubmit = async (values: any, action: any) => {
+
     if (props.selectedTopicId !== "") {
       action.setSubmitting(true);
-      postData(`/comment/${props.selectedTopicId}`, values)
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            // props.toggleRepliesModalShow(false);
-            action.setSubmitting(false);
-            props.updateAddRefresh();
+      try {
+        const commentResponse = await postData(
+          `/comment/${props.selectedTopicId}`, values);
+        if (commentResponse.status === 200) {
+          const commentData = commentResponse.data;
+          if (commentData && commentData.id) {
+            const commentId = commentData.id;
             action.resetForm();
+            if (values.file) {
+              await postData(`/files/comment/${commentId}`, {}, values.file)
+              .then((response) => {
+                if (response.status === 200) {
+                  props.updateAddRefresh();
+                  } 
+                });
+            }
+            else {
+              props.updateAddRefresh();
+            }
           }
-        })
-        .catch((err: any) => {
-          console.log(err);
-          action.setSubmitting(false);
-        });
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        action.setSubmitting(false);
+      }
     }
   };
 
@@ -135,7 +149,7 @@ const RepliesForm = (props: Props) => {
                 setSelectedFileName("");
               }}
             >
-              {({ errors, touched, isSubmitting }) => (
+              {({ errors, touched, isSubmitting, setFieldValue}) => (
                 <Form>
                   <div className="d-flex flex-column">
                     <div className="w-100">
@@ -157,13 +171,17 @@ const RepliesForm = (props: Props) => {
                       </div>
                     )}
                     <div className="modal-buttons d-flex gap-1 w-100 justify-content-center">
-                      <input
+                    <input
                         ref={fileInputRef}
                         className="d-none"
                         id="file"
                         name="file"
                         type="file"
-                        onChange={handleFileChange}
+                        // onChange={handleFileChange}
+                        onChange={(event:any) => {
+                          handleFileChange(event);
+                          setFieldValue("file", event.currentTarget.files[0]);
+                        }}
                       />
                       <button
                         type="button"
