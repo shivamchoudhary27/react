@@ -1,0 +1,19 @@
+.bg-right{
+    position: absolute;
+    right: 0;
+    z-index: -1;
+    top: 20rem;
+  }
+  .bg-left{
+    position: absolute;
+    left: 0;
+    z-index: -1;
+    bottom: 1rem;
+  }
+  .bg-bottomLeftWave{
+    display: flex;
+    height: max-content;
+    position: relative;
+    z-index: -1;
+    margin-top: auto;
+}

@@ -8,6 +8,7 @@ import { Container, Button } from "react-bootstrap";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomLeft } from "../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -72,6 +73,7 @@ const Browser = (props: Props) => {
         </div>
       </div>
       <Footer />
+      <BackgroundWaveBottomLeft/>
     </React.Fragment>
   );
 };

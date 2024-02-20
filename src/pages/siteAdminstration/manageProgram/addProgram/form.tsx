@@ -596,6 +596,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <FieldLabel
                       htmlfor="file"
                       labelText="Program Picture"
+                      className="mt-3"
                     />
                     <input
                       className="form-control"
@@ -611,7 +612,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                 </Row>
               )}
 
-              <div className="tabStep-footer">
+              <div className="tabStep-footer mt-3">
                 {isSubmitting === false && step > 0 && (
                   <button
                     type="button"
@@ -625,7 +626,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   <button
                     disabled={isSubmitting}
                     type="submit"
-                    className="btn btn-outline-secondary"
+                    className="btn btn-primary"
                   >
                     Next
                   </button>

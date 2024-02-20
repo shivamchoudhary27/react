@@ -12,6 +12,7 @@ import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import BottomWave from "../../../../../assets/images/background/bg-bottom.svg";
 import bgLeft from "../../../../../assets/images/background/bg-admin-left.svg";
+import { BackgroundWaveBottomRight, BackgroundWaveTopLeft } from "../../../../../widgets/backgroundElements";
 
 
 type Props = {
@@ -121,12 +122,14 @@ const Browser = (props: Props) => {
         </div>
       </div>
       <Footer />
-      <div className="position-relative">
+      {/* <div className="position-relative">
         <img src={bgLeft} className="left-cicle" alt="left-cicle" />
-        </div>
-      <div  className="bottom-bg">
+        </div> */}
+      {/* <div className="bottom-bg">
         <img src={BottomWave} alt="bottom wave" />
-      </div>
+      </div> */}
+      <BackgroundWaveTopLeft/>
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };

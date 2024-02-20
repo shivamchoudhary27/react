@@ -218,10 +218,10 @@ const CourseEnrollment = () => {
         </Button>{" "}
       </div>
       <div className="">
-        First Name{" "}
+      <label htmlFor="First Name" className="m-2">First Name</label>
         <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
-        <br />
-        Last Name{" "}
+        <div className="p-1"></div> 
+      <label htmlFor="Last Name" className="m-2">Last Name</label>
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
       <div className="filter-wrapper mt-2">

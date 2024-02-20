@@ -9,6 +9,7 @@ import AssignInstituteModal from "../../form";
 import HeaderTabs from "../../../../../headerTabs";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomRight } from "../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -81,6 +82,7 @@ const Browser = (props: Props) => {
         onHide={() => props.commonProps.setAddRoleModalShow(false)}
       />
       <Footer />
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };
