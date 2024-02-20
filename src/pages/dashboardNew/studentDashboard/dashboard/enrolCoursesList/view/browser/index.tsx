@@ -157,7 +157,7 @@ const Browser = (props: Props) => {
               <Col sm={6} lg={4} xl={3} key={index}>
                 <Card body className="h-100">
                   <a
-                    href={`${config.MOODLE_BASE_URL}?id=${item.idNumber}`}
+                    href={`${config.MOODLE_BASE_URL}/course/view.php?id=${item.idNumber}`}
                   >
                     <div className="mlcard-image">
                       <Card.Img src={courseImage} alt={item.shortname} />
