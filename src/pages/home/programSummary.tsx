@@ -105,20 +105,24 @@ const ProgramSummary = () => {
                     // src={el.files.length > 0 ? el.files[0].url : programImage}
                     src={
                       el.files && el.files.length > 0
-                        ? el.files[0].url
-                        : ProgramDefaultImg
+                      ? el.files[0].url
+                      : ProgramDefaultImg
                     }
                     alt={el.name}
                     fluid
                     rounded
                     className="program-summary-img"
-                  />
+                    />
                 </Col>
                 <Col md={9}>
                   <h5 className="program-title">
                     {el.name} <span></span>  {el.discipline.name}
                   </h5>
-                  <div dangerouslySetInnerHTML={{ __html: el.description }} />
+
+                  {/*------------========= description==========-------  */}
+
+                  {/* <div dangerouslySetInnerHTML={{ __html: el.description }} /> */}<br/><br />
+
                   <div className="key-information">
                     <strong>Key Information</strong>
                     <ul className="bg-white">
@@ -132,10 +136,10 @@ const ProgramSummary = () => {
                         Program Code: <strong>{el.programCode}</strong>
                       </li>
                       <li>
-                        Department: <strong>{el.departmentName}</strong>
+                        Department: <strong>{el.department.name}</strong>
                       </li>
                       <li>
-                        Program Type: <strong>{el.programTypeName}</strong>
+                        Program Type: <strong>{el.programType.name}</strong>
                       </li>
                       <li>
                         Batch Year: <strong>{el.batchYear}</strong>
