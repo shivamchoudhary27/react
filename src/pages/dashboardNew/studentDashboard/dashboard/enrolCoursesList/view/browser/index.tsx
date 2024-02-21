@@ -129,7 +129,7 @@ const Browser = (props: Props) => {
     );
     if (foundObject) {
       return foundObject.progress !== null
-        ? `${foundObject.progress}%`
+        ? `${Math.round(foundObject.progress)}%`
         : 0 + "%";
     }
     return "0%";

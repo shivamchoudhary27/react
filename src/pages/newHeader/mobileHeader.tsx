@@ -74,7 +74,7 @@ const MobileHeader = (props: Props) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
-              <Dropdown.Item href="#/action-2" onClick={logout}>
+              <Dropdown.Item href={`${config.OAUTH2_URL}/logout`}>
                 Logout
               </Dropdown.Item>
             </Dropdown.Menu>

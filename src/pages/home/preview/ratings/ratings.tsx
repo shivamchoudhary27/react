@@ -32,7 +32,6 @@ const programRatingTemplate = {
 }
 
 const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
-  console.log(programid)
   const [currentRating, setCurrentRating] = useState<number>(0);
   const [programRating, setProgramRating] = useState(programRatingTemplate);
   const [refreshRating, setRefreshRating] = useState<boolean>(false);
@@ -40,7 +39,6 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
 
   useEffect(() => {
     axios.get(`${config.JAVA_API_URL}/public/rating/${programid}`).then((res: any) => {
-      console.log(res)
       if (res.status === 200 && res.data.averageRating !== undefined) {
         setProgramRating(res.data);
         setCurrentRating(res.data.currentRating);
