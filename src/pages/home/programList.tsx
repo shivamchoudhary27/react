@@ -10,7 +10,6 @@ import CapIcon from "../../assets/images/icons/graduation-cap.svg";
 import CardIcon from "../../assets/images/icons/card.svg";
 import logo from "../../assets/images/circlelogo-blue.svg";
 import Footer from "../newFooter";
-import Header from "../newHeader";
 import BottomWave from "../../assets/images/background/bg-bottom.svg";
 import bgLeft from "../../assets/images/background/bg-admin-left.svg";
 import { Col, Container, Image, Row } from "react-bootstrap";
@@ -43,7 +42,8 @@ function ProgramList() {
 
   return (
     <>
-      <div className="landing-wrapper programlist-wrapper">
+   <div className="programcataloguepage">
+   <div className="landing-wrapper programlist-wrapper">
         <div className="landing-header h-auto">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo-wrapper">
@@ -110,7 +110,6 @@ function ProgramList() {
                 </Link>
                   </div>
                 </Col>
-                
               ))}
             </Row>
           </div>
@@ -123,6 +122,7 @@ function ProgramList() {
       <div className="bottom-bg">
         <img src={BottomWave} alt="bottom wave" />
       </div>
+   </div>
     </>
   );
 }
