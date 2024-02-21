@@ -47,7 +47,6 @@ const Home = () => {
       });
   }, [filterUpdate]);
 
-  console.log(allPrograms)
 return (
     <>
       <div className="landing-wrapper">
@@ -134,11 +133,11 @@ return (
                     </div>
                     <div>
                      <img src={BuildingIcon} alt="department" />
-                      <span> {item.departmentName}</span>
+                      <span> {item.department.name}</span>
                     </div>
                     <div>
                      <img src={CapIcon} alt="program type" />
-                      <span> {item.programTypeName}</span>
+                      <span> {item.programType.name}</span>
                     </div>
                     <div>
                      <img src={CalenderIcon} alt="batch year" />

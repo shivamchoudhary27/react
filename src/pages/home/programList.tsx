@@ -90,11 +90,11 @@ function ProgramList() {
                         </div>
                         <div>
                           <img src={BuildingIcon} alt="department" />
-                          <span> {program.departmentName}</span>
+                          <span> {program.department.name}</span>
                         </div>
                         <div>
                           <img src={CapIcon} alt="program type" />
-                          <span> {program.programTypeName}</span>
+                          <span> {program.programType.name}</span>
                         </div>
                         <div>
                           <img src={CalenderIcon} alt="batch year" />

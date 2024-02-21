@@ -17,6 +17,7 @@ import config from "../../utils/config";
 import Footer from "../newFooter";
 import "../../pages/siteAdminstration/manageProgram/style.scss";
 import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveLeft, BackgroundWaveTopLeft } from "../../widgets/backgroundElements";
+import NewLoader from "../../widgets/loader";
 // import RatingComp from "./ratings/ratings";
 import bgRight from '../../assets/images/background/bg-admin-right.svg';
 
@@ -85,6 +86,22 @@ const ProgramSummary = () => {
     );
   };
 
+  const loaderStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+  };
+
+  if(currentProgram?.data && currentProgram?.data.length === 0) {
+    return (
+      <Container style={loaderStyle}>
+        <NewLoader />
+        <br />
+      </Container>
+    );
+  }
+
   return (
     <>
       <div className="landing-wrapper programlist-wrapper h-100">
@@ -123,7 +140,7 @@ const ProgramSummary = () => {
 
                   {/*------------========= description==========-------  */}
 
-                  {/* <div dangerouslySetInnerHTML={{ __html: el.description }} /> */}<br/><br />
+                  <div dangerouslySetInnerHTML={{ __html: el.description }} />
 
                   <div className="key-information">
                     <strong>Key Information</strong>
