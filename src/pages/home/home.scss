@@ -214,13 +214,18 @@ height: 96vh;
     padding-top: 0;
     > div{
       gap: 24px 0px;
+      width: 100%;
     .course-container {
       .course-title{
         color: black;
         font-weight: 500;
       }
-      .course-image > img{
-        width: 100%;
+      .course-image 
+      {
+        border: 2px solid #0d60af;
+        > img{
+          width: 100%;
+        }
       }
     }
     }
@@ -243,3 +248,13 @@ height: 96vh;
     height:15vh;
   }
 }
+
+.bgcourse-right{
+  position: absolute;
+    right: 0;
+    z-index: -1;
+    top: 60%;
+}
+// .pg-summarybg{
+//   display: block;
+// }
