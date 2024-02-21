@@ -16,6 +16,8 @@ import BookIcon from "../../assets/images/icons/book-open.svg";
 import CapIcon from "../../assets/images/icons/graduation-cap.svg";
 import CardIcon from "../../assets/images/icons/card.svg";
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
+import LandingBgLaptop from "../../assets/images/laptop.svg";
+import LaptopBgMobile from "../../assets/images/laptop-mobile.svg";
 
 
 const Home = () => {
@@ -62,6 +64,7 @@ return (
         <Container fluid>
           <div className="landing-content">
             <img src={Butext} alt="Ballistic University" className="butext" />
+            <img src={LaptopBgMobile} alt="laptop" className="img img-fluid laptopbg-mobile" />
             <div className="login-btn mt-5">
               <a href={oAuthUrl}>
                 <Button variant="btn-lg rounded-pill px-4">Login</Button>
@@ -73,11 +76,14 @@ return (
             <div className="demovideo-wrapper">
               <iframe
                 src="https://player.vimeo.com/video/898700168"
-                title="Ballistic University Admin"
+                title="Ballistic University"
               ></iframe>
             </div>
+            <div>
+              <img src={LandingBgLaptop} alt="Laptop" className="w-100 laptopbg"/>
+            </div>
           </div>
-        </Container>
+        </Container>  
       </div>
       <div className="footer-links">
         <Container fluid>

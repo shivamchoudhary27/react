@@ -3,23 +3,30 @@
     .landing-wrapper{
      height: 80vh;
      .landing-content{
-      background: url(../../assets/images/landing-laptop.svg);
+      // background: url(../../assets/images/landing-laptop.svg);
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
+      .laptopbg{
+        display: none;
+      }
+      .laptopbg-mobile{
+        margin-top: 10rem;
+        display: block;
+      }
       .butext{
         display: block;
         width: 100%;
         margin-top: 6rem;
       }
       .login-btn {
-        top: 12%;
+        top: 16%;
         left: 0;
           }
         }
         .demovideo-wrapper { 
           top: 20vh;
-          right: 11.2vw;
+          right: 13vw;
           iframe {
           width: 54vw;
         }
