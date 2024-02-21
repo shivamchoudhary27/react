@@ -15,6 +15,7 @@ import {
   Type_DepartmentObj,
   Type_FilterUpdate,
 } from "../../type/type";
+import { BackgroundWaveBottomRight, BackgroundWaveTopLeft } from "../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -106,6 +107,7 @@ const Browser = ({ commonProps }: Props) => {
         </Container>
       </div>
       <Footer />
+    <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };

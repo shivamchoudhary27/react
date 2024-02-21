@@ -2,7 +2,6 @@ import React from "react";
 import ModalForm from "../../form";
 import { Container } from "react-bootstrap";
 import EnrolUserTable from "../../courseTable";
-import HeaderTabs from "../../../../../headerTabs";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import Errordiv from "../../../../../../widgets/alert/errordiv";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
@@ -33,7 +32,6 @@ const Mobile = (props: Props) => {
   return (
     <React.Fragment>
       <MobileHeader />
-      <HeaderTabs activeTab="siteadmin" />
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },

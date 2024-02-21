@@ -12,6 +12,7 @@ import { Type_DisciplineFilterUpdate } from "../../type/type";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import { Interface_DisciplineCustomObject } from "../../type/interface";
+import { BackgroundWaveBottomLeft } from "../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -99,6 +100,7 @@ const Browser = ({ commonProps }: Props) => {
         </Container>
       </div>
       <Footer />
+      <BackgroundWaveBottomLeft/>
     </React.Fragment>
   );
 };

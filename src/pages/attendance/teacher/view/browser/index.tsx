@@ -8,6 +8,7 @@ import { Button, Container } from "react-bootstrap";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
+import { BackgroundWaveBottomLeft } from "../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -64,9 +65,10 @@ const Browser = (props: Props) => {
         </div>
       </div>
       <Footer />
-      <div className="bottomLeftWave">
+      {/* <div className="bottomLeftWave">
         <img src={BottomLeftWave} alt="bottom wave" />
-      </div>
+      </div> */}
+      <BackgroundWaveBottomLeft/>
     </React.Fragment>
   );
 };

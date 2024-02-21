@@ -6,7 +6,7 @@ import HeaderTabs from "../../headerTabs";
 import { Container } from "react-bootstrap";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
-
+import './style.scss';
 type Props = {};
 
 const CoPoManagement = (props: Props) => {

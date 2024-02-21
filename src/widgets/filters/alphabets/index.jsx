@@ -14,11 +14,11 @@ function EnglishLetterFilter({getalphabet}) {
 
   return (
     <React.Fragment>
-      <Button variant="outline-secondary" onClick={() => handleLetterClick('')} style={{ fontWeight: selectedLetter === '' ? 'bold' : 'normal' }}>
+      <Button variant="outline-secondary" onClick={() => handleLetterClick('')} style={{ fontWeight: selectedLetter === '' ? 'bold' : 'normal', marginRight: '5px' }}>
         All
       </Button>
       {letters.map((letter) => (
-        <Button variant="outline-secondary" key={letter} onClick={() => handleLetterClick(letter)} style={{ fontWeight: selectedLetter === letter ? 'bold' : 'normal' }}>
+        <Button variant="outline-secondary" key={letter} onClick={() => handleLetterClick(letter)} style={{ fontWeight: selectedLetter === letter ? 'bold' : 'normal',marginRight: '5px' }}>
           {letter}
         </Button>
       ))}
