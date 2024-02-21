@@ -16,7 +16,9 @@ import Curriculum from "./preview/curriculum";
 import config from "../../utils/config";
 import Footer from "../newFooter";
 import "../../pages/siteAdminstration/manageProgram/style.scss";
+import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveLeft, BackgroundWaveTopLeft } from "../../widgets/backgroundElements";
 // import RatingComp from "./ratings/ratings";
+import bgRight from '../../assets/images/background/bg-admin-right.svg';
 
 interface ICurrentProgram {
   data: [];
@@ -200,17 +202,25 @@ const ProgramSummary = () => {
                 <div className="po-section instructor-step mt-5">
                   <ProgramInstructors instructorsData={instructors} />
                 </div>
-                <RatingComp programid={Programid} />
-                <div className="program-tags mt-5 bg-white">
+               <div className="mb-5">
+               <RatingComp programid={Programid} />
+               </div>
+                {/* <div className="program-tags my-5 bg-white">
                     {el.tags.length > 0
                       ? previewTagfields(el.tags)
                       : ""}
-                  </div>
+                  </div> */}
               </div>
             </div>
           ))}
         </Container>
       <Footer/>
+  <div className="pg-summarybg">
+  <div>
+      <img src={bgRight} className="bgcourse-right" alt="bg-right" />
+    </div>
+    <BackgroundWaveBottomLeft/>
+  </div>
       </div>
     </>
   );
