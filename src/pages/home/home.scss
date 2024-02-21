@@ -1,6 +1,6 @@
 .landing-wrapper {
   background-image: url("../../assets/images/landing-bg.png");
-  height: 90vh;
+  // height: 90vh;
 }
 
 .landing-header{
@@ -42,7 +42,7 @@
 .login-btn {
     position: absolute;
     top: 50%; 
-    left: 5%;
+    left: 1%;
   Button{
     background: linear-gradient(90deg, #13568A -0.02%, #076BD0 100%);
     color: white;
@@ -79,20 +79,23 @@
 }
 
 .landing-content {
-  height: 80.2vh;
+  // height: 80.2vh;
   width: 100%;
   position: relative;
-  background: url("../../assets/images/landingImage.svg");
+  // background: url("../../assets/images/landingImage.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  .laptopbg-mobile{
+    display: none;
+  }
   .demovideo-wrapper {
     position: absolute;
-    top: 23vh;
-    right: 10.8vw;
+    top: 26vh;
+    right: 5.2vw;
     iframe {
-      width: 37vw;
-      height: 42vh;
+      width: 49vw;
+      height: 48vh;
     }
   }
 }
