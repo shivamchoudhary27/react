@@ -40,6 +40,8 @@ type Props = {
   courseFilterActive: boolean;
   filterTimestampValue: string;
   filterTimestampSort: string;
+  gradeData: any;
+  badgesData:any;
 };
 
 const Browser: React.FC<Props> = (props) => {
@@ -96,6 +98,8 @@ const Browser: React.FC<Props> = (props) => {
             apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            gradeData={props.gradeData}
+            badgesData={props.badgesData}
           />
         </div>
       </div>

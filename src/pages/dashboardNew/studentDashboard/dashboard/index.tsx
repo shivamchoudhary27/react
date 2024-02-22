@@ -36,6 +36,8 @@ type Props = {
   courseFilterActive: boolean;
   filterTimestampValue: string;
   filterTimestampSort: string;
+  gradeData: any;
+  badgesData: any;
 };
 
 const StudentDashboard: React.FC<Props> = (props) => {
@@ -90,6 +92,8 @@ const StudentDashboard: React.FC<Props> = (props) => {
             setUserCoursesData={props.setUserCoursesData}
             getSortFilterValue={props.getSortFilterValue}
             getFilterSelectValue={props.getFilterSelectValue}
+            gradeData={props.gradeData}
+            badgesData={props.badgesData}
           />
         </React.Fragment>
       ) : isDesktop ? (
@@ -124,6 +128,8 @@ const StudentDashboard: React.FC<Props> = (props) => {
             setUserCoursesData={props.setUserCoursesData}
             getSortFilterValue={props.getSortFilterValue}
             getFilterSelectValue={props.getFilterSelectValue}
+            gradeData={props.gradeData}
+            badgesData={props.badgesData}
           />
         </React.Fragment>
       ) : (
@@ -158,6 +164,8 @@ const StudentDashboard: React.FC<Props> = (props) => {
             setUserCoursesData={props.setUserCoursesData}
             getSortFilterValue={props.getSortFilterValue}
             getFilterSelectValue={props.getFilterSelectValue}
+            gradeData={props.gradeData}
+            badgesData={props.badgesData}
           />
         </React.Fragment>
       )}

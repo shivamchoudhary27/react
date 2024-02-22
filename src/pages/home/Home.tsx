@@ -18,6 +18,7 @@ import CardIcon from "../../assets/images/icons/card.svg";
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import LandingBgLaptop from "../../assets/images/laptop.svg";
 import LaptopBgMobile from "../../assets/images/laptop-mobile.svg";
+import NewLoader from "../../widgets/loader";
 
 
 const Home = () => {
@@ -46,6 +47,22 @@ const Home = () => {
         console.log(err);
       });
   }, [filterUpdate]);
+
+  const loaderStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+  };
+
+  if(allPrograms && allPrograms?.length === 0) {
+    return (
+      <Container style={loaderStyle}>
+        <NewLoader />
+        <br />
+      </Container>
+    );
+  }
 
 return (
     <>

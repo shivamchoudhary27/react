@@ -24,6 +24,8 @@ type Props = {
   filterTimestampSort: string;
   courseFilterActive: boolean;
   filterTimestampValue: string;
+  gradeData: any;
+  badgesData: any;
 };
 
 const Mobile = (props: Props) => {
@@ -67,6 +69,8 @@ const Mobile = (props: Props) => {
             apiStatusCourse={props.apiStatusCourse}
             userCoursesData={props.userCoursesData}
             enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+            gradeData={props.gradeData}
+            badgesData={props.badgesData}
           />
         </div>
       </div>

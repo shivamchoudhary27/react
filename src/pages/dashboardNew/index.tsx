@@ -42,6 +42,9 @@ const DashboardNew: React.FC<Props> = (props) => {
   const next7Days = next7DaysTimestamp(timestamp);
   const next30Days = next30DaysTimestamp(timestamp);
   const overdueDays = overdueTimestamp(timestamp);
+  const [gradData, setGradeData] = useState([]);
+  const [badgesData, setBadgesData] = useState([])
+
 
 
   // === >>>
@@ -67,7 +70,43 @@ const DashboardNew: React.FC<Props> = (props) => {
   //   }
   // };
 
-  // dashboard API call to get courses data === >>>
+  // Grade API call to get grade data for student === >>>
+  useEffect(() => {
+      const query = {
+        wsfunction: "gradereport_overview_get_course_grades",
+        userid: userId,
+      };
+      getData(query)
+        .then((res) => {
+          if (res.data !== "" && res.status === 200) {
+            setGradeData(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+   [currentUserRole, userId]);
+
+// Badges API call to get badges data for student === >>>
+   useEffect(() => {
+    const query = {
+      wsfunction: "core_badges_get_user_badges",
+      userid: userId,
+    };
+    setApiStatus("started");
+    getData(query)
+      .then((res) => {
+        if (res.data !== "" && res.status === 200) {
+          setBadgesData(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
+ [currentUserRole, userId]);
+
   useEffect(() => {
     setUserCoursesData({
       departments: {},
@@ -279,6 +318,8 @@ const DashboardNew: React.FC<Props> = (props) => {
           setUserCoursesData={setUserCoursesData}
           getSortFilterValue={getSortFilterValue}
           getFilterSelectValue={getFilterSelectValue}
+          gradeData={gradData}
+          badgesData={badgesData}
         />
       ) : (
         <TeacherDashboard // teacher dashboard componment === >>>
