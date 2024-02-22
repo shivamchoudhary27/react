@@ -18,6 +18,8 @@ type Props = {
   userCoursesData: any;
   enrolCoreCoursesObj: any;
   apiStatusCourse: string
+  gradeData: any;
+  badgesData: any;
 };
 
 const EnrolCoursesList: React.FC<Props> = (props) => {
@@ -43,6 +45,8 @@ const EnrolCoursesList: React.FC<Props> = (props) => {
           apiStatusCourse={props.apiStatusCourse}
           coursesList={props.userCoursesData}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          gradeData={props.gradeData}
+          badgesData={props.badgesData}
         />
       ) : isDesktop ? (
         // <Suspense fallback={<h3>Loading...</h3>}>
@@ -50,6 +54,8 @@ const EnrolCoursesList: React.FC<Props> = (props) => {
               apiStatusCourse={props.apiStatusCourse}
               coursesList={props.userCoursesData}
               enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+              gradeData={props.gradeData}
+              badgesData={props.badgesData}
             />
         // </Suspense>
       ) : (
@@ -57,6 +63,8 @@ const EnrolCoursesList: React.FC<Props> = (props) => {
           apiStatusCourse={props.apiStatusCourse}
           coursesList={props.userCoursesData}
           enrolCoreCoursesObj={props.enrolCoreCoursesObj}
+          gradeData={props.gradeData}
+          badgesData={props.badgesData}
         />
       )}
     </React.Fragment>

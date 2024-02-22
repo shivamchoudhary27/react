@@ -17,6 +17,7 @@ import PageTitle from "../../widgets/pageTitle";
 // import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import config from "../../utils/config";
+import NewLoader from "../../widgets/loader";
 
 function ProgramList() {
   const [filterUpdate, setFilterUpdate] = useState<any>({
@@ -40,6 +41,22 @@ function ProgramList() {
       });
   }, [filterUpdate]);
 
+  const loaderStyle = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100vh",
+  };
+
+  if(allPrograms && allPrograms?.length === 0) {
+    return (
+      <Container style={loaderStyle}>
+        <NewLoader />
+        <br />
+      </Container>
+    );
+  }
+  
   return (
     <>
    <div className="programcataloguepage">

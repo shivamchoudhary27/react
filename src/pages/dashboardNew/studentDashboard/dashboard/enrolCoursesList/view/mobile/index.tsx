@@ -13,7 +13,9 @@ import config from "../../../../../../../utils/config";
 type Props = {
   coursesList: any;
   enrolCoreCoursesObj: any;
-  apiStatusCourse: string
+  apiStatusCourse: string;
+  gradeData:any;
+  badgesData:any;
 };
 
 const courseStatusOptions = [
@@ -25,7 +27,7 @@ const courseStatusOptions = [
 const Mobile: React.FC<Props> = (props) => {
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
-      (item: any) => item.idNumber === id
+      (item: any) => item.id === id
     );
     if (foundObject) {
       return foundObject.progress !== null
@@ -141,6 +143,30 @@ const Mobile: React.FC<Props> = (props) => {
   const toggleFilterDropdown = () => {
     setShowFilterDropdown(!showFilterDropdown);
   };
+
+  const studentGradeData= (courseID:number) => {
+    const courseGrade= props.gradeData.grades.find((item: any)=>{
+       return item.courseid=== courseID
+  })
+  if (courseGrade) {
+    return courseGrade.rawgrade !== null
+    ? `${Math.round(courseGrade.rawgrade)}%`
+    : 0 + "%";
+}
+  return "0%";
+  }
+  const studentBadgeData= (courseID:number) => {
+    const courseBadge= props.badgesData.badges.filter((item: any)=>{
+      return item.courseid=== courseID
+  })
+  if (courseBadge) {
+    return courseBadge.length > 0
+      ? courseBadge.length
+      : 0;
+  }
+  return 0;
+  }
+
   return (
     <React.Fragment>
       <Container fluid>
@@ -176,12 +202,12 @@ const Mobile: React.FC<Props> = (props) => {
                     <div>
                       <img src={gradeIcon} alt="Grade" className="small-icon" />
                       Grade:
-                      <span>30%</span>
+                       <span>{studentGradeData(item.idNumber)}</span>
                     </div>
                     <div>
                       <img src={badgesIcon} alt="Badges" />
                       Badges:
-                      <span>1</span>
+                      <span>{studentBadgeData(item.idNumber)}</span>
                     </div>
                   </div>
                 </Card>
