@@ -42,7 +42,7 @@
 .login-btn {
     position: absolute;
     top: 50%; 
-    left: 1%;
+    // left: 1%;
   Button{
     background: linear-gradient(90deg, #13568A -0.02%, #076BD0 100%);
     color: white;
@@ -86,6 +86,10 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  .bgbtn-wrapper{
+    max-width: 98%;
+    margin: 0 auto;
+  }
   .laptopbg-mobile{
     display: none;
   }
@@ -102,6 +106,24 @@
 .butext{
   display: none;
 }
+
+.landing-page{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  .landing-wrapper{
+    flex: 1;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .footer-links{
+    margin-top: auto;
+  }
+}
+
+
 
 // -----Couses Section-------- 
 .programlist-wrapper{
@@ -135,6 +157,11 @@ height: 96vh;
     display: flex;
     gap: 2rem;
     height: max-content;
+    flex: 1;
+    justify-content: space-around;
+    .landingprograms{
+      flex: 1;
+    }
     .course-container{
       // display: flex;
     .course-image{
@@ -143,6 +170,7 @@ height: 96vh;
       overflow: hidden;
       border-radius: 1rem;
       position: relative;
+      text-align: center;
       > img{
         // border-radius: 1rem;
         height: -webkit-fill-available;
@@ -151,6 +179,7 @@ height: 96vh;
       }
       .course-keypoints{
         position: absolute;
+        gap: 0px 20px;
         top: 0;
         background: #000000bf;
         width: 100%;
@@ -161,7 +190,7 @@ height: 96vh;
         grid-template-columns: repeat(2, 1fr);
         // gap: 10px;
         // padding: 10px;
-        font-size: 18px;
+        font-size: 14px;
         padding: 28px;
         justify-items: start;
         opacity: 0;
@@ -178,6 +207,7 @@ height: 96vh;
         .course-keypoints {
           opacity: 1;
           transform: translateY(0);
+        
         }
       }
     }

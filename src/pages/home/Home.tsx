@@ -16,9 +16,9 @@ import BookIcon from "../../assets/images/icons/book-open.svg";
 import CapIcon from "../../assets/images/icons/graduation-cap.svg";
 import CardIcon from "../../assets/images/icons/card.svg";
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
-import LandingBgLaptop from "../../assets/images/laptop.svg";
-import LaptopBgMobile from "../../assets/images/laptop-mobile.svg";
 import NewLoader from "../../widgets/loader";
+import { ReactComponent as LandingBgLaptop } from "../../assets/images/laptop-video.svg";
+import {ReactComponent as LaptopBgMobile} from "../../assets/images/laptop-mobile.svg";
 
 
 const Home = () => {
@@ -66,8 +66,8 @@ const Home = () => {
 
 return (
     <>
-      <div className="landing-wrapper">
-        <div className="landing-header">
+     <div className="landing-page">
+     <div className="landing-header position-absolute ">
           <div className="d-flex justify-content-between align-items-center">
             <div className="logo-wrapper">
               <img src={logo} alt="logo" className="img img-fluid" />
@@ -76,12 +76,16 @@ return (
                   <img src={SearchIcon} alt="logo" className="img img-fluid" />
                 </button> */}
           </div>
-        </div>
+      
+      </div>
+     <div className="landing-wrapper">
+       
         <Container fluid>
-          <div className="landing-content">
+          <div className="landing-content mt-3">
             <img src={Butext} alt="Ballistic University" className="butext" />
-            <img src={LaptopBgMobile} alt="laptop" className="img img-fluid laptopbg-mobile" />
-            <div className="login-btn mt-5">
+            <LaptopBgMobile className="w-100 laptopbg-mobile"/>
+          <div className="bgbtn-wrapper">
+          <div className="login-btn mt-5">
               <a href={oAuthUrl}>
                 <Button variant="btn-lg rounded-pill px-4">Login</Button>
               </a>
@@ -89,14 +93,9 @@ return (
                 <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
               </Link>
             </div>
-            <div className="demovideo-wrapper">
-              <iframe
-                src="https://player.vimeo.com/video/898700168"
-                title="Ballistic University"
-              ></iframe>
-            </div>
+              <LandingBgLaptop className="w-100 laptopbg"/>
+          </div>
             <div>
-              <img src={LandingBgLaptop} alt="Laptop" className="w-100 laptopbg"/>
             </div>
           </div>
         </Container>  
@@ -116,6 +115,7 @@ return (
           </Row>
         </Container>
       </div>
+     </div>
       <div className="landing-courses d-flex">
         <div className="title-wrapper">
           <h4>Programs</h4>
@@ -124,7 +124,7 @@ return (
           </div>
         </div>
         <div className="courseswrapper">
-          <Row>
+          <Row className="landingprograms">
           {allPrograms.length > 0 &&
             allPrograms.map((item: any, index: number) => (
               <Col key={item.id} xl={4} lg={4} md={6} sm={12}>

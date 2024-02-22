@@ -1,12 +1,12 @@
 
 @media only screen and (max-width: 767.98px) {
     .landing-wrapper{
-     height: 80vh;
+    //  height: 80vh;
      .landing-content{
       // background: url(../../assets/images/landing-laptop.svg);
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
+      // background-size: contain;
+      // background-repeat: no-repeat;
+      // background-position: center;
       .laptopbg{
         display: none;
       }
@@ -31,6 +31,9 @@
           width: 54vw;
         }
       }
+    }
+    .landing-page .landing-wrapper {
+      justify-content: center;
     }
      .landing-header {
          padding: 6px;

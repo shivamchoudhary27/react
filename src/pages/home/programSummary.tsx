@@ -120,6 +120,7 @@ const ProgramSummary = () => {
             <div className="program-overview-container" key={el.id}>
               <Row>
                 <Col md={3}>
+                  <div className="text-center">
                   <Image
                     // src={el.files.length > 0 ? el.files[0].url : programImage}
                     src={
@@ -132,6 +133,7 @@ const ProgramSummary = () => {
                     rounded
                     className="program-summary-img"
                     />
+                  </div>
                 </Col>
                 <Col md={9}>
                   <h5 className="program-title">
