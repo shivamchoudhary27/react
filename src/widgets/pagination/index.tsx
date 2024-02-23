@@ -6,12 +6,14 @@ interface IBuildPagination {
   totalpages: number;
   activepage: number;
   getrequestedpage: (params: number) => void;
+  service ?: string;
 }
 
 const BuildPagination: React.FunctionComponent<IBuildPagination> = ({
   totalpages,
   activepage,
   getrequestedpage,
+  service
 }: IBuildPagination) => {
   const [activePage, setActivePage] = useState<number>(activepage);
 
@@ -20,6 +22,7 @@ const BuildPagination: React.FunctionComponent<IBuildPagination> = ({
     setActivePage(pageNumber);
   };
 
+
   const changePage = (newrequest: number) => {
     setActivePage(newrequest);
     getrequestedpage(newrequest);
@@ -27,8 +30,10 @@ const BuildPagination: React.FunctionComponent<IBuildPagination> = ({
 
   const renderPageNumbers = () => {
     const pageNumbers: any[] = [];
-    const maxVisiblePages: number = 10;
+    // const maxVisiblePages: number = service != "core" ? 10 : 2;
+    const maxVisiblePages: number = service != "core" ? 10 : 200;
     const minVisiblePages: number = 5;
+
 
     if (totalpages <= maxVisiblePages) {
       for (let i = 0; i < totalpages; i++) {

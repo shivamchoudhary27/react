@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { pagination } from "../../utils/pagination";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -20,6 +20,8 @@ import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveLeft
 import NewLoader from "../../widgets/loader";
 // import RatingComp from "./ratings/ratings";
 import bgRight from '../../assets/images/background/bg-admin-right.svg';
+import Header from "../newHeader";
+import UserContext from "../../features/context/user/user";
 
 interface ICurrentProgram {
   data: [];
@@ -39,6 +41,12 @@ const ProgramSummary = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+
+  const redirectUri = config.REDIRECT_URI;
+  const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
+
+  const userCtx = useContext(UserContext);
+  const isLoggedIn = userCtx.isLoggedIn;
 
   useEffect(() => {
     axios
@@ -106,19 +114,29 @@ const ProgramSummary = () => {
     <>
       <div className="landing-wrapper programlist-wrapper h-100">
         <div className="landing-header program-summary">
-          <div className="d-flex justify-content-between align-items-center">
-          <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center">
-              <Link to="/">
-                <img src={logo} alt="logo" className="img img-fluid" />
-              </Link>
-              <div className="login-btn programheader-login">
-                <Button variant="btn-lg rounded-pill px-4">Login</Button>
-              <Link to="/signupnew">
-                <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
-              </Link>
-            </div>
-            </div>
-          </div>
+
+
+          {isLoggedIn ? (
+  <Header />
+) : (
+  <div className="d-flex justify-content-between align-items-center">
+    <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center">
+      <Link to="/">
+        <img src={logo} alt="logo" className="img img-fluid" />
+      </Link>
+      <div className="login-btn programheader-login">
+        <a href={oAuthUrl}>
+          <Button variant="btn-lg rounded-pill px-4">Login</Button>
+        </a>
+        <Link to="/signupnew">
+          <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
+        </Link>
+      </div>
+    </div>
+  </div>
+)}
+
+
         </div>
         <Container fluid>
           <PageTitle pageTitle={``} gobacklink="/programlist" />
