@@ -7,11 +7,13 @@ import "./mobileStyle.scss";
 import NotificationOverlay from "../../widgets/notifications";
 import config from "../../utils/config";
 import UserContext from "../../features/context/user/user";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileDefaultImage from "../../assets/images/profile.png";
 import RolesGlobalFilter from "../siteAdminstration/roles/rolesGlobalFilter";
 import InstituteFilter from "../siteAdminstration/institute/instituteGlobalFilter";
+import catalogueIcon from "../../assets/images/icons/catalogue.svg";
+
 
 if (config.WSTOKEN === "") {
   config.WSTOKEN = localStorage.getItem("token");
@@ -49,15 +51,22 @@ const MobileHeader = (props: Props) => {
           <img src={Logo} alt="Ballistic Learning Pvt Ltd" />
         </Link>
         <Nav as="ul" className="mb-navWrapper">
-        <InstituteFilter />
+        <Nav.Item as="li">
+                <NavLink to="/programlist" className="programlist">
+                  <img src={catalogueIcon} alt="Catalog" />
+                </NavLink>
+            </Nav.Item>
+      <div className="institute-filter">
+      <InstituteFilter />
+      </div>
         <RolesGlobalFilter />
           {/* <Nav.Item as="li">
             <img src={SearchIcon} alt="Search-icon" onClick={toggleSearchBox} />
           </Nav.Item> */}
+            
           <Nav.Item as="li" className="mb-notification">
             <NotificationOverlay userid={userid} />
           </Nav.Item>
-
           <Dropdown>
             <Dropdown.Toggle
               variant="link"
