@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { pagination } from "../../utils/pagination";
@@ -18,18 +18,42 @@ import PageTitle from "../../widgets/pageTitle";
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import config from "../../utils/config";
 import NewLoader from "../../widgets/loader";
+import UserContext from "../../features/context/user/user";
+import Header from "../newHeader";
+import BuildPagination from "../../widgets/pagination";
 
 function ProgramList() {
+  const [allPrograms, setAllPrograms] = useState([]);
+  
+  
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const [allPrograms, setAllPrograms] = useState([]);
+
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
+  const totalPages  = Math.ceil(allPrograms.length / 8)
+  const currentPosts = allPrograms.slice( filterUpdate.pageNumber * 8, filterUpdate.pageNumber * 8 + 8 );
+  
+
+  // ------------------login page--------------
+
+  const redirectUri = config.REDIRECT_URI;
+  const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
+
+  const userCtx = useContext(UserContext);
+  const isLoggedIn = userCtx.isLoggedIn;
+
+
+
 
   useEffect(() => {
     axios
       .get(
-        `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}`
+        `${config.JAVA_API_URL}/public/programs?pageNumber=${0}&pageSize=${filterUpdate.pageSize}`
       )
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
@@ -62,19 +86,27 @@ function ProgramList() {
    <div className="programcataloguepage">
    <div className="landing-wrapper programlist-wrapper">
         <div className="landing-header h-auto">
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="logo-wrapper">
-              <Link to="/">
-                <img src={logo} alt="logo" className="img img-fluid" />
-              </Link>
-              <div className="login-btn programheader-login">
-                <Button variant="btn-lg rounded-pill px-4">Login</Button>
-              <Link to="/signupnew">
-                <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
-              </Link>
-            </div>
-            </div>
-          </div>
+
+        {isLoggedIn ? (
+  <Header />
+) : (
+  <div className="d-flex justify-content-between align-items-center">
+    <div className="logo-wrapper">
+      <Link to="/">
+        <img src={logo} alt="logo" className="img img-fluid" />
+      </Link>
+      <div className="login-btn programheader-login">
+        <a href={oAuthUrl}>
+          <Button variant="btn-lg rounded-pill px-4">Login</Button>
+        </a>
+        <Link to="/signupnew">
+          <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
+        </Link>
+      </div>
+    </div>
+  </div>
+)}
+
          <div className="mt-5">
          <PageTitle pageTitle={`Programs`} gobacklink="/" />
          </div>
@@ -82,7 +114,7 @@ function ProgramList() {
         <div className="landing-courses program-catalogue">
           <div className="courseswrapper programlist">
             <Row>
-              {allPrograms.map((program: any) => (
+              {currentPosts.map((program: any) => (
                   <Col key={program.id} xl={3} lg={4} sm={6}>
                 <div className="course-container">
                 <Link
@@ -137,7 +169,15 @@ function ProgramList() {
             </Row>
           </div>
         </div>
-      </div>
+
+        </div>
+        <BuildPagination
+              totalpages={totalPages}
+              getrequestedpage={newPageRequest}
+              activepage={filterUpdate.pageNumber}
+              service ="core"
+            />
+
       <Footer />
       <div className="position-relative">
         <img src={bgLeft} className="left-cicle" alt="left-cicle" />
