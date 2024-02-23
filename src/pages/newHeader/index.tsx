@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
+import {Dropdown,Tooltip, OverlayTrigger} from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import NotificationOverlay from "../../widgets/notifications";
 import config from "../../utils/config";
 import UserContext from "../../features/context/user/user";
 import "./style.scss";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import searchIcon from "../../assets/images/icons/search-icon.svg";
+import catalogueIcon from "../../assets/images/icons/catalogue.svg";
 import InstituteFilter from "../siteAdminstration/institute/instituteGlobalFilter";
 import RolesGlobalFilter from "../siteAdminstration/roles/rolesGlobalFilter";
 import { useSelector } from "react-redux";
@@ -41,11 +42,19 @@ const Header = ({ showRightNavs = true }: any) => {
       {showRightNavs !== false && (
         <React.Fragment>
           
-          <InstituteFilter />
-
-          <RolesGlobalFilter />
-          
           <Nav as="ul" className="sh-toolbar">
+              {/* <OverlayTrigger
+                placement="bottom" 
+                overlay={<Tooltip id="tooltip-program" style={{ backgroundColor: 'white', color: 'black' }}>Program</Tooltip>}
+              > */}
+            <Nav.Item as="li">
+                <NavLink to="/programlist" className="programlist">
+                  <img src={catalogueIcon} alt="Catalog" />
+                </NavLink>
+            </Nav.Item>
+              {/* </OverlayTrigger> */}
+          <InstituteFilter />
+          <RolesGlobalFilter />
             {/* <Nav.Item as="li">
               <img src={searchIcon} alt="Search" />
             </Nav.Item> */}

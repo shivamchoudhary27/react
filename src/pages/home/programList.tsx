@@ -12,7 +12,7 @@ import logo from "../../assets/images/circlelogo-blue.svg";
 import Footer from "../newFooter";
 import BottomWave from "../../assets/images/background/bg-bottom.svg";
 import bgLeft from "../../assets/images/background/bg-admin-left.svg";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import PageTitle from "../../widgets/pageTitle";
 // import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
@@ -67,6 +67,12 @@ function ProgramList() {
               <Link to="/">
                 <img src={logo} alt="logo" className="img img-fluid" />
               </Link>
+              <div className="login-btn programheader-login">
+                <Button variant="btn-lg rounded-pill px-4">Login</Button>
+              <Link to="/signupnew">
+                <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
+              </Link>
+            </div>
             </div>
           </div>
          <div className="mt-5">

@@ -4,7 +4,7 @@ import { pagination } from "../../utils/pagination";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/circlelogo-blue.svg";
-import { Container, Col, Row, Image } from "react-bootstrap";
+import { Container, Col, Row, Image, Button } from "react-bootstrap";
 import ProgramInstructors from "./preview/instructors";
 import PageTitle from "../../widgets/pageTitle";
 import programImage from "../../assets/images/course-default.jpg";
@@ -107,10 +107,16 @@ const ProgramSummary = () => {
       <div className="landing-wrapper programlist-wrapper h-100">
         <div className="landing-header program-summary">
           <div className="d-flex justify-content-between align-items-center">
-            <div className="logo-wrapper">
+          <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center">
               <Link to="/">
                 <img src={logo} alt="logo" className="img img-fluid" />
               </Link>
+              <div className="login-btn programheader-login">
+                <Button variant="btn-lg rounded-pill px-4">Login</Button>
+              <Link to="/signupnew">
+                <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
+              </Link>
+            </div>
             </div>
           </div>
         </div>
