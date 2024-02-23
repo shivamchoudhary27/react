@@ -79,7 +79,7 @@ const DashboardNew: React.FC<Props> = (props) => {
       getData(query)
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
-            setGradeData(res.data);
+            setGradeData(res.data.grades);
           }
         })
         .catch((err) => {
@@ -98,7 +98,7 @@ const DashboardNew: React.FC<Props> = (props) => {
     getData(query)
       .then((res) => {
         if (res.data !== "" && res.status === 200) {
-          setBadgesData(res.data);
+          setBadgesData(res.data.badges);
         }
       })
       .catch((err) => {
