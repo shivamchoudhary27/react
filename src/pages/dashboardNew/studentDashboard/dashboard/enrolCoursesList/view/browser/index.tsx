@@ -138,18 +138,21 @@ const Browser = (props: Props) => {
   };
 
   const studentGradeData= (courseID:number) => {
-    const courseGrade= props.gradeData.grades.find((item: any)=>{
+    if(props.gradeData.length >0) {
+    const courseGrade= props.gradeData.find((item: any)=>{
        return item.courseid=== courseID
   })
   if (courseGrade) {
     return courseGrade.rawgrade !== null
     ? `${Math.round(courseGrade.rawgrade)}%`
     : 0 + "%";
+  }
 }
   return "0%";
   }
   const studentBadgeData= (courseID:number) => {
-    const courseBadge= props.badgesData.badges.filter((item: any)=>{
+    if(props.badgesData.length > 0) {
+    const courseBadge= props.badgesData.filter((item: any)=>{
       return item.courseid=== courseID
   })
   if (courseBadge) {
@@ -157,6 +160,7 @@ const Browser = (props: Props) => {
       ? courseBadge.length
       : 0;
   }
+}
   return 0;
   }
 
