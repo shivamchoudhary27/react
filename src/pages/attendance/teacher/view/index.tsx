@@ -12,6 +12,9 @@ type Props = {
   attendancedata: any
   attTableHeader: any
   courseDetails: any
+  newPageRequest: any;
+  filterUpdate: any;
+  totalPages: any;
 };
 
 const View = (props: Props) => {
@@ -24,6 +27,9 @@ const View = (props: Props) => {
     attendancedata: props.attendancedata,
     attTableHeader: props.attTableHeader,
     courseDetails: props.courseDetails,
+    newPageRequest: props.newPageRequest,
+    totalPages: props.totalPages,
+    filterUpdate: props.filterUpdate,
   };
   return (
     <React.Fragment>

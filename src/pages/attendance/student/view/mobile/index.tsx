@@ -6,6 +6,7 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BuildPagination from "../../../../../widgets/pagination";
 
 type Props = {
   commonProps: {
@@ -13,9 +14,12 @@ type Props = {
     currentUserInfo: any;
     attendancedata: any[];
     apiResponseData: any;
-    apiStatus: string
-    allAttendanceSessionRecords: any
-    totalPointAndPercentage: any
+    apiStatus: string;
+    allAttendanceSessionRecords: any;
+    totalPointAndPercentage: any;
+    totalPages: any;
+    newPageRequest: any;
+    filterUpdate: any;
   };
 };
 
@@ -45,11 +49,11 @@ const Mobile = (props: Props) => {
               currentUserInfo={props.commonProps.currentUserInfo}
               apiStatus={props.commonProps.apiStatus}
             />
-            {/* <BuildPagination
-              totalpages={props.commonProps.timeslotListPage}
-              activepage={props.commonProps.filterUpdate}
+           <BuildPagination
+              totalpages={props.commonProps.totalPages}
               getrequestedpage={props.commonProps.newPageRequest}
-            /> */}
+              activepage={props.commonProps.filterUpdate.pageNumber}
+            />
           </Container>
         </div>
       </div>

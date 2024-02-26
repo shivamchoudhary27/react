@@ -103,16 +103,30 @@ const TeacherAttendance = (props: Props) => {
     setCourseId(courseId);
   };
 
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
+  const totalPages = Math.ceil(attendancedata.userdata.length / filterUpdate.pageSize);
+
+  const currentPosts = attendancedata.userdata.slice(
+    filterUpdate.pageNumber * filterUpdate.pageSize,
+    filterUpdate.pageNumber * filterUpdate.pageSize + filterUpdate.pageSize
+  );
+
   return (
     <View
       apiStatus={apiStatus}
       currentUserInfo={currentUserInfo}
       apiResponseData={apiResponseData}
       attTableHeader={attTableHeader}
-      attendancedata={attendancedata.userdata}
+      attendancedata={currentPosts}
       courseDetails={attendancedata.coursedata}
       newAttendancePacket={newAttendancePacket}
       getCourseId={getCourseId}
+      newPageRequest={newPageRequest}
+      totalPages={totalPages}
+      filterUpdate={filterUpdate}
     />
   );
 };

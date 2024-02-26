@@ -4,6 +4,7 @@ import { getData } from "../../../adapters";
 import { useEffect, useState, useContext } from "react";
 import UserContext from "../../../features/context/user/user";
 import { getData as getCourses } from "../../../adapters/microservices";
+import { pagination } from "../../../utils/pagination";
 
 type Props = {};
 
@@ -16,6 +17,12 @@ const StudentAttendance = (props: Props) => {
     courses: [],
     programs: [],
   });
+
+  const [filterUpdate, setFilterUpdate] = useState<any>({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE,
+  });
+
   const [attendancedata, setAttendanceData] = useState([]);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [allAttendanceSessionRecords, setAllAttendanceSessionRecords] =
@@ -104,15 +111,29 @@ const StudentAttendance = (props: Props) => {
     setCourseId(courseId);
   };
 
+  const newPageRequest = (pageRequest: number) => {
+    setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
+  };
+
+  const totalPages = Math.ceil(attendancedata.length / filterUpdate.pageSize);
+
+  const currentPosts = attendancedata.slice(
+    filterUpdate.pageNumber * filterUpdate.pageSize,
+    filterUpdate.pageNumber * filterUpdate.pageSize + filterUpdate.pageSize
+  );
+
   return (
     <View
       apiStatus={apiStatus}
-      attendancedata={attendancedata}
+      attendancedata={currentPosts}
       currentUserInfo={currentUserInfo}
       apiResponseData={apiResponseData}
       getCourseId={getCourseId}
       allAttendanceSessionRecords={allAttendanceSessionRecords}
       totalPointAndPercentage={totalPointAndPercentage}
+      newPageRequest={newPageRequest}
+      totalPages={totalPages}
+      filterUpdate={filterUpdate}
     />
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import "../../style.scss";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";
 import { Container } from "react-bootstrap";
@@ -7,17 +8,20 @@ import StudentAttendanceTable from "../../table";
 import StudentAttendanceFilter from "../../filter";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BuildPagination from "../../../../../widgets/pagination";
 import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
-import "../../style.scss";
 type Props = {
   commonProps: {
     getCourseId: any;
     currentUserInfo: any;
     attendancedata: any[];
     apiResponseData: any;
-    apiStatus: string
-    allAttendanceSessionRecords: any
-    totalPointAndPercentage: any
+    apiStatus: string;
+    allAttendanceSessionRecords: any;
+    totalPointAndPercentage: any;
+    filterUpdate: any;
+    totalPages: any;
+    newPageRequest: any;
   };
 };
 
@@ -48,11 +52,11 @@ const Browser = (props: Props) => {
               currentUserInfo={props.commonProps.currentUserInfo}
               apiStatus={props.commonProps.apiStatus}
             />
-            {/* <BuildPagination
-              totalpages={props.commonProps.timeslotListPage}
-              activepage={props.commonProps.filterUpdate}
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
               getrequestedpage={props.commonProps.newPageRequest}
-            /> */}
+              activepage={props.commonProps.filterUpdate.pageNumber}
+            />
           </Container>
         </div>
       </div>
