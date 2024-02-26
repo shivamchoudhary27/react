@@ -9,9 +9,13 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
 import { BackgroundWaveBottomLeft } from "../../../../../widgets/backgroundElements";
+import BuildPagination from "../../../../../widgets/pagination";
 
 type Props = {
   commonProps: {
+    newPageRequest: any;
+    totalPages: any;
+    filterUpdate: any;
     getCourseId: any;
     currentUserInfo: any;
     newAttendancePacket: any[];
@@ -56,11 +60,11 @@ const Browser = (props: Props) => {
               attendancedata={props.commonProps.attendancedata}
               attTableHeader={props.commonProps.attTableHeader}
             />
-            {/* <BuildPagination
-              totalpages={props.commonProps.timeslotListPage}
-              activepage={props.commonProps.filterUpdate}
+            <BuildPagination
+              totalpages={props.commonProps.totalPages}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
-            /> */}
+            />
           </Container>
         </div>
       </div>

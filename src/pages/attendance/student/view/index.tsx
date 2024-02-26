@@ -4,13 +4,16 @@ import Browser from "./browser";
 import { isMobile, isBrowser } from "react-device-detect";
 
 type Props = {
+  totalPages: any;
+  newPageRequest: any;
+  filterUpdate: any;
   getCourseId: any;
   currentUserInfo: any;
   attendancedata: any[];
   apiResponseData: any;
   apiStatus: string;
-  allAttendanceSessionRecords: any
-  totalPointAndPercentage: any
+  allAttendanceSessionRecords: any;
+  totalPointAndPercentage: any;
 };
 
 const View = (props: Props) => {
@@ -21,7 +24,10 @@ const View = (props: Props) => {
     apiResponseData: props.apiResponseData,
     apiStatus: props.apiStatus,
     allAttendanceSessionRecords: props.allAttendanceSessionRecords,
-    totalPointAndPercentage: props.totalPointAndPercentage
+    totalPointAndPercentage: props.totalPointAndPercentage,
+    totalPages: props.totalPages,
+    newPageRequest: props.newPageRequest,
+    filterUpdate: props.filterUpdate,
   };
   return (
     <React.Fragment>
