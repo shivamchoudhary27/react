@@ -172,7 +172,7 @@ function ProgramList() {
                   <Row>
                     {currentPosts.map((program: any) => (
                       <Col key={program.id} xl={4} lg={4} sm={6}>
-                        <div className="course-container">
+                        <div className="course-container mb-4">
                           <Link
                             key={program.id}
                             to={{ pathname: `/programsummary/${program.id}` }}
