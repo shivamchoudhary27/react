@@ -12,7 +12,7 @@ import logo from "../../assets/images/circlelogo-blue.svg";
 import Footer from "../newFooter";
 import BottomWave from "../../assets/images/background/bg-bottom.svg";
 import bgLeft from "../../assets/images/background/bg-admin-left.svg";
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Row, Form  } from "react-bootstrap";
 import PageTitle from "../../widgets/pageTitle";
 // import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import ProgramDefaultImg from "../../assets/images/course-default.jpg"
@@ -85,10 +85,11 @@ function ProgramList() {
     <>
    <div className="programcataloguepage">
    <div className="landing-wrapper programlist-wrapper">
-        <div className="landing-header h-auto">
-
+   <div className={`landing-header h-auto ${isLoggedIn ? 'p-0' : ''}`}>
         {isLoggedIn ? (
-  <Header />
+<div className="bg-white">
+<Header />
+</div>
 ) : (
   <div className="d-flex justify-content-between align-items-center">
     <div className="logo-wrapper">
@@ -106,68 +107,125 @@ function ProgramList() {
     </div>
   </div>
 )}
-
-         <div className="mt-5">
+         <div className={`${isLoggedIn ? 'my-4 px-5' : 'mt-5'}`}>
          <PageTitle pageTitle={`Programs`} gobacklink="/" />
          </div>
         </div>
         <div className="landing-courses program-catalogue">
-          <div className="courseswrapper programlist">
-            <Row>
-              {currentPosts.map((program: any) => (
-                  <Col key={program.id} xl={3} lg={4} sm={6}>
-                <div className="course-container">
-                <Link
-                  key={program.id}
-                  to={{ pathname: `/programsummary/${program.id}` }}
-                >
-                    <div className="course-image">
-                      <Image
-                        src={
-                          program.files && program.files.length > 0
-                            ? program.files[0].url
-                            : ProgramDefaultImg
-                        }
-                        alt={program.name}
-                        fluid
-                        rounded
-                      />
-                      <div className="course-keypoints">
-                        <div>
-                          <img src={ClockIcon} alt="duration" />
-                          <span>
-                            {program.durationValue} {program.durationUnit}
-                          </span>
-                        </div>
-                        <div>
-                          <img src={CardIcon} alt="program code" />
-                          <span>{program.programCode}</span>
-                        </div>
-                        <div>
-                          <img src={BuildingIcon} alt="department" />
-                          <span> {program.department.name}</span>
-                        </div>
-                        <div>
-                          <img src={CapIcon} alt="program type" />
-                          <span> {program.programType.name}</span>
-                        </div>
-                        <div>
-                          <img src={CalenderIcon} alt="batch year" />
-                          <span> {program.batchYear}</span>
-                        </div>
-                        <div>
-                          <img src={BookIcon} alt="study mode" />
-                          <span>{program.modeOfStudy}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="course-title">{program.name}</div>
-                </Link>
+            <div className="courseswrapper programlist">
+              <Row>
+                {/* Filters Section */}
+                <Col md={3}>
+                  <div className="programlist-filters">
+                    <h4>List By Filters</h4>
+                    <hr />
+                    {/* Institute Filter */}
+                    <Form.Group controlId="formGridInstitute" className="mb-3">
+                      <Form.Label>Institute</Form.Label>
+                      <Form.Control as="select" defaultValue="Choose...">
+                        <option>Choose1...</option>
+                        <option>Choose2...</option>
+                        <option>Choose3...</option>
+                      </Form.Control>
+                    </Form.Group>
+
+                    {/* Program Type Filter */}
+                    <Form.Group className="mb-3">
+                      <Form.Label>Program Type</Form.Label>
+                      <Form.Check type="checkbox" label="Certificate & Diploma" />
+                      <Form.Check type="checkbox" label="Under Graduate" />
+                      <Form.Check type="checkbox" label="Post Graduate" />
+                      <Form.Check type="checkbox" label="Ph.D." />
+                    </Form.Group>
+
+                    {/* Department Filter */}
+                    <Form.Group className="mb-3">
+                      <Form.Label>Department</Form.Label>
+                      <Form.Check type="checkbox" label="Management" />
+                      <Form.Check type="checkbox" label="Engineering" />
+                      <Form.Check type="checkbox" label="Education" />
+                    </Form.Group>
+
+                    {/* Discipline Filter */}
+                    <Form.Group controlId="formGridDiscipline" className="mb-3">
+                      <Form.Label>Discipline</Form.Label>
+                      <Form.Control as="select" defaultValue="Computer Application">
+                      </Form.Control>
+                    </Form.Group>
+
+                    {/* Tags Filter */}
+                    <Form.Group controlId="formGridTags" className="mb-3">
+                      <Form.Label>Tags</Form.Label>
+                      <Form.Control as="select" defaultValue="Computer Application">
+                      </Form.Control>
+                    </Form.Group>
+
+                    {/* Clear All Filters Button */}
+                    <Button variant="link" onClick={() => { /* Clear filter logic */ }}>
+                      Clear All Filters
+                    </Button>
                   </div>
                 </Col>
-              ))}
-            </Row>
-          </div>
+                {/* Filters Section End*/}
+
+                <Col md={9}>
+                  <Row>
+                    {currentPosts.map((program: any) => (
+                      <Col key={program.id} xl={4} lg={4} sm={6}>
+                        <div className="course-container">
+                          <Link
+                            key={program.id}
+                            to={{ pathname: `/programsummary/${program.id}` }}
+                          >
+                            <div className="course-image">
+                              <Image
+                                src={
+                                  program.files && program.files.length > 0
+                                    ? program.files[0].url
+                                    : ProgramDefaultImg
+                                }
+                                alt={program.name}
+                                fluid
+                                rounded
+                              />
+                              <div className="course-keypoints">
+                                <div>
+                                  <img src={ClockIcon} alt="duration" />
+                                  <span>
+                                    {program.durationValue} {program.durationUnit}
+                                  </span>
+                                </div>
+                                <div>
+                                  <img src={CardIcon} alt="program code" />
+                                  <span>{program.programCode}</span>
+                                </div>
+                                <div>
+                                  <img src={BuildingIcon} alt="department" />
+                                  <span> {program.department.name}</span>
+                                </div>
+                                <div>
+                                  <img src={CapIcon} alt="program type" />
+                                  <span> {program.programType.name}</span>
+                                </div>
+                                <div>
+                                  <img src={CalenderIcon} alt="batch year" />
+                                  <span> {program.batchYear}</span>
+                                </div>
+                                <div>
+                                  <img src={BookIcon} alt="study mode" />
+                                  <span>{program.modeOfStudy}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="course-title">{program.name}</div>
+                          </Link>
+                        </div>
+                      </Col>
+                    ))}
+                  </Row>
+                </Col>
+              </Row>
+            </div>
         </div>
 
         </div>
