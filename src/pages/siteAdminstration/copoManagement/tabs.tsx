@@ -15,9 +15,10 @@ const TabsList = (props: Props) => {
       <Tabs
         defaultActiveKey="define"
         id="uncontrolled-tab-example"
+        className="tabStep-indicator"
       >
         {tabsListData.map((item, index) => (
-          <Tab key={index} eventKey={item.eventKey} title={item.title}>
+          <Tab key={index} eventKey={item.eventKey} title={item.title} >
             {item.contentsRender}
           </Tab>
         ))}
