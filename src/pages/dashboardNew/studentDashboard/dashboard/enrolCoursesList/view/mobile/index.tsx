@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
 import filterIcon from "../../../../../../../assets/images/icons/mb-filterIcon.svg";
+import { useNavigate } from "react-router-dom";
 
 import "./mobileStyle.scss";
 import config from "../../../../../../../utils/config";
@@ -25,6 +26,7 @@ const courseStatusOptions = [
 ];
 
 const Mobile: React.FC<Props> = (props) => {
+  const navigate = useNavigate();
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
       (item: any) => item.id === id
@@ -181,6 +183,10 @@ const Mobile: React.FC<Props> = (props) => {
           </button>
           <div className={showFilterDropdown ? "FilterProgramDropdown-wrapper" : "FilterProgramDropdown-wrapper hidden"}>
             <FilterProgramDropdown coursesList={props.coursesList} updateCourses={updateCourses} />
+             {/* ============== left for second phase ============ */}
+             <Button variant="primary" onClick={() => navigate("/minorcourse")}>
+              Minor Courses
+            </Button>
           </div>
         </div>
         <Row className="g-4 mylearning-card">

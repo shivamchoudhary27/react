@@ -2,7 +2,6 @@ import View from "./view";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { getData } from "../../adapters/microservices";
-import { pagination } from "../../utils/pagination";
 import "./style.scss";
 
 type Props = {};
@@ -18,7 +17,7 @@ const MinorCourse = (props: Props) => {
   const [minorCourseData, setMinorCourseData] = useState<any>(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    pageSize: pagination.PERPAGE,
+    pageSize: 300,
   });
 
   const currentInstitute = useSelector(

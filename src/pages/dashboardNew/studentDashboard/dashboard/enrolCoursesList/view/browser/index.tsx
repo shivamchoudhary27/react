@@ -175,9 +175,9 @@ const Browser = (props: Props) => {
               updateCourses={updateCourses}
             />
             {/* ============== left for second phase ============ */}
-            {/* <Button variant="primary" onClick={() => navigate("/minorcourse")}>
+            <Button variant="primary" onClick={() => navigate("/minorcourse")}>
               Minor Courses
-            </Button> */}
+            </Button>
           </div>
         </div>
         <Row className="g-4 mylearning-card">
