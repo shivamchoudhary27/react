@@ -13,6 +13,7 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 
 // Formik Yup Validation === >>>
 const Schema = Yup.object({
@@ -31,6 +32,7 @@ const DiciplineModal = ({
   const initialValues = {
     userEmail: disciplineobj.userEmail,
     groups: disciplineobj.groups.map((obj: any) => obj.id),
+    sendmail: disciplineobj.sendmail,
   };
   const dummyData = {
     items: [],
@@ -185,6 +187,14 @@ const DiciplineModal = ({
                   // msgText="Please select Discipline"
                 />
               </div>
+              <div className="mb-3">
+                  <FieldTypeCheckbox name="sendmail" checkboxLabel="Send Email to the User" />{" "}
+                  <FieldErrorMessage
+                    errors=""
+                    touched=""
+                    msgText="Please Check required field"
+                  />
+                </div>
               {isSubmitting === false ? (
                 <div className="modal-buttons">
                   <Custom_Button

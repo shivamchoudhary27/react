@@ -7,6 +7,7 @@ import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import { putData } from "../../../../adapters/microservices";
+import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 
 type Props = {
   onHide: any;
@@ -15,6 +16,7 @@ type Props = {
   refreshcategories: any;
   toggleModalShow: any;
   maxMinorCoursesObj: any;
+  categoryData: any;
 };
 
 const validationSchema = Yup.object({
@@ -33,6 +35,7 @@ const ModalForm = (props: Props) => {
     weight: props.maxMinorCoursesObj.weight,
     parent: props.maxMinorCoursesObj.parent,
     maxMinorCoursesAllowed: props.maxMinorCoursesObj.maxMinorCoursesAllowed,
+    dateUserUnenrolmentAllowed: props.maxMinorCoursesObj.dateUserUnenrolmentAllowed,
   };
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
@@ -51,6 +54,10 @@ const ModalForm = (props: Props) => {
       });
   };
 
+  const Getcategory = props.categoryData.filter((category:any) => {
+    return category.id === props.maxMinorCoursesObj.id;
+  }).map((category:any) => category.name);
+  
   return (
     <React.Fragment>
       <Modal
@@ -61,7 +68,7 @@ const ModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Max Minor Courses Allowed
+            {Getcategory} : Settings
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -76,6 +83,7 @@ const ModalForm = (props: Props) => {
               <Form>
                 <div className="mb-3">
                   <FieldLabel
+                    labelText="Max Minor Courses Allowed"
                     htmlFor="maxMinorCoursesAllowed" />
                   <Field
                     type="number"
@@ -86,6 +94,25 @@ const ModalForm = (props: Props) => {
                     errors={errors.maxMinorCoursesAllowed}
                     touched={touched.maxMinorCoursesAllowed}
                   />
+                </div>
+
+                <div className="mb-3">
+                  <FieldLabel
+                    htmlfor="startDate"
+                    labelText="User UnEnrol Allowed Until Date"
+                    required="required"
+                  />
+                  <FieldTypeText
+                    type="date"
+                    name="dateUserUnenrolmentAllowed"
+                    min={new Date()}
+                    placeholder="Start Date"
+                  />
+                  {/* <FieldErrorMessage
+                    errors={errors.startDate}
+                    touched={touched.startDate}
+                    msgText="Required"
+                  /> */}
                 </div>
                   <div className="modal-buttons">
                     <CustomButton

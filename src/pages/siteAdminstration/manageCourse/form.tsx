@@ -59,6 +59,7 @@ const formSchema = Yup.object().shape({
       .positive("Must be a positive integer")
       .min(0, "Must be greater than or equal to 0"),
   }),
+  type: Yup.string().nullable().required("Type is required"),
 });
 
 const CourseModal = ({
@@ -471,6 +472,10 @@ const CourseModal = ({
                     Minor
                   </label>
                 </div>
+                <FieldErrorMessage
+                    errors={errors.type}
+                    touched={touched.type}
+                  />
                 {values.type === "minor" && (
                   <div className="mb-3">
                     <FieldLabel

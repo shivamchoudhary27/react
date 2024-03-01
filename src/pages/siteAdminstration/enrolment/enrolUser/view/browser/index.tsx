@@ -84,6 +84,7 @@ const Browser = (props: Props) => {
         refreshcategories={props.commonProps.refreshToggle}
         onHide={() => props.commonProps.toggleModalShow(false)}
         maxMinorCoursesObj={props.commonProps.maxMinorCoursesObj}
+        categoryData={props.commonProps.sortedCategories}
       />
 
       <Footer />

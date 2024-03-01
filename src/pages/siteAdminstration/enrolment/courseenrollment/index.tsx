@@ -34,6 +34,7 @@ const CourseEnrollment = () => {
     userId: 0,
     userEmail: "",
     groups: [],
+    sendmail: false
   });
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
@@ -101,8 +102,8 @@ const CourseEnrollment = () => {
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({ userId, userEmail, groups }: any) => {
-    setDisciplineObj({ userId: userId, userEmail: userEmail, groups: groups });
+  const editHandlerById = ({ userId, userEmail, groups, sendmail }: any) => {
+    setDisciplineObj({ userId: userId, userEmail: userEmail, groups: groups, sendmail: sendmail });
   };
 
   // handle modal hide & show functionality === >>>
