@@ -27,6 +27,7 @@ const StudentMinorCourseTable = (props: Props) => {
             <th>Actions</th>
           </tr>
         </thead>
+        {/* courseDtos */}
         <tbody>
           {props.minorCourseData.length > 0 &&
             props.minorCourseData.map((program: any, programIndex: number) => (
@@ -35,50 +36,50 @@ const StudentMinorCourseTable = (props: Props) => {
                   program.programDtos.length > 0 &&
                   program.programDtos.map(
                     (programDto: any, index: number) =>
-                      programDto.categories &&
-                      programDto.categories.length > 0 &&
-                      programDto.categories.map(
+                      programDto.categoriesCoursesDtos &&
+                      programDto.categoriesCoursesDtos.length > 0 &&
+                      programDto.categoriesCoursesDtos.map(
                         (category: any, categoryIndex: number) => (
                           <tr key={`${programIndex}_${index}_${categoryIndex}`}>
                             {categoryIndex === 0 && (
                               <td
-                                rowSpan={programDto.categories.length}
+                                rowSpan={programDto.categoriesCoursesDtos.length}
                                 className="m-4"
                               >
                                 {programDto.name}
                               </td>
                             )}
 
-                            {category.coursesDtos.length > 0 && (
+                            {category.courseDtos.length > 0 && (
                               <>
                                 <td>{category.name}</td>
                                 <td>
-                                  {category.coursesDtos.length > 0 &&
-                                    category.coursesDtos.map((course: any) => (
+                                  {category.courseDtos.length > 0 &&
+                                    category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.name}
                                       </div>
                                     ))}
                                 </td>
                                 <td>
-                                  {category.coursesDtos.length > 0 &&
-                                    category.coursesDtos.map((course: any) => (
+                                  {category.courseDtos.length > 0 &&
+                                    category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.enrollmentCapacity}
                                       </div>
                                     ))}
                                 </td>
                                 <td>
-                                  {category.coursesDtos.length > 0 &&
-                                    category.coursesDtos.map((course: any) => (
+                                  {category.courseDtos.length > 0 &&
+                                    category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.remainingSeats}
                                       </div>
                                     ))}
                                 </td>
                                 <td>
-                                  {category.coursesDtos.length > 0 &&
-                                    category.coursesDtos.map((course: any) => (
+                                  {category.courseDtos.length > 0 &&
+                                    category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.enrolled ? (
                                           <Button className="enrolled-btn">
@@ -94,7 +95,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                               src={WaitListIcon}
                                               alt="Enroll"
                                             />
-                                            waitlist
+                                            Waitlist
                                           </Button>
                                         ) : (
                                           <Button className="enroll-btn">

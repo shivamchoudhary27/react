@@ -93,37 +93,22 @@ const CourseTable = ({
       ),
       draggable: true,
     },
-    // {
-    //   Header: "Course Type",
-    //   Cell: ({ row }: any) => (
-    //     <>
-    //       {row.original.coursedetails !== undefined && (
-    //         <>{row.original.coursedetails.courseType}</>
-    //       )}
-    //     </>
-    //   ),
-    //   draggable: true,
-    // },
     {
       Header: "Course Type",
       Cell: ({ row }: any) => (
         <>
-          {row.original.coursedetails !== undefined &&
-            row.original.coursedetails !== null && (
+          {row.original.coursedetails &&
+            row.original.coursedetails.courseType &&
+            typeof row.original.coursedetails.courseType === "string" && (
               <>
-                {row.original.coursedetails.courseType &&
-                  `${row.original.coursedetails.courseType
-                    .charAt(0)
-                    .toUpperCase()}${row.original.coursedetails.courseType.slice(
-                    1
-                  )}`}
+                {row.original.coursedetails.courseType.charAt(0).toUpperCase() +
+                  row.original.coursedetails.courseType.slice(1).toLowerCase()}
               </>
             )}
         </>
       ),
       draggable: true,
     },
-
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
@@ -388,9 +373,8 @@ const CourseTable = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "Courses has been successfully deleted"
+              text: "Courses has been successfully deleted",
             });
-            
           }
         })
         .catch((result: any) => {
