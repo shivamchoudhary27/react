@@ -190,34 +190,31 @@ function ProgramList() {
                                     rounded
                                   />
                                   <div className="course-keypoints">
-                                    <div>
-                                      <img src={ClockIcon} alt="duration" />
-                                      <span>
-                                        {program.durationValue}{" "}
-                                        {program.durationUnit}
-                                      </span>
-                                    </div>
-                                    <div>
-                                      <img src={CardIcon} alt=" code" />
-                                      <span>{program.programCode}</span>
-                                    </div>
-                                    <div>
-                                      <img src={BuildingIcon} alt="department" />
-                                      <span> {program.department.name}</span>
-                                    </div>
-                                    <div>
-                                      <img src={CapIcon} alt="program type" />
-                                      <span> {program.programType.name}</span>
-                                    </div>
-                                    <div>
-                                      <img src={CalenderIcon} alt="batch year" />
-                                      <span> {program.batchYear}</span>
-                                    </div>
-                                    <div>
-                                      <img src={BookIcon} alt="study mode" />
-                                      <span>{program.modeOfStudy}</span>
-                                    </div>
-                                  </div>
+                    <div>
+                    <img src={CalenderIcon} alt="batch year" />
+                      <span> {program.batchYear}</span>
+                    </div>
+                    <div>
+                     <img src={CardIcon} alt="program code" />
+                      <span>{program.programCode}</span>
+                    </div>
+                    <div>
+                     <img src={BuildingIcon} alt="department" />
+                      <span> {program.department.name}</span>
+                    </div>
+                    <div>
+                    <img src={BookIcon} alt="study mode" />
+                      <span>{program.modeOfStudy}</span>
+                    </div>
+                    <div>
+                    <img src={CapIcon} alt="program type" />
+                      <span> {program.programType.name}</span>
+                    </div>
+                    <div>
+                    <img src={ClockIcon} alt="duration" />
+                      <span> {program.durationValue}{" "} {program.durationUnit}</span>
+                    </div>
+                  </div>
                                 </div>
                                 <div className="course-title">{program.name}</div>
                               </Link>
@@ -240,9 +237,9 @@ function ProgramList() {
         />
 
         <Footer />
-        <div className="position-relative">
+        {/* <div className="position-relative">
           <img src={bgLeft} className="left-cicle" alt="left-cicle" />
-        </div>
+        </div> */}
         <div className="bottom-bg">
           <img src={BottomWave} alt="bottom wave" />
         </div>
