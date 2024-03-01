@@ -52,7 +52,7 @@ const ProgramSummary = () => {
     axios
       .get(
         `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${Programid}`
-      )
+        )
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCurrentProgram({
