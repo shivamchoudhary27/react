@@ -8,13 +8,7 @@ import Errordiv from "../../../../widgets/alert/errordiv";
 import plusIcon from "../../../../assets/images/icons/plus-action.svg";
 import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 import { Tooltip } from "react-tooltip";
-
-// Actions btns styling === >>>
-const actionsStyle = {
-  display: "flex",
-  justifyContent: "space-evenly",
-  alignItems: "center",
-};
+import "./style.scss";
 
 const EnrolUserTable = ({
   categoryData,
@@ -101,7 +95,7 @@ const EnrolUserTable = ({
              return course.courseType === "MINOR"   
               });
         return( 
-        <span style={actionsStyle}>
+        <div className="enrollment-actions">
           {row.original.courses.length>0 && 
          data  &&
           (
@@ -123,7 +117,8 @@ const EnrolUserTable = ({
             />
           )}
           {row.original.coursename !== undefined && (
-            <span>
+            // <div className="d-flex justify-content-center align-items-center gap-2">
+            <div className="d-flex justify-content-center align-items-center gap-2">
               <Link
                 className={`action-icons small-icon ${
                   row.original !== undefined &&
@@ -150,9 +145,9 @@ const EnrolUserTable = ({
                 content="course disabled"
                 place="left"
               />
-            </span>
+            </div>
           )}
-        </span>
+        </div>
         )
       }
     },
