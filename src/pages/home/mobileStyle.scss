@@ -59,12 +59,20 @@
       text-align: center;
       padding: 1rem;
       margin-bottom: 3rem;
+      .explorer-btn{
+        display: none;
+      }
     }
     .courseswrapper{
     flex-direction: column;
       > div{
         gap: 30px;
       }
+      .allcourses-btn {
+        button {
+        display: block;
+        }
+        }
     }
   }
 

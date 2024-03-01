@@ -140,6 +140,15 @@ height: 96vh;
     div{
       font-size: 18px;
     }
+    .explorer-btn{
+      background: linear-gradient(90deg, #13568A -0.02%, #076BD0 100%);
+      color: white;
+      font-size: 1.3rem;
+      width: max-content;
+      border: none;
+      padding: 7px;
+      margin-top: 17px;
+    }
   }
   .courseswrapper{
     background: url(../../assets/images/dark-wave-bg.png);
@@ -171,7 +180,7 @@ height: 96vh;
       }
       .course-keypoints{
         position: absolute;
-        gap: 0px 20px;
+        gap: 0px 16px;
         top: 0;
         background: #000000bf;
         width: 100%;
@@ -181,7 +190,7 @@ height: 96vh;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         font-size: 14px;
-        padding: 28px;
+        padding: 16px;
         justify-items: start;
         opacity: 0;
         transition: opacity 0.3s, transform 0.3s;
@@ -216,11 +225,15 @@ height: 96vh;
       align-items: center;
     button {
       background: white;
-      border-radius: 50rem;
-      width: 2rem;
-      height: 2rem;
-      border: none;
-      box-shadow: none;
+      border: 2px solid #2778c4;
+      color: #1b609d;
+      padding: 12px 0px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 500;
+      display: none;
     }
   } 
   }
@@ -299,6 +312,11 @@ height: 96vh;
   background: #b5cff68c;
   border-radius: 1rem;
   padding: 1rem;
+  .form-check{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
 }
 // ---------PROGRAM LIST FILTERS end--------------------
 
