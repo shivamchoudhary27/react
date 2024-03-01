@@ -35,6 +35,7 @@ const EnrolUsers = () => {
     weight: "",
     parent: "",
     maxMinorCoursesAllowed: "",
+    dateUserUnenrolmentAllowed: ""
   });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -150,6 +151,7 @@ const EnrolUsers = () => {
     weight,
     parent,
     maxMinorCoursesAllowed,
+    dateUserUnenrolmentAllowed
   }: any) => {
     toggleModalShow(true);
     setMaxMinorCoursesObj({
@@ -159,6 +161,7 @@ const EnrolUsers = () => {
       weight,
       parent,
       maxMinorCoursesAllowed,
+      dateUserUnenrolmentAllowed
     });
   };
   return (

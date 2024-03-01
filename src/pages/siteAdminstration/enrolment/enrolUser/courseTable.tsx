@@ -66,25 +66,45 @@ const EnrolUserTable = ({
       },
     },
     {
-      Header: "Max Minor Course",
-      accessor: "maxMinorCoursesAllowed",
-      Cell: ({ row }: any) => {
-        return (
-          <div
-            style={{
-              paddingLeft: setLevelPadding(row.original.level),
-            }}
-          >
-            {row.original.maxMinorCoursesAllowed}
-          </div>
-        );
-      },
+      Header: "Course Type",
+      Cell: ({ row }: any) => (
+        <>
+          {row.original.coursedetails !== undefined && (
+            <>{row.original.coursedetails.courseType}</>
+          )}
+        </>
+      ),
+      draggable: true,
     },
     {
+      Header: "Max Minor Course",
+      accessor: "maxMinorCoursesAllowed",
+      Cell: ({ row }: any) => (    
+            <div
+              style={{
+                paddingLeft: setLevelPadding(row.original.level),
+              }}
+            >
+              {row.original.courses.length > 0 && (
+            <>
+            {row.original.maxMinorCoursesAllowed}
+            </>
+          )}
+            </div>
+      ),
+    },
+    
+    {
       Header: "Actions",
-      Cell: ({ row }: any) => (
+      Cell: ({ row }: any) => { 
+        const data =row.original.courses.find((course: any) => {
+             return course.courseType === "MINOR"   
+              });
+        return( 
         <span style={actionsStyle}>
-          {row.original.level === 2 && (
+          {row.original.courses.length>0 && 
+         data  &&
+          (
             <img
               style={{ cursor: "pointer" }}
               src={gearIcon}
@@ -97,6 +117,7 @@ const EnrolUserTable = ({
                   weight: row.original.weight,
                   parent: row.original.parent,
                   maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed,
+                  dateUserUnenrolmentAllowed: row.original.dateUserUnenrolmentAllowed
                 })
               }
             />
@@ -119,6 +140,10 @@ const EnrolUserTable = ({
               >
                 <img src={plusIcon} alt="Add Course" /> Enrol Users
               </Link>
+                {row.original.coursedetails.courseType === "MINOR" && 
+                  <Button>View Waitlist</Button>
+                 }
+              
               <Tooltip
                 anchorSelect=".my-anchor-element"
                 style={{ backgroundColor: "#F0EDD4", color: "#222" }}
@@ -128,7 +153,8 @@ const EnrolUserTable = ({
             </span>
           )}
         </span>
-      ),
+        )
+      }
     },
   ];
 
@@ -156,6 +182,7 @@ const EnrolUserTable = ({
     weight,
     parent,
     maxMinorCoursesAllowed,
+    dateUserUnenrolmentAllowed
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
@@ -165,6 +192,7 @@ const EnrolUserTable = ({
       weight,
       parent,
       maxMinorCoursesAllowed,
+      dateUserUnenrolmentAllowed
     });
   };
 

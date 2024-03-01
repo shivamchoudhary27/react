@@ -64,6 +64,7 @@ const DiciplineTable = ({
                   userId: row.original.userId,
                   userEmail: row.original.userEmail,
                   groups: row.original.groups,
+                  sendmail: row.original.sendmail
                 })
               } />
           </Link>
@@ -93,9 +94,9 @@ const DiciplineTable = ({
   const [deleteId, setDeleteId] = useState(0);
 
   // edit event handler === >>>
-  const editHandler = ({ userId, userEmail, groups }: any) => {
+  const editHandler = ({ userId, userEmail, groups, sendmail }: any) => {
     toggleModalShow(true);
-    editHandlerById({ userId, userEmail, groups });
+    editHandlerById({ userId, userEmail, groups, sendmail });
     // refreshDisciplineData();
   };
 
