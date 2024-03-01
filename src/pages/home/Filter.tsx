@@ -231,8 +231,10 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
 
           {/* Discipline Filter */}
           <Form.Label>Discipline</Form.Label>
+          
           <Multiselect
             ref={disciplineRef}
+            className="programmultiselect"
             options={
               disciplines && disciplines.items
                 ? disciplines.items.map((discipline) => ({
@@ -248,9 +250,10 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
           />
 
           {/* Tags Filter */}
-          <Form.Label>Tags</Form.Label>
+          <Form.Label className="mt-3">Tags</Form.Label>
           <Multiselect
             ref={tagRef}
+            className="programmultiselect mb-3"
             options={
               tags && tags.items
                 ? tags.items.map((tags) => ({
