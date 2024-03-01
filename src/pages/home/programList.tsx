@@ -235,7 +235,6 @@ function ProgramList() {
               activepage={filterUpdate.pageNumber}
               service ="core"
             />
-
       <Footer />
       <div className="position-relative">
         <img src={bgLeft} className="left-cicle" alt="left-cicle" />

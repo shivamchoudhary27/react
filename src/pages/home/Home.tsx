@@ -122,6 +122,7 @@ return (
           <div>
           Embark on Your Academic Journey with Our Comprehensive Array of College Programs, Unleashing Opportunities Across Engineering, Sciences, Arts, and More. Cultivate Your Interests, Ignite Your Ambitions – Your Path to Success Begins Here!
           </div>
+          <button className="btn-lg rounded-pill px-4 explorer-btn"  onClick={() => navigate("/programlist")}>Explore all programs</button>
         </div>
         <div className="courseswrapper">
           <Row className="landingprograms">
@@ -141,8 +142,8 @@ return (
                   />
                   <div className="course-keypoints">
                     <div>
-                     <img src={ClockIcon} alt="duration" />
-                      <span> {item.durationValue}{" "} {item.durationUnit}</span>
+                    <img src={CalenderIcon} alt="batch year" />
+                      <span> {item.batchYear}</span>
                     </div>
                     <div>
                      <img src={CardIcon} alt="program code" />
@@ -153,16 +154,17 @@ return (
                       <span> {item.department.name}</span>
                     </div>
                     <div>
-                     <img src={CapIcon} alt="program type" />
+                    <img src={BookIcon} alt="study mode" />
+                      <span>{item.modeOfStudy}</span>
+                    
+                    </div>
+                    <div>
+                    <img src={CapIcon} alt="program type" />
                       <span> {item.programType.name}</span>
                     </div>
                     <div>
-                     <img src={CalenderIcon} alt="batch year" />
-                      <span> {item.batchYear}</span>
-                    </div>
-                    <div>
-                     <img src={BookIcon} alt="study mode" />
-                      <span>{item.modeOfStudy}</span>
+                    <img src={ClockIcon} alt="duration" />
+                      <span> {item.durationValue}{" "} {item.durationUnit}</span>
                     </div>
                   </div>
                 </div>
@@ -172,10 +174,13 @@ return (
               </Col>
             ))}
 </Row>
+
         <div className="allcourses-btn">
-          <button onClick={() => navigate("/programlist")}>
+          {/* <button onClick={() => navigate("/programlist")}>
             <i className="fa fa-angle-right"></i>
-          </button>
+          </button> */}
+          <button className="btn-lg rounded-pill px-4"  onClick={() => navigate("/programlist")}>Explore all programs   <i className="fa fa-angle-right"></i></button>
+
         </div>
         </div>
       </div>
