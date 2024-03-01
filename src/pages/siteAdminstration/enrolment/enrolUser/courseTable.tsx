@@ -63,9 +63,14 @@ const EnrolUserTable = ({
       Header: "Course Type",
       Cell: ({ row }: any) => (
         <>
-          {row.original.coursedetails !== undefined && (
-            <>{row.original.coursedetails.courseType}</>
-          )}
+          {row.original.coursedetails &&
+            row.original.coursedetails.courseType &&
+            typeof row.original.coursedetails.courseType === 'string' && (
+              <>
+                {row.original.coursedetails.courseType.charAt(0).toUpperCase() +
+                  row.original.coursedetails.courseType.slice(1).toLowerCase()}
+              </>
+            )}
         </>
       ),
       draggable: true,
