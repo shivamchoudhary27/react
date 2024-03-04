@@ -22,6 +22,9 @@ import NewLoader from "../../widgets/loader";
 import bgRight from '../../assets/images/background/bg-admin-right.svg';
 import Header from "../newHeader";
 import UserContext from "../../features/context/user/user";
+import { isMobile } from "react-device-detect";
+import MobileFooter from "../newFooter/mobileFooter";
+import MobileHeader from "../newHeader/mobileHeader";
 
 interface ICurrentProgram {
   data: [];
@@ -52,7 +55,7 @@ const ProgramSummary = () => {
     axios
       .get(
         `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${Programid}`
-        )
+      )
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCurrentProgram({
@@ -101,7 +104,7 @@ const ProgramSummary = () => {
     height: "100vh",
   };
 
-  if(currentProgram?.data && currentProgram?.data.length === 0) {
+  if (currentProgram?.data && currentProgram?.data.length === 0) {
     return (
       <Container style={loaderStyle}>
         <NewLoader />
@@ -110,52 +113,63 @@ const ProgramSummary = () => {
     );
   }
 
+
+  function renderDesktopHeader() {
+    return (
+      <div className="d-flex justify-content-between align-items-center">
+      <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center">
+        <Link to="/">
+          <img src={logo} alt="logo" className="img img-fluid" />
+        </Link>
+        <div className="login-btn programheader-login">
+          <a href={oAuthUrl}>
+            <Button variant="btn-lg rounded-pill px-4">Login</Button>
+          </a>
+          <Link to="/signupnew">
+            <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+    )
+  }
+
+
   return (
     <>
       <div className="landing-wrapper programlist-wrapper h-100">
         <div className="landing-header program-summary">
 
 
-          {isLoggedIn ? (
-  <Header />
-) : (
-  <div className="d-flex justify-content-between align-items-center">
-    <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center">
-      <Link to="/">
-        <img src={logo} alt="logo" className="img img-fluid" />
-      </Link>
-      <div className="login-btn programheader-login">
-        <a href={oAuthUrl}>
-          <Button variant="btn-lg rounded-pill px-4">Login</Button>
-        </a>
-        <Link to="/signupnew">
-          <Button variant="btn-lg rounded-pill px-4 m-3 signup">Sign up</Button>
-        </Link>
-      </div>
-    </div>
-  </div>
-)}
+        {isMobile ? ( isLoggedIn ? <MobileHeader/> : renderDesktopHeader()
+            ) : (
+              isLoggedIn ?  
+              <div className="bg-white">
+                <Header />
+              </div> : renderDesktopHeader()
+            )}
 
 
         </div>
         <Container fluid>
+          <br />   
           <PageTitle pageTitle={``} gobacklink="/programlist" />
           {currentProgram?.data?.map((el: any) => (
             <div className="program-overview-container" key={el.id}>
               <Row>
                 <Col md={3}>
                   <div className="text-center">
-                  <Image
-                    // src={el.files.length > 0 ? el.files[0].url : programImage}
-                    src={
-                      el.files && el.files.length > 0
-                      ? el.files[0].url
-                      : ProgramDefaultImg
-                    }
-                    alt={el.name}
-                    fluid
-                    rounded
-                    className="program-summary-img"
+                    <Image
+                      // src={el.files.length > 0 ? el.files[0].url : programImage}
+                      src={
+                        el.files && el.files.length > 0
+                          ? el.files[0].url
+                          : ProgramDefaultImg
+                      }
+                      alt={el.name}
+                      fluid
+                      rounded
+                      className="program-summary-img"
                     />
                   </div>
                 </Col>
@@ -237,17 +251,17 @@ const ProgramSummary = () => {
                     ? previewMetafields(el.metaFields)
                     : ""}
                 </div>
-                  {/* Curriculum component */}
-                  <Curriculum
-                      programId={el.id}
-                    />
+                {/* Curriculum component */}
+                <Curriculum
+                  programId={el.id}
+                />
 
                 <div className="po-section instructor-step mt-5">
                   <ProgramInstructors instructorsData={instructors} />
                 </div>
-               <div className="mb-5">
-               <RatingComp programid={Programid} />
-               </div>
+                <div className="mb-5">
+                  <RatingComp programid={Programid} />
+                </div>
                 {/* <div className="program-tags my-5 bg-white">
                     {el.tags.length > 0
                       ? previewTagfields(el.tags)
@@ -257,13 +271,19 @@ const ProgramSummary = () => {
             </div>
           ))}
         </Container>
-      <Footer/>
-  <div className="pg-summarybg">
-  <div>
-      <img src={bgRight} className="bgcourse-right" alt="bg-right" />
-    </div>
-    <BackgroundWaveBottomLeft/>
-  </div>
+
+        {isMobile ? (
+          isLoggedIn ? <MobileFooter /> : <Footer />
+        ) : (
+          isLoggedIn ? <Footer /> : <Footer />
+        )}
+
+        <div className="pg-summarybg">
+          <div>
+            <img src={bgRight} className="bgcourse-right" alt="bg-right" />
+          </div>
+          <BackgroundWaveBottomLeft />
+        </div>
       </div>
     </>
   );

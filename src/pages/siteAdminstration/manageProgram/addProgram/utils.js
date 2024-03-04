@@ -21,6 +21,8 @@ export const initialValues = {
     file: null,
     files: [],
     deleteImage: false,
+    userSelfUnernolmentAllowed: "false",
+    waitListProcessMode: "manual",
 };
 
 // a set of fields to be added or removed within the program form
@@ -73,7 +75,9 @@ const programData = {
     tags: [{id: ""}],
     file: null,
     files: [],
-    deleteImage: false
+    deleteImage: false,
+    userSelfUnernolmentAllowed: "false",
+    waitListProcessMode: "manual",
 }
 
 // to convert program formdata to api required structure after the form submission
@@ -95,7 +99,11 @@ export const generateProgramDataObject = (formData) => {
     programData.metaFields = getMetaFields(formData.meta)
     programData.tags = submittedTags;
     programData.files = formData.files;
+    programData.userSelfUnernolmentAllowed = formData.userSelfUnernolmentAllowed;
+    programData.waitListProcessMode = formData.waitListProcessMode;
     
+
+
     return programData;
 };
 
@@ -134,6 +142,8 @@ export const generateIinitialValues = (apiData) => {
             published: apiData.published,
             fullLifeTimeAccess: apiData.fullLifeTimeAccess,
             files: apiData.files,
+            userSelfUnernolmentAllowed: apiData.userSelfUnernolmentAllowed,
+            waitListProcessMode: apiData.waitListProcessMode?.toLowerCase(),
             deleteImage: false
         }
        return setInitialValues;

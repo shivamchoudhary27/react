@@ -23,6 +23,9 @@ import Header from "../newHeader";
 import BuildPagination from "../../widgets/pagination";
 import Filter from "./Filter";
 import Errordiv from "../../widgets/alert/errordiv";
+import { isMobile } from "react-device-detect";
+import MobileFooter from "../newFooter/mobileFooter";
+import MobileHeader from "../newHeader/mobileHeader";
 
 function ProgramList() {
 
@@ -105,33 +108,39 @@ function ProgramList() {
     }
   }, [filterUpdate, dataFilter]);
 
+  function renderDesktopHeader() {
+    return (<div className="d-flex justify-content-between align-items-center">
+    <div className="logo-wrapper">
+      <Link to="/">
+        <img src={logo} alt="logo" className="img img-fluid" />
+      </Link>
+      <div className="login-btn programheader-login">
+        <a href={oAuthUrl}>
+          <Button variant="btn-lg rounded-pill px-4">Login</Button>
+        </a>
+        <Link to="/signupnew">
+          <Button variant="btn-lg rounded-pill px-4 m-3 signup">
+            Sign up
+          </Button>
+        </Link>
+      </div>
+    </div>
+  </div>
+    )
+  }
+
+
   return (
     <>
       <div className="programcataloguepage">
         <div className="landing-wrapper programlist-wrapper">
           <div className={`landing-header h-auto ${isLoggedIn ? "p-0" : ""}`}>
-            {isLoggedIn ? (
+            {isMobile ? ( isLoggedIn ? <MobileHeader/> : renderDesktopHeader()
+            ) : (
+              isLoggedIn ?  
               <div className="bg-white">
                 <Header />
-              </div>
-            ) : (
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="logo-wrapper">
-                  <Link to="/">
-                    <img src={logo} alt="logo" className="img img-fluid" />
-                  </Link>
-                  <div className="login-btn programheader-login">
-                    <a href={oAuthUrl}>
-                      <Button variant="btn-lg rounded-pill px-4">Login</Button>
-                    </a>
-                    <Link to="/signupnew">
-                      <Button variant="btn-lg rounded-pill px-4 m-3 signup">
-                        Sign up
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              </div> : renderDesktopHeader()
             )}
             <div className={`${isLoggedIn ? "my-4 px-5" : "mt-5"}`}>
               <PageTitle pageTitle={`Programs`} gobacklink="/" />
@@ -236,7 +245,11 @@ function ProgramList() {
           service="core"
         />
 
-        <Footer />
+          {isMobile ? (
+          isLoggedIn ? <MobileFooter/> : <Footer/>
+        ) : (
+          isLoggedIn ? <Footer/> : <Footer/>
+        )}
         {/* <div className="position-relative">
           <img src={bgLeft} className="left-cicle" alt="left-cicle" />
         </div> */}
