@@ -58,10 +58,10 @@ const ViewUserProfile = () => {
 
   useEffect(() => {
     if (currentInstitute > 0) {
-      getData(`/${currentInstitute}/users`, filterUpdate)
+      getData(`/user/profile/${userid}`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            setUser(result.data.items[0]);
+            setUser(result.data);
           }
         })
         .catch((err: any) => {

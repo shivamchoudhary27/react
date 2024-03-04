@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import CountryList from "../../../../../../globals/country";
-import { putData } from "../../../../../../adapters/coreservices";
+import { postData } from "../../../../../../adapters/coreservices";
 import TimerAlertBox from "../../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../../../widgets/formInputFields/buttons";
@@ -43,7 +43,7 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
-  genderType: Yup.string().required("Gender is required"),
+  // genderType: Yup.string().required("Gender is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
 
@@ -56,7 +56,7 @@ const FormData = (props: Props) => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    putData(`/${props.currentInstitute}/users/${userid}`, values)
+    postData(`/user/profile/${userid}`, values)
       .then((res: any) => {
         if ((res.data !== "", res.status === 200)) {
           console.log(res.data)
@@ -68,8 +68,8 @@ const FormData = (props: Props) => {
       })
       .catch((err: any) => {
         console.log(err);
+        setSubmitting(false);
         if (err.response.status === 400) {
-          setSubmitting(false);
           setShowAlert(true);
           setAlertMsg({
             message: "Failed update profile.",
@@ -93,7 +93,6 @@ const FormData = (props: Props) => {
         initialValues={props.initialValues}
         validationSchema={userFormSchema}
         onSubmit={(values, action) => {
-          console.log(values, "values")
           handleFormData(values, action);
         }}
       >

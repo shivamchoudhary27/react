@@ -80,12 +80,14 @@ const EditProfile = (props: Props) => {
     userFirstName: userProfileInfo?.userFirstName,
   };
 
+  // console.log(userProfileInfo.userId)
+
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    postData(`/user/profile`, values)
+    postData(`/user/profile/${userProfileInfo.userId}`, values)
       .then((res: any) => {
-        if (res.status === 200) {
+        // if (res.status === 200) {
           // togglemodalshow(false);
           // updateAddRefresh();
           setSubmitting(false);
@@ -99,18 +101,18 @@ const EditProfile = (props: Props) => {
             text: "Profile has been successfully updated"
           });
           navigate("/profile");
-        }
+        // }
       })
       .catch((err: any) => {
         console.log(err);
-        if (err.response.status === 400) {
-          setSubmitting(false);
-          setShowAlert(true);
-          setAlertMsg({
-            message: "Not able to update your profile, Please try again!",
-            alertBoxColor: "danger",
-          });
-        }
+        setSubmitting(false);
+        // if (err.response.status === 400) {
+        //   setShowAlert(true);
+        //   setAlertMsg({
+        //     message: "Not able to update your profile, Please try again!",
+        //     alertBoxColor: "danger",
+        //   });
+        // }
       });
   };
 

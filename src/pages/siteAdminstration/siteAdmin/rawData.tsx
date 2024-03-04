@@ -38,7 +38,7 @@ export const AdminRawData = [
     {
       title: "Teaching Resources <br> Planner",
       image: timetablemanagement,
-      // link: "/timetable",
+      link: "/timetable",
       classname: "timetable-management",
       boxclassname: "row2box",
       component: 'timetable',

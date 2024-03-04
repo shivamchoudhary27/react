@@ -121,8 +121,8 @@ const WeekendSlotModal = (props: Props) => {
           variant={alertMsg.alertBoxColor}
           setShowAlert={setShowAlert}
         />
-        {props.apiStatus === "started" && <CheckboxSkeleton />}
-        {props.apiStatus === "finished" && (
+        {/* {props.apiStatus === "started" && <CheckboxSkeleton />} */}
+        {/* {props.apiStatus === "finished" && ( */}
           <Formik
             enableReinitialize={true}
             initialValues={props.initFormValues}
@@ -176,7 +176,7 @@ const WeekendSlotModal = (props: Props) => {
               </Form>
             )}
           </Formik>
-        )}
+        {/* )} */}
       </Modal.Body>
     </Modal>
   );
