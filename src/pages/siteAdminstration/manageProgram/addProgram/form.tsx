@@ -18,13 +18,16 @@ import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-import { uploadFile, addRemoveFileProperty } from "../../../../globals/storefile";
+import {
+  uploadFile,
+  addRemoveFileProperty,
+} from "../../../../globals/storefile";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import {
   postData as postProgramData,
   postData as postProgramImage,
   putData as updateProgramData,
-  getData
+  getData,
 } from "../../../../adapters/microservices";
 import {
   addMetaInputField,
@@ -43,22 +46,13 @@ const step1Schema = Yup.object({
   programCode: Yup.string().min(1).trim().required("Program code is required"),
   department: Yup.string()
     .required("Department is required")
-    .test(
-      "Please select a department",
-      (value) => value !== "0"
-    ),
+    .test("Please select a department", (value) => value !== "0"),
   discipline: Yup.string()
-  .test(
-    "Please select a discipline",
-    (value) => value !== "0"
-    )
+    .test("Please select a discipline", (value) => value !== "0")
     .required("Discipline is required"),
   programtype: Yup.string()
     .required("Program type is required")
-    .test(
-      "Please select a program type",
-      (value) => value !== "0"
-    ),
+    .test("Please select a program type", (value) => value !== "0"),
   batchYear: Yup.string().required("Batch year is required"),
   durationValue: Yup.number()
     .integer("Number must be an integer")
@@ -87,15 +81,19 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   const [step, setStep] = useState(0);
   const batchYearOptions = generateAcademicYears();
   const durationType = durationTypeObj();
-  const selectedDepartment = useSelector(state => state.globalFilters.currentDepartmentFilterId);
+  const selectedDepartment = useSelector(
+    (state) => state.globalFilters.currentDepartmentFilterId
+  );
   const [filterUpdate, setFilterUpdate] = useState<any>({
     departmentId: selectedDepartment,
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
-  const currentInstitute = useSelector(state => state.globalFilters.currentInstitute);
-  
+  const currentInstitute = useSelector(
+    (state) => state.globalFilters.currentInstitute
+  );
+
   const handleNextStep = () => {
     setStep(step + 1);
   };
@@ -159,10 +157,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       _submitForm(values, actions);
     } else {
       actions.setSubmitting(false);
-      filterProgramCode(`/${currentInstitute}/programs`, values.programCode, actions)
+      filterProgramCode(
+        `/${currentInstitute}/programs`,
+        values.programCode,
+        actions
+      );
     }
   }
-  
+
   const _submitForm = (values: any, actions: any) => {
     let programValues = generateProgramDataObject(values);
 
@@ -175,14 +177,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     let programImage = values.file;
     delete programValues?.file;
     let error_Msg = "";
-    
+
     if (programid == 0) {
       let endPoint = `/${instituteId}/programs`;
       actions.setSubmitting(true);
       postProgramData(endPoint, programValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 201) {
-            uploadFile('program', res.data.id, programImage);
+            uploadFile("program", res.data.id, programImage);
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -190,7 +192,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "Program has been successfully added"
+              text: "Program has been successfully added",
             });
             actions.setSubmitting(false);
             actions.resetForm();
@@ -202,7 +204,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           if (err.response.status === 400) {
             if (err.response.data.errorCode === "PROGRAM_CODE_ALREADY_EXIST") {
               setStep(0);
-              actions.setErrors({'programCode': err.response.data.message})
+              actions.setErrors({ programCode: err.response.data.message });
             }
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -217,7 +219,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       actions.setSubmitting(true);
 
       updateProgramData(endPoint, programValues)
-      .then((res: any) => {
+        .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             Swal.fire({
               timer: 3000,
@@ -226,7 +228,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "Program has been successfully updated"
+              text: "Program has been successfully updated",
             });
             actions.setSubmitting(false);
             actions.resetForm();
@@ -238,7 +240,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           if (err.response.status === 400) {
             if (err.response.data.errorCode === "PROGRAM_CODE_ALREADY_EXIST") {
               setStep(0);
-              actions.setErrors({'programCode': err.response.data.message})
+              actions.setErrors({ programCode: err.response.data.message });
             }
             Object.entries(err.response.data).map(
               ([key, value]) => (error_Msg += `${key}: ${value} \n`)
@@ -250,39 +252,49 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
           }
         });
 
-        uploadFile('program', programid, programImage);
+      uploadFile("program", programid, programImage);
     }
     // navigate("/manageprogram", { state: values });
   };
-  
-  const filterProgramCode = (endPoint : string, programCode: any, actions: any) => {
-    getData(endPoint, { pageNumber: 0, pageSize: 10, programCode})
-    .then((result : any) => {
-        if (result.data !== "" && result.status === 200) {       
-          if(result.data.items.length > 0){
-                if (programid == 0) {
-                  actions.setErrors({'programCode': 'This program code is already used in other program'})
-                } else {
-                  const filteredCode = result.data.items.filter((item: any)=>{
-                    return item.programCode === programCode && item.id != programid
-                  })
-                  if (filteredCode.length > 0) {
-                    actions.setErrors({'programCode': 'This program code is already used in other program'})
-                  } else {
-                    actions.setTouched({});
-                    handleNextStep();                   
-                  }
-                }
-            }else{
-              actions.setTouched({});
-              handleNextStep(); 
+
+  const filterProgramCode = (
+    endPoint: string,
+    programCode: any,
+    actions: any
+  ) => {
+    getData(endPoint, { pageNumber: 0, pageSize: 10, programCode })
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          if (result.data.items.length > 0) {
+            if (programid == 0) {
+              actions.setErrors({
+                programCode:
+                  "This program code is already used in other program",
+              });
+            } else {
+              const filteredCode = result.data.items.filter((item: any) => {
+                return item.programCode === programCode && item.id != programid;
+              });
+              if (filteredCode.length > 0) {
+                actions.setErrors({
+                  programCode:
+                    "This program code is already used in other program",
+                });
+              } else {
+                actions.setTouched({});
+                handleNextStep();
+              }
             }
+          } else {
+            actions.setTouched({});
+            handleNextStep();
+          }
         }
-    })
-    .catch((err : any) => {
+      })
+      .catch((err: any) => {
         console.log(err);
-    });
-  }
+      });
+  };
 
   return (
     <>
@@ -377,10 +389,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       />
                     </Col>
                     <Col md={4}>
-                      <FieldLabel
-                        htmlfor="department"
-                        labelText="Department"
-                      />
+                      <FieldLabel htmlfor="department" labelText="Department" />
                       <FieldTypeSelect
                         name="department"
                         options={departmentName.items}
@@ -497,10 +506,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                 <Row className="gy-4">
                   <Col md={6}>
                     <FieldLabel htmlfor="description" labelText="Description" />
-                    <CkEditor
-                      name="description"
-                      handleChange={handleChange}
-                    />
+                    <CkEditor name="description" handleChange={handleChange} />
                     <FieldErrorMessage
                       errors={errors.description}
                       touched={touched.description}
@@ -508,10 +514,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   </Col>
                   <Col md={6}>
                     <FieldLabel htmlfor="objective" labelText="Objective" />
-                    <CkEditor
-                      name="objective"
-                      handleChange={handleChange}
-                    />
+                    <CkEditor name="objective" handleChange={handleChange} />
                     <FieldErrorMessage
                       errors={errors.objective}
                       touched={touched.objective}
@@ -566,40 +569,122 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       </div>
                     </div>
                   </Col>
-                  <Col md={12}>
-                    <div className="mb-3">
-                      <FieldTypeCheckbox
-                        name="programaccessinfo"
-                        value="fullaccess"
-                        checkboxLabel="Lifetime Access"
-                      />
-                    </div>
-                    <div>
-                      <FieldTypeCheckbox name="published" checkboxLabel="Published" />{" "}
-                    </div>
-                    { initValues.files !== undefined && initValues.files.length > 0 &&
-                      <React.Fragment>
+
+                  {/* =============================Minor course setting=============================== */}
+
+                  <Col md={6}>
+                    <FieldLabel
+                      htmlfor="metatitle"
+                      labelText="Minor course setting"
+                    />
+                    <div className="card p-3 mb-3">
+                      <Col md={6}>
+                        <FieldLabel
+                          htmlFor="userSelfUnernolmentAllowed"
+                          labelText="Allowed students to Unenrollment"
+                          required="required"
+                        />
                         <div>
-                          <img
+                          <label className="me-3">
+                            <input
+                              type="radio"
+                              id="trueOption"
+                              name="userSelfUnernolmentAllowed"
+                              value="true"
+                              onChange={handleChange}
+                              checked={
+                                values.userSelfUnernolmentAllowed.toString() === "true"
+                              }
+                            />{" "}
+                            Yes
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              id="falseOption"
+                              name="userSelfUnernolmentAllowed"
+                              value="false"
+                              onChange={handleChange}
+                              checked={
+                                values.userSelfUnernolmentAllowed.toString() === "false"
+                              }
+                            />{" "}
+                            No
+                          </label>
+                        </div>
+                        <FieldErrorMessage
+                          errors={errors.userSelfUnernolmentAllowed}
+                          touched={touched.userSelfUnernolmentAllowed}
+                        />
+                      </Col>
+
+                      <br />
+
+                      <Col md={4}>
+                        <FieldLabel
+                          htmlFor="waitListProcessMode"
+                          labelText="Waitlist Enrollment Criteria"
+                          required="required"
+                        />
+                        <div>
+                          <label className="me-3">
+                            <input
+                              type="radio"
+                              id="trueOption"
+                              name="waitListProcessMode"
+                              value="automate"
+                              onChange={handleChange}
+                              checked={
+                                values.waitListProcessMode === "automate"}
+                            />{" "}
+                            Automated
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              id="falseOption"
+                              name="waitListProcessMode"
+                              value="manual"
+                              onChange={handleChange}
+                              checked={values.waitListProcessMode === "manual"}
+                            />{" "}
+                            Manual
+                          </label>
+                        </div>
+                        <FieldErrorMessage
+                          errors={errors.waitListProcessMode}
+                          touched={touched.waitListProcessMode}
+                        />
+                      </Col>
+                    </div>
+                  </Col>
+
+                  {/* =================Minor course setting========= */}
+
+                  <Col md={6}>
+                    {initValues.files !== undefined &&
+                      initValues.files.length > 0 && (
+                        <React.Fragment>
+                          <div>
+                            <img
                               src={initValues.files[0].url}
                               alt={initValues.files[0].originalFileName}
                               width="150px"
-                          />
-                          {" "}
-                          <FieldTypeCheckbox
-                            name="deleteImage"
-                            checkboxLabel="Remove Picture"
-                          />
-                        </div>
-                      </React.Fragment>
-                    }
+                            />{" "}
+                            <FieldTypeCheckbox
+                              name="deleteImage"
+                              checkboxLabel="Remove Picture"
+                            />
+                          </div>
+                        </React.Fragment>
+                      )}
                     <FieldLabel
                       htmlfor="file"
                       labelText="Program Picture"
                       className="mt-3"
                     />
                     <input
-                      className="form-control"
+                      className="form-control mt-2"
                       id="file"
                       name="file"
                       type="file"
@@ -608,10 +693,30 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       }}
                     />
                     {/* <UploadImage setFieldValue={setFieldValue} values={values} /> */}
+                    <br />
+                  </Col>
+
+                  <Col md={6}>
+
+                    <div className="mb-3">
+                      <FieldTypeCheckbox
+                        name="programaccessinfo"
+                        value="fullaccess"
+                        checkboxLabel="Lifetime Access"
+                      />
+                    </div>
+                    <div>
+                      <FieldTypeCheckbox
+                        name="published"
+                        checkboxLabel="Published"
+                      />{" "}
+                    </div>
                   </Col>
                 </Row>
+
               )}
 
+              <Col className=""></Col>
               <div className="tabStep-footer mt-3">
                 {isSubmitting === false && step > 0 && (
                   <button
