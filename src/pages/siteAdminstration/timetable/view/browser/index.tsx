@@ -49,12 +49,12 @@ const Browser = (props: Props) => {
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "" },
+          { name: "Teaching Resources Planner", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="Timetable Management" gobacklink="/siteadmin" />
+          <PageTitle pageTitle="Teaching Resources Planner" gobacklink="/siteadmin" />
           {TIMETABLE_FILTER_COMPONENT}
           {TIMETABLE_TABLE_COMPONENT}
           {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}

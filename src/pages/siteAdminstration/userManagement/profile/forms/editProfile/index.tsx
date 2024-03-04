@@ -39,11 +39,10 @@ const EditUserProfile = () => {
 
   useEffect(() => {
     if (currentInstitute > 0) {
-      getData(`/${currentInstitute}/users`, filterUpdate)
+      getData(`/user/profile/${userid}`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data, 'data')
-            setInitialvalues(result.data.items[0]);
+            setInitialvalues(result.data);
           }
         })
         .catch((err: any) => {

@@ -60,8 +60,9 @@ const UserProfile = () => {
   });
 
   useEffect(() => {
-    setUser(userProfileInfo);
-    getData(`/user/profile`, {})
+    if(currentUserInfo.uid !== 0){
+      setUser(userProfileInfo);
+      getData(`/user/profile/${currentUserInfo.uid}`, {})
       .then((result: any) => {
         if (result.status === 200) {
           setUser(result.data);
@@ -84,17 +85,18 @@ const UserProfile = () => {
           localStorage.setItem(
             "userProfile",
             JSON.stringify({ userProfile: result.data })
-          );
-          localStorage.setItem(
+            );
+            localStorage.setItem(
             "userInfo",
             JSON.stringify({ userInfo: updateCurrentUserInfo })
-          );
+            );
         }
       })
       .catch((err: any) => {
         console.log(err);
         setUser((previous) => ({ ...previous, userId: currentUserInfo.uid }));
       });
+    }
   }, [refreshData]);
 
   // get workload data === >>>

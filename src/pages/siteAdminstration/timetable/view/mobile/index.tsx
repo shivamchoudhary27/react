@@ -47,21 +47,21 @@ const Mobile = (props: Props) => {
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "" },
+          { name: "Teaching Resources Planner", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle
-              pageTitle="Timetable Management"
+              pageTitle="Teaching Resources Planner"
               gobacklink="/siteadmin"
             />
             {TIMETABLE_FILTER_COMPONENT}
             {TIMETABLE_TABLE_COMPONENT}
             {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}
             <BuildPagination
-              totalpages=""
+              totalpages={props.commonProps.timeTableData}
               activepage={props.commonProps.filterUpdate}
               getrequestedpage={props.commonProps.newPageRequest}
             />
