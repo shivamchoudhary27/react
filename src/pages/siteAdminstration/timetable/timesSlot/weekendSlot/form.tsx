@@ -6,6 +6,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import { postData, putData } from "../../../../../adapters/microservices";
+import WaveBottom from "../../../../../assets/images/background/bg-modal.svg";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 
 type Props = {
@@ -105,6 +106,7 @@ const WeekendSlotModal = (props: Props) => {
       show={props.modalShow}
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="modal-design-wrapper"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -178,6 +180,7 @@ const WeekendSlotModal = (props: Props) => {
           </Formik>
         {/* )} */}
       </Modal.Body>
+      <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
     </Modal>
   );
 };

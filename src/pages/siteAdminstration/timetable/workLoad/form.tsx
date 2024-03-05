@@ -8,6 +8,7 @@ import { postData, putData } from "../../../../adapters/microservices";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 
 const WorkLoadModal = ({
   show,
@@ -119,6 +120,7 @@ const WorkLoadModal = ({
       onHide={onHide}
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="modal-design-wrapper"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -207,6 +209,7 @@ const WorkLoadModal = ({
           )}
         </Formik>
       </Modal.Body>
+      <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
     </Modal>
   );
 };

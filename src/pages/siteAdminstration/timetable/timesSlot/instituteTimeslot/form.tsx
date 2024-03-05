@@ -7,6 +7,7 @@ import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import { postData, putData } from "../../../../../adapters/microservices";
+import WaveBottom from "../../../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
@@ -197,6 +198,7 @@ const InstituteTimeSlotModal = ({
       onHide={onHide}
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="modal-design-wrapper"
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
@@ -372,6 +374,7 @@ const InstituteTimeSlotModal = ({
           )}
         </Formik>
       </Modal.Body>
+      <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
     </Modal>
   );
 };
