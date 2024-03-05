@@ -151,8 +151,7 @@ const ProgramSummary = () => {
 
 
         </div>
-        <Container fluid>
-          <br />   
+        <Container fluid> 
           <PageTitle pageTitle={``} gobacklink="/programlist" />
           {currentProgram?.data?.map((el: any) => (
             <div className="program-overview-container" key={el.id}>

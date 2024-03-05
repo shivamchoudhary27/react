@@ -142,7 +142,7 @@ function ProgramList() {
                 <Header />
               </div> : renderDesktopHeader()
             )}
-            <div className={`${isLoggedIn ? "my-4 px-5" : "mt-5"}`}>
+            <div className={`${isLoggedIn ? "my-md-4 px-md-5" : "mt-5"} programlist-title`}>
               <PageTitle pageTitle={`Programs`} gobacklink="/" />
             </div>
           </div>
@@ -238,12 +238,14 @@ function ProgramList() {
             </div>
           </div>
         </div>
-        <BuildPagination
+      <div className="programlist-pagination">
+      <BuildPagination
           totalpages={totalPages}
           getrequestedpage={newPageRequest}
           activepage={filterUpdate.pageNumber}
           service="core"
         />
+      </div>
 
           {isMobile ? (
           isLoggedIn ? <MobileFooter/> : <Footer/>
