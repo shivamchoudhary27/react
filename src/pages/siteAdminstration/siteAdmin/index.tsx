@@ -42,7 +42,7 @@ const SiteAdminHome = () => {
         <Link
           to={item.link}
           onClick={() => {
-            if (item.component === "copo") {
+            if (item.component === "copo" || item.component === "timetable") {
               handleShowModal();
             }
           }}

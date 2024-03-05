@@ -593,7 +593,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                               value="true"
                               onChange={handleChange}
                               checked={
-                                values.userSelfUnernolmentAllowed.toString() === "true"
+                                values.userSelfUnernolmentAllowed?.toString() === "true"
                               }
                             />{" "}
                             Yes
@@ -606,7 +606,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                               value="false"
                               onChange={handleChange}
                               checked={
-                                values.userSelfUnernolmentAllowed.toString() === "false"
+                                values.userSelfUnernolmentAllowed?.toString() === "false"
                               }
                             />{" "}
                             No
