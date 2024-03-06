@@ -1,5 +1,5 @@
 import React from "react";
-// import ModalForm from "../../form";
+import ModalForm from "../../form";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
 import { Container } from "react-bootstrap";
@@ -14,11 +14,14 @@ type Props = {
     onHide: any;
     apiStatus: any;
     totalPages: any;
-    minorCourseData: any;
     filterUpdate: any;
     modalShow: boolean;
+    refreshToggle: any;
     newPageRequest: any;
+    minorcourseObj: any;
     toggleModalShow: any;
+    minorCourseData: any;
+    editHandlerById: any;
   };
 };
 
@@ -33,7 +36,7 @@ const Mobile = (props: Props) => {
           { name: "Minor Course", path: "" },
         ]}
       />
-      <div className="contentarea-wrapper mb-wraper">
+       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="Minor Course" gobacklink="/dashboard" />
@@ -41,6 +44,9 @@ const Mobile = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               minorCourseData={props.commonProps.minorCourseData}
+              editHandlerById={props.commonProps.editHandlerById}
+              refreshToggle={props.commonProps.refreshToggle}
+              updateAddRefresh={props.commonProps.refreshToggle}
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
@@ -50,11 +56,13 @@ const Mobile = (props: Props) => {
           </Container>
         </div>
       </div>
-      {/* <ModalForm
+      <ModalForm
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
+        updateAddRefresh={props.commonProps.refreshToggle}
         toggleModalShow={props.commonProps.toggleModalShow}
-      /> */}
+        minorcourseObj={props.commonProps.minorcourseObj}
+      />
       <Footer />
     </React.Fragment>
   );

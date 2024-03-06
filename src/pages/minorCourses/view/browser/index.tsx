@@ -8,19 +8,21 @@ import StudentMinorCourseTable from "../../table";
 import PageTitle from "../../../../widgets/pageTitle";
 import BuildPagination from "../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
+import ModalForm from "../../form";
 
 type Props = {
   commonProps: {
     onHide: any;
     apiStatus: any;
     totalPages: any;
-    minorCourseData: any;
     filterUpdate: any;
     modalShow: boolean;
-    // repliesAction: any;
-    newPageRequest: any;
     refreshToggle: any;
+    newPageRequest: any;
+    minorcourseObj: any;
     toggleModalShow: any;
+    minorCourseData: any;
+    editHandlerById: any;
   };
 };
 
@@ -32,7 +34,7 @@ const Browser = (props: Props) => {
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
-          { name: "Minor Course", path: "" },
+          { name: "Minor Course", path: "" }
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
@@ -43,6 +45,9 @@ const Browser = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               minorCourseData={props.commonProps.minorCourseData}
+              editHandlerById={props.commonProps.editHandlerById}
+              refreshToggle={props.commonProps.refreshToggle}
+              updateAddRefresh={props.commonProps.refreshToggle}
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
@@ -52,12 +57,13 @@ const Browser = (props: Props) => {
           </Container>
         </div>
       </div>
-      {/* <ModalForm
+      <ModalForm
         onHide={props.commonProps.onHide}
         modalShow={props.commonProps.modalShow}
-        refreshToggle={props.commonProps.refreshToggle}
+        updateAddRefresh={props.commonProps.refreshToggle}
         toggleModalShow={props.commonProps.toggleModalShow}
-      /> */}
+        minorcourseObj={props.commonProps.minorcourseObj}
+      />
       <Footer />
     </React.Fragment>
   );

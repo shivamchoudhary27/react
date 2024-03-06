@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-
+import WaveBottom from "../../assets/images/background/bg-modal.svg";
 interface IDeleteAlert {
   show: boolean;
   onHide: () => void;
@@ -27,21 +27,27 @@ const DeleteAlert: React.FunctionComponent<IDeleteAlert> = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             Delete {modalHeading}
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>Are you sure, you want to delete!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={(e) => deleteHandler(e)}>
-            Yes
-          </Button>
-          <Button variant="secondary" onClick={(e) => deleteHandler(e)}>
-            No
-          </Button>
-        </Modal.Footer>
+        <Modal.Body>
+          <div className="mb-3 text-center">
+            Are you sure, you want to delete!
+          </div>
+          <div className="modal-buttons">
+            <Button variant="primary" onClick={(e) => deleteHandler(e)}>
+              Yes
+            </Button>
+            <Button variant="secondary" onClick={(e) => deleteHandler(e)}>
+              No
+            </Button>
+          </div>
+        </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg" />
       </Modal>
     </React.Fragment>
   );

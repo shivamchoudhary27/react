@@ -35,6 +35,7 @@ import Logout from '../../pages/logout';
 import ProgramSummary from "../../pages/home/programSummary";
 // import ProgramSummary from '../../pages/home/preview/index';
 import ProgramList from "../../pages/home/programList"
+import UserWaitlistData from '../../pages/minorCourses/userWaitlistData';
 
 const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
 const Attendance = React.lazy(() => import('../../pages/attendance'))
@@ -83,6 +84,7 @@ export default function NewCustomRoutes() {
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}
             <Route path="/minorcourse" element={<MinorCourse />} />
+            <Route path="/userwaitlistdata" element={<UserWaitlistData />} />
             <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/teachergradebook' element={<TeacherGradebook />} />
             <Route path='/studentgradeview' element={<SelectedStudentGrade />} />

@@ -1,8 +1,8 @@
+import "./style.scss";
 import View from "./view";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { getData } from "../../adapters/microservices";
-import "./style.scss";
 
 type Props = {};
 
@@ -15,6 +15,11 @@ const MinorCourse = (props: Props) => {
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
   const [minorCourseData, setMinorCourseData] = useState<any>(dummyData);
+  const [minorcourseObj, setminorcourseObj] = useState({
+    id: 0,
+    name: "",
+    enrolled: false
+  });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: 300,
@@ -23,7 +28,8 @@ const MinorCourse = (props: Props) => {
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-  //   1/minorCourses
+
+  // Get minorCourses Data from API === >>
   useEffect(() => {
     setApiStatus("started");
     getData(`/${currentInstitute}/minorCourses`, filterUpdate)
@@ -37,7 +43,7 @@ const MinorCourse = (props: Props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [currentInstitute, filterUpdate]);
+  }, [currentInstitute, filterUpdate, refreshData]);
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
@@ -52,6 +58,19 @@ const MinorCourse = (props: Props) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
 
+  // get id, name from table === >>>
+  const editHandlerById = (
+    id: number,
+    name: string,
+    enrolled: boolean
+  ) => {
+    setminorcourseObj({
+      id: id,
+      name: name,
+      enrolled: enrolled
+    });
+  };
+
   return (
     <React.Fragment>
       <View
@@ -59,6 +78,8 @@ const MinorCourse = (props: Props) => {
         modalShow={modalShow}
         refreshToggle={refreshToggle}
         newPageRequest={newPageRequest}
+        minorcourseObj={minorcourseObj}
+        editHandlerById={editHandlerById}
         toggleModalShow={toggleModalShow}
         onHide={() => toggleModalShow(false)}
         filterUpdate={filterUpdate.pageNumber}

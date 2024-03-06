@@ -11,8 +11,10 @@ type Props = {
   filterUpdate: any;
   refreshToggle: any;
   newPageRequest: any;
+  minorcourseObj: any;
   toggleModalShow: any;
   minorCourseData: any;
+  editHandlerById: any;
 };
 
 const View = (props: Props) => {
@@ -23,9 +25,12 @@ const View = (props: Props) => {
     totalPages: props.totalPages,
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
+    minorcourseObj: props.minorcourseObj,
     newPageRequest: props.newPageRequest,
     toggleModalShow: props.toggleModalShow,
     minorCourseData: props.minorCourseData,
+    editHandlerById: props.editHandlerById,
+
   };
 
   return (
