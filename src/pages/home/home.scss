@@ -302,10 +302,6 @@ height: 96vh;
     z-index: -1;
     top: 60%;
 }
-// .pg-summarybg{
-//   display: block;
-// }
-
 
 // ---------PROGRAM LIST FILTERS--------------------
 
@@ -339,6 +335,28 @@ height: 96vh;
   .highlightOption {
     background: linear-gradient(90deg, #13568A -0.02%, #076BD0 100%);
 }
+}
+.catalogfilter-header{
+  > button{
+    padding: 0;
+    background: none;
+    &:focus{
+      box-shadow: none;
+    }
+  }
+  .accordion-button:not(.collapsed){
+    background: none;
+    color: black;
+    border-bottom: 1px solid #92929261;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    &::after{
+      display: none;
+    }
+  }
+}
+.programlist-filters .accordion, .programlist-filters .accordion .accordion-item{
+  background: none;
 }
 // ---------PROGRAM LIST FILTERS end--------------------
 

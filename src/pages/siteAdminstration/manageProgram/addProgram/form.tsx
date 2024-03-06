@@ -662,38 +662,46 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                   {/* =================Minor course setting========= */}
 
                   <Col md={6}>
-                    {initValues.files !== undefined &&
-                      initValues.files.length > 0 && (
-                        <React.Fragment>
-                          <div>
-                            <img
-                              src={initValues.files[0].url}
-                              alt={initValues.files[0].originalFileName}
-                              width="150px"
-                            />{" "}
-                            <FieldTypeCheckbox
-                              name="deleteImage"
-                              checkboxLabel="Remove Picture"
-                            />
-                          </div>
-                        </React.Fragment>
-                      )}
                     <FieldLabel
                       htmlfor="file"
                       labelText="Program Picture"
                       className="mt-3"
                     />
-                    <input
-                      className="form-control mt-2"
-                      id="file"
-                      name="file"
-                      type="file"
-                      onChange={(event) => {
-                        setFieldValue("file", event.currentTarget.files[0]);
-                      }}
-                    />
+                    <div className="d-flex flex-wrap">
+                      {initValues.files !== undefined &&
+                        initValues.files.length > 0 && (
+                          <React.Fragment>
+                            <div>
+
+                              <img
+                                src={initValues.files[0].url}
+                                alt={initValues.files[0].originalFileName}
+                                width="150px"
+                              />
+
+                            </div>
+                          </React.Fragment>
+                        )}
+                      <div className="d-flex flex-column justify-content-end">
+                        {initValues.files !== undefined &&
+                          initValues.files.length > 0 && (
+                            <FieldTypeCheckbox
+                              name="deleteImage"
+                              checkboxLabel="Remove Picture"
+                            />
+                          )}
+                        <input
+                          className="form-control mt-2"
+                          id="file"
+                          name="file"
+                          type="file"
+                          onChange={(event) => {
+                            setFieldValue("file", event.currentTarget.files[0]);
+                          }}
+                        />
+                      </div>
+                    </div>
                     {/* <UploadImage setFieldValue={setFieldValue} values={values} /> */}
-                    <br />
                   </Col>
 
                   <Col md={6}>

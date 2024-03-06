@@ -117,7 +117,7 @@ const ProgramSummary = () => {
   function renderDesktopHeader() {
     return (
       <div className="d-flex justify-content-between align-items-center">
-      <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center">
+      <div className="logo-wrapper d-flex justify-content-between w-100 align-items-center p-md-4">
         <Link to="/">
           <img src={logo} alt="logo" className="img img-fluid" />
         </Link>

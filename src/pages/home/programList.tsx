@@ -88,6 +88,7 @@ function ProgramList() {
   const filtertags = dataFilter.tags.join(",");
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (dataFilter.Institutes) {
       setApiStatus(true)
       axios
