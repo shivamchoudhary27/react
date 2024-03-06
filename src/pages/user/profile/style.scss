@@ -17,6 +17,8 @@
         background: #f9fafb;
         border-radius: 16px;
         padding: 26px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
     }
     .user-picture {
         width: 200px; height: 200px; border-radius: 50%; border: 1px solid #ddd; margin: auto;
@@ -31,16 +33,10 @@
     }
     ul.profile-menu-data {
         list-style: none;
-        // margin: 0;
-        // padding: 0;
-        // overflow: hidden;
     }
     li {
         font-weight: 500;
         margin-bottom: 16px;
-        float: left;
-        width: 50%;
-        padding: 0 16px;
         overflow: hidden;
         text-overflow: ellipsis;
         label {

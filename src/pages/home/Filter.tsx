@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Form } from "react-bootstrap";
+import { Accordion, Button, Col, Form } from "react-bootstrap";
 import { getData } from "../../adapters/microservices";
+import { isMobile,isDesktop } from 'react-device-detect';
 import { pagination } from "../../utils/pagination";
 import Multiselect from "multiselect-react-dropdown";
 
@@ -80,11 +81,6 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
           }
           
           // -----------------------===== for default value of institute filter ===============---------------------
-          
-         
-    
-              
-            
           } catch (error) {
       
       console.error("Error fetching institutes:", error);
@@ -175,19 +171,26 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
       Institutes: instituteList[0].id,
     });
   }
-
+  const accordionProps = isDesktop
+  ? { activeKey: "0" }
+  : { defaultActiveKey: "1" };
   return (
     <Col md={3}>
-      <form ref={formRef}>
+      {/* ----  */}
         <div className="programlist-filters">
+      <Accordion {...accordionProps}>
+      <Accordion.Item eventKey="0">
+        <Accordion.Header className="catalogfilter-header">
           <h4>List By Filters</h4>
           <hr />
+        </Accordion.Header>
+        <Accordion.Body className="p-0">
+        <form ref={formRef}>
           {/* Institute Filter */}
           <Form.Group controlId="formGridInstitute" className="mb-3">
             <Form.Label>Institute</Form.Label>
             <Form.Control
               as="select"
-            
               onChange={handleinstituteId}
             >
               {instituteList &&
@@ -206,6 +209,7 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
               programTypes.items.map((programType) => (
                 <Form.Check
                   key={programType.id}
+                  id={`checkbox-${programType.id}`}
                   value={programType.id}
                   type="checkbox"
                   label={programType.name}
@@ -221,6 +225,7 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
               departments.items.map((department) => (
                 <Form.Check
                   key={department.id}
+                  id={`checkbox-${department.id}`}
                   type="checkbox"
                   label={department.name}
                   value={department.id}
@@ -272,8 +277,13 @@ const Filter: React.FC<ProgramFilter> = ({ onDataFilterChange}) => {
           <Button variant="link" onClick={hendleClearFilter}>
             Clear All Filters
           </Button>
-        </div>
       </form>
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
+        </div>
+      {/* ----  */}
+  
     </Col>
   );
 };
