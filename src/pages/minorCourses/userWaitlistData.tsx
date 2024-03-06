@@ -1,8 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Button, Table } from "react-bootstrap";
+import Header from "../newHeader";
+import HeaderTabs from "../headerTabs";
+import PageTitle from "../../widgets/pageTitle";
 import Errordiv from "../../widgets/alert/errordiv";
 import TableSkeleton from "../../widgets/skeleton/table";
+import { Button, Table, Container } from "react-bootstrap";
+import BreadcrumbComponent from "../../widgets/breadcrumb";
 import EnrollIcon from "../../assets/images/icons/enrolluser.svg";
 import EnrolledIcon from "../../assets/images/icons/enrolleduser.svg";
 import WaitListIcon from "../../assets/images/icons/waitlistuser.svg";
@@ -11,43 +14,45 @@ type Props = {
   apiStatus: string;
   minorCourseData: any;
   toggleModalShow: any;
-  editHandlerById: any;
-  refreshToggle: any;
-  updateAddRefresh: any;
+  setMoodalHeading: any;
 };
 
-const StudentMinorCourseTable = (props: Props) => {
-  const navigate = useNavigate();
+const UserWaitlistData = (props: Props) => {
 
-  const handleEnrollClick = ( id: number,name: string, enrolled:boolean) => {
-    props.editHandlerById(id, name, enrolled);
-    props.toggleModalShow(true);
-  }
-
-  const handleWaitlistClick = () => {
-    navigate("/userwaitlistdata")
-  }
-
-  //  unenroll user
-    const unenrolledOnClick = (id: number,name: string, enrolled:boolean) => {
-      props.editHandlerById(id, name, enrolled);
-      props.toggleModalShow(true);
-  }
-
+//   const handleEnrollClick = (e:any) => {
+//     // console.log(e.target.value)
+//     props.setMoodalHeading(e.target.value)
+//     props.toggleModalShow(true)
+//   }
   return (
-    <div className="table-responsive admin-table-wrapper grey-table-lines mt-3">
+    <>
+        <Header />
+        <HeaderTabs activeTab="helpdesk" />
+        <BreadcrumbComponent
+        routes={[
+          { name: "Dashboard", path: "/dashboard" },
+          { name: "Minor Courses", path: "" },
+          { name: "UserwaitListData", path: "" },
+        ]}
+        
+      />
+       <div className="contentarea-wrapper mb-wraper">
+        <div className="contentarea-wrapper mt-3 mb-5">
+          <Container fluid>
+       <PageTitle pageTitle="User wait list data" gobacklink="/minorcourse" />
+      <div className="table-responsive admin-table-wrapper grey-table-lines mt-3">
       <Table bordered striped className="attandence-table">
         <thead>
           <tr>
-            <th>Program Name</th>
-            <th>Blocks</th>
-            <th>Courses</th>
-            <th>Total Seats</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            {/* <th>Total Seats</th>
             <th>Remaining Seats</th>
-            <th>Actions</th>
+            <th>Actions</th> */}
           </tr>
         </thead>
-        <tbody>
+        {/* <tbody>
           {props.minorCourseData.length > 0 &&
             props.minorCourseData.map((program: any, programIndex: number) => (
               <React.Fragment key={programIndex}>
@@ -101,28 +106,23 @@ const StudentMinorCourseTable = (props: Props) => {
                                     category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.enrolled ? (
-                                          <Button className="enrolled-btn" 
-                                            onClick={() => unenrolledOnClick(course.id, course.name, course.enrolled)}>
+                                          <Button className="enrolled-btn">
                                             <img
                                               src={EnrolledIcon}
                                               alt="Enroll"
                                             />
                                             Unenrolled
                                           </Button>
-                                        ) 
-                                        : course.remainingSeats === 0 && course.enrolled === false ? (
-                                          <Button className="waitlist-btn" onClick={handleWaitlistClick}>
+                                        ) : course.remainingSeats === 0 ? (
+                                          <Button className="waitlist-btn">
                                             <img
                                               src={WaitListIcon}
                                               alt="Enroll"
                                             />
                                             Waitlist
                                           </Button>
-                                        )
-                                         : (
-                                          <Button className="enroll-btn" 
-                                            key={course.id} 
-                                            onClick={() => handleEnrollClick( course.id, course.name, course.enrolled)}>
+                                        ) : (
+                                          <Button className="enroll-btn" key={course.id} value={course.name} onClick={(e)=>handleEnrollClick(e)}>
                                             <img
                                               src={EnrollIcon}
                                               alt="Enroll"
@@ -141,7 +141,7 @@ const StudentMinorCourseTable = (props: Props) => {
                   )}
               </React.Fragment>
             ))}
-        </tbody>
+        </tbody> */}
       </Table>
       {props.apiStatus === "started" && props.minorCourseData.length === 0 && (
         <TableSkeleton numberOfRows={5} numberOfColumns={4} />
@@ -150,7 +150,11 @@ const StudentMinorCourseTable = (props: Props) => {
         <Errordiv msg="No record found!" cstate className="mt-3" />
       )}
     </div>
+    </Container>
+    </div>
+    </div>
+    </>
   );
 };
 
-export default StudentMinorCourseTable;
+export default UserWaitlistData;

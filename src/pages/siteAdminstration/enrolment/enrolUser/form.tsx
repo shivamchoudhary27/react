@@ -8,6 +8,7 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import { putData } from "../../../../adapters/microservices";
 import gearIcon from "../../../../assets/images/icons/setting-action.svg";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg"
 
 type Props = {
   onHide: any;
@@ -65,6 +66,7 @@ const ModalForm = (props: Props) => {
         onHide={props.onHide}
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -131,6 +133,7 @@ const ModalForm = (props: Props) => {
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
     </React.Fragment>
   );
