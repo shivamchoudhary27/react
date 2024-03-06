@@ -9,6 +9,7 @@ import { Container, Button } from "react-bootstrap";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomLeft, BackgroundWaveRight } from "../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -89,6 +90,8 @@ const Browser = (props: Props) => {
         onHide={() => toggleModalShow(false)}
       />
       <Footer />
+      <BackgroundWaveRight/>
+      <BackgroundWaveBottomLeft/>
     </React.Fragment>
   );
 };
