@@ -4,6 +4,7 @@ import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "./utils";
 import React, { useMemo, useState, useEffect } from "react";
 import { addDays, format, startOfWeek, parse } from "date-fns";
+import { formatDateWithDetails } from "../../../../lib/timestampConverter";
 
 const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, selectedMonth }: any) => {
   const currentDate = new Date();
@@ -139,10 +140,15 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     return dateObject.getTime();
   } 
 
+
+
   // calculate week days === >>
-  const calculateWeek = (amount: number) => {
+ 
+   const calculateWeek = (amount: number) => {
+    const formattedStartDate = courseDates.startDate === "--/--/----" ? currentDate : formatDateWithDetails(courseDates.startDate);
+    const StartDateFormat = formattedStartDate;
     const nextMonday = addDays(
-      startOfWeek(currentDate, { weekStartsOn: 1 }),
+      startOfWeek(StartDateFormat, { weekStartsOn: 1 }),
       amount 
     );
     const startOfChosenWeek = startOfWeek(nextMonday, { weekStartsOn: 1 });
@@ -150,15 +156,64 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
       addDays(startOfChosenWeek, offset)
     );
     return weekDates; 
-  }
+}
+
+const checkDateDifference = (startDateString, endDateString) => {
+  const startDate = new Date(startDateString);
+  const endDate = new Date(endDateString);
   
-  // console.log("renderWeek----", renderWeek)
+  const dateDifference = Math.abs((endDate - startDate) / (1000 * 60 * 60 * 24));
+  const days = startDate.getDay();
+
+
+
+  if (dateDifference > 6) {
+    return true; // Difference is greater than 6 days
+  } else if (
+    (days === 0 && dateDifference === 0) ||
+    (days === 1 && dateDifference === 6) ||
+    (days === 2 && dateDifference === 5) ||
+    (days === 3 && dateDifference === 4) ||
+    (days === 4 && dateDifference === 3) ||
+    (days === 5 && dateDifference === 2) ||
+    (days === 6 && dateDifference === 1)
+  ) {
+    return false; // Conditions met, return false
+  } else if (isNaN(dateDifference)) {
+    return false; // dateDifference is NaN
+  } else {
+    return true; // Other cases, return true
+  }
+}
+
+// Assuming formatDateWithDetails() is defined properly and courseDates is provided
+const areoButton = checkDateDifference(formatDateWithDetails(courseDates.startDate), formatDateWithDetails(courseDates.endDate))
+
+
+
+
   return (
     <React.Fragment>
       <div className="next-previousbuttons">
-        {weekNavs.prev && <button type="button" onClick={handlePreviousWeek}>{`<`}</button>}
-        {weekNavs.next && <button type="button" onClick={handleNextWeek}>{`>`}</button>}
-      </div>
+    <button 
+        type="button" 
+        style={{ visibility: weekNavs.prev && areoButton === true ? 'visible' : 'hidden' }}
+        // className={`btn ${weekNavs.prev ? 'btn-primary' : 'btn-secondary'}`} 
+        onClick={handlePreviousWeek}
+        // disabled={!weekNavs.prev}
+    >
+        {'<'} {/* Render the '<' symbol */}
+    </button>
+    <button 
+        type="button" 
+        // className={`btn ${weekNavs.next ? 'btn-primary' : 'btn-secondary'}`} 
+        style={{ visibility: weekNavs.next && areoButton === true ? 'visible' : 'hidden' }}
+        onClick={handleNextWeek}
+        // disabled={!weekNavs.next}
+    >
+        {`>`}
+    </button>
+</div>
       <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">
         <Table className="draft-table mb-0" {...getTableProps}>
           <thead>

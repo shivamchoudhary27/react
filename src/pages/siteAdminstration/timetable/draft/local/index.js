@@ -207,9 +207,6 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
     setTimeslots(timeslotPacket);
 }
 
-// ========================================================
-//   get month list between start & end timestamp === >>
-// ========================================================
 export const getMonthList = (courseData) => {
     const startTimestamp = courseData.startDateTimeStamp;
     const endTimestamp = courseData.endDateTimeStamp;
@@ -223,12 +220,17 @@ export const getMonthList = (courseData) => {
     let currentDate = new Date(startDate); // Initialize with the start date
 
     // Iterate through months between start and end date
-    while (currentDate <= endDate) {    
-    months.push(currentDate.toLocaleString('default', { month: 'long' })); // Get month name
-    currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
+    while (currentDate <= endDate) {
+        const monthName = currentDate.toLocaleString('default', { month: 'long' }); // Get month name
+        const year = currentDate.getFullYear(); // Get year
+        months.push({ month: monthName, year: year }); // Push month name and year into array
+        currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
     }
-    return(months);
+    return months;
 }
+
+
+
 
 // ========================================================
 // check sessionDate is lie between start & end date === >>
