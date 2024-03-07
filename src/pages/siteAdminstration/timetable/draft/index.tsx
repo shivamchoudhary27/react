@@ -190,6 +190,7 @@ const WeeklyDraftVersion = () => {
   const handleMonthFilterChange = (e: any) => {
     if(e.type === "change"){
       setSelectedMonth(e.target.value)
+      console.log(e.target.value)
     }
   }
 
@@ -249,7 +250,9 @@ const WeeklyDraftVersion = () => {
                     >
                       <option value={0}>Select Month</option>
                       {monthList.map((option, index) => (
-                        <option value={option} key={index}>{option}</option>
+                        <option value={`${option.month}-${option.year}`} key={index}>
+                          {option.month}{" "}{option.year}
+                        </option>
                       ))}
                     </select>
                   </div>

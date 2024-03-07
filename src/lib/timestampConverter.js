@@ -69,3 +69,24 @@ export const dateConverterToDYM = (date) => {
   return (formattedDate);
 }
 
+// Converts a date string from "day/month/year" format to  weekday, month, day, year, hour, minute, second, and time zone name.
+
+export const formatDateWithDetails = (dateString) => {
+  // Split the date string into day, month, and year parts
+  const [day, month, year] = dateString.split('/');
+  // Create a Date object with the parsed parts (month - 1 because months are zero-indexed)
+  const date = new Date(year, month - 1, day);
+  // Format the date string in the desired format
+  const formattedDate = date.toLocaleString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      timeZoneName: 'short'
+  });
+
+  return formattedDate;
+};
