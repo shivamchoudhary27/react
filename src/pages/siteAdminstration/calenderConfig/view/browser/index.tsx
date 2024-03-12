@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomRight } from "../../../../../widgets/backgroundElements";
 
 type Props = {};
 
@@ -28,6 +29,7 @@ const Browser = (props: Props) => {
         </Container>
       </div>
       <Footer />
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };

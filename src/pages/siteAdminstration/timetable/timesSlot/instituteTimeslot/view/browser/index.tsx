@@ -7,6 +7,7 @@ import HeaderTabs from "../../../../../../headerTabs";
 import ManageInstituteTimesSlotTable from "../../table";
 import PageTitle from "../../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomRight } from "../../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -71,6 +72,7 @@ const Browser = (props: Props) => {
         onHide={() => props.commonProps.toggleModalShow(false)}
       />
       <Footer />
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };

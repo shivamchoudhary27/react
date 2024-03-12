@@ -72,7 +72,7 @@ const Filters = ({
       <div className="filter-wrapper mt-2">
       <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
-            <Col>
+            <Col md="auto">
               <InstituteDepartmentDropdown 
                 currentInstitute={currentInstitute}
                 selectedValue ={selectedValue}
@@ -80,7 +80,7 @@ const Filters = ({
                 setSelectedValue ={setSelectedValue}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="name" hidden>Name</label>
               <input
                 className="form-control"
@@ -92,7 +92,7 @@ const Filters = ({
                 value={formik.values.name}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <label htmlFor="email" hidden>Email</label>
               <input
                 className="form-control"
@@ -104,7 +104,7 @@ const Filters = ({
                 value={formik.values.email}
               />
             </Col>
-            <Col>
+            <Col md="auto">
               <Button variant="primary" type="submit" className="me-2">
                 {apiStatus !== "finished" ? <LoadingButton status="filterLoader" /> : "Filter"}
               </Button>

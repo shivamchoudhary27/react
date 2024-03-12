@@ -8,6 +8,9 @@
         td {
             border: 1px solid #E6E6E6;
         }
+        // tbody tr:nth-child(odd) >   td {
+        //    background: red;
+        // }
     } 
 }
 
@@ -47,7 +50,3 @@
         background-color: #177dd6;
     }
 }
-
-// .table td {
-//     text-align: center;
-// }

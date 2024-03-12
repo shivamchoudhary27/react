@@ -1,4 +1,4 @@
-// import "./style.scss";
+import "./style.scss";
 import View from "./view";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
