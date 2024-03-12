@@ -22,15 +22,18 @@ const Curriculum = ({programId}: any) => {
         setSelectedProgram(e.target.value);
     }
 
+   
+
     // Get category Data from API === >>
     useEffect(() => {
-        const endPoint = `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${programId}`;
+        // const endPoint = `${config.JAVA_API_URL}/public/programs?pageNumber=${filterUpdate.pageNumber}&pageSize=${filterUpdate.pageSize}&Id=${programId}`;
+        const endPoint = `${config.JAVA_API_URL}/public/${programId}/category?pageNumber=0&pageSize=100`
         setApiStatus("started")
         axios.get(endPoint)
         .then((res: any) => { 
             if (res.data !== "" && res.status === 200) {
               setApiStatus("finished")
-                setProgramData(res.data.items[0].categories);
+                setProgramData(res.data.items);
             }
         })
         .catch((err: any) => {

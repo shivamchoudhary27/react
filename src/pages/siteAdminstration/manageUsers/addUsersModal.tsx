@@ -108,7 +108,7 @@ const AddUsersModal = ({
         })
         .catch((err: any) => {
           setSubmitting(false);
-          if (err.response.status === 400) {
+          if (err.response.status === 400 || 500) {
             setShowAlert(true);
             setAlertMsg({
               message: err.response.data.message,
@@ -137,7 +137,6 @@ const AddUsersModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err)
           setSubmitting(false);
           if (err.response.status === 400) {
             setShowAlert(true);
