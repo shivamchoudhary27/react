@@ -9,6 +9,7 @@ import HeaderTabs from "../../../../../../headerTabs";
 import PageTitle from "../../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomRight } from "../../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -105,6 +106,7 @@ const Browser = (props: Props) => {
         </Container>
       </div>
       <Footer />
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };

@@ -20,7 +20,7 @@ const TimesSlotTable = ({
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <div>
+        <div className="d-flex gap-3 managetime-actionbtns">
           <Link
             to={`/managetimeslot/${
               row.original.id
