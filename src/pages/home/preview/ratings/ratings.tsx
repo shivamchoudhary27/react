@@ -5,9 +5,13 @@ import { Row, Col } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import StarRating from "../../../../widgets/rating";
 import config from "../../../../utils/config";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import StartRatingModal from "./startRatingModal";
+import { getData, deleteData, postData, putData } from "../../../../adapters/microservices";
 
 interface IProps {
-  programid: any
+  newRating: number;
+  handleRating: (params: any) => void;
 } 
 
 const calculateNetRating = (ratingArray: number[]) => {
@@ -28,25 +32,82 @@ const programRatingTemplate = {
   fourStar: 0,
   fiveStar: 0,
   currentRating: 0,
-  currentUserRating: null
+  currentUserRating: null,
+  userEnroll: null,
 }
 
 const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   const [currentRating, setCurrentRating] = useState<number>(0);
+  const [modalShow, setModalShow] = useState<boolean>(false);
   const [programRating, setProgramRating] = useState(programRatingTemplate);
   const [refreshRating, setRefreshRating] = useState<boolean>(false);
   const ratingBars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
 
   useEffect(() => {
-    axios.get(`${config.JAVA_API_URL}/public/rating/${programid}`).then((res: any) => {
-      if (res.status === 200 && res.data.averageRating !== undefined) {
-        setProgramRating(res.data);
-        setCurrentRating(res.data.currentRating);
-      }
-    }).catch((err: any) => {
+    getData(`/rating/${programid}`, {})
+      .then((result: any) => {
+        if (result.status === 200 && result.data.averageRating !== undefined) {
+          setProgramRating(result.data);
+          setCurrentRating(result.data.currentRating);
+        }
+      })
+      .catch((err: any) => {
         console.log(err);
+      });
+  }, [refreshRating]);
+
+  const giveRatingHandler = () => {
+    setModalShow(true);
+  };
+
+  const handleRating = (getRatingCount: any) => {
+    setCurrentRating(getRatingCount);
+    if (programRating.ratingId === null || programRating.ratingId === 0) {
+      postData("rating", {
+        rating: getRatingCount,
+        itemType: "PROGRAM",
+        itemId: parseInt(programid),
+      })
+      .then((res: any) => {
+        if (res.status === 200) {
+          setRefreshRating((prevState) => !prevState)
+          setModalShow(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    } else {
+      putData(`rating/${programRating.ratingId}`, {
+        rating: getRatingCount,
+      })
+      .then((res: any) => {
+        if (res.status === 200) {
+          setRefreshRating((prevState) => !prevState)
+          setModalShow(false);
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    }
+  };
+
+  const resetUserRating = () => {
+    setCurrentRating(0);
+    deleteData(`rating/${programRating.ratingId}`)
+    .then((res: any) => {
+      setRefreshRating((prevState) => !prevState)
+      setModalShow(false);
+      if (res.status === 200) {
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+      setRefreshRating((prevState) => !prevState)
+      setModalShow(false);
     });
-  }, [refreshRating, programid]);
+  }
 
   return (
     <React.Fragment>
@@ -59,6 +120,14 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
               totalStars={5}
               currentRating={roundToWhole(programRating.averageRating)}
             />
+            {programRating.userEnroll != false && programRating.userEnroll != null &&
+            <CustomButton
+              type="button"
+              variant="primary"
+              btnText="Give Rating"
+              onClick={giveRatingHandler}
+            />
+            }
           </Col>
           <Col md="10" className=" por-right">
             {ratingBars.map((elem, index) => (
@@ -85,6 +154,13 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
         </Row>
         <Review />
       </div>
+      <StartRatingModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        newRating={currentRating}
+        handleRating={handleRating}
+        resetUserRating={resetUserRating}
+      />
     </React.Fragment>
   );
 };
