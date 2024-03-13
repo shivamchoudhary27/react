@@ -33,6 +33,9 @@ const Header = ({ showRightNavs = true }: any) => {
     navigate('/profile');
   }
 
+  const configNavigate = () => {
+    navigate('/siteconfiguration');
+  }
 
   return (
     <header className="d-flex flex-wrap align-items-center justify-content-center site-header">
@@ -80,6 +83,7 @@ const Header = ({ showRightNavs = true }: any) => {
             <Dropdown.Menu>
               {/* <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item> */}
               <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
+              <Dropdown.Item onClick={configNavigate}>Site Config</Dropdown.Item>
               <Dropdown.Item href={`${config.OAUTH2_URL}/logout`}>
                 Logout
               </Dropdown.Item>
