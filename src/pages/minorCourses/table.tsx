@@ -48,15 +48,15 @@ const StudentMinorCourseTable = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.minorCourseData.length > 0 &&
+          {props.minorCourseData?.length > 0 &&
             props.minorCourseData.map((program: any, programIndex: number) => (
               <React.Fragment key={programIndex}>
                 {program.programDtos &&
-                  program.programDtos.length > 0 &&
+                  program.programDtos?.length > 0 &&
                   program.programDtos.map(
                     (programDto: any, index: number) =>
                       programDto.categoriesCoursesDtos &&
-                      programDto.categoriesCoursesDtos.length > 0 &&
+                      programDto.categoriesCoursesDtos?.length > 0 &&
                       programDto.categoriesCoursesDtos.map(
                         (category: any, categoryIndex: number) => (
                           <tr key={`${programIndex}_${index}_${categoryIndex}`}>
@@ -69,11 +69,11 @@ const StudentMinorCourseTable = (props: Props) => {
                               </td>
                             )}
 
-                            {category.courseDtos.length > 0 && (
+                            {category.courseDtos?.length > 0 && (
                               <>
                                 <td>{category.name}</td>
                                 <td>
-                                  {category.courseDtos.length > 0 &&
+                                  {category.courseDtos?.length > 0 &&
                                     category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.name}
@@ -81,7 +81,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                     ))}
                                 </td>
                                 <td>
-                                  {category.courseDtos.length > 0 &&
+                                  {category.courseDtos?.length > 0 &&
                                     category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.enrollmentCapacity}
@@ -89,7 +89,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                     ))}
                                 </td>
                                 <td>
-                                  {category.courseDtos.length > 0 &&
+                                  {category.courseDtos?.length > 0 &&
                                     category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.remainingSeats}
@@ -97,7 +97,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                     ))}
                                 </td>
                                 <td>
-                                  {category.courseDtos.length > 0 &&
+                                  {category.courseDtos?.length > 0 &&
                                     category.courseDtos.map((course: any) => (
                                       <div className="m-4" key={course.id}>
                                         {course.enrolled ? (
@@ -143,10 +143,10 @@ const StudentMinorCourseTable = (props: Props) => {
             ))}
         </tbody>
       </Table>
-      {props.apiStatus === "started" && props.minorCourseData.length === 0 && (
+      {props.apiStatus === "started" && props.minorCourseData?.length === 0 && (
         <TableSkeleton numberOfRows={5} numberOfColumns={4} />
       )}
-      {props.apiStatus === "finished" && props.minorCourseData.length === 0 && (
+      {props.apiStatus === "finished" && props.minorCourseData?.length === 0 && (
         <Errordiv msg="No record found!" cstate className="mt-3" />
       )}
     </div>

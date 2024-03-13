@@ -71,28 +71,28 @@ const CourseTable = ({
     },
     {
       Header: "Courses",
-      // accessor: "coursename",
-      Cell: ({ row }: any) => (
-        <>
-          {row.original.coursename !== undefined && (
-            <>
-              <img src={moveIcon} className="me-3" alt="Move course" />
-              {`${row.original.coursename
-                .charAt(0)
-                .toUpperCase()}${row.original.coursename.slice(1)}`}{" "}
-              {row.original.files.length > 0 && (
-                <img
-                  src={row.original.files[0].url}
-                  alt="course image"
-                  height="25px"
-                />
-              )}
-            </>
-          )}
-        </>
-      ),
-      draggable: true,
-    },
+      accessor: "coursename"},
+    //   Cell: ({ row }: any) => (
+        // <>
+        //   {row.original.coursename !== undefined && (
+        //     <>
+        //       <img src={moveIcon} className="me-3" alt="Move course" />
+        //       {`${row.original.coursename
+        //         .charAt(0)
+        //         .toUpperCase()}${row.original.coursename.slice(1)}`}{" "}
+        //       {row.original.files.length > 0 && (
+        //         <img
+        //           src={row.original.files[0].url}
+        //           alt="course image"
+        //           height="25px"
+        //         />
+        //       )}
+        //     </>
+        //   )}
+        // </>
+      // ),
+    //   draggable: true,
+    // },
     {
       Header: "Course Type",
       Cell: ({ row }: any) => (
