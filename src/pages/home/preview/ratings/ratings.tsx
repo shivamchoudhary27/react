@@ -2,12 +2,14 @@ import "./style.scss";
 import axios from "axios";
 import Review from "./review";
 import { Row, Col } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import StarRating from "../../../../widgets/rating";
 import config from "../../../../utils/config";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import StartRatingModal from "./startRatingModal";
 import { getData, deleteData, postData, putData } from "../../../../adapters/microservices";
+import { deleteData as deleteDataPublic, postData as postDataPublic, putData as putDataPublic} from "../../../../adapters";
+import UserContext from "../../../../features/context/user/user";
 
 interface IProps {
   newRating: number;
@@ -43,18 +45,42 @@ const RatingComp: React.FunctionComponent<IProps> = ({ programid }) => {
   const [refreshRating, setRefreshRating] = useState<boolean>(false);
   const ratingBars = ['oneStar', 'twoStar', 'threeStar', 'fourStar', 'fiveStar'];
 
+  const userCtx = useContext(UserContext);
+  const isLoggedIn = userCtx.isLoggedIn;
+  console.log(isLoggedIn)
+
+  // const apiDiff = isLoggedIn ? "/rating/" : ";
+ 
+
+
   useEffect(() => {
-    getData(`/rating/${programid}`, {})
-      .then((result: any) => {
-        if (result.status === 200 && result.data.averageRating !== undefined) {
-          setProgramRating(result.data);
-          setCurrentRating(result.data.currentRating);
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    const endPoint = `${config.JAVA_API_URL}/public/rating/${programid}`;
+   
+    if (isLoggedIn === true) {
+      getData(`/rating/${programid}`, {})
+          .then((result: any) => {
+              if (result.status === 200 && result.data.averageRating !== undefined) {
+                  setProgramRating(result.data);
+                  setCurrentRating(result.data.currentRating);
+              }
+          })
+          .catch((err: any) => {
+              console.log(err);
+          })}else{  
+            axios.get(endPoint)
+            .then((result: any) => {
+              if (result.status === 200 && result.data.averageRating !== undefined) {
+                console.log(result.data)
+                setProgramRating(result.data);
+                setCurrentRating(result.data.currentRating);
+              }
+            })
+            .catch((err: any) => {
+              console.log(err);
+            });
+          }
   }, [refreshRating]);
+
 
   const giveRatingHandler = () => {
     setModalShow(true);

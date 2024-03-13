@@ -114,40 +114,42 @@ const CourseManagment = () => {
   // ============================================================
   //                      Set Files Ids
   // ============================================================
-  useEffect(() => {
-    categoryData.items.map((category: any) => {
-      if (category.courses.length > 0) {
-        category.courses.map((course: any) => {
-          if (course.files.length > 0) {
-            course.files.forEach((fileId: any) => {
-              setFilesIds((prevFilesIds) => [
-                ...prevFilesIds,
-                { id: fileId.id },
-              ]);
-            });
-          }
-        });
-      }
-    });
-  }, [categoryData]);
+  // useEffect(() => {
+  //   categoryData.items.map((category: any) => {
+  //     if (category.courses.length > 0) {
+  //       category.courses.map((course: any) => {
+  //         if (course.files.length > 0) {
+  //           course.files.forEach((fileId: any) => {
+  //             setFilesIds((prevFilesIds) => [
+  //               ...prevFilesIds,
+  //               { id: fileId.id },
+  //             ]);
+  //           });
+  //         }
+  //       });
+  //     }
+  //   });
+  // }, [categoryData]);
 
-  useEffect(() => {
-    if (filesIds.length > 0) {
-      postData(`/files`, filesIds)
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            console.log(result.data);
-          }
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  }, [filesIds]);
+  // useEffect(() => {
+  //   if (filesIds.length > 0) {
+  //     postData(`/files`, filesIds)
+  //       .then((result: any) => {
+  //         if (result.data !== "" && result.status === 200) {
+  //           console.log(result.data);
+  //         }
+  //       })
+  //       .catch((err: any) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [filesIds]);
   // ============================================================
   //                            End
   // ============================================================
 
+
+  
   // handle to count weight for acategory === >>
   useEffect(() => {
     if (categoryData.items.length > 0) {
