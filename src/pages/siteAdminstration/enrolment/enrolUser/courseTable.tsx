@@ -33,7 +33,9 @@ const EnrolUserTable = ({
       Header: "Categories",
       accessor: "name",
       Cell: ({ row }: any) => {
+        console.log(row.original)
         return (
+          <>
           <div
             style={{
               paddingLeft: setLevelPadding(row.original.level),
@@ -41,6 +43,11 @@ const EnrolUserTable = ({
           >
             {row.values.name}
           </div>
+          <div>{row.original.maxMinorCoursesAllowed}</div>
+          {/* {row.original.courses.length > 0 && (
+             <>{row.original.maxMinorCoursesAllowed}</>
+           )} */}
+          </>
         );
       },
     },
@@ -78,30 +85,31 @@ const EnrolUserTable = ({
       draggable: true,
     },
     {
-      Header: "Max Minor Course",
-      accessor: "maxMinorCoursesAllowed",
+
+      Header: "Seating capacity",
+      accessor: "enrollmentCapacity",
       Cell: ({ row }: any) => (
-        <div
-          style={{
-            paddingLeft: setLevelPadding(row.original.level),
-          }}
-        >
-          {row.original.courses.length > 0 && (
-            <>{row.original.maxMinorCoursesAllowed}</>
+        <>
+        {row.original.coursedetails &&
+          row.original.coursedetails.enrollmentCapacity &&
+           (
+            <>
+              {row.original.coursedetails.enrollmentCapacity }
+            </>
           )}
-        </div>
+      </>
       ),
     },
 
     {
       Header: "Actions",
       Cell: ({ row }: any) => {
-        const data = row.original.courses.find((course: any) => {
-          return course.courseType === "MINOR";
-        });
+        // const data = row.original.courses.find((course: any) => {
+        //   return course.courseType === "minor";
+        // });
         return (
           <div className="enrollment-actions">
-            {row.original.courses.length > 0 && data && (
+            {row.original.courses.length > 0  && (
               <img
                 style={{ cursor: "pointer" }}
                 src={gearIcon}
@@ -136,10 +144,11 @@ const EnrolUserTable = ({
                       ? `/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`
                       : "#"
                   }`}
+                
                 >
                   <img src={plusIcon} alt="Add Course" /> Enrol Users
                 </Link>
-                {row.original.coursedetails.courseType === "MINOR" &&
+                {row.original.coursedetails.courseType === "minor" &&
                   currentUserRole.shortName === "editingteacher" && (
                     <Link
                       className={`action-icons small-icon ${
@@ -150,16 +159,16 @@ const EnrolUserTable = ({
                       }`}
                       to={`${
                         row.original !== undefined &&
-                        row.original.coursedetails.published !== false
-                          ? `/userwaitlist/${programId}/${name}`
-                          : "#"
+                        row.original.coursedetails.courseType === "minor" 
+                        ? `/userwaitlist/${programId}/${name}/${row.original.courseid}`
+                        : "#"
                       }`}
                     >
                       View Waitlist
                     </Link>
                   )}
 
-                {/* // {row.original.coursedetails.courseType === "MINOR" && 
+                {/* // {row.original.coursedetails.courseType === "minor" && 
                 //   <Button onClick={()=>navigate("/userwaitlist")}>View Waitlist</Button>
                 //  } */}
 

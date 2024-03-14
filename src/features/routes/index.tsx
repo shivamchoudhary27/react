@@ -88,7 +88,7 @@ export default function NewCustomRoutes() {
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}
             <Route path="/minorcourse" element={<MinorCourse />} />
-            <Route path="/userwaitlist/:programid/:name" element={<UserWaitlist />} />
+            <Route path="/userwaitlist/:programid/:name/:courseid" element={<UserWaitlist />} />
             <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/teachergradebook' element={<TeacherGradebook />} />
             <Route path='/studentgradeview' element={<SelectedStudentGrade />} />
