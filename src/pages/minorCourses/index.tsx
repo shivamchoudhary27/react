@@ -18,8 +18,9 @@ const MinorCourse = (props: Props) => {
   const [minorcourseObj, setminorcourseObj] = useState({
     id: 0,
     name: "",
-    enrolled: false,
-    remainingSeats:null
+    remainingSeats:null,
+    enrollmentCapacity: null,
+    enrolmentStatus: "enrolment_close"
   });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -29,11 +30,11 @@ const MinorCourse = (props: Props) => {
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-
+  
   // Get minorCourses Data from API === >>
   useEffect(() => {
     setApiStatus("started");
-    getData(`/${currentInstitute}/minorCourses`, filterUpdate)
+    getData(`/${currentInstitute}/user/minor/courses`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setMinorCourseData(result.data);
@@ -63,14 +64,16 @@ const MinorCourse = (props: Props) => {
   const editHandlerById = (
     id: number,
     name: string,
-    enrolled: boolean,
-    remainingSeats: number
+    remainingSeats: number,
+    enrollmentCapacity: number,
+    enrolmentStatus: string
   ) => {
     setminorcourseObj({
       id: id,
       name: name,
-      enrolled: enrolled,
-      remainingSeats: remainingSeats
+      remainingSeats: remainingSeats,
+      enrollmentCapacity: enrollmentCapacity,
+      enrolmentStatus: enrolmentStatus
     });
   };
 
