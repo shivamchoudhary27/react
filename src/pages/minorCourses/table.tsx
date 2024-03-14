@@ -24,8 +24,11 @@ const StudentMinorCourseTable = (props: Props) => {
     props.toggleModalShow(true);
   }
 
-  const handleWaitlistClick = () => {
-    navigate("/userwaitlistdata")
+  const handleWaitlistClick = (id: number,name: string, enrolled:boolean, remainingSeats: number) => {
+    // navigate("/userwaitlistdata")
+    props.editHandlerById(id, name, enrolled, remainingSeats);
+    props.toggleModalShow(true);
+
   }
 
   //  unenroll user
@@ -62,7 +65,7 @@ const StudentMinorCourseTable = (props: Props) => {
                           <tr key={`${programIndex}_${index}_${categoryIndex}`}>
                             {categoryIndex === 0 && (
                               <td
-                                rowSpan={programDto.categoriesCoursesDtos.length}
+                                rowSpan={programDto.categoriesCoursesDtos?.length}
                                 className="m-4"
                               >
                                 {programDto.name}
@@ -111,7 +114,9 @@ const StudentMinorCourseTable = (props: Props) => {
                                           </Button>
                                         ) 
                                         : course.remainingSeats === 0 && course.enrolled === false ? (
-                                          <Button className="waitlist-btn" onClick={handleWaitlistClick}>
+                                          <Button className="waitlist-btn" 
+                                          // onClick={handleWaitlistClick}>
+                                          onClick={() => handleWaitlistClick(course.id, course.name, course.enrolled, course.remainingSeats)}>                                 
                                             <img
                                               src={WaitListIcon}
                                               alt="Enroll"
@@ -134,7 +139,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                     ))}
                                 </td>
                               </>
-                            )}
+                            )} 
                           </tr>
                         )
                       )
@@ -154,3 +159,4 @@ const StudentMinorCourseTable = (props: Props) => {
 };
 
 export default StudentMinorCourseTable;
+

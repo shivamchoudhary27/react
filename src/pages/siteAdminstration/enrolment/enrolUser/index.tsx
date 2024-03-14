@@ -5,6 +5,7 @@ import {
   getChildren,
 } from "./utils";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { setHasChildProp, resetManageCourseObj } from "./local";
 import { getData as getCategoryData } from "../../../../adapters/microservices/index";
@@ -18,9 +19,10 @@ const EnrolUsers = () => {
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
   const [parentWeight, setParentWeight] = useState<number>(0);
-  const [refreshData, setRefreshData] = useState<boolean>(false);
+  const [refreshData, setRefreshData] = useState<boolean>(true);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [deleteRefresh, setDeleteRefresh] = useState<boolean>(false);
+
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",
@@ -42,6 +44,11 @@ const EnrolUsers = () => {
     // pageSize: pagination.PERPAGE,
     pageSize: 100,
   });
+
+  const currentUserRole = useSelector(
+    (state) => state.globalFilters.currentUserRole
+  );
+
   const [apiStatus, setApiStatus] = useState("");
 
   const getCategoriesData = () => {
@@ -58,7 +65,7 @@ const EnrolUsers = () => {
         console.log(err);
         setApiStatus("finished");
       });
-  };
+  }
 
   // Get category Data from API === >>
   useEffect(() => {
@@ -70,7 +77,7 @@ const EnrolUsers = () => {
   // Get category Data from API === >>
   useEffect(() => {
     getCategoriesData();
-  }, [id, refreshData]);
+  }, [id, refreshData, currentUserRole]);
 
   useEffect(() => {
     if (categoryData.length > 0) {
@@ -171,6 +178,7 @@ const EnrolUsers = () => {
       modalShow={modalShow}
       apiStatus={apiStatus}
       refreshToggle={refreshToggle}
+      currentUserRole={currentUserRole}
       toggleModalShow={toggleModalShow}
       cleanFormValues={cleanFormValues}
       editHandlerById={editHandlerById}
