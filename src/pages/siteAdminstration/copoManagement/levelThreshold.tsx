@@ -23,7 +23,7 @@ const tableColumn = [
     // accessor: "value",
     Cell: ({ row }: any) => (
       <form>
-        <ButtonGroup aria-label="Basic" size="sm">
+        <ButtonGroup aria-label="Basic" size="sm" className="minusplus-btngroup">
           <Button variant="primary">
             <i className="fa-solid fa-minus"></i>
           </Button>
@@ -57,7 +57,7 @@ const LevelThreshold = (props: Props) => {
 
   return (
     <React.Fragment>
-      <div className="table-responsive admin-table-wrapper mt-3">
+      <div className="table-responsive admin-table-wrapper copo-table mt-3">
         <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (

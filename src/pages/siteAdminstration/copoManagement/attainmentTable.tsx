@@ -45,7 +45,7 @@ const AttainmentTable = (props: Props) => {
 
   return (
     <React.Fragment>
-      <div className="table-responsive admin-table-wrapper mt-3">
+      <div className="table-responsive admin-table-wrapper copo-table mt-3">
         <Table borderless striped {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (

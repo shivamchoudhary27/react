@@ -7,6 +7,8 @@ import { Container } from "react-bootstrap";
 import PageTitle from "../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../widgets/breadcrumb";
 import './style.scss';
+import "./mobileStyle.scss";
+import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveRight } from "../../../widgets/backgroundElements";
 type Props = {};
 
 const CoPoManagement = (props: Props) => {
@@ -27,6 +29,8 @@ const CoPoManagement = (props: Props) => {
         </Container>
       </div>
       <Footer />
+      <BackgroundWaveBottomLeft/>
+      <BackgroundWaveRight/>
     </React.Fragment>
   );
 };
