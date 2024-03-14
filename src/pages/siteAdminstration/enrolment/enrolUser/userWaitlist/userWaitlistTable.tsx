@@ -1,58 +1,33 @@
 import React from "react";
-import Header from "../newHeader";
-import HeaderTabs from "../headerTabs";
-import PageTitle from "../../widgets/pageTitle";
-import Errordiv from "../../widgets/alert/errordiv";
-import TableSkeleton from "../../widgets/skeleton/table";
+import Header from "../../../../newHeader";
+import { useParams } from "react-router-dom";
+import HeaderTabs from "../../../../headerTabs";
+import PageTitle from "../../../../../widgets/pageTitle";
+import Errordiv from "../../../../../widgets/alert/errordiv";
+import TableSkeleton from "../../../../../widgets/skeleton/table";
 import { Button, Table, Container } from "react-bootstrap";
-import BreadcrumbComponent from "../../widgets/breadcrumb";
-import EnrollIcon from "../../assets/images/icons/enrolluser.svg";
-import EnrolledIcon from "../../assets/images/icons/enrolleduser.svg";
-import WaitListIcon from "../../assets/images/icons/waitlistuser.svg";
 
 type Props = {
   apiStatus: string;
   minorCourseData: any;
   toggleModalShow: any;
-  setMoodalHeading: any;
 };
 
-const UserWaitlistData = (props: Props) => {
+const UserWaitlistTable = (props: Props) => {
+  const { programid } = useParams();
 
-//   const handleEnrollClick = (e:any) => {
-//     // console.log(e.target.value)
-//     props.setMoodalHeading(e.target.value)
-//     props.toggleModalShow(true)
-//   }
   return (
     <>
-        <Header />
-        <HeaderTabs activeTab="helpdesk" />
-        <BreadcrumbComponent
-        routes={[
-          { name: "Dashboard", path: "/dashboard" },
-          { name: "Minor Courses", path: "" },
-          { name: "UserwaitListData", path: "" },
-        ]}
-        
-      />
-       <div className="contentarea-wrapper mb-wraper">
-        <div className="contentarea-wrapper mt-3 mb-5">
-          <Container fluid>
-       <PageTitle pageTitle="User wait list data" gobacklink="/minorcourse" />
       <div className="table-responsive admin-table-wrapper grey-table-lines mt-3">
       <Table bordered striped className="attandence-table">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Full Name</th>
             <th>Email</th>
-            {/* <th>Total Seats</th>
-            <th>Remaining Seats</th>
-            <th>Actions</th> */}
+            <th>Action</th>
           </tr>
         </thead>
-        {/* <tbody>
+         {/* <tbody>
           {props.minorCourseData.length > 0 &&
             props.minorCourseData.map((program: any, programIndex: number) => (
               <React.Fragment key={programIndex}>
@@ -141,7 +116,7 @@ const UserWaitlistData = (props: Props) => {
                   )}
               </React.Fragment>
             ))}
-        </tbody> */}
+        </tbody>  */}
       </Table>
       {props.apiStatus === "started" && props.minorCourseData.length === 0 && (
         <TableSkeleton numberOfRows={5} numberOfColumns={4} />
@@ -150,11 +125,8 @@ const UserWaitlistData = (props: Props) => {
         <Errordiv msg="No record found!" cstate className="mt-3" />
       )}
     </div>
-    </Container>
-    </div>
-    </div>
     </>
   );
 };
 
-export default UserWaitlistData;
+export default UserWaitlistTable;

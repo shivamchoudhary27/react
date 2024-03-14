@@ -9,6 +9,7 @@ type Props = {
   programid: any;
   modalShow: any;
   refreshToggle: any;
+  currentUserRole: any;
   cleanFormValues: any;
   toggleModalShow: any;
   editHandlerById: any;
@@ -27,6 +28,7 @@ const View = (props: Props) => {
     modalShow: props.modalShow,
     apiStatus: props.apiStatus,
     refreshToggle: props.refreshToggle,
+    currentUserRole: props.currentUserRole,
     toggleModalShow: props.toggleModalShow,
     editHandlerById: props.editHandlerById,
     cleanFormValues: props.cleanFormValues,

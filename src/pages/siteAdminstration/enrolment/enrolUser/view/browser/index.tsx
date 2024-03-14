@@ -18,6 +18,7 @@ type Props = {
     modalShow: any;
     refreshToggle: any;
     cleanFormValues: any;
+    currentUserRole: any;
     toggleModalShow: any;
     editHandlerById: any;
     sortedCategories: any;
@@ -54,6 +55,7 @@ const Browser = (props: Props) => {
                 modalShow={props.commonProps.modalShow}
                 programId={props.commonProps.programid}
                 apiStatus={props.commonProps.apiStatus}
+                currentUserRole={props.commonProps.currentUserRole}
                 categoryData={props.commonProps.sortedCategories}
                 toggleModalShow={props.commonProps.toggleModalShow}
                 refreshcategories={props.commonProps.refreshToggle}

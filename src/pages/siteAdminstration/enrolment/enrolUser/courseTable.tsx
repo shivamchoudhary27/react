@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Table, Button } from "react-bootstrap";
 import { useTable } from "react-table";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import TableSkeleton from "../../../../widgets/skeleton/table";
@@ -22,6 +23,7 @@ const EnrolUserTable = ({
   refreshcategories,
   cleanFormValues,
   apiStatus,
+  currentUserRole,
   name,
 }: any) => {
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ const EnrolUserTable = ({
         <>
           {row.original.coursedetails &&
             row.original.coursedetails.courseType &&
-            typeof row.original.coursedetails.courseType === 'string' && (
+            typeof row.original.coursedetails.courseType === "string" && (
               <>
                 {row.original.coursedetails.courseType.charAt(0).toUpperCase() +
                   row.original.coursedetails.courseType.slice(1).toLowerCase()}
@@ -78,83 +80,100 @@ const EnrolUserTable = ({
     {
       Header: "Max Minor Course",
       accessor: "maxMinorCoursesAllowed",
-      Cell: ({ row }: any) => (    
-            <div
-              style={{
-                paddingLeft: setLevelPadding(row.original.level),
-              }}
-            >
-              {row.original.courses.length > 0 && (
-            <>
-            {row.original.maxMinorCoursesAllowed}
-            </>
-          )}
-            </div>
-      ),
-    },
-    
-    {
-      Header: "Actions",
-      Cell: ({ row }: any) => { 
-        const data =row.original.courses.find((course: any) => {
-             return course.courseType === "MINOR"   
-              });
-        return( 
-        <div className="enrollment-actions">
-          {row.original.courses.length>0 && 
-         data  &&
-          (
-            <img
-              style={{ cursor: "pointer" }}
-              src={gearIcon}
-              alt="Setting"
-              onClick={() =>
-                editHandler({
-                  id: row.original.id,
-                  name: row.original.name,
-                  level: row.original.level,
-                  weight: row.original.weight,
-                  parent: row.original.parent,
-                  maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed,
-                  dateUserUnenrolmentAllowed: row.original.dateUserUnenrolmentAllowed
-                })
-              }
-            />
-          )}
-          {row.original.coursename !== undefined && (
-            // <div className="d-flex justify-content-center align-items-center gap-2">
-            <div className="d-flex justify-content-center align-items-center gap-2">
-              <Link
-                className={`action-icons small-icon ${
-                  row.original !== undefined &&
-                  row.original.coursedetails.published !== false
-                    ? ""
-                    : "disabled my-anchor-element"
-                }`}
-                to={`${
-                  row.original !== undefined &&
-                  row.original.coursedetails.published !== false
-                    ? `/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`
-                    : "#"
-                }`}
-              >
-                <img src={plusIcon} alt="Add Course" /> Enrol Users
-              </Link>
-                {row.original.coursedetails.courseType === "MINOR" && 
-                  <Button>View Waitlist</Button>
-                 }
-              
-              <Tooltip
-                anchorSelect=".my-anchor-element"
-                style={{ backgroundColor: "#F0EDD4", color: "#222" }}
-                content="course disabled"
-                place="left"
-              />
-            </div>
+      Cell: ({ row }: any) => (
+        <div
+          style={{
+            paddingLeft: setLevelPadding(row.original.level),
+          }}
+        >
+          {row.original.courses.length > 0 && (
+            <>{row.original.maxMinorCoursesAllowed}</>
           )}
         </div>
-        )
-      }
+      ),
+    },
+
+    {
+      Header: "Actions",
+      Cell: ({ row }: any) => {
+        const data = row.original.courses.find((course: any) => {
+          return course.courseType === "MINOR";
+        });
+        return (
+          <div className="enrollment-actions">
+            {row.original.courses.length > 0 && data && (
+              <img
+                style={{ cursor: "pointer" }}
+                src={gearIcon}
+                alt="Setting"
+                onClick={() =>
+                  editHandler({
+                    id: row.original.id,
+                    name: row.original.name,
+                    level: row.original.level,
+                    weight: row.original.weight,
+                    parent: row.original.parent,
+                    maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed,
+                    dateUserUnenrolmentAllowed:
+                      row.original.dateUserUnenrolmentAllowed,
+                  })
+                }
+              />
+            )}
+            {row.original.coursename !== undefined && (
+              // <div className="d-flex justify-content-center align-items-center gap-2">
+              <div className="d-flex justify-content-center align-items-center gap-2">
+                <Link
+                  className={`action-icons small-icon ${
+                    row.original !== undefined &&
+                    row.original.coursedetails.published !== false
+                      ? ""
+                      : "disabled my-anchor-element"
+                  }`}
+                  to={`${
+                    row.original !== undefined &&
+                    row.original.coursedetails.published !== false
+                      ? `/courseenrollment/${programId}/${name}/${row.original.id}/${row.original.coursename}`
+                      : "#"
+                  }`}
+                >
+                  <img src={plusIcon} alt="Add Course" /> Enrol Users
+                </Link>
+                {row.original.coursedetails.courseType === "MINOR" &&
+                  currentUserRole.shortName === "editingteacher" && (
+                    <Link
+                      className={`action-icons small-icon ${
+                        row.original !== undefined &&
+                        row.original.coursedetails.published !== false
+                          ? ""
+                          : "disabled my-anchor-element"
+                      }`}
+                      to={`${
+                        row.original !== undefined &&
+                        row.original.coursedetails.published !== false
+                          ? `/userwaitlist/${programId}/${name}`
+                          : "#"
+                      }`}
+                    >
+                      View Waitlist
+                    </Link>
+                  )}
+
+                {/* // {row.original.coursedetails.courseType === "MINOR" && 
+                //   <Button onClick={()=>navigate("/userwaitlist")}>View Waitlist</Button>
+                //  } */}
+
+                <Tooltip
+                  anchorSelect=".my-anchor-element"
+                  style={{ backgroundColor: "#F0EDD4", color: "#222" }}
+                  content="course disabled"
+                  place="left"
+                />
+              </div>
+            )}
+          </div>
+        );
+      },
     },
   ];
 
@@ -182,7 +201,7 @@ const EnrolUserTable = ({
     weight,
     parent,
     maxMinorCoursesAllowed,
-    dateUserUnenrolmentAllowed
+    dateUserUnenrolmentAllowed,
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
@@ -192,7 +211,7 @@ const EnrolUserTable = ({
       weight,
       parent,
       maxMinorCoursesAllowed,
-      dateUserUnenrolmentAllowed
+      dateUserUnenrolmentAllowed,
     });
   };
 

@@ -18,7 +18,8 @@ const MinorCourse = (props: Props) => {
   const [minorcourseObj, setminorcourseObj] = useState({
     id: 0,
     name: "",
-    enrolled: false
+    enrolled: false,
+    remainingSeats:null
   });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -62,12 +63,14 @@ const MinorCourse = (props: Props) => {
   const editHandlerById = (
     id: number,
     name: string,
-    enrolled: boolean
+    enrolled: boolean,
+    remainingSeats: number
   ) => {
     setminorcourseObj({
       id: id,
       name: name,
-      enrolled: enrolled
+      enrolled: enrolled,
+      remainingSeats: remainingSeats
     });
   };
 
