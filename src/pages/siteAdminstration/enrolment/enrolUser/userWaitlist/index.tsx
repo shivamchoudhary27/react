@@ -11,7 +11,7 @@ import PageTitle from "../../../../../widgets/pageTitle";
 
 const UserWaitlist = () => {
   const navigate = useNavigate();
-  const { id, name, programid,  } = useParams();
+  const { id, courseid ,name, programid,  } = useParams();
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
@@ -33,7 +33,8 @@ const UserWaitlist = () => {
   // Get minorCourses Data from API === >>
   useEffect(() => {
     setApiStatus("started");
-    getData(`/${currentInstitute}/minorCourses`, filterUpdate)
+
+    getData(`/${currentInstitute}/view_waitlist?courseId=${courseid}`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setMinorCourseData(result.data);
