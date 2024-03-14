@@ -9,7 +9,7 @@ const CounterCell = ({ rowValue }: Props) => {
   return (
     <React.Fragment>
       <form>
-        <ButtonGroup aria-label="Basic" size="sm">
+        <ButtonGroup aria-label="Basic" size="sm" className="minusplus-btngroup">
           <Button variant="primary">
             <i className="fa-solid fa-minus"></i>
           </Button>
@@ -20,7 +20,6 @@ const CounterCell = ({ rowValue }: Props) => {
                 rowValue = e.target.value;
             }}
             placeholder="0%"
-            style={{ width: "70px" }}
           />
           <Button variant="primary">
             <i className="fa-solid fa-plus"></i>
