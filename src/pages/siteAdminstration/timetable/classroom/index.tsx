@@ -15,6 +15,7 @@ import { getData } from "../../../../adapters/microservices";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import View from "../view";
+import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveRight, BackgroundWaveTopLeft } from "../../../../widgets/backgroundElements";
 
 const ClassRoom = () => {
   const dummyData = {
@@ -216,6 +217,8 @@ const ClassRoom = () => {
         </Container>
       </div>
       <Footer />
+      <BackgroundWaveBottomRight />
+      <BackgroundWaveTopLeft />
     </React.Fragment>
   );
 };
