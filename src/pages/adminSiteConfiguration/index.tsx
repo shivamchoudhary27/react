@@ -22,6 +22,8 @@ type ConfigItem = {
   tab: string;
   type: string;
   config: string;
+  tabTitle: string;
+  label: string;
 };
 
 type Props = {};
@@ -36,7 +38,7 @@ const AdminSiteConfiguration = (props: Props) => {
       if (res.data !== "" && res.status === 200) {
         setMailConfigData(res.data);
         const tabTitlesList = [
-          ...new Set(res.data.map((item: ConfigItem) => item.tab)),
+          ...new Set(res.data.map((item: ConfigItem) => item.tabTitle)),
         ];
         setTabTitles(tabTitlesList);
       }
@@ -45,8 +47,7 @@ const AdminSiteConfiguration = (props: Props) => {
 
   const handleFormSubmit = (
     values: any,
-    { setSubmitting, resetForm }: any,
-    tabTitle: any
+    { setSubmitting, resetForm }: any
   ) => {
     let newValue = [
       { configKey: values.config_1, configValue: values.subject },
@@ -109,21 +110,21 @@ const AdminSiteConfiguration = (props: Props) => {
                                 subject: "",
                                 description: "",
                                 ...mailConfigData
-                                  .filter((item) => item.tab === tabTitle)
+                                  .filter((item) => item.tabTitle === tabTitle)
                                   .reduce((acc, item, index) => {
                                     acc[`config_${index}`] = item.config;
                                     return acc;
                                   }, {}),
                               }}
                               onSubmit={(values, action) => {
-                                handleFormSubmit(values, action, tabTitle);
+                                handleFormSubmit(values, action);
                               }}
                             >
                               {({ isSubmitting, handleChange }) => (
                                 <Form>
                                   <div className="d-flex flex-column">
                                     {mailConfigData
-                                      .filter((item) => item.tab === tabTitle)
+                                      .filter((item) => item.tabTitle === tabTitle)
                                       .sort((a, b) => {
                                         if (a.type === "textfield" && b.type === "textarea") {
                                           return -1;
