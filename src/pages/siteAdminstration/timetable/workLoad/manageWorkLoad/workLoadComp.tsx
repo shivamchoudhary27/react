@@ -11,6 +11,7 @@ import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
+import { Col, Row } from "react-bootstrap";
 
 type Props = {
   apiStatus: string;
@@ -139,7 +140,7 @@ const WorkLoadComp = (props: Props) => {
   return (
     <React.Fragment>
       {props.workloadData.length > 0 ? (
-        <p>{`User: ${props.workloadData[0].userFirstName} ${props.workloadData[0].userLastName} (${props.workloadData[0].userEmail})`}</p>
+        <p className="filter-wrapper">{`User: ${props.workloadData[0].userFirstName} ${props.workloadData[0].userLastName} (${props.workloadData[0].userEmail})`}</p>
       ) : (
         ""
       )}
@@ -163,32 +164,45 @@ const WorkLoadComp = (props: Props) => {
             }}
           >
             {({ errors, touched, isSubmitting }) => (
-              <Form>
-                {props.timeSlotList.length > 0 &&
-                  props.workloadData.map((item: any, index: number) => (
-                    <div key={index}>
-                      <h4>Department: {item.departmentName}</h4>
-                      <div className="mb-3">
-                        <FieldLabel
-                          htmlfor={`workload_${index}`}
-                          labelText="Workload in hour"
-                          required="required"
-                          // star="*"
-                        />
-                        <FieldTypeText
-                          type="number"
-                          name={`workload_${index}`}
-                          className="form-control"
-                          placeholder="Workload in hour"
-                        />
-                        <FieldErrorMessage
-                          errors={errors[`workload_${index}`]}
-                          touched={touched[`workload_${index}`]}
-                        />
-                      </div>
-                      <RenderTimeSlotList item={item.departmentId} />
-                    </div>
-                  ))}
+           <div>
+               <Form>
+                   <Row className="justify-content-center">
+                    <Col md={4}>
+                    {props.timeSlotList.length > 0 &&
+                      props.workloadData.map((item: any, index: number) => (
+                        <div key={index} className="card m-3 workload-card">
+                          <div className="card-header">
+                            <h4 className="m-0">Department: {item.departmentName}</h4>
+                          </div>
+                          <div className="card-body">
+                            <div className="mb-4">
+                              <FieldLabel
+                                htmlfor={`workload_${index}`}
+                                labelText="Workload in hour"
+                                required="required"
+                              // star="*"
+                              />
+                             <div className="d-flex workload-hour">
+                             <FieldTypeText
+                                type="number"
+                                name={`workload_${index}`}
+                                className="form-control"
+                                placeholder="Workload in hour"
+                              />
+                             <p>(per week)</p>
+                             </div>
+                              <FieldErrorMessage
+                                errors={errors[`workload_${index}`]}
+                                touched={touched[`workload_${index}`]}
+                              />
+                            </div>
+                            <RenderTimeSlotList item={item.departmentId} />
+                          </div>
+                        </div>
+                      ))}
+                      </Col>
+
+                   </Row>
                 {isSubmitting === false ? (
                   <div className="modal-buttons">
                     <CustomButton
@@ -211,6 +225,7 @@ const WorkLoadComp = (props: Props) => {
                   />
                 )}
               </Form>
+           </div>
             )}
           </Formik>
         )}

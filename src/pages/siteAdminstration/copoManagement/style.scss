@@ -5,13 +5,10 @@
     width: fit-content;
     gap: 1px;
     box-shadow: -5px -5px 4px 0px rgba(255, 255, 255, 0.3) inset;
-
-box-shadow: 5px 5px 4px 0px rgba(174, 174, 192, 0.2) inset;
-background: rgba(240, 240, 243, 1);
-border-radius: 2rem;
-height: 36px;
+    box-shadow: 5px 5px 4px 0px rgba(174, 174, 192, 0.2) inset;
+    background: rgba(240, 240, 243, 1);
+    border-radius: 2rem;
     button {
-        // background-color: rgb(225, 225, 225);
         color: black;
         padding: 0 10px;
         box-shadow: none;
@@ -23,12 +20,8 @@ height: 36px;
         align-items: center;
         box-shadow: -2px -2px 4px 0px rgba(0, 0, 0, 0.1) inset;
         border: 2px solid;
-
         border-image-source: linear-gradient(135deg, rgb(255 255 255 / 0%) 0%, rgba(255, 255, 255, 0.05) 100%);
-        
         background: rgba(240, 240, 243, 1);
-                
-
     }
     input{
         background: transparent;
@@ -36,6 +29,7 @@ height: 36px;
         box-shadow: none;
         width: 70px;
         text-align: center;
+        padding: 5px 15px;
     }
 }
 .tabStep-indicator {
@@ -43,13 +37,11 @@ height: 36px;
       flex: 1 1;
       text-align: center;
       color: #7D7D7D;
-  
       .nav-link {
         width: -webkit-fill-available;
         margin: 0;
         border: 0;
         color: rgb(82, 82, 82);
-  
         &:hover,
         &:active,
         &:focus {

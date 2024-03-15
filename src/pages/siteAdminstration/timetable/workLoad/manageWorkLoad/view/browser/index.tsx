@@ -6,6 +6,7 @@ import Footer from "../../../../../../newFooter";
 import HeaderTabs from "../../../../../../headerTabs";
 import PageTitle from "../../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomLeft, BackgroundWaveLeft, BackgroundWaveRight } from "../../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -44,6 +45,8 @@ const Browser = (props: Props) => {
         </Container>
       </div>
       <Footer />
+      <BackgroundWaveRight/>
+      <BackgroundWaveBottomLeft/>
     </React.Fragment>
   );
 };
