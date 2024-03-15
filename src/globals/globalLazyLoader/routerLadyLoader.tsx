@@ -1,16 +1,24 @@
 import { RotatingLines } from "react-loader-spinner";
 
-type Props = {};
+type Props = {
+  status? : boolean
+};
 
 const RouterLadyLoader = (props: Props) => {
   return (
-    <div style={{
+    <div style={
+      props.status ? {
+      display: "flex",
+      justifyContent: "center",
+    }: 
+    {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       height: "100vh",
       backgroundColor:"#f3f6fa"
-    }}>
+    }
+    }>
       <RotatingLines
         visible={true}
         height="50"

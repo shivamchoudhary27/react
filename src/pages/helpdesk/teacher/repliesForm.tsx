@@ -12,6 +12,7 @@ import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import RouterLadyLoader from "../../../globals/globalLazyLoader/routerLadyLoader";
 
 type Props = {
   onHide: any;
@@ -108,33 +109,42 @@ const RepliesForm = (props: Props) => {
             <>
               {props.apiStatus === "finished" &&
               props.getAllComment.length === 0 ? (
-                <Errordiv
-                  msg="No comments available!"
-                  cstate
-                  className="mt-3"
-                />
+               <RouterLadyLoader status={true}/>
               ) : props.apiStatus === "started" &&
                 props.getAllComment.length === 0 ? (
                 <p>Loading.....</p>
               ) : (
+                <div className="my-3">
                 <MessagesView
                   getAllComment={props.getAllComment}
                   apiStatus={props.apiStatus}
                   customClass="chat-reverse"
                   selectedTopicId={props.selectedTopicId}
                 />
+                </div>
               )}
             </>
           ) : null}
           {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
-            <div className="my-3">
+            <>
+            {props.apiStatus === "finished" &&
+            props.getAllComment.length === 0 ? (
+             <RouterLadyLoader status={true}/>
+            ) : props.apiStatus === "started" &&
+              props.getAllComment.length === 0 ? (
+              <p>Loading.....</p>
+            ) : (
+              <div className="my-3">
               <MessagesView
                 getAllComment={props.getAllComment}
                 apiStatus={props.apiStatus}
                 customClass="chat-reverse"
                 selectedTopicId={props.selectedTopicId}
               />
-            </div>
+              </div>
+            )}
+          </>
+
           ) : null}
 
           {props.repliesAction === "reply" ? (

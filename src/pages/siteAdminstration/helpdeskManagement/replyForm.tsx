@@ -12,6 +12,7 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
 import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
+import RouterLadyLoader from "../../../globals/globalLazyLoader/routerLadyLoader";
 
 type Props = {
   onHide: any;
@@ -106,36 +107,65 @@ const RepliesForm = (props: Props) => {
         </Modal.Header>
         <Modal.Body>
           {props.repliesAction !== "reply" ? (
+            // <>
+            //   {props.apiStatus === "finished" &&
+            //   props.getAllComment.length === 0 ? (
+            //     <Errordiv
+            //       msg="No comments available!"
+            //       cstate
+            //       className="mt-3"
+            //     />
+            //   ) : props.apiStatus === "started" &&
+            //     props.getAllComment.length === 0 ? (
+            //     <p>Loading.....</p>
+            //   ) : (
+            //     <MessagesView
+            //       apiStatus={props.apiStatus}
+            //       customClass="chat-reverse"
+            //       getAllComment={props.getAllComment}
+            //       selectedTopicId={props.selectedTopicId}
+            //     />
+            //   )}
+            // </>
             <>
-              {props.apiStatus === "finished" &&
+            {props.apiStatus === "finished" &&
+            props.getAllComment.length === 0 ? (
+             <RouterLadyLoader status={true}/>
+            ) : props.apiStatus === "started" &&
               props.getAllComment.length === 0 ? (
-                <Errordiv
-                  msg="No comments available!"
-                  cstate
-                  className="mt-3"
-                />
-              ) : props.apiStatus === "started" &&
-                props.getAllComment.length === 0 ? (
-                <p>Loading.....</p>
-              ) : (
-                <MessagesView
-                  apiStatus={props.apiStatus}
-                  customClass="chat-reverse"
-                  getAllComment={props.getAllComment}
-                  selectedTopicId={props.selectedTopicId}
-                />
-              )}
-            </>
-          ) : null}
-          {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
-            <div className="my-3">
+              <p>Loading.....</p>
+            ) : (
+              <div className="my-3">
               <MessagesView
+                getAllComment={props.getAllComment}
                 apiStatus={props.apiStatus}
                 customClass="chat-reverse"
-                getAllComment={props.getAllComment}
                 selectedTopicId={props.selectedTopicId}
               />
-            </div>
+              </div>
+            )}
+          </>
+          
+          ) : null}
+          {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
+            <>
+            {props.apiStatus === "finished" &&
+            props.getAllComment.length === 0 ? (
+             <RouterLadyLoader status={true}/>
+            ) : props.apiStatus === "started" &&
+              props.getAllComment.length === 0 ? (
+              <p>Loading.....</p>
+            ) : (
+              <div className="my-3">
+              <MessagesView
+                getAllComment={props.getAllComment}
+                apiStatus={props.apiStatus}
+                customClass="chat-reverse"
+                selectedTopicId={props.selectedTopicId}
+              />
+              </div>
+            )}
+          </>
           ) : null}
 
           {props.repliesAction === "reply" ? (
