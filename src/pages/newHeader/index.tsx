@@ -25,6 +25,10 @@ const Header = ({ showRightNavs = true }: any) => {
   const userid = userCtx.userInfo.userid ?? 0;
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
+  const menuPermission = useSelector(
+    (state: any) => state.userAuthorities.permissions.menu
+);
+
   const logout = () => {
     userCtx.logout();
   };
@@ -83,7 +87,10 @@ const Header = ({ showRightNavs = true }: any) => {
             <Dropdown.Menu>
               {/* <Dropdown.Item href="#/action-2">{fullname}</Dropdown.Item> */}
               <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
-              <Dropdown.Item onClick={configNavigate}>Site Config</Dropdown.Item>
+              {
+                menuPermission.admin.canView && 
+                <Dropdown.Item onClick={configNavigate}>Site Configuration</Dropdown.Item>
+              }
               <Dropdown.Item href={`${config.OAUTH2_URL}/logout`}>
                 Logout
               </Dropdown.Item>

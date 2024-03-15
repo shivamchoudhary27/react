@@ -28,6 +28,10 @@ const MobileHeader = (props: Props) => {
   const fullname = userCtx.userInfo.fullname.toString() ?? "";
   const userpictureurl = userCtx.userInfo.userpictureurl.toString() ?? "";
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  
+  const menuPermission = useSelector(
+    (state: any) => state.userAuthorities.permissions.menu
+);
 
   const logout = () => {
     userCtx.logout();
@@ -42,6 +46,10 @@ const MobileHeader = (props: Props) => {
 
   const profileNavigate = () => {
     navigate('/profile');
+  }
+
+  const configNavigate = () => {
+    navigate('/siteconfiguration');
   }
 
   return (
@@ -83,6 +91,10 @@ const MobileHeader = (props: Props) => {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={profileNavigate}>Profile</Dropdown.Item>
+              {
+                menuPermission.admin.canView && 
+                <Dropdown.Item onClick={configNavigate}>Site Configuration</Dropdown.Item>
+              }
               <Dropdown.Item href={`${config.OAUTH2_URL}/logout`}>
                 Logout
               </Dropdown.Item>

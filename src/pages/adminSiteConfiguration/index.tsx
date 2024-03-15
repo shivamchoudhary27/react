@@ -82,13 +82,13 @@ const AdminSiteConfiguration = (props: Props) => {
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
-          { name: "Configuration", path: "" },
+          { name: "Mail Templates Configuration", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="Configuration" gobacklink="/dashboard" />
+            <PageTitle pageTitle="Mail Templates Configuration" gobacklink="/dashboard" />
             <Tab.Container id="left-tabs-example" defaultActiveKey="first">
               <Row>
                 {tabTitles.length > 0 &&
