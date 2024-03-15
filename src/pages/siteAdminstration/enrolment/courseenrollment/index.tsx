@@ -56,12 +56,12 @@ const CourseEnrollment = () => {
       setDiciplineData,
       setApiStatus
     );
-    makeGetDataRequest(
-      `${currentInstitute}/programs`,
-      { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
-      setProgramData,
-      setApiStatus
-    );
+    // makeGetDataRequest(
+    //   `${currentInstitute}/programs`,
+    //   { pageNumber: 0, pageSize: pagination.PERPAGE, Id: programid },
+    //   setProgramData,
+    //   setApiStatus
+    // );
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
@@ -229,6 +229,7 @@ const CourseEnrollment = () => {
         <ManageFilter
           updateinputfilters={updateSearchFilters}
           apiStatus={apiStatus}
+          EnrolledUser={diciplineData.pager.totalElements}
         />
       </div>
     </>

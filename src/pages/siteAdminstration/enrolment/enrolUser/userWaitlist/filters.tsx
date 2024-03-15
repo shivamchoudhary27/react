@@ -1,22 +1,21 @@
 import { useState } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
-import { filterConfig } from "../../../../utils/filterTimeout";
-import "./style.scss";
-import { FiltersLoadingBtn } from "../../../../utils/filtersLoading";
+import { filterConfig } from "../../../../../utils/filterTimeout";
+import { FiltersLoadingBtn } from "../../../../../utils/filtersLoading";
 
 const initialValues = {
   name: "",
   email: "",
 };
 
-const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
+const ManageFilter = ({ updateInputFilters, apiStatus }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
-      updateinputfilters(values, false);
+      updateInputFilters(values, false);
     },
     onReset: () => {
       if (timeoutId) clearTimeout(timeoutId); // Clear previous timeout, if any
@@ -24,7 +23,7 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
         name: "",
         email: "",
       });
-      updateinputfilters({}, true);
+      updateInputFilters({}, true);
     },
   });
 
@@ -40,12 +39,11 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
         name: event.target.name === 'name' ? event.target.value : formik.values.name,
         email: event.target.name === 'email' ? event.target.value : formik.values.email,
       };
-      updateinputfilters(newRequest, false);
+      updateInputFilters(newRequest, false);
     }, filterConfig.timeoutNumber); // Adjust the delay (in milliseconds) as per your needs
 
     setTimeoutId(newTimeoutId); // Update the timeout ID in state
   };
-
 
   return (
     <>
@@ -86,8 +84,6 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
               Reset
             </Button>
           </Col>
-
-          <Col>Enrolled user : {EnrolledUser}</Col>
         </Row>
       </form>
     </>
