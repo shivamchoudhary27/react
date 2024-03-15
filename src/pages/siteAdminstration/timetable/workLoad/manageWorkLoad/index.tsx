@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { pagination } from "../../../../../utils/pagination";
 import { getData } from "../../../../../adapters/microservices";
-
+import "./style.scss"
 type Props = {};
 
 const ManageWorkLoad = (props: Props) => {

@@ -1,0 +1,16 @@
+.workload-card {
+    .card-header {
+        background: url("../../../../../assets/images/footer-bg.svg");
+        color: white;
+        background-position-x: -260%;
+    }
+    .workload-hour {
+        align-items: flex-end;
+        color: grey;
+        p {
+            width: -webkit-fill-available;
+            margin: 0;
+            margin-left: 10px;
+        }
+    }
+}
