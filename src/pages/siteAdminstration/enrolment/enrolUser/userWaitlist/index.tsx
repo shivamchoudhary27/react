@@ -8,6 +8,9 @@ import Header from "../../../../newHeader";
 import HeaderTabs from "../../../../headerTabs";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import PageTitle from "../../../../../widgets/pageTitle";
+import UserFilter from "./filters";
+import ManageFilter from "./filters";
+import { pagination } from "../../../../../utils/pagination";
 
 const UserWaitlist = () => {
   const navigate = useNavigate();
@@ -23,27 +26,27 @@ const UserWaitlist = () => {
 
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
-    // pageSize: pagination.PERPAGE,
-    pageSize: 100,
+    pageSize: pagination.PERPAGE,
+    // pageSize: 100,
   });
+
 
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
   // Get minorCourses Data from API === >>
   useEffect(() => {
-    setApiStatus("started");
-
+    setApiStatus(true);
     getData(`/${currentInstitute}/view_waitlist?courseId=${courseid}`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setMinorCourseData(result.data);
         }
-        setApiStatus("finished");
+        setApiStatus(false);
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus("finished");
+        setApiStatus(false);
       });
   }, [currentInstitute, filterUpdate, refreshData]);
 
@@ -52,10 +55,32 @@ const UserWaitlist = () => {
     setModalShow(status);
   };
 
-  // handle to re-rendering of category table === >>
-  const refreshToggle = (status: boolean) => {
-    setRefreshData(!refreshData);
+ 
+
+  const updateSearchFilters = (newFilterRequest: any, reset = false) => {
+    if (reset === true) {
+      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      delete updatedState.name;
+      delete updatedState.email;
+      setFilterUpdate(updatedState);
+      return false;
+    } else {
+      const { name, email } = newFilterRequest;
+      let updatedState = {
+        ...filterUpdate,
+        pageNumber: 0,
+        ...newFilterRequest,
+      };
+
+      if (email === "") delete updatedState.email;
+      if (name === "") delete updatedState.name;
+
+      setFilterUpdate(updatedState);
+    }
   };
+
+
+
 
   return (
     <>
@@ -76,6 +101,9 @@ const UserWaitlist = () => {
               pageTitle="Wait List"
             gobacklink={`/enrolusers/${programid}/${name}`}
             />
+            <ManageFilter
+             apiStatus={apiStatus}
+            updateInputFilters={updateSearchFilters}/>
             <UserWaitlistTable
               apiStatus={apiStatus}
               toggleModalShow={toggleModalShow}

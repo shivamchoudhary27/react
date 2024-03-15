@@ -33,7 +33,6 @@ const EnrolUserTable = ({
       Header: "Categories",
       accessor: "name",
       Cell: ({ row }: any) => {
-        console.log(row.original)
         return (
           <>
           <div
@@ -43,10 +42,18 @@ const EnrolUserTable = ({
           >
             {row.values.name}
           </div>
-          <div>{row.original.maxMinorCoursesAllowed}</div>
-          {/* {row.original.courses.length > 0 && (
-             <>{row.original.maxMinorCoursesAllowed}</>
-           )} */}
+          {row.original.maxMinorCoursesAllowed ? (
+  <div style={{
+    backgroundColor: "#E4E4E4",
+    borderRadius: "1rem",
+    width: "max-content",
+    // text: "align:center",
+    // margin : "0 auto"
+    fontSize:"0.8rem"
+  }} >
+     {` ( Enrolment required ${row.original.maxMinorCoursesAllowed} courses) `}
+  </div>
+) : null}
           </>
         );
       },
@@ -104,12 +111,14 @@ const EnrolUserTable = ({
     {
       Header: "Actions",
       Cell: ({ row }: any) => {
-        // const data = row.original.courses.find((course: any) => {
-        //   return course.courseType === "minor";
-        // });
+        const data = row.original.courses.find((course: any) => {
+          return course.courseType === "minor";
+        });
         return (
           <div className="enrollment-actions">
-            {row.original.courses.length > 0  && (
+            {row.original.courses.length  > 0  &&
+            data !== undefined  &&
+             (
               <img
                 style={{ cursor: "pointer" }}
                 src={gearIcon}
@@ -149,7 +158,8 @@ const EnrolUserTable = ({
                   <img src={plusIcon} alt="Add Course" /> Enrol Users
                 </Link>
                 {row.original.coursedetails.courseType === "minor" &&
-                  currentUserRole.shortName === "editingteacher" && (
+                  // currentUserRole.shortName === "editingteacher" &&
+                   (
                     <Link
                       className={`action-icons small-icon ${
                         row.original !== undefined &&

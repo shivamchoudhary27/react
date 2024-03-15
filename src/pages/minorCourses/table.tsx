@@ -79,7 +79,20 @@ const StudentMinorCourseTable = (props: Props) => {
 
                       {category.courses?.length > 0 && (
                         <>
-                          <td>{category.name}</td>
+                          {/* <td>{category.name}</td> */}
+                          <td>
+                            {category.name}
+                            <div
+                              style={{
+                                backgroundColor: "#E4E4E4",
+                                borderRadius: "1rem",
+                                width: "max-content",
+                                fontSize: "0.8rem",
+                              }}
+                            >
+                              {` ( Enrolment required ${category.maxMinorCoursesAllowed} courses) `}
+                            </div>
+                          </td>
                           <td>
                             {category.courses.map((course: any) => (
                               <div className="m-4" key={course.id}>
@@ -87,6 +100,7 @@ const StudentMinorCourseTable = (props: Props) => {
                               </div>
                             ))}
                           </td>
+                          
                           <td>
                             {category.courses.map((course: any) => (
                               <div className="m-4" key={course.id}>
