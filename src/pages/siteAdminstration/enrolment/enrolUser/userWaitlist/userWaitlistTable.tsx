@@ -8,14 +8,14 @@ import { postData } from "../../../../../adapters/microservices";
 import { useSelector } from "react-redux";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import Swal from "sweetalert2";
-// import EnrollIcon from "../../../../../assets/images/icon";
-// import EnrollIcon from "../../../../../assets/images/icons"
+import EnrolIcon from "../../../../../assets/images/icons/enrolluser.svg"
 
 type Props = {
   apiStatus: string;
   minorCourseData: any;
   toggleModalShow: any;
   editHandlerById: any;
+  getUserModalInfo:any
 };
 
 const UserWaitlistTable = (props: Props) => {
@@ -28,34 +28,11 @@ const UserWaitlistTable = (props: Props) => {
     (state: any) => state.globalFilters.currentInstitute
   );
 
-  const handleEnrollClick = (userId,courseId) => {
-    
-      postData(
-        `/${institute_id}/enroll/${userId}/${courseId}`,
-        {}
-      )
-        .then((res: any) => {
-          if (res.data != "" && res.status === 200 || 201) {
-            Swal.fire({
-              timer: 3000,
-              width: "25em",
-              color: "#666",
-              icon: "success",
-              background: "#e7eef5",
-              showConfirmButton: false,
-              text: "User successfully enrolled.",
-            });
-          }
-        })
-        .catch((err: any) => {
-          if (err.response.status === 500) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: "User is already enrolled in this course",
-              alertBoxColor: "danger",
-            });
-          }
-        });}
+  const handleEnrollClick = (userId,courseId,firstName,lastName,email) => {
+    props.toggleModalShow(true);
+    props.getUserModalInfo(userId,courseId,firstName,lastName,email)
+
+   }
     
 
  
@@ -79,16 +56,16 @@ const UserWaitlistTable = (props: Props) => {
         accessor: "actions", // This can be any accessor value you like
         Cell: ({ row }: any) => (
           // console.log(row.original.courseId)
-        // <>
+        // <>conso
           <Button
             className="enroll-btn"
             key={row.original.courseId} 
-            onClick={() => handleEnrollClick( row.original.userId,row.original.courseId)}
+            onClick={() => handleEnrollClick( row.original.userId,row.original.courseId,row.original.firstName,row.original.lastName,row.original.email)}
           >
-           {/* <img
-        //       src={EnrollIcon}
-        //       alt="Enroll"
-        //     /> */}
+           <img
+              src={EnrolIcon}
+              alt="Enroll"
+            />
             Enroll
            </Button>
         //   </>

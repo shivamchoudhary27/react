@@ -11,6 +11,8 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import UserFilter from "./filters";
 import ManageFilter from "./filters";
 import { pagination } from "../../../../../utils/pagination";
+import ModalForm from "./ModalForm";
+import { number } from "yup";
 
 const UserWaitlist = () => {
   const navigate = useNavigate();
@@ -19,47 +21,69 @@ const UserWaitlist = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [apiStatus, setApiStatus] = useState("");
+  const [apiStatus, setApiStatus] = useState("started");
   const [modalShow, setModalShow] = useState(false);
-  const [refreshData, setRefreshData] = useState(true);
   const [minorCourseData, setMinorCourseData] = useState<any>(dummyData);
-
+  const [refreshData, setRefreshData] = useState(true);
+  const [UserModalInfo, setUserModalInfo] = useState({
+    userId: number,
+    courseId: number,
+    fullName: "", 
+    email:""
+  });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
     // pageSize: 100,
   });
 
+  const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
 
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
   // Get minorCourses Data from API === >>
   useEffect(() => {
-    setApiStatus(true);
+    setApiStatus("started");
     getData(`/${currentInstitute}/view_waitlist?courseId=${courseid}`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setMinorCourseData(result.data);
         }
-        setApiStatus(false);
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        setApiStatus(false);
+        setApiStatus("finished");
       });
-  }, [currentInstitute, filterUpdate, refreshData]);
+  }, [currentInstitute, filterUpdate,]);
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
 
+  const getUserModalInfo = (userId: number, courseId: number, firstName: string, lastName: string, email:string)=> {
+    const fullName = `${firstName.charAt(0).toUpperCase()}${firstName.slice(1)} ${lastName.charAt(0).toUpperCase()}${lastName.slice(1)}`;
+    
+    setUserModalInfo({
+        userId: userId,
+        courseId: courseId,
+        fullName: fullName,
+        email: email,
+    });
+  }
+  useEffect(() => {
+    
+}, [UserModalInfo]);
+  
  
 
   const updateSearchFilters = (newFilterRequest: any, reset = false) => {
     if (reset === true) {
-      let updatedState = { ...filterUpdate, pageNumber: 0 };
+      let updatedState = { ...filterUpdate};
       delete updatedState.name;
       delete updatedState.email;
       setFilterUpdate(updatedState);
@@ -68,7 +92,6 @@ const UserWaitlist = () => {
       const { name, email } = newFilterRequest;
       let updatedState = {
         ...filterUpdate,
-        pageNumber: 0,
         ...newFilterRequest,
       };
 
@@ -78,7 +101,6 @@ const UserWaitlist = () => {
       setFilterUpdate(updatedState);
     }
   };
-
 
 
 
@@ -108,7 +130,15 @@ const UserWaitlist = () => {
               apiStatus={apiStatus}
               toggleModalShow={toggleModalShow}
               minorCourseData={minorCourseData}
+              getUserModalInfo = {getUserModalInfo}
             />
+            <ModalForm
+             toggleModalShow={toggleModalShow}
+             updateAddRefresh={refreshToggle}
+             modalShow={modalShow}
+             onHide={() => toggleModalShow(false)}
+             UserModalInfo = {UserModalInfo}
+             />
           </Container>
         </div>
       </div>
