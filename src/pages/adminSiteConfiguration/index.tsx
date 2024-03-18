@@ -1,13 +1,10 @@
 import Swal from "sweetalert2";
 import Header from "../newHeader";
 import Footer from "../newFooter";
-import Col from "react-bootstrap/Col";
-import Nav from "react-bootstrap/Nav";
-import Row from "react-bootstrap/Row";
 import Tab from "react-bootstrap/Tab";
 import HeaderTabs from "../headerTabs";
 import "sweetalert2/src/sweetalert2.scss";
-import { Container } from "react-bootstrap";
+import { Container, Tabs } from "react-bootstrap";
 import { Formik, Form, Field } from "formik";
 import PageTitle from "../../widgets/pageTitle";
 import React, { useState, useEffect } from "react";
@@ -17,6 +14,7 @@ import FieldLabel from "../../widgets/formInputFields/labels";
 import { getData, postData } from "../../adapters/coreservices";
 import CustomButton from "../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../widgets/formInputFields/buttons";
+import { BackgroundWaveBottomRight, BackgroundWaveRight } from "../../widgets/backgroundElements";
 
 type ConfigItem = {
   tab: string;
@@ -87,126 +85,119 @@ const AdminSiteConfiguration = (props: Props) => {
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
-        <div className="contentarea-wrapper mt-3 mb-5">
-          <Container fluid>
-            <PageTitle pageTitle="Mail Templates Configuration" gobacklink="/dashboard" />
-            <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-              <Row>
-                {tabTitles.length > 0 &&
-                  tabTitles.map((tabTitle: string, index: number) => (
-                    <React.Fragment key={index}>
-                      <Col sm={3}>
-                        <Nav variant="pills" className="flex-column">
-                          <Nav.Item>
-                            <Nav.Link eventKey={index}>{tabTitle}</Nav.Link>
-                          </Nav.Item>
-                        </Nav>
-                      </Col>
-                      <Col sm={9}>
-                        <Tab.Content>
-                          <Tab.Pane eventKey={index}>
-                            <Formik
-                              initialValues={{
-                                subject: "",
-                                description: "",
-                                ...mailConfigData
-                                  .filter((item) => item.tabTitle === tabTitle)
-                                  .reduce((acc, item, index) => {
-                                    acc[`config_${index}`] = item.config;
-                                    return acc;
-                                  }, {}),
-                              }}
-                              onSubmit={(values, action) => {
-                                handleFormSubmit(values, action);
-                              }}
-                            >
-                              {({ isSubmitting, handleChange }) => (
-                                <Form>
-                                  <div className="d-flex flex-column">
-                                    {mailConfigData
-                                      .filter((item) => item.tabTitle === tabTitle)
-                                      .sort((a, b) => {
-                                        if (a.type === "textfield" && b.type === "textarea") {
-                                          return -1;
-                                        } 
-                                        else if (a.type === "textarea" && b.type === "textfield") {
-                                          return 1;
-                                        }
-                                        return 0;
-                                      })
-                                      .map((item, index) => (
-                                        <React.Fragment key={index}>
-                                          <Field
-                                            type="text"
-                                            name={`config_${index}`}
-                                            hidden
-                                          />
-                                          {item.type === "textfield" && (
-                                            <>
-                                              <FieldLabel
-                                                htmlfor="subject"
-                                                labelText={item.label}
-                                                // required="required"
-                                              />
-                                              <Field
-                                                type="text"
-                                                name="subject"
-                                                placeholder="Subject"
-                                              />
-                                            </>
-                                          )}
-                                          {item.type === "textarea" && (
-                                            <>
-                                              <FieldLabel
-                                                htmlfor="description"
-                                                labelText={item.label}
-                                                // required="required"
-                                              />
-                                              <CkEditor
-                                                name="description"
-                                                handleChange={handleChange}
-                                              />
-                                            </>
-                                          )}
-                                        </React.Fragment>
-                                      ))}
-
-                                    {isSubmitting === false ? (
-                                      <div className="modal-buttons">
-                                        <CustomButton
-                                          type="submit"
-                                          variant="primary"
-                                          isSubmitting={isSubmitting}
-                                          btnText="Submit"
-                                        />{" "}
-                                        <CustomButton
-                                          type="reset"
-                                          btnText="Reset"
-                                          variant="outline-secondary"
-                                        />
-                                      </div>
-                                    ) : (
-                                      <LoadingButton
-                                        variant="primary"
-                                        btnText="Submitting..."
-                                        className="modal-buttons"
+       <div className="my-3">
+       <Container fluid>
+            <PageTitle pageTitle="Mail Templates Configuration" gobacklink="/dashboard" className="mt-2" />
+            <Tabs
+              defaultActiveKey={0}
+              className="tabStep-indicator mb-3"
+              justify
+            >
+              {tabTitles.length > 0 &&
+                tabTitles.map((tabTitle: string, index: number) => (
+                  <Tab eventKey={index} title={tabTitle}>
+                    <Formik
+                      initialValues={{
+                        subject: "",
+                        description: "",
+                        ...mailConfigData
+                          .filter((item) => item.tabTitle === tabTitle)
+                          .reduce((acc, item, index) => {
+                            acc[`config_${index}`] = item.config;
+                            return acc;
+                          }, {}),
+                      }}
+                      onSubmit={(values, action) => {
+                        handleFormSubmit(values, action);
+                      }}
+                    >
+                      {({ isSubmitting, handleChange }) => (
+                        <Form>
+                          <div className="d-flex flex-column">
+                            {mailConfigData
+                              .filter((item) => item.tabTitle === tabTitle)
+                              .sort((a, b) => {
+                                if (a.type === "textfield" && b.type === "textarea") {
+                                  return -1;
+                                }
+                                else if (a.type === "textarea" && b.type === "textfield") {
+                                  return 1;
+                                }
+                                return 0;
+                              })
+                              .map((item, index) => (
+                                <React.Fragment key={index}>
+                                  <Field
+                                    type="text"
+                                    name={`config_${index}`}
+                                    hidden
+                                  />
+                                  {item.type === "textfield" && (
+                                    <>
+                                      <FieldLabel
+                                        htmlfor="subject"
+                                        labelText={item.label}
+                                       className="mb-1 mt-2"
+                                      // required="required"
                                       />
-                                    )}
-                                  </div>
-                                </Form>
-                              )}
-                            </Formik>
-                          </Tab.Pane>
-                        </Tab.Content>
-                      </Col>
-                    </React.Fragment>
-                  ))}
-              </Row>
-            </Tab.Container>
+                                      <Field
+                                        type="text"
+                                        name="subject"
+                                        placeholder="Subject"
+                                        className="mb-2"
+                                      />
+                                    </>
+                                  )}
+                                  {item.type === "textarea" && (
+                                    <>
+                                      <FieldLabel
+                                        htmlfor="description"
+                                        labelText={item.label}
+                                       className="mb-1 mt-2"
+                                      // required="required"
+                                      />
+                                      <CkEditor
+                                        name="description"
+                                        handleChange={handleChange}
+                                      />
+                                    </>
+                                  )}
+                                </React.Fragment>
+                              ))}
+
+                            {isSubmitting === false ? (
+                              <div className="modal-buttons my-3">
+                                <CustomButton
+                                  type="submit"
+                                  variant="primary"
+                                  isSubmitting={isSubmitting}
+                                  btnText="Submit"
+                                />
+                                <CustomButton
+                                  type="reset"
+                                  btnText="Reset"
+                                  variant="outline-secondary"
+                                />
+                              </div>
+                            ) : (
+                              <LoadingButton
+                                variant="primary"
+                                btnText="Submitting..."
+                                className="modal-buttons"
+                              />
+                            )}
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+                  </Tab>
+                ))}
+            </Tabs>
           </Container>
-        </div>
+       </div>
       </div>
       <Footer />
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };
