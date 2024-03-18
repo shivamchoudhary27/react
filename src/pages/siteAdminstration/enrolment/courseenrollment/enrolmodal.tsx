@@ -46,12 +46,14 @@ const DiciplineModal = ({
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
+
+
   // custom Obj & handle form data === >>>
   let formTitles = {
     btnTitle: "",
     titleHeading: "",
   };
-  if (disciplineobj.id === 0) {
+  if (disciplineobj.userEmail === "") {
     formTitles = {
       btnTitle: "Save",
       titleHeading: "Enrol User",
@@ -59,7 +61,7 @@ const DiciplineModal = ({
   } else {
     formTitles = {
       btnTitle: "Save",
-      titleHeading: "Enrol User",
+      titleHeading: "Update User",
     };
   }
 
@@ -160,6 +162,7 @@ const DiciplineModal = ({
           }}
         >
           {({ values, errors, touched, isSubmitting, setValues }) => (
+
             <Form>
               <div className="mb-3">
                 <FieldLabel
@@ -167,7 +170,7 @@ const DiciplineModal = ({
                   labelText="Email"
                   required="required"
                 />
-                <FieldTypeText name="userEmail" placeholder="User Email" />
+                <FieldTypeText disabled={disciplineobj.userEmail !== ""} name="userEmail" placeholder="User Email" />
                 <FieldErrorMessage
                   errors={errors.userEmail}
                   touched={touched.userEmail}

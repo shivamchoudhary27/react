@@ -226,11 +226,13 @@ const CourseEnrollment = () => {
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
       <div className="filter-wrapper mt-2">
-        <ManageFilter
-          updateinputfilters={updateSearchFilters}
-          apiStatus={apiStatus}
-          EnrolledUser={diciplineData.pager.totalElements}
-        />
+      <ManageFilter
+  updateinputfilters={updateSearchFilters}
+  apiStatus={apiStatus}
+  EnrolledUser={diciplineData.pager.totalElements}
+  enrollmentCapacity={diciplineData.courseDetails && diciplineData.courseDetails.enrollmentCapacity ? diciplineData.courseDetails.enrollmentCapacity : null}
+  remainingSeats={diciplineData.courseDetails && diciplineData.courseDetails.remainingSeats ? diciplineData.courseDetails.remainingSeats : null}
+/>
       </div>
     </>
   );

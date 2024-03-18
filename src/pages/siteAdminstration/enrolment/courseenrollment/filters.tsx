@@ -10,7 +10,9 @@ const initialValues = {
   email: "",
 };
 
-const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
+
+
+const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser, enrollmentCapacity, remainingSeats }: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const formik = useFormik({
     initialValues: initialValues,
@@ -29,7 +31,7 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
   });
 
   // Event handler for filter input change with debounce
-  const handleFilterChange = (event : any) => {
+  const handleFilterChange = (event: any) => {
     formik.handleChange(event); // Update formik values
 
     if (timeoutId) clearTimeout(timeoutId);  // Clear previous timeout, if any
@@ -87,7 +89,13 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser}: any) => {
             </Button>
           </Col>
 
-          <Col>Enrolled user : {EnrolledUser}</Col>
+          <Col>Enrolled user: {EnrolledUser}</Col>
+          {enrollmentCapacity !== null && remainingSeats !== null && (
+            <>
+              <Col>Enrollment Capacity: {enrollmentCapacity}</Col>
+              <Col>Remaining Seats: {remainingSeats}</Col>
+            </>
+          )}
         </Row>
       </form>
     </>

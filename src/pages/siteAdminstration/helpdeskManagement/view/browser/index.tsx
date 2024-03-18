@@ -45,7 +45,7 @@ type Props = {
 const Browser = (props: Props) => {
 
   // console.log(props.commonProps.filterUpdateTable)
-  
+  console.log(props.commonProps.apiStatus)
   return (
     <React.Fragment>
       <Header />

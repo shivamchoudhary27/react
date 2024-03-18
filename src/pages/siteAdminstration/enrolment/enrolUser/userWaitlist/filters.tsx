@@ -3,7 +3,8 @@ import { Button, Row, Col } from "react-bootstrap";
 import { useFormik } from "formik";
 import { filterConfig } from "../../../../../utils/filterTimeout";
 import { FiltersLoadingBtn } from "../../../../../utils/filtersLoading";
-
+import React from "react";
+import { isMobile } from "react-device-detect";
 const initialValues = {
   name: "",
   email: "",
@@ -46,7 +47,9 @@ const ManageFilter = ({ updateInputFilters, apiStatus }: any) => {
   };
 
   return (
-    <>
+    <React.Fragment>
+      <div className="filter-wrapper mt-2">
+        <div className={`${isMobile ? "w-100" : ""}`}>
       <form
         onSubmit={formik.handleSubmit}
         onReset={formik.handleReset}
@@ -86,7 +89,9 @@ const ManageFilter = ({ updateInputFilters, apiStatus }: any) => {
           </Col>
         </Row>
       </form>
-    </>
+      </div>
+      </div>
+    </React.Fragment>
   );
 };
 
