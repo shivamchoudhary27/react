@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Alert, Button, Table } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useTable } from "react-table";
 import TableSkeleton from "../../../../../widgets/skeleton/table";
@@ -39,6 +39,8 @@ const UserWaitlistTable = (props: Props) => {
   
     const { apiStatus, minorCourseData } = props;
   
+ 
+
     const tableColumn = [
       {
         Header: "Name",
@@ -125,13 +127,15 @@ const UserWaitlistTable = (props: Props) => {
               })}
             </tbody>
           </Table>
-          {apiStatus === "true" && minorCourseData.items.length === 0 && (
+          {apiStatus === "started" && minorCourseData.items.length === 0 && (
             <TableSkeleton numberOfRows={5} numberOfColumns={4} />
           )}
-          {apiStatus === "false" && minorCourseData.items.length === 0 && (
+          {apiStatus === "finished" && minorCourseData.items.length === 0 && (<>
             <Errordiv msg="No record found!" cstate className="mt-3" />
+          </>
           )}
         </div>
+         
       </>
     );
   };

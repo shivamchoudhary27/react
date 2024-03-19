@@ -24,7 +24,6 @@ const ModalForm = (props: Props) => {
     (state: any) => state.globalFilters.currentInstitute
   );
 
-console.log(props.UserModalInfo.userId)
 
   const handleOnClik = () => {
     

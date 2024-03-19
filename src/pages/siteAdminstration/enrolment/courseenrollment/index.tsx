@@ -83,6 +83,7 @@ const CourseEnrollment = () => {
     // setDiciplineData({...diciplineData, items : updatedItems})
   }, [diciplineData]);
 
+  // API call on delete === >>
   useEffect(() => {
     if (refreshOnDelete === true)
       makeGetDataRequest(
@@ -125,6 +126,7 @@ const CourseEnrollment = () => {
   const toggleUploadModal = () => {
     setUploadModalShow(true);
   };
+
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.userEmail !== "") {
@@ -227,12 +229,12 @@ const CourseEnrollment = () => {
       </div>
       <div className="filter-wrapper mt-2">
       <ManageFilter
-  updateinputfilters={updateSearchFilters}
-  apiStatus={apiStatus}
-  EnrolledUser={diciplineData.pager.totalElements}
-  enrollmentCapacity={diciplineData.courseDetails && diciplineData.courseDetails.enrollmentCapacity ? diciplineData.courseDetails.enrollmentCapacity : null}
-  remainingSeats={diciplineData.courseDetails && diciplineData.courseDetails.remainingSeats ? diciplineData.courseDetails.remainingSeats : null}
-/>
+        updateinputfilters={updateSearchFilters}
+        apiStatus={apiStatus}
+        EnrolledUser={diciplineData.pager.totalElements}
+        enrollmentCapacity={diciplineData.courseDetails !== undefined && diciplineData.courseDetails.enrollmentCapacity}
+        remainingSeats={diciplineData.courseDetails !== undefined && diciplineData.courseDetails.remainingSeats}
+      />
       </div>
     </>
   );
