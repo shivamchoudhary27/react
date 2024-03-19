@@ -112,15 +112,16 @@ const UserWaitlist = () => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "Programs Enrollment", path: "/programenrollment" },
-          { name: "Computer Science", path: `/enrolusers/${programid}/${name}` },
+          { name: `${name}`, path: `/enrolusers/${programid}/${name}` },
           { name: "View Wait List", path: "" },
         ]}
       />
+
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle
-              pageTitle="Wait List"
+              pageTitle={`${name} : Wait List`}
             gobacklink={`/enrolusers/${programid}/${name}`}
             />
             <ManageFilter

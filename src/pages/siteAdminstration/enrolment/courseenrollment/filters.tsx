@@ -92,7 +92,7 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser, enrollmentC
           <Col>Enrolled user: {EnrolledUser}</Col>
           {enrollmentCapacity !== null && remainingSeats !== null && (
             <>
-              <Col>Enrollment Capacity: {enrollmentCapacity}</Col>
+              <Col>Seating Capacity: {enrollmentCapacity}</Col>
               <Col>Remaining Seats: {remainingSeats}</Col>
             </>
           )}

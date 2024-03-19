@@ -182,7 +182,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                           /> */}
                                             <RxCrossCircled />
                                             {"  "}
-                                            Unenrolled
+                                            UnEnroll
                                           </Button>
                                         )}
                                     </>
@@ -218,7 +218,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                           src={WaitListIcon}
                                           alt="Waitlist"
                                         />
-                                        Remove
+                                        Remove from Waitlist
                                       </Button>
                                     </>
                                   ) : course.enrolmentStatus ===
@@ -236,7 +236,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                       }
                                     >
                                       <img src={EnrollIcon} alt="Enroll" />
-                                      Waitlist
+                                      Add to Waitlist
                                     </Button>
                                   ) : (
                                     <Button
@@ -253,7 +253,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                       }
                                     >
                                       <img src={EnrollIcon} alt="Enroll" />
-                                      Enroll
+                                      Enroll Me
                                     </Button>
                                   )}
                                 </div>
