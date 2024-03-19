@@ -8,6 +8,8 @@ type Props = {
   apiStatus: any;
   modalShow: any;
   totalPages: any;
+  isEnrolled: any;
+  isWaitlisted: any;
   filterUpdate: any;
   refreshToggle: any;
   newPageRequest: any;
@@ -22,7 +24,9 @@ const View = (props: Props) => {
     onHide: props.onHide,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
+    isEnrolled: props.isEnrolled,
     totalPages: props.totalPages,
+    isWaitlisted: props.isWaitlisted,
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
     minorcourseObj: props.minorcourseObj,
