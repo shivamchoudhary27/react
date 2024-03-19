@@ -15,6 +15,7 @@ import { getData, postData } from "../../adapters/coreservices";
 import CustomButton from "../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../widgets/formInputFields/buttons";
 import { BackgroundWaveBottomRight, BackgroundWaveRight } from "../../widgets/backgroundElements";
+import "./style.scss";
 
 type ConfigItem = {
   tab: string;
@@ -24,7 +25,6 @@ type ConfigItem = {
   label: string;
 };
 
-type Props = {};
 
 const AdminSiteConfiguration = (props: Props) => {
   const [mailConfigData, setMailConfigData] = useState<ConfigItem[]>([]);
@@ -88,7 +88,8 @@ const AdminSiteConfiguration = (props: Props) => {
        <div className="my-3">
        <Container fluid>
             <PageTitle pageTitle="Mail Templates Configuration" gobacklink="/dashboard" className="mt-2" />
-            <Tabs
+           <div className="mailconfig-tabs">
+           <Tabs
               defaultActiveKey={0}
               className="tabStep-indicator mb-3"
               justify
@@ -136,15 +137,17 @@ const AdminSiteConfiguration = (props: Props) => {
                                     <>
                                       <FieldLabel
                                         htmlfor="subject"
-                                        labelText={item.label}
+                                        labelText={`${item.label} *`}
                                        className="mb-1 mt-2"
-                                      // required="required"
+                                       required="required"
                                       />
                                       <Field
                                         type="text"
                                         name="subject"
                                         placeholder="Subject"
                                         className="mb-2"
+                                        required="required"
+
                                       />
                                     </>
                                   )}
@@ -152,13 +155,14 @@ const AdminSiteConfiguration = (props: Props) => {
                                     <>
                                       <FieldLabel
                                         htmlfor="description"
-                                        labelText={item.label}
+                                        labelText={`${item.label} *`}
                                        className="mb-1 mt-2"
-                                      // required="required"
+                                       required="required"
                                       />
                                       <CkEditor
                                         name="description"
                                         handleChange={handleChange}
+                                        required="required"
                                       />
                                     </>
                                   )}
@@ -193,6 +197,7 @@ const AdminSiteConfiguration = (props: Props) => {
                   </Tab>
                 ))}
             </Tabs>
+           </div>
           </Container>
        </div>
       </div>

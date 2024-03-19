@@ -1,0 +1,22 @@
+.mailconfig-tabs{
+    display: flex;
+    flex-direction: row;
+    ul{
+        display: flex;
+        flex-direction: column;
+        padding: 40px 16px;
+        gap: 16px;
+        border-radius: 16px;
+        li{
+            width: 100%;
+        }
+    }
+    > div{
+        flex-grow: 1;
+        padding: 36px 98px;
+        padding-top: 4px;
+    }
+    .tabStep-indicator li .nav-link.active{
+        height: auto;
+    }
+}
