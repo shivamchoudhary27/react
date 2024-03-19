@@ -335,7 +335,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="programName"
-                        labelText="Program Name"
+                        labelText="Program Name *"
                       />
                       <FieldTypeText
                         name="programName"
@@ -349,7 +349,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="programCode"
-                        labelText="Program Code"
+                        labelText="Program Code *"
                         required="required"
                       />
                       <FieldTypeText
@@ -364,7 +364,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="durationValue"
-                        labelText="Duration"
+                        labelText="Duration *"
                         required="required"
                       />
                       <div className="d-flex">
@@ -389,7 +389,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       />
                     </Col>
                     <Col md={4}>
-                      <FieldLabel htmlfor="department" labelText="Department" />
+                      <FieldLabel htmlfor="department" labelText="Department *" />
                       <FieldTypeSelect
                         name="department"
                         options={departmentName.items}
@@ -404,7 +404,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="discipline"
-                        labelText="Discipline"
+                        labelText="Discipline *"
                         required="required"
                       />
                       <FieldTypeSelect
@@ -422,7 +422,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="programtype"
-                        labelText="Program Type "
+                        labelText="Program Type *"
                         required="required"
                       />
                       <FieldTypeSelect
@@ -441,7 +441,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                       <Col md={4}>
                         <FieldLabel
                           htmlfor="batchYear"
-                          labelText="Batch Year"
+                          labelText="Batch Year *"
                           required="required"
                         />
                         <FieldTypeSelect
@@ -463,7 +463,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <Col md={4}>
                       <FieldLabel
                         htmlfor="modeOfStudy"
-                        labelText="Mode Of Study"
+                        labelText="Mode Of Study *"
                         required="required"
                       />
                       <div>
@@ -505,7 +505,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
               {step === 1 && (
                 <Row className="gy-4">
                   <Col md={6}>
-                    <FieldLabel htmlfor="description" labelText="Description" />
+                    <FieldLabel htmlfor="description" labelText="Description *" />
                     <CkEditor name="description" handleChange={handleChange} />
                     <FieldErrorMessage
                       errors={errors.description}
@@ -513,7 +513,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     />
                   </Col>
                   <Col md={6}>
-                    <FieldLabel htmlfor="objective" labelText="Objective" />
+                    <FieldLabel htmlfor="objective" labelText="Objective *" />
                     <CkEditor name="objective" handleChange={handleChange} />
                     <FieldErrorMessage
                       errors={errors.objective}
