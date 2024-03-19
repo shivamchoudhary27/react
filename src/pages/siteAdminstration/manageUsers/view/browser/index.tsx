@@ -10,6 +10,7 @@ import UploadUsersEnrollment from "../../uploadUsers";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import { BackgroundWaveBottomRight } from "../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {
@@ -94,6 +95,7 @@ const Browser = (props: Props) => {
         onHide={() => props.commonProps.AddUsersModalShow(false)}
       />
       <Footer />
+      <BackgroundWaveBottomRight/>
     </React.Fragment>
   );
 };
