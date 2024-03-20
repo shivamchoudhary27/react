@@ -86,7 +86,7 @@ const StudentMinorCourseTable = (props: Props) => {
 
   return (
     <>
-      <div className="table-responsive admin-table-wrapper grey-table-lines mt-3">
+      <div className="admin-table-wrapper grey-table-lines mt-3">
         <Table bordered striped className="attandence-table">
           <thead>
             <tr>
@@ -113,46 +113,43 @@ const StudentMinorCourseTable = (props: Props) => {
                         {category.courses?.length > 0 && (
                           <>
                             <td>
-                              {category.name}
+                            <div className="year-block">
+                            {category.name}
                               <div
-                                style={{
-                                  backgroundColor: "#E4E4E4",
-                                  borderRadius: "1rem",
-                                  width: "max-content",
-                                  fontSize: "0.8rem",
-                                }}
+                                className="enrolmentrequired-tag"
                               >
-                                {` ( Enrolment required ${category.maxMinorCoursesAllowed} courses) `}
+                                {` Enrolment required in ${category.maxMinorCoursesAllowed} course${category.maxMinorCoursesAllowed > 1 ? "s" : ""}`}
                               </div>
+                            </div>
                             </td>
                             <td>
                               {category.courses.map((course: any) => (
-                                <div className="m-4" key={course.id}>
+                                <div className="m-3" key={course.id}>
                                   {course.name}
                                 </div>
                               ))}
                             </td>
                             <td>
                               {category.courses.map((course: any) => (
-                                <div className="m-4" key={course.id}>
+                                <div className="m-3" key={course.id}>
                                   {course.enrollmentCapacity}
                                 </div>
                               ))}
                             </td>
                             <td>
                               {category.courses.map((course: any) => (
-                                <div className="m-4" key={course.id}>
+                                <div className="m-3" key={course.id}>
                                   {course.remainingSeats}
                                 </div>
                               ))}
                             </td>
                             <td>
                               {category.courses.map((course: any) => (
-                                <div className="m-4" key={course.id}>
+                                <div className="m-3 mcaction-btns" key={course.id}>
                                   {props.isEnrolled(course.id) ? (
                                     <>
                                       <Button
-                                        className="enrolled-btn"
+                                        className="enrolled-btn disabled"
                                         style={{ cursor: "auto" }}
                                       >
                                         <img
@@ -189,7 +186,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                   ) : props.isWaitlisted(course.id) ? (
                                     <>
                                       <Button
-                                        className="enrolled-btn"
+                                        className="enrolled-btn waitlisted-btn"
                                         style={{ cursor: "auto" }}
                                       >
                                         <img
@@ -197,8 +194,25 @@ const StudentMinorCourseTable = (props: Props) => {
                                           alt="Waitlist"
                                         />
                                         Waitlisted
+                                        <button className="remove-waitlist"
+                                        title="Remove from Waitlist"
+                                         onClick={() =>
+                                          handleRemoveClick(
+                                            course.id,
+                                            course.name,
+                                            course.remainingSeats,
+                                            course.enrollmentCapacity,
+                                            course.enrolmentStatus,
+                                            "remove"
+                                          )
+                                        }
+                                        >
+                                          X
+                                        </button>
+                                        {/* tooltip in btn */}
+
                                       </Button>
-                                      <Button
+                                      {/* <Button
                                         className="enroll-btn"
                                         style={{
                                           background: "#CC0000",
@@ -219,12 +233,12 @@ const StudentMinorCourseTable = (props: Props) => {
                                           alt="Waitlist"
                                         />
                                         Remove from Waitlist
-                                      </Button>
+                                      </Button> */}
                                     </>
                                   ) : course.enrolmentStatus ===
                                     "waitlist_open" ? (
                                     <Button
-                                      className="enroll-btn"
+                                      className="waitlist-btn"
                                       onClick={() =>
                                         handleWaitlistClick(
                                           course.id,

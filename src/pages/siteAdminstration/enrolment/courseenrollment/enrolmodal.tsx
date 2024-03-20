@@ -167,7 +167,7 @@ const DiciplineModal = ({
               <div className="mb-3">
                 <FieldLabel
                   htmlfor="userEmail"
-                  labelText="Email"
+                  labelText="Email *"
                   required="required"
                 />
                 <FieldTypeText disabled={disciplineobj.userEmail !== ""} name="userEmail" placeholder="User Email" />

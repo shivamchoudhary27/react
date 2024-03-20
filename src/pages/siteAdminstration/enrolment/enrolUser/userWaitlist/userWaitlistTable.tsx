@@ -31,16 +31,8 @@ const UserWaitlistTable = (props: Props) => {
   const handleEnrollClick = (userId,courseId,firstName,lastName,email) => {
     props.toggleModalShow(true);
     props.getUserModalInfo(userId,courseId,firstName,lastName,email)
-
    }
-    
-
- 
-  
     const { apiStatus, minorCourseData } = props;
-  
- 
-
     const tableColumn = [
       {
         Header: "Name",
@@ -68,7 +60,7 @@ const UserWaitlistTable = (props: Props) => {
               src={EnrolIcon}
               alt="Enroll"
             />
-            Enroll
+            <span> Enroll</span>
            </Button>
         //   </>
         )

@@ -4,9 +4,23 @@
         margin-bottom: 0;
         th {
             border: none;
+            text-align: center;
         }
         td {
             border: 1px solid #E6E6E6;
+            .enrolmentrequired-tag{
+                background-color: #E4E4E4;
+                border-radius: 16px;
+                width: max-content;
+                font-size: 0.8rem;
+                padding: 4px 8px;
+                margin: 0 auto;
+            }
+            text-align: center;
+            .year-block{
+                width: max-content;
+                margin: 0 auto;
+            }
         }
         // tbody tr:nth-child(odd) >   td {
         //    background: red;
@@ -14,39 +28,52 @@
     } 
 }
 
-.enroll-btn{
-    box-shadow: none;
-    border-radius: 2rem;
-    background-color: #247BC7;
-    border: none;
-    img{
-        margin-right: 8px;
+.mcaction-btns{
+    button{
+        box-shadow: none;
+        border-radius: 2rem;
+        border: none;
+        display: flex;
+        width: max-content;
+        align-items: center;
+        margin: 0 auto;
+        img{
+            margin-right: 8px;
+        }
+        &:hover, &:active, &:focus{
+            background-color: #176ab2;
+        }
     }
-    &:hover, &:active, &:focus{
-        background-color: #176ab2;
+    .enroll-btn{
+        background-color: #247BC7;
     }
-}
-.enrolled-btn{
-    box-shadow: none;
-    border-radius: 2rem;
-    background-color: #8B8F89;
-    border: none;
-    img{
-        margin-right: 8px;
+    .enrolled-btn{
+        background-color: #8B8F89;
+       
+        &:hover, &:active, &:focus{
+            background-color: #757774;
+        }
+        &.disabled{
+            background-color: #757774;
+        }
+        .remove-waitlist{
+        height: 25px;
+        width: 25px;
+        border-radius: 50px;
+        background: white;
+        border: 2px solid #ff000000;
+        color: #8b8f89;
+        margin-left: 9px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        }
     }
-    &:hover, &:active, &:focus{
-        background-color: #757774;
+    .waitlisted-btn{
+        background-color: #59595d;
     }
-}
-.waitlist-btn{
-    box-shadow: none;
-    border-radius: 2rem;
-    background-color: #2091F5;
-    border: none;
-    img{
-        margin-right: 8px;
-    }
-    &:hover, &:active, &:focus{
-        background-color: #177dd6;
+    .waitlist-btn{
+        background-color: #2091F5;
     }
 }
