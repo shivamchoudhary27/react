@@ -49,7 +49,7 @@ const MobileHeader = (props: Props) => {
   }
 
   const configNavigate = () => {
-    navigate('/siteconfiguration');
+    navigate('/mailtempelateconfiguration');
   }
 
   return (

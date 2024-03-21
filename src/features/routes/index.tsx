@@ -36,7 +36,7 @@ import ProgramSummary from "../../pages/home/programSummary";
 // import ProgramSummary from '../../pages/home/preview/index';
 import ProgramList from "../../pages/home/programList"
 import UserWaitlistData from '../../pages/minorCourses/userWaitlistData';
-import AdminSiteConfiguration from '../../pages/adminSiteConfiguration';
+import MailTempelateConfiguration from '../../pages/mailTempelateConfiguration';
 import UserWaitlist from '../../pages/siteAdminstration/enrolment/enrolUser/userWaitlist';
 
 const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
@@ -67,7 +67,7 @@ export default function NewCustomRoutes() {
           <Route path="/programlist" key="programlist" element={<ProgramList />} />
           <Route path="/programsummary/:Programid" key="programummary" element={<ProgramSummary />} />
 
-          <Route path='/siteconfiguration' element={<AdminSiteConfiguration />} />
+          <Route path='/mailtempelateconfiguration' element={<MailTempelateConfiguration />} />
 
           <Route element={<ProtectedRoutes />}>
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
