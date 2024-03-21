@@ -13,6 +13,8 @@ import ManageFilter from "./filters";
 import { pagination } from "../../../../../utils/pagination";
 import ModalForm from "./ModalForm";
 import { number } from "yup";
+import Footer from "../../../../newFooter";
+import { BackgroundWaveBottomLeft } from "../../../../../widgets/backgroundElements";
 
 const UserWaitlist = () => {
   const navigate = useNavigate();
@@ -143,6 +145,8 @@ const UserWaitlist = () => {
           </Container>
         </div>
       </div>
+        <Footer/>
+      <BackgroundWaveBottomLeft/>
     </>
   );
 };

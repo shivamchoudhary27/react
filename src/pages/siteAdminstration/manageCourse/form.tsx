@@ -320,7 +320,7 @@ const CourseModal = ({
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="name"
-                    labelText="Name"
+                    labelText="Name *"
                     required="required"
                   />
                   <FieldTypeText name="name" placeholder="Name" />
@@ -334,7 +334,7 @@ const CourseModal = ({
                 <div className="mb-3">
                   <FieldLabel
                     htmlfor="courseCode"
-                    labelText="Course Code"
+                    labelText="Course Code *"
                     number
                     required="required"
                   />
@@ -451,6 +451,7 @@ const CourseModal = ({
                   />
                 </div>
                 <div className="mb-3">
+                <FieldLabel htmlfor="programtype" labelText="Program Type" /> <br />
                   <label className="me-3">
                     <input
                       type="radio"
@@ -459,7 +460,7 @@ const CourseModal = ({
                       onChange={handleChange}
                       checked={values.type === "major"}
                     />
-                    Major
+                   <span> Major</span>
                   </label>
                   <label>
                     <input
@@ -469,7 +470,7 @@ const CourseModal = ({
                       onChange={handleChange}
                       checked={values.type === "minor"}
                     />
-                    Minor
+                  <span> Minor</span>
                   </label>
                 </div>
                 <FieldErrorMessage
@@ -480,7 +481,7 @@ const CourseModal = ({
                   <div className="mb-3">
                     <FieldLabel
                       htmlfor="enrollmentCapacity"
-                      labelText="EnrollmentCapacity"
+                      labelText="Enrollment Capacity *"
                       min={0}
                       number
                       required="required"
@@ -489,7 +490,7 @@ const CourseModal = ({
                       min={0}
                       type="number"
                       name="enrollmentCapacity"
-                      placeholder="EnrollmentCapacity"
+                      placeholder="Enrollment Capacity"
                     />
                     <FieldErrorMessage
                       errors={errors.enrollmentCapacity}
