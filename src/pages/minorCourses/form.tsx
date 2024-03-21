@@ -185,24 +185,24 @@ const ModalForm = (props: Props) => {
           <div className="mb-3">
             {props.isEnrolled(props.minorcourseObj.id) ? (
               <span>
-                Are you sure you want to <b>unenroll</b> in{" "}
+                Are you sure you want to <b>UnEnroll</b> from the{" "}
                 <b>{props.minorcourseObj.name}</b> course?
               </span>
             ) : props.isWaitlisted(props.minorcourseObj.id) ? (
               <span>
-                Are you sure you want to be remove to the
-                <b> waitlisted</b> for the <b>{props.minorcourseObj.name}</b>{" "}
+                Are you sure you want to be <b>Removed</b> from the
+                <b> Waitlist</b> for the <b>{props.minorcourseObj.name}</b>{" "}
                 course?
               </span>
             ) : props.minorcourseObj.remainingSeats === 0 ? (
               <span>
                 Are you sure you want to be added to the
-                <b> waitlist</b> for the <b>{props.minorcourseObj.name}</b>{" "}
+                <b> Waitlist</b> for the <b>{props.minorcourseObj.name}</b>{" "}
                 course?
               </span>
             ) : (
               <span>
-                Are you sure you want to <b>enroll</b> in{" "}
+                Are you sure you want to <b>Enroll</b> in the{" "}
                 <b>{props.minorcourseObj.name}</b> course?
               </span>
             )}
