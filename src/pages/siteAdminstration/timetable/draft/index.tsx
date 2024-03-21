@@ -8,7 +8,7 @@ import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import PageTitle from "../../../../widgets/pageTitle";
 import Errordiv from "../../../../widgets/alert/errordiv";
@@ -34,6 +34,7 @@ const WeeklyDraftVersion = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
+  const navigate = useNavigate();
   const location = useLocation();
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
@@ -289,7 +290,7 @@ const WeeklyDraftVersion = () => {
                   type="submit"
                   btnText="Publish for change request"
                   variant="primary"
-                  // disabled={isSubmitting}
+                  onClick={()=> navigate(`/publishchange?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`)}
                 />
               </div>
               <div className="modal-buttons">

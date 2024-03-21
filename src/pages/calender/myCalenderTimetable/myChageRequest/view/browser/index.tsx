@@ -1,11 +1,12 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import MyTimetableFilter from "../../filter";
-import MyTimetableDraftTable from "../../table";
-import PageTitle from "../../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import MobileHeader from "../../../../newHeader/mobileHeader";
-import MobileFooter from "../../../../newFooter/mobileFooter";
+import Header from "../../../../../newHeader";
+import Footer from "../../../../../newFooter";
+import MyChangeRequestTable from "../../table";
+import HeaderTabs from "../../../../../headerTabs";
+import PageTitle from "../../../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
@@ -19,26 +20,27 @@ type Props = {
   };
 };
 
-const Mobile = (props: Props) => {
+const Browser = (props: Props) => {
   return (
     <React.Fragment>
-      <MobileHeader />
+      <Header />
+      <HeaderTabs activeTab="calender" />
       <BreadcrumbComponent
         routes={[
           { name: "Dashboard", path: "/dashboard" },
           { name: "Calender", path: "/calender" },
-          { name: "My Timetable", path: "" },
+          { name: "My Change Request", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="My Timetable" gobacklink="/calender" />
+            <PageTitle pageTitle="My Change Request" gobacklink="/mytimetable" />
             <MyTimetableFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
             />
-            <MyTimetableDraftTable
+            <MyChangeRequestTable
              SlotData={props.commonProps.timeslots}
              apiStatus={props.commonProps.apiStatus}
              courseDates={props.commonProps.courseDates}
@@ -53,9 +55,9 @@ const Mobile = (props: Props) => {
           </Container>
         </div>
       </div>
-      <MobileFooter />
+      <Footer />
     </React.Fragment>
   );
 };
 
-export default Mobile;
+export default Browser;

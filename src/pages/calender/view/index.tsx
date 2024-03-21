@@ -13,7 +13,7 @@ type Props = {
     filteredEvents: any;
     CustomEventTitle: any;
     handleSelectEvent: any;
-};
+}; 
 
 const View = (props: Props) => {
   const commonProps = {

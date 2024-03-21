@@ -12,6 +12,11 @@ type Props = {
   commonProps: {
     getCourseId: any
     apiResponseData: any;
+    timeslots: any;
+    apiStatus: any;
+    courseDates: any;
+    selectedMonth: any;
+    updateTimetableDates: any;
   };
 };
 
@@ -35,7 +40,13 @@ const Browser = (props: Props) => {
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
             />
-            {/* <MyTimetableDraftTable /> */}
+            <MyTimetableDraftTable
+             SlotData={props.commonProps.timeslots}
+             apiStatus={props.commonProps.apiStatus}
+             courseDates={props.commonProps.courseDates}
+             selectedMonth={props.commonProps.selectedMonth}
+             updateTimetableDates={props.commonProps.updateTimetableDates}
+                />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}
               activepage={props.commonProps.filterUpdate}

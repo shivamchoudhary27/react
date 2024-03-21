@@ -1,6 +1,6 @@
 //put all these methods in a parent category object
 //and then export the category object only
-import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import { getChildren, updateCategoryLevels } from "../utils";
 
 export const getDragnDropAction = (source, destination) => {
