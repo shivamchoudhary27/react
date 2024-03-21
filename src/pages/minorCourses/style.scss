@@ -49,7 +49,7 @@
     }
     .enrolled-btn{
         background-color: #8B8F89;
-       
+        padding-right: 6px;
         &:hover, &:active, &:focus{
             background-color: #757774;
         }
@@ -72,6 +72,7 @@
     }
     .waitlisted-btn{
         background-color: #59595d;
+        padding-right: 6px;
     }
     .waitlist-btn{
         background-color: #2091F5;
