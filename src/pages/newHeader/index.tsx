@@ -38,7 +38,7 @@ const Header = ({ showRightNavs = true }: any) => {
   }
 
   const configNavigate = () => {
-    navigate('/siteconfiguration');
+    navigate('/mailtempelateconfiguration');
   }
 
   return (
