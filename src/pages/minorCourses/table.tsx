@@ -149,7 +149,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                   {props.isEnrolled(course.id) ? (
                                     <>
                                       <Button
-                                        className="enrolled-btn disabled"
+                                        className="enrolled-btn"
                                         style={{ cursor: "auto" }}
                                       >
                                         <img
@@ -157,8 +157,20 @@ const StudentMinorCourseTable = (props: Props) => {
                                           alt="Enrolled"
                                         />
                                         Enrolled
+                                        <button className="remove-waitlist"
+                                        title="Unenroll"
+                                        onClick={() =>
+                                          handleUnenrollClick(
+                                            course.id,
+                                            course.name,
+                                            course.selfUnEnrolmentAllowed
+                                          )
+                                        }
+                                        >
+                                          X
+                                        </button>
                                       </Button>
-                                      {course.selfUnEnrolmentAllowed &&
+                                      {/* {course.selfUnEnrolmentAllowed &&
                                         props.isEnrolled(course.id) && (
                                           <Button
                                             className="enroll-btn"
@@ -173,15 +185,10 @@ const StudentMinorCourseTable = (props: Props) => {
                                               )
                                             }
                                           >
-                                            {/* <img
-                                            src={EnrollIcon}
-                                            alt="Unenroll"
-                                          /> */}
                                             <RxCrossCircled />
-                                            {"  "}
                                             UnEnroll
                                           </Button>
-                                        )}
+                                        )} */}
                                     </>
                                   ) : props.isWaitlisted(course.id) ? (
                                     <>
