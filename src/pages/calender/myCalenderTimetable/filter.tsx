@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Container } from "react-bootstrap";
 import { RenderFilterElements } from "./filterDropdown";
 import MyTimelineFilterDropdown from "./filterDropdown";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   getCourseId: any;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const MyTimetableFilter = (props: Props) => {
+  const navigate = useNavigate();
   const currentUserRole = useSelector(
     (state: any) => state.globalFilters.currentUserRole
   );
@@ -108,7 +110,7 @@ const MyTimetableFilter = (props: Props) => {
           </div>
           <div>
             <Button variant="primary">Slot Preferences</Button>{" "}
-            <Button variant="primary">My Change Request</Button>
+            <Button variant="primary" onClick={()=> navigate("/myChangeRequest")}>My Change Request</Button>
           </div>
         </div>
       </Container>

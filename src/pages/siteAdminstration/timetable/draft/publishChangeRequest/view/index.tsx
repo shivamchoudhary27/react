@@ -1,28 +1,25 @@
 import React from "react";
-import Browser from "./browser";
 import Mobile from "./mobile";
+import Browser from "./browser";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  getCourseId: any
-  apiResponseData: any;
-  timeslots: any;
+  urlArg: any;
   apiStatus: any;
+  timeslots: any;
   courseDates: any;
-  selectedMonth: any;
-  updateTimetableDates: any;
+  sortedCategories: any;
+  updateCourseDates: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
-    getCourseId: props.getCourseId,
-    apiResponseData: props.apiResponseData,
-    timeslots: props.timeslots,
+    urlArg: props.urlArg,
     apiStatus: props.apiStatus,
+    timeslots: props.timeslots,
     courseDates: props.courseDates,
-    selectedMonth: props.selectedMonth,
-    updateTimetableDates: props.updateTimetableDates,
-
+    sortedCategories: props.sortedCategories,
+    updateCourseDates: props.updateCourseDates,
   };
   return (
     <React.Fragment>
