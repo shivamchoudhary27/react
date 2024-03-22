@@ -88,14 +88,6 @@ const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser, enrollmentC
               Reset
             </Button>
           </Col>
-
-          <Col>Enrolled user: {EnrolledUser}</Col>
-          {enrollmentCapacity !== null && remainingSeats !== null && (
-            <>
-              <Col>Seating Capacity: {enrollmentCapacity}</Col>
-              <Col>Remaining Seats: {remainingSeats}</Col>
-            </>
-          )}
         </Row>
       </form>
     </>

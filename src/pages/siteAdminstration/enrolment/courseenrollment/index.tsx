@@ -10,6 +10,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { pagination } from "../../../../utils/pagination";
 import EnglishLetterFilter from "../../../../widgets/filters/alphabets";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
+import { FaBookOpenReader } from "react-icons/fa6";
+import { FaUsers } from "react-icons/fa6";
+import { FaUserClock } from "react-icons/fa6";
+import "./style.scss";
 
 const CourseEnrollment = () => {
   const navigate = useNavigate();
@@ -127,6 +131,12 @@ const CourseEnrollment = () => {
     setUploadModalShow(true);
   };
 
+//  for show additional  infotmation on the table
+  const EnrolledUser= diciplineData.pager.totalElements
+  const enrollmentCapacity= diciplineData.courseDetails !== undefined && diciplineData.courseDetails.enrollmentCapacity
+  const remainingSeats= diciplineData.courseDetails !== undefined && diciplineData.courseDetails.remainingSeats
+
+  
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.userEmail !== "") {
@@ -231,10 +241,21 @@ const CourseEnrollment = () => {
       <ManageFilter
         updateinputfilters={updateSearchFilters}
         apiStatus={apiStatus}
-        EnrolledUser={diciplineData.pager.totalElements}
-        enrollmentCapacity={diciplineData.courseDetails !== undefined && diciplineData.courseDetails.enrollmentCapacity}
-        remainingSeats={diciplineData.courseDetails !== undefined && diciplineData.courseDetails.remainingSeats}
-      />
+        />
+      </div>
+      <div>
+        <div className="d-flex justify-content-end gap-5 pt-3 userscapacity">
+          <div> <FaBookOpenReader />
+            Enrolled user: {EnrolledUser}</div>
+          {enrollmentCapacity !== null && remainingSeats !== null && (
+            <>
+              <div><FaUsers />
+                Seating Capacity: {enrollmentCapacity}</div>
+              <div><FaUserClock />
+                Remaining Seats: {remainingSeats}</div>
+            </>
+          )}
+        </div>
       </div>
     </>
   );
@@ -261,3 +282,4 @@ const CourseEnrollment = () => {
 };
 
 export default CourseEnrollment;
+

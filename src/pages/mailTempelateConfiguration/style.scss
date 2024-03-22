@@ -1,22 +1,19 @@
 .mailconfig-tabs{
-    display: flex;
-    flex-direction: row;
-    ul{
-        display: flex;
-        flex-direction: column;
-        padding: 40px 16px;
-        gap: 16px;
-        border-radius: 16px;
-        li{
+    padding: 24px 16px;
+    border-radius: 16px;
+      div {
+        width: 100%;
+        margin-bottom: 8px;
+        .nav-link{
+            color: black;
             width: 100%;
         }
-    }
-    > div{
-        flex-grow: 1;
-        padding: 36px 98px;
-        padding-top: 4px;
-    }
-    .tabStep-indicator li .nav-link.active{
-        height: auto;
-    }
+        .nav-link.active{
+            background: none;
+            border: 2px solid rgb(14, 116, 234);
+            border-radius: 50rem;
+            color: black;
+            font-weight: 500;
+        }
+      }
 }

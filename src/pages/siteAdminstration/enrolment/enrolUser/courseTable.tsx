@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, OverlayTrigger,Tooltip as BsTooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import Errordiv from "../../../../widgets/alert/errordiv";
 import plusIcon from "../../../../assets/images/icons/plus-action.svg";
 import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 import { Tooltip } from "react-tooltip";
+import { MdHelpOutline } from "react-icons/md";
 import "./style.scss";
 
 const EnrolUserTable = ({
@@ -43,15 +44,10 @@ const EnrolUserTable = ({
             {row.values.name}
           </div>
           {row.original.maxMinorCoursesAllowed ? (
-  <div style={{
-    backgroundColor: "#E4E4E4",
-    borderRadius: "1rem",
-    width: "max-content",
-    // text: "align:center",
-    // margin : "0 auto"
-    fontSize:"0.8rem"
-  }} >
-     {` ( Enrolment required ${row.original.maxMinorCoursesAllowed} courses) `}
+  <div
+  className="enrolmentrequired-tag"
+  >
+ {` Enrollment required ${row.original.maxMinorCoursesAllowed} course${row.original.maxMinorCoursesAllowed > 1 ? "s" : ""} `}
   </div>
 ) : null}
           </>
@@ -119,6 +115,7 @@ const EnrolUserTable = ({
             {row.original.courses.length  > 0  &&
             data !== undefined  &&
              (
+              <>
               <img
                 style={{ cursor: "pointer" }}
                 src={gearIcon}
@@ -136,6 +133,15 @@ const EnrolUserTable = ({
                   })
                 }
               />
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-2">Set Max Minor Courses Allowed and User Unenrollment Deadline</BsTooltip>}
+                >
+              <Button variant="link">
+              <MdHelpOutline fontSize={30} />
+              </Button>
+                </OverlayTrigger>
+                </>
             )}
             {row.original.coursename !== undefined && (
               // <div className="d-flex justify-content-center align-items-center gap-2">

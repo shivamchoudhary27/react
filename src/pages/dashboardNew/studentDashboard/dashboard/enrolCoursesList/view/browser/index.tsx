@@ -2,11 +2,12 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
 import config from "../../../../../../../utils/config";
+import { RiBookletLine } from "react-icons/ri";
 
 type Props = {
   coursesList: any;
@@ -175,9 +176,15 @@ const Browser = (props: Props) => {
               updateCourses={updateCourses}
             />
             {/* ============== left for second phase ============ */}
-            <Button variant="primary" onClick={() => navigate("/minorcourse")}>
-              Minor Courses
-            </Button>
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip id="button-tooltip-2">View minor courses</Tooltip>}
+            >
+              <Button variant="primary" onClick={() => navigate("/minorcourse")}>
+                <RiBookletLine />
+                <span className="px-1">Minor Courses</span>
+              </Button>
+        </OverlayTrigger>
           </div>
         </div>
         <Row className="g-4 mylearning-card">

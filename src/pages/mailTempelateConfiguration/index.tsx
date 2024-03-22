@@ -1,7 +1,7 @@
 import View from "./view";
 import { useEffect, useState } from "react";
 import { getData, postData } from "../../adapters/coreservices";
-
+import "./style.scss";
 type ConfigItem = {
   tab: string;
   type: string;
