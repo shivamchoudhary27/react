@@ -66,7 +66,6 @@ const Browser = (props: Props) => {
         console.log(error);
       });
   };
-
   return (
     <React.Fragment>
       <Header />
@@ -107,31 +106,32 @@ const Browser = (props: Props) => {
                 />
               </div>
             ) : (
-              <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                <Row>
+              <Tab.Container defaultActiveKey={0}>
+              <Row>
+                <Col sm={3}>
+                  <Nav variant="pills" className="flex-column tabStep-indicator mailconfig-tabs">
                   {props.commonProps.tabTitles.length > 0 &&
                     props.commonProps.tabTitles.map(
                       (tabTitle: any, index: number) => (
-                        <>
-                          <Col sm={3}>
-                            <Nav variant="pills" className="flex-column">
-                              <Nav.Item>
-                                <Nav.Link
-                                  eventKey={index}
-                                  onClick={() =>
-                                    props.commonProps.setSelectedTab(tabTitle)
-                                  }
-                                >
-                                  {tabTitle}
-                                </Nav.Link>
-                              </Nav.Item>
-                            </Nav>
-                          </Col>
-                          <Col sm={9}>
-                            {props.commonProps.apiStatus === "finished" && (
-                              <Tab.Content>
-                                <Tab.Pane eventKey={index}>
-                                  <Formik
+                      <Nav.Item key={index}>
+                        <Nav.Link
+                          eventKey={index}
+                          onClick={() =>
+                            props.commonProps.setSelectedTab(tabTitle)
+                          }
+                        >
+                          {tabTitle}
+                        </Nav.Link>
+                      </Nav.Item>
+                    ))}
+                  </Nav>
+                </Col>
+                <Col sm={9}>
+                  {props.commonProps.apiStatus === "finished" && (
+                    <Tab.Content>
+                      {props.commonProps.tabTitles.map((tabTitle: any, index: number) => (
+                        <Tab.Pane key={index} eventKey={index}>
+                               <Formik
                                     initialValues={{
                                       subject: props.commonProps.initialSubject,
                                       description:
@@ -289,16 +289,19 @@ const Browser = (props: Props) => {
                                       </Form>
                                     )}
                                   </Formik>
-                                </Tab.Pane>
-                              </Tab.Content>
-                            )}
-                          </Col>
-                        </>
-                      )
-                    )}
-                  {props.commonProps.loading != false && <h5>Loading...</h5>}
-                </Row>
-              </Tab.Container>
+                        </Tab.Pane>
+                      ))}
+                    </Tab.Content>
+                  )}
+                      {props.commonProps.loading !== false && (
+                        <div className="d-flex justify-content-center align-items-center mt-5">
+                          <h5>Loading...</h5>
+                        </div>
+                      )}
+                </Col>
+              </Row>
+            </Tab.Container>
+            
             )}
           </Container>
         </div>

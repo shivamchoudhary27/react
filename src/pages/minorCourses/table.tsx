@@ -118,7 +118,7 @@ const StudentMinorCourseTable = (props: Props) => {
                               <div
                                 className="enrolmentrequired-tag"
                               >
-                                {` Enrolment required in ${category.maxMinorCoursesAllowed} course${category.maxMinorCoursesAllowed > 1 ? "s" : ""}`}
+                                {` Enrollment required in ${category.maxMinorCoursesAllowed} course${category.maxMinorCoursesAllowed > 1 ? "s" : ""}`}
                               </div>
                             </div>
                             </td>
