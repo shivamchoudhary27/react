@@ -33,6 +33,15 @@ const UserWaitlist = () => {
     fullName: "", 
     email:""
   });
+
+  
+  // const EnrolledUser= diciplineData.pager.totalElements
+  // const enrollmentCapacity= diciplineData.courseDetails !== undefined && diciplineData.courseDetails.enrollmentCapacity
+  // const remainingSeats= diciplineData.courseDetails !== undefined && diciplineData.courseDetails.remainingSeats
+
+  
+
+
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -60,7 +69,7 @@ const UserWaitlist = () => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [currentInstitute, filterUpdate,]);
+    }, [currentInstitute, filterUpdate,refreshData]);
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
@@ -129,6 +138,17 @@ const UserWaitlist = () => {
             <ManageFilter
              apiStatus={apiStatus}
             updateInputFilters={updateSearchFilters}/>
+            {/* <div>
+            <Row>
+      <Col>Enrolled user: {EnrolledUser}</Col>
+           {enrollmentCapacity !== null && remainingSeats !== null && (
+            <>
+              <Col>Seating Capacity: {enrollmentCapacity}</Col>
+              <Col>Remaining Seats: {remainingSeats}</Col>
+            </>
+          )}
+          </Row>
+            </div> */}
             <UserWaitlistTable
               apiStatus={apiStatus}
               toggleModalShow={toggleModalShow}

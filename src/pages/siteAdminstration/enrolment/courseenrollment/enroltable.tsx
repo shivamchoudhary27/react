@@ -71,9 +71,20 @@ const DiciplineTable = ({
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
           </Link>
-          <Link className="action-icons" to="">
-            <img src={showIcon} alt="Show" />
-          </Link>
+          {/* {userPermissions.canEdit === true && (
+            <Link
+              className="action-icons"
+              to=""
+              onClick={() => {
+                toggleGroupPublished(row.original);
+              }}
+            >
+              <img
+                src={row.original.published !== false ? showIcon : hideIcon}
+                alt="Show"
+              />
+            </Link>
+          )} */}
         </span>
       ),
     },

@@ -14,8 +14,8 @@ type Props = {
   apiStatus: string;
   minorCourseData: any;
   toggleModalShow: any;
-  editHandlerById: any;
-  getUserModalInfo:any
+  getUserModalInfo:any;
+  onHide:any
 };
 
 const UserWaitlistTable = (props: Props) => {
@@ -49,8 +49,6 @@ const UserWaitlistTable = (props: Props) => {
         Header: "Actions",
         accessor: "actions", // This can be any accessor value you like
         Cell: ({ row }: any) => (
-          // console.log(row.original.courseId)
-        // <>conso
           <Button
             className="enroll-btn"
             key={row.original.courseId} 
@@ -62,7 +60,6 @@ const UserWaitlistTable = (props: Props) => {
             />
             <span> Enroll</span>
            </Button>
-        //   </>
         )
       }] : [])
     ];

@@ -94,7 +94,7 @@ const DiciplineModal = ({
         })
         .catch((err: any) => {
           setSubmitting(false);
-          if (err.response.status === 404 || err.response.status === 400) {
+          if (err.response.status === 404 || err.response.status === 400 || 500) {
             if (err.response.data.userEmail !== undefined) {
               setShowAlert(true);
               setAlertMsg({

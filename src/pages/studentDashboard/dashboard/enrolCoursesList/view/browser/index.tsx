@@ -21,7 +21,7 @@ const Browser = ({ ...props }: Props) => {
         <Row className="g-4 mylearning-card">
           {props.userCoursesData.courses.map((item: any, index: number) => (
             <Col sm={6} lg={4} xl={3} key={index}>
-              <Card body className="h-100">
+                <Card body className = {`h-100 ${item.courseType === "minor"? "minorProgram" : ""}`} >
                 <div className="mlcard-image">
                   <Card.Img src={courseImage} alt={item.shortname} />
                 </div>

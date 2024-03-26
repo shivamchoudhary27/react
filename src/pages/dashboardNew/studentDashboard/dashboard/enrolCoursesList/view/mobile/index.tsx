@@ -193,7 +193,7 @@ const Mobile: React.FC<Props> = (props) => {
           {course.length > 0 ? (
             course.map((item: any, index: number) => (
               <Col sm={6} lg={4} xl={3} key={index}>
-                <Card body className="h-100">
+                  <Card body className = {`h-100 ${item.courseType === "minor"? "minorProgram" : ""}`} >
                 <a
                     href={`${config.MOODLE_BASE_URL}/course/view.php?id=${item.idNumber}`}
                   >

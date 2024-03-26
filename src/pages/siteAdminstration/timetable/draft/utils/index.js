@@ -119,3 +119,34 @@ export const courseDatesObj = {
   noneSelected: true,
   courseId: 0,
 }
+
+
+export const FirstDayOfMonth = (month,year) => {
+  if(month,year){
+
+    const currentYear = parseInt(year);
+    
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    
+    
+    
+    const monthIndex = monthNames.indexOf(month);
+    
+    const firstDayOfMonth = new Date(currentYear, monthIndex, 1);
+    
+    return firstDayOfMonth;
+  }
+};

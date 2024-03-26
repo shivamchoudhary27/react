@@ -38,16 +38,17 @@ const WeeklyDraftVersion = () => {
   const location = useLocation();
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
   const [monthList, setMonthList] = useState<string[]>([]);
   const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState(dummyData);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
+  const [handleMonthFilter,setHandleMonthFilter]=useState([])
   const [timetableData, setTimetableData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
@@ -92,7 +93,6 @@ const WeeklyDraftVersion = () => {
 
   // set filters === >>
   useEffect(() => {
-    // console.log(courseDates.courseId)
     setFilters((previous: any) => ({
       ...previous,
       courseId: courseDates.courseId,
@@ -147,7 +147,6 @@ const WeeklyDraftVersion = () => {
   }, [departmentTimeslots]);
 
   useEffect(() => {
-    // console.log(departmentTimeslots)
     if (departmentTimeslots.items.length > 0) {
       getTableRenderTimeSlots(
         departmentTimeslots,
@@ -190,10 +189,10 @@ const WeeklyDraftVersion = () => {
   // handle month filter === >>
   const handleMonthFilterChange = (e: any) => {
     if(e.type === "change"){
-      setSelectedMonth(e.target.value)
-      console.log(e.target.value)
+      setHandleMonthFilter([e.target.value])
     }
   }
+
 
   return (
     <React.Fragment>
@@ -242,21 +241,26 @@ const WeeklyDraftVersion = () => {
               {courseDates.startDate !== "--/--/----" &&
                 courseDates.endDate !== "--/--/----" && (
                   <div>
-                    <label htmlFor="month">Month:</label>
-                    <select
-                      className="form-select"
-                      name="workloadCourse"
-                      // value={monthList}
-                      onChange={handleMonthFilterChange}
-                    >
-                      <option value={0}>Select Month</option>
-                      {monthList.map((option, index) => (
-                        <option value={`${option.month}-${option.year}`} key={index}>
-                          {option.month}{" "}{option.year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <label htmlFor="month">Month:</label>
+                  <select
+                    className="form-select"
+                    name="workloadCourse"
+                    onChange={handleMonthFilterChange}
+                    // value={ChangeFilterStatus}
+                  >
+                    <option value={0}>Select Month</option>
+                    {monthList.map((option, index) => (
+                      <option
+                        value={`${option.month},${option.year}`}
+                        key={index}
+                        // Conditionally render selected option based on state
+                        selected={ChangeFilterStatus === `${option.month},${option.year}`}
+                      >
+                        {option.month} {option.year}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 )}
             </div>
             <div className="slot-indicator">
@@ -276,8 +280,9 @@ const WeeklyDraftVersion = () => {
                   SlotData={timeslots}
                   apiStatus={apiStatus}
                   courseDates={courseDates}
-                  selectedMonth={selectedMonth}
                   updateTimetableDates={updateTimetableDates}
+                  handleMonthFilter={handleMonthFilter}
+                  setChangeFilterStatus = {setChangeFilterStatus}
                 />
               )}
               {apiStatus === "finished" && timeslots.length === 0 && (

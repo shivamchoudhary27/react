@@ -13,6 +13,7 @@ import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import Swal from "sweetalert2";
+import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -33,7 +34,9 @@ const GroupModal = ({
   const initialValues = {
     name: groupObj.name,
     description: groupObj.description,
+    published: groupObj.published
   };
+
 
   const handleSubmit = (values: {}, { setSubmitting, resetForm }: any) => {
     let endPoint = `/${courseid}/group`;
@@ -150,6 +153,17 @@ const GroupModal = ({
                     errors={errors.description}
                     touched={touched.description}
                     msgText="Please Enter description"
+                  />
+                </div>
+                <div className="mb-3">
+                  <FieldTypeCheckbox
+                    name="published"
+                    checkboxLabel="Published"
+                  />{" "}
+                  <FieldErrorMessage
+                    errors=""
+                    touched=""
+                    msgText="Please Check required field"
                   />
                 </div>
                 {isSubmitting === false ? (
