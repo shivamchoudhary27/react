@@ -7,7 +7,6 @@ import { addDays, format, startOfWeek, parse } from "date-fns";
 import { formatDateWithDetails } from "../../../../lib/timestampConverter";
 import { FirstDayOfMonth } from "./utils";
 
-
 const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, handleMonthFilter,setChangeFilterStatus }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
@@ -22,11 +21,6 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({ next: true, prev: true });
  
-
- 
-
-
-
   function getMonday(dayOfWeek: number) {
 
     switch (dayOfWeek) {
@@ -48,9 +42,6 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
         return 0; // Default case, return 0 if input is not a valid day of the week
     }
   }
-
-
-
 
   useEffect(() => {
     let month = 0;
@@ -126,10 +117,12 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
               row.original[format(date, "EEEE").toLowerCase()]
             );
             return (
-              <div>
-                {currentColumns.status === "booked" && currentColumns.bookedDetais}
+              // && format(date, 'dd-MM-yyyy') >= courseDates.startDate.replaceAll('/','-') && 'Available' + format(date, 'dd-MM-yyyy')
+              <div> 
+                {currentColumns.status === "booked" &&
+                  currentColumns.bookedDetais}
                 {currentColumns.status === "available" && "Available"}
-                {currentColumns.status === "weekend" && "Weekend"}
+                {currentColumns.status === "weekend" && "Weekend"}  
               </div>
             );
           },
@@ -138,8 +131,6 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
       setTableColumn(newWeekColumns);
     }
   }, [renderWeek]);
-
-
 
   // next 7 days week handler === >>
   const handleNextWeek = () => {
@@ -212,11 +203,8 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
     return dateObject.getTime();
   }
 
-
-
   // calculate week days === >>
-
-  const calculateWeek = (amount: number) => {
+   const calculateWeek = (amount: number) => {
     const formattedStartDate = courseDates.startDate === "--/--/----" ? currentDate : formatDateWithDetails(courseDates.startDate);
     const StartDateFormat = formattedStartDate;
     const nextMonday = addDays(
@@ -236,8 +224,6 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
 
     const dateDifference = Math.abs((endDate - startDate) / (1000 * 60 * 60 * 24));
     const days = startDate.getDay();
-
-
 
     if (dateDifference > 6) {
       return true; // Difference is greater than 6 days
@@ -261,8 +247,15 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
   // Assuming formatDateWithDetails() is defined properly and courseDates is provided
   const areoButton = checkDateDifference(formatDateWithDetails(courseDates.startDate), formatDateWithDetails(courseDates.endDate))
 
-
-
+  function countWeekendStatus(obj) {
+    let count = 0;
+    for (let day in obj) {
+      if (obj.hasOwnProperty(day) && obj[day] === '{"status":"weekend"}') {
+        count++;
+      }
+    }
+    return count;
+  }
 
   return (
     <React.Fragment>
@@ -302,14 +295,18 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
 
           <tbody {...getTableBodyProps}>
             {rows.map((row: any, index) => {
+              const weekendStatus = countWeekendStatus(row.original)
+              const breakSlotLength = 7 - weekendStatus
               prepareRow(row);
               if (row.original.breakTime === true) {
                 return (
                   <tr {...row.getRowProps()} key={index}>
                     <td>{row.original.timeSlot}</td>
-                    <td colSpan={columns.length - 2}>
-                      {row.original.breakType}
-                    </td>
+                    {[...Array(breakSlotLength)].map((_, index: number) => (
+                      <td key={index} className="weekend">
+                        {row.original.breakType}
+                      </td>
+                    ))}
                   </tr>
                 );
               }
@@ -329,6 +326,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
                           </td>
                         );
                       } else {
+                        // console.log(cell)
                         let cellValue = JSON.parse(cell.value);
                         if (cellValue.status !== "weekend") {
                           return (

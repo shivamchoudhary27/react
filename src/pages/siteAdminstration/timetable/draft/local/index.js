@@ -207,6 +207,9 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
     setTimeslots(timeslotPacket);
 }
 
+// ===============================================================
+// function for listing months with their respective years === >>
+// ===============================================================
 export const getMonthList = (courseData) => {
     const startTimestamp = courseData.startDateTimeStamp;
     const endTimestamp = courseData.endDateTimeStamp;
@@ -215,7 +218,7 @@ export const getMonthList = (courseData) => {
     const startDate = new Date(startTimestamp);
     const endDate = new Date(endTimestamp);
 
-    const months = [];
+    const monthsByYear = {};
 
     let currentDate = new Date(startDate); // Initialize with the start date
 
@@ -223,14 +226,18 @@ export const getMonthList = (courseData) => {
     while (currentDate <= endDate) {
         const monthName = currentDate.toLocaleString('default', { month: 'long' }); // Get month name
         const year = currentDate.getFullYear(); // Get year
-        months.push({ month: monthName, year: year }); // Push month name and year into array
+        
+        // If the year doesn't exist in the object, create an empty array for it
+        if (!monthsByYear[year]) {
+            monthsByYear[year] = [];
+        }
+        
+        monthsByYear[year].push(monthName); // Push month name into array for the corresponding year
         currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
     }
-    return months;
+    
+    return monthsByYear;
 }
-
-
-
 
 // ========================================================
 // check sessionDate is lie between start & end date === >>
@@ -276,16 +283,18 @@ const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters) 
                 response = { status: "available" }
             }
         }
-    }else{
-        if(lowerCaseWeekdays.includes(day.toLowerCase())){
-            response = { status: "weekend" }
-        }else if(courseDates.startDate === '--/--/----' && courseDates.endDate === '--/--/----'){
+    }else{  
+        if(courseDates.startDate === '--/--/----' && courseDates.endDate === '--/--/----'){
             response = { status: "" }
+        }else{
+            if(lowerCaseWeekdays.includes(day.toLowerCase())){
+                response = { status: "weekend" }
+            }
+            else{
+                response = { status: "available" }
+            }
         }
-        else{
-            response = { status: "available" }
-        }   
     }
-
+    
     return JSON.stringify(response); 
 }
