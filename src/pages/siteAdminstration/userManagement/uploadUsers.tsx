@@ -1,10 +1,13 @@
 import * as Yup from "yup";
+import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Link } from "react-router-dom";
+import { FaDownload } from "react-icons/fa6";
 import { postData } from "../../../adapters/coreservices";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import CustomButton from "../../../widgets/formInputFields/buttons";
+import { downloadCSVSampleFile } from "../../../globals/CSV/sampleCSV";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
@@ -18,7 +21,7 @@ const UploadNewUsers = ({
   onHide,
   setUploadModalShow,
   updateAddRefresh,
-  currentInstitute
+  currentInstitute,
 }: any) => {
   const [uploadResponse, setUploadresponse] = React.useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -43,11 +46,12 @@ const UploadNewUsers = ({
               ([key, value]) =>
                 (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
             );
+            // downloadCSV(res.data.rows_not_processed); // Download sample CSV file
           }
-          setTimeout(()=>{
+          setTimeout(() => {
             setUploadModalShow(false);
             setUploadresponse("");
-          },3000)
+          }, 3000);
           setUploadresponse(responseMsg);
           setSubmitting(false);
           updateAddRefresh();
@@ -64,6 +68,27 @@ const UploadNewUsers = ({
         });
       });
   };
+
+  // download unsuccessful users list in CSV === >>
+  // const downloadCSV = (data) => {
+  //   // Define headers and prepare rows
+  //   const headers = ["Firstname", "LastName", "Email", "Country"];
+  //   const rows = data.map((user) => [user.firstname, user.lastname, user.email, user.country]);
+
+  //   // Combine headers and rows
+  //   const csvContent =
+  //     "data:text/csv;charset=utf-8," +
+  //     [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+
+  //   // Create a link element
+  //   const link = document.createElement("a");
+  //   link.setAttribute("href", encodeURI(csvContent));
+  //   link.setAttribute("download", "unsuccessful_users.csv");
+
+  //   // Trigger the download
+  //   document.body.appendChild(link);
+  //   link.click();
+  // };
 
   return (
     <React.Fragment>
@@ -90,7 +115,18 @@ const UploadNewUsers = ({
             {({ values, setFieldValue, errors, touched, isSubmitting }) => (
               <Form>
                 <div className="mb-3">
-                  <label htmlFor="file">Upload a csv file:</label>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <label htmlFor="file">Upload a csv file:</label>
+                    <Link to="" onClick={() => downloadCSVSampleFile(["Firstname", "LastName", "Email", "Country"])}>
+                      Sample csv file <FaDownload />
+                    </Link>
+                  </div>
                   <input
                     className="form-control"
                     id="file"
@@ -132,7 +168,7 @@ const UploadNewUsers = ({
           />
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
         </Modal.Body>
-        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg" />
       </Modal>
     </React.Fragment>
   );

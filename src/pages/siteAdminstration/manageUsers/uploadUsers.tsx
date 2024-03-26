@@ -2,8 +2,11 @@ import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { FaDownload } from "react-icons/fa6";
 import { postData } from "../../../adapters/microservices";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { downloadCSVSampleFile } from "../../../globals/CSV/sampleCSV";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
@@ -85,7 +88,18 @@ const UploadUsersEnrollment = ({
             {({ values, setFieldValue, isSubmitting, errors, touched }) => (
               <Form>
                 <div className="mb-3">
-                  <label htmlFor="file">Upload a csv file:</label>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <label htmlFor="file">Upload a csv file:</label>
+                    <Link to="" onClick={() => downloadCSVSampleFile(["Firstname", "LastName", "Email", "Country"])}>
+                      Sample csv file <FaDownload />
+                    </Link>
+                  </div>
                   <input
                     className="form-control"
                     id="file"
