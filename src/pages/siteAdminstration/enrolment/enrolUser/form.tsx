@@ -26,6 +26,18 @@ const validationSchema = Yup.object({
     .integer("Must be an integer")
     .positive("Must be a positive integer")
     .min(0, "Must be greater than or equal to 0"),
+
+  enrolBeforeNoOfDaysToStartDate: Yup.number()
+    .required("Field is required")
+    .integer("Must be an integer")
+    .positive("Must be a positive integer")
+    .min(0, "Must be greater than or equal to 0"),
+
+  unEnrolafterNoOfDaysToStartDate: Yup.number()
+    .required("Field is required")
+    .integer("Must be an integer")
+    .positive("Must be a positive integer")
+    .min(0, "Must be greater than or equal to 0"),
 });
 
 const ModalForm = (props: Props) => {
@@ -36,7 +48,10 @@ const ModalForm = (props: Props) => {
     weight: props.maxMinorCoursesObj.weight,
     parent: props.maxMinorCoursesObj.parent,
     maxMinorCoursesAllowed: props.maxMinorCoursesObj.maxMinorCoursesAllowed,
-    dateUserUnenrolmentAllowed: props.maxMinorCoursesObj.dateUserUnenrolmentAllowed,
+    enrolBeforeNoOfDaysToStartDate: props.maxMinorCoursesObj.enrolBeforeNoOfDaysToStartDate,
+    UnEnrollmentAfterDate: props.maxMinorCoursesObj.UnEnrollmentAfterDate,
+    unEnrolafterNoOfDaysToStartDate: props.maxMinorCoursesObj.unEnrolafterNoOfDaysToStartDate,
+
   };
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
@@ -55,10 +70,10 @@ const ModalForm = (props: Props) => {
       });
   };
 
-  const Getcategory = props.categoryData.filter((category:any) => {
+  const Getcategory = props.categoryData.filter((category: any) => {
     return category.id === props.maxMinorCoursesObj.id;
-  }).map((category:any) => category.name);
-  
+  }).map((category: any) => category.name);
+
   return (
     <React.Fragment>
       <Modal
@@ -83,20 +98,65 @@ const ModalForm = (props: Props) => {
           >
             {({ errors, touched, isSubmitting }) => (
               <Form>
+
                 <div className="mb-3">
-                  <FieldLabel
-                    labelText="Max Minor Courses Allowed"
-                    htmlFor="maxMinorCoursesAllowed" />
-                  <Field
-                    type="number"
-                    name="maxMinorCoursesAllowed"
-                    as={FieldTypeText}
-                  />
-                  <FieldErrorMessage
-                    errors={errors.maxMinorCoursesAllowed}
-                    touched={touched.maxMinorCoursesAllowed}
-                  />
+                  <label htmlFor="" className="d-flex programModalInput">
+                    Student can take maximum
+                  </label>
+                  <label htmlFor="" className="d-flex programModalInput">
+
+                    <Field
+                      className="w-25"
+                      type="number"
+                      name="maxMinorCoursesAllowed"
+                      as={FieldTypeText}
+                    />
+                      Courses.
+                      </label>
+                    <FieldErrorMessage
+                      errors={errors.maxMinorCoursesAllowed}
+                      touched={touched.maxMinorCoursesAllowed}
+                    />
                 </div>
+
+                <div className="mb-3">
+                  <label htmlFor="" className="d-flex programModalInput">
+                    Student can enroll in a course before
+                  </label>
+                  <label htmlFor="" className="d-flex programModalInput">
+                    <Field
+                      className="w-25"
+                      type="number"
+                      name="enrolBeforeNoOfDaysToStartDate"
+                      as={FieldTypeText}
+                    />
+                    days of the start date.
+                    </label>
+                  <FieldErrorMessage
+                    errors={errors.enrolBeforeNoOfDaysToStartDate}
+                    touched={touched.enrolBeforeNoOfDaysToStartDate}
+                    />
+                </div>
+
+                <div className="mb-3">
+                  <label htmlFor="" className="d-flex programModalInput">
+                    Student allowed to unenroll from the course after
+                  </label>
+                  <label htmlFor="" className="d-flex programModalInput">
+                    <Field
+                      className="w-25"
+                      type="number"
+                      name="unEnrolafterNoOfDaysToStartDate"
+                      as={FieldTypeText}
+                    />
+                    days of the start date.
+                    </label>
+                  <FieldErrorMessage
+                    errors={errors.unEnrolafterNoOfDaysToStartDate}
+                    touched={touched.unEnrolafterNoOfDaysToStartDate}
+                    />
+                </div>
+
 
                 <div className="mb-3">
                   <FieldLabel
@@ -116,24 +176,24 @@ const ModalForm = (props: Props) => {
                     msgText="Required"
                   /> */}
                 </div>
-                  <div className="modal-buttons">
-                    <CustomButton
-                      type="submit"
-                      variant="primary"
-                      isSubmitting={isSubmitting}
-                      btnText="Submit"
-                    />{" "}
-                    <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  </div>
+                <div className="modal-buttons">
+                  <CustomButton
+                    type="submit"
+                    variant="primary"
+                    isSubmitting={isSubmitting}
+                    btnText="Submit"
+                  />{" "}
+                  <CustomButton
+                    type="reset"
+                    btnText="Reset"
+                    variant="outline-secondary"
+                  />
+                </div>
               </Form>
             )}
           </Formik>
         </Modal.Body>
-        <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg" />
       </Modal>
     </React.Fragment>
   );

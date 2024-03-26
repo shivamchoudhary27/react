@@ -12,7 +12,7 @@ const initialValues = {
 
 
 
-const ManageFilter = ({ updateinputfilters, apiStatus, EnrolledUser, enrollmentCapacity, remainingSeats }: any) => {
+const ManageFilter = ({ updateinputfilters, apiStatus}: any) => {
   const [timeoutId, setTimeoutId] = useState<any>(null);
   const formik = useFormik({
     initialValues: initialValues,

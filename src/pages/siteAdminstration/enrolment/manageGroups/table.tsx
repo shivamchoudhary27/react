@@ -61,6 +61,7 @@ const ManageGroupTable = ({
                     id: row.original.id,
                     name: row.original.name,
                     description: row.original.description,
+                    published: row.original.published
                   })
                 }
               />
@@ -120,16 +121,16 @@ const ManageGroupTable = ({
   const [deleteId, setDeleteId] = useState(0);
 
   // update event handler
-  const editHandler = ({ id, name, description }: any) => {
+  const editHandler = ({ id, name, description,published }: any) => {
     setModalShow(true);
-    editHandlerById({ id, name, description });
+    editHandlerById({ id, name, description, published });
     refreshGroupData();
   };
 
   const toggleGroupPublished = (tagPacket: any) => {
     tagPacket.published = !tagPacket.published;
     setForceRender((prevState) => !prevState);
-    let endPoint = `/${currentInstitute}/tags/${tagPacket.id}`;
+    let endPoint = `/${courseid}/group/${tagPacket.id}`;
     putData(endPoint, tagPacket)
       .then((res: any) => {
         setForceRender((prevState) => !prevState);

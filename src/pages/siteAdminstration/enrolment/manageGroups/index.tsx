@@ -24,6 +24,7 @@ const ManageGroups = () => {
   const [groupObj, setGroupObj] = useState({
     name: "",
     description: "",
+    published:"",
   });
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -98,13 +99,13 @@ const ManageGroups = () => {
   // add group modal handler
   const openAddGroup = () => {
     setModalShow(true);
-    setGroupObj({ id: 0, name: "", description: "" });
+    setGroupObj({ id: 0, name: "", description: "", published: ""});
     setRefreshData(false);
   };
 
   // get id, name from discipline table === >>>
-  const editHandlerById = ({ id, name, description }: any) => {
-    setGroupObj({ id: id, name: name, description: description });
+  const editHandlerById = ({ id, name, description,published}: any) => {
+    setGroupObj({ id: id, name: name, description: description, published: published, });
   };
 
   const refreshOnDeleteToggle = (value: boolean) => {

@@ -33,8 +33,9 @@ const ModalForm = (props: Props) => {
       )
         .then((res: any) => {
           if (res.data != "" && res.status === 201) {
-            props.toggleModalShow(false);
+            console.log(res.data)
             props.updateAddRefresh();
+            props.toggleModalShow(false);
             Swal.fire({
               timer: 3000,
               width: "25em",

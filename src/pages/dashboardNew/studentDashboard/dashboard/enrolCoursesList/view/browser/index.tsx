@@ -17,6 +17,8 @@ type Props = {
   badgesData: any;
 };
 
+
+
 const courseStatusOptions = [
   { id: "inprogress", name: "In Progress" },
   { id: "completed", name: "Completed" },
@@ -43,7 +45,6 @@ const Browser = (props: Props) => {
   });
   const [course, setCourses] = useState([]);
   const [courseData, setCourseData] = useState(props.coursesList)
-
   useEffect(() => {
     setCourseData(props.coursesList)
     if (props.coursesList.courses.length > 0) {
@@ -63,13 +64,13 @@ const Browser = (props: Props) => {
       }));
     }
   }, [props.coursesList, props.enrolCoreCoursesObj]);
-
+  
   useEffect(() => {
 
     const filterdStatus = (status: any, filterCourses: any) => {
-
+      
       if (filterCourses.length > 0) {
-
+        
         if (status == 'inprogress') {
           let updatedCourse = filterCourses.filter((data: any) => {
             return data.progress != null && !data.completed
@@ -90,81 +91,82 @@ const Browser = (props: Props) => {
         }
       };
     }
-
+    
     if (filterStatus.selectedValues.program > 0) {
       if (filterStatus.selectedValues.category > 0) {
         const filteredCourses = courseData.courses.filter(
           (item) =>
-            item.programId === filterStatus.selectedValues.program &&
-            item.categoryId === filterStatus.selectedValues.category
-        );
-        setCourses(filteredCourses);
-        filterdStatus(filterStatus.selectedValues.status, filteredCourses)
-      } else {
-        const filteredCourses = courseData.courses.filter(
-          (item) => item.programId === filterStatus.selectedValues.program
-        );
-        setCourses(filteredCourses);
+          item.programId === filterStatus.selectedValues.program &&
+          item.categoryId === filterStatus.selectedValues.category
+          );
+          setCourses(filteredCourses);
+          filterdStatus(filterStatus.selectedValues.status, filteredCourses)
+        } else {
+          const filteredCourses = courseData.courses.filter(
+            (item) => item.programId === filterStatus.selectedValues.program
+            );
+            setCourses(filteredCourses);
         filterdStatus(filterStatus.selectedValues.status, filteredCourses)
       }
     } else {
       const uniqueProgramIds = new Set();
-
+      
       filterStatus.filterData.programs.forEach((item) => {
         uniqueProgramIds.add(item.id);
       });
-
+      
       const filteredData = courseData.courses.filter((item) =>
-        uniqueProgramIds.has(item.programId)
+      uniqueProgramIds.has(item.programId)
       );
       setCourses(filteredData);
       filterdStatus(filterStatus.selectedValues.status, filteredData)
     }
   }, [filterStatus]);
-
+  
   const updateCourses = (filterValues: any) => {
     setFilterStatus(filterValues);
   };
-
+  
   const getCourseProgress = (id: number) => {
     const foundObject: any = props.enrolCoreCoursesObj.find(
       (item: any) => item.id === id
-    );
-    if (foundObject) {
-      return foundObject.progress !== null
+      );
+      if (foundObject) {
+        return foundObject.progress !== null
         ? `${Math.round(foundObject.progress)}%`
         : 0 + "%";
-    }
-    return "0%";
-  };
-
-  const studentGradeData= (courseID:number) => {
-    if(props.gradeData.length >0) {
-    const courseGrade= props.gradeData.find((item: any)=>{
-       return item.courseid=== courseID
-  })
-  if (courseGrade) {
-    return courseGrade.rawgrade !== null
-    ? `${Math.round(courseGrade.rawgrade)}%`
-    : 0 + "%";
-  }
-}
-  return "0%";
+      }
+      return "0%";
+    };
+    
+    const studentGradeData= (courseID:number) => {
+      if(props.gradeData.length >0) {
+        const courseGrade= props.gradeData.find((item: any)=>{
+          return item.courseid=== courseID
+        })
+        if (courseGrade) {
+          return courseGrade.rawgrade !== null
+          ? `${Math.round(courseGrade.rawgrade)}%`
+          : 0 + "%";
+        }
+      }
+      return "0%";
   }
   const studentBadgeData= (courseID:number) => {
     if(props.badgesData.length > 0) {
-    const courseBadge= props.badgesData.filter((item: any)=>{
-      return item.courseid=== courseID
-  })
-  if (courseBadge) {
-    return courseBadge.length > 0
-      ? courseBadge.length
-      : 0;
-  }
-}
-  return 0;
+      const courseBadge= props.badgesData.filter((item: any)=>{
+        return item.courseid=== courseID
+      })
+      if (courseBadge) {
+        return courseBadge.length > 0
+        ? courseBadge.length
+        : 0;
+      }
+    }
+    return 0;
   }
 
+  
   return (
     <React.Fragment>
       <Container fluid>
@@ -174,7 +176,7 @@ const Browser = (props: Props) => {
             <FilterProgramDropdown
               coursesList={props.coursesList}
               updateCourses={updateCourses}
-            />
+              />
             {/* ============== left for second phase ============ */}
             <OverlayTrigger
               placement="top"
@@ -191,10 +193,10 @@ const Browser = (props: Props) => {
           {course.length > 0 ? (
             course.map((item: any, index: number) => (
               <Col sm={6} lg={4} xl={3} key={index}>
-                <Card body className="h-100">
+                <Card body className = {`h-100 ${item.courseType === "minor"? "minorProgram" : ""}`} >
                   <a
                     href={`${config.MOODLE_BASE_URL}/course/view.php?id=${item.idNumber}`}
-                  >
+                    >
                     <div className="mlcard-image">
                       <Card.Img src={courseImage} alt={item.shortname} />
                     </div>
