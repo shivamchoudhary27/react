@@ -46,8 +46,9 @@ const WorkLoadComp = (props: Props) => {
   // set initial values === >>>
   useEffect(() => {
     props.workloadData.forEach((item: any, index: number) => {
+      initialValues[`workload_${index}`] = item.workLoad;
       item.slots.forEach((el: any) => {
-        initialValues[`workload_${index}`] = item.workLoad;
+        // initialValues[`workload_${index}`] = item.workLoad;
         initialValues[`${el.id}`] = el.id;
       });
     });

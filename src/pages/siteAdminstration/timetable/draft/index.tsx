@@ -38,7 +38,7 @@ const WeeklyDraftVersion = () => {
   const location = useLocation();
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
-  const [monthList, setMonthList] = useState<string[]>([]);
+  const [monthList, setMonthList] = useState({});
   const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState(dummyData);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
@@ -185,14 +185,13 @@ const WeeklyDraftVersion = () => {
       setMonthList(monthListArr);
     }
   }, [courseDates]);
-
+  
   // handle month filter === >>
   const handleMonthFilterChange = (e: any) => {
     if(e.type === "change"){
       setHandleMonthFilter([e.target.value])
     }
   }
-
 
   return (
     <React.Fragment>
@@ -249,16 +248,24 @@ const WeeklyDraftVersion = () => {
                     // value={ChangeFilterStatus}
                   >
                     <option value={0}>Select Month</option>
-                    {monthList.map((option, index) => (
-                      <option
-                        value={`${option.month},${option.year}`}
-                        key={index}
-                        // Conditionally render selected option based on state
-                        selected={ChangeFilterStatus === `${option.month},${option.year}`}
-                      >
-                        {option.month} {option.year}
-                      </option>
-                    ))}
+                    {
+                      Object.entries(monthList).map(([year, months]: any) => (
+                        <optgroup label={year}>
+                          {
+                            months.map((month: any, index: React.Key | null | undefined) => (
+                              <option
+                                value={`${month},${year}`}
+                                key={index}
+                                // Conditionally render selected option based on state
+                                selected={ChangeFilterStatus === `${month},${year}`}
+                              >
+                                {month}
+                              </option>
+                            ))
+                          }
+                      </optgroup>
+                      ))
+                    }
                   </select>
                 </div>
                 )}
