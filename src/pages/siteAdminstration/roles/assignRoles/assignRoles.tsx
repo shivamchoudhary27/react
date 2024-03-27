@@ -153,6 +153,7 @@ const RolesDataRender = ({
         </p>
         {roleContextDatas[`${contextType}s`].items.map(
           (item: any, index: number) => (
+            item.locked !== undefined && item.locked !== false &&
             <div key={index}>
               <input
                 className="form-check-input me-1"

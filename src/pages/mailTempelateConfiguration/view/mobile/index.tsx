@@ -15,6 +15,7 @@ import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
+import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import {
   BackgroundWaveTopLeft,
   BackgroundWaveBottomRight,
@@ -185,6 +186,7 @@ const Mobile = (props: Props) => {
                                             .map(
                                               (
                                                 item: {
+                                                  config: string;
                                                   availableVariables:
                                                     | string
                                                     | number
@@ -241,19 +243,39 @@ const Mobile = (props: Props) => {
                                                     )}
                                                     {item.type ===
                                                       "textarea" && (
-                                                      <>
+                                                        <>
                                                         <FieldLabel
                                                           htmlfor="description"
                                                           labelText={item.label}
                                                           className="mb-1 mt-2"
                                                           // required="required"
                                                         />
-                                                        <CkEditor
-                                                          name="description"
-                                                          handleChange={
-                                                            handleChange
-                                                          }
-                                                        />
+                                                        {item.config ===
+                                                        "header_mail_body" ? (
+                                                          <FieldTypeTextarea
+                                                            flag={true}
+                                                            name="description"
+                                                            onChange={
+                                                              handleChange
+                                                            }
+                                                          />
+                                                        ) : item.config ===
+                                                          "footer_mail_body" ? (
+                                                            <FieldTypeTextarea
+                                                              flag={true}
+                                                              name="description"
+                                                              onChange={
+                                                                handleChange
+                                                              }
+                                                            />
+                                                        ) : (
+                                                          <CkEditor
+                                                            name="description"
+                                                            handleChange={
+                                                              handleChange
+                                                            }
+                                                          />
+                                                        )}
                                                       </>
                                                     )}
                                                   </React.Fragment>

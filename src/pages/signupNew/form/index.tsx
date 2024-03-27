@@ -97,7 +97,7 @@ const SignupForm = () => {
         `https://api.microlearning.ballisticlearning.com/learning-service/api/v1/public/institutes?pageNumber=0&pageSize=30`
         ); 
           const instituteData = response.data.items;
-            const formattedData = instituteData.map(item => ({ name: item.name, id: item.id}));
+          const formattedData = instituteData.map(item => ( item.locked === true ? { name: item.name, id: item.id} : null)).filter(Boolean);
           setInstituteList(formattedData);
         
         } catch (error) {
@@ -261,8 +261,8 @@ const SignupForm = () => {
                 star="*"
               />
               <Multiselect
-               className="programmultiselect"
-               displayValue="name"
+                className="programmultiselect"
+                displayValue="name"
                 placeholder="Select Institute"
                 options={instituteList &&
                   instituteList.map((Institute) => ({
@@ -277,7 +277,7 @@ const SignupForm = () => {
                 touched={touched.instituteIds}
                 msgText="Required please select an institute."
               />
-</div>
+            </div>
             <div className="mb-4">
               <ReCAPTCHA
                 sitekey={googleReCaptcha.SITE_KEY}

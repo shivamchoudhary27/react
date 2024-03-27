@@ -16,6 +16,7 @@ import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
+import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import {
   BackgroundWaveTopLeft,
   BackgroundWaveBottomRight,
@@ -107,201 +108,221 @@ const Browser = (props: Props) => {
               </div>
             ) : (
               <Tab.Container defaultActiveKey={0}>
-              <Row>
-                <Col sm={3}>
-                  <Nav variant="pills" className="flex-column tabStep-indicator mailconfig-tabs">
-                  {props.commonProps.tabTitles.length > 0 &&
-                    props.commonProps.tabTitles.map(
-                      (tabTitle: any, index: number) => (
-                      <Nav.Item key={index}>
-                        <Nav.Link
-                          eventKey={index}
-                          onClick={() =>
-                            props.commonProps.setSelectedTab(tabTitle)
-                          }
-                        >
-                          {tabTitle}
-                        </Nav.Link>
-                      </Nav.Item>
-                    ))}
-                  </Nav>
-                </Col>
-                <Col sm={9}>
-                  {props.commonProps.apiStatus === "finished" && (
-                    <Tab.Content>
-                      {props.commonProps.tabTitles.map((tabTitle: any, index: number) => (
-                        <Tab.Pane key={index} eventKey={index}>
-                               <Formik
-                                    initialValues={{
-                                      subject: props.commonProps.initialSubject,
-                                      description:
-                                        props.commonProps.initialDescription,
-                                      ...props.commonProps.mailConfigData
+                <Row>
+                  <Col sm={3}>
+                    <Nav
+                      variant="pills"
+                      className="flex-column tabStep-indicator mailconfig-tabs"
+                    >
+                      {props.commonProps.tabTitles.length > 0 &&
+                        props.commonProps.tabTitles.map(
+                          (tabTitle: any, index: number) => (
+                            <Nav.Item key={index}>
+                              <Nav.Link
+                                eventKey={index}
+                                onClick={() =>
+                                  props.commonProps.setSelectedTab(tabTitle)
+                                }
+                              >
+                                {tabTitle}
+                              </Nav.Link>
+                            </Nav.Item>
+                          )
+                        )}
+                    </Nav>
+                  </Col>
+                  <Col sm={9}>
+                    {props.commonProps.apiStatus === "finished" && (
+                      <Tab.Content>
+                        {props.commonProps.tabTitles.map(
+                          (tabTitle: any, index: number) => (
+                            <Tab.Pane key={index} eventKey={index}>
+                              <Formik
+                                initialValues={{
+                                  subject: props.commonProps.initialSubject,
+                                  description:
+                                    props.commonProps.initialDescription,
+                                  ...props.commonProps.mailConfigData
+                                    .filter(
+                                      (item: { tabTitle: any }) =>
+                                        item.tabTitle === tabTitle
+                                    )
+                                    .reduce(
+                                      (
+                                        acc: { [x: string]: any },
+                                        item: { config: any },
+                                        index: any
+                                      ) => {
+                                        acc[`config_${index}`] = item.config;
+                                        return acc;
+                                      },
+                                      {}
+                                    ),
+                                }}
+                                onSubmit={(values, action) => {
+                                  handleFormSubmit(values, action);
+                                }}
+                              >
+                                {({ isSubmitting, handleChange }) => (
+                                  <Form>
+                                    <div className="d-flex flex-column">
+                                      {props.commonProps.mailConfigData
                                         .filter(
                                           (item: { tabTitle: any }) =>
                                             item.tabTitle === tabTitle
                                         )
-                                        .reduce(
+                                        .sort(
                                           (
-                                            acc: { [x: string]: any },
-                                            item: { config: any },
-                                            index: any
+                                            a: { type: string },
+                                            b: { type: string }
                                           ) => {
-                                            acc[`config_${index}`] =
-                                              item.config;
-                                            return acc;
-                                          },
-                                          {}
-                                        ),
-                                    }}
-                                    onSubmit={(values, action) => {
-                                      handleFormSubmit(values, action);
-                                    }}
-                                  >
-                                    {({ isSubmitting, handleChange }) => (
-                                      <Form>
-                                        <div className="d-flex flex-column">
-                                          {props.commonProps.mailConfigData
-                                            .filter(
-                                              (item: { tabTitle: any }) =>
-                                                item.tabTitle === tabTitle
-                                            )
-                                            .sort(
-                                              (
-                                                a: { type: string },
-                                                b: { type: string }
-                                              ) => {
-                                                if (
-                                                  a.type === "textfield" &&
-                                                  b.type === "textarea"
-                                                ) {
-                                                  return -1;
-                                                } else if (
-                                                  a.type === "textarea" &&
-                                                  b.type === "textfield"
-                                                ) {
-                                                  return 1;
-                                                }
-                                                return 0;
-                                              }
-                                            )
-                                            .map(
-                                              (
-                                                item: {
-                                                  availableVariables:
+                                            if (
+                                              a.type === "textfield" &&
+                                              b.type === "textarea"
+                                            ) {
+                                              return -1;
+                                            } else if (
+                                              a.type === "textarea" &&
+                                              b.type === "textfield"
+                                            ) {
+                                              return 1;
+                                            }
+                                            return 0;
+                                          }
+                                        )
+                                        .map(
+                                          (
+                                            item: {
+                                              config: string;
+                                              availableVariables:
+                                                | string
+                                                | number
+                                                | boolean
+                                                | React.ReactElement<
+                                                    any,
                                                     | string
-                                                    | number
-                                                    | boolean
-                                                    | React.ReactElement<
-                                                        any,
-                                                        | string
-                                                        | React.JSXElementConstructor<any>
-                                                      >
-                                                    | Iterable<React.ReactNode>
-                                                    | React.ReactPortal
-                                                    | null
-                                                    | undefined;
-                                                  type: string;
-                                                  label: any;
-                                                },
-                                                index:
-                                                  | React.Key
-                                                  | null
-                                                  | undefined
-                                              ) => (
-                                                <>
-                                                  {index === 0 && (
-                                                    <Alert
-                                                      variant="primary"
-                                                      className="mt-3"
-                                                    >
-                                                      <strong>Note: </strong>
-                                                      {item.availableVariables}
-                                                    </Alert>
-                                                  )}
-                                                  <React.Fragment key={index}>
+                                                    | React.JSXElementConstructor<any>
+                                                  >
+                                                | Iterable<React.ReactNode>
+                                                | React.ReactPortal
+                                                | null
+                                                | undefined;
+                                              type: string;
+                                              label: any;
+                                            },
+                                            index: React.Key | null | undefined
+                                          ) => (
+                                            <>
+                                              {index === 0 && (
+                                                <Alert
+                                                  variant="primary"
+                                                  className="mt-3"
+                                                >
+                                                  <strong>Note: </strong>
+                                                  {item.availableVariables}
+                                                </Alert>
+                                              )}
+                                              <React.Fragment key={index}>
+                                                <Field
+                                                  type="text"
+                                                  name={`config_${index}`}
+                                                  hidden
+                                                />
+                                                {item.type === "textfield" && (
+                                                  <>
+                                                    <FieldLabel
+                                                      htmlfor="subject"
+                                                      labelText={item.label}
+                                                      className="mb-1 mt-2"
+                                                      // required="required"
+                                                    />
                                                     <Field
                                                       type="text"
-                                                      name={`config_${index}`}
-                                                      hidden
+                                                      name="subject"
+                                                      placeholder="Subject"
+                                                      className="mb-2"
                                                     />
-                                                    {item.type ===
-                                                      "textfield" && (
-                                                      <>
-                                                        <FieldLabel
-                                                          htmlfor="subject"
-                                                          labelText={item.label}
-                                                          className="mb-1 mt-2"
-                                                          // required="required"
-                                                        />
-                                                        <Field
-                                                          type="text"
-                                                          name="subject"
-                                                          placeholder="Subject"
-                                                          className="mb-2"
-                                                        />
-                                                      </>
-                                                    )}
-                                                    {item.type ===
-                                                      "textarea" && (
-                                                      <>
-                                                        <FieldLabel
-                                                          htmlfor="description"
-                                                          labelText={item.label}
-                                                          className="mb-1 mt-2"
-                                                          // required="required"
-                                                        />
-                                                        <CkEditor
+                                                  </>
+                                                )}
+                                                {item.type === "textarea" && (
+                                                  <>
+                                                    <FieldLabel
+                                                      htmlfor="description"
+                                                      labelText={item.label}
+                                                      className="mb-1 mt-2"
+                                                      // required="required"
+                                                    />
+                                                    {item.config ===
+                                                    "header_mail_body" ? (
+                                                      <FieldTypeTextarea
+                                                        flag={true}
+                                                        name="description"
+                                                        onChange={
+                                                          handleChange
+                                                        }
+                                                      />
+                                                    ) : item.config ===
+                                                      "footer_mail_body" ? (
+                                                        <FieldTypeTextarea
+                                                          flag={true}
                                                           name="description"
-                                                          handleChange={
+                                                          onChange={
                                                             handleChange
                                                           }
                                                         />
-                                                      </>
+                                                    ) : (
+                                                      <CkEditor
+                                                        name="description"
+                                                        handleChange={
+                                                          handleChange
+                                                        }
+                                                      />
                                                     )}
-                                                  </React.Fragment>
-                                                </>
-                                              )
-                                            )}
+                                                  </>
+                                                )}
+                                              </React.Fragment>
+                                            </>
+                                          )
+                                        )}
 
-                                          {isSubmitting === false ? (
-                                            <div className="modal-buttons my-3">
-                                              <CustomButton
-                                                type="submit"
-                                                variant="primary"
-                                                isSubmitting={isSubmitting}
-                                                btnText="Submit"
-                                              />
-                                              {/* <CustomButton
+                                      {isSubmitting === false ? (
+                                        <div className="modal-buttons my-3">
+                                          <CustomButton
+                                            type="submit"
+                                            variant="primary"
+                                            isSubmitting={isSubmitting}
+                                            btnText="Submit"
+                                          />
+                                          {/* <CustomButton
                                                 type="reset"
                                                 btnText="Reset"
                                                 variant="outline-secondary"
                                               /> */}
-                                            </div>
-                                          ) : (
-                                            <LoadingButton
-                                              variant="primary"
-                                              btnText="Submitting..."
-                                              className="modal-buttons"
-                                            />
-                                          )}
                                         </div>
-                                      </Form>
-                                    )}
-                                  </Formik>
-                        </Tab.Pane>
-                      ))}
-                    </Tab.Content>
-                  )}
-                      {props.commonProps.loading !== false && (
-                        <div className="d-flex justify-content-center align-items-center mt-5">
-                          <h5>Loading...</h5>
-                        </div>
-                      )}
-                </Col>
-              </Row>
-            </Tab.Container>
-            
+                                      ) : (
+                                        <LoadingButton
+                                          variant="primary"
+                                          btnText="Submitting..."
+                                          className="modal-buttons"
+                                        />
+                                      )}
+                                    </div>
+                                  </Form>
+                                )}
+                              </Formik>
+                            </Tab.Pane>
+                          )
+                        )}
+                      </Tab.Content>
+                    )}
+                    {props.commonProps.loading !== false && (
+                      <div className="d-flex justify-content-center align-items-center mt-5">
+                        <h5>Loading...</h5>
+                      </div>
+                    )}
+                  </Col>
+                </Row>
+              </Tab.Container>
             )}
           </Container>
         </div>
