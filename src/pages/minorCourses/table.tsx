@@ -170,12 +170,12 @@ const StudentMinorCourseTable = (props: Props) => {
                                           X
                                         </button>
                                       </Button>
-                                      {/* {course.selfUnEnrolmentAllowed &&
+                                      {course.selfUnEnrolmentAllowed &&
                                         props.isEnrolled(course.id) && (
                                           <Button
                                             className="enroll-btn"
                                             style={{
-                                              background: "#CC0000",
+                                              background: "#CD5C5C",
                                             }}
                                             onClick={() =>
                                               handleUnenrollClick(
@@ -185,10 +185,10 @@ const StudentMinorCourseTable = (props: Props) => {
                                               )
                                             }
                                           >
-                                            <RxCrossCircled />
-                                            UnEnroll
+                                          <RxCrossCircled />
+                                          &nbsp;UnEnroll
                                           </Button>
-                                        )} */}
+                                        )}
                                     </>
                                   ) : props.isWaitlisted(course.id) ? (
                                     <>
@@ -222,7 +222,7 @@ const StudentMinorCourseTable = (props: Props) => {
                                       {/* <Button
                                         className="enroll-btn"
                                         style={{
-                                          background: "#CC0000",
+                                          background: "#CD5C5C",
                                         }}
                                         onClick={() =>
                                           handleRemoveClick(
