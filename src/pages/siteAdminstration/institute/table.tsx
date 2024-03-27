@@ -11,6 +11,7 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import gearIcon from "../../../assets/images/icons/setting-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
+import { FaCheck } from "react-icons/fa";
 import Swal from "sweetalert2";
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -29,7 +30,9 @@ type UserManagementTableProps = {
   editConfigHandler: any;
 };
 
-const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = ({
+const UserManagementTable: React.FunctionComponent<
+  UserManagementTableProps
+> = ({
   userdata,
   refreshdata,
   toggleModalShow,
@@ -37,7 +40,7 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
   apiStatus,
   configModalShow,
   editConfigHandler,
-  permissions
+  permissions,
 }: UserManagementTableProps) => {
   const tableColumn = [
     {
@@ -61,10 +64,23 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
       accessor: "webServiceToken",
     },
     {
+      Header: "Status",
+      accessor: "",
+      Cell: ({ row }: any) => {
+        return row.original.locked !== true ? (
+          <div style={{ color: "red" }}>
+            pending
+          </div>
+        ) : (
+          <div style={{color: "green"}}><FaCheck /></div>
+        );
+      },
+    },
+    {
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
-          {permissions.canEdit && 
+          {permissions.canEdit && (
             <>
               <Link className="action-icons" to="">
                 <img
@@ -81,7 +97,7 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
                       locked: row.original.locked,
                     })
                   }
-                  />
+                />
               </Link>
               <Link className="action-icons" to={""}>
                 <img
@@ -98,19 +114,19 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
                       locked: row.original.locked,
                     })
                   }
-                  />
+                />
               </Link>
             </>
-          }
-          {permissions.canDelete &&
+          )}
+          {permissions.canDelete && (
             <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
                 alt="Delete"
                 onClick={() => deleteHandler(row.original.id)}
-                />
+              />
             </Link>
-          }
+          )}
         </span>
       ),
     },
@@ -146,7 +162,7 @@ const UserManagementTable: React.FunctionComponent<UserManagementTableProps> = (
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "Institute has been successfully deleted"
+              text: "Institute has been successfully deleted",
             });
           } else if (res.status === 500) {
             setShowAlert(true);

@@ -83,6 +83,8 @@ const AssignRoles = () => {
     }
   }, [userId]);
 
+  console.log(institutes)
+
   useEffect(() => {
     if (rolesData.items.length > 0) {
       const updatedArray = rolesData.items.map((authority: any) => {
