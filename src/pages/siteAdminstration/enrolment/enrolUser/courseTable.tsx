@@ -28,7 +28,6 @@ const EnrolUserTable = ({
   name,
 }: any) => {
   const navigate = useNavigate();
-
   const tableColumn = [
     {
       Header: "Categories",
@@ -128,8 +127,8 @@ const EnrolUserTable = ({
                     weight: row.original.weight,
                     parent: row.original.parent,
                     maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed,
-                    dateUserUnenrolmentAllowed:
-                      row.original.dateUserUnenrolmentAllowed,
+                    enrolBeforeNoOfDaysToStartDate: row.original.enrolBeforeNoOfDaysToStartDate,
+                    UnEnrollmentAfterDate: row.original.unEnrolafterNoOfDaysToStartDate,
                   })
                 }
               />
@@ -226,7 +225,8 @@ const EnrolUserTable = ({
     weight,
     parent,
     maxMinorCoursesAllowed,
-    dateUserUnenrolmentAllowed,
+    enrolBeforeNoOfDaysToStartDate,
+    UnEnrollmentAfterDate,
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
@@ -236,7 +236,8 @@ const EnrolUserTable = ({
       weight,
       parent,
       maxMinorCoursesAllowed,
-      dateUserUnenrolmentAllowed,
+      enrolBeforeNoOfDaysToStartDate,
+      UnEnrollmentAfterDate,
     });
   };
 
