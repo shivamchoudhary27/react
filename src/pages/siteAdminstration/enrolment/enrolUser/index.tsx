@@ -37,8 +37,11 @@ const EnrolUsers = () => {
     weight: "",
     parent: "",
     maxMinorCoursesAllowed: "",
-    dateUserUnenrolmentAllowed: ""
+    enrolBeforeNoOfDaysToStartDate: "",
+    UnEnrollmentAfterDate: "",
+
   });
+  
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     // pageSize: pagination.PERPAGE,
@@ -158,7 +161,8 @@ const EnrolUsers = () => {
     weight,
     parent,
     maxMinorCoursesAllowed,
-    dateUserUnenrolmentAllowed
+    enrolBeforeNoOfDaysToStartDate,
+    UnEnrollmentAfterDate,
   }: any) => {
     toggleModalShow(true);
     setMaxMinorCoursesObj({
@@ -168,7 +172,8 @@ const EnrolUsers = () => {
       weight,
       parent,
       maxMinorCoursesAllowed,
-      dateUserUnenrolmentAllowed
+      enrolBeforeNoOfDaysToStartDate,
+      UnEnrollmentAfterDate,
     });
   };
   return (

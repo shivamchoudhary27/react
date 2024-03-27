@@ -20,24 +20,25 @@ type Props = {
   categoryData: any;
 };
 
+
 const validationSchema = Yup.object({
   maxMinorCoursesAllowed: Yup.number()
-    .required("Field is required")
-    .integer("Must be an integer")
-    .positive("Must be a positive integer")
-    .min(0, "Must be greater than or equal to 0"),
-
+  .required("Field is required")
+  .integer("Must be an integer")
+  .positive("Must be a positive integer")
+  .min(0, "Must be greater than or equal to 0"),
+  
   enrolBeforeNoOfDaysToStartDate: Yup.number()
-    .required("Field is required")
-    .integer("Must be an integer")
-    .positive("Must be a positive integer")
-    .min(0, "Must be greater than or equal to 0"),
-
-  unEnrolafterNoOfDaysToStartDate: Yup.number()
-    .required("Field is required")
-    .integer("Must be an integer")
-    .positive("Must be a positive integer")
-    .min(0, "Must be greater than or equal to 0"),
+  .required("Field is required")
+  .integer("Must be an integer")
+  .positive("Must be a positive integer")
+  .min(0, "Must be greater than or equal to 0"),
+  
+  UnEnrollmentAfterDate: Yup.number()
+  .required("Field is required")
+  .integer("Must be an integer")
+  .positive("Must be a positive integer")
+  .min(0, "Must be greater than or equal to 0"),
 });
 
 const ModalForm = (props: Props) => {
@@ -50,17 +51,16 @@ const ModalForm = (props: Props) => {
     maxMinorCoursesAllowed: props.maxMinorCoursesObj.maxMinorCoursesAllowed,
     enrolBeforeNoOfDaysToStartDate: props.maxMinorCoursesObj.enrolBeforeNoOfDaysToStartDate,
     UnEnrollmentAfterDate: props.maxMinorCoursesObj.UnEnrollmentAfterDate,
-    unEnrolafterNoOfDaysToStartDate: props.maxMinorCoursesObj.unEnrolafterNoOfDaysToStartDate,
-
   };
+  
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
     putData(`/${props.programId}/category/${props.maxMinorCoursesObj.id}`, {
       ...values,
     })
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          props.toggleModalShow(false);
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        props.toggleModalShow(false);
           setSubmitting(true);
           props.refreshcategories();
         }
@@ -101,7 +101,7 @@ const ModalForm = (props: Props) => {
 
                 <div className="mb-3">
                   <label htmlFor="" className="d-flex programModalInput">
-                    Student can take maximum
+                    Students can take maximum
                   </label>
                   <label htmlFor="" className="d-flex programModalInput">
 
@@ -121,7 +121,7 @@ const ModalForm = (props: Props) => {
 
                 <div className="mb-3">
                   <label htmlFor="" className="d-flex programModalInput">
-                    Student can enroll in a course before
+                    Students can enroll in a course before
                   </label>
                   <label htmlFor="" className="d-flex programModalInput">
                     <Field
@@ -140,25 +140,25 @@ const ModalForm = (props: Props) => {
 
                 <div className="mb-3">
                   <label htmlFor="" className="d-flex programModalInput">
-                    Student allowed to unenroll from the course after
+                    Students are not allowed to unenroll from the course after
                   </label>
                   <label htmlFor="" className="d-flex programModalInput">
                     <Field
                       className="w-25"
                       type="number"
-                      name="unEnrolafterNoOfDaysToStartDate"
+                      name="UnEnrollmentAfterDate"
                       as={FieldTypeText}
                     />
                     days of the start date.
                     </label>
                   <FieldErrorMessage
-                    errors={errors.unEnrolafterNoOfDaysToStartDate}
-                    touched={touched.unEnrolafterNoOfDaysToStartDate}
+                    errors={errors.UnEnrollmentAfterDate}
+                    touched={touched.UnEnrollmentAfterDate}
                     />
                 </div>
 
 
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="startDate"
                     labelText="User UnEnrol Allowed Until Date"
@@ -169,13 +169,13 @@ const ModalForm = (props: Props) => {
                     name="dateUserUnenrolmentAllowed"
                     min={new Date()}
                     placeholder="Start Date"
-                  />
+                  /> */}
                   {/* <FieldErrorMessage
                     errors={errors.startDate}
                     touched={touched.startDate}
                     msgText="Required"
                   /> */}
-                </div>
+                {/* </div> */}
                 <div className="modal-buttons">
                   <CustomButton
                     type="submit"
