@@ -182,7 +182,7 @@ const Browser = (props: Props) => {
               placement="top"
               overlay={<Tooltip id="button-tooltip-2">View minor courses</Tooltip>}
             >
-              <Button variant="primary" onClick={() => navigate("/minorcourse")}>
+              <Button variant="primary" onClick={() => navigate("/minorcourse")} className="d-flex align-items-center">
                 <RiBookletLine />
                 <span className="px-1">Minor Courses</span>
               </Button>
@@ -193,7 +193,7 @@ const Browser = (props: Props) => {
           {course.length > 0 ? (
             course.map((item: any, index: number) => (
               <Col sm={6} lg={4} xl={3} key={index}>
-                <Card body className = {`h-100 ${item.courseType === "minor"? "minorProgram" : ""}`} >
+                <Card body className = {`h-100 ${item.courseType === "major"? "minor-program" : ""}`} >
                   <a
                     href={`${config.MOODLE_BASE_URL}/course/view.php?id=${item.idNumber}`}
                     >

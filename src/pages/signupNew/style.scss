@@ -43,6 +43,15 @@
   color: #666;
 }
 
+.signup-institute{
+  div{
+    border: none;
+    padding: 0;
+    input{
+      background: white;
+    }
+  }
+}
 @media (max-width: 991.98px) { 
   .signup-leftImg {
       display: none;

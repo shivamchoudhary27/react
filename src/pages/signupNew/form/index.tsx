@@ -255,8 +255,8 @@ const SignupForm = () => {
                 star="*"
               />
               <Multiselect
-                className="programmultiselect"
-                displayValue="name"
+               className="programmultiselect signup-institute"
+               displayValue="name"
                 placeholder="Select Institute"
                 options={instituteList &&
                   instituteList.map((Institute) => ({
