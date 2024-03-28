@@ -169,6 +169,13 @@ const UsersTable = ({
 
   return (
     <React.Fragment>
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
       <div className="table-responsive admin-table-wrapper mt-3">
         <Table borderless striped {...getTableProps()}>
           <thead>
@@ -210,13 +217,7 @@ const UsersTable = ({
         deleteActionResponse={deleteActionResponse}
         modalHeading="User"
       />
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      />
+      
     </React.Fragment>
   );
 };

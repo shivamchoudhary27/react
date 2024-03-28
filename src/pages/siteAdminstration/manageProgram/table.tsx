@@ -213,6 +213,13 @@ const ManageTable = ({
 
   return (
     <>
+    <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
       <div className="table-responsive admin-table-wrapper mt-3">
         <Table borderless striped {...getTableProps()}>
           <thead>
@@ -256,13 +263,7 @@ const ManageTable = ({
         deleteActionResponse={deleteActionResponse}
         modalHeading="Program"
       />
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      />
+      
     </>
   );
 };

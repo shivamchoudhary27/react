@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
-import React from "react";
+import React, {useState} from "react";
 import { Modal } from "react-bootstrap";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
@@ -9,6 +9,7 @@ import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import { putData } from "../../../../adapters/microservices";
 import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg"
+import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 
 type Props = {
   onHide: any;
@@ -53,20 +54,31 @@ const ModalForm = (props: Props) => {
     UnEnrollmentAfterDate: props.maxMinorCoursesObj.UnEnrollmentAfterDate,
   };
   
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
+    setSubmitting(true);
     putData(`/${props.programId}/category/${props.maxMinorCoursesObj.id}`, {
       ...values,
     })
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
         props.toggleModalShow(false);
-          setSubmitting(true);
-          props.refreshcategories();
-        }
+        props.refreshcategories();
+      }
+      setSubmitting(false);
       })
       .catch((err: any) => {
         console.log(err);
+        if (err.response.status === 500 || 400) {
+          setShowAlert(true);
+          setSubmitting(false);
+          setAlertMsg({
+            message: err.response.data.enrolBeforeNoOfDaysToStartDate,
+            alertBoxColor: "danger",
+          });
+        }
       });
   };
 
@@ -89,6 +101,13 @@ const ModalForm = (props: Props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
