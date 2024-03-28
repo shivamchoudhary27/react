@@ -1,6 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Table } from "react-bootstrap";
+import {
+  Button,
+  Table,
+  OverlayTrigger,
+  Tooltip as BsTooltip,
+} from "react-bootstrap";
 import { RxCrossCircled } from "react-icons/rx";
 import Errordiv from "../../widgets/alert/errordiv";
 import TableSkeleton from "../../widgets/skeleton/table";
@@ -113,14 +118,18 @@ const StudentMinorCourseTable = (props: Props) => {
                         {category.courses?.length > 0 && (
                           <>
                             <td>
-                            <div className="year-block">
-                            {category.name}
-                              <div
-                                className="enrolmentrequired-tag"
-                              >
-                                {` Enrollment required in ${category.maxMinorCoursesAllowed} course${category.maxMinorCoursesAllowed > 1 ? "s" : ""}`}
+                              <div className="year-block">
+                                {category.name}
+                                <div className="enrolmentrequired-tag">
+                                  {` Enrollment required in ${
+                                    category.maxMinorCoursesAllowed
+                                  } course${
+                                    category.maxMinorCoursesAllowed > 1
+                                      ? "s"
+                                      : ""
+                                  }`}
+                                </div>
                               </div>
-                            </div>
                             </td>
                             <td>
                               {category.courses.map((course: any) => (
@@ -145,7 +154,10 @@ const StudentMinorCourseTable = (props: Props) => {
                             </td>
                             <td>
                               {category.courses.map((course: any) => (
-                                <div className="m-3 mcaction-btns" key={course.id}>
+                                <div
+                                  className="m-3 mcaction-btns"
+                                  key={course.id}
+                                >
                                   {props.isEnrolled(course.id) ? (
                                     <>
                                       <Button
@@ -157,15 +169,16 @@ const StudentMinorCourseTable = (props: Props) => {
                                           alt="Enrolled"
                                         />
                                         Enrolled
-                                        <button className="remove-waitlist"
-                                        title="Unenroll"
-                                        onClick={() =>
-                                          handleUnenrollClick(
-                                            course.id,
-                                            course.name,
-                                            course.selfUnEnrolmentAllowed
-                                          )
-                                        }
+                                        <button
+                                          className="remove-waitlist"
+                                          title="Unenroll"
+                                          onClick={() =>
+                                            handleUnenrollClick(
+                                              course.id,
+                                              course.name,
+                                              course.selfUnEnrolmentAllowed
+                                            )
+                                          }
                                         >
                                           X
                                         </button>
@@ -185,8 +198,8 @@ const StudentMinorCourseTable = (props: Props) => {
                                               )
                                             }
                                           >
-                                          <RxCrossCircled />
-                                          &nbsp;UnEnroll
+                                            <RxCrossCircled />
+                                            &nbsp;UnEnroll
                                           </Button>
                                         )}
                                     </>
@@ -201,23 +214,23 @@ const StudentMinorCourseTable = (props: Props) => {
                                           alt="Waitlist"
                                         />
                                         Waitlisted
-                                        <button className="remove-waitlist"
-                                        title="Remove from Waitlist"
-                                         onClick={() =>
-                                          handleRemoveClick(
-                                            course.id,
-                                            course.name,
-                                            course.remainingSeats,
-                                            course.enrollmentCapacity,
-                                            course.enrolmentStatus,
-                                            "remove"
-                                          )
-                                        }
+                                        <button
+                                          className="remove-waitlist"
+                                          title="Remove from Waitlist"
+                                          onClick={() =>
+                                            handleRemoveClick(
+                                              course.id,
+                                              course.name,
+                                              course.remainingSeats,
+                                              course.enrollmentCapacity,
+                                              course.enrolmentStatus,
+                                              "remove"
+                                            )
+                                          }
                                         >
                                           X
                                         </button>
                                         {/* tooltip in btn */}
-
                                       </Button>
                                       {/* <Button
                                         className="enroll-btn"
@@ -259,24 +272,39 @@ const StudentMinorCourseTable = (props: Props) => {
                                       <img src={EnrollIcon} alt="Enroll" />
                                       Add to Waitlist
                                     </Button>
-                                  ) : (
-                                    <Button
-                                      className="enroll-btn"
-                                      onClick={() =>
-                                        handleEnrollClick(
-                                          course.id,
-                                          course.name,
-                                          course.remainingSeats,
-                                          course.enrollmentCapacity,
-                                          course.enrolmentStatus,
-                                          "enroll"
-                                        )
-                                      }
+                                  ) :  course.enrolmentStatus === "enrolment_waiting" ? (
+                                    <OverlayTrigger
+                                    placement="top"
+                                    overlay={
+                                      <BsTooltip id="button-tooltip-2">
+                                       {course.enrolmentWaitingInfo}
+                                      </BsTooltip>
+                                    }
                                     >
-                                      <img src={EnrollIcon} alt="Enroll" />
-                                      Enroll Me
+                                    <Button
+                                    className="enrolled-btn"
+                                    >
+                                    <RxCrossCircled />
+                                    &nbsp;Enroll
                                     </Button>
-                                  )}
+                                    </OverlayTrigger> 
+                                  ) : 
+                                  <Button
+                                        className="enroll-btn"
+                                        onClick={() =>
+                                          handleEnrollClick(
+                                            course.id,
+                                            course.name,
+                                            course.remainingSeats,
+                                            course.enrollmentCapacity,
+                                            course.enrolmentStatus,
+                                            "enroll"
+                                          )
+                                        }
+                                      >
+                                        <img src={EnrollIcon} alt="Enroll" />
+                                        Enroll Me
+                                      </Button>}
                                 </div>
                               ))}
                             </td>
@@ -302,3 +330,6 @@ const StudentMinorCourseTable = (props: Props) => {
 };
 
 export default StudentMinorCourseTable;
+
+
+ 

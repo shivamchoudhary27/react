@@ -65,14 +65,8 @@ const SignupForm = () => {
         .required("Last name is required"),
         country: Yup.string()
         .required('Country is required')
-        .notOneOf(['0'], 'Country is required'),
-
-        instituteIds: Yup.array()
-    .test('at-least-one-selected', 'At least one institute must be selected', function () {
-      return instituteIdSelection.instituteIds.length > 0;
-    }),
-  
-    recaptcha: Yup.string().required("Recaptcha is required"),
+        .notOneOf(['0'], 'Country is required'),  
+        recaptcha: Yup.string().required("Recaptcha is required"),
   });
 
   function handleInstituteSelect(selectedList: any) {
@@ -272,11 +266,11 @@ const SignupForm = () => {
                   onSelect={handleInstituteSelect}
                   onRemove={handleInstituteRemove}
               />
-              <FieldErrorMessage
+              {/* <FieldErrorMessage
                 errors={errors.instituteIds}
                 touched={touched.instituteIds}
                 msgText="Required please select an institute."
-              />
+              /> */}
             </div>
             <div className="mb-4">
               <ReCAPTCHA
