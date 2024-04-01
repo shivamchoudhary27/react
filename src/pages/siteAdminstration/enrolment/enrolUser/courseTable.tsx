@@ -175,7 +175,7 @@ const EnrolUserTable = ({
                       to={`${
                         row.original !== undefined &&
                         row.original.coursedetails.courseType === "minor" 
-                        ? `/userwaitlist/${programId}/${name}/${row.original.courseid}`
+                        ? `/userwaitlist/${programId}/${name}/${row.original.courseid}/${row.original.coursename}`
                         : "#"
                       }`}
                     >

@@ -18,7 +18,7 @@ import { BackgroundWaveBottomLeft } from "../../../../../widgets/backgroundEleme
 
 const UserWaitlist = () => {
   const navigate = useNavigate();
-  const { id, courseid ,name, programid,  } = useParams();
+  const { id ,name, programid,courseid, coursename  } = useParams();
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
@@ -124,6 +124,7 @@ const UserWaitlist = () => {
           { name: "Site Administration", path: "/siteadmin" },
           { name: "Programs Enrollment", path: "/programenrollment" },
           { name: `${name}`, path: `/enrolusers/${programid}/${name}` },
+          { name: `${coursename}`, path: `/enrolusers/${programid}/${name}`},
           { name: "View Wait List", path: "" },
         ]}
       />
@@ -132,7 +133,7 @@ const UserWaitlist = () => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle
-              pageTitle={`${name} : Wait List`}
+              pageTitle={`${coursename} : Wait List`}
             gobacklink={`/enrolusers/${programid}/${name}`}
             />
             <ManageFilter

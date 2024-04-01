@@ -169,8 +169,12 @@ const StudentMinorCourseTable = (props: Props) => {
                                           alt="Enrolled"
                                         />
                                         Enrolled
+                                        {course.selfUnEnrolmentAllowed === true && (
                                         <button
                                           className="remove-waitlist"
+                                          style={{
+                                            color: "red",
+                                          }}
                                           title="Unenroll"
                                           onClick={() =>
                                             handleUnenrollClick(
@@ -182,26 +186,8 @@ const StudentMinorCourseTable = (props: Props) => {
                                         >
                                           X
                                         </button>
+                                      )}
                                       </Button>
-                                      {course.selfUnEnrolmentAllowed &&
-                                        props.isEnrolled(course.id) && (
-                                          <Button
-                                            className="enroll-btn"
-                                            style={{
-                                              background: "#CD5C5C",
-                                            }}
-                                            onClick={() =>
-                                              handleUnenrollClick(
-                                                course.id,
-                                                course.name,
-                                                course.selfUnEnrolmentAllowed
-                                              )
-                                            }
-                                          >
-                                            <RxCrossCircled />
-                                            &nbsp;UnEnroll
-                                          </Button>
-                                        )}
                                     </>
                                   ) : props.isWaitlisted(course.id) ? (
                                     <>
@@ -330,6 +316,3 @@ const StudentMinorCourseTable = (props: Props) => {
 };
 
 export default StudentMinorCourseTable;
-
-
- 
