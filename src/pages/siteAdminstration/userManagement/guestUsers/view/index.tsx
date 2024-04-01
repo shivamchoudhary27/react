@@ -19,6 +19,7 @@ type Props = {
   toggleModalShow: any;
   updateSearchFilters: any;
   refreshOnDeleteToggle: any;
+  setGuestUserObj: any
 };
 
 const View = (props: Props) => {
@@ -38,6 +39,7 @@ const View = (props: Props) => {
     toggleModalShow: props.toggleModalShow,
     updateSearchFilters: props.updateSearchFilters,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
+    setGuestUserObj: props.setGuestUserObj,
   };
   return (
     <React.Fragment>

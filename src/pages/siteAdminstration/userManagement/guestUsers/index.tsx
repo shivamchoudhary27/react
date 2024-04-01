@@ -19,12 +19,19 @@ const GuestUsers = (props: Props) => {
     pageSize: pagination.PERPAGE,
   });
   const [guestUserObj, setGuestUserObj] = useState({
+    // id: 0,
+    // userFirstName: "",
+    // userLastName: "",
+    // userEmail: "",
+    // userCountry: "",
+    // enabled: false,
+
     id: 0,
-    userFirstName: "",
-    userLastName: "",
-    userEmail: "",
-    userCountry: "",
-    enabled: false,
+    firstName: "",
+    lastName: "",
+    email: "",
+    country: "",
+    instituteIds: []
   });
 
   // get institute list API call === >>>
@@ -47,7 +54,7 @@ const GuestUsers = (props: Props) => {
   // get guest users API call === >>>
   useEffect(() => {
     setApiStatus("started");
-    getData("/user/all_users", filterUpdate)
+    getData("/guest-users", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);
@@ -62,7 +69,7 @@ const GuestUsers = (props: Props) => {
 
   // refresh on delete === >>>
   useEffect(() => {
-    getData("/user/all_users", filterUpdate)
+    getData("/guest-users", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);
@@ -114,19 +121,19 @@ const GuestUsers = (props: Props) => {
   // get id, name from the department table === >>>
   const editHandlerById = ({
     id,
-    userFirstName,
-    userLastName,
-    userEmail,
-    userCountry,
-    enabled,
+    firstName,
+    lastName,
+    email,
+    country,
+    instituteIds,
   }: any) => {
     setGuestUserObj({
       id: id,
-      userFirstName: userFirstName,
-      userLastName: userLastName,
-      userEmail: userEmail,
-      userCountry: userCountry,
-      enabled: enabled,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      country: country,
+      instituteIds: instituteIds,
     });
   };
 
@@ -135,11 +142,11 @@ const GuestUsers = (props: Props) => {
     toggleModalShow(true);
     setGuestUserObj({
       id: 0,
-      userFirstName: "",
-      userLastName: "",
-      userEmail: "",
-      userCountry: "",
-      enabled: false,
+      firstName: "",
+      lastName: "",
+      email: "",
+      country: "",
+      instituteIds: []
     });
     // setRefreshData(false);
   };
@@ -162,6 +169,7 @@ const GuestUsers = (props: Props) => {
         updateSearchFilters={updateSearchFilters}
         totalPages={guestUsersData.pager.totalPages}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
+        setGuestUserObj={setGuestUserObj}
       /> 
       );
     };

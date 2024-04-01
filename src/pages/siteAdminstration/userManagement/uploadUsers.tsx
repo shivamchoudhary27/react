@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Alert, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaDownload } from "react-icons/fa6";
 import { postData } from "../../../adapters/coreservices";
@@ -11,6 +11,27 @@ import { downloadCSVSampleFile } from "../../../globals/CSV/sampleCSV";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+
+const dummyData = [
+  {
+    firstname: "user1",
+    lastname: "use1",
+    email: "admin@123",
+    country: "IN",
+  },
+  {
+    firstname: "user2",
+    lastname: "use2",
+    email: "admin@1234",
+    country: "IN",
+  },
+  {
+    firstname: "user3",
+    lastname: "use3",
+    email: "admin@12345",
+    country: "IN",
+  },
+];
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -22,10 +43,13 @@ const UploadNewUsers = ({
   setUploadModalShow,
   updateAddRefresh,
   currentInstitute,
+  visibleDownloadOption,
+  setVisibleDownloadOption
 }: any) => {
   const [uploadResponse, setUploadresponse] = React.useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  // const [visibleDownloadOption, setVisibleDownloadOption] = useState(false);
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
@@ -33,6 +57,7 @@ const UploadNewUsers = ({
     postData(`/${currentInstitute}/users/upload`, {}, values.file)
       .then((res: any) => {
         if (res.status === 200) {
+          setVisibleDownloadOption(false);
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
             responseMsg += `<strong>Success :</strong> <p>Total rows processed : ${res.data.total_rows_processed} </p>`;
@@ -46,21 +71,22 @@ const UploadNewUsers = ({
               ([key, value]) =>
                 (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
             );
-            // downloadCSV(res.data.rows_not_processed); // Download sample CSV file
+            setVisibleDownloadOption(true);
+            resetForm();
           }
-          setTimeout(() => {
-            setUploadModalShow(false);
-            setUploadresponse("");
-          }, 3000);
+          // setTimeout(() => {
+            // setUploadModalShow(false);
+            // setUploadresponse("");
+          // }, 3000);
           setUploadresponse(responseMsg);
-          setSubmitting(false);
+          // setSubmitting(false);
           updateAddRefresh();
           setShowAlert(false);
-          resetForm();
+          // downloadUnuploadedUsersCSV(dummyData); // Download sample CSV file
         }
       })
       .catch((err: any) => {
-        setSubmitting(false);
+        // setSubmitting(false);
         setShowAlert(true);
         setAlertMsg({
           message: "File upload failed! Please try again.",
@@ -70,25 +96,30 @@ const UploadNewUsers = ({
   };
 
   // download unsuccessful users list in CSV === >>
-  // const downloadCSV = (data) => {
-  //   // Define headers and prepare rows
-  //   const headers = ["Firstname", "LastName", "Email", "Country"];
-  //   const rows = data.map((user) => [user.firstname, user.lastname, user.email, user.country]);
+  const downloadUnuploadedUsersCSV = (data: any[]) => {
+    // Define headers and prepare rows
+    const headers = ["Firstname", "LastName", "Email", "Country"];
+    const rows = data.map((user) => [
+      user.firstname,
+      user.lastname,
+      user.email,
+      user.country,
+    ]);
 
-  //   // Combine headers and rows
-  //   const csvContent =
-  //     "data:text/csv;charset=utf-8," +
-  //     [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+    // Combine headers and rows
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((row) => row.join(","))].join("\n");
 
-  //   // Create a link element
-  //   const link = document.createElement("a");
-  //   link.setAttribute("href", encodeURI(csvContent));
-  //   link.setAttribute("download", "unsuccessful_users.csv");
+    // Create a link element
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csvContent));
+    link.setAttribute("download", "unsuccessful_upload_data.csv");
 
-  //   // Trigger the download
-  //   document.body.appendChild(link);
-  //   link.click();
-  // };
+    // Trigger the download
+    document.body.appendChild(link);
+    link.click();
+  };
 
   return (
     <React.Fragment>
@@ -123,7 +154,17 @@ const UploadNewUsers = ({
                     }}
                   >
                     <label htmlFor="file">Upload a csv file:</label>
-                    <Link to="" onClick={() => downloadCSVSampleFile(["Firstname", "LastName", "Email", "Country"])}>
+                    <Link
+                      to=""
+                      onClick={() =>
+                        downloadCSVSampleFile([
+                          "Firstname",
+                          "LastName",
+                          "Email",
+                          "Country",
+                        ])
+                      }
+                    >
                       Sample csv file <FaDownload />
                     </Link>
                   </div>
@@ -167,6 +208,18 @@ const UploadNewUsers = ({
             showAlert={showAlert}
           />
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
+          {visibleDownloadOption === true && (
+            <Alert variant="primary" className="mt-3">
+              <strong>Note: </strong>
+              Please ensure to download the list of error fields before closing this window. Click the button below to download:{" "}
+              <Button size="sm" onClick={() => {
+                downloadUnuploadedUsersCSV(dummyData)
+                setUploadModalShow(false)
+              }}>
+                Download error fields <FaDownload />
+              </Button>
+            </Alert>
+          )}
         </Modal.Body>
         <img src={WaveBottom} alt="WaveBottom" className="wavebg" />
       </Modal>

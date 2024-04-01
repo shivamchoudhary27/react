@@ -22,16 +22,18 @@ const UpdateUserModal = ({
   instituteList,
   togglemodalshow,
   updateAddRefresh,
+  setGuestUserObj
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
+  const [checkedInstitute, setCheckedInstitute] = useState(false)
 
   const initialValues = {
-    firstName: guestUserObj.userFirstName,
-    lastName: guestUserObj.userLastName,
-    email: guestUserObj.userEmail,
-    country: guestUserObj.userCountry,
-    enabled: guestUserObj.enabled,
+    firstName: guestUserObj.firstName,
+    lastName: guestUserObj.lastName,
+    email: guestUserObj.email,
+    country: guestUserObj.country,
+    instituteIds: guestUserObj.instituteIds,
     // shouldValidatePassword: userobj.id > 0 ? false : true,
   };
 
@@ -122,6 +124,26 @@ const UpdateUserModal = ({
     }
   };
 
+  const handleCheckboxChange = (id: any) => {
+    // Check if the ID is already selected
+    const isChecked = guestUserObj.instituteIds.includes(id);
+  
+    // If the ID is already selected, remove it from the selected list
+    // If not, add it to the selected list
+    if (isChecked) {
+      setGuestUserObj((prevState: { instituteIds: any[]; }) => ({
+        ...prevState,
+        instituteIds: prevState.instituteIds.filter((itemId: any) => itemId !== id)
+      }));
+    } else {
+      setGuestUserObj((prevState: { instituteIds: any; }) => ({
+        ...prevState,
+        instituteIds: [...prevState.instituteIds, id]
+      }));
+    }
+  };
+
+
   return (
     <React.Fragment>
       <Modal
@@ -205,7 +227,7 @@ const UpdateUserModal = ({
                     star="*"
                   />
 
-                  {instituteList.map((item: any, index: number) => (
+                  {/* {instituteList.map((item: any, index: number) => (
                     <div key={index}>
                       <FieldTypeCheckbox
                         name={`instituteIds[${
@@ -213,6 +235,19 @@ const UpdateUserModal = ({
                         }]`}
                         checkboxLabel={item.name}
                       />{" "}
+                    </div>
+                  ))} */}
+
+                  {instituteList.map((item: any, index: number) => (
+                    <div key={index}>
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        name={`instituteIds[${item.id !== undefined && item.id}]`}
+                        checked={guestUserObj.instituteIds.includes(item.id)}
+                        onChange={() => handleCheckboxChange(item.id)}
+                      />
+                      <label>{item.name}</label>
                     </div>
                   ))}
 

@@ -6,6 +6,7 @@ import { getData } from "../../../adapters/coreservices";
 
 const UserManagement = () => {
   const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
+  const [visibleDownloadOption, setVisibleDownloadOption] = useState(false);
   const [userData, setUserData] = useState<any>(dummyData);
   const [uploadModalShow, setUploadModalShow] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -103,6 +104,7 @@ const UserManagement = () => {
 
   const toggleUploadModal = () => {
     setUploadModalShow(true);
+    setVisibleDownloadOption(false)
   };
 
   // handle modal hide & show functionality === >>>
@@ -163,6 +165,8 @@ const UserManagement = () => {
         setUploadModalShow={setUploadModalShow}
         updateSearchFilters={updateSearchFilters}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
+        visibleDownloadOption={visibleDownloadOption}
+        setVisibleDownloadOption={setVisibleDownloadOption}
       />
     </React.Fragment>
   );

@@ -33,6 +33,8 @@ type Props = {
     setUploadModalShow: any;
     updateSearchFilters: any;
     refreshOnDeleteToggle: any;
+    visibleDownloadOption: boolean;
+    setVisibleDownloadOption: any
   };
 };
 
@@ -88,6 +90,8 @@ const Browser = (props: Props) => {
         updateAddRefresh={props.commonProps.refreshToggle}
         currentInstitute={props.commonProps.currentInstitute}
         setUploadModalShow={props.commonProps.setUploadModalShow}
+        visibleDownloadOption={props.commonProps.visibleDownloadOption}
+        setVisibleDownloadOption={props.commonProps.setVisibleDownloadOption}
         onHide={() => props.commonProps.setUploadModalShow(false)}
       />
       <AddUserModal

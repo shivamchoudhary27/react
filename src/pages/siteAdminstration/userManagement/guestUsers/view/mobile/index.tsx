@@ -32,6 +32,7 @@ type Props = {
     toggleModalShow: any;
     updateSearchFilters: any;
     refreshOnDeleteToggle: any;
+    setGuestUserObj: any
   };
 };
 
@@ -84,6 +85,7 @@ const Mobile = (props: Props) => {
         updateAddRefresh={props.commonProps.refreshToggle}
         togglemodalshow={props.commonProps.toggleModalShow}
         onHide={props.commonProps.onHide}
+        setGuestUserObj={props.commonProps.setGuestUserObj}
         // currentInstitute={currentInstitute}
       />
       <MobileFooter />

@@ -153,6 +153,7 @@ const RolesDataRender = ({
         </p>
         {roleContextDatas[`${contextType}s`].items.map(
           (item: any, index: number) => (
+            // console.log(roleContextDatas)
             item.locked !== undefined && item.locked !== false &&
             <div key={index}>
               <input

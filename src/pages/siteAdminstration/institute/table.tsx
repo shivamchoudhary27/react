@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Button, OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";
@@ -13,6 +13,7 @@ import gearIcon from "../../../assets/images/icons/setting-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
 import { FaCheck } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { MdHelpOutline } from "react-icons/md";
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -99,6 +100,14 @@ const UserManagementTable: React.FunctionComponent<
                   }
                 />
               </Link>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-2">Set Institute Configuration with Instance URL and Web Service Token</BsTooltip>}
+                >
+                  <Button variant="link">
+                    <MdHelpOutline fontSize={30} />
+                  </Button>
+                </OverlayTrigger>
               <Link className="action-icons" to={""}>
                 <img
                   src={editIcon}
