@@ -61,11 +61,11 @@ const GuestUsersTable = ({
               onClick={() =>
                 editHandler({
                   id: row.original.id,
-                  userFirstName: row.original.firstName,
-                  userLastName: row.original.lastName,
-                  userEmail: row.original.email,
-                  userCountry: row.original.country,
-                  enabled: row.original.enabled,
+                  firstName: row.original.firstName,
+                  lastName: row.original.lastName,
+                  email: row.original.email,
+                  country: row.original.country,
+                  instituteIds: row.original.instituteIds,
                 })
               }
             />
@@ -197,20 +197,20 @@ const GuestUsersTable = ({
   // edit event handler === >>>
   const editHandler = ({
     id,
-    userFirstName,
-    userLastName,
-    userEmail,
-    userCountry,
-    enabled,
+    firstName,
+    lastName,
+    email,
+    country,
+    instituteIds,
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
       id,
-      userFirstName,
-      userLastName,
-      userEmail,
-      userCountry,
-      enabled,
+      firstName,
+      lastName,
+      email,
+      country,
+      instituteIds,
     });
     // refreshDepartmentData();
   };

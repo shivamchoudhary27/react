@@ -136,11 +136,11 @@ const EnrolUserTable = ({
                   placement="top"
                   overlay={<BsTooltip id="button-tooltip-2">Set Max Minor Courses Allowed and User Unenrollment Deadline</BsTooltip>}
                 >
-              <Button variant="link">
-              <MdHelpOutline fontSize={30} />
-              </Button>
+                <Button variant="link">
+                  <MdHelpOutline fontSize={30} />
+                </Button>
                 </OverlayTrigger>
-                </>
+              </>
             )}
             {row.original.coursename !== undefined && (
               // <div className="d-flex justify-content-center align-items-center gap-2">
@@ -189,9 +189,9 @@ const EnrolUserTable = ({
 
                 <Tooltip
                   anchorSelect=".my-anchor-element"
-                  style={{ backgroundColor: "#F0EDD4", color: "#222" }}
+                  style={{ backgroundColor: "rgba(0,0,0,0.7)", borderRadius:"5px"}}
                   content="course disabled"
-                  place="left"
+                  place="top"
                 />
               </div>
             )}

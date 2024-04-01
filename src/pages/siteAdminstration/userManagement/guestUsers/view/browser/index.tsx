@@ -34,6 +34,7 @@ type Props = {
     toggleModalShow: any;
     updateSearchFilters: any;
     refreshOnDeleteToggle: any;
+    setGuestUserObj: any
   };
 };
 
@@ -87,6 +88,7 @@ const Browser = (props: Props) => {
         instituteList={props.commonProps.instituteList}
         updateAddRefresh={props.commonProps.refreshToggle}
         togglemodalshow={props.commonProps.toggleModalShow}
+        setGuestUserObj={props.commonProps.setGuestUserObj}
         // currentInstitute={currentInstitute}
       />
       <Footer />

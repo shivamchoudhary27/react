@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import {
@@ -38,9 +38,14 @@ const ManageTable = ({
       Header: "Name",
       accessor: "name",
       Cell: ({ row }: any) => (
-        <Link to={createPreviewLink(row.original.id, row.original.instituteId)}>
-          {row.original.name}
-        </Link>
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id="button-tooltip-2">Program preview</Tooltip>}
+        >
+          <Link to={createPreviewLink(row.original.id, row.original.instituteId)} className="action-icons">
+            {row.original.name}
+          </Link>
+        </OverlayTrigger>
       ),
     },
     {

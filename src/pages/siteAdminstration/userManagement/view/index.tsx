@@ -21,6 +21,8 @@ type Props = {
   setUploadModalShow: any;
   updateSearchFilters: any;
   refreshOnDeleteToggle: any;
+  visibleDownloadOption: boolean;
+  setVisibleDownloadOption: any
 };
 
 const View = (props: Props) => {
@@ -42,6 +44,8 @@ const View = (props: Props) => {
     setUploadModalShow: props.setUploadModalShow,
     updateSearchFilters: props.updateSearchFilters,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
+    visibleDownloadOption: props.visibleDownloadOption,
+    setVisibleDownloadOption: props.setVisibleDownloadOption,
   };
   return (
     <React.Fragment>
