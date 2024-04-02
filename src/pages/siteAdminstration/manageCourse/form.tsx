@@ -96,7 +96,7 @@ const CourseModal = ({
     file: null,
     startDate: "",
     endDate: "",
-    type: null,
+    type: "",
     enrollmentCapacity: "",
   });
   const [showAlert, setShowAlert] = useState(false);
@@ -117,7 +117,7 @@ const CourseModal = ({
       enrollmentCapacity: courseobj.enrollmentCapacity
         ? courseobj.enrollmentCapacity
         : "",
-      type: courseobj.courseType ? courseobj.courseType.toLowerCase() : null,
+      type: courseobj.type ? courseobj.type.toLowerCase() : null,
       startDate:
        (courseobj.startDate !== null
           ? initialDateFormatHandler(courseobj.startDate)
@@ -263,11 +263,11 @@ const CourseModal = ({
           });
         })
         .catch((err: any) => {
-          toggleCourseModal(false);
+          // toggleCourseModal(false);
           setShowAlert(true);
           setSubmitting(false);
           setAlertMsg({
-            message: "Failed to add course! Please try again.",
+            message: err.response.data.message,
             alertBoxColor: "danger",
           });
         });

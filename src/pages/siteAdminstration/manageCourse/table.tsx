@@ -135,7 +135,7 @@ const CourseTable = ({
                         files: row.original.coursedetails.files,
                         startDate: row.original.coursedetails.startDate,
                         endDate: row.original.coursedetails.endDate,
-                        courseType: row.original.coursedetails.courseType,
+                        type: row.original.coursedetails.courseType,
                         enrollmentCapacity:
                           row.original.coursedetails.enrollmentCapacity,
                       })
@@ -190,7 +190,7 @@ const CourseTable = ({
                     published: false,
                     startDate: null,
                     endDate: null,
-                    courseType: null,
+                    type: "",
                   })
                 }
               >
@@ -240,7 +240,7 @@ const CourseTable = ({
         category: { id: updatecourse.data.category },
         startDate: updatecourse.data.coursedetail.startDate,
         endDate: updatecourse.data.coursedetail.endDate,
-        courseType: updatecourse.data.coursedetail.courseType,
+        type: updatecourse.data.coursedetail.courseType,
         enrollmentCapacity: updatecourse.data.coursedetails.enrollmentCapacity,
       };
       const endPoint = `${programId}/course/${updatingcourseid}`;
@@ -274,9 +274,18 @@ const CourseTable = ({
     let endPoint = `${programId}/course/${coursePacket.courseid}`;
     putData(endPoint, coursePacket.coursedetails)
       .then((res: any) => {
+        console.log(res)
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
+        if (err.response.status === 500) {
+          console.log(err)
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
+        }
         dispatch({
           type: ACTIONSLIST.mitGlobalAlert,
           alertMsg: "Action failed due to some error",
@@ -299,7 +308,7 @@ const CourseTable = ({
     files,
     startDate,
     endDate,
-    courseType,
+    type,
     enrollmentCapacity,
   }: any) => {
     // navigate(`/courseform/${programId}/${catID}/${courseid}`);
@@ -314,7 +323,7 @@ const CourseTable = ({
       files,
       startDate,
       endDate,
-      courseType,
+      type,
       enrollmentCapacity,
     });
   };
