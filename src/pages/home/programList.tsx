@@ -11,10 +11,8 @@ import CardIcon from "../../assets/images/icons/card.svg";
 import logo from "../../assets/images/circlelogo-blue.svg";
 import Footer from "../newFooter";
 import BottomWave from "../../assets/images/background/bg-bottom.svg";
-import bgLeft from "../../assets/images/background/bg-admin-left.svg";
 import { Button, Col, Container, Image, Row, Form } from "react-bootstrap";
 import PageTitle from "../../widgets/pageTitle";
-// import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import ProgramDefaultImg from "../../assets/images/course-default.jpg";
 import config from "../../utils/config";
 import NewLoader from "../../widgets/loader";
@@ -55,6 +53,17 @@ function ProgramList() {
     filterUpdate.pageNumber * 6 + 6
   );
 
+
+  useEffect(() => {
+    console.log(filterUpdate)
+    if (allPrograms.length < 6 && allPrograms.length > 0) {
+      setFilterUpdate(prevValue => ({
+        ...prevValue,
+        pageNumber: 0
+      }));
+    }
+  }, [allPrograms.length]);
+
   const [apiStatus, setApiStatus] = useState(true)
 
 
@@ -78,7 +87,6 @@ function ProgramList() {
     alignItems: "center",
     justifyContent: "center",
   };
-
 
   // ------------------"Comma-separated values for the hit API filter."--------------
 

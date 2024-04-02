@@ -10,6 +10,7 @@ type Props = {
   modalShow: any;
   filterUpdate: any;
   refreshToggle: any;
+  setFilterUpdate: any;
   newPageRequest: any;
   toggleModalShow: any;
   editHandlerById: any;
@@ -44,8 +45,7 @@ const View = (props: Props) => {
     setUploadModalShow: props.setUploadModalShow,
     updateSearchFilters: props.updateSearchFilters,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
-    visibleDownloadOption: props.visibleDownloadOption,
-    setVisibleDownloadOption: props.setVisibleDownloadOption,
+    setFilterUpdate: props.setFilterUpdate
   };
   return (
     <React.Fragment>
