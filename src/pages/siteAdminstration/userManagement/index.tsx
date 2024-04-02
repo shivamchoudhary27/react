@@ -23,6 +23,8 @@ const UserManagement = () => {
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
   const [apiStatus, setApiStatus] = useState("");
   const currentInstitute = useSelector(
@@ -165,8 +167,7 @@ const UserManagement = () => {
         setUploadModalShow={setUploadModalShow}
         updateSearchFilters={updateSearchFilters}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
-        visibleDownloadOption={visibleDownloadOption}
-        setVisibleDownloadOption={setVisibleDownloadOption}
+        setFilterUpdate={setFilterUpdate}
       />
     </React.Fragment>
   );

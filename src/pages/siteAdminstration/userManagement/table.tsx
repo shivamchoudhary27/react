@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import { Table } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import "sweetalert2/src/sweetalert2.scss";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,9 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { putData, deleteData } from "../../../adapters/coreservices";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -33,31 +36,85 @@ const UserManagementTable = ({
   apiStatus,
   currentInstitute,
   userPermissions,
+  setFilterUpdate,
+  filterUpdate,
 }: any) => {
 
   const authenticatedUserPermission = useSelector(
     (state: any) => state.authenticatedUser.permissions.menu
   );
-  
+
+  const {handleTableSorting } = useTableSorting();
+
   const tableColumn = [
     {
-      Header: "Name",
-      accessor: "name",
+      Header: (
+        <div className="d-flex align-items-center" >
+<span onClick={() => handleTableSorting("userFirstName", setFilterUpdate)} style={{ cursor: "pointer", userSelect: "none" }}>
+  First Name
+</span>      
+
+
+          <div className="d-flex flex-column " style={{ paddingLeft: "5px" }}>
+
+            <BsFillCaretUpFill size={15} className="ml-2" style={{ color: filterUpdate.sortBy === "userFirstName" && filterUpdate.sortOrder === "asc" ? "lightgray" : "#ffffff" }} />
+            <BsFillCaretDownFill size={15} className="ml-2" style={{ color: filterUpdate.sortBy === "userFirstName" && filterUpdate.sortOrder === "desc" ? "lightgray" : "#ffffff" }} />
+          </div>
+
+        </div>
+      ),
+      accessor: "userFirstName",
+    },
+    {
+      Header: (
+        <div className="d-flex align-items-center" >
+          <span onClick={() => handleTableSorting("userLastName", setFilterUpdate)} style={{ cursor: "pointer", userSelect: "none" }}>
+            Last Name
+          </span>
+
+
+          <div className="d-flex flex-column" style={{ paddingLeft: "5px" }}>
+            <BsFillCaretUpFill size={15} className="ml-2"
+              style={{ color: filterUpdate.sortBy === "userLastName" && filterUpdate.sortOrder === "asc" ? "lightgray" : "#ffffff" }} />
+            < BsFillCaretDownFill size={15} className="ml-2" style={{ color: filterUpdate.sortBy === "userLastName" && filterUpdate.sortOrder === "desc" ? "lightgray" : "#ffffff" }} />
+          </div>
+
+        </div>
+      ),
+      accessor: "userLastName",
+    },
+    {
+      Header: (
+
+
+        <div className="d-flex align-items-center" >
+          <span onClick={() => handleTableSorting("userEmail", setFilterUpdate)} style={{ cursor: "pointer", userSelect: "none" }}>
+            Email
+          </span>
+
+          <div className="d-flex flex-column" style={{ paddingLeft: "5px" }}>
+            <BsFillCaretUpFill size={15} className="ml-2" style={{ color: filterUpdate.sortBy === "userEmail" && filterUpdate.sortOrder === "asc" ? "lightgray" : "#ffffff" }} />
+
+            < BsFillCaretDownFill size={15} className="ml-2" onClick={() => handleSortByClick("userEmail", "desc")} style={{ color: filterUpdate.sortBy === "userEmail" && filterUpdate.sortOrder === "desc" ? "lightgray" : "#ffffff" }} />
+          </div>
+
+        </div>
+      ),
+      accessor: "userEmail",
       Cell: ({ row }: any) => (
+
         <Link
           className="action-icons"
-          to={(authenticatedUserPermission.profile.canView)
-            ? `/userprofile/${row.original.userId}` : "#"}
+          to={
+            authenticatedUserPermission.profile.canView
+              ? `/userprofile/${row.original.userId}`
+              : "#"
+          }
         >
-          {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)}
-           ${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}
+          {row.original.userEmail}
         </Link>
-      )
-    },
-    
-    {
-      Header: "Email",
-      accessor: "userEmail",
+
+      ),
     },
     {
       Header: "Country",
@@ -140,7 +197,7 @@ const UserManagementTable = ({
 
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => userdata, [userdata]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
@@ -190,11 +247,6 @@ const UserManagementTable = ({
               showConfirmButton: false,
               text: "User has been successfully deleted and added to guest list."
             });
-            // setShowAlert(true);
-            // setAlertMsg({
-            //   message: "Removed successfully!",
-            //   alertBoxColor: "success",
-            // });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
@@ -254,7 +306,6 @@ const UserManagementTable = ({
       userCountry,
       enabled,
     });
-    // refreshDepartmentData();
   };
 
   return (
