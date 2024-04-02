@@ -54,7 +54,7 @@ const GuestUsers = (props: Props) => {
   // get guest users API call === >>>
   useEffect(() => {
     setApiStatus("started");
-    getData("/guest-users", filterUpdate)
+    getData(`${1}/guest-users`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);
@@ -69,7 +69,8 @@ const GuestUsers = (props: Props) => {
 
   // refresh on delete === >>>
   useEffect(() => {
-    getData("/guest-users", filterUpdate)
+    refreshOnDelete === true &&
+    getData(`${1}/guest-users`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);

@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Alert, Modal } from "react-bootstrap";
 import "sweetalert2/src/sweetalert2.scss";
 import { Formik, Form, ErrorMessage } from "formik";
 import CountryList from "../../../../globals/country";
@@ -14,6 +14,7 @@ import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 
 const UpdateUserModal = ({
   show,
@@ -22,11 +23,11 @@ const UpdateUserModal = ({
   instituteList,
   togglemodalshow,
   updateAddRefresh,
-  setGuestUserObj
+  setGuestUserObj,
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [checkedInstitute, setCheckedInstitute] = useState(false)
+  const [checkedInstitute, setCheckedInstitute] = useState(false);
 
   const initialValues = {
     firstName: guestUserObj.firstName,
@@ -97,7 +98,7 @@ const UpdateUserModal = ({
     if (guestUserObj.id !== 0) {
       putData(`/user/${guestUserObj.id}`, values)
         .then((res: any) => {
-          if ((res.data !== "" && res.status === 200)) {
+          if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
             updateAddRefresh();
             setSubmitting(false);
@@ -108,12 +109,12 @@ const UpdateUserModal = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "User has been successfully updated"
+              text: "User has been successfully updated",
             });
           }
         })
         .catch((err: any) => {
-          console.log(err)
+          console.log(err);
           setSubmitting(false);
           setShowAlert(true);
           setAlertMsg({
@@ -127,22 +128,23 @@ const UpdateUserModal = ({
   const handleCheckboxChange = (id: any) => {
     // Check if the ID is already selected
     const isChecked = guestUserObj.instituteIds.includes(id);
-  
+
     // If the ID is already selected, remove it from the selected list
     // If not, add it to the selected list
     if (isChecked) {
-      setGuestUserObj((prevState: { instituteIds: any[]; }) => ({
+      setGuestUserObj((prevState: { instituteIds: any[] }) => ({
         ...prevState,
-        instituteIds: prevState.instituteIds.filter((itemId: any) => itemId !== id)
+        instituteIds: prevState.instituteIds.filter(
+          (itemId: any) => itemId !== id
+        ),
       }));
     } else {
-      setGuestUserObj((prevState: { instituteIds: any; }) => ({
+      setGuestUserObj((prevState: { instituteIds: any }) => ({
         ...prevState,
-        instituteIds: [...prevState.instituteIds, id]
+        instituteIds: [...prevState.instituteIds, id],
       }));
     }
   };
-
 
   return (
     <React.Fragment>
@@ -151,6 +153,7 @@ const UpdateUserModal = ({
         onHide={onHide}
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
@@ -243,13 +246,22 @@ const UpdateUserModal = ({
                       <input
                         type="checkbox"
                         className="form-check-input"
-                        name={`instituteIds[${item.id !== undefined && item.id}]`}
+                        name={`instituteIds[${
+                          item.id !== undefined && item.id
+                        }]`}
                         checked={guestUserObj.instituteIds.includes(item.id)}
                         onChange={() => handleCheckboxChange(item.id)}
+                        disabled
                       />
-                      <label>{item.name}</label>
+                      <label style={{ color: "gray" }}>{item.name}</label>
                     </div>
                   ))}
+
+<Alert variant="primary" className="mt-3">
+                  <strong>Note: </strong> The user has selected an institution
+                  during the signup process. Update for institute confirmation
+                  and allotment.
+                </Alert>
 
                   <FieldErrorMessage
                     errors=""
@@ -314,6 +326,7 @@ const UpdateUserModal = ({
             )}
           </Formik>
         </Modal.Body>
+        <img src={WaveBottom} alt="WaveBottom" className="wavebg" />
       </Modal>
     </React.Fragment>
   );
