@@ -34,7 +34,7 @@ const UserManagement = () => {
     (state: any) => state.userAuthorities.permissions
   );
 
-  // get programs API call === >>>
+  // recall API on delete === >>>
   useEffect(() => {
     if (refreshOnDelete === true && currentInstitute > 0) {
       getData(`/${currentInstitute}/users`, filterUpdate)

@@ -17,7 +17,8 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import { putData, deleteData } from "../../../adapters/coreservices";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 
 // Actions btns styling === >>>
@@ -56,28 +57,15 @@ const UserManagementTable = ({
           </span>
 
           <div className="d-flex flex-column " style={{ paddingLeft: "5px" }}>
-            <BsFillCaretUpFill
-              size={15}
-              className="ml-2"
-              style={{
-                color:
-                  filterUpdate.sortBy === "userFirstName" &&
-                  filterUpdate.sortOrder === "asc"
-                    ? "lightgray"
-                    : "#ffffff",
-              }}
-            />
-            <BsFillCaretDownFill
-              size={15}
-              className="ml-2"
-              style={{
-                color:
-                  filterUpdate.sortBy === "userFirstName" &&
-                  filterUpdate.sortOrder === "desc"
-                    ? "lightgray"
-                    : "#ffffff",
-              }}
-            />
+            {filterUpdate.sortBy === "userFirstName" &&
+            filterUpdate.sortOrder === "asc" ? (
+              <TbSortAscending />
+            ) : filterUpdate.sortBy === "userFirstName" &&
+              filterUpdate.sortOrder === "desc" ? (
+              <TbSortDescending />
+            ) : (
+              <PiArrowsDownUpBold />
+            )}
           </div>
         </div>
       ),
@@ -94,28 +82,15 @@ const UserManagementTable = ({
           </span>
 
           <div className="d-flex flex-column" style={{ paddingLeft: "5px" }}>
-            <BsFillCaretUpFill
-              size={15}
-              className="ml-2"
-              style={{
-                color:
-                  filterUpdate.sortBy === "userLastName" &&
-                  filterUpdate.sortOrder === "asc"
-                    ? "lightgray"
-                    : "#ffffff",
-              }}
-            />
-            <BsFillCaretDownFill
-              size={15}
-              className="ml-2"
-              style={{
-                color:
-                  filterUpdate.sortBy === "userLastName" &&
-                  filterUpdate.sortOrder === "desc"
-                    ? "lightgray"
-                    : "#ffffff",
-              }}
-            />
+            {filterUpdate.sortBy === "userLastName" &&
+            filterUpdate.sortOrder === "asc" ? (
+              <TbSortAscending />
+            ) : filterUpdate.sortBy === "userLastName" &&
+              filterUpdate.sortOrder === "desc" ? (
+              <TbSortDescending />
+            ) : (
+              <PiArrowsDownUpBold />
+            )}
           </div>
         </div>
       ),
@@ -132,29 +107,15 @@ const UserManagementTable = ({
           </span>
 
           <div className="d-flex flex-column" style={{ paddingLeft: "5px" }}>
-            <BsFillCaretUpFill
-              size={15}
-              className="ml-2"
-              style={{
-                color:
-                  filterUpdate.sortBy === "userEmail" &&
-                  filterUpdate.sortOrder === "asc"
-                    ? "lightgray"
-                    : "#ffffff",
-              }}
-            />
-
-            <BsFillCaretDownFill
-              size={15}
-              className="ml-2"
-              style={{
-                color:
-                  filterUpdate.sortBy === "userEmail" &&
-                  filterUpdate.sortOrder === "desc"
-                    ? "lightgray"
-                    : "#ffffff",
-              }}
-            />
+          {filterUpdate.sortBy === "userEmail" &&
+            filterUpdate.sortOrder === "asc" ? (
+              <TbSortAscending />
+            ) : filterUpdate.sortBy === "userEmail" &&
+              filterUpdate.sortOrder === "desc" ? (
+              <TbSortDescending />
+            ) : (
+              <PiArrowsDownUpBold />
+            )}
           </div>
         </div>
       ),
@@ -400,7 +361,7 @@ const UserManagementTable = ({
                 </tr>
               );
             })}
-          </tbody>
+          </tbody>  
         </Table>
         {apiStatus === "started" && userdata.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
