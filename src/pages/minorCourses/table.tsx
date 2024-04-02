@@ -202,6 +202,9 @@ const StudentMinorCourseTable = (props: Props) => {
                                         Waitlisted
                                         <button
                                           className="remove-waitlist"
+                                          style={{
+                                            color: "red",
+                                          }}
                                           title="Remove from Waitlist"
                                           onClick={() =>
                                             handleRemoveClick(

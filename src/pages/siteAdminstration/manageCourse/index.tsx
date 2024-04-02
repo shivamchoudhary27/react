@@ -50,7 +50,7 @@ const CourseManagment = () => {
     files: [],
     startDate: "",
     endDate: "",
-    courseType: null,
+    type: "",
     enrollmentCapacity: "",
   });
   const coursePermission = useSelector(
@@ -178,7 +178,7 @@ const CourseManagment = () => {
     files,
     startDate,
     endDate,
-    courseType,
+    type,
     enrollmentCapacity,
   }: any) => {
     setCourseObj({
@@ -191,7 +191,7 @@ const CourseManagment = () => {
       files,
       startDate,
       endDate,
-      courseType,
+      type,
       enrollmentCapacity,
     });
   };
