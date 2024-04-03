@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/coreservices";
 import { getData as getInstitute } from "../../../../adapters/microservices";
+import { useSelector } from "react-redux";
 
 type Props = {};
 
@@ -34,6 +35,10 @@ const GuestUsers = (props: Props) => {
     instituteIds: []
   });
 
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
+
   // get institute list API call === >>>
   useEffect(() => {
     getInstitute("/institutes", filterUpdate)
@@ -54,7 +59,7 @@ const GuestUsers = (props: Props) => {
   // get guest users API call === >>>
   useEffect(() => {
     setApiStatus("started");
-    getData(`${1}/guest-users`, filterUpdate)
+    getData(`${currentInstitute}/guest-users`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);
@@ -70,7 +75,7 @@ const GuestUsers = (props: Props) => {
   // refresh on delete === >>>
   useEffect(() => {
     refreshOnDelete === true &&
-    getData(`${1}/guest-users`, filterUpdate)
+    getData(`${currentInstitute}/guest-users`, filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setGuestUsersData(result.data);
