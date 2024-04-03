@@ -168,9 +168,9 @@ const WorkLoadComp = (props: Props) => {
            <div>
                <Form>
                    <Row className="justify-content-center">
-                    <Col md={4}>
                     {props.timeSlotList.length > 0 &&
                       props.workloadData.map((item: any, index: number) => (
+                        <Col md={4} sm={6}>
                         <div key={index} className="card m-3 workload-card">
                           <div className="card-header">
                             <h4 className="m-0">Department: {item.departmentName}</h4>
@@ -200,8 +200,8 @@ const WorkLoadComp = (props: Props) => {
                             <RenderTimeSlotList item={item.departmentId} />
                           </div>
                         </div>
-                      ))}
                       </Col>
+                      ))}
 
                    </Row>
                 {isSubmitting === false ? (
