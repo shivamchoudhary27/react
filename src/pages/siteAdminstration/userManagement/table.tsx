@@ -21,13 +21,6 @@ import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 
-// Actions btns styling === >>>
-const actionsStyle = {
-  display: "flex",
-  justifyContent: "space-evenly",
-  alignItems: "center",
-};
-
 const UserManagementTable = ({
   userdata,
   refreshdata,
@@ -49,20 +42,16 @@ const UserManagementTable = ({
     {
       Header: (
         <div className="d-flex align-items-center">
-
-          <span className="d-flex "
+          <span
             onClick={() => handleTableSorting("userFirstName", setFilterUpdate)}
-            style={{ cursor: "pointer", userSelect: "none", width:"max-content" }}
           >
-           <span> First Name
-            </span>
-
-          <span style={{ paddingLeft: "5px" }}>
+           <span> First Name </span>
+          <span>
             {filterUpdate.sortBy === "userFirstName" &&
             filterUpdate.sortOrder === "asc" ? (
               <OverlayTrigger
                   placement="top"
-                  overlay={<BsTooltip id="button-tooltip-3">Sorted by First Name Ascending </BsTooltip>}
+                  overlay={<BsTooltip>Sorted by First Name Ascending </BsTooltip>}
                 >
                   <span>
                     <TbSortAscending />
@@ -72,7 +61,7 @@ const UserManagementTable = ({
               filterUpdate.sortOrder === "desc" ? (
                 <OverlayTrigger
                   placement="top"
-                  overlay={<BsTooltip id="button-tooltip-3">Sorted by First Name Descending </BsTooltip>}
+                  overlay={<BsTooltip>Sorted by First Name Descending </BsTooltip>}
                 ><span>
                 <TbSortDescending />
                 </span>
@@ -80,7 +69,7 @@ const UserManagementTable = ({
                 ) : (
                   <OverlayTrigger
                   placement="top"
-                  overlay={<BsTooltip id="button-tooltip-3">Sort by First Name Ascending </BsTooltip>}
+                  overlay={<BsTooltip>Sort by First Name Ascending </BsTooltip>}
                 >
                   <span>
                   <PiArrowsDownUpBold />
@@ -96,20 +85,16 @@ const UserManagementTable = ({
     {
       Header: (
         <div className="d-flex align-items-center">
-          <span className="d-flex "
+          <span
             onClick={() => handleTableSorting("userLastName", setFilterUpdate)}
-            style={{ cursor: "pointer", userSelect: "none", width:"max-content"}}
           >
-            <span>
-            Last Name
-            </span>
-
-          <span style={{ paddingLeft: "5px" }}>
+            <span> Last Name </span>
+          <span>
             {filterUpdate.sortBy === "userLastName" &&
             filterUpdate.sortOrder === "asc" ? (
               <OverlayTrigger
               placement="top"
-              overlay={<BsTooltip id="button-tooltip-3">Sorted by Last Name Ascending</BsTooltip>}
+              overlay={<BsTooltip>Sorted by Last Name Ascending</BsTooltip>}
             >
               <span>
               <TbSortAscending />
@@ -119,7 +104,7 @@ const UserManagementTable = ({
               filterUpdate.sortOrder === "desc" ? (
                 <OverlayTrigger
                 placement="top"
-                overlay={<BsTooltip id="button-tooltip-3">Sorted by Last Name Descending</BsTooltip>}
+                overlay={<BsTooltip>Sorted by Last Name Descending</BsTooltip>}
               >
                 <span>
                 <TbSortDescending />
@@ -128,7 +113,7 @@ const UserManagementTable = ({
                 ) : (
                   <OverlayTrigger
                   placement="top"
-                  overlay={<BsTooltip id="button-tooltip-3">Sort by Last Name Ascending </BsTooltip>}
+                  overlay={<BsTooltip>Sort by Last Name Ascending </BsTooltip>}
                 >
                   <span>
                   <PiArrowsDownUpBold />
@@ -143,19 +128,17 @@ const UserManagementTable = ({
     },
     {
       Header: (
-        <div >
-          <span className="d-flex "
+        <div>
+          <span
             onClick={() => handleTableSorting("userEmail", setFilterUpdate)}
-            style={{ cursor: "pointer", userSelect: "none", width:"max-content"}}
           >
             Email
-
-          <span style={{ paddingLeft: "5px" }}>
+          <span>
           {filterUpdate.sortBy === "userEmail" &&
             filterUpdate.sortOrder === "asc" ? (
               <OverlayTrigger
               placement="top"
-              overlay={<BsTooltip id="button-tooltip-3">Sorted by Email Ascending </BsTooltip>}
+              overlay={<BsTooltip>Sorted by Email Ascending </BsTooltip>}
             >
               <span>
               <TbSortAscending />
@@ -165,7 +148,7 @@ const UserManagementTable = ({
               filterUpdate.sortOrder === "desc" ? (
                 <OverlayTrigger
                 placement="top"
-                overlay={<BsTooltip id="button-tooltip-3">Sorted by Email Descending </BsTooltip>}
+                overlay={<BsTooltip>Sorted by Email Descending </BsTooltip>}
               >
                 <span>
                 <TbSortDescending />
@@ -174,7 +157,7 @@ const UserManagementTable = ({
                 ) : (
                   <OverlayTrigger
                   placement="top"
-                  overlay={<BsTooltip id="button-tooltip-3">Sort by Email Ascending </BsTooltip>}
+                  overlay={<BsTooltip>Sort by Email Ascending </BsTooltip>}
                 >
                   <span>
                   <PiArrowsDownUpBold />
@@ -229,7 +212,7 @@ const UserManagementTable = ({
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span style={actionsStyle}>
+        <span className="d-flex justify-content-around align-items-center">
           {userPermissions.user.canEdit && (
             <Link className="action-icons" to={""}>
               <img
@@ -427,7 +410,7 @@ const UserManagementTable = ({
                 </tr>
               );
             })}
-          </tbody>  
+          </tbody>
         </Table>
         {apiStatus === "started" && userdata.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
