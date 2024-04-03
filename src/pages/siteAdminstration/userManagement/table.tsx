@@ -49,24 +49,46 @@ const UserManagementTable = ({
     {
       Header: (
         <div className="d-flex align-items-center">
-          <span
-            onClick={() => handleTableSorting("userFirstName", setFilterUpdate)}
-            style={{ cursor: "pointer", userSelect: "none" }}
-          >
-            First Name
-          </span>
 
-          <div className="d-flex flex-column " style={{ paddingLeft: "5px" }}>
+          <span className="d-flex "
+            onClick={() => handleTableSorting("userFirstName", setFilterUpdate)}
+            style={{ cursor: "pointer", userSelect: "none", width:"max-content" }}
+          >
+           <span> First Name
+            </span>
+
+          <span style={{ paddingLeft: "5px" }}>
             {filterUpdate.sortBy === "userFirstName" &&
             filterUpdate.sortOrder === "asc" ? (
-              <TbSortAscending />
-            ) : filterUpdate.sortBy === "userFirstName" &&
+              <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-3">Sorted by First Name Ascending </BsTooltip>}
+                >
+                  <span>
+                    <TbSortAscending />
+                    </span>
+                </OverlayTrigger>
+              ) : filterUpdate.sortBy === "userFirstName" &&
               filterUpdate.sortOrder === "desc" ? (
-              <TbSortDescending />
-            ) : (
-              <PiArrowsDownUpBold />
-            )}
-          </div>
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-3">Sorted by First Name Descending </BsTooltip>}
+                ><span>
+                <TbSortDescending />
+                </span>
+                </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-3">Sort by First Name Ascending </BsTooltip>}
+                >
+                  <span>
+                  <PiArrowsDownUpBold />
+                  </span>
+                </OverlayTrigger>
+                  )}
+          </span>
+                  </span>
         </div>
       ),
       accessor: "userFirstName",
@@ -74,49 +96,93 @@ const UserManagementTable = ({
     {
       Header: (
         <div className="d-flex align-items-center">
-          <span
+          <span className="d-flex "
             onClick={() => handleTableSorting("userLastName", setFilterUpdate)}
-            style={{ cursor: "pointer", userSelect: "none" }}
+            style={{ cursor: "pointer", userSelect: "none", width:"max-content"}}
           >
+            <span>
             Last Name
-          </span>
+            </span>
 
-          <div className="d-flex flex-column" style={{ paddingLeft: "5px" }}>
+          <span style={{ paddingLeft: "5px" }}>
             {filterUpdate.sortBy === "userLastName" &&
             filterUpdate.sortOrder === "asc" ? (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip id="button-tooltip-3">Sorted by Last Name Ascending</BsTooltip>}
+            >
+              <span>
               <TbSortAscending />
-            ) : filterUpdate.sortBy === "userLastName" &&
+              </span>
+              </OverlayTrigger>
+              ) : filterUpdate.sortBy === "userLastName" &&
               filterUpdate.sortOrder === "desc" ? (
-              <TbSortDescending />
-            ) : (
-              <PiArrowsDownUpBold />
-            )}
-          </div>
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip id="button-tooltip-3">Sorted by Last Name Descending</BsTooltip>}
+              >
+                <span>
+                <TbSortDescending />
+                </span>
+               </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-3">Sort by Last Name Ascending </BsTooltip>}
+                >
+                  <span>
+                  <PiArrowsDownUpBold />
+                  </span>
+                  </OverlayTrigger>
+                  )}
+          </span>
+                  </span>
         </div>
       ),
       accessor: "userLastName",
     },
     {
       Header: (
-        <div className="d-flex align-items-center">
-          <span
+        <div >
+          <span className="d-flex "
             onClick={() => handleTableSorting("userEmail", setFilterUpdate)}
-            style={{ cursor: "pointer", userSelect: "none" }}
+            style={{ cursor: "pointer", userSelect: "none", width:"max-content"}}
           >
             Email
-          </span>
 
-          <div className="d-flex flex-column" style={{ paddingLeft: "5px" }}>
+          <span style={{ paddingLeft: "5px" }}>
           {filterUpdate.sortBy === "userEmail" &&
             filterUpdate.sortOrder === "asc" ? (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip id="button-tooltip-3">Sorted by Email Ascending </BsTooltip>}
+            >
+              <span>
               <TbSortAscending />
-            ) : filterUpdate.sortBy === "userEmail" &&
+              </span>
+              </OverlayTrigger>
+              ) : filterUpdate.sortBy === "userEmail" &&
               filterUpdate.sortOrder === "desc" ? (
-              <TbSortDescending />
-            ) : (
-              <PiArrowsDownUpBold />
-            )}
-          </div>
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip id="button-tooltip-3">Sorted by Email Descending </BsTooltip>}
+              >
+                <span>
+                <TbSortDescending />
+                </span>
+               </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-3">Sort by Email Ascending </BsTooltip>}
+                >
+                  <span>
+                  <PiArrowsDownUpBold />
+                  </span>
+                  </OverlayTrigger>
+                  )}
+          </span>
+                  </span>
         </div>
       ),
       accessor: "userEmail",
