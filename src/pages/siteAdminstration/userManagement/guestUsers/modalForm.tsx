@@ -15,6 +15,7 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+import { useSelector } from "react-redux";
 
 const UpdateUserModal = ({
   show,
@@ -28,6 +29,10 @@ const UpdateUserModal = ({
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [checkedInstitute, setCheckedInstitute] = useState(false);
+
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
 
   const initialValues = {
     firstName: guestUserObj.firstName,
@@ -96,7 +101,7 @@ const UpdateUserModal = ({
 
     setSubmitting(true);
     if (guestUserObj.id !== 0) {
-      putData(`/user/${guestUserObj.id}`, values)
+      putData(`${currentInstitute}/guest-users/${guestUserObj.id}`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             togglemodalshow(false);
@@ -109,7 +114,7 @@ const UpdateUserModal = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "User has been successfully updated",
+              text: "User has been successfully confirmed",
             });
           }
         })
@@ -157,17 +162,17 @@ const UpdateUserModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Update Guest User
+            Confirm Guest User
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TimerAlertBox
+          {/* <TimerAlertBox
             className="mt-3"
             showAlert={showAlert}
             alertMsg={alertMsg.message}
             variant={alertMsg.alertBoxColor}
             setShowAlert={setShowAlert}
-          />
+          /> */}
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -178,7 +183,7 @@ const UpdateUserModal = ({
           >
             {({ errors, touched, isSubmitting, setValues, values }) => (
               <Form>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="firstName"
                     labelText="First Name"
@@ -191,9 +196,9 @@ const UpdateUserModal = ({
                     touched={touched.firstName}
                     msgText="First Name is required"
                   />
-                </div>
+                </div> */}
 
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="lastName"
                     labelText="Last Name"
@@ -206,9 +211,9 @@ const UpdateUserModal = ({
                     touched={touched.lastName}
                     msgText="Last Name is required"
                   />
-                </div>
+                </div> */}
 
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="email"
                     labelText="Email"
@@ -221,27 +226,16 @@ const UpdateUserModal = ({
                     touched={touched.email}
                     msgText="Email is required"
                   />
-                </div>
-                <div className="mb-3">
+                </div> */}
+
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="institute"
                     labelText="Institute"
                     required="required"
                     star="*"
-                  />
-
-                  {/* {instituteList.map((item: any, index: number) => (
-                    <div key={index}>
-                      <FieldTypeCheckbox
-                        name={`instituteIds[${
-                          item.id !== undefined && item.id
-                        }]`}
-                        checkboxLabel={item.name}
-                      />{" "}
-                    </div>
-                  ))} */}
-
-                  {instituteList.map((item: any, index: number) => (
+                  /> */}
+                {/* {instituteList.map((item: any, index: number) => (
                     <div key={index}>
                       <input
                         type="checkbox"
@@ -255,21 +249,25 @@ const UpdateUserModal = ({
                       />
                       <label style={{ color: "gray" }}>{item.name}</label>
                     </div>
-                  ))}
+                  ))} */}
 
-<Alert variant="primary" className="mt-3">
-                  <strong>Note: </strong> The user has selected an institution
-                  during the signup process. Update for institute confirmation
-                  and allotment.
-                </Alert>
+                {/* <Alert variant="primary" className="mt-3">
+                    <strong>Note: </strong> Are you sure, you want to confirm
+                    user{" "}
+                    <strong>
+                      {guestUserObj.firstName} {guestUserObj.lastName},{" "}
+                      {guestUserObj.email}
+                    </strong>{" "}
+                    for institute confirmation and allotment .
+                  </Alert>
 
                   <FieldErrorMessage
                     errors=""
                     touched=""
                     msgText="Please Check required field"
                   />
-                </div>
-                <div className="mb-3">
+                </div> */}
+                {/* <div className="mb-3">
                   <FieldLabel
                     htmlfor="country"
                     labelText="Country"
@@ -287,15 +285,24 @@ const UpdateUserModal = ({
                     touched={touched.country}
                     msgText="Please select country"
                   />
-                </div>
+                </div> */}
 
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <FieldTypeCheckbox name="enabled" checkboxLabel="Enable" />{" "}
                   <FieldErrorMessage
                     errors=""
                     touched=""
                     msgText="Please Check required field"
                   />
+                </div> */}
+
+                <div className="text-center">
+                  Are you sure, you want to confirm user{" "}
+                  <strong>
+                    {guestUserObj.firstName} {guestUserObj.lastName},{" "}
+                    {guestUserObj.email}
+                  </strong>{" "}
+                  for institute confirmation and allotment.
                 </div>
 
                 {isSubmitting === false ? (
@@ -304,7 +311,7 @@ const UpdateUserModal = ({
                       type="submit"
                       variant="primary"
                       disabled={isSubmitting}
-                      btnText="Update"
+                      btnText="Confirm"
                     />{" "}
                     {guestUserObj.id === 0 && (
                       <CustomButton
@@ -318,7 +325,7 @@ const UpdateUserModal = ({
                 ) : (
                   <LoadingButton
                     variant="primary"
-                    btnText="Updating"
+                    btnText="Confirming ..."
                     className="modal-buttons"
                   />
                 )}

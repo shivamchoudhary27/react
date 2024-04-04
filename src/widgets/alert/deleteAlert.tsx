@@ -6,6 +6,8 @@ interface IDeleteAlert {
   onHide: () => void;
   deleteActionResponse: (params: string) => void;
   modalHeading: string;
+  titlePrefix?: string;
+  atertMessage?: string;
 }
 
 const DeleteAlert: React.FunctionComponent<IDeleteAlert> = ({
@@ -13,6 +15,8 @@ const DeleteAlert: React.FunctionComponent<IDeleteAlert> = ({
   onHide,
   deleteActionResponse,
   modalHeading,
+  titlePrefix = "Delete",
+  atertMessage = "Are you sure, you want to delete!"
 }: IDeleteAlert) => {
   const deleteHandler = (e: any) => {
     if (e.type === "click") {
@@ -31,12 +35,12 @@ const DeleteAlert: React.FunctionComponent<IDeleteAlert> = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Delete {modalHeading}
+            {titlePrefix} {modalHeading}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-3 text-center">
-            Are you sure, you want to delete!
+            {atertMessage}
           </div>
           <div className="modal-buttons">
             <Button variant="primary" onClick={(e) => deleteHandler(e)}>

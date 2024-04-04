@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { Table } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -17,6 +17,8 @@ import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import { searchCountryNameById } from "../../../../globals/getCountry";
 import { putData, deleteData } from "../../../../adapters/coreservices";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import { MdPersonRemove } from "react-icons/md";
+import { FaCheckCircle } from "react-icons/fa";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -36,10 +38,13 @@ const GuestUsersTable = ({
     {
       Header: "Name",
       accessor: "name",
-      Cell: ({ row }: any) => (
-        `${row.original.firstName.charAt(0).toUpperCase()}${row.original.firstName.slice(1)} 
-        ${row.original.lastName.charAt(0).toUpperCase()}${row.original.lastName.slice(1)}`
-      )
+      Cell: ({ row }: any) =>
+        `${row.original.firstName
+          .charAt(0)
+          .toUpperCase()}${row.original.firstName.slice(1)} 
+        ${row.original.lastName
+          .charAt(0)
+          .toUpperCase()}${row.original.lastName.slice(1)}`,
     },
     {
       Header: "Email",
@@ -54,8 +59,21 @@ const GuestUsersTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {/* {userPermissions.user.canEdit && ( */}
-          <Link className="action-icons" to={""}>
-            <img
+          <Link
+            className="action-icons"
+            to={""}
+            onClick={() =>
+              editHandler({
+                id: row.original.id,
+                firstName: row.original.firstName,
+                lastName: row.original.lastName,
+                email: row.original.email,
+                country: row.original.country,
+                instituteIds: row.original.instituteIds,
+              })
+            }
+          >
+            {/* <img
               src={editIcon}
               alt="Edit"
               onClick={() =>
@@ -68,18 +86,24 @@ const GuestUsersTable = ({
                   instituteIds: row.original.instituteIds,
                 })
               }
-            />
+            /> */}
+            <FaCheckCircle size={15} /> Confirm User
           </Link>
           {/* )} */}
 
           {/* {userPermissions.user.canDelete && ( */}
-          <Link className="action-icons" to="">
-            <img
-              src={deleteIcon}
-              alt="Delete"
+          <OverlayTrigger
+            placement="top"
+            overlay={<Tooltip id="button-tooltip-2">Remove User</Tooltip>}
+          >
+            <Link
+              className="action-icons"
+              to=""
               onClick={() => deleteHandler(row.original.id)}
-            />
-          </Link>
+            >
+              <MdPersonRemove size={20} />
+            </Link>
+          </OverlayTrigger>
           {/* )} */}
 
           {/* {userPermissions.user.canEdit && ( */}
@@ -117,6 +141,10 @@ const GuestUsersTable = ({
   const [deleteId, setDeleteId] = useState(0);
   const [forceRender, setForceRender] = useState(false);
 
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
+
   const toggleUserEnabled = (userPacket: any) => {
     userPacket.enabled = !userPacket.enabled;
     setForceRender((prevState) => !prevState);
@@ -139,7 +167,7 @@ const GuestUsersTable = ({
   useEffect(() => {
     if (onDeleteAction === "Yes") {
       refreshdata(false);
-      let endPoint = `/user/${deleteId}`;
+      let endPoint = `${currentInstitute}/guest-users/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
           if (res.status === 200) {
@@ -151,12 +179,12 @@ const GuestUsersTable = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "User has been successfully deleted"
+              text: "User has been successfully removed",
             });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, some error occured",
+              message: "Unable to remove, some error occured",
               alertBoxColor: "danger",
             });
           }
@@ -172,7 +200,7 @@ const GuestUsersTable = ({
           } else if (result.response.status === 500) {
             setShowAlert(true);
             setAlertMsg({
-              message: "Unable to delete, some error occured",
+              message: "Unable to remove, some error occured",
               alertBoxColor: "danger",
             });
             refreshdata(true);
@@ -265,6 +293,8 @@ const GuestUsersTable = ({
         onHide={() => setShowDeleteModal(false)}
         deleteActionResponse={deleteActionResponse}
         modalHeading="User"
+        titlePrefix="Remove"
+        atertMessage="Are you sure, you want to remove."
       />
     </React.Fragment>
   );

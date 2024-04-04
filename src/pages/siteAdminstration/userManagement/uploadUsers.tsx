@@ -139,6 +139,12 @@ const UploadNewUsers = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             initialValues={{ file: null }}
             validationSchema={validationSchema}
@@ -204,12 +210,6 @@ const UploadNewUsers = ({
               </Form>
             )}
           </Formik>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
           {visibleDownloadOption === true && (
             <Alert variant="primary" className="mt-3">
