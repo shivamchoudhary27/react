@@ -28,6 +28,8 @@ export type Type_FilterUpdate = {
   pageSize: number;
   pageNumber: number;
   departmentId: string;
+  sortBy: any,
+  sortOrder: any,
 };
 
 export type Type_AlertMsg = {

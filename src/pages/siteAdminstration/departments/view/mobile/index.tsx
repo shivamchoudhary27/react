@@ -19,6 +19,7 @@ type Props = {
     apiStatus: string;
     modalShow: boolean;
     currentInstitute: number;
+    setFilterUpdate:any;
     departmentPermission: any;
     filterUpdate: Type_FilterUpdate;
     departmentData: Type_ApiResponse;
@@ -44,6 +45,8 @@ const Mobile = ({ commonProps }: Props) => {
       toggleModalShow={commonProps.toggleModalShow}
       refreshDepartmentData={commonProps.refreshToggle}
       refreshOnDelete={commonProps.refreshOnDeleteToggle}
+      setFilterUpdate={commonProps.setFilterUpdate}
+      filterUpdate={commonProps.filterUpdate}
     />
   );
 

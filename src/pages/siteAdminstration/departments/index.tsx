@@ -31,6 +31,8 @@ const Departments: React.FunctionComponent = () => {
     pageNumber: 0,
     departmentId: "",
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
   const currentInstitute: number = useSelector(
     (state: TypeCurrentInstitute) => state.globalFilters.currentInstitute
@@ -144,6 +146,7 @@ const Departments: React.FunctionComponent = () => {
         updateInputFilters={updateInputFilters}
         resetDepartmentForm={resetDepartmentForm}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
+        setFilterUpdate={setFilterUpdate}
       />
     </>
   );

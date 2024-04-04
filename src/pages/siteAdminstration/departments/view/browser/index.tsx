@@ -21,6 +21,7 @@ type Props = {
   commonProps: {
     apiStatus: string;
     modalShow: boolean;
+    setFilterUpdate:any;
     currentInstitute: number;
     departmentPermission: any;
     filterUpdate: Type_FilterUpdate;
@@ -47,6 +48,8 @@ const Browser = ({ commonProps }: Props) => {
       toggleModalShow={commonProps.toggleModalShow}
       refreshDepartmentData={commonProps.refreshToggle}
       refreshOnDelete={commonProps.refreshOnDeleteToggle}
+      setFilterUpdate={commonProps.setFilterUpdate}
+      filterUpdate={commonProps.filterUpdate}
     />
   );
 

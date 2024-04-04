@@ -10,6 +10,7 @@ type Props = {
   filterUpdate: any;
   refreshToggle: any;
   newPageRequest: any;
+  setFilterUpdate: any;
   currentInstitute: any;
   programAuthorities: any;
   updateInputFilters: any;
@@ -25,6 +26,7 @@ const View = (props: Props) => {
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
     newPageRequest: props.newPageRequest,
+    setFilterUpdate: props.setFilterUpdate,
     currentInstitute: props.currentInstitute,
     updateInputFilters: props.updateInputFilters,
     programAuthorities: props.programAuthorities,

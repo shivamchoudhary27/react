@@ -24,6 +24,8 @@ const ManageProgram = () => {
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
@@ -157,6 +159,7 @@ const ManageProgram = () => {
         totalPages={programData.pager.totalPages}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
         updateDepartmentFilter={updateDepartmentFilter}
+        setFilterUpdate={setFilterUpdate}
       />
       );
     };

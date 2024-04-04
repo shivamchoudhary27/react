@@ -14,6 +14,7 @@ type Props = {
   // departmentPermission: any;
   apiStatus: string;
   modalShow: boolean;
+  setFilterUpdate: any;
   currentInstitute: number;
   filterUpdate: Type_FilterUpdate;
   departmentData: Type_ApiResponse;
@@ -38,6 +39,7 @@ const View = ({ ...props }: Props) => {
     filterUpdate: props.filterUpdate,
     departmentObj: props.departmentObj,
     departmentData: props.departmentData,
+    setFilterUpdate: props.setFilterUpdate,
     currentInstitute: props.currentInstitute,
     departmentPermission: departmentPermission,
     refreshToggle: props.refreshToggle,
@@ -47,6 +49,7 @@ const View = ({ ...props }: Props) => {
     updateInputFilters: props.updateInputFilters,
     resetDepartmentForm: props.resetDepartmentForm,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,
+
   };
 
   return (
