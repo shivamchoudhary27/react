@@ -1,9 +1,9 @@
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import React, { useState } from "react";
-import { Alert, Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FaDownload } from "react-icons/fa6";
+import { Alert, Button, Modal } from "react-bootstrap";
 import { postData } from "../../../adapters/coreservices";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import CustomButton from "../../../widgets/formInputFields/buttons";
@@ -43,13 +43,11 @@ const UploadNewUsers = ({
   setUploadModalShow,
   updateAddRefresh,
   currentInstitute,
-  visibleDownloadOption,
-  setVisibleDownloadOption
 }: any) => {
   const [uploadResponse, setUploadresponse] = React.useState("");
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  // const [visibleDownloadOption, setVisibleDownloadOption] = useState(false);
+  const [visibleDownloadOption, setVisibleDownloadOption] = useState(false);
 
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
@@ -57,7 +55,6 @@ const UploadNewUsers = ({
     postData(`/${currentInstitute}/users/upload`, {}, values.file)
       .then((res: any) => {
         if (res.status === 200) {
-          setVisibleDownloadOption(false);
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
             responseMsg += `<strong>Success :</strong> <p>Total rows processed : ${res.data.total_rows_processed} </p>`;
@@ -69,24 +66,24 @@ const UploadNewUsers = ({
             responseMsg += `<strong>Error :</strong>`;
             Object.entries(res.data.rows_not_processed).map(
               ([key, value]) =>
-                (responseMsg += `<p><strong>${key}</strong>: ${value} </p>`)
+                (responseMsg += `<p>${value} </p>`)
             );
-            setVisibleDownloadOption(true);
             resetForm();
+          } 
+          if(res.data.rows_not_processed.length > 0){
+            setVisibleDownloadOption(true);
+          }else{
+            setVisibleDownloadOption(false)
           }
-          // setTimeout(() => {
-            // setUploadModalShow(false);
-            // setUploadresponse("");
-          // }, 3000);
           setUploadresponse(responseMsg);
-          // setSubmitting(false);
+          setSubmitting(false);
           updateAddRefresh();
           setShowAlert(false);
           // downloadUnuploadedUsersCSV(dummyData); // Download sample CSV file
         }
       })
       .catch((err: any) => {
-        // setSubmitting(false);
+        setSubmitting(false);
         setShowAlert(true);
         setAlertMsg({
           message: "File upload failed! Please try again.",
@@ -94,6 +91,12 @@ const UploadNewUsers = ({
         });
       });
   };
+
+  const onHideModal = () => {
+    setUploadresponse("");
+    setUploadModalShow(false);
+    setVisibleDownloadOption(false)
+  }
 
   // download unsuccessful users list in CSV === >>
   const downloadUnuploadedUsersCSV = (data: any[]) => {
@@ -125,7 +128,7 @@ const UploadNewUsers = ({
     <React.Fragment>
       <Modal
         show={show}
-        onHide={onHide}
+        onHide={onHideModal}
         aria-labelledby="contained-modal-title-vcenter"
         centered
         className="modal-design-wrapper"

@@ -22,8 +22,6 @@ type Props = {
   setUploadModalShow: any;
   updateSearchFilters: any;
   refreshOnDeleteToggle: any;
-  visibleDownloadOption: boolean;
-  setVisibleDownloadOption: any
 };
 
 const View = (props: Props) => {
