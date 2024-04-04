@@ -32,6 +32,7 @@ const UploadCourseUsersEnrollment = ({
     postData(`/csv/course-user-erol/${courseid}`, {}, values.file)
       .then((res: any) => {
         if (res.status === 200) {
+          console.log(res)
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
             responseMsg += `<strong>Success :</strong> <p>Total rows processed : ${res.data.total_rows_processed} </p>`;
@@ -77,6 +78,13 @@ const UploadCourseUsersEnrollment = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             initialValues={{ file: null }}
             validationSchema={validationSchema}
@@ -129,13 +137,6 @@ const UploadCourseUsersEnrollment = ({
             )}
           </Formik>
           <div dangerouslySetInnerHTML={{ __html: uploadResponse }} />
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
         </Modal.Body>
         <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
