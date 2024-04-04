@@ -19,6 +19,7 @@ type Props = {
     modalShow: boolean;
     programTypeData: any;
     editHandlerById: any;
+    setFilterUpdate: any;
     currentInstitute: number;
     refreshToggle: () => void;
     openAddProgramType: () => void;
@@ -48,6 +49,8 @@ const Browser: React.FunctionComponent<Props> = ({ commonProps }: Props) => {
   const PROGRAM_TYPE_COMPONENT = (
     <ProgramTable
       apiStatus={commonProps.apiStatus}
+      filterUpdate={commonProps.filterUpdate}
+      setFilterUpdate={commonProps.setFilterUpdate}
       refreshOnDelete={commonProps.refreshOnDelete}
       editHandlerById={commonProps.editHandlerById}
       toggleModalShow={commonProps.toggleModalShow}

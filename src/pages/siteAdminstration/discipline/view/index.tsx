@@ -36,6 +36,7 @@ const View = ({ ...props }: Props) => {
     disciplineObj: props.disciplineObj,
     diciplineData: props.diciplineData,
     newPageRequest: props.newPageRequest,
+    setFilterUpdate: props.setFilterUpdate,
     currentInstitute: props.currentInstitute,
     disciplinePermission: disciplinePermission,
     setModalShow: props.setModalShow,

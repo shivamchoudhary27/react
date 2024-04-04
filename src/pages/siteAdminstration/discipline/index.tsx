@@ -31,6 +31,8 @@ const Discipline = () => {
   const [filterUpdate, setFilterUpdate] = useState<Type_DisciplineFilterUpdate>(
     {
       name: "",
+      sortBy: "",
+      sortOrder: "",
       pageNumber: 0,
       pageSize: pagination.PERPAGE,
     }
@@ -139,6 +141,7 @@ const Discipline = () => {
       filterUpdate={filterUpdate}
       diciplineData={diciplineData}
       disciplineObj={disciplineObj}
+      setFilterUpdate={setFilterUpdate}
       currentInstitute={currentInstitute}
       setModalShow={setModalShow}
       refreshToggle={refreshToggle}

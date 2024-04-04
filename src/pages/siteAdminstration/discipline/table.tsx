@@ -14,6 +14,10 @@ import editIcon from "../../../assets/images/icons/edit-action.svg";
 import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 
 import {
   putData,
@@ -29,7 +33,9 @@ const actionsStyle = {
 
 type props = {
   apiStatus: string;
+  filterUpdate: any;
   diciplineData: any;
+  setFilterUpdate: any;
   toggleModalShow: any;
   currentInstitute: number;
   disciplinePermissions: any;
@@ -41,10 +47,56 @@ type props = {
 const DiciplineTable: React.FunctionComponent<props> = ({
   ...props
 }: props) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   // custom react table column === >>>
   const tableColumn = [
+    // {
+    //   Header: "Name",
+    //   accessor: "name",
+    // },
     {
-      Header: "Name",
+      Header: (
+        <div className="d-flex align-items-center">
+          <span
+            onClick={() => handleTableSorting("name", props.setFilterUpdate)}
+          >
+           <span> Name </span>
+          <span>
+            {props.filterUpdate.sortBy === "name" &&
+            props.filterUpdate.sortOrder === "asc" ? (
+              <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Name Ascending </BsTooltip>}
+                >
+                  <span>
+                    <TbSortAscending />
+                    </span>
+                </OverlayTrigger>
+              ) : props.filterUpdate.sortBy === "name" &&
+              props.filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Name Descending </BsTooltip>}
+                ><span>
+                <TbSortDescending />
+                </span>
+                </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Name Ascending </BsTooltip>}
+                >
+                  <span>
+                  <PiArrowsDownUpBold />
+                  </span>
+                </OverlayTrigger>
+                  )}
+          </span>
+                  </span>
+        </div>
+      ),
       accessor: "name",
     },
     {
@@ -114,7 +166,7 @@ const DiciplineTable: React.FunctionComponent<props> = ({
 
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [props.filterUpdate]);
   const data = useMemo(() => props.diciplineData, [props.diciplineData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
