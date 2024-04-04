@@ -17,6 +17,7 @@ type Props = {
     modalShow: boolean;
     diciplineData: any;
     newPageRequest: any;
+    setFilterUpdate: any;
     currentInstitute: number;
     disciplinePermission: any;
     filterUpdate: Type_DisciplineFilterUpdate;
@@ -36,6 +37,8 @@ const Mobile = ({ commonProps }: Props) => {
   const DISCIPLINE_TABLE_COMPONENT = (
     <DiciplineTable
       apiStatus={commonProps.apiStatus}
+      filterUpdate={commonProps.filterUpdate}
+      setFilterUpdate={commonProps.setFilterUpdate}
       editHandlerById={commonProps.editHandlerById}
       diciplineData={commonProps.diciplineData.items}
       currentInstitute={commonProps.currentInstitute}

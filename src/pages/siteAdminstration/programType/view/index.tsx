@@ -12,6 +12,7 @@ type Props = {
   programTypeData: any;
   editHandlerById: any;
   currentInstitute: number;
+  setFilterUpdate: any;
   refreshToggle: () => void;
   openAddProgramType: () => void;
   newPageRequest: (params: number) => void;
@@ -46,6 +47,7 @@ const View: React.FunctionComponent<Props> = ({ ...props }: Props) => {
     refreshProgramData: props.refreshProgramData,
     updateInputFilters: props.updateInputFilters,
     updateDepartmentFilter: props.updateDepartmentFilter,
+    setFilterUpdate: props.setFilterUpdate
   };
 
   return (

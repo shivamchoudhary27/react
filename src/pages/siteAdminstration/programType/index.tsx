@@ -23,6 +23,8 @@ const ProgramType: FunctionComponent = () => {
     published: false,
   });
   const [filterUpdate, setFilterUpdate] = useState<Type_FilterUpdate>({
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -165,6 +167,7 @@ const ProgramType: FunctionComponent = () => {
       refreshProgramData={refreshProgramData}
       refreshOnDelete={refreshOnDeleteToggle}
       updateDepartmentFilter={updateDepartmentFilter}
+      setFilterUpdate={setFilterUpdate}
     />
   );
 };

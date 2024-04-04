@@ -22,6 +22,7 @@ type Props = {
     newPageRequest: any;
     currentInstitute: number;
     disciplinePermission: any;
+    setFilterUpdate: any;
     filterUpdate: Type_DisciplineFilterUpdate;
     disciplineObj: Interface_DisciplineCustomObject;
     refreshToggle: () => void;
@@ -39,6 +40,8 @@ const Browser = ({ commonProps }: Props) => {
   const DISCIPLINE_TABLE_COMPONENT = (
     <DiciplineTable
       apiStatus={commonProps.apiStatus}
+      filterUpdate={commonProps.filterUpdate}
+      setFilterUpdate={commonProps.setFilterUpdate}
       editHandlerById={commonProps.editHandlerById}
       diciplineData={commonProps.diciplineData.items}
       currentInstitute={commonProps.currentInstitute}

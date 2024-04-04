@@ -14,6 +14,7 @@ type Props = {
     filterUpdate: any;
     programTypeObj: any;
     modalShow: boolean;
+    setFilterUpdate: any;
     programTypeData: any;
     editHandlerById: any;
     currentInstitute: number;
@@ -45,6 +46,8 @@ const Mobile: React.FunctionComponent<Props> = ({ commonProps }: Props) => {
   const PROGRAM_TYPE_COMPONENT = (
     <ProgramTable
       apiStatus={commonProps.apiStatus}
+      filterUpdate={commonProps.filterUpdate}
+      setFilterUpdate={commonProps.setFilterUpdate}
       editHandlerById={commonProps.editHandlerById}
       toggleModalShow={commonProps.toggleModalShow}
       refreshOnDelete={commonProps.refreshOnDelete}
