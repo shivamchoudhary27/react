@@ -20,6 +20,7 @@ type Props = {
     modalShow: any;
     filterUpdate: any;
     refreshToggle: any;
+    setFilterUpdate:any;
     newPageRequest: any;
     toggleModalShow: any;
     editHandlerById: any;
@@ -31,6 +32,8 @@ type Props = {
     setUploadModalShow: any;
     updateSearchFilters: any;
     refreshOnDeleteToggle: any;
+    visibleDownloadOption: boolean;
+    setVisibleDownloadOption: any
   };
 };
 
@@ -71,6 +74,8 @@ const Mobile = (props: Props) => {
                   userPermissions={props.commonProps.userAuthorities}
                   currentInstitute={props.commonProps.currentInstitute}
                   refreshdata={props.commonProps.refreshOnDeleteToggle}
+                  setFilterUpdate={props.commonProps.setFilterUpdate}
+                  filterUpdate={props.commonProps.filterUpdate}
                 />
                 <BuildPagination
                   getrequestedpage={props.commonProps.newPageRequest}

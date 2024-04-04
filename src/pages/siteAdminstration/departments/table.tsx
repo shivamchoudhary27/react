@@ -19,6 +19,11 @@ import {
   putData,
   deleteData as deleteDepartmentData,
 } from "../../../adapters/microservices";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
+
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -29,8 +34,10 @@ const actionsStyle = {
 
 type Props = {
   permissions: any;
+  filterUpdate:any;
   apiStatus: string;
   departmentData: any;
+  setFilterUpdate:any;
   editHandlerById: any;
   currentInstitute: number;
   refreshDepartmentData: () => void;
@@ -41,10 +48,51 @@ type Props = {
 const DepartmentTable: React.FunctionComponent<Props> = ({
   ...props
 }: Props) => {
+
+  const { handleTableSorting } = useTableSorting();
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Department",
+      Header: (
+        <div className="d-flex align-items-center">
+          <span
+            onClick={() => handleTableSorting("department", props.setFilterUpdate)}
+          >
+           <span> Department </span>
+          <span>
+            {props.filterUpdate.sortBy === "department" &&
+            props.filterUpdate.sortOrder === "asc" ? (
+              <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Department Ascending </BsTooltip>}
+                >
+                  <span>
+                    <TbSortAscending />
+                    </span>
+                </OverlayTrigger>
+              ) : props.filterUpdate.sortBy === "department" &&
+              props.filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Department Descending </BsTooltip>}
+                ><span>
+                <TbSortDescending />
+                </span>
+                </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Department Ascending </BsTooltip>}
+                >
+                  <span>
+                  <PiArrowsDownUpBold />
+                  </span>
+                </OverlayTrigger>
+                  )}
+          </span>
+                  </span>
+        </div>
+      ),
       accessor: "name",
     },
     {
@@ -120,7 +168,7 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [props.filterUpdate]);
   const data = useMemo(() => props.departmentData, [props.departmentData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

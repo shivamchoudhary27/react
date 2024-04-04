@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip,Tooltip as BsTooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import {
@@ -20,6 +20,11 @@ import { useDispatch } from "react-redux";
 import { globalAlertActions } from "../../../store/slices/globalAlerts";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+
+
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -32,10 +37,55 @@ const ManageTable = ({
   apiStatus,
   currentInstitute,
   programPermissions,
+  setFilterUpdate,
+  filterUpdate,
 }: any) => {
+
+
+  const { handleTableSorting } = useTableSorting();
+
   const tableColumn = [
     {
-      Header: "Name",
+      Header:(  
+      <div className="d-flex align-items-center">
+      <span
+        onClick={() => handleTableSorting("name", setFilterUpdate)}
+      >
+       <span> Name </span>
+      <span>
+        {filterUpdate.sortBy === "name" &&
+        filterUpdate.sortOrder === "asc" ? (
+          <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sorted by Name Ascending </BsTooltip>} 
+            >
+              <span>
+                <TbSortAscending />
+                </span>
+            </OverlayTrigger>
+          ) : filterUpdate.sortBy === "name" &&
+          filterUpdate.sortOrder === "desc" ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sorted by Name Descending </BsTooltip>}
+            ><span>
+            <TbSortDescending />
+            </span>
+            </OverlayTrigger>
+            ) : (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sort by Name Ascending </BsTooltip>}
+            >
+              <span>
+              <PiArrowsDownUpBold />
+              </span>
+            </OverlayTrigger>
+              )}
+      </span>
+              </span>
+    </div>
+  ),
       accessor: "name",
       Cell: ({ row }: any) => (
         <OverlayTrigger
@@ -49,11 +99,89 @@ const ManageTable = ({
       ),
     },
     {
-      Header: "Batch Year",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("batchYear", setFilterUpdate)}
+        >
+         <span> Batch Year </span>
+        <span>
+          {filterUpdate.sortBy === "batchYear" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Batch Year Ascending </BsTooltip>} 
+              >
+                <span>
+                  <TbSortAscending />
+                  </span>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "batchYear" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Batch Year Descending </BsTooltip>}
+              ><span>
+              <TbSortDescending />
+              </span>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Batch Year Ascending </BsTooltip>}
+              >
+                <span>
+                <PiArrowsDownUpBold />
+                </span>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "batchYear",
     },
     {
-      Header: "Program Code",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("programCode", setFilterUpdate)}
+        >
+         <span> Program Code </span>
+        <span>
+          {filterUpdate.sortBy === "programCode" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Program Code Ascending </BsTooltip>} 
+              >
+                <span>
+                  <TbSortAscending />
+                  </span>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "programCode" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Program Code Descending </BsTooltip>}
+              ><span>
+              <TbSortDescending />
+              </span>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Program Code Ascending </BsTooltip>}
+              >
+                <span>
+                <PiArrowsDownUpBold />
+                </span>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "programCode",
       Cell: ({ value }: any) => value.toUpperCase(),
     },
@@ -122,7 +250,7 @@ const ManageTable = ({
     },
   ];
   const dispatch = useDispatch();
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => programData, [programData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

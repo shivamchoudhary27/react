@@ -21,6 +21,7 @@ type Props = {
     totalPages: any;
     programData: any;
     filterUpdate: any;
+    setFilterUpdate:any;
     refreshToggle: any;
     newPageRequest: any;
     currentInstitute: any;
@@ -110,6 +111,8 @@ const Browser = (props: Props) => {
                   programPermissions={
                     props.commonProps.programAuthorities.program
                   }
+                  setFilterUpdate={props.commonProps.setFilterUpdate}
+                  filterUpdate={props.commonProps.filterUpdate}
                 />
                 <BuildPagination
                   totalpages={props.commonProps.totalPages}

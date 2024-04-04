@@ -13,14 +13,14 @@ import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 type Props = {
   commonProps: {
     apiStatus: any;
+    totalPages: any;
     programData: any;
     filterUpdate: any;
+    setFilterUpdate:any;
     refreshToggle: any;
     newPageRequest: any;
     currentInstitute: any;
-    totalPages: any;
     programAuthorities: any;
-    // programPermissions: any;
     updateInputFilters: any;
     refreshOnDeleteToggle: any;
     updateDepartmentFilter: any;
@@ -102,9 +102,10 @@ const Mobile = (props: Props) => {
                   currentInstitute={props.commonProps.currentInstitute}
                   refreshDepartmentData={props.commonProps.refreshToggle}
                   refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
-                  programPermissions={
-                    props.commonProps.programAuthorities.program
-                  }
+                  programPermissions={props.commonProps.programAuthorities.program}
+                  setFilterUpdate={props.commonProps.setFilterUpdate}
+                  filterUpdate={props.commonProps.filterUpdate}
+                
                 />
                 <BuildPagination
                   totalpages={props.commonProps.totalPages}
