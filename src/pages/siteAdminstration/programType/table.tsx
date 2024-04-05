@@ -66,27 +66,27 @@ const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
                   placement="top"
                   overlay={<BsTooltip>Sorted by Name Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                     <TbSortAscending />
-                    </span>
+                    </button>
                 </OverlayTrigger>
               ) : props.filterUpdate.sortBy === "name" &&
               props.filterUpdate.sortOrder === "desc" ? (
                 <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sorted by Name Descending </BsTooltip>}
-                ><span>
+                ><button className="btn btn-link text-white p-0">
                 <TbSortDescending />
-                </span>
+                </button>
                 </OverlayTrigger>
                 ) : (
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by Name Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
-                  </span>
+                  </button>
                 </OverlayTrigger>
                   )}
           </span>

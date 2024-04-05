@@ -263,13 +263,13 @@ const CourseEnrollment = () => {
       <div>
         <div className="d-flex justify-content-end gap-5 pt-3 userscapacity">
           <div> <FaBookOpenReader />
-            Enrolled user: {EnrolledUser}</div>
+            Total Enrolled user: {EnrolledUser}</div>
           {enrollmentCapacity !== null && remainingSeats !== null && (
             <>
               <div><FaUsers />
-                Seating Capacity for Student: {enrollmentCapacity}</div>
+              Student's Seating Capacity : {enrollmentCapacity}</div>
               <div><FaUserClock />
-                Remaining Seats for Student: {remainingSeats}</div>
+              Student's Remaining Seats : {remainingSeats}</div>
             </>
           )}
 

@@ -15,6 +15,8 @@ const ManageProgramEnrollment = () => {
   const [enrolUserData, setEnrolUserData] = useState<any>(dummyData);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -129,9 +131,10 @@ const ManageProgramEnrollment = () => {
       usersModalShow={usersModalShow}
       toggleModalShow={toggleModalShow}
       editHandlerById={editHandlerById}
+      setFilterUpdate={setFilterUpdate}
       AddUsersModalShow={AddUsersModalShow}
       currentInstitute={currentInstitute}
-      filterUpdate={filterUpdate.pageNumber}
+      filterUpdate={filterUpdate}
       enrolleduserdata={enrolUserData.items}
       updateinputfilters={updateSearchFilters}
       totalpages={enrolUserData.pager.totalPages}

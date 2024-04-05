@@ -89,7 +89,6 @@ const ManageProgram = () => {
       postData(`/files`, filesIds)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
-            console.log(result.data);
           }
         })
         .catch((err: any) => {

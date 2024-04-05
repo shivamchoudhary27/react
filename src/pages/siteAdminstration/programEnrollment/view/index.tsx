@@ -7,6 +7,7 @@ type Props = {
   apiStatus: any;
   totalpages: any;
   filterUpdate: any;
+  setFilterUpdate: any;
   enrollmentData: any;
   newPageRequest: any;
   updateDepartment: any;
@@ -24,6 +25,7 @@ const View = (props: Props) => {
     currentInstitute: props.currentInstitute,
     updateDepartment: props.updateDepartment,
     updateinputfilters: props.updateinputfilters,
+    setFilterUpdate: props.setFilterUpdate,
   };
  
   return (

@@ -24,6 +24,7 @@ type Props = {
     filterUpdate: any;
     refreshToggle: any;
     newPageRequest: any;
+    setFilterUpdate:any;
     usersModalShow: any;
     toggleModalShow: any;
     editHandlerById: any;
@@ -69,11 +70,13 @@ const Browser = (props: Props) => {
               editHandlerById={props.commonProps.editHandlerById}
               refreshdata={props.commonProps.refreshOnDeleteToggle}
               AddUsersModalShow={props.commonProps.AddUsersModalShow}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
+              filterUpdate={props.commonProps.filterUpdate}
             />
 
             <BuildPagination
               totalpages={props.commonProps.totalpages}
-              activepage={props.commonProps.filterUpdate}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>

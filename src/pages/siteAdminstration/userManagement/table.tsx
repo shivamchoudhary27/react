@@ -81,6 +81,11 @@ const UserManagementTable = ({
         </div>
       ),
       accessor: "userFirstName",
+      Cell: ({ row }: any) => (
+        <>
+          {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)} `}
+        </>
+      ),
     },
     {
       Header: (
@@ -125,6 +130,11 @@ const UserManagementTable = ({
         </div>
       ),
       accessor: "userLastName",
+      Cell: ({ row }: any) => (
+        <>
+          {`${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}
+        </>
+      ),
     },
     {
       Header: (

@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useTable } from "react-table";
-import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { deleteData } from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
@@ -13,6 +12,10 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";       
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 
 
 // Actions btns styling === >>>
@@ -29,24 +32,195 @@ const UsersTable = ({
   programname,
   editHandlerById,
   AddUsersModalShow,
+  setFilterUpdate,
+  filterUpdate,
   apiStatus
 }: any) => {
+
+  const { handleTableSorting } = useTableSorting();
   const tableColumn = [
-    {
-      Header: "Full Name",
+    {Header:(  
+      <div className="d-flex align-items-center">
+      <span
+        onClick={() => handleTableSorting("userFirstName", setFilterUpdate)}
+      >
+       <span> First Name </span>
+      <span>
+        {filterUpdate.sortBy === "userFirstName" &&
+        filterUpdate.sortOrder === "asc" ? (
+          <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sorted by First Name Ascending </BsTooltip>} 
+            >
+              <button className="btn btn-link text-white p-0"	 >
+                <TbSortAscending />
+                </button>
+            </OverlayTrigger>
+          ) : filterUpdate.sortBy === "userFirstName" &&
+          filterUpdate.sortOrder === "desc" ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sorted by First Name Descending </BsTooltip>}
+            ><button className="btn btn-link text-white p-0" >
+            <TbSortDescending />
+            </button>
+            </OverlayTrigger>
+            ) : (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sort by First Name Ascending </BsTooltip>}
+            >
+              <button className="btn btn-link text-white p-0" >
+              <PiArrowsDownUpBold />
+              </button>
+            </OverlayTrigger>
+              )}
+      </span>
+              </span>
+    </div>
+  ),
+  accessor: "userFirstName",
       Cell: ({ row }: any) => (
         <>
-          {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)} ${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}
+          {`${row.original.userFirstName.charAt(0).toUpperCase()}${row.original.userFirstName.slice(1)} `}
+        </>
+      ),
+    },
+
+    {
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("userLastName", setFilterUpdate)}
+        >
+         <span> Last Name </span>
+        <span>
+          {filterUpdate.sortBy === "userLastName" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Last Name Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "userLastName" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Last Name Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Last Name Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
+    accessor: "userLastName",
+      Cell: ({ row }: any) => (
+        <>
+          {`${row.original.userLastName.charAt(0).toUpperCase()}${row.original.userLastName.slice(1)}`}
         </>
       ),
     },
     
+    
     {
-      Header: "Email",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("userEmail", setFilterUpdate)}
+        >
+         <span> Email </span>
+        <span>
+          {filterUpdate.sortBy === "userEmail" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Email Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "userEmail" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Email Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Email Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "userEmail",
     },
     {
-      Header: "Role No",
+       Header:(  
+      <div className="d-flex align-items-center">
+      <span
+        onClick={() => handleTableSorting("roleNumber", setFilterUpdate)}
+      >
+       <span> Role No </span>
+      <span>
+        {filterUpdate.sortBy === "roleNumber" &&
+        filterUpdate.sortOrder === "asc" ? (
+          <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sorted by Role No Ascending </BsTooltip>} 
+            >
+              <button className="btn btn-link text-white p-0"	 >
+                <TbSortAscending />
+                </button>
+            </OverlayTrigger>
+          ) : filterUpdate.sortBy === "roleNumber" &&
+          filterUpdate.sortOrder === "desc" ? (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sorted by Role No Descending </BsTooltip>}
+            ><button className="btn btn-link text-white p-0" >
+            <TbSortDescending />
+            </button>
+            </OverlayTrigger>
+            ) : (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Sort by Role No Ascending </BsTooltip>}
+            >
+              <button className="btn btn-link text-white p-0" >
+              <PiArrowsDownUpBold />
+              </button>
+            </OverlayTrigger>
+              )}
+      </span>
+              </span>
+    </div>
+  ),
       accessor: "roleNumber",
     },
     {
@@ -80,7 +254,7 @@ const UsersTable = ({
     },
   ];
 
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => enrolleduserdata, [enrolleduserdata]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
