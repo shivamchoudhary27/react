@@ -66,27 +66,27 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
                   placement="top"
                   overlay={<BsTooltip>Sorted by Department Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0" >
                     <TbSortAscending />
-                    </span>
+                    </button>
                 </OverlayTrigger>
               ) : props.filterUpdate.sortBy === "department" &&
               props.filterUpdate.sortOrder === "desc" ? (
                 <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sorted by Department Descending </BsTooltip>}
-                ><span>
+                ><button className="btn btn-link text-white p-0">
                 <TbSortDescending />
-                </span>
+                </button>
                 </OverlayTrigger>
                 ) : (
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by Department Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
-                  </span>
+                  </button>
                 </OverlayTrigger>
                   )}
           </span>

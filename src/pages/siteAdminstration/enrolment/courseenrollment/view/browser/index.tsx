@@ -25,10 +25,12 @@ type Props = {
     DISCIPLINE_BUTTONS: any;
     DISCIPLINE_TABLE_COMPONENT: any;
     DISCIPLINE_MODAL_COMPONENT: any;
+    remainingSeats:any;
   };
 };
 
 const Browser = (props: Props) => {
+  
   return (
     <React.Fragment>
       <Header />
@@ -59,6 +61,7 @@ const Browser = (props: Props) => {
               getrequestedpage={props.commonProps.newPageRequest}
             />
             <Button
+            disabled={props.commonProps.remainingSeats === 0}
               variant="primary"
               onClick={props.commonProps.openAddDiscipline}
             >
