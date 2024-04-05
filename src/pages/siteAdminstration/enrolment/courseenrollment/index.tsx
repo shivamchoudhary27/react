@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 import DiciplineTable from "./enroltable";
 import DiciplineModal from "./enrolmodal";
 import { useState, useEffect } from "react";
-import { Button, Row, Col } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { pagination } from "../../../../utils/pagination";
 import EnglishLetterFilter from "../../../../widgets/filters/alphabets";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
@@ -14,6 +13,7 @@ import { FaBookOpenReader } from "react-icons/fa6";
 import { FaUsers } from "react-icons/fa6";
 import { FaUserClock } from "react-icons/fa6";
 import "./style.scss";
+import { Tooltip } from "react-tooltip";
 
 const CourseEnrollment = () => {
   const navigate = useNavigate();
@@ -131,12 +131,12 @@ const CourseEnrollment = () => {
     setUploadModalShow(true);
   };
 
-//  for show additional  infotmation on the table
-  const EnrolledUser= diciplineData.pager.totalElements
-  const enrollmentCapacity= diciplineData.courseDetails !== undefined && diciplineData.courseDetails.enrollmentCapacity
-  const remainingSeats= diciplineData.courseDetails !== undefined && diciplineData.courseDetails.remainingSeats
+  //  for show additional  infotmation on the table
+  const EnrolledUser = diciplineData.pager.totalElements
+  const enrollmentCapacity = diciplineData.courseDetails !== undefined && diciplineData.courseDetails.enrollmentCapacity
+  const remainingSeats = diciplineData.courseDetails !== undefined && diciplineData.courseDetails.remainingSeats
 
-  
+
 
   const updateInputFilters = (inputvalues: any) => {
     if (inputvalues.userEmail !== "") {
@@ -212,37 +212,54 @@ const CourseEnrollment = () => {
   const DISCIPLINE_BUTTONS = (
     <>
       <div className="site-button-group mb-3">
-        <Button
-          variant="secondary"
-          size="sm"
+        <Link to="" className="action-icons small-icon"
           onClick={() =>
             navigate(
               `/managegroups/${programid}/${name}/${courseid}/${coursename}`
             )
           }
+
         >
           Manage Groups
-        </Button>{" "}
-        <Button variant="secondary" size="sm" onClick={openAddDiscipline}>
-          Enrol User
-        </Button>{" "}
-        <Button variant="secondary" size="sm" onClick={toggleUploadModal}>
+        </Link>{" "}
+
+       
+          <Link to="" className={`action-icons small-icon ${remainingSeats !== 0
+            ? ""
+            : "disabled my-anchor-element"
+            }`} onClick={remainingSeats !== 0 && openAddDiscipline}>
+            Enrol User
+          </Link>{" "}
+
+        <Link to=""
+          className={`action-icons small-icon ${remainingSeats !== 0
+            ? ""
+            : "disabled my-anchor-element"
+            }`} onClick={remainingSeats !== 0 && toggleUploadModal}>
           Upload Users
-        </Button>{" "}
+        </Link>
+        {" "}
       </div>
       <div className="">
-      <label htmlFor="First Name" className="m-2">First Name</label>
+        <label htmlFor="First Name" className="m-2">First Name</label>
         <EnglishLetterFilter getalphabet={addAlphabetFirstNameFilter} />
-        <div className="p-1"></div> 
-      <label htmlFor="Last Name" className="m-2">Last Name</label>
+        <div className="p-1"></div>
+        <label htmlFor="Last Name" className="m-2">Last Name</label>
         <EnglishLetterFilter getalphabet={addAlphabetLastNameFilter} />
       </div>
       <div className="filter-wrapper mt-2">
-      <ManageFilter
-        updateinputfilters={updateSearchFilters}
-        apiStatus={apiStatus}
+        <ManageFilter
+          updateinputfilters={updateSearchFilters}
+          apiStatus={apiStatus}
         />
       </div>
+            <Tooltip
+                    anchorSelect=".my-anchor-element"
+                    style={{ backgroundColor: "rgba(0,0,0,0.7)", borderRadius: "5px" }}
+                    content="Seating Capacity is full"
+                    place="top"
+                  />
+            
       <div>
         <div className="d-flex justify-content-end gap-5 pt-3 userscapacity">
           <div> <FaBookOpenReader />
@@ -250,11 +267,12 @@ const CourseEnrollment = () => {
           {enrollmentCapacity !== null && remainingSeats !== null && (
             <>
               <div><FaUsers />
-                Seating Capacity: {enrollmentCapacity}</div>
+                Seating Capacity for Student: {enrollmentCapacity}</div>
               <div><FaUserClock />
-                Remaining Seats: {remainingSeats}</div>
+                Remaining Seats for Student: {remainingSeats}</div>
             </>
           )}
+
         </div>
       </div>
     </>
@@ -277,6 +295,7 @@ const CourseEnrollment = () => {
       totalPages={diciplineData.pager.totalPages}
       DISCIPLINE_TABLE_COMPONENT={DISCIPLINE_TABLE_COMPONENT}
       DISCIPLINE_MODAL_COMPONENT={DISCIPLINE_MODAL_COMPONENT}
+      remainingSeats={remainingSeats}
     />
   );
 };

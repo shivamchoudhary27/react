@@ -18,6 +18,7 @@ type Props = {
   DISCIPLINE_BUTTONS: any;
   DISCIPLINE_TABLE_COMPONENT: any;
   DISCIPLINE_MODAL_COMPONENT: any;
+  remainingSeats:any;
 };
 
 const View = (props: Props) => {
@@ -29,6 +30,7 @@ const View = (props: Props) => {
     totalPages: props.totalPages,
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
+    remainingSeats: props.remainingSeats,
     newPageRequest: props.newPageRequest,
     uploadModalShow: props.uploadModalShow,
     openAddDiscipline: props.openAddDiscipline,

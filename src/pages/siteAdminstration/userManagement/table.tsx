@@ -53,27 +53,27 @@ const UserManagementTable = ({
                   placement="top"
                   overlay={<BsTooltip>Sorted by First Name Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                     <TbSortAscending />
-                    </span>
+                    </button>
                 </OverlayTrigger>
               ) : filterUpdate.sortBy === "userFirstName" &&
               filterUpdate.sortOrder === "desc" ? (
                 <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sorted by First Name Descending </BsTooltip>}
-                ><span>
+                ><button className="btn btn-link text-white p-0">
                 <TbSortDescending />
-                </span>
+                </button>
                 </OverlayTrigger>
                 ) : (
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by First Name Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
-                  </span>
+                  </button>
                 </OverlayTrigger>
                   )}
           </span>
@@ -96,9 +96,9 @@ const UserManagementTable = ({
               placement="top"
               overlay={<BsTooltip>Sorted by Last Name Ascending</BsTooltip>}
             >
-              <span>
+              <button className="btn btn-link text-white p-0">
               <TbSortAscending />
-              </span>
+              </button>
               </OverlayTrigger>
               ) : filterUpdate.sortBy === "userLastName" &&
               filterUpdate.sortOrder === "desc" ? (
@@ -106,18 +106,18 @@ const UserManagementTable = ({
                 placement="top"
                 overlay={<BsTooltip>Sorted by Last Name Descending</BsTooltip>}
               >
-                <span>
+                <button className="btn btn-link text-white p-0">
                 <TbSortDescending />
-                </span>
+                </button>
                </OverlayTrigger>
                 ) : (
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by Last Name Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
-                  </span>
+                  </button>
                   </OverlayTrigger>
                   )}
           </span>
@@ -140,9 +140,9 @@ const UserManagementTable = ({
               placement="top"
               overlay={<BsTooltip>Sorted by Email Ascending </BsTooltip>}
             >
-              <span>
+              <button className="btn btn-link text-white p-0">
               <TbSortAscending />
-              </span>
+              </button>
               </OverlayTrigger>
               ) : filterUpdate.sortBy === "userEmail" &&
               filterUpdate.sortOrder === "desc" ? (
@@ -150,18 +150,18 @@ const UserManagementTable = ({
                 placement="top"
                 overlay={<BsTooltip>Sorted by Email Descending </BsTooltip>}
               >
-                <span>
+                <button className="btn btn-link text-white p-0">
                 <TbSortDescending />
-                </span>
+                </button>
                </OverlayTrigger>
                 ) : (
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by Email Ascending </BsTooltip>}
                 >
-                  <span>
+                  <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
-                  </span>
+                  </button>
                   </OverlayTrigger>
                   )}
           </span>

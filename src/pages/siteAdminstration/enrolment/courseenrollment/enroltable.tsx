@@ -12,6 +12,7 @@ import editIcon from "../../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import showIcon from "../../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../../assets/images/icons/hide-action.svg";
+import Swal from "sweetalert2";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -119,9 +120,14 @@ const DiciplineTable = ({
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
             setShowAlert(true);
-            setAlertMsg({
-              message: "Deleted successfully!",
-              alertBoxColor: "success",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully deleted."
             });
           } else if (res.status === 500) {
             setShowAlert(true);

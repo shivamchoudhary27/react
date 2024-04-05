@@ -387,27 +387,20 @@ const CourseTable = ({
           }
         })
         .catch((result: any) => {
-          if (result.response.status === 500) {
+          if (result.response.status === 500 || 400 || 404) {
             setShowAlert(true);
-            setAlertMsg({
-              message: "Unable to delete, this course might have come courses",
-              alertBoxColor: "danger",
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "error",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Unable to delete, this course might have attached entity",
             });
+            
           }
-          if (result.response.status === 400) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Unable to delete",
-              alertBoxColor: "danger",
-            });
-          }
-          if (result.response.status === 404) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: "Unable to delete",
-              alertBoxColor: "danger",
-            });
-          }
+          
         });
     }
     setOnDeleteAction("");
@@ -447,13 +440,13 @@ const CourseTable = ({
 
   return (
     <>
-      <TimerAlertBox
+      {/* <TimerAlertBox
         alertMsg={alertMsg.message}
         className="mt-3"
         variant={alertMsg.alertBoxColor}
         setShowAlert={setShowAlert}
         showAlert={showAlert}
-      />
+      /> */}
       <div className="table-responsive admin-table-wrapper mt-3">
         <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
           <Table borderless striped {...getTableProps()}>
