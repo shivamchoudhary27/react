@@ -14,7 +14,7 @@ type ConfigItem = {
 const MailTempelateConfiguration = () => {
   const [loading, setLoading] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
-  const [selectedTab, setSelectedTab] = useState("");
+  const [selectedTab, setSelectedTab] = useState("Signup Email");
   const [refreshData, setRefreshData] = useState(false);
   const [tabTitles, setTabTitles] = useState<string[]>([]);
   const [initialSubject, setInitialSubject] = useState("");
@@ -36,10 +36,10 @@ const MailTempelateConfiguration = () => {
       setGetConfigApiStatus("finished");
     });
   }, []);
-
+  
   useEffect(() => {
     const fetchData = async () => {
-      if (selectedTab !== "") {
+      if (selectedTab !== "" && mailConfigData.length > 0) {
         setLoading(true);
         let selectedConfigList = mailConfigData
           .filter((item) => item.tabTitle === selectedTab)
@@ -76,7 +76,7 @@ const MailTempelateConfiguration = () => {
     };
 
     fetchData();
-  }, [selectedTab, refreshData]);
+  }, [selectedTab, refreshData, mailConfigData]);
 
   const toggleRefresh = () => {
     setRefreshData(!refreshData);
