@@ -24,6 +24,7 @@ type Props = {
     selectedTopic: any;
     getAllComment: any;
     newPageRequest: any;
+    setFilterUpdate: any;
     selectedProgram: any;
     refreshToggle: any;
     selectedTopicId: any;
@@ -62,6 +63,7 @@ const Mobile = (props: Props) => {
               apiStatus={props.commonProps.apiStatus}
               enquiryData={props.commonProps.enquiryData}
               filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
             />

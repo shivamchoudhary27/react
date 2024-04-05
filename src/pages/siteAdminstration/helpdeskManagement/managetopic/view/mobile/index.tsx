@@ -19,6 +19,7 @@ type Props = {
     topicDataPage: any;
     refreshToggle: any;
     newPageRequest: any;
+    setFilterUpdate: any;
     editHandlerById: any;
     toggleModalShow: any;
     openAddTopicModal: any;
@@ -50,6 +51,8 @@ const Mobile = (props: Props) => {
               topicData={props.commonProps.topicData}
               apiStatus={props.commonProps.apiStatus}
               permissions={props.commonProps.permissions}
+              filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
               editHandlerById={props.commonProps.editHandlerById}
               toggleModalShow={props.commonProps.toggleModalShow}
               refreshdata={props.commonProps.refreshOnDeleteToggle}

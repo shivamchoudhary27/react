@@ -22,6 +22,7 @@ type Props = {
     refreshToggle: any;
     newPageRequest: any;
     editHandlerById: any;
+    setFilterUpdate: any;
     toggleModalShow: any;
     openAddTopicModal: any;
     refreshOnDeleteToggle: any;
@@ -53,6 +54,8 @@ const Browser = (props: Props) => {
               topicData={props.commonProps.topicData}
               apiStatus={props.commonProps.apiStatus}
               permissions={props.commonProps.permissions}
+              filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
               editHandlerById={props.commonProps.editHandlerById}
               toggleModalShow={props.commonProps.toggleModalShow}
               refreshdata={props.commonProps.refreshOnDeleteToggle}
@@ -66,7 +69,7 @@ const Browser = (props: Props) => {
             />
             <BuildPagination
               totalpages={props.commonProps.topicDataPage}
-              activepage={props.commonProps.filterUpdate}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>

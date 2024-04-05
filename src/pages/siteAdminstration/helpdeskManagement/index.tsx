@@ -19,6 +19,8 @@ const Helpdeskmanagement = () => {
   const [helpdeskManagementData, setHelpdeskManagementData] =
     useState(dummyData);
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -180,6 +182,7 @@ const Helpdeskmanagement = () => {
       modalShow={modalShow}
       apiStatus={apiStatus}
       refreshToggle={refreshToggle}
+      setFilterUpdate={setFilterUpdate}
       getAllComment={getAllComment}
       newPageRequest={newPageRequest}
       selectedTopicId={selectedTopicId}
@@ -189,7 +192,7 @@ const Helpdeskmanagement = () => {
       selectedTopic={selectedTopic.items}
       onHide={() => toggleModalShow(false)}
       updateTopicFilter={updateTopicFilter}
-      filterUpdate={filterUpdate.pageNumber}
+      filterUpdate={filterUpdate}
       filterUpdateTable={filterUpdate}
       getSelectedTopicId={getSelectedTopicId}
       repliesAction={repliesModalShow.action}
