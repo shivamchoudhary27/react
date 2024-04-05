@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
@@ -17,6 +16,10 @@ import Errordiv from "../../../../widgets/alert/errordiv";
 import { IUserData, IUserObj, IAlertMsg, IRoleTable } from "./types/interface";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -33,11 +36,55 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
   editHandlerById,
   setAddRoleModalShow,
   // getRoleId ,
-  rolePermissions
+  rolePermissions,
+  setFilterUpdate,
+  filterUpdate,
 }: IRoleTable) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   const tableColumn = [
     {
-      Header: "Role Name",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("name", setFilterUpdate)}
+        >
+         <span> Role Name </span>
+        <span>
+          {filterUpdate.sortBy === "name" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Role Name Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "name" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Role Name Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Role Name Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "name",
     },
     {
@@ -113,7 +160,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
 
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => userData, [userData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

@@ -67,7 +67,7 @@ const SignupForm = () => {
         country: Yup.string()
         .required('Country is required')
         .notOneOf(['0'], 'Country is required'),  
-        instituteIds: Yup.string()
+        instituteIds: Yup.array()
         .test('at-least-one-selected', 'At least one institute must be selected', function () {
           return instituteIdSelection.instituteIds.length > 0;
         }),

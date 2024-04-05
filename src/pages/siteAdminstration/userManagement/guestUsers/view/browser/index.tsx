@@ -30,6 +30,7 @@ type Props = {
     instituteList: any;
     guestUsersData: any;
     newPageRequest: any;
+    setFilterUpdate:any;
     editHandlerById: any;
     toggleModalShow: any;
     updateSearchFilters: any;
@@ -64,6 +65,8 @@ const Browser = (props: Props) => {
               editHandlerById={props.commonProps.editHandlerById}
               toggleModalShow={props.commonProps.toggleModalShow}
               refreshdata={props.commonProps.refreshOnDeleteToggle}
+              filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
               // userPermissions={userAuthorities}
             />
             <BuildPagination
