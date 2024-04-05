@@ -15,6 +15,7 @@ type Props = {
   refreshToggle: any;
   newPageRequest: any;
   usersModalShow: any;
+  setFilterUpdate:any;
   toggleModalShow: any;
   editHandlerById: any;
   enrolleduserdata: any;
@@ -39,6 +40,7 @@ const View = (props: Props) => {
     usersModalShow: props.usersModalShow,
     editHandlerById: props.editHandlerById,
     toggleModalShow: props.toggleModalShow,
+    setFilterUpdate: props.setFilterUpdate,
     enrolleduserdata: props.enrolleduserdata,
     currentInstitute: props.currentInstitute,
     AddUsersModalShow: props.AddUsersModalShow,

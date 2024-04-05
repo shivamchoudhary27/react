@@ -24,6 +24,7 @@ type Props = {
     newPageRequest: any;
     usersModalShow: any;
     toggleModalShow: any;
+    setFilterUpdate:any;
     editHandlerById: any;
     enrolleduserdata: any;
     currentInstitute: any;
@@ -66,6 +67,8 @@ const Browser = (props: Props) => {
               editHandlerById={props.commonProps.editHandlerById}
               refreshdata={props.commonProps.refreshOnDeleteToggle}
               AddUsersModalShow={props.commonProps.AddUsersModalShow}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
+              filterUpdate={props.commonProps.filterUpdate}
             />
 
             <BuildPagination

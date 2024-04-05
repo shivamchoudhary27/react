@@ -13,6 +13,8 @@ const ProgramEnrollment = () => {
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
     // published: true
   });
   const [apiStatus, setApiStatus] = useState("");
@@ -70,6 +72,7 @@ const ProgramEnrollment = () => {
     <View
       apiStatus={apiStatus}
       filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
       newPageRequest={newPageRequest}
       currentInstitute={currentInstitute}
       enrollmentData={enrollmentData.items}

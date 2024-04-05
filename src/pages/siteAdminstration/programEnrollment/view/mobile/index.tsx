@@ -14,6 +14,7 @@ type Props = {
     apiStatus: any;
     totalpages: any;
     filterUpdate: any;
+    setFilterUpdate:any;
     enrollmentData: any;
     newPageRequest: any;
     updateDepartment: any;
@@ -44,6 +45,8 @@ const Mobile = (props: Props) => {
           <ProgramEnrollTable
             apiStatus={props.commonProps.apiStatus}
             enrollmentData={props.commonProps.enrollmentData}
+            setFilterUpdate={props.commonProps.setFilterUpdate}
+            filterUpdate={props.commonProps.filterUpdate}
           />
 
           <BuildPagination
