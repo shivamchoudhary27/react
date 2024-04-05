@@ -311,7 +311,7 @@ const UserManagementTable = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "User has been successfully deleted and added to guest list.",
+              text: "User has been successfully deleted from the institute.",
             });
           } else if (res.status === 500) {
             setShowAlert(true);

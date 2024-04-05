@@ -11,6 +11,8 @@ import { downloadCSVSampleFile } from "../../../globals/CSV/sampleCSV";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import Swal from "sweetalert2";
+import "sweetalert2/src/sweetalert2.scss";
 
 const dummyData = [
   {
@@ -54,6 +56,7 @@ const UploadNewUsers = ({
     setUploadresponse("");
     postData(`/${currentInstitute}/users/upload`, {}, values.file)
       .then((res: any) => {
+        console.log(res)
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
@@ -65,15 +68,14 @@ const UploadNewUsers = ({
           ) {
             responseMsg += `<strong>Error :</strong>`;
             Object.entries(res.data.rows_not_processed).map(
-              ([key, value]) =>
-                (responseMsg += `<p>${value} </p>`)
+              ([key, value]) => (responseMsg += `<p>${value} </p>`)
             );
             resetForm();
-          } 
-          if(res.data.rows_not_processed.length > 0){
+          }
+          if (res.data.rows_not_processed.length > 0) {
             setVisibleDownloadOption(true);
-          }else{
-            setVisibleDownloadOption(false)
+          } else {
+            setVisibleDownloadOption(false);
           }
           setUploadresponse(responseMsg);
           setSubmitting(false);
@@ -95,8 +97,8 @@ const UploadNewUsers = ({
   const onHideModal = () => {
     setUploadresponse("");
     setUploadModalShow(false);
-    setVisibleDownloadOption(false)
-  }
+    setVisibleDownloadOption(false);
+  };
 
   // download unsuccessful users list in CSV === >>
   const downloadUnuploadedUsersCSV = (data: any[]) => {
@@ -122,6 +124,16 @@ const UploadNewUsers = ({
     // Trigger the download
     document.body.appendChild(link);
     link.click();
+
+    Swal.fire({
+      timer: 3000,
+      width: "25em",
+      color: "#666",
+      icon: "success",
+      background: "#e7eef5",
+      showConfirmButton: false,
+      text: "Unsuccessful upload user list CSV file downloaded!",
+    });
   };
 
   return (
@@ -214,13 +226,18 @@ const UploadNewUsers = ({
           {visibleDownloadOption === true && (
             <Alert variant="primary" className="mt-3">
               <strong>Note: </strong>
-              Please ensure to download the list of error fields before closing this window. Click the button below to download:{" "}
-              <Button size="sm" onClick={() => {
-                downloadUnuploadedUsersCSV(dummyData)
-                setUploadModalShow(false)
-              }}>
-                Download error fields <FaDownload />
-              </Button>
+              Please ensure to download the list of error fields before closing
+              this window. Click the button below to download:{" "}
+              <div className="text-center">
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    downloadUnuploadedUsersCSV(dummyData);
+                  }}
+                >
+                  Download error fields <FaDownload />
+                </Button>
+              </div>
             </Alert>
           )}
         </Modal.Body>
