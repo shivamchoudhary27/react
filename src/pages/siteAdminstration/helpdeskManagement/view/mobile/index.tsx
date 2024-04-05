@@ -26,6 +26,7 @@ type Props = {
     repliesAction: any;
     newPageRequest: any;
     modalTitleDate: any;
+    setFilterUpdate: any;
     editHandlerById: any;
     toggleModalShow: any;
     selectedTopicId: any;
@@ -64,6 +65,8 @@ const Mobile = (props: Props) => {
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
               filterUpdateTable={props.commonProps.filterUpdateTable}
+              filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}

@@ -29,6 +29,8 @@ const TeacherHelpdesk = (props: Props) => {
   const [filterUpdate, setFilterUpdate] = useState<any>({
     topicId: "",
     topicName: "",
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -152,6 +154,7 @@ const TeacherHelpdesk = (props: Props) => {
       apiStatus={apiStatus}
       modalShow={modalShow}
       filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
       selectedProgram={selectedProgram.items}
       modalTitle={repliesModalShow.topicname}
       modalTitleDate={repliesModalShow.dateValue}

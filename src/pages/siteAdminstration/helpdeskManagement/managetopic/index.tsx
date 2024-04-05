@@ -15,6 +15,8 @@ const ManageTopic = () => {
   const [refreshData, setRefreshData] = useState(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -130,7 +132,8 @@ const ManageTopic = () => {
       modalShow={modalShow}
       topicData={topicData.items}
       permissions={permissions}
-      filterUpdate={filterUpdate.pageNumber}
+      filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
       topicDataPage={topicData.pager.totalPages}
       refreshToggle={refreshToggle}
       newPageRequest={newPageRequest}

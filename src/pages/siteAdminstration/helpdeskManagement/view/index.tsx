@@ -19,6 +19,7 @@ type Props = {
     repliesAction: any;
     newPageRequest: any;
     modalTitleDate: any;
+    setFilterUpdate: any;
     editHandlerById: any;
     toggleModalShow: any;
     selectedTopicId: any;
@@ -47,6 +48,7 @@ const View = (props: Props) => {
     repliesAction: props. repliesAction,
     newPageRequest: props.newPageRequest,
     modalTitleDate: props.modalTitleDate,
+    setFilterUpdate: props.setFilterUpdate,
     toggleModalShow: props.toggleModalShow,
     selectedTopicId: props.selectedTopicId,
     editHandlerById: props.editHandlerById,

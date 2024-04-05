@@ -29,6 +29,7 @@ type Props = {
     repliesAction: any;
     newPageRequest: any;
     modalTitleDate: any;
+    setFilterUpdate: any;
     editHandlerById: any;
     toggleModalShow: any;
     selectedTopicId: any;
@@ -68,6 +69,8 @@ const Browser = (props: Props) => {
             />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}
+              filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
               filterUpdateTable={props.commonProps.filterUpdateTable}
@@ -77,7 +80,7 @@ const Browser = (props: Props) => {
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
-              activepage={props.commonProps.filterUpdate}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>

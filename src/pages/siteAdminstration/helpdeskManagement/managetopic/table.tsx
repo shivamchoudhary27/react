@@ -1,5 +1,4 @@
 import { useTable } from "react-table";
-import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import Errordiv from "../../../../widgets/alert/errordiv";
@@ -15,6 +14,10 @@ import { globalAlertActions } from "../../../../store/slices/globalAlerts";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
+import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
 type Props = {
   topicData: any[];
   apiStatus: string;
@@ -22,6 +25,8 @@ type Props = {
   refreshdata: any;
   toggleModalShow: any;
   editHandlerById: any;
+  filterUpdate: any;
+  setFilterUpdate: any;
 };
 
 // Actions btns styling === >>>
@@ -31,9 +36,58 @@ const actionsStyle = {
 };
 
 const ManageTopicTable = (props: Props) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   const tableColumn = [
     {
-      Header: "Topics",
+      Header: (
+        <div className="d-flex align-items-center">
+          <span
+            onClick={() =>
+              handleTableSorting("topicName", props.setFilterUpdate)
+            }
+          >
+            <span> Topic </span>
+            <span>
+              {props.filterUpdate.sortBy === "topicName" &&
+              props.filterUpdate.sortOrder === "asc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Topic Name Ascending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
+                  </button>
+                </OverlayTrigger>
+              ) : props.filterUpdate.sortBy === "topicName" &&
+                props.filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Topic Name Descending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortDescending />
+                  </button>
+                </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Topic Name Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
+              )}
+            </span>
+          </span>
+        </div>
+      ),
       accessor: "topicName",
     },
     {
@@ -94,7 +148,7 @@ const ManageTopicTable = (props: Props) => {
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
   const [deleteId, setDeleteId] = useState(0);
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [props.filterUpdate]);
   const data = useMemo(() => props.topicData, [props.topicData]);
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);

@@ -1,55 +1,151 @@
 import { useTable } from "react-table";
-import { Table } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import React, { useEffect, useMemo, useState } from "react";
 import Errordiv from "../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import { useSelector } from "react-redux";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 
 type Props = {
   enquiryData: any;
   apiStatus: any;
   toggleRepliesModalShow: any;
   getSelectedTopicId: any;
-  filterUpdate:any;
-  
+  filterUpdate: any;
+  setFilterUpdate: any;
 };
+{
+  /* <button className="btn btn-link text-white p-0"></button> */
+}
 const TeacherHelpdeskTable = (props: Props) => {
+  const { handleTableSorting } = useTableSorting();
 
-  const [serialPageNo, setSerialPageNo] = useState(props.filterUpdate.pageNumber)
+  const [serialPageNo, setSerialPageNo] = useState(
+    props.filterUpdate.pageNumber
+  );
 
   const authenticatedUserPermission = useSelector(
     (state: any) => state.authenticatedUser.permissions.menu
-);
+  );
 
-const menuPermission = useSelector(
-  (state: any) => state.userAuthorities.permissions.menu
-);
+  const menuPermission = useSelector(
+    (state: any) => state.userAuthorities.permissions.menu
+  );
 
   useEffect(() => {
-    setSerialPageNo(props.filterUpdate.pageNumber * props.filterUpdate.pageSize)
-  }, [props.filterUpdate.pageNumber])
+    setSerialPageNo(
+      props.filterUpdate.pageNumber * props.filterUpdate.pageSize
+    );
+  }, [props.filterUpdate.pageNumber]);
 
   const tableColumn = [
     {
       Header: "SN",
       Cell: ({ row }: any) => {
-        let serialNumber= serialPageNo + row.index + 1
-            return serialNumber
+        let serialNumber = serialPageNo + row.index + 1;
+        return serialNumber;
       },
     },
     {
-      Header: "Topic",
+      Header: (
+        <div className="d-flex align-items-center">
+          <span
+            onClick={() =>
+              handleTableSorting("topicName", props.setFilterUpdate)
+            }
+          >
+            <span> Topic </span>
+            <span>
+              {props.filterUpdate.sortBy === "topicName" &&
+              props.filterUpdate.sortOrder === "asc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Topic Name Ascending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
+                  </button>
+                </OverlayTrigger>
+              ) : props.filterUpdate.sortBy === "topicName" &&
+                props.filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Topic Name Descending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortDescending />
+                  </button>
+                </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Topic Name Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
+              )}
+            </span>
+          </span>
+        </div>
+      ),
       accessor: "topicName",
-      Cell: ({ value }: any) =>`${value.charAt(0).toUpperCase()}${value.slice(1)}`
     },
     {
       Header: "Query",
       accessor: "query",
     },
     {
-      Header: "Date",
+      Header: (
+        <div className="d-flex align-items-center">
+          <span
+            onClick={() => handleTableSorting("date", props.setFilterUpdate)}
+          >
+            <span> Date </span>
+            <span>
+              {props.filterUpdate.sortBy === "date" &&
+              props.filterUpdate.sortOrder === "asc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Date Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
+                  </button>
+                </OverlayTrigger>
+              ) : props.filterUpdate.sortBy === "date" &&
+                props.filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Date Descending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortDescending />
+                  </button>
+                </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Date Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
+              )}
+            </span>
+          </span>
+        </div>
+      ),
       accessor: "date",
       Cell: ({ value }: any) => {
         // Assuming 'value' is a valid date string from the API
@@ -83,7 +179,8 @@ const menuPermission = useSelector(
     //   },
     // },
 
-    ...(menuPermission.admin.canView || !authenticatedUserPermission.enquiry.canView
+    ...(menuPermission.admin.canView ||
+    !authenticatedUserPermission.enquiry.canView
       ? [
           {
             Header: "All replies",
@@ -132,7 +229,10 @@ const menuPermission = useSelector(
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, [serialPageNo]);
+  const columns = useMemo(
+    () => tableColumn,
+    [serialPageNo, props.filterUpdate]
+  );
   const data = useMemo(() => props.enquiryData, [props.enquiryData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
