@@ -10,6 +10,9 @@ import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
+import deleteIcon from "../../../assets/images/icons/delete-action.svg";
+import { deleteData } from "../../../adapters/microservices";
+import Swal from "sweetalert2";
 
 type Props = {
   apiStatus: string;
@@ -21,6 +24,7 @@ type Props = {
   filterUpdateTable: any;
   filterUpdate: any;
   setFilterUpdate: any;
+  queryDeleteRefresh: any;
 };
 
 const HelpdeskManagementTable = (props: Props) => {
@@ -34,6 +38,36 @@ const HelpdeskManagementTable = (props: Props) => {
       props.filterUpdateTable.pageNumber * props.filterUpdateTable.pageSize
     );
   }, [props.filterUpdateTable.pageNumber]);
+
+  // delete query call api
+  const deleteHandler = (queryId: number) => {
+    deleteData(`/enquiry/admin/${queryId}`)
+      .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        props.toggleModalShow(false);
+        props.queryDeleteRefresh();
+        Swal.fire({
+          timer: 3000,
+          width: "25em",
+          color: "#666",
+          icon: "success",
+          background: "#e7eef5",
+          showConfirmButton: false,
+          text: "Query successfully deleted.",
+        });
+      }
+    })
+    .catch((err: any) => {
+      if (err.response.status === 500) {
+        setShowAlert(true);
+        setAlertMsg({
+          message: err.response.data.message,
+          alertBoxColor: "danger",
+        });
+      }
+    });
+  };
+
 
   const tableColumn = [
     {
@@ -362,20 +396,34 @@ const HelpdeskManagementTable = (props: Props) => {
         return (
           <>
             {value === "open" ? "Open" : "Close"}
-            <Link to={``}>
-              <FontAwesomeIcon
-                style={{ color: value !== "open" ? "#FF9E9E" : "" }}
-                className="px-2"
-                icon={faEdit}
-                onClick={() =>
-                  handleStatusEditClick({
-                    id: row.original.id,
-                    status: row.original.status,
-                    query: row.original.query,
-                  })
-                }
-              />
-            </Link>
+            <>
+              <Link to={``}>
+                <FontAwesomeIcon
+                  style={{ color: value !== "open" ? "#FF9E9E" : "" }}
+                  className="px-2"
+                  icon={faEdit}
+                  onClick={() =>
+                    handleStatusEditClick({
+                      id: row.original.id,
+                      status: row.original.status,
+                      query: row.original.query,
+                    })
+                  }
+                />
+              </Link>
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Query deletion </BsTooltip>}
+              >
+                <Link className="action-icons" to="" >
+                  <img
+                    src={deleteIcon}
+                    alt="Delete"
+                    onClick={() => deleteHandler(row.original.id)}
+                  />
+                </Link>
+              </OverlayTrigger>
+            </>
           </>
         );
       },
@@ -489,3 +537,5 @@ const HelpdeskManagementTable = (props: Props) => {
 };
 
 export default HelpdeskManagementTable;
+
+//  api integrate for query delete in helpdesk management
