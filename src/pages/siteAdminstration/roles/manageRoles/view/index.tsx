@@ -17,6 +17,8 @@ type Props = {
   addRoleModalShow: any;
   updateSearchFilters: any;
   setAddRoleModalShow: any;
+  filterUpdate: any;
+  setFilterUpdate:any;
   refreshOnDeleteToggle: any;
 };
 
@@ -26,9 +28,11 @@ const View = (props: Props) => {
     userData: props.userData,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
+    filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
     rolePermissions: props.rolePermissions,
     editHandlerById: props.editHandlerById,
+    setFilterUpdate: props.setFilterUpdate,
     toggleModalShow: props.toggleModalShow,
     openAddRoleModal: props.openAddRoleModal,
     currentInstitute: props.currentInstitute,

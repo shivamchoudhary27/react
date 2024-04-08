@@ -18,6 +18,8 @@ const GuestUsers = (props: Props) => {
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
   const [guestUserObj, setGuestUserObj] = useState({
     // id: 0,
@@ -173,6 +175,7 @@ const GuestUsers = (props: Props) => {
         onHide={() => toggleModalShow(false)}
         guestUsersData={guestUsersData.items}
         updateSearchFilters={updateSearchFilters}
+        setFilterUpdate={setFilterUpdate}
         totalPages={guestUsersData.pager.totalPages}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
         setGuestUserObj={setGuestUserObj}

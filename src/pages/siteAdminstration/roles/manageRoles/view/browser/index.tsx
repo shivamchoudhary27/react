@@ -17,7 +17,9 @@ type Props = {
     userData: any;
     apiStatus: any;
     modalShow: any;
+    filterUpdate: any;
     refreshToggle: any;
+    setFilterUpdate:any;
     rolePermissions: any;
     editHandlerById: any;
     toggleModalShow: any;
@@ -61,6 +63,8 @@ const Browser = (props: Props) => {
               currentInstitute={props.commonProps.currentInstitute}
               setAddRoleModalShow={props.commonProps.setAddRoleModalShow}
               refreshOnDeleteToggle={props.commonProps.refreshOnDeleteToggle}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
+              filterUpdate={props.commonProps.filterUpdate}
             />
           )}
         </Container>

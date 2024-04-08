@@ -228,15 +228,15 @@ const AddUserModal = ({
                     msgText="Please select country"
                   />
                 </div>
-
-                <div className="mb-3">
+                                                                                    {/* // not in use  */}
+                {/* <div className="mb-3">
                   <FieldTypeCheckbox name="enabled" checkboxLabel="Enable" />{" "}
                   <FieldErrorMessage
                     errors=""
                     touched=""
                     msgText="Please Check required field"
                   />
-                </div>
+                </div> */}
 
                 {isSubmitting === false ? (
                   <div className="modal-buttons">

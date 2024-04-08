@@ -21,6 +21,8 @@ type Props = {
     toggleModalShow: any;
     openAddRoleModal: any;
     currentInstitute: any;
+    filterUpdate: any;
+    setFilterUpdate:any;
     addRoleModalShow: any;
     updateSearchFilters: any;
     setAddRoleModalShow: any;
@@ -57,6 +59,8 @@ const Mobile = (props: Props) => {
                 editHandlerById={props.commonProps.editHandlerById}
                 rolePermissions={props.commonProps.rolePermissions}
                 currentInstitute={props.commonProps.currentInstitute}
+                setFilterUpdate={props.commonProps.setFilterUpdate}
+                filterUpdate={props.commonProps.filterUpdate}
                 setAddRoleModalShow={props.commonProps.setAddRoleModalShow}
                 refreshOnDeleteToggle={props.commonProps.refreshOnDeleteToggle}
               />

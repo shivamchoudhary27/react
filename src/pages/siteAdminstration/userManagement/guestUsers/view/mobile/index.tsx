@@ -26,6 +26,7 @@ type Props = {
     };
     refreshToggle: any;
     instituteList: any;
+    setFilterUpdate:any;
     guestUsersData: any;
     newPageRequest: any;
     editHandlerById: any;
@@ -61,6 +62,8 @@ const Mobile = (props: Props) => {
               editHandlerById={props.commonProps.editHandlerById}
               toggleModalShow={props.commonProps.toggleModalShow}
               refreshdata={props.commonProps.refreshOnDeleteToggle}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
+              filterUpdate={props.commonProps.filterUpdate}
               // userPermissions={userAuthorities}
             />
             <BuildPagination

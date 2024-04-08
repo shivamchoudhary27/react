@@ -30,6 +30,8 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [refreshOnDelete, setRefreshOnDelete] = useState<boolean>(false);
   const [filterUpdate, setFilterUpdate] = useState<any>({
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
   });
@@ -168,6 +170,8 @@ const ManageRoles: React.FunctionComponent<IProps> = (props: IProps) => {
         editHandlerById={editHandlerById}
         toggleModalShow={toggleModalShow}
         openAddRoleModal={openAddRoleModal}
+        filterUpdate={filterUpdate}
+        setFilterUpdate={setFilterUpdate}
         updateSearchFilters={updateSearchFilters}
         setAddRoleModalShow={setAddRoleModalShow}
         refreshOnDeleteToggle={refreshOnDeleteToggle}

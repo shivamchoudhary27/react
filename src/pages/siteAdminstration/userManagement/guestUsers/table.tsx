@@ -1,5 +1,4 @@
 import Swal from "sweetalert2";
-import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -19,6 +18,11 @@ import { putData, deleteData } from "../../../../adapters/coreservices";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import { MdPersonRemove } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
+import { OverlayTrigger, Table, Tooltip as BsTooltip,Tooltip } from "react-bootstrap";     
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
+
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -33,21 +37,153 @@ const GuestUsersTable = ({
   guestUsersData,
   editHandlerById,
   toggleModalShow,
+  setFilterUpdate,
+  filterUpdate,
 }: any) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   const tableColumn = [
     {
-      Header: "Name",
-      accessor: "name",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("userFirstName", setFilterUpdate)}
+        >
+         <span> First Name </span>
+        <span>
+          {filterUpdate.sortBy === "userFirstName" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by First Name Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "userFirstName" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by First Name Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by First Name Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
+      accessor: "userFirstName",
       Cell: ({ row }: any) =>
         `${row.original.firstName
           .charAt(0)
-          .toUpperCase()}${row.original.firstName.slice(1)} 
-        ${row.original.lastName
-          .charAt(0)
-          .toUpperCase()}${row.original.lastName.slice(1)}`,
+          .toUpperCase()}${row.original.firstName.slice(1)}`
+        
     },
+
     {
-      Header: "Email",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("userLastName", setFilterUpdate)}
+        >
+         <span> Last Name </span>
+        <span>
+          {filterUpdate.sortBy === "userLastName" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Last Name Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "userLastName" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Last Name Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Last Name Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
+      accessor: "userLastName",
+      Cell: ({ row }: any) =>
+     `${row.original.lastName
+        .charAt(0)
+        .toUpperCase()}${row.original.lastName.slice(1)}`,
+        
+    },
+
+    
+    {
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("email", setFilterUpdate)}
+        >
+         <span> Email </span>
+        <span>
+          {filterUpdate.sortBy === "email" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Email Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "email" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Email Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Email Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "email",
     },
     {
@@ -127,7 +263,7 @@ const GuestUsersTable = ({
 
   // react table custom variable decleration === >>>
   const dispatch = useDispatch();
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => guestUsersData, [guestUsersData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
