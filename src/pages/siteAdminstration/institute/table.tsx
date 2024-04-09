@@ -69,11 +69,12 @@ const UserManagementTable: React.FunctionComponent<
       accessor: "",
       Cell: ({ row }: any) => {
         return row.original.locked !== true ? (
-          <div>
+          <div style={{color: "#ff8c00" }}>
             Pending
           </div>
         ) : (
-          <div style={{color: "green"}}><FaCheck /></div>
+          // <div style={{color: "green"}}><FaCheck /></div>
+          <div style={{color: "green"}}>Active</div>
         );
       },
     },

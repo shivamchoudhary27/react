@@ -9,21 +9,25 @@ import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
+import QueryModalForm from "../../queryModalForm";
 
 type Props = {
   commonProps: {
     onHide: any;
+    queryObj: any;
     topicObj: any;
     apiStatus: any;
     modalShow: any;
     totalPages: any;
     modalTitle: any;
+    onQueryHide: any;
     filterUpdate: any;
     getAllComment: any;
     refreshToggle: any;
     selectedTopic: any;
     onRepliesHide: any;
     repliesAction: any;
+    queryModalShow: any;
     newPageRequest: any;
     modalTitleDate: any;
     setFilterUpdate: any;
@@ -34,6 +38,8 @@ type Props = {
     filterUpdateTable: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
+    editHandlerByQueryId: any;
+    toggleQueryModalShow: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
     getAllProgram: any;
@@ -62,32 +68,32 @@ const Mobile = (props: Props) => {
             />
             <HelpdeskManagementTable
               apiStatus={props.commonProps.apiStatus}
-              toggleModalShow={props.commonProps.toggleModalShow}
-              editHandlerById={props.commonProps.editHandlerById}
-              filterUpdateTable={props.commonProps.filterUpdateTable}
               filterUpdate={props.commonProps.filterUpdate}
               setFilterUpdate={props.commonProps.setFilterUpdate}
+              toggleModalShow={props.commonProps.toggleModalShow}
+              editHandlerById={props.commonProps.editHandlerById}
+              queryDeleteRefresh={props.commonProps.refreshToggle}
+              filterUpdateTable={props.commonProps.filterUpdateTable}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
+              editHandlerByQueryId={props.commonProps.editHandlerByQueryId}
+              toggleQueryModalShow={props.commonProps.toggleQueryModalShow}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}
             />
             <BuildPagination
               totalpages={props.commonProps.totalPages}
-              activepage={props.commonProps.filterUpdate}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>
         </div>
       </div>
-
-      <StatusModalForm
-        onHide={props.commonProps.onHide}
-        topicObj={props.commonProps.topicObj}
-        modalShow={props.commonProps.modalShow}
-        selectedTopic={props.commonProps.selectedTopic}
-        updateAddRefresh={props.commonProps.refreshToggle}
-        toggleModalShow={props.commonProps.toggleModalShow}
-        updateTopicFilter={props.commonProps.updateTopicFilter}
+      <QueryModalForm
+        queryObj={props.commonProps.queryObj}
+        onHide={props.commonProps.onQueryHide}
+        modalShow={props.commonProps.queryModalShow}
+        queryDeleteRefresh={props.commonProps.refreshToggle}
+        toggleQueryModalShow={props.commonProps.toggleQueryModalShow}
       />
       <RepliesForm
         apiStatus={props.commonProps.apiStatus}
