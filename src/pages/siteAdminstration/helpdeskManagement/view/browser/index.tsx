@@ -71,6 +71,7 @@ const Browser = (props: Props) => {
               setFilterUpdate={props.commonProps.setFilterUpdate}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
+              queryDeleteRefresh={props.commonProps.refreshToggle}
               filterUpdateTable={props.commonProps.filterUpdateTable}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
