@@ -14,6 +14,8 @@ type Props = {
     refreshToggle: any;
     editHandlerById: any;
     toggleModalShow: any;
+    filterUpdate: any;
+    setFilterUpdate:any;
     currentInstitute: any;
     instituteTimeSlot: any;
     openInstituteModal: any;
@@ -59,7 +61,9 @@ const Mobile = (props: Props) => {
               currentInstitute={props.commonProps.currentInstitute}
               instituteTimeSlot={props.commonProps.instituteTimeSlot}
               refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
-            />
+              filterUpdate={props.commonProps.filterUpdate}
+              setFilterUpdate={props.commonProps.setFilterUpdate}
+              />
           </Container>
         </div>
       </div>

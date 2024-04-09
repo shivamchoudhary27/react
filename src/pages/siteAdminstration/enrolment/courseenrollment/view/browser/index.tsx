@@ -8,6 +8,7 @@ import UploadCourseUsersEnrollment from "../../uploadUsers";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
 import { BackgroundWaveBottomRight } from "../../../../../../widgets/backgroundElements";
+import { Tooltip } from "react-tooltip";
 
 type Props = {
   commonProps: {
@@ -25,12 +26,12 @@ type Props = {
     DISCIPLINE_BUTTONS: any;
     DISCIPLINE_TABLE_COMPONENT: any;
     DISCIPLINE_MODAL_COMPONENT: any;
-    remainingSeats:any;
+    remainingSeats: any;
   };
 };
 
 const Browser = (props: Props) => {
-  
+
   return (
     <React.Fragment>
       <Header />
@@ -48,6 +49,13 @@ const Browser = (props: Props) => {
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
+        <Tooltip
+          anchorSelect=".my-anchor-element"
+          style={{ backgroundColor: "rgba(0,0,0)", borderRadius: "5px" }}
+          content="Seating Capacity is full"
+          place="top"
+        />
+   
           <Container fluid>
             <PageTitle
               pageTitle={`Course: ${props.commonProps.coursename}`}
@@ -61,16 +69,18 @@ const Browser = (props: Props) => {
               getrequestedpage={props.commonProps.newPageRequest}
             />
             <Button
-            disabled={props.commonProps.remainingSeats === 0}
-              variant="primary"
-              onClick={props.commonProps.openAddDiscipline}
+              className={`${props.commonProps.remainingSeats !== 0
+                ? ""
+                : " my-anchor-element"
+                }`} disabled={props.commonProps.remainingSeats === 0} onClick={props.commonProps.openAddDiscipline}
             >
               Enrol User
-            </Button>{" "}
+            </Button >{" "}
             {props.commonProps.DISCIPLINE_MODAL_COMPONENT}
           </Container>
         </div>
-      </div>
+      </div> 
+        
       <UploadCourseUsersEnrollment
         courseid={props.commonProps.courseid}
         show={props.commonProps.uploadModalShow}
@@ -79,7 +89,7 @@ const Browser = (props: Props) => {
         setUploadModalShow={props.commonProps.setUploadModalShow}
       />
       <Footer />
-      <BackgroundWaveBottomRight/>
+      <BackgroundWaveBottomRight />
     </React.Fragment>
   );
 };

@@ -9,6 +9,8 @@ type Props = {
   refreshToggle: any;
   editHandlerById: any;
   toggleModalShow: any;
+  filterUpdate: any;
+  setFilterUpdate:any;
   currentInstitute: any;
   instituteTimeSlot: any;
   openInstituteModal: any;
@@ -21,6 +23,8 @@ const View = (props: Props) => {
     modalShow: props.modalShow,
     apiStatus: props.apiStatus,
     refreshToggle: props.refreshToggle,
+    filterUpdate: props.filterUpdate,
+    setFilterUpdate: props.setFilterUpdate,
     editHandlerById: props.editHandlerById,
     toggleModalShow: props.toggleModalShow,
     currentInstitute: props.currentInstitute,

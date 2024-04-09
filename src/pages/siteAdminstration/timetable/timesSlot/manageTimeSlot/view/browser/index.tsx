@@ -25,6 +25,7 @@ type Props = {
     newPageRequest: any;
     editHandlerById: any;
     toggleModalShow: any;
+    setFilterUpdate:any;
     timeslotListPage: any;
     currentInstitute: any;
     updateInputFilters: any;
@@ -49,7 +50,9 @@ const Browser = (props: Props) => {
       refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
       resetClassroomForm={props.commonProps.resetClassroomForm}
       getInstituteSlotAction={props.commonProps.getInstituteSlotAction}
-    />
+      filterUpdate={props.commonProps.filterUpdate}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
+      />
   );
 
   const TIMESLOT_MODAL_COMPONENT = (
@@ -99,7 +102,7 @@ const Browser = (props: Props) => {
           {TIMESLOT_TABLE_COMPONENT}
           <BuildPagination
             totalpages={props.commonProps.timeslotListPage}
-            activepage={props.commonProps.filterUpdate}
+            activepage={props.commonProps.filterUpdate.pageNumber}
             getrequestedpage={props.commonProps.newPageRequest}
           />
           {TIMESLOT_MODAL_COMPONENT}

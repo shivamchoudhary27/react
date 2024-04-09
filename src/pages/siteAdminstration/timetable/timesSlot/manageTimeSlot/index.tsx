@@ -27,6 +27,8 @@ const ManageTimesSlot = () => {
   const [filterUpdate, setFilterUpdate] = useState({
     departmentId: departmentId,
     name: name,
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -145,12 +147,13 @@ const ManageTimesSlot = () => {
       timeslotList={timeslotList.items}
       currentInstitute={currentInstitute}
       departmentList={departmentList.items}
-      filterUpdate={filterUpdate.pageNumber}
       timeslotListPage={timeslotList.pager.totalPages}
       refreshToggle={refreshToggle}
       newPageRequest={newPageRequest}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
+      filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
       updateInputFilters={updateInputFilters}
       resetClassroomForm={resetClassroomForm}
       refreshOnDeleteToggle={refreshOnDeleteToggle}
