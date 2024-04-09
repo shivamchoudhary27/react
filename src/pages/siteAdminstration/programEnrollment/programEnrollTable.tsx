@@ -154,9 +154,15 @@ const tableColumn = [
     Header: "Manage Users",
     accessor: "manage_users",
     Cell: ({ row }: any) => (
-      <Link className="action-icons" to={`/manageprogramenrollment/${row.original.id}/${row.original.name}`}>
+      <OverlayTrigger
+      placement="top"
+      overlay={<BsTooltip>Add, Update, Delete Users</BsTooltip>}
+      trigger="hover"
+     >
+     <Link className="action-icons" to={`/manageprogramenrollment/${row.original.id}/${row.original.name}`}>
         <img src={usersIcon} alt="Manage Users" />
       </Link>
+      </OverlayTrigger>
     ),
   },
 ];

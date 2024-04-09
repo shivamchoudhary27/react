@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Table } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -90,6 +90,11 @@ const CategoryTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {categoryPermission.canEdit &&
+        //   <OverlayTrigger
+        //   placement="top"
+        //   overlay={<Tooltip>Delete User</Tooltip>}
+        //   trigger="hover"
+        //  >
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -104,6 +109,7 @@ const CategoryTable = ({
                 }}
               />
             </Link>
+            // </OverlayTrigger>
           }
           {categoryPermission.canDelete &&
             <Link

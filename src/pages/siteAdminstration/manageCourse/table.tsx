@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button, OverlayTrigger, Tooltip as BsTooltip } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -116,6 +116,11 @@ const CourseTable = ({
           {row.original.coursename !== undefined ? (
             <>
               {coursePermission.canEdit && (
+                   <OverlayTrigger
+                   placement="top"
+                   overlay={<BsTooltip>Update Course</BsTooltip>}
+                   trigger="hover"
+                  >
                 <Link
                   className="action-icons"
                   to=""
@@ -142,8 +147,14 @@ const CourseTable = ({
                     }
                   />
                 </Link>
+                </OverlayTrigger>
               )}
               {coursePermission.canDelete && (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Delete Course</BsTooltip>}
+                  trigger="hover"
+                 >
                 <Link className="action-icons" to="">
                   <img
                     src={deleteIcon}
@@ -153,8 +164,15 @@ const CourseTable = ({
                     }}
                   />
                 </Link>
+                </OverlayTrigger>
               )}
               {coursePermission.canEdit && (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Hide/Unhide Course</BsTooltip>}
+                  trigger="hover"
+                 >
+
                 <Link
                   className="action-icons"
                   to=""
@@ -171,6 +189,7 @@ const CourseTable = ({
                     alt="Show"
                   />
                 </Link>
+                </OverlayTrigger>
               )}
             </>
           ) : (

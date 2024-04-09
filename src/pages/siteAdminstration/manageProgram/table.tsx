@@ -91,6 +91,7 @@ const ManageTable = ({
         <OverlayTrigger
           placement="top"
           overlay={<Tooltip id="button-tooltip-2">Program preview</Tooltip>}
+          trigger="hover"
         >
           <Link to={createPreviewLink(row.original.id, row.original.instituteId)} className="action-icons">
             {row.original.name}
@@ -188,24 +189,36 @@ const ManageTable = ({
     {
       Header: "Manage Categories",
       Cell: ({ row }: any) => (
+        <OverlayTrigger
+        placement="top"
+        overlay={<BsTooltip>Add/Update Categories</BsTooltip>}
+        trigger="hover"
+       >
         <Link
           className="action-icons"
           to={`/managecategory/${row.original.id}/${row.original.name}`}
-        >
+          >
           <img src={manageCategoryIcon} alt="Manage Categories" />
         </Link>
+        </OverlayTrigger>
       ),
     },
     {
       Header: "Manage Courses",
       accessor: "manage_courses",
       Cell: ({ row }: any) => (
+        <OverlayTrigger
+        placement="top"
+        overlay={<BsTooltip>Add/Update Courses</BsTooltip>}
+        trigger="hover"
+       >
         <Link
           className="action-icons"
           to={`/managecourses/${row.original.id}/${row.original.name}`}
-        >
+          >
           <img src={manageCoursesIcon} alt="Manage Courses" />
         </Link>
+          </OverlayTrigger>
       ),
     },
     {
@@ -213,14 +226,25 @@ const ManageTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {programPermissions.canEdit && (
+                 <OverlayTrigger
+                 placement="top"
+                 overlay={<BsTooltip>Edit Program Details</BsTooltip>}
+                 trigger="hover"
+                >
             <Link
               className="action-icons m-1"
               to={createEditLink(row.original.id, row.original.instituteId)}
-            >
+              >
               <img src={editIcon} alt="Edit" />
             </Link>
+            </OverlayTrigger>
           )}
           {programPermissions.canDelete && (
+               <OverlayTrigger
+                 placement="top"
+                 overlay={<BsTooltip>Delete Program</BsTooltip>}
+                 trigger="hover"
+                >
             <Link className="action-icons m-1" to="">
               <img
                 src={deleteIcon}
@@ -228,22 +252,29 @@ const ManageTable = ({
                 onClick={() =>
                   deleteHandler(row.original.id, row.original.instituteId)
                 }
-              />
+                />
             </Link>
+              </OverlayTrigger>
           )}
           {programPermissions.canEdit && (
+             <OverlayTrigger
+             placement="top"
+             overlay={<BsTooltip>Hide/Unhide Program</BsTooltip>}
+             trigger="hover"
+            >
             <Link
               className="action-icons m-1"
               to=""
               onClick={() => {
                 toggleProgramPublished(row.original);
               }}
-            >
+              >
               <img
                 src={row.original.published !== false ? showIcon : hideIcon}
                 alt="Show"
-              />
+                />
             </Link>
+              </OverlayTrigger>
           )}
         </span>
       ),
