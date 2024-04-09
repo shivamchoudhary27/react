@@ -20,11 +20,13 @@ type Props = {
   toggleModalShow: any;
   getSelectedTopicId: any;
   toggleRepliesModalShow: any;
+  toggleQueryModalShow: any;
   helpdeskManagementData: any[];
   filterUpdateTable: any;
   filterUpdate: any;
   setFilterUpdate: any;
   queryDeleteRefresh: any;
+  editHandlerByQueryId: any;
 };
 
 const HelpdeskManagementTable = (props: Props) => {
@@ -38,36 +40,6 @@ const HelpdeskManagementTable = (props: Props) => {
       props.filterUpdateTable.pageNumber * props.filterUpdateTable.pageSize
     );
   }, [props.filterUpdateTable.pageNumber]);
-
-  // delete query call api
-  const deleteHandler = (queryId: number) => {
-    deleteData(`/enquiry/admin/${queryId}`)
-      .then((result: any) => {
-      if (result.data !== "" && result.status === 200) {
-        props.toggleModalShow(false);
-        props.queryDeleteRefresh();
-        Swal.fire({
-          timer: 3000,
-          width: "25em",
-          color: "#666",
-          icon: "success",
-          background: "#e7eef5",
-          showConfirmButton: false,
-          text: "Query successfully deleted.",
-        });
-      }
-    })
-    .catch((err: any) => {
-      if (err.response.status === 500) {
-        setShowAlert(true);
-        setAlertMsg({
-          message: err.response.data.message,
-          alertBoxColor: "danger",
-        });
-      }
-    });
-  };
-
 
   const tableColumn = [
     {
@@ -411,18 +383,13 @@ const HelpdeskManagementTable = (props: Props) => {
                   }
                 />
               </Link>
-              <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Query deletion </BsTooltip>}
-              >
                 <Link className="action-icons" to="" >
                   <img
                     src={deleteIcon}
                     alt="Delete"
-                    onClick={() => deleteHandler(row.original.id)}
+                    onClick={() => deleteHandler(row.original.id, row.original.query)}
                   />
                 </Link>
-              </OverlayTrigger>
             </>
           </>
         );
@@ -485,6 +452,15 @@ const HelpdeskManagementTable = (props: Props) => {
     });
   };
 
+  // delete handler 
+  const deleteHandler = ( queryId: number, query: string) => {
+    props.toggleQueryModalShow(true);
+    props.editHandlerByQueryId({
+      queryId,
+      query,
+    });
+  };
+
   return (
     <React.Fragment>
       <div className="table-responsive admin-table-wrapper mt-3">
@@ -537,5 +513,3 @@ const HelpdeskManagementTable = (props: Props) => {
 };
 
 export default HelpdeskManagementTable;
-
-//  api integrate for query delete in helpdesk management

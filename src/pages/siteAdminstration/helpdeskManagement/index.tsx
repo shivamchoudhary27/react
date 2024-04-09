@@ -11,6 +11,7 @@ const Helpdeskmanagement = () => {
   };
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [queryModalShow, setQueryModalShow] = useState(false)
   const [refreshData, setRefreshData] = useState(true);
   const [getAllComment, setGetAllComment] = useState([]);
   const [selectedTopicId, setSelectedTopicId] = useState(0);
@@ -42,6 +43,11 @@ const Helpdeskmanagement = () => {
     query: "",
   });
 
+  const [queryObj, setQueryObj] = useState({
+    queryId : 0,
+    query: ""
+  });
+
   // call api to get all enquiry helpdesk management === >>>
   useEffect(() => {
     setApiStatus("started");
@@ -65,6 +71,11 @@ const Helpdeskmanagement = () => {
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
+  };
+
+  // handle modal hide & show functionality for queryModalForm === >>>
+  const toggleQueryModalShow = (status: boolean) => {
+    setQueryModalShow(status);
   };
 
   // call api to get all topics === >>>
@@ -176,8 +187,17 @@ const Helpdeskmanagement = () => {
     });
   };
 
+   // get queryId, query name from the table === >>>
+  const editHandlerByQueryId = ({queryId, query}: any) => {
+    setQueryObj({
+      queryId : queryId, 
+      query : query
+    })
+  }
+
   return (
     <View
+      queryObj={queryObj}
       topicObj={topicObj}
       modalShow={modalShow}
       apiStatus={apiStatus}
@@ -188,6 +208,7 @@ const Helpdeskmanagement = () => {
       selectedTopicId={selectedTopicId}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
+      queryModalShow={queryModalShow}
       getAllProgram={getAllProgram.items}
       selectedTopic={selectedTopic.items}
       onHide={() => toggleModalShow(false)}
@@ -198,8 +219,11 @@ const Helpdeskmanagement = () => {
       repliesAction={repliesModalShow.action}
       modalTitle={repliesModalShow.topicname}
       repliesModalShow={repliesModalShow.status}
+      editHandlerByQueryId={editHandlerByQueryId}
       modalTitleDate={repliesModalShow.dateValue}
       toggleRepliesModalShow={toggleRepliesModalShow}
+      toggleQueryModalShow={toggleQueryModalShow}
+      onQueryHide={() => toggleQueryModalShow(false)}
       totalPages={helpdeskManagementData.pager.totalPages}
       helpdeskManagementData={helpdeskManagementData.items}
       onRepliesHide={() =>

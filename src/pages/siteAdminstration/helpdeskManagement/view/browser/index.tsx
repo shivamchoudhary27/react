@@ -11,22 +11,25 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import BottomLeftWave from "../../../../../assets/images/background/bg-bottomleft.svg";
-
+import QueryModalForm from "../../queryModalForm";
 
 type Props = {
   commonProps: {
     onHide: any;
+    queryObj: any;
     topicObj: any;
     apiStatus: any;
     modalShow: any;
     totalPages: any;
     modalTitle: any;
+    onQueryHide: any;
     filterUpdate: any;
     getAllComment: any;
     refreshToggle: any;
     selectedTopic: any;
     onRepliesHide: any;
     repliesAction: any;
+    queryModalShow: any;
     newPageRequest: any;
     modalTitleDate: any;
     setFilterUpdate: any;
@@ -38,13 +41,14 @@ type Props = {
     getAllProgram: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
+    editHandlerByQueryId: any;
+    toggleQueryModalShow: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
   };
 };
 
 const Browser = (props: Props) => {
-
   return (
     <React.Fragment>
       <Header />
@@ -74,6 +78,8 @@ const Browser = (props: Props) => {
               queryDeleteRefresh={props.commonProps.refreshToggle}
               filterUpdateTable={props.commonProps.filterUpdateTable}
               getSelectedTopicId={props.commonProps.getSelectedTopicId}
+              editHandlerByQueryId={props.commonProps.editHandlerByQueryId}
+              toggleQueryModalShow={props.commonProps.toggleQueryModalShow}
               toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
               helpdeskManagementData={props.commonProps.helpdeskManagementData}
             />
@@ -85,7 +91,13 @@ const Browser = (props: Props) => {
           </Container>
         </div>
       </div>
-
+      <QueryModalForm
+        queryObj={props.commonProps.queryObj}
+        onHide={props.commonProps.onQueryHide}
+        modalShow={props.commonProps.queryModalShow}
+        queryDeleteRefresh={props.commonProps.refreshToggle}
+        toggleQueryModalShow={props.commonProps.toggleQueryModalShow}
+      />
       <StatusModalForm
         onHide={props.commonProps.onHide}
         topicObj={props.commonProps.topicObj}
