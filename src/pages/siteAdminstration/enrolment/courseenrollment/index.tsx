@@ -223,13 +223,13 @@ const CourseEnrollment = () => {
           Manage Groups
         </Link>{" "}
 
-       
-          <Link to="" className={`action-icons small-icon ${remainingSeats !== 0
-            ? ""
-            : "disabled my-anchor-element"
-            }`} onClick={remainingSeats !== 0 && openAddDiscipline}>
-            Enrol User
-          </Link>{" "}
+
+        <Link to="" className={`action-icons small-icon ${remainingSeats !== 0
+          ? ""
+          : "disabled my-anchor-element"
+          }`} onClick={remainingSeats !== 0 && openAddDiscipline}>
+          Enrol User
+        </Link>{" "}
 
         <Link to=""
           className={`action-icons small-icon ${remainingSeats !== 0
@@ -253,13 +253,15 @@ const CourseEnrollment = () => {
           apiStatus={apiStatus}
         />
       </div>
-            <Tooltip
-                    anchorSelect=".my-anchor-element"
-                    style={{ backgroundColor: "rgba(0,0,0,0.7)", borderRadius: "5px" }}
-                    content="Seating Capacity is full"
-                    place="top"
-                  />
-            
+      {remainingSeats === 0 && (
+        <Tooltip
+          anchorSelect=".my-anchor-element"
+          style={{ backgroundColor: "rgba(0,0,0)", borderRadius: "5px" }}
+          content="Seating Capacity is full"
+          place="top"
+        />
+      )}
+
       <div>
         <div className="d-flex justify-content-end gap-5 pt-3 userscapacity">
           <div> <FaBookOpenReader />
@@ -267,9 +269,9 @@ const CourseEnrollment = () => {
           {enrollmentCapacity !== null && remainingSeats !== null && (
             <>
               <div><FaUsers />
-              Student's Seating Capacity : {enrollmentCapacity}</div>
+                Student's Seating Capacity : {enrollmentCapacity}</div>
               <div><FaUserClock />
-              Student's Remaining Seats : {remainingSeats}</div>
+                Student's Remaining Seats : {remainingSeats}</div>
             </>
           )}
 

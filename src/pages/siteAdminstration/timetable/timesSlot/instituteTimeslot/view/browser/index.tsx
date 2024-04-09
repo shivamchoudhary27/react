@@ -17,6 +17,8 @@ type Props = {
     editHandlerById: any;
     toggleModalShow: any;
     currentInstitute: any;
+    setFilterUpdate:any;
+    filterUpdate: any;
     instituteTimeSlot: any;
     openInstituteModal: any;
     instituteTimeslotObj: any;
@@ -58,7 +60,9 @@ const Browser = (props: Props) => {
             toggleModalShow={props.commonProps.toggleModalShow}
             refreshTimeslotData={props.commonProps.refreshToggle}
             refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
-          />
+            filterUpdate={props.commonProps.filterUpdate}
+            setFilterUpdate={props.commonProps.setFilterUpdate}
+            />
         </Container>
       </div>
       <InstituteTimeSlotModal

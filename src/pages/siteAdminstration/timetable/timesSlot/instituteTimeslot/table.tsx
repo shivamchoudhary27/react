@@ -11,6 +11,12 @@ import editIcon from "../../../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../../../assets/images/icons/delete-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { OverlayTrigger, Tooltip as BsTooltip} from "react-bootstrap";     
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../../../globals/TableFilterShorting/TableFieldShorting";
+
+
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -26,12 +32,56 @@ const ManageInstituteTimesSlotTable = ({
   refreshOnDelete,
   currentInstitute,
   refreshTimeslotData,
+  setFilterUpdate,
+  filterUpdate,
 }: any) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Time / Day",
-      //   accessor: "name",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("startTime", setFilterUpdate)}
+        >
+         <span> Time / Day </span>
+        <span>
+          {filterUpdate.sortBy === "startTime" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Time / Day Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0"	 >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "startTime" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Time / Day Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Time / Day Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
+        accessor: "name",
       Cell: ({ row }: any) => {
         return (
           <span>{`${
@@ -89,7 +139,7 @@ const ManageInstituteTimesSlotTable = ({
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => instituteTimeSlot, [instituteTimeSlot]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

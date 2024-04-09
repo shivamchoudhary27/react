@@ -21,6 +21,7 @@ type Props = {
     refreshToggle: any;
     departmentList: any;
     newPageRequest: any;
+    setFilterUpdate:any;
     editHandlerById: any;
     toggleModalShow: any;
     timeslotListPage: any;
@@ -47,7 +48,9 @@ const Mobile = (props: Props) => {
       refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
       resetClassroomForm={props.commonProps.resetClassroomForm}
       getInstituteSlotAction={props.commonProps.getInstituteSlotAction}
-    />
+      filterUpdate={props.commonProps.filterUpdate}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
+      />
   );
 
   const TIMESLOT_MODAL_COMPONENT = (

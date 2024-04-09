@@ -27,6 +27,8 @@ const InstituteTimeSlot = (props: Props) => {
     (state: any) => state.globalFilters.currentInstitute
   );
   const [filterUpdate, setFilterUpdate] = useState({
+    sortBy: "",
+    sortOrder: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
@@ -110,6 +112,8 @@ const InstituteTimeSlot = (props: Props) => {
       instituteTimeSlot={instituteTimeSlot.items}
       instituteTimeslotObj={instituteTimeslotObj}
       refreshToggle={refreshToggle}
+      filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
       editHandlerById={editHandlerById}
       toggleModalShow={toggleModalShow}
       openInstituteModal={openInstituteModal}

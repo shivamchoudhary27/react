@@ -16,6 +16,7 @@ type Props = {
   newPageRequest: any;
   editHandlerById: any;
   toggleModalShow: any;
+  setFilterUpdate:any;
   timeslotListPage: any;
   currentInstitute: any;
   updateInputFilters: any;
@@ -36,6 +37,7 @@ const View = (props: Props) => {
     timeslotList: props.timeslotList,
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
+    setFilterUpdate: props.setFilterUpdate,
     departmentList: props.departmentList,
     timeslotListPage: props.timeslotList,
     newPageRequest: props.newPageRequest,

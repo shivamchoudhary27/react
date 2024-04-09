@@ -14,27 +14,6 @@ import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 
-const dummyData = [
-  {
-    firstname: "user1",
-    lastname: "use1",
-    email: "admin@123",
-    country: "IN",
-  },
-  {
-    firstname: "user2",
-    lastname: "use2",
-    email: "admin@1234",
-    country: "IN",
-  },
-  {
-    firstname: "user3",
-    lastname: "use3",
-    email: "admin@12345",
-    country: "IN",
-  },
-];
-
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
 });
@@ -50,7 +29,8 @@ const UploadNewUsers = ({
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [visibleDownloadOption, setVisibleDownloadOption] = useState(false);
-
+  const [dummyData, setDummyData] = useState("");
+  
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     setUploadresponse("");
@@ -60,19 +40,21 @@ const UploadNewUsers = ({
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
-            responseMsg += `<strong>Success :</strong> <p>Total rows processed : ${res.data.total_rows_processed} </p>`;
+            responseMsg += `</br><p> <strong>${res.data.total_rows_processed} Rows processed successfully. </strong> </p> 
+            <p><strong> ${res.data.rows_not_processed_count} Rows failed to process.</strong>"</p>`;
           }
           if (
-            res.data.rows_not_processed !== undefined &&
-            Object.keys(res.data.rows_not_processed).length > 0
+            res.data.rows_not_processed_data !== undefined &&
+            Object.keys(res.data.rows_not_processed_data).length > 0
           ) {
-            responseMsg += `<strong>Error :</strong>`;
-            Object.entries(res.data.rows_not_processed).map(
-              ([key, value]) => (responseMsg += `<p>${value} </p>`)
-            );
+            setDummyData(res.data.rows_not_processed_data)
+            // responseMsg += `<strong>Error :</strong>`;
+            // Object.entries(res.data.rows_not_processed_data).map(
+            //   ([key, value]) => (responseMsg += `<p>${value} </p>`)
+            // );
             resetForm();
           }
-          if (res.data.rows_not_processed.length > 0) {
+          if (res.data.rows_not_processed_data.length > 0) {
             setVisibleDownloadOption(true);
           } else {
             setVisibleDownloadOption(false);
@@ -81,7 +63,7 @@ const UploadNewUsers = ({
           setSubmitting(false);
           updateAddRefresh();
           setShowAlert(false);
-          // downloadUnuploadedUsersCSV(dummyData); // Download sample CSV file
+          downloadUnuploadedUsersCSV(dummyData); // Download sample CSV file
         }
       })
       .catch((err: any) => {
@@ -103,13 +85,15 @@ const UploadNewUsers = ({
   // download unsuccessful users list in CSV === >>
   const downloadUnuploadedUsersCSV = (data: any[]) => {
     // Define headers and prepare rows
-    const headers = ["Firstname", "LastName", "Email", "Country"];
+    const headers = ["FirstName", "LastName", "Email", "Country","Reason"];
     const rows = data.map((user) => [
-      user.firstname,
-      user.lastname,
+      user.firstName,
+      user.lastName,
       user.email,
       user.country,
-    ]);
+      user.reason,
+    ]
+    );
 
     // Combine headers and rows
     const csvContent =

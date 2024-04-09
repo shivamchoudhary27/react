@@ -142,7 +142,7 @@ const UserManagement = () => {
       userLastName: "",
       userEmail: "",
       userCountry: "",
-      enabled: false,
+      enabled: true,
     });
     // setRefreshData(false);
   };
