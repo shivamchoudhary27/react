@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import DiciplineTable from "./enroltable";
 import DiciplineModal from "./enrolmodal";
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { pagination } from "../../../../utils/pagination";
 import EnglishLetterFilter from "../../../../widgets/filters/alphabets";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
@@ -14,6 +14,7 @@ import { FaUsers } from "react-icons/fa6";
 import { FaUserClock } from "react-icons/fa6";
 import "./style.scss";
 import { Tooltip } from "react-tooltip";
+import { Button } from "react-bootstrap";
 
 const CourseEnrollment = () => {
   const navigate = useNavigate();
@@ -212,32 +213,20 @@ const CourseEnrollment = () => {
   const DISCIPLINE_BUTTONS = (
     <>
       <div className="site-button-group mb-3">
-        <Link to="" className="action-icons small-icon"
-          onClick={() =>
-            navigate(
-              `/managegroups/${programid}/${name}/${courseid}/${coursename}`
-            )
-          }
-
-        >
+      <Button variant="secondary" size="sm"
+                onClick={() =>  navigate(`/managegroups/${programid}/${name}/${courseid}/${coursename}`)}>
           Manage Groups
-        </Link>{" "}
+        </Button>{" "}
 
-
-        <Link to="" className={`action-icons small-icon ${remainingSeats !== 0
-          ? ""
-          : "disabled my-anchor-element"
-          }`} onClick={remainingSeats !== 0 && openAddDiscipline}>
+        <Button variant="secondary" size="sm"
+          onClick={openAddDiscipline}>
           Enrol User
-        </Link>{" "}
+        </Button>{" "}
 
-        <Link to=""
-          className={`action-icons small-icon ${remainingSeats !== 0
-            ? ""
-            : "disabled my-anchor-element"
-            }`} onClick={remainingSeats !== 0 && toggleUploadModal}>
+        <Button variant="secondary" size="sm"
+          onClick={toggleUploadModal}>
           Upload Users
-        </Link>
+        </Button>
         {" "}
       </div>
       <div className="">

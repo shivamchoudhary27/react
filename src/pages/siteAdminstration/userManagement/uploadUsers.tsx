@@ -36,7 +36,6 @@ const UploadNewUsers = ({
     setUploadresponse("");
     postData(`/${currentInstitute}/users/upload`, {}, values.file)
       .then((res: any) => {
-        console.log(res)
         if (res.status === 200) {
           let responseMsg = "";
           if (res.data.total_rows_processed !== undefined) {
