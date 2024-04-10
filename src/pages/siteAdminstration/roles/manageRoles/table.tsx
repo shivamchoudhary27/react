@@ -115,6 +115,11 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {rolePermissions.canEdit && 
+            <OverlayTrigger
+            placement="top"
+            overlay={<BsTooltip>Edit Role</BsTooltip>}
+            trigger="hover"
+           >
             <Link className="action-icons" to={""}>
               <img
                 src={editIcon}
@@ -130,17 +135,24 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
                     shortName: row.original.shortName,
                   })
                 }
-              />
+                />
             </Link>
+            </OverlayTrigger>
           }
           {rolePermissions.canDelete &&
+            <OverlayTrigger
+            placement="top"
+            overlay={<BsTooltip>Delete Role</BsTooltip>}
+            trigger="hover"
+           >
             <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
                 alt="Delete"
                 onClick={() => deleteHandler(row.original.id)}
-              />
+                />
             </Link>
+            </OverlayTrigger>
           }
          
           {/* <Link

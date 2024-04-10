@@ -180,6 +180,11 @@ const UserManagementTable = ({
       ),
       accessor: "userEmail",
       Cell: ({ row }: any) => (
+        <OverlayTrigger
+        placement="top"
+        overlay={<BsTooltip>View Profile</BsTooltip>}
+        trigger="hover"
+       >
         <Link
           className="action-icons"
           to={
@@ -190,6 +195,7 @@ const UserManagementTable = ({
         >
           {row.original.userEmail}
         </Link>
+        </OverlayTrigger>
       ),
     },
     {
@@ -224,6 +230,11 @@ const UserManagementTable = ({
       Cell: ({ row }: any) => (
         <span className="d-flex justify-content-around align-items-center">
           {userPermissions.user.canEdit && (
+            <OverlayTrigger
+            placement="top"
+            overlay={<BsTooltip>Update User Details</BsTooltip>}
+            trigger="hover"
+           >
             <Link className="action-icons" to={""}>
               <img
                 src={editIcon}
@@ -238,21 +249,33 @@ const UserManagementTable = ({
                     enabled: row.original.enabled,
                   })
                 }
-              />
+                />
             </Link>
+                </OverlayTrigger>
           )}
 
           {userPermissions.user.canDelete && (
-            <Link className="action-icons" to="">
+          <OverlayTrigger
+          placement="top"
+          overlay={<BsTooltip>Delete User</BsTooltip>}
+          trigger="hover"
+         >
+         <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
                 alt="Delete"
                 onClick={() => deleteHandler(row.original.userId)}
-              />
+                />
             </Link>
+                </OverlayTrigger>
           )}
 
           {userPermissions.user.canEdit && (
+             <OverlayTrigger
+             placement="top"
+             overlay={<BsTooltip>Hide/Unhide User</BsTooltip>}
+             trigger="hover"
+            >
             <Link
               className="action-icons"
               to=""
@@ -265,6 +288,7 @@ const UserManagementTable = ({
                 alt="Show"
               />
             </Link>
+            </OverlayTrigger>
           )}
         </span>
       ),

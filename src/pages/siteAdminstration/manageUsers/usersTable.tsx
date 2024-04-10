@@ -232,23 +232,36 @@ const UsersTable = ({
       Header: "Actions",
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
+          <OverlayTrigger
+        placement="top"
+        overlay={<BsTooltip>Update User Details</BsTooltip>}
+        trigger="hover"
+       >
+
           <Link
             className="action-icons" 
             to=""
             // to={createEditLink(row.original.userId)}
-          >
+            >
             <img src={editIcon} alt="Edit" onClick={() =>
                 editHandler(
                   row.original.userId,
                   row.original.userEmail,
                   row.original.roleNumber,
                   row.original.roleId
-                )
-              } />
+                  )
+                } />
           </Link>
+                </OverlayTrigger>
+          <OverlayTrigger
+        placement="top"
+        overlay={<BsTooltip>Delete User</BsTooltip>}
+        trigger="hover"
+       >
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
           </Link>
+        </OverlayTrigger>
         </span>
       ),
     },
