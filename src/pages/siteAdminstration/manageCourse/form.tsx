@@ -291,14 +291,6 @@ const CourseModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
-
           <Formik
             enableReinitialize={true}
             initialValues={initValues}
@@ -536,6 +528,15 @@ const CourseModal = ({
               </Form>
             )}
           </Formik>
+          <div style={{marginTop: "5px"}}>
+          <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
+          </div>
         </Modal.Body>
         <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>

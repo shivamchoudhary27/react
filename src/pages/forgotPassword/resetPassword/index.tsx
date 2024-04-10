@@ -24,10 +24,24 @@ const ResetPasswordForm = () => {
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const navigate = useNavigate();
   // Formik Yup validation === >>>
+  // const userFormSchema = Yup.object({
+  //   newPassword: Yup.string().required(),
+  //   confirmPassword: Yup.string()
+  //     .required()
+  //     .test("passwords-match", "Passwords must match", function (value) {
+  //       return value === this.parent.newPassword;
+  //     }),
+  // });
   const userFormSchema = Yup.object({
-    newPassword: Yup.string().required(),
+    newPassword: Yup.string()
+      .required("Please enter a new password")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$/,
+        "Password must include lowercase, uppercase, number, and special character"
+      )
+      .min(6, "Password must be at least 6 characters long"),
     confirmPassword: Yup.string()
-      .required()
+      .required("Please re-enter password that must match new password")
       .test("passwords-match", "Passwords must match", function (value) {
         return value === this.parent.newPassword;
       }),

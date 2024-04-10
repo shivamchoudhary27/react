@@ -383,6 +383,9 @@ const HelpdeskManagementTable = (props: Props) => {
                   }
                 />
               </Link>
+              <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Query Deletion</BsTooltip>} >
                 <Link className="action-icons" to="" >
                   <img
                     src={deleteIcon}
@@ -390,6 +393,7 @@ const HelpdeskManagementTable = (props: Props) => {
                     onClick={() => deleteHandler(row.original.id, row.original.query)}
                   />
                 </Link>
+                </OverlayTrigger>
             </>
           </>
         );
