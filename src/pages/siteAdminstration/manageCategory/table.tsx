@@ -311,13 +311,13 @@ const CategoryTable = ({
           if (result.response.status === 500|| 400 || 404) {
             setShowAlert(true);
             Swal.fire({
-              timer: 3000,
+              timer: 4000,
               width: "25em",
               color: "#666",
               icon: "error",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "Unable to delete, this course might have attached entity",
+              text: `${result.response.data.message}`,
             });
           }
 
@@ -335,7 +335,6 @@ const CategoryTable = ({
 
   // getting onDelete Modal Action === >>>
   const deleteActionResponse = (action: string) => {
-    console.log(action);
     setOnDeleteAction(action);
     setShowDeleteModal(false);
   };

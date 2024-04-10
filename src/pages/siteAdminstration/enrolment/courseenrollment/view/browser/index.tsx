@@ -49,12 +49,7 @@ const Browser = (props: Props) => {
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
-        <Tooltip
-          anchorSelect=".my-anchor-element"
-          style={{ backgroundColor: "rgba(0,0,0)", borderRadius: "5px" }}
-          content="Seating Capacity is full"
-          place="top"
-        />
+        
    
           <Container fluid>
             <PageTitle
@@ -68,11 +63,7 @@ const Browser = (props: Props) => {
               activepage={props.commonProps.filterUpdate}
               getrequestedpage={props.commonProps.newPageRequest}
             />
-            <Button
-              className={`${props.commonProps.remainingSeats !== 0
-                ? ""
-                : " my-anchor-element"
-                }`} disabled={props.commonProps.remainingSeats === 0} onClick={props.commonProps.openAddDiscipline}
+            <Button onClick={props.commonProps.openAddDiscipline}
             >
               Enrol User
             </Button >{" "}

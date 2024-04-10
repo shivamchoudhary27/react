@@ -14,6 +14,7 @@ import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
+import Swal from "sweetalert2";
 
 // Formik Yup Validation === >>>
 const Schema = Yup.object({
@@ -85,16 +86,25 @@ const DiciplineModal = ({
       let endPoint = `/course/${courseid}/enrol-user`;
       postData(endPoint, values)
         .then((res: any) => {
-          if (res.data !== "") {
+          if (res.data !== ""  && res.status === 200 || 201) {
             togglemodalshow(false);
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully added"
+            });
             refreshDisciplineData();
             resetForm();
           }
         })
         .catch((err: any) => {
           setSubmitting(false);
-          if (err.response.status === 404 || err.response.status === 400 || 500) {
+          if (err.response.status === 404 || 400 || 500) {
             if (err.response.data.userEmail !== undefined) {
               setShowAlert(true);
               setAlertMsg({
@@ -115,9 +125,18 @@ const DiciplineModal = ({
       setShowAlert(true);
       putData(endPoint, values)
         .then((res: any) => {
-          if (res.data !== "" && res.status === 200) {
+          if (res.data !== "" && res.status === 200 ) {
             togglemodalshow(false);
             setSubmitting(false);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "User has been successfully updated"
+            });
             refreshDisciplineData();
             resetForm();
           }

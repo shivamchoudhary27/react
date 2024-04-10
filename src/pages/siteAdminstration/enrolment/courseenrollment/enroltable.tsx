@@ -120,15 +120,15 @@ const DiciplineTable = ({
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
             setShowAlert(true);
-            Swal.fire({
-              timer: 3000,
-              width: "25em",
-              color: "#666",
-              icon: "success",
-              background: "#e7eef5",
-              showConfirmButton: false,
-              text: "User has been successfully deleted."
-            });
+              Swal.fire({
+                timer: 3000,
+                width: "25em",
+                color: "#666",
+                icon: "success",
+                background: "#e7eef5",
+                showConfirmButton: false,
+                text: "User has been successfully deleted."
+              });
           } else if (res.status === 500) {
             setShowAlert(true);
             setAlertMsg({
