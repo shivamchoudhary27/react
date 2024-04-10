@@ -67,20 +67,20 @@ const AddUserModal = ({
         .catch((err: any) => {
           console.log(err)
           setSubmitting(false);
-          if (err.response.status === 404) {
+          if (err.response.status === 404 || 400) {
             setShowAlert(true);
             setAlertMsg({
-              message: `Failed to add institute, ${err.response.data.message}.`,
+              message: `${err.response.data.message}.`,
               alertBoxColor: "danger",
             });
           }
-          if (err.response.status === 400) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: `Failed to add institute, ${err.response.data.instanceUrl}.`,
-              alertBoxColor: "danger",
-            });
-          }
+          // if (err.response.status === 400) {
+          //   setShowAlert(true);
+          //   setAlertMsg({
+          //     message: `${err.response.data.message}.`,
+          //     alertBoxColor: "danger",
+          //   });
+          // }
         });
     } else {
       setSubmitting(true);
@@ -102,12 +102,11 @@ const AddUserModal = ({
           }
         })
         .catch((err: any) => {
-          console.log(err);
           setSubmitting(false);
-          if (err.response.status === 500) {
+          if (err.response.status === 500 || 400) {
             setShowAlert(true);
             setAlertMsg({
-              message: `Failed to add institute, ${err.response.data.error}.`,
+              message: `${err.response.data.message}.`,
               alertBoxColor: "danger",
             });
           }
@@ -130,6 +129,13 @@ const AddUserModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <TimerAlertBox
+            alertMsg={alertMsg.message}
+            className="mt-3"
+            variant={alertMsg.alertBoxColor}
+            setShowAlert={setShowAlert}
+            showAlert={showAlert}
+          />
           <Formik
             enableReinitialize={true}
             initialValues={initialValues}
@@ -208,13 +214,6 @@ const AddUserModal = ({
               </Form>
             )}
           </Formik>
-          <TimerAlertBox
-            alertMsg={alertMsg.message}
-            className="mt-3"
-            variant={alertMsg.alertBoxColor}
-            setShowAlert={setShowAlert}
-            showAlert={showAlert}
-          />
         </Modal.Body>
         <img src={WaveBottom} alt="WaveBottom" className="wavebg"/>
       </Modal>
