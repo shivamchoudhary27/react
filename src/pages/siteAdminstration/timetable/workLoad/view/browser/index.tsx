@@ -20,6 +20,7 @@ type Props = {
     refreshToggle: any;
     newPageRequest: any;
     departmentList: any;
+    setFilterUpdate: any;
     workLoadApiData: any;
     toggleModalShow: any;
     currentInstitute: any;
@@ -36,7 +37,9 @@ const Browser = (props: Props) => {
   const WORKLOAD_TABLE_COMPONENT = (
     <WorkLoadTable
       apiStatus={props.commonProps.apiStatus}
+      filterUpdate={props.commonProps.filterUpdate}
       workLoadData={props.commonProps.workLoadApiData}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
     />
   );
 
@@ -84,7 +87,7 @@ const Browser = (props: Props) => {
           {WORKLOAD_TABLE_COMPONENT}
           <BuildPagination
             totalpages={props.commonProps.workLoadApiResponseDataPage}
-            activepage={props.commonProps.filterUpdate}
+            activepage={props.commonProps.filterUpdate.pageNumber}
             getrequestedpage={props.commonProps.newPageRequest}
           />
           {WORKLOAD_MODAL_COMPONENT}

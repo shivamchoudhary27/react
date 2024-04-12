@@ -20,6 +20,7 @@ type Props = {
     departmentList: any;
     workLoadApiData: any;
     toggleModalShow: any;
+    setFilterUpdate: any;
     currentInstitute: any;
     updateInputFilters: any;
     resetClassroomForm: any;
@@ -34,7 +35,9 @@ const Browser = (props: Props) => {
   const WORKLOAD_TABLE_COMPONENT = (
     <WorkLoadTable
       apiStatus={props.commonProps.apiStatus}
+      filterUpdate={props.commonProps.filterUpdate}
       workLoadData={props.commonProps.workLoadApiData}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
     />
   );
 

@@ -1,20 +1,69 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
-import Table from "react-bootstrap/Table";
+import { PiArrowsDownUpBold } from "react-icons/pi";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import TableSkeleton from "../../../../widgets/skeleton/table";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
+import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
+
 
 const TimesSlotTable = ({
   apiStatus,
   departmentList,
   setWeekendSlotObj,
   toggleModalShow,
+  filterUpdate,
+  setFilterUpdate
 }: any) => {
+
+  // call global function handleTableSorting
+  const { handleTableSorting } = useTableSorting();
+
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Department Name",
+      Header: (
+        <div className="d-flex align-items-center">
+          <span
+            onClick={() => handleTableSorting("name", setFilterUpdate)}
+          >
+           <span> Department Name </span>
+          <span>
+            {filterUpdate.sortBy === "name" &&
+            filterUpdate.sortOrder === "asc" ? (
+              <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Department Name Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
+                    </button>
+                </OverlayTrigger>
+              ) : filterUpdate.sortBy === "name" &&
+              filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Department Name Descending </BsTooltip>}
+                ><button className="btn btn-link text-white p-0">
+                <TbSortDescending />
+                </button>
+                </OverlayTrigger>
+                ) : (
+                  <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Department Name Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                  <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
+                  )}
+          </span>
+                  </span>
+        </div>
+      ),
       accessor: "name",
     },
     {
@@ -46,7 +95,7 @@ const TimesSlotTable = ({
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => departmentList, [departmentList]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

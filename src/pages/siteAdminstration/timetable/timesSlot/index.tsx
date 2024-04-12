@@ -25,6 +25,8 @@ const TimesSlot = () => {
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
 
   useEffect(() => {
@@ -70,6 +72,7 @@ const TimesSlot = () => {
     <View
       apiStatus={apiStatus}
       filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
       departmentList={departmentList.items}
       departmentListPages={departmentList.pager.totalPages}
       newPageRequest={newPageRequest}
