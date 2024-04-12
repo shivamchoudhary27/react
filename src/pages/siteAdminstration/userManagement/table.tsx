@@ -20,6 +20,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+import { isMobile } from 'react-device-detect';
 
 const UserManagementTable = ({
   userdata,
@@ -37,6 +38,8 @@ const UserManagementTable = ({
   );
 
   const { handleTableSorting } = useTableSorting();
+
+  const triggerType = isMobile ? 'focus' : 'hover';
 
   const tableColumn = [
     {
@@ -233,7 +236,7 @@ const UserManagementTable = ({
             <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Update User Details</BsTooltip>}
-            trigger="hover"
+            trigger={triggerType}
            >
             <Link className="action-icons" to={""}>
               <img
@@ -258,7 +261,7 @@ const UserManagementTable = ({
           <OverlayTrigger
           placement="top"
           overlay={<BsTooltip>Delete User</BsTooltip>}
-          trigger="hover"
+          trigger={triggerType}
          >
          <Link className="action-icons" to="">
               <img
@@ -274,7 +277,7 @@ const UserManagementTable = ({
              <OverlayTrigger
              placement="top"
              overlay={<BsTooltip>Hide/Unhide User</BsTooltip>}
-             trigger="hover"
+             trigger={triggerType}
             >
             <Link
               className="action-icons"
