@@ -13,6 +13,11 @@ import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
+import { OverlayTrigger, Tooltip,Tooltip as BsTooltip } from "react-bootstrap";
+
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -28,11 +33,55 @@ const ClassRoomTable = ({
   refreshOnDelete,
   currentInstitute,
   refreshClassroomData,
+  filterUpdate,
+  setFilterUpdate,
 }: any) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Name",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("name", setFilterUpdate)}
+        >
+         <span> Name </span>
+        <span>
+          {filterUpdate.sortBy === "name" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Name Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "name" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Name Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Name Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "name",
     },
     {
@@ -96,7 +145,7 @@ const ClassRoomTable = ({
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => classroomData, [classroomData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

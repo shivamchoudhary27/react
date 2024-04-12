@@ -16,6 +16,7 @@ type Props = {
     filterUpdate: any;
     timeTableData: any;
     newPageRequest: any;
+    setFilterUpdate:any;
     editHandlerById: any;
     currentInstitute: any;
     updateInputFilters: any;
@@ -39,6 +40,8 @@ const Browser = (props: Props) => {
       editHandlerById={props.commonProps.editHandlerById}
       currentInstitute={props.commonProps.currentInstitute}
       refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
+      filterUpdate={props.commonProps.filterUpdate}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>

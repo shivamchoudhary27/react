@@ -30,6 +30,8 @@ const Holidays = () => {
     year: selectedYear,
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
 
   useEffect(() => {
@@ -115,12 +117,13 @@ const Holidays = () => {
         holidaysObj={holidaysObj}
         yearOptions={yearOptions}
         currentInstitute={currentInstitute}
-        filterUpdate={filterUpdate.pageNumber}
+        filterUpdate={filterUpdate}
         holidaysData={holidaysApiResponseData.items}
         holidaysApiResponseData={holidaysApiResponseData.pager.totalPages}
         refreshToggle={refreshToggle}
         newPageRequest={newPageRequest}
         toggleModalShow={toggleModalShow}
+        setFilterUpdate={setFilterUpdate}
         editHandlerById={editHandlerById}
         resetHolidaysForm={resetHolidaysForm}
         updateInputFilters={updateInputFilters}

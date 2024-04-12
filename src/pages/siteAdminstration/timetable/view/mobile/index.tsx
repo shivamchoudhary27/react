@@ -14,6 +14,7 @@ type Props = {
     filterUpdate: any;
     timeTableData: any;
     newPageRequest: any;
+    setFilterUpdate:any;
     editHandlerById: any;
     currentInstitute: any;
     updateInputFilters: any;
@@ -37,6 +38,8 @@ const Mobile = (props: Props) => {
       editHandlerById={props.commonProps.editHandlerById}
       currentInstitute={props.commonProps.currentInstitute}
       refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
+      filterUpdate={props.commonProps.filterUpdate}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>
@@ -62,7 +65,7 @@ const Mobile = (props: Props) => {
             {/* <Errordiv msg="Work in progress..." cstate className="mt-3" /> */}
             <BuildPagination
               totalpages={props.commonProps.timeTableData}
-              activepage={props.commonProps.filterUpdate}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
             />
           </Container>

@@ -22,6 +22,7 @@ type Props = {
     toggleModalShow: any;
     editHandlerById: any;
     currentInstitute: any;
+    setFilterUpdate: any;
     resetHolidaysForm: any;
     updateInputFilters: any;
     getCurrentBatchYear: any;
@@ -43,6 +44,8 @@ const Mobile = (props: Props) => {
       refreshHolidaysData={props.commonProps.refreshToggle}
       currentInstitute={props.commonProps.currentInstitute}
       refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
+      filterUpdate={props.commonProps.filterUpdate}
     />
   );
 
@@ -90,7 +93,7 @@ const Mobile = (props: Props) => {
             {CLASSROOM_TABLE_COMPONENT}
             <BuildPagination
               totalpages={props.commonProps.holidaysApiResponseData}
-              activepage={props.commonProps.filterUpdate}
+              activepage={props.commonProps.filterUpdate.pageNumber}
               getrequestedpage={props.commonProps.newPageRequest}
             />
             {CLASSROOM_MODAL_COMPONENT}

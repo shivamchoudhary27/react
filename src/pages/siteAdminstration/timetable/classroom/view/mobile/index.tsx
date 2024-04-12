@@ -16,6 +16,7 @@ type Props = {
     classroomObj: any;
     filterUpdate: any;
     refreshToggle: any;
+    setFilterUpdate:any;
     departmentList: any;
     newPageRequest: any;
     toggleModalShow: any;
@@ -41,6 +42,8 @@ const Mobile = (props: Props) => {
       toggleModalShow={props.commonProps.toggleModalShow}
       refreshClassroomData={props.commonProps.refreshToggle}
       refreshOnDelete={props.commonProps.refreshOnDeleteToggle}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
+      filterUpdate={props.commonProps.filterUpdate}
     />
   );
 

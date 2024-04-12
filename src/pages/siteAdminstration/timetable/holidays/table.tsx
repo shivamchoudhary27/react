@@ -13,6 +13,11 @@ import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
+import { OverlayTrigger, Tooltip,Tooltip as BsTooltip } from "react-bootstrap";
+
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
@@ -23,24 +28,146 @@ const actionsStyle = {
 const HolidaysTable = ({
   apiStatus,
   holidaysData,
+  filterUpdate,
   editHandlerById,
   toggleModalShow,
   refreshOnDelete,
   currentInstitute,
   refreshHolidaysData,
+  setFilterUpdate,
 }: any) => {
+
+  const { handleTableSorting } = useTableSorting();
+
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Holiday Name",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("name", setFilterUpdate)}
+        >
+         <span> Holiday Name </span>
+        <span>
+          {filterUpdate.sortBy === "name" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Holiday Name Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "name" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Holiday Name Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Holiday Name Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "name",
     },
     {
-      Header: "Date",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("holidayDate", setFilterUpdate)}
+        >
+         <span> Date </span>
+        <span>
+          {filterUpdate.sortBy === "holidayDate" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Date Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "holidayDate" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Date Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Date Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "holidayDate",
     },
     {
-      Header: "Year",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("year", setFilterUpdate)}
+        >
+         <span> Year </span>
+        <span>
+          {filterUpdate.sortBy === "year" &&
+          filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Year Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : filterUpdate.sortBy === "year" &&
+            filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Year Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Year Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "year",
     },
     {
@@ -87,7 +214,7 @@ const HolidaysTable = ({
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [filterUpdate]);
   const data = useMemo(() => holidaysData, [holidaysData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
