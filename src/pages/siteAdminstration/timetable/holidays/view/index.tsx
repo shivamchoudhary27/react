@@ -13,6 +13,7 @@ type Props = {
   refreshToggle: any;
   newPageRequest: any;
   toggleModalShow: any;
+  setFilterUpdate: any;
   editHandlerById: any;
   currentInstitute: any;
   resetHolidaysForm: any;
@@ -34,6 +35,7 @@ const View = (props: Props) => {
     filterUpdate: props.filterUpdate,
     refreshToggle: props.refreshToggle,
     newPageRequest: props.newPageRequest,
+    setFilterUpdate: props.setFilterUpdate,
     toggleModalShow: props.toggleModalShow,
     editHandlerById: props.editHandlerById,
     currentInstitute: props.currentInstitute,

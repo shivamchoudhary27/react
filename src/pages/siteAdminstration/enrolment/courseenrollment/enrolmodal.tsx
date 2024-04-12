@@ -71,7 +71,7 @@ const DiciplineModal = ({
   }, []);
 
   const convertFormSubmittedTagsData = (tags: any) => {
-    const filteredArray = tags.filter((value: any) => value != 0); // to remove value zero
+    const filteredArray = tags.filter((value: any) => value !== 0); // to remove value zero
     const newArray = filteredArray.map((id: any) => {
       return { id: parseInt(id) };
     });
@@ -86,7 +86,7 @@ const DiciplineModal = ({
       let endPoint = `/course/${courseid}/enrol-user`;
       postData(endPoint, values)
         .then((res: any) => {
-          if (res.data !== ""  && res.status === 200 || 201) {
+          if (res.data !== ""  && res.status === 201) {
             togglemodalshow(false);
             setSubmitting(false);
             Swal.fire({

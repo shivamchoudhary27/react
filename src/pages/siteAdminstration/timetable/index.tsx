@@ -22,6 +22,8 @@ const TimeTable = () => {
     name: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
   const currentInstitute = useSelector(
     (state) => state.globalFilters.currentInstitute
@@ -101,6 +103,7 @@ const TimeTable = () => {
         editHandlerById={editHandlerById}
         updateInputFilters={updateInputFilters}
         refreshOnDeleteToggle={refreshOnDeleteToggle}
+        setFilterUpdate={setFilterUpdate}
       />
     </React.Fragment>
   );

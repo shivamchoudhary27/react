@@ -1,5 +1,4 @@
 import { useTable } from "react-table";
-import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "sweetalert2/src/sweetalert2.scss";
 import Errordiv from "../../../widgets/alert/errordiv";
@@ -8,6 +7,11 @@ import TableSkeleton from "../../../widgets/skeleton/table";
 import { deleteData } from "../../../adapters/microservices";
 // import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import manageCoursesIcon from "../../../assets/images/icons/manage-courses-action.svg";
+import { TbSortAscending, TbSortDescending } from "react-icons/tb";
+import { PiArrowsDownUpBold } from "react-icons/pi";
+import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+import { OverlayTrigger, Table, Tooltip,Tooltip as BsTooltip } from "react-bootstrap";
+
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -22,24 +26,145 @@ type Props = {
   timeTableData: any;
   editHandlerById: any;
   currentInstitute: number;
+  setFilterUpdate:any;
+  filterUpdate:any;
   refreshOnDelete: (param: boolean) => void;
 };
 
 const TimetableTable: React.FunctionComponent<Props> = ({
   ...props
 }: Props) => {
+
+  const { handleTableSorting } = useTableSorting();
   // custom react table Column === >>>
   const tableColumn = [
     {
-      Header: "Programs",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("name", props.setFilterUpdate)}
+        >
+         <span> Programs </span>
+        <span>
+          {props.filterUpdate.sortBy === "name" &&
+          props.filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Programs Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : props.filterUpdate.sortBy === "name" &&
+            props.filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Programs Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Programs Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "name",
     },
     {
-      Header: "Batch Year",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("batchYear", props.setFilterUpdate)}
+        >
+         <span> Batch Year </span>
+        <span>
+          {props.filterUpdate.sortBy === "batchYear" &&
+          props.filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Batch Year Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : props.filterUpdate.sortBy === "batchYear" &&
+            props.filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Batch Year Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Batch Year Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "batchYear",
     },
     {
-      Header: "Program code",
+      Header:(  
+        <div className="d-flex align-items-center">
+        <span
+          onClick={() => handleTableSorting("programCode", props.setFilterUpdate)}
+        >
+         <span> Program code </span>
+        <span>
+          {props.filterUpdate.sortBy === "programCode" &&
+          props.filterUpdate.sortOrder === "asc" ? (
+            <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Program code Ascending </BsTooltip>} 
+              >
+                <button className="btn btn-link text-white p-0" >
+                  <TbSortAscending />
+                  </button>
+              </OverlayTrigger>
+            ) : props.filterUpdate.sortBy === "programCode" &&
+            props.filterUpdate.sortOrder === "desc" ? (
+              <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sorted by Program code Descending </BsTooltip>}
+              ><button className="btn btn-link text-white p-0" >
+              <TbSortDescending />
+              </button>
+              </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Sort by Program code Ascending </BsTooltip>}
+              >
+                <button className="btn btn-link text-white p-0" >
+                <PiArrowsDownUpBold />
+                </button>
+              </OverlayTrigger>
+                )}
+        </span>
+                </span>
+      </div>
+    ),
       accessor: "programCode",
     },
     {
@@ -81,7 +206,7 @@ const TimetableTable: React.FunctionComponent<Props> = ({
   ];
 
   // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
+  const columns = useMemo(() => tableColumn, [props.filterUpdate]);
   const data = useMemo(() => props.timeTableData, [props.timeTableData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({

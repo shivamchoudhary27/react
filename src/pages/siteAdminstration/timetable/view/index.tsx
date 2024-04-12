@@ -10,6 +10,7 @@ type Props = {
   totalPages: any;
   newPageRequest: any;
   editHandlerById: any;
+  setFilterUpdate: any;
   currentInstitute: any;
   updateInputFilters: any;
   refreshOnDeleteToggle: any;
@@ -23,6 +24,7 @@ const View = (props: Props) => {
     timeTableData: props.timeTableData,
     newPageRequest: props.newPageRequest,
     editHandlerById: props.editHandlerById,
+    setFilterUpdate: props.setFilterUpdate,
     currentInstitute: props.currentInstitute,
     updateInputFilters: props.updateInputFilters,
     refreshOnDeleteToggle: props.refreshOnDeleteToggle,

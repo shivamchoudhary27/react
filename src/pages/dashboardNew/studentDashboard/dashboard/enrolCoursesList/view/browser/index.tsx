@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import FilterProgramDropdown from "../../filterDropdown";
 import Errordiv from "../../../../../../../widgets/alert/errordiv";
-import { Container, Row, Col, Card, Button, OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import gradeIcon from "../../../../../../../assets/images/icons/grade.svg";
 import badgesIcon from "../../../../../../../assets/images/icons/badges.svg";
 import courseImage from "../../../../../../../assets/images/course-default.jpg";
@@ -71,21 +71,21 @@ const Browser = (props: Props) => {
       
       if (filterCourses.length > 0) {
         
-        if (status == 'inprogress') {
+        if (status === 'inprogress') {
           let updatedCourse = filterCourses.filter((data: any) => {
             return data.progress != null && !data.completed
           })
           setCourses(updatedCourse);
         }
-        if (status == 'completed') {
+        if (status === 'completed') {
           let updatedCourse = filterCourses.filter((data: any) => {
             return data.completed
           })
           setCourses(updatedCourse);
         }
-        if (status == 'notstarted') {
+        if (status === 'notstarted') {
           let updatedCourse = filterCourses.filter((data: any) => {
-            return data.progress == null && !data.completed
+            return data.progress === null && !data.completed
           })
           setCourses(updatedCourse);
         }

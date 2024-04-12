@@ -40,6 +40,8 @@ const ClassRoom = () => {
     departmentId: selectedDepartment,
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
+    sortBy: "",
+    sortOrder: "",
   });
 
   useEffect(() => {
@@ -149,6 +151,8 @@ const ClassRoom = () => {
       toggleModalShow={toggleModalShow}
       refreshClassroomData={refreshToggle}
       refreshOnDelete={refreshOnDeleteToggle}
+      filterUpdate={filterUpdate}
+      setFilterUpdate={setFilterUpdate}
     />
   );
 
