@@ -14,13 +14,15 @@ import "sweetalert2/src/sweetalert2.scss";
 import { FaCheck } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { MdHelpOutline } from "react-icons/md";
+import { isMobile } from 'react-device-detect';
+
 // Actions btns styling === >>>
 const actionsStyle = {
   display: "flex",
   justifyContent: "space-evenly",
   alignItems: "center",
 };
-
+const triggerType = isMobile ? 'focus' : 'hover';
 type UserManagementTableProps = {
   userdata: any[];
   refreshdata: (params: boolean) => void;
@@ -109,6 +111,11 @@ const UserManagementTable: React.FunctionComponent<
                     <MdHelpOutline fontSize={30} />
                   </Button>
                 </OverlayTrigger>
+                <OverlayTrigger
+               placement="top"
+               overlay={<BsTooltip>Update Institute Details</BsTooltip>}
+               trigger={triggerType}
+              >
               <Link className="action-icons" to={""}>
                 <img
                   src={editIcon}
@@ -124,18 +131,25 @@ const UserManagementTable: React.FunctionComponent<
                       locked: row.original.locked,
                     })
                   }
-                />
+                  />
               </Link>
+                  </OverlayTrigger>
             </>
           )}
           {permissions.canDelete && (
+               <OverlayTrigger
+               placement="top"
+               overlay={<BsTooltip>Delete Institute</BsTooltip>}
+               trigger={triggerType}
+              >
             <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
                 alt="Delete"
                 onClick={() => deleteHandler(row.original.id)}
-              />
+                />
             </Link>
+                </OverlayTrigger>
           )}
         </span>
       ),

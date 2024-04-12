@@ -9,6 +9,7 @@ import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
+import { isMobile } from 'react-device-detect';
 
 const ProgramEnrollTable = ({ 
   enrollmentData, 
@@ -17,6 +18,8 @@ const ProgramEnrollTable = ({
   filterUpdate, }: any) => {
 
 const { handleTableSorting } = useTableSorting();
+
+const triggerType = isMobile ? 'focus' : 'hover';
 
 const tableColumn = [
   {
@@ -157,7 +160,7 @@ const tableColumn = [
       <OverlayTrigger
       placement="top"
       overlay={<BsTooltip>Add, Update, Delete Users</BsTooltip>}
-      trigger="hover"
+      trigger={triggerType}
      >
      <Link className="action-icons" to={`/manageprogramenrollment/${row.original.id}/${row.original.name}`}>
         <img src={usersIcon} alt="Manage Users" />

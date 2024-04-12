@@ -20,6 +20,7 @@ import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../../globals/TableFilterShorting/TableFieldShorting";
+import { isMobile } from 'react-device-detect';
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -42,6 +43,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
 }: IRoleTable) => {
 
   const { handleTableSorting } = useTableSorting();
+  const triggerType = isMobile ? 'focus' : 'hover';
 
   const tableColumn = [
     {
@@ -118,7 +120,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
             <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Edit Role</BsTooltip>}
-            trigger="hover"
+            trigger={triggerType}
            >
             <Link className="action-icons" to={""}>
               <img
@@ -143,7 +145,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
             <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Delete Role</BsTooltip>}
-            trigger="hover"
+            trigger={triggerType}
            >
             <Link className="action-icons" to="">
               <img
