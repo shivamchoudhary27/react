@@ -28,6 +28,8 @@ const WorkLoad = () => {
   const [filterUpdate, setFilterUpdate] = useState({
     name: "",
     email: "",
+    sortBy: "",
+    sortOrder: "",
     departmentId: "",
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
@@ -181,9 +183,10 @@ const WorkLoad = () => {
         modalShow={modalShow}
         apiStatus={apiStatus}
         classroomObj={classroomObj}
+        setFilterUpdate={setFilterUpdate}
         currentInstitute={currentInstitute}
         departmentList={departmentList.items}
-        filterUpdate={filterUpdate.pageNumber}
+        filterUpdate={filterUpdate}
         workLoadApiData={workLoadApiResponseData.items}
         workLoadApiResponseData={workLoadApiResponseData}
         workLoadApiResponseDataPage={workLoadApiResponseData.pager.totalPages}

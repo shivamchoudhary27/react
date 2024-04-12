@@ -17,6 +17,7 @@ type Props = {
     filterUpdate: any;
     departmentList: any;
     newPageRequest: any;
+    setFilterUpdate: any;
     departmentListPages: any;
   };
 };
@@ -39,6 +40,8 @@ const Browser = (props: Props) => {
       departmentList={props.commonProps.departmentList}
       toggleModalShow={toggleModalShow}
       setWeekendSlotObj={setWeekendSlotObj}
+      filterUpdate={props.commonProps.filterUpdate}
+      setFilterUpdate={props.commonProps.setFilterUpdate}
     />
   );
   // <<< ==== END COMPONENTS ==== >>>

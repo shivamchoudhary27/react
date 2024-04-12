@@ -8,6 +8,7 @@ type Props = {
   filterUpdate: any;
   departmentList: any;
   newPageRequest: any;
+  setFilterUpdate: any;
   departmentListPages: any;
 };
 
@@ -17,6 +18,7 @@ const View = (props: Props) => {
     filterUpdate: props.filterUpdate,
     departmentList: props.departmentList,
     newPageRequest: props.newPageRequest,
+    setFilterUpdate: props.setFilterUpdate,
     departmentListPages: props.departmentListPages,
   };
   return (

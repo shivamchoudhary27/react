@@ -13,6 +13,7 @@ type Props = {
   departmentList: any;
   toggleModalShow: any;
   workLoadApiData: any;
+  setFilterUpdate: any;
   currentInstitute: any;
   updateInputFilters: any;
   resetClassroomForm: any;
@@ -31,6 +32,7 @@ const View = (props: Props) => {
     refreshToggle: props.refreshToggle,
     newPageRequest: props.newPageRequest,
     departmentList: props.departmentList,
+    setFilterUpdate: props.setFilterUpdate,
     workLoadApiData: props.workLoadApiData,
     toggleModalShow: props.toggleModalShow,
     currentInstitute: props.currentInstitute,
