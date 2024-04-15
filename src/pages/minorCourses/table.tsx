@@ -92,7 +92,7 @@ const StudentMinorCourseTable = (props: Props) => {
   return (
     <>
       <div className="admin-table-wrapper grey-table-lines mt-3">
-        <Table bordered striped className="attandence-table">
+        <Table bordered striped responsive className="attandence-table">
           <thead>
             <tr>
               <th>Program Name</th>

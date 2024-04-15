@@ -323,8 +323,8 @@ const Mobile = (props: Props) => {
         </div>
       </div>
       <MobileFooter />
-      <BackgroundWaveTopLeft />
-      <BackgroundWaveBottomRight />
+      {/* <BackgroundWaveTopLeft />
+      <BackgroundWaveBottomRight /> */}
     </React.Fragment>
   );
 };
