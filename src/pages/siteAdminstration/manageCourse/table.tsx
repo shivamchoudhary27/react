@@ -288,12 +288,14 @@ const CourseTable = ({
       !coursePacket.coursedetails.published;
     coursePacket.coursedetails.category = { id: coursePacket.catid };
 
+    coursePacket.coursedetails.type = coursePacket.coursedetails.courseType;
+    // delete coursePacket.coursedetails.courseType; // Delete the old key
+
     setForceRender((prevState) => !prevState);
 
     let endPoint = `${programId}/course/${coursePacket.courseid}`;
     putData(endPoint, coursePacket.coursedetails)
       .then((res: any) => {
-        console.log(res)
         setForceRender((prevState) => !prevState);
       })
       .catch((err: any) => {
