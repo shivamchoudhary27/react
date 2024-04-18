@@ -39,7 +39,7 @@ const UserManagementTable = ({
 
   const { handleTableSorting } = useTableSorting();
 
-  const triggerType = isMobile ? 'focus' : 'hover';
+  // const triggerType = isMobile ? 'focus' : 'hover';
 
   const tableColumn = [
     {
@@ -55,6 +55,7 @@ const UserManagementTable = ({
               <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sorted by First Name Ascending </BsTooltip>}
+                  // trigger={['hover', 'focus']}
                 >
                   <button className="btn btn-link text-white p-0">
                     <TbSortAscending />
@@ -65,6 +66,7 @@ const UserManagementTable = ({
                 <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sorted by First Name Descending </BsTooltip>}
+                  // trigger={['hover', 'focus']}
                 ><button className="btn btn-link text-white p-0">
                 <TbSortDescending />
                 </button>
@@ -73,6 +75,7 @@ const UserManagementTable = ({
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by First Name Ascending </BsTooltip>}
+                  // trigger={['hover', 'focus']}
                 >
                   <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
@@ -103,6 +106,7 @@ const UserManagementTable = ({
               <OverlayTrigger
               placement="top"
               overlay={<BsTooltip>Sorted by Last Name Ascending</BsTooltip>}
+              // trigger={['hover', 'focus']}
             >
               <button className="btn btn-link text-white p-0">
               <TbSortAscending />
@@ -113,6 +117,7 @@ const UserManagementTable = ({
                 <OverlayTrigger
                 placement="top"
                 overlay={<BsTooltip>Sorted by Last Name Descending</BsTooltip>}
+                // trigger={['hover', 'focus']}
               >
                 <button className="btn btn-link text-white p-0">
                 <TbSortDescending />
@@ -122,6 +127,7 @@ const UserManagementTable = ({
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by Last Name Ascending </BsTooltip>}
+                  // trigger={['hover', 'focus']}
                 >
                   <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
@@ -152,6 +158,7 @@ const UserManagementTable = ({
               <OverlayTrigger
               placement="top"
               overlay={<BsTooltip>Sorted by Email Ascending </BsTooltip>}
+              // trigger={['hover', 'focus']}
             >
               <button className="btn btn-link text-white p-0">
               <TbSortAscending />
@@ -162,6 +169,8 @@ const UserManagementTable = ({
                 <OverlayTrigger
                 placement="top"
                 overlay={<BsTooltip>Sorted by Email Descending </BsTooltip>}
+                // trigger={['hover', 'focus']}
+
               >
                 <button className="btn btn-link text-white p-0">
                 <TbSortDescending />
@@ -171,6 +180,7 @@ const UserManagementTable = ({
                   <OverlayTrigger
                   placement="top"
                   overlay={<BsTooltip>Sort by Email Ascending </BsTooltip>}
+                  // trigger={['hover', 'focus']}
                 >
                   <button className="btn btn-link text-white p-0">
                   <PiArrowsDownUpBold />
@@ -186,7 +196,7 @@ const UserManagementTable = ({
         <OverlayTrigger
         placement="top"
         overlay={<BsTooltip>View Profile</BsTooltip>}
-        trigger="hover"
+        // trigger={['hover', 'focus']}
        >
         <Link
           className="action-icons"
@@ -236,7 +246,7 @@ const UserManagementTable = ({
             <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Update User Details</BsTooltip>}
-            trigger={triggerType}
+            // trigger={triggerType}
            >
             <Link className="action-icons" to={""}>
               <img
@@ -261,7 +271,7 @@ const UserManagementTable = ({
           <OverlayTrigger
           placement="top"
           overlay={<BsTooltip>Delete User</BsTooltip>}
-          trigger={triggerType}
+          // trigger={triggerType}
          >
          <Link className="action-icons" to="">
               <img
@@ -277,7 +287,7 @@ const UserManagementTable = ({
              <OverlayTrigger
              placement="top"
              overlay={<BsTooltip>Hide/Unhide User</BsTooltip>}
-             trigger={triggerType}
+            //  trigger={triggerType}
             >
             <Link
               className="action-icons"

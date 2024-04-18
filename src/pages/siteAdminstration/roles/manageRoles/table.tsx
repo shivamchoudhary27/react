@@ -43,7 +43,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
 }: IRoleTable) => {
 
   const { handleTableSorting } = useTableSorting();
-  const triggerType = isMobile ? 'focus' : 'hover';
+  const triggerType = isMobile ? 'focus' : `{['hover', 'focus']}`;
 
   const tableColumn = [
     {
@@ -59,6 +59,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
             <OverlayTrigger
                 placement="top"
                 overlay={<BsTooltip>Sorted by Role Name Ascending </BsTooltip>} 
+                trigger={['hover', 'focus']}
               >
                 <button className="btn btn-link text-white p-0"	 >
                   <TbSortAscending />
@@ -69,6 +70,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
               <OverlayTrigger
                 placement="top"
                 overlay={<BsTooltip>Sorted by Role Name Descending </BsTooltip>}
+                trigger={['hover', 'focus']}
               ><button className="btn btn-link text-white p-0" >
               <TbSortDescending />
               </button>
@@ -77,6 +79,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
                 <OverlayTrigger
                 placement="top"
                 overlay={<BsTooltip>Sort by Role Name Ascending </BsTooltip>}
+                trigger={['hover', 'focus']}
               >
                 <button className="btn btn-link text-white p-0" >
                 <PiArrowsDownUpBold />
@@ -120,7 +123,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
             <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Edit Role</BsTooltip>}
-            trigger={triggerType}
+            // trigger={triggerType}
            >
             <Link className="action-icons" to={""}>
               <img
@@ -145,7 +148,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
             <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Delete Role</BsTooltip>}
-            trigger={triggerType}
+            // trigger={triggerType}
            >
             <Link className="action-icons" to="">
               <img

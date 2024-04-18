@@ -187,7 +187,7 @@ const RolesDataRender = ({
               <React.Fragment key={item.id}>
                 <h5 className="role-name" key={item.id}>
                   <input
-                    className="form-check-input me-1"
+                    className="form-check-input me-1 mt-0"
                     type="checkbox"
                     checked={item.assigned}
                     onChange={(e) =>
