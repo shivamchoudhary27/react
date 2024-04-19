@@ -38,7 +38,7 @@ export const AdminRawData = [
     {
       title: "Teaching Resources <br> Planner",
       image: timetablemanagement,
-      // link: "/timetable",
+      link: "/timetable",
       classname: "timetable-management",
       boxclassname: "row2box",
       component: 'timetable',
@@ -47,7 +47,7 @@ export const AdminRawData = [
     {
       title: "NAAC <br> Framework",
       image: copomanagement,
-      // link: "/copomanagement",
+      link: "/copomanagement",
       classname: "copo-management",
       boxclassname: "",  
       component: 'copo',

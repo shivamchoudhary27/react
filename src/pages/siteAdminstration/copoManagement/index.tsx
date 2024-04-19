@@ -1,36 +1,13 @@
 import React from "react";
-import TabsList from "./tabs";
-import Header from "../../newHeader";
-import Footer from "../../newFooter";
-import HeaderTabs from "../../headerTabs";
-import { Container } from "react-bootstrap";
-import PageTitle from "../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../widgets/breadcrumb";
-import './style.scss';
-import "./mobileStyle.scss";
-import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveRight } from "../../../widgets/backgroundElements";
-type Props = {};
+import ProgramEnrollment from "./programEnrollment";
 
-const CoPoManagement = (props: Props) => {
+
+const CoPoManagement = () => {
+
+
   return (
     <React.Fragment>
-      <Header />
-      <HeaderTabs />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "CO/PO Management", path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle pageTitle="CO/PO Management" gobacklink="/siteadmin" />
-          <TabsList />
-        </Container>
-      </div>
-      <Footer />
-      <BackgroundWaveBottomLeft/>
-      <BackgroundWaveRight/>
+       <ProgramEnrollment/>
     </React.Fragment>
   );
 };

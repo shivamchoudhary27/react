@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import { Table, ButtonGroup, Button } from "react-bootstrap";
+import { Table,} from "react-bootstrap";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import CounterCell from "./counterCell";
 

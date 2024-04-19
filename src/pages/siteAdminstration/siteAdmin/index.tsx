@@ -41,12 +41,13 @@ const SiteAdminHome = () => {
       <div key={index} className={`box ${item.boxclassname}`}>
         <Link
           to={item.link}
-          onClick={() => {
-            // demo modal here
-            if (item.component === "copo" || item.component === "timetable") {
-              handleShowModal();
-            }
-          }}
+          // For Hide Copo OR time table
+          // onClick={() => {
+          //   // demo modal here
+          //   if (item.component === "copo" || item.component === "timetable") {
+          //     handleShowModal();
+          //   }
+          // }}
           className={`default-item ${item.classname}`}
           style={
             item.enabled

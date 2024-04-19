@@ -1,11 +1,10 @@
 import React, { Suspense, useContext } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ProtectedRoutes } from './ProtectedRoutes';
 import Video from '../../pages/courses/video';
 import Startattempt from '../../pages/courses/quiz';
 import Attempt from '../../pages/courses/quiz/attempt';
 import ActivityPage from '../../pages/courses/activity';
-import Dashboard from '../../pages/dashboard';
 import LoginForm from '../../pages/loginpage';
 import Catalogue from '../../pages/catalogue';
 import Cart from '../../pages/cartlist';
@@ -22,8 +21,6 @@ import ProgramManagementRoute from './siteAdminRoute/programManagementRoute';
 import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import HelpdeskManagementRoute from './siteAdminRoute/helpdeskManagementRoute';
-import StudentDashRoutes from './studentDashRoutes';
-import TeacherDashRoutes from './teacherDashRoutes';
 import PageNotFound from '../../pages/404';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
 import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';
@@ -35,7 +32,7 @@ import Logout from '../../pages/logout';
 import ProgramSummary from "../../pages/home/programSummary";
 // import ProgramSummary from '../../pages/home/preview/index';
 import ProgramList from "../../pages/home/programList"
-import UserWaitlistData from '../../pages/minorCourses/userWaitlistData';
+// import UserWaitlistData from '../../pages/minorCourses/userWaitlistData'; //krishna
 import MailTempelateConfiguration from '../../pages/mailTempelateConfiguration';
 import UserWaitlist from '../../pages/siteAdminstration/enrolment/enrolUser/userWaitlist';
 
