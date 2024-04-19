@@ -1,91 +1,147 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import FieldLabel from "../../../widgets/formInputFields/labels";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field } from "formik";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
-import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
-import { Col, Row } from "react-bootstrap";
+import { Col} from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { getData, postData } from "../../../adapters/microservices";
 
-type Props = {};
-
-// Formik Yup validation === >>>
-const Schema = Yup.object({});
-
-const initialValues = {
-  cosnumber: "",
-  abbreviation: "",
-  abstract: "",
+type Props = {
+  setActiveTab:any
 };
 
+// Formik Yup validation === >>>
+
+const validationSchema = Yup.object({
+  abbreviation: Yup.string().required("Required"),
+  abstact: Yup.string().required("Required"),
+});
+
 const DefineCos = (props: Props) => {
+
+
+const { id } = useParams();
+
+
+const [initValues, setInitValues] = useState({
+  // countOfCourseOutcomes: "",
+  abbreviation: '',
+  abstact: '',
+});
+
+useEffect(() => {
+  getInitialValueApi();
+}, []);
+
+const getInitialValueApi = () => {
+
+  getData(`/${id}/courseoutcomes`,{})
+    .then((res: any) => {
+      if (res.data !== "" && res.status === 200) {
+        // setInitData(res.data);
+
+        setInitValues({
+          abbreviation: res.data.abbreviation,
+          abstact: res.data.abstact,
+        });
+
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    });
+};
+
+
+const handleFormSubmit = (values: any, { setSubmitting }: any) => {
+  setSubmitting(true);
+  postData(`/${id}/courseoutcomes`, {
+    ...values,
+  })
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 201) {
+      props.setActiveTab(1) 
+     }
+      setSubmitting(false);
+    })
+    .catch((err: any) => {
+      console.log(err);
+      // Handle error, maybe show an alert
+    });
+};
+
   return (
-    <React.Fragment>
+       <React.Fragment>
       <Formik
-        initialValues={initialValues}
-        //   validationSchema={Schema}
+        initialValues={initValues}
+        validationSchema={validationSchema}
         onSubmit={(values, action) => {
-          // handleFormData(values, action);
+          handleFormSubmit(values, action);
           console.log(values);
         }}
       >
-        {({ errors, touched, isSubmitting }) => (
+
+        {({ errors, touched, isSubmitting, handleChange }) => (
           <Form>
             <div className="mb-3">
-              <Row className="gy-3">
-                <Col md={6}>
+                {/* <Col md={6}>
                   <FieldLabel
-                    htmlfor="cosnumber"
+                    htmlfor="countOfCourseOutcomes"
                     labelText="Number of CO's"
                     required="required"
-                    // star="*"
+                    star="*"
                   />
                   <FieldTypeText
-                    name="cosnumber"
+                    name="countOfCourseOutcomes"
                     placeholder="Number of CO's"
                   />
                   <FieldErrorMessage
-                    errors={errors.cosnumber}
-                    touched={touched.cosnumber}
+                    errors={errors.countOfCourseOutcomes}
+                    touched={touched.countOfCourseOutcomes}
                   />
-                </Col>
-                <Col md={6}>
+                </Col> */}  
+              <Col md={6}>
                   <div className="mb-3">
-                    <FieldLabel
-                      htmlfor="abbreviation"
-                      labelText="Abbreviation"
-                      required="required"
-                      // star="*"
-                    />
-                    <FieldTypeText
-                      name="abbreviation"
-                      placeholder="Abbreviation"
-                    />
-                    <FieldErrorMessage
-                      errors={errors.abbreviation}
-                      touched={touched.abbreviation}
-                    />
+                   <label htmlFor="abbreviation">Abbreviation</label>
+              <Field
+                type="text"
+                name="abbreviation"
+                placeholder="Enter Abbreviation"
+                as="textarea"
+                value={initValues.abbreviation}
+                onChange={(e) => {
+                  handleChange(e);
+                  setInitValues(prevState => ({ ...prevState, abbreviation: e.target.value }));
+                }}
+              />
+              <FieldErrorMessage
+                errors={errors.abbreviation}
+                touched={touched.abbreviation}
+              />
                   </div>
                 </Col>
-              </Row>
             </div>
 
             <div className="mb-3">
-              <FieldLabel
-                htmlfor="abstract"
-                labelText="Abstract"
-                // required="required"
-              />
-              <FieldTypeTextarea
-                name="abstract"
-                component="textarea"
-                placeholder="Write Here .."
+             
+              <label htmlFor="abstact">Abstract</label>
+              <Field
+                type="text"
+                name="abstact"
+                placeholder="Enter Abstract"
+                as="textarea"
+                value={initValues.abstact}
+                onChange={(e) => {
+                  handleChange(e);
+                  setInitValues(prevState => ({ ...prevState, abstact: e.target.value }));
+                }}
               />
               <FieldErrorMessage
-                errors={errors.abstract}
-                touched={touched.abstract}
+                errors={errors.abstact}
+                touched={touched.abstact}
               />
+              
             </div>
 
             <div className="modal-buttons">
@@ -104,6 +160,7 @@ const DefineCos = (props: Props) => {
           </Form>
         )}
       </Formik>
+
     </React.Fragment>
   );
 };

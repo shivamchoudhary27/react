@@ -32,7 +32,7 @@ const UploadCourseUsersEnrollment = ({
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
     setUploadresponse("");
-    postData(`/csv/course-user-erol/${courseid}`, {}, values.file)
+    postData(`/csv/course-user-erol/${courseid}`, {}, values.file, false)
       .then((res: any) => {
         if (res.status === 200) {
           let responseMsg = "";
@@ -82,10 +82,10 @@ const UploadCourseUsersEnrollment = ({
 
   const downloadUnuploadedUsersCSV = (data: any[]) => {
     // Define headers and prepare rows
-    const headers = ["email", "groupName", "Reason"];
+    const headers = ["email", "group name", "Reason"];
     const rows = data.map((user) => [
       user.email,
-      user.groupName,
+      user.group_name,
       user.reason,
     ]
     );
@@ -159,7 +159,7 @@ const UploadCourseUsersEnrollment = ({
                       onClick={() =>
                         downloadCSVSampleFile([
                           "email",
-                          "groupName",
+                          "group name",
                         ])
                       }
                     >

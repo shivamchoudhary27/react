@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import CustomButton from "../../widgets/formInputFields/buttons";
-import { useNavigate } from "react-router-dom";
-import UserContext from "../../features/context/user/user";
+// import CustomButton from "../../widgets/formInputFields/buttons";
+// import { useNavigate } from "react-router-dom";
+// import UserContext from "../../features/context/user/user";
 import Header from "../newHeader";
 import Footer from "../newFooter";
 import { Container, Image } from "react-bootstrap";
@@ -10,9 +10,9 @@ import notFoundImage from "../../assets/images/error-page.svg";
 type Props = {};
 
 const PageNotFound = (props: Props) => {
-  const navigate = useNavigate();
-  const userCtx = useContext(UserContext);
-  const isLoggedIn = userCtx.isLoggedIn;
+  // const navigate = useNavigate();
+  // const userCtx = useContext(UserContext);
+  // const isLoggedIn = userCtx.isLoggedIn;
 
   return (
     <React.Fragment>
