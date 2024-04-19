@@ -25,13 +25,6 @@ import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 import { isMobile } from 'react-device-detect';
 
-
-// Actions btns styling === >>>
-const actionsStyle = {
-  display: "flex",
-  justifyContent: "space-evenly",
-};
-
 const ManageTable = ({
   programData,
   refreshOnDelete,
@@ -44,12 +37,11 @@ const ManageTable = ({
 
 
   const { handleTableSorting } = useTableSorting();
-  const triggerType = isMobile ? 'focus' : 'hover';
 
   const tableColumn = [
     {
       Header:(  
-      <div className="d-flex align-items-center">
+      <div className="d-flex justify-content-evenly">
       <span
         onClick={() => handleTableSorting("name", setFilterUpdate)}
       >
@@ -93,7 +85,6 @@ const ManageTable = ({
         <OverlayTrigger
           placement="top"
           overlay={<Tooltip id="button-tooltip-2">Program preview</Tooltip>}
-          trigger={triggerType}
         >
           <Link to={createPreviewLink(row.original.id, row.original.instituteId)} className="action-icons">
             {row.original.name}
@@ -194,7 +185,6 @@ const ManageTable = ({
         <OverlayTrigger
         placement="top"
         overlay={<BsTooltip>Add/Update Categories</BsTooltip>}
-        trigger={triggerType}
        >
         <Link
           className="action-icons"
@@ -212,7 +202,6 @@ const ManageTable = ({
         <OverlayTrigger
         placement="top"
         overlay={<BsTooltip>Add/Update Courses</BsTooltip>}
-        trigger={triggerType}
        >
         <Link
           className="action-icons"
@@ -226,12 +215,11 @@ const ManageTable = ({
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span style={actionsStyle}>
+        <span className="d-flex justify-content-space-evenly">
           {programPermissions.canEdit && (
                  <OverlayTrigger
                  placement="top"
                  overlay={<BsTooltip>Edit Program Details</BsTooltip>}
-                 trigger={triggerType}
                 >
             <Link
               className="action-icons m-1"
@@ -245,7 +233,6 @@ const ManageTable = ({
                <OverlayTrigger
                  placement="top"
                  overlay={<BsTooltip>Delete Program</BsTooltip>}
-                 trigger={triggerType}
                 >
             <Link className="action-icons m-1" to="">
               <img
@@ -262,7 +249,6 @@ const ManageTable = ({
              <OverlayTrigger
              placement="top"
              overlay={<BsTooltip>Hide/Unhide Program</BsTooltip>}
-             trigger={triggerType}
             >
             <Link
               className="action-icons m-1"

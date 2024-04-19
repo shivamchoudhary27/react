@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { useTable } from "react-table";
-import { Table } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "sweetalert2/src/sweetalert2.scss";
 import { useDispatch } from "react-redux";
@@ -45,6 +45,10 @@ const TagsTable = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {userPermissions.canEdit === true && (
+                <OverlayTrigger
+                placement="top"
+                overlay={<BsTooltip>Update Tag</BsTooltip>}
+               >
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -58,8 +62,13 @@ const TagsTable = ({
                 }
               />
             </Link>
+            </OverlayTrigger>
           )}
           {userPermissions.canDelete === true && (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Delete Tag</BsTooltip>}
+             >
             <Link className="action-icons" to="">
               <img
                 src={deleteIcon}
@@ -67,8 +76,13 @@ const TagsTable = ({
                 onClick={() => deleteHandler(row.original.id)}
               />
             </Link>
+            </OverlayTrigger>
           )}
           {userPermissions.canEdit === true && (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Hide/Unhide Tag</BsTooltip>}
+             >
             <Link
               className="action-icons"
               to=""
@@ -81,6 +95,7 @@ const TagsTable = ({
                 alt="Show"
               />
             </Link>
+            </OverlayTrigger>
           )}
         </span>
       ),

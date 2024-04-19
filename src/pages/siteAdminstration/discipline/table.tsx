@@ -112,6 +112,10 @@ const DiciplineTable: React.FunctionComponent<props> = ({
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {props.disciplinePermissions.canEdit === true && (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Update Discipline</BsTooltip>}
+             >
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -126,8 +130,13 @@ const DiciplineTable: React.FunctionComponent<props> = ({
                 }
               />
             </Link>
+            </OverlayTrigger>
           )}
           {props.disciplinePermissions.canDelete === true && (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Delete Discipline</BsTooltip>}
+            >
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -144,8 +153,13 @@ const DiciplineTable: React.FunctionComponent<props> = ({
                 }
               />
             </Link>
-          )}{" "}
+            </OverlayTrigger>
+          )}
           {props.disciplinePermissions.canEdit === true && (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Hide/Unhide Discipline</BsTooltip>}
+            >
             <Link
               className="action-icons"
               to=""
@@ -158,6 +172,7 @@ const DiciplineTable: React.FunctionComponent<props> = ({
                 alt="Show"
               />
             </Link>
+            </OverlayTrigger>
           )}
         </span>
       ),

@@ -16,13 +16,8 @@ import Swal from "sweetalert2";
 import { MdHelpOutline } from "react-icons/md";
 import { isMobile } from 'react-device-detect';
 
-// Actions btns styling === >>>
-const actionsStyle = {
-  display: "flex",
-  justifyContent: "space-evenly",
-  alignItems: "center",
-};
-const triggerType = isMobile ? 'focus' : 'hover';
+const triggerType = isMobile ? 'focus' : ['hover', 'focus'];
+
 type UserManagementTableProps = {
   userdata: any[];
   refreshdata: (params: boolean) => void;
@@ -83,7 +78,7 @@ const UserManagementTable: React.FunctionComponent<
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span style={actionsStyle}>
+        <span className="d-flex justify-content-evenly align-items-center">
           {permissions.canEdit && (
             <>
               <Link className="action-icons" to="">

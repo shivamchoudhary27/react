@@ -235,7 +235,7 @@ const UsersTable = ({
           <OverlayTrigger
         placement="top"
         overlay={<BsTooltip>Update User Details</BsTooltip>}
-        trigger="hover"
+        trigger={["hover", "focus"]}
        >
 
           <Link
@@ -256,7 +256,7 @@ const UsersTable = ({
           <OverlayTrigger
         placement="top"
         overlay={<BsTooltip>Delete User</BsTooltip>}
-        trigger="hover"
+        trigger={["hover", "focus"]}
        >
           <Link className="action-icons" to="">
             <img src={deleteIcon} alt="Delete" onClick={() => deleteHandler(row.original.userId)} />
