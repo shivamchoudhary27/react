@@ -24,14 +24,6 @@ import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 
-
-// Actions btns styling === >>>
-const actionsStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-evenly",
-};
-
 type Props = {
   permissions: any;
   filterUpdate:any;
@@ -102,20 +94,29 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
     {
       Header: "Manage Programs",
       Cell: ({ row }: any) => (
+        <OverlayTrigger
+        placement="top"
+        overlay={<BsTooltip>Add/Update Program</BsTooltip>}
+       >
         <Link
           className="action-icons"
           to=""
           onClick={() => manageDepartmentPrograms(row.original.id)}
-        >
+          >
           <img src={programIcon} alt="Manage Program" />
         </Link>
+          </OverlayTrigger>
       ),
     },
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span style={actionsStyle}>
+        <span className="d-flex align-items-center justify-content-evenly">
           {props.permissions.canEdit && (
+               <OverlayTrigger
+               placement="top"
+               overlay={<BsTooltip>Update Department</BsTooltip>}
+              >
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -129,8 +130,13 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
                 }
               />
             </Link>
+            </OverlayTrigger>
           )}
           {props.permissions.canDelete && (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Delete Department</BsTooltip>}
+             >
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -147,8 +153,13 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
                 }
               />
             </Link>
+            </OverlayTrigger>
           )}
           {props.permissions.canEdit && (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Hide/Unhide Department</BsTooltip>}
+             >
             <Link
               className="action-icons"
               to=""
@@ -161,6 +172,7 @@ const DepartmentTable: React.FunctionComponent<Props> = ({
                 alt="Show"
               />
             </Link>
+            </OverlayTrigger>
           )}
         </span>
       ),

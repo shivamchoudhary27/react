@@ -19,7 +19,7 @@ const ProgramEnrollTable = ({
 
 const { handleTableSorting } = useTableSorting();
 
-const triggerType = isMobile ? 'focus' : 'hover';
+const triggerType = isMobile ? 'focus' : ['hover', 'focus'];
 
 const tableColumn = [
   {

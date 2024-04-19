@@ -108,6 +108,10 @@ const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
       Cell: ({ row }: any) => (
         <span style={actionsStyle}>
           {props.programtypePermissions.canEdit === true && (
+              <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Update Program Type</BsTooltip>}
+             >
             <Link className="action-icons" to="">
               <img
                 src={editIcon}
@@ -123,8 +127,13 @@ const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
                 }
               />
             </Link>
+            </OverlayTrigger>
           )}{" "}
           {props.programtypePermissions.canDelete === true && (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Delete Program Type</BsTooltip>}
+            >
             <Link
               className={`action-icons ${
                 row.original.totalPrograms > 0 ? "disabled" : ""
@@ -141,8 +150,13 @@ const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
                 }
               />
             </Link>
+            </OverlayTrigger>
           )}{" "}
           {props.programtypePermissions.canEdit === true && (
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Hide/Unhide Program Type</BsTooltip>}
+            >
             <Link
               className="action-icons"
               to=""
@@ -155,6 +169,7 @@ const ProgramTable: React.FunctionComponent<Props> = ({ ...props }: Props) => {
                 alt="Show"
               />
             </Link>
+            </OverlayTrigger>
           )}
         </span>
       ),
