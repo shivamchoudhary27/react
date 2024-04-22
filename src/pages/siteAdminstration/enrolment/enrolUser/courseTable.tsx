@@ -120,6 +120,7 @@ const EnrolUserTable = ({
                 src={gearIcon}
                 alt="Setting"
                 onClick={() =>
+                  // console.log(row.original)
                   editHandler({
                     id: row.original.id,
                     name: row.original.name,
@@ -128,7 +129,7 @@ const EnrolUserTable = ({
                     parent: row.original.parent,
                     maxMinorCoursesAllowed: row.original.maxMinorCoursesAllowed,
                     enrolBeforeNoOfDaysToStartDate: row.original.enrolBeforeNoOfDaysToStartDate,
-                    UnEnrollmentAfterDate: row.original.unEnrolafterNoOfDaysToStartDate,
+                    unEnrolafterNoOfDaysToStartDate: row.original.unEnrolafterNoOfDaysToStartDate,
                   })
                 }
               />
@@ -226,7 +227,7 @@ const EnrolUserTable = ({
     parent,
     maxMinorCoursesAllowed,
     enrolBeforeNoOfDaysToStartDate,
-    UnEnrollmentAfterDate,
+    unEnrolafterNoOfDaysToStartDate,
   }: any) => {
     toggleModalShow(true);
     editHandlerById({
@@ -237,7 +238,7 @@ const EnrolUserTable = ({
       parent,
       maxMinorCoursesAllowed,
       enrolBeforeNoOfDaysToStartDate,
-      UnEnrollmentAfterDate,
+      unEnrolafterNoOfDaysToStartDate,
     });
   };
 

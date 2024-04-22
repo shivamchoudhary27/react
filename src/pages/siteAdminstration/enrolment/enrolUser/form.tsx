@@ -35,7 +35,7 @@ const validationSchema = Yup.object({
   .positive("Must be a positive integer")
   .min(0, "Must be greater than or equal to 0"),
   
-  UnEnrollmentAfterDate: Yup.number()
+  unEnrolafterNoOfDaysToStartDate: Yup.number()
   .required("Field is required")
   .integer("Must be an integer")
   .positive("Must be a positive integer")
@@ -51,7 +51,7 @@ const ModalForm = (props: Props) => {
     parent: props.maxMinorCoursesObj.parent,
     maxMinorCoursesAllowed: props.maxMinorCoursesObj.maxMinorCoursesAllowed,
     enrolBeforeNoOfDaysToStartDate: props.maxMinorCoursesObj.enrolBeforeNoOfDaysToStartDate,
-    UnEnrollmentAfterDate: props.maxMinorCoursesObj.UnEnrollmentAfterDate,
+    unEnrolafterNoOfDaysToStartDate: props.maxMinorCoursesObj.unEnrolafterNoOfDaysToStartDate,
   };
   
   const [showAlert, setShowAlert] = useState(false);
@@ -75,7 +75,7 @@ const ModalForm = (props: Props) => {
           setShowAlert(true);
           setSubmitting(false);
           setAlertMsg({
-            message: err.response.data.enrolBeforeNoOfDaysToStartDate,
+            message: err.response.data.message,
             alertBoxColor: "danger",
           });
         }
@@ -130,7 +130,7 @@ const ModalForm = (props: Props) => {
                       name="maxMinorCoursesAllowed"
                       as={FieldTypeText}
                     />
-                      Courses.
+                      Minor Courses.
                       </label>
                     <FieldErrorMessage
                       errors={errors.maxMinorCoursesAllowed}
@@ -165,14 +165,14 @@ const ModalForm = (props: Props) => {
                     <Field
                       className="w-25"
                       type="number"
-                      name="UnEnrollmentAfterDate"
+                      name="unEnrolafterNoOfDaysToStartDate"
                       as={FieldTypeText}
                     />
                     days of the start date.
                     </label>
                   <FieldErrorMessage
-                    errors={errors.UnEnrollmentAfterDate}
-                    touched={touched.UnEnrollmentAfterDate}
+                    errors={errors.unEnrolafterNoOfDaysToStartDate}
+                    touched={touched.unEnrolafterNoOfDaysToStartDate}
                     />
                 </div>
 
