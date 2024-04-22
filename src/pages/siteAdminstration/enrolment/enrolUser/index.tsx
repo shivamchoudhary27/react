@@ -38,7 +38,7 @@ const EnrolUsers = () => {
     parent: "",
     maxMinorCoursesAllowed: "",
     enrolBeforeNoOfDaysToStartDate: "",
-    UnEnrollmentAfterDate: "",
+    unEnrolafterNoOfDaysToStartDate: "",
 
   });
   
@@ -162,7 +162,7 @@ const EnrolUsers = () => {
     parent,
     maxMinorCoursesAllowed,
     enrolBeforeNoOfDaysToStartDate,
-    UnEnrollmentAfterDate,
+    unEnrolafterNoOfDaysToStartDate,
   }: any) => {
     toggleModalShow(true);
     setMaxMinorCoursesObj({
@@ -173,7 +173,7 @@ const EnrolUsers = () => {
       parent,
       maxMinorCoursesAllowed,
       enrolBeforeNoOfDaysToStartDate,
-      UnEnrollmentAfterDate,
+      unEnrolafterNoOfDaysToStartDate,
     });
   };
   return (
