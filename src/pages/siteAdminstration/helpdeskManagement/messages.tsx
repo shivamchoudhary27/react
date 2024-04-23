@@ -7,6 +7,9 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { Dropdown, DropdownButton  } from "react-bootstrap";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import "../../helpdesk/teacher/styles.scss";
+import { BsArrowsFullscreen } from "react-icons/bs";
+import { BsFullscreenExit } from "react-icons/bs";
+
 type Props = {
   apiStatus: string;
   selectedTopicId: any;
@@ -98,7 +101,11 @@ const MessagesView = (props: Props) => {
     setEditingCommentId(commentId);
     setEditedComment(currentComment);
   };
+  const [fullScreenImageId, setFullScreenImageId] = useState(null);
 
+  const toggleFullScreen = (imageId) => {
+    setFullScreenImageId(fullScreenImageId === imageId ? null : imageId);
+  };
   return (
     <div className={`helpdesk-messages-container ${props.customClass || ""}`}>
       {comments.map((item: any, index: number) => (
@@ -158,6 +165,11 @@ const MessagesView = (props: Props) => {
                         <Dropdown.Item onClick={() => editHandler(item.id, item.comment)}>
                         Edit
                         </Dropdown.Item>
+                        {item.files.length > 0 && (
+                        <Dropdown.Item>
+                       Remove image
+                        </Dropdown.Item>
+                        )}
                         <Dropdown.Item onClick={() => deleteHandler(item.id)}>
                        Delete
                         </Dropdown.Item>
@@ -166,13 +178,20 @@ const MessagesView = (props: Props) => {
                   )}
               </p>
               )}
-                {item.files.length > 0 && (
-              <img
-                src={item.files[0].url}
-                alt={item.files[0].originalFileName}
-                width="150px"
-              />
-            )}
+             {item.files.length > 0 && (
+                <div className="position-relative">
+                  <img
+                    src={item.files[0].url}
+                    alt={item.files[0].originalFileName}
+                    width="200px"
+                    onClick={() => toggleFullScreen(item.id)}
+                    className={`position-relative ${fullScreenImageId === item.id ? "full-screen-image" : ""}`}
+                  />
+                  <button className="btn btn-link position-absolute bottom-0 end-0" onClick={() => toggleFullScreen(item.id)}>
+                    {fullScreenImageId === item.id ?  <BsFullscreenExit />:<BsArrowsFullscreen />}
+                  </button>
+                </div>
+              )}
             </div>
               {item.firstName === currentUserInfo.first_name &&
                 item.lastName === currentUserInfo.last_name && (

@@ -131,8 +131,9 @@
             color: rgb(24, 92, 170);
         }
     }
-    // > .dropdown{
-    //     position: absolute;
-    //     right: 0;
-    // }
 }
+
+.full-screen-image {
+    width: 100%;
+    object-fit: contain;
+  }

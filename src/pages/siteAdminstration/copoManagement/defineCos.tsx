@@ -101,14 +101,15 @@ const handleFormSubmit = (values: any, { setSubmitting }: any) => {
                     touched={touched.countOfCourseOutcomes}
                   />
                 </Col> */}  
-              <Col md={6}>
+              <Col md={12}>
                   <div className="mb-3">
-                   <label htmlFor="abbreviation">Abbreviation</label>
+                   <label htmlFor="abbreviation">Abbreviation *</label>
               <Field
                 type="text"
                 name="abbreviation"
                 placeholder="Enter Abbreviation"
                 as="textarea"
+                className="form-control"
                 value={initValues.abbreviation}
                 onChange={(e) => {
                   handleChange(e);
@@ -124,11 +125,11 @@ const handleFormSubmit = (values: any, { setSubmitting }: any) => {
             </div>
 
             <div className="mb-3">
-             
-              <label htmlFor="abstact">Abstract</label>
+              <label htmlFor="abstact">Abstract *</label>
               <Field
                 type="text"
                 name="abstact"
+                className="form-control"
                 placeholder="Enter Abstract"
                 as="textarea"
                 value={initValues.abstact}
