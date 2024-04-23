@@ -1,3 +1,6 @@
+.signup-container{
+  background-color: white;
+}
 .signup-leftImg {
   background: url('../../assets/images/login-bg.svg');
   min-height: 100vh;
@@ -16,12 +19,12 @@
     font-size: 14px;
   }
   .btn[type="submit"], .btn[type="submit"]:active, .btn[type="submit"]:visited {
-    background: linear-gradient(180deg, #4197E4 0%, #3688D2 48.96%, #075296 100%);
+    background: linear-gradient(180deg, #0739D1 0%, #0F7EEF 48.96%, #094AD8 100%);
     border-color: #3688D2;
     padding: 0.5rem 0.75rem;
   }
   .btn[type="submit"]:hover, .btn[type="submit"]:focus {
-    background: linear-gradient(180deg, #075296 0%, #3688D2 48.96%, #4197E4 100%);
+    background: linear-gradient(180deg, #094AD8 0%, #0F7EEF 48.96%, #0739D1 100%);
   }
 }
 .signup-logo {
@@ -37,7 +40,8 @@
   }
 }
 .signup-title {
-  font-family: 'DM Serif Display', serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
 }
 .signup-desc {
   color: #666;

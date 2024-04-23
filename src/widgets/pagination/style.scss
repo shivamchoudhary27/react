@@ -7,6 +7,14 @@
         color: #fff;
     }
     .page-link {
-        color: #1B609D;
+        color: #838995;
+        border-radius: 6px;
+        margin-right: 8px;
+        box-shadow: 0px 2px 5px rgb(135 135 135 / 26%);
+        border: 1px solid #eeeeee;
+    }
+    .page-item:first-child a, .page-item:last-child a{
+        font-size: 1.5rem;
+        padding: 0px 14px;
     }
 }
