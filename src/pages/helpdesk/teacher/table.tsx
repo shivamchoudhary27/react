@@ -18,9 +18,9 @@ type Props = {
   filterUpdate: any;
   setFilterUpdate: any;
 };
-{
-  /* <button className="btn btn-link text-white p-0"></button> */
-}
+
+  // <button className="btn btn-link text-white p-0"></button> */
+
 const TeacherHelpdeskTable = (props: Props) => {
   const { handleTableSorting } = useTableSorting();
 

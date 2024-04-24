@@ -3,24 +3,29 @@ import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MessagesView from "./messages";
 import { Modal } from "react-bootstrap";
-import Errordiv from "../../../widgets/alert/errordiv";
 import { postData } from "../../../adapters/microservices";
 import { formattedDate } from "../../../lib/timestampConverter";
-import CustomButton from "../../../widgets/formInputFields/buttons";
+import CustomButton, { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
 import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
 import RouterLadyLoader from "../../../globals/globalLazyLoader/routerLadyLoader";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 type Props = {
   onHide: any;
   modalShow: any;
   modalTitle: any;
+  showAlert: any;
+  alertMsg:any;
+  setAlertMsg:any;
+  setShowAlert:any;
   apiStatus: string;
   repliesAction: any;
   getAllComment: any;
+  setGetAllComment:any;
   modalTitleDate: any;
   selectedTopicId: any;
   updateAddRefresh: any;
@@ -31,15 +36,16 @@ const initialValues = {
   comment: "",
 };
 
-// Formik Yup validation === >>>
-const queryFormSchema = Yup.object({
-  comment: Yup.string().min(5).max(1000).required("Reply is required"),
-});
+  // Formik Yup validation === >>>
+  const  queryFormSchema = Yup.object({
+    comment: Yup.string().max(1000).required("Reply is required"),
+  });
+
 
 const RepliesForm = (props: Props) => {
   const fileInputRef = useRef(null);
+  const [loading, setLoading] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState("");
-
   const handleFileButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -57,6 +63,7 @@ const RepliesForm = (props: Props) => {
 
     if (props.selectedTopicId !== "") {
       action.setSubmitting(true);
+      setLoading(true)
       try {
         const commentResponse = await postData(
           `/comment/${props.selectedTopicId}`, values);
@@ -70,27 +77,46 @@ const RepliesForm = (props: Props) => {
               .then((response) => {
                 if (response.status === 200) {
                   props.updateAddRefresh();
+                  setLoading(false)
                   } 
                 });
             }
             else {
               props.updateAddRefresh();
+              setLoading(false)
             }
           }
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
+        if (error.response.status === 404 || 400 || 500) {
+          console.log(error)
+          props.setShowAlert(true);
+          props.setAlertMsg({
+            message: error.response.data.message,
+            alertBoxColor: "danger",
+          });
+          setLoading(false)
+        }
       } finally {
         action.setSubmitting(false);
       }
     }
   };
 
+
+  const onHideModal = () => { 
+    props.toggleRepliesModalShow(false)
+    setSelectedFileName("")
+    props.setGetAllComment([])
+   }
+
+   
   return (
     <React.Fragment>
       <Modal
         centered
-        onHide={props.onHide}
+        onHide={onHideModal}
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
         size="lg"
@@ -130,10 +156,11 @@ const RepliesForm = (props: Props) => {
             <>
             {props.apiStatus === "finished" &&
             props.getAllComment.length === 0 ? (
-             <RouterLadyLoader status={true}/>
-            ) : props.apiStatus === "started" &&
+              <div className = "alert alert-danger">No comments available on the query at this time. </div>
+              ) : props.apiStatus === "started" &&
               props.getAllComment.length === 0 ? (
-              <p>Loading.....</p>
+                <RouterLadyLoader status={true}/>
+              // <p>Loading.....</p>
             ) : (
               <div className="my-3">
               <MessagesView
@@ -151,10 +178,11 @@ const RepliesForm = (props: Props) => {
             <>
             {props.apiStatus === "finished" &&
             props.getAllComment.length === 0 ? (
-             <RouterLadyLoader status={true}/>
-            ) : props.apiStatus === "started" &&
+              <div className = "alert alert-danger">No comments available on the query at this time. </div>
+              ) : props.apiStatus === "started" &&
               props.getAllComment.length === 0 ? (
-              <p>Loading.....</p>
+                <RouterLadyLoader status={true}/>
+                // <p>Loading.....</p>
             ) : (
               <div className="my-3">
               <MessagesView
@@ -174,6 +202,7 @@ const RepliesForm = (props: Props) => {
               validationSchema={queryFormSchema}
               onSubmit={(values, action) => {
                 handleFormSubmit(values, action);
+                setSelectedFileName("")
               }}
               onReset={(values, action) => {
                 setSelectedFileName("");
@@ -193,7 +222,7 @@ const RepliesForm = (props: Props) => {
                         touched={touched.comment}
                       />
                     </div>
-                    {selectedFileName && (
+                    {selectedFileName !== "" && (
                       <div className="attachedfile">
                         {" "}
                         <img src={AttachmentIcon} alt="attachedfile" />{" "}
@@ -219,19 +248,28 @@ const RepliesForm = (props: Props) => {
                         onClick={handleFileButtonClick}
                       >
                         <img src={AttachmentWhiteIcon} alt="attachment" />
-                      </button>
-                      <CustomButton
-                        type="submit"
-                        variant="primary"
-                        isSubmitting={isSubmitting}
-                        btnText="Submit"
-                      />
+                        </button>
+                      {loading ?
+                        <LoadingButton /> :
+                        <CustomButton
+                          type="submit"
+                          variant="primary"
+                          isSubmitting={isSubmitting}
+                          btnText="Submit"
+                        />}
                       <CustomButton
                         type="reset"
                         btnText="Reset"
                         variant="outline-secondary"
                       />
                     </div>
+                    <TimerAlertBox
+                        alertMsg={props.alertMsg.message}
+                        className="mt-3"
+                        variant={props.alertMsg.alertBoxColor}
+                        setShowAlert={props.setShowAlert}
+                        showAlert={props.showAlert}
+                      />
                   </div>
                 </Form>
               )}

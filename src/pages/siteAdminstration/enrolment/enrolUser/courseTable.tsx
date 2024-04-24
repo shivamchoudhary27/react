@@ -1,11 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Table, Button, OverlayTrigger,Tooltip as BsTooltip } from "react-bootstrap";
 import { useTable } from "react-table";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useNavigate, useParams } from "react-router-dom";
-import TableSkeleton from "../../../../widgets/skeleton/table";
-import Errordiv from "../../../../widgets/alert/errordiv";
 import plusIcon from "../../../../assets/images/icons/plus-action.svg";
 import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 import { Tooltip } from "react-tooltip";
@@ -27,7 +23,7 @@ const EnrolUserTable = ({
   currentUserRole,
   name,
 }: any) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const tableColumn = [
     {
       Header: "Categories",
@@ -211,7 +207,7 @@ const EnrolUserTable = ({
       data,
     });
 
-  const enrolToCourses = (courseid: number) => {};
+  // const enrolToCourses = (courseid: number) => {};
 
   const setLevelPadding = (level: number) => {
     let padding = (level - 1) * 50 + "px";

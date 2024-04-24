@@ -1,6 +1,5 @@
 import React from "react";
 import TeacherHelpdesk from "./teacher";
-import { useSelector } from "react-redux";
 
 type Props = {};
 

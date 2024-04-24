@@ -43,6 +43,11 @@ type Props = {
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
     getAllProgram: any;
+    setGetAllComment:any;
+    setShowAlert:any;
+    alertMsg:any;
+    setAlertMsg:any;
+    showAlert: any;
   };
 };
 
@@ -106,6 +111,11 @@ const Mobile = (props: Props) => {
         updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        showAlert={props.commonProps.showAlert}
+        setShowAlert={props.commonProps.setShowAlert}
+        alertMsg={props.commonProps.alertMsg}
+        setAlertMsg={props.commonProps.setAlertMsg}
+        setGetAllComment={props.commonProps.setGetAllComment}
       />
       <MobileFooter />
     </React.Fragment>

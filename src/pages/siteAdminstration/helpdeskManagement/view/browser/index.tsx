@@ -19,6 +19,9 @@ type Props = {
     queryObj: any;
     topicObj: any;
     apiStatus: any;
+    alertMsg:any;
+    setAlertMsg:any;
+    showAlert: any;
     modalShow: any;
     totalPages: any;
     modalTitle: any;
@@ -37,6 +40,7 @@ type Props = {
     toggleModalShow: any;
     selectedTopicId: any;
     filterUpdateTable: any;
+    setShowAlert:any;
     repliesModalShow: any;
     getAllProgram: any;
     updateTopicFilter: any;
@@ -45,6 +49,7 @@ type Props = {
     toggleQueryModalShow: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
+    setGetAllComment:any;
   };
 };
 
@@ -114,10 +119,15 @@ const Browser = (props: Props) => {
         modalShow={props.commonProps.repliesModalShow}
         repliesAction={props.commonProps.repliesAction}
         getAllComment={props.commonProps.getAllComment}
+        setGetAllComment={props.commonProps.setGetAllComment}
         modalTitleDate={props.commonProps.modalTitleDate}
+        showAlert={props.commonProps.showAlert}
+        setShowAlert={props.commonProps.setShowAlert}
         updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        alertMsg={props.commonProps.alertMsg}
+        setAlertMsg={props.commonProps.setAlertMsg}
       />
       <Footer />
       <div className="bottomLeftWave">

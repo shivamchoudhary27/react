@@ -35,6 +35,11 @@ type Props = {
     toggleRepliesModalShow: any;
     modalTitle: any
     modalTitleDate: any
+    setGetAllComment:any;
+    showAlert: any;
+    setShowAlert:any;
+    alertMsg:any;
+    setAlertMsg:any;
   };
 };
 
@@ -94,6 +99,11 @@ const Mobile = (props: Props) => {
         apiStatus={props.commonProps.apiStatus}
         modalTitle={props.commonProps.modalTitle}
         modalTitleDate={props.commonProps.modalTitleDate}
+        showAlert={props.commonProps.showAlert}
+        setShowAlert={props.commonProps.setShowAlert}
+        alertMsg={props.commonProps.alertMsg}
+        setAlertMsg={props.commonProps.setAlertMsg}
+        setGetAllComment={props.commonProps.setGetAllComment}
       />
       <MobileFooter />
     </React.Fragment>

@@ -9,6 +9,8 @@ const Helpdeskmanagement = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
   const [queryModalShow, setQueryModalShow] = useState(false)
@@ -95,6 +97,7 @@ const Helpdeskmanagement = () => {
   }, [refreshData, filterUpdate]);
 
   useEffect(() => {
+    setApiStatus("started");
     if (selectedTopicId > 0) {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
@@ -102,12 +105,19 @@ const Helpdeskmanagement = () => {
             setGetAllComment(result.data);
           }
           if (!repliesModalShow.status) {
+            setApiStatus("finished");
             setGetAllComment([]);
           }
+          setApiStatus("finished");
         })
         .catch((err: any) => {
           if (err.response.status === 500) {
-            console.log(err.response.data.message);
+            setApiStatus("finished");
+            setGetAllComment([]);
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "alert-danger",
+            });
           }
         });
     }
@@ -154,7 +164,7 @@ const Helpdeskmanagement = () => {
       dateValue: dateValue,
     });
   };
-
+  
   const getSelectedTopicId = (id: number) => {
     setSelectedTopicId(id);
   };
@@ -201,9 +211,13 @@ const Helpdeskmanagement = () => {
       topicObj={topicObj}
       modalShow={modalShow}
       apiStatus={apiStatus}
+      alertMsg={setAlertMsg}
+      showAlert={showAlert}
+      setShowAlert={setShowAlert}
       refreshToggle={refreshToggle}
       setFilterUpdate={setFilterUpdate}
       getAllComment={getAllComment}
+      setGetAllComment={setGetAllComment}
       newPageRequest={newPageRequest}
       selectedTopicId={selectedTopicId}
       editHandlerById={editHandlerById}

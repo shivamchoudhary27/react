@@ -2,12 +2,10 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import React, {useState} from "react";
 import { Modal } from "react-bootstrap";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import { putData } from "../../../../adapters/microservices";
-import gearIcon from "../../../../assets/images/icons/setting-action.svg";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg"
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 

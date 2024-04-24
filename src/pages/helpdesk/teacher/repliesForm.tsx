@@ -1,18 +1,18 @@
-import React, {useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
 import MessagesView from "./messages";
 import { Modal } from "react-bootstrap";
-import Errordiv from "../../../widgets/alert/errordiv";
 import { postData } from "../../../adapters/microservices";
 import { formattedDate } from "../../../lib/timestampConverter";
-import CustomButton from "../../../widgets/formInputFields/buttons";
+import CustomButton, { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import AttachmentIcon from "../../../assets/images/icons/file-attachment.svg";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
 import AttachmentWhiteIcon from "../../../assets/images/icons/file-attachment-white.svg";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import RouterLadyLoader from "../../../globals/globalLazyLoader/routerLadyLoader";
+import TimerAlertBox from "../../../widgets/alert/timerAlert";
 
 type Props = {
   onHide: any;
@@ -25,20 +25,29 @@ type Props = {
   selectedTopicId: any;
   updateAddRefresh: any;
   toggleRepliesModalShow: any;
+  setGetAllComment:any;
+  showAlert: any;
+  setShowAlert:any;
+  alertMsg:any;
+  setAlertMsg:any;
 };
+
 
 const initialValues = {
   comment: "",
 };
 
-// Formik Yup validation === >>>
-const queryFormSchema = Yup.object({
-  comment: Yup.string().min(5).max(1000).required("Reply is required"),
-});
+  // Formik Yup validation === >>>
+  const queryFormSchema = Yup.object({
+    comment: Yup.string().max(1000).required("Reply is required"),
+  });
+
 
 const RepliesForm = (props: Props) => {
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [loading, setLoading] = useState(false);
+
 
   const handleFileButtonClick = () => {
     if (fileInputRef.current) {
@@ -53,10 +62,12 @@ const RepliesForm = (props: Props) => {
     }
   };
 
+  
   const handleFormSubmit = async (values: any, action: any) => {
 
     if (props.selectedTopicId !== "") {
       action.setSubmitting(true);
+      setLoading(true)
       try {
         const commentResponse = await postData(
           `/comment/${props.selectedTopicId}`, values);
@@ -67,29 +78,48 @@ const RepliesForm = (props: Props) => {
             action.resetForm();
             if (values.file) {
               await postData(`/files/comment/${commentId}`, {}, values.file)
-              .then((response) => {
-                if (response.status === 200) {
-                  props.updateAddRefresh();
-                  } 
+                .then((response) => {
+                  if (response.status === 200) {
+                    props.updateAddRefresh();
+                    setLoading(false)
+                  }
                 });
             }
             else {
               props.updateAddRefresh();
+              setLoading(false)
             }
           }
         }
       } catch (error) {
-        console.error(error);
+        // console.error(error);
+        if (error.response.status === 404 || 400 || 500) {
+          console.log(error)
+          props.setShowAlert(true);
+          props.setAlertMsg({
+            message: error.response.data.message || error,
+            alertBoxColor: "danger",
+          });
+          setLoading(false)
+        }
+
       } finally {
         action.setSubmitting(false);
       }
     }
   };
+
+  const onHideModal = () => {
+    props.toggleRepliesModalShow(false)
+    setSelectedFileName("")
+    props.setGetAllComment([])
+  }
+
   return (
     <React.Fragment>
       <Modal
         centered
-        onHide={props.onHide}
+        onHide={onHideModal}
         show={props.modalShow}
         aria-labelledby="contained-modal-title-vcenter"
         size="lg"
@@ -97,53 +127,54 @@ const RepliesForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {`${
-              props.modalTitle !== undefined &&
+            {`${props.modalTitle !== undefined &&
               props.modalTitleDate !== undefined &&
               props.modalTitle
-            } (${formattedDate(props.modalTitleDate)})`}
+              } (${formattedDate(props.modalTitleDate)})`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="helpdeskmodlebody">
           {props.repliesAction !== "reply" ? (
             <>
               {props.apiStatus === "finished" &&
-              props.getAllComment.length === 0 ? (
-               <RouterLadyLoader status={true}/>
-              ) : props.apiStatus === "started" &&
                 props.getAllComment.length === 0 ? (
-                <p>Loading.....</p>
+                  <div className = "alert alert-danger">No comments available on the query at this time. </div>
+                  ) : props.apiStatus === "started" &&
+                  props.getAllComment.length === 0 ? (
+                  <RouterLadyLoader status={true} />
+                // <p>Loading.....</p>
               ) : (
                 <div className="my-3">
-                <MessagesView
-                  getAllComment={props.getAllComment}
-                  apiStatus={props.apiStatus}
-                  customClass="chat-reverse"
-                  selectedTopicId={props.selectedTopicId}
-                />
+                  <MessagesView
+                    getAllComment={props.getAllComment}
+                    apiStatus={props.apiStatus}
+                    customClass="chat-reverse"
+                    selectedTopicId={props.selectedTopicId}
+                  />
                 </div>
               )}
             </>
           ) : null}
           {props.repliesAction === "reply" && props.selectedTopicId !== 0 ? (
             <>
-            {props.apiStatus === "finished" &&
-            props.getAllComment.length === 0 ? (
-             <RouterLadyLoader status={true}/>
-            ) : props.apiStatus === "started" &&
-              props.getAllComment.length === 0 ? (
-              <p>Loading.....</p>
-            ) : (
-              <div className="my-3">
-              <MessagesView
-                getAllComment={props.getAllComment}
-                apiStatus={props.apiStatus}
-                customClass="chat-reverse"
-                selectedTopicId={props.selectedTopicId}
-              />
-              </div>
-            )}
-          </>
+              {props.apiStatus === "finished" &&
+                props.getAllComment.length === 0 ? (
+                  <div className = "alert alert-danger">No comments available on the query at this time. </div>
+                  ) : props.apiStatus === "started" &&
+                  props.getAllComment.length === 0 ? (
+                  <RouterLadyLoader status={true} />
+                // <p>Loading.....</p>
+              ) : (
+                <div className="my-3">
+                  <MessagesView
+                    getAllComment={props.getAllComment}
+                    apiStatus={props.apiStatus}
+                    customClass="chat-reverse"
+                    selectedTopicId={props.selectedTopicId}
+                  />
+                </div>
+              )}
+            </>
 
           ) : null}
 
@@ -153,6 +184,7 @@ const RepliesForm = (props: Props) => {
               validationSchema={queryFormSchema}
               onSubmit={(values, action) => {
                 handleFormSubmit(values, action);
+                setSelectedFileName("")
               }}
               onReset={(values, action) => {
                 setSelectedFileName("");
@@ -175,13 +207,14 @@ const RepliesForm = (props: Props) => {
                       <div className="user-picture-form"></div>
                     </div>
 
-                    {selectedFileName && (
+                    {selectedFileName !== "" && (
                       <div className="attachedfile">
                         {" "}
                         <img src={AttachmentIcon} alt="attachedfile" />{" "}
                         {selectedFileName}
                       </div>
                     )}
+
                     <div className="modal-buttons d-flex gap-1 w-100 justify-content-center">
                       <input
                         ref={fileInputRef}
@@ -195,6 +228,7 @@ const RepliesForm = (props: Props) => {
                           setFieldValue("file", event.currentTarget.files[0]);
                         }}
                       />
+
                       <button
                         type="button"
                         className="btn btn-primary"
@@ -202,18 +236,28 @@ const RepliesForm = (props: Props) => {
                       >
                         <img src={AttachmentWhiteIcon} alt="attachment" />
                       </button>
-                      <CustomButton
-                        type="submit"
-                        variant="primary"
-                        isSubmitting={isSubmitting}
-                        btnText="Submit"
-                      />
+                      {loading ?
+                        <LoadingButton /> :
+                        <CustomButton
+                          type="submit"
+                          variant="primary"
+                          isSubmitting={isSubmitting}
+                          btnText="Submit"
+                        />}
                       <CustomButton
                         type="reset"
                         btnText="Reset"
                         variant="outline-secondary"
                       />
                     </div>
+                    
+                    <TimerAlertBox
+                        alertMsg={props.alertMsg.message}
+                        className="mt-3"
+                        variant={props.alertMsg.alertBoxColor}
+                        setShowAlert={props.setShowAlert}
+                        showAlert={props.showAlert}
+                      />
                   </div>
                 </Form>
               )}
