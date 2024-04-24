@@ -11,6 +11,8 @@ const TeacherHelpdesk = (props: Props) => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [modalShow, setModalShow] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
   const [getAllComment, setGetAllComment] = useState([]);
@@ -25,7 +27,7 @@ const TeacherHelpdesk = (props: Props) => {
     topicname: "",
     dateValue: ""
   });
-
+ 
   const [filterUpdate, setFilterUpdate] = useState<any>({
     topicId: "",
     topicName: "",
@@ -57,15 +59,18 @@ const TeacherHelpdesk = (props: Props) => {
 
   // call api to get all programs === >>>
   useEffect(() => {
+    setApiStatus("started");
     getData(`/${currentInstitute}/programs`, {pageNumber: 0,
       pageSize: pagination.PERPAGE})
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setSelectedProgram(result.data);
         }
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
+        setApiStatus("finished");
       });
   }, []);
 
@@ -81,16 +86,16 @@ const TeacherHelpdesk = (props: Props) => {
         if (result.data !== "" && result.status === 200) {
           setSelectedTopic(result.data);
         }
-        // setApiStatus("finished");
+        setApiStatus("finished");
       })
       .catch((err: any) => {
         console.log(err);
-        // setApiStatus("finished");
+        setApiStatus("finished");
       });
   }, [refreshData]);
 
   useEffect(() => {
-    // setApiStatus("started");
+    setApiStatus("started");
     if (selectedTopicId > 0) {
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
@@ -100,12 +105,16 @@ const TeacherHelpdesk = (props: Props) => {
           if (!repliesModalShow.status) {
             setGetAllComment([]);
           }
-          // setApiStatus("finished");
+          setApiStatus("finished");
         })
         .catch((err: any) => {
-          // setApiStatus("finished");
+          setApiStatus("finished");
           if(err.response.status === 500){
-            console.log(err.response.data.message);
+            setGetAllComment([])
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "alert-danger",
+            });
           }
         });
     }
@@ -158,10 +167,15 @@ const TeacherHelpdesk = (props: Props) => {
       selectedProgram={selectedProgram.items}
       modalTitle={repliesModalShow.topicname}
       modalTitleDate={repliesModalShow.dateValue}
+      showAlert={showAlert}
+      setShowAlert={setShowAlert}
+      alertMsg={setAlertMsg}
+      setAlertMsg={setAlertMsg}
       refreshToggle={refreshToggle}
       getAllComment={getAllComment}
       newPageRequest={newPageRequest}
       enquiryData={enquiryData.items}
+      setGetAllComment={setGetAllComment}
       selectedTopicId={selectedTopicId}
       toggleModalShow={toggleModalShow}
       selectedTopic={selectedTopic.items}

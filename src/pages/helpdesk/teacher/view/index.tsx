@@ -18,6 +18,7 @@ type Props = {
   newPageRequest: any;
   toggleModalShow: any;
   selectedTopicId: any;
+  setGetAllComment:any;
   updateTopicFilter: any;
   getSelectedTopicId: any;
   selectedProgram: any;
@@ -26,6 +27,10 @@ type Props = {
   modalTitle: any
   modalTitleDate:any
   setFilterUpdate: any;
+  showAlert: any;
+  setShowAlert:any;
+  alertMsg:any;
+  setAlertMsg:any;
 };
 
 const View = (props: Props) => {
@@ -52,6 +57,11 @@ const View = (props: Props) => {
     toggleRepliesModalShow: props.toggleRepliesModalShow,
     modalTitle: props.modalTitle,
     modalTitleDate: props.modalTitleDate,
+    setGetAllComment:props.setGetAllComment,
+    showAlert: props.showAlert,
+    setShowAlert: props.setShowAlert,
+    alertMsg: props.alertMsg,
+    setAlertMs: props.setAlertMsg,
   };
 
   return (

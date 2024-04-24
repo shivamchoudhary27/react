@@ -34,25 +34,35 @@ type Props = {
     toggleQueryModalShow: any;
     toggleRepliesModalShow: any;
     helpdeskManagementData: any[];
+    setGetAllComment:any;
+    alertMsg:any;
+    setAlertMsg:any;
+    showAlert: any;
+    setShowAlert:any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
     onHide: props.onHide,
     queryObj:props.queryObj,
+    alertMsg: props.alertMsg,
+    setAlertMs: props.setAlertMsg,
     topicObj: props.topicObj,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
+    showAlert: props.showAlert,
     modalTitle: props.modalTitle,
     totalPages: props.totalPages,
     onQueryHide: props.onQueryHide,
+    setShowAlert: props.setShowAlert,
     filterUpdate: props.filterUpdate,
     selectedTopic: props.selectedTopic,
     getAllComment: props.getAllComment,
     refreshToggle: props.refreshToggle,
+    setGetAllComment:props.setGetAllComment,
     onRepliesHide: props.onRepliesHide,
     getAllProgram: props.getAllProgram,
-    repliesAction: props. repliesAction,
+    repliesAction: props.repliesAction,
     queryModalShow: props.queryModalShow,
     newPageRequest: props.newPageRequest,
     modalTitleDate: props.modalTitleDate,
@@ -68,6 +78,7 @@ const View = (props: Props) => {
     toggleQueryModalShow: props.toggleQueryModalShow,
     helpdeskManagementData: props.helpdeskManagementData,
     toggleRepliesModalShow: props.toggleRepliesModalShow,
+
   };
   
   return (

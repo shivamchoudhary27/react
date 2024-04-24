@@ -35,8 +35,13 @@ type Props = {
     updateTopicFilter: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
-    modalTitle: any
-    modalTitleDate: any
+    modalTitle: any;
+    modalTitleDate: any;
+    setGetAllComment:any;
+    showAlert: any;
+    setShowAlert:any;
+    alertMsg:any;
+    setAlertMsg:any;
   };
 };
 
@@ -98,6 +103,11 @@ const Browser = (props: Props) => {
         updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopicId={props.commonProps.selectedTopicId}
         toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
+        showAlert={props.commonProps.showAlert}
+        setShowAlert={props.commonProps.setShowAlert}
+        alertMsg={props.commonProps.alertMsg}
+        setAlertMsg={props.commonProps.setAlertMsg}
+        setGetAllComment={props.commonProps.setGetAllComment}
       />
       <Footer />
       <div className="position-relative">
