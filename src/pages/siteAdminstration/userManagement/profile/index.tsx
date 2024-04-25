@@ -1,11 +1,9 @@
 import "./style.scss";
 import View from "./view";
-import { useDispatch, useSelector } from "react-redux";
-import { pagination } from "../../../../utils/pagination";
+import { useSelector } from "react-redux";
 import { getData } from "../../../../adapters/coreservices";
-import React, { useEffect, useContext, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-// import UserContext from "../../../../features/context/user/user";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { searchCountryNameById } from "../../../../globals/getCountry";
 
 const ViewUserProfile = () => {
@@ -26,13 +24,12 @@ const ViewUserProfile = () => {
     userLastName: "--",
     userFirstName: "--",
     parentsMobile: "--",
+    timeZone:"--"
   });
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { userid } = useParams();
   const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
@@ -40,21 +37,15 @@ const ViewUserProfile = () => {
   const [workloadList, setWorkloadList] = useState(dummyData);
   const [editComponent, setEditComponent] = useState("changePassword");
 
-  const userProfileInfo = useSelector(
-    (state: any) => state.userProfile.userProfile
-  );
-  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-  const currentUserRole = useSelector(
-    (state: any) => state.globalFilters.currentUserRole
-  );
-  const [filterUpdate, setFilterUpdate] = useState({
-    pageNumber: 0,
-    pageSize: pagination.PERPAGE,
-    userId: userid,
-  });
+
+  // const [filterUpdate, setFilterUpdate] = useState({
+  //   pageNumber: 0,
+  //   pageSize: pagination.PERPAGE,
+  //   userId: userid,
+  // });
 
   useEffect(() => {
     if (currentInstitute > 0) {

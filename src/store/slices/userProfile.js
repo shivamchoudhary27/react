@@ -18,6 +18,7 @@ const initialState = localStorage.getItem('userProfile') ? JSON.parse(localStora
     userLastName: "",
     parentsMobile: "",
     userFirstName: "",
+    timeZone:"",
   },
 };
 
@@ -41,6 +42,7 @@ const globalUserProfile = createSlice({
         userLastName: action.payload?.userLastName,
         userFirstName: action.payload?.userFirstName,
         parentsMobile: action.payload?.parentsMobile,
+        timeZone: action.payload?.timeZone,
       };
     },
   },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Formik, Form } from "formik";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
@@ -8,7 +8,7 @@ import { postData as updateUserInfo} from "../../../../../adapters/coreservices"
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import { globalUserInfoActions } from "../../../../../store/slices/userInfo";
-import { addRemoveFileProperty, uploadFile } from "../../../../../globals/storefile";
+import { addRemoveFileProperty } from "../../../../../globals/storefile";
 import '../style.scss'
 
 const EditPicture = ({

@@ -47,8 +47,6 @@ const RepliesForm = (props: Props) => {
   const fileInputRef = useRef(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [loading, setLoading] = useState(false);
-
-
   const handleFileButtonClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -77,6 +75,7 @@ const RepliesForm = (props: Props) => {
             const commentId = commentData.id;
             action.resetForm();
             if (values.file) {
+              console.log(values.files)
               await postData(`/files/comment/${commentId}`, {}, values.file)
                 .then((response) => {
                   if (response.status === 200) {
@@ -138,7 +137,7 @@ const RepliesForm = (props: Props) => {
             <>
               {props.apiStatus === "finished" &&
                 props.getAllComment.length === 0 ? (
-                  <div className = "alert alert-danger">No comments available on the query at this time. </div>
+                  <div className = "alert alert-primary">No comments available on the query at this time. </div>
                   ) : props.apiStatus === "started" &&
                   props.getAllComment.length === 0 ? (
                   <RouterLadyLoader status={true} />
@@ -159,7 +158,7 @@ const RepliesForm = (props: Props) => {
             <>
               {props.apiStatus === "finished" &&
                 props.getAllComment.length === 0 ? (
-                  <div className = "alert alert-danger">No comments available on the query at this time. </div>
+                  <div className = "alert alert-primary">No comments available on the query at this time. </div>
                   ) : props.apiStatus === "started" &&
                   props.getAllComment.length === 0 ? (
                   <RouterLadyLoader status={true} />
@@ -203,8 +202,7 @@ const RepliesForm = (props: Props) => {
                         errors={errors.comment}
                         touched={touched.comment}
                       />
-
-                      <div className="user-picture-form"></div>
+                      {/* <div className="user-picture-form"></div> */}
                     </div>
 
                     {selectedFileName !== "" && (
@@ -250,7 +248,6 @@ const RepliesForm = (props: Props) => {
                         variant="outline-secondary"
                       />
                     </div>
-                    
                     <TimerAlertBox
                         alertMsg={props.alertMsg.message}
                         className="mt-3"

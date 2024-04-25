@@ -156,7 +156,7 @@ const RepliesForm = (props: Props) => {
             <>
             {props.apiStatus === "finished" &&
             props.getAllComment.length === 0 ? (
-              <div className = "alert alert-danger">No comments available on the query at this time. </div>
+              <div className = "alert alert-primary">No comments available on the query at this time. </div>
               ) : props.apiStatus === "started" &&
               props.getAllComment.length === 0 ? (
                 <RouterLadyLoader status={true}/>
@@ -178,7 +178,7 @@ const RepliesForm = (props: Props) => {
             <>
             {props.apiStatus === "finished" &&
             props.getAllComment.length === 0 ? (
-              <div className = "alert alert-danger">No comments available on the query at this time. </div>
+              <div className = "alert alert-primary">No comments available on the query at this time. </div>
               ) : props.apiStatus === "started" &&
               props.getAllComment.length === 0 ? (
                 <RouterLadyLoader status={true}/>

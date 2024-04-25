@@ -112,6 +112,12 @@ const Browser = (props: Props) => {
                       )}
                     </li>
                     <li>
+                      <label>time Zone</label>
+                      {props.commonProps.user.timeZone !== null
+                        ? props.commonProps.user.timeZone
+                        : "--"}
+                    </li>
+                    <li>
                       <label>Blood Group</label>
                       {props.commonProps.capitalizeFirstLetter(
                         props.commonProps.user.bloodGroup

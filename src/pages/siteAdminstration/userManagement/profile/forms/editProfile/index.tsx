@@ -3,7 +3,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getData } from "../../../../../../adapters/coreservices";
-import { pagination } from "../../../../../../utils/pagination";
 import { useParams } from "react-router-dom";
 import View from "./view";
 
@@ -23,17 +22,17 @@ const EditUserProfile = () => {
     userLastName: "",
     parentsMobile: "",
     userFirstName: "",
+    timeZone:"Asia/Kolkata",
   };
 
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-
-  const [filterUpdate, setFilterUpdate] = useState({
-    pageNumber: 0,
-    pageSize: pagination.PERPAGE,
-    userId: userid,
-  });
+  // const [filterUpdate, setFilterUpdate] = useState({
+  //   pageNumber: 0,
+  //   pageSize: pagination.PERPAGE,
+  //   userId: userid,
+  // });
 
   const [initialValues, setInitialvalues] = useState(initialFormValues);
 

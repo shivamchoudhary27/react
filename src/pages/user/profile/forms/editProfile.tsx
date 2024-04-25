@@ -8,6 +8,7 @@ import HeaderTabs from "../../../headerTabs";
 import { useNavigate } from "react-router-dom";
 import { Row, Col, Container } from "react-bootstrap";
 import CountryList from "../../../../globals/country";
+import timeZone from "../../../../globals/timeZone/timeZone";
 import PageTitle from "../../../../widgets/pageTitle";
 import { postData } from "../../../../adapters/coreservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
@@ -18,7 +19,6 @@ import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import { isMobile, isDesktop } from "react-device-detect";
 import MobileHeader from "../../../newHeader/mobileHeader";
 import MobileFooter from "../../../newFooter/mobileFooter";
@@ -52,6 +52,7 @@ const userFormSchema = Yup.object({
     )
     .trim()
     .required("Last name is required"),
+  timeZone: Yup.string().required("Time Zone is required"),
   userCountry: Yup.string().required("Country is required"),
   // genderType: Yup.string().required("Gender is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
@@ -78,6 +79,7 @@ const EditProfile = (props: Props) => {
     userLastName: userProfileInfo?.userLastName,
     parentsMobile: userProfileInfo?.parentsMobile,
     userFirstName: userProfileInfo?.userFirstName,
+    timeZone: userProfileInfo?.timeZone || "Asia/Kolkata",
   };
 
   // console.log(userProfileInfo.userId)
@@ -103,16 +105,15 @@ const EditProfile = (props: Props) => {
           navigate("/profile");
         // }
       })
-      .catch((err: any) => {
-        console.log(err);
+      .catch((err: any) => {  
         setSubmitting(false);
-        // if (err.response.status === 400) {
-        //   setShowAlert(true);
-        //   setAlertMsg({
-        //     message: "Not able to update your profile, Please try again!",
-        //     alertBoxColor: "danger",
-        //   });
-        // }
+        if (err.response.status === 400) {
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
+        }
       });
   };
 
@@ -270,6 +271,26 @@ const EditProfile = (props: Props) => {
                       <FieldErrorMessage
                         errors={errors.userCountry}
                         touched={touched.userCountry}
+                      />
+                    </Col>
+
+                    <Col sm={6} lg={4}>
+                      <FieldLabel
+                        htmlfor="timeZone"
+                        labelText="Time Zone"
+                        required="required"
+                        star="*"
+                      />
+                      <FieldTypeSelect
+                        name="timeZone"
+                        options={timeZone}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                        selectDefaultLabel={"Time Zone"}
+                      />
+                      <FieldErrorMessage
+                        errors={errors.timeZone}
+                        touched={touched.timeZone}
                       />
                     </Col>
 

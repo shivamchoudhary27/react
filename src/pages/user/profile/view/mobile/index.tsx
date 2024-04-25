@@ -141,6 +141,10 @@ const Mobile = (props: Props) => {
                     {searchCountryNameById(props.commonProps.user.userCountry)}
                   </li>
                   <li>
+                      <label>Time Zone</label>
+                      {props.commonProps.user.timeZone}
+                    </li>
+                  <li>
                     <label>Blood Group</label>
                     {props.commonProps.capitalizeFirstLetter(
                       props.commonProps.user.bloodGroup
