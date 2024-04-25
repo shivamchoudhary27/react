@@ -1,4 +1,3 @@
-import React from 'react';
 import "./style.scss";
 import bgLeft from '../../assets/images/background/bg-admin-left.svg';
 import bgRight from '../../assets/images/background/bg-admin-right.svg';

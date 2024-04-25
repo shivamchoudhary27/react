@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { deleteData, putData } from "../../../adapters/microservices";
+import { deleteData, putData, postData } from "../../../adapters/microservices";
 import { formattedDateTime } from "../../../lib/timestampConverter";
 import "./styles.scss";
 import CustomButton from "../../../widgets/formInputFields/buttons";
@@ -95,6 +95,28 @@ const MessagesView = (props: Props) => {
       });
   };
 
+// api for remove only image ======================>
+
+  // const deleteHandlerImage = (fileID: number) => {
+  //   // console.log(fileID)
+  //   putData(`/comment/${props.selectedTopicId}/${fileID}`, {
+  //     deleted:true,
+  //   })
+  //     .then((result: any) => {
+  //       if (result.data !== "" && result.status === 200) {
+  //         // deleted comment by id
+  //         // const deleteComments = comments.filter(
+  //         //   (comment) => comment.id !== fileID
+  //         // );
+  //         // setComments(deleteComments);
+  //         console.log(result)
+  //       }
+  //     })
+  //     .catch((err: any) => {
+  //       console.log(err);
+  //     });
+  // };
+
   const editHandler = (commentId: number, currentComment: string) => {
     setEditingCommentId(commentId);
     setEditedComment(currentComment);
@@ -167,7 +189,9 @@ const MessagesView = (props: Props) => {
                         Edit
                         </Dropdown.Item>
                         {item.files.length > 0 && (
-                        <Dropdown.Item>
+                        <Dropdown.Item 
+                        // onClick={() => deleteHandlerImage(item.files[0].id)}
+                        >
                        Remove image
                         </Dropdown.Item>
                         )}

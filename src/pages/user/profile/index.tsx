@@ -29,6 +29,7 @@ const UserProfile = () => {
     userLastName: "--",
     userFirstName: "--",
     parentsMobile: "--",
+    timeZone: "--"
   });
   const dummyData = {
     items: [],

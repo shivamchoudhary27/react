@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 import { Formik, Form } from "formik";
-import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import { postData } from "../../../../../adapters/microservices";

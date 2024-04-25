@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import CountryList from "../../../../../../globals/country";
+import timeZone from "../../../../../../globals/timeZone/timeZone";
 import { postData } from "../../../../../../adapters/coreservices";
 import TimerAlertBox from "../../../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../../../widgets/formInputFields/labels";
@@ -43,6 +44,7 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
+  // timeZone: Yup.string().required("Time Zone is required"),
   // genderType: Yup.string().required("Gender is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
@@ -59,7 +61,6 @@ const FormData = (props: Props) => {
     postData(`/user/profile/${userid}`, values)
       .then((res: any) => {
         if ((res.data !== "", res.status === 200)) {
-          console.log(res.data)
           setSubmitting(false);
           resetForm();
           //   props.updateAddRefresh();
@@ -67,12 +68,12 @@ const FormData = (props: Props) => {
         }
       })
       .catch((err: any) => {
-        console.log(err);
+        console.log(err.response.data.message);
         setSubmitting(false);
         if (err.response.status === 400) {
           setShowAlert(true);
           setAlertMsg({
-            message: "Failed update profile.",
+            message: err.response.data.message,
             alertBoxColor: "danger",
           });
         }
@@ -199,6 +200,26 @@ const FormData = (props: Props) => {
                   touched={touched.userCountry}
                 />
               </Col>
+
+              <Col sm={6} lg={4}>
+                      <FieldLabel
+                        htmlfor="timeZone"
+                        labelText="Time Zone"
+                        required="required"
+                        star="*"
+                      />
+                      <FieldTypeSelect
+                        name="timeZone"
+                        options={timeZone}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                        // selectDefaultLabel={"Time Zone"}
+                      />
+                      <FieldErrorMessage
+                        errors={errors.timeZone}
+                        touched={touched.timeZone}
+                      />
+                    </Col>
 
               <Col sm={6} lg={4}>
                 <FieldLabel htmlfor="bloodGroup" labelText="Blood Group" />

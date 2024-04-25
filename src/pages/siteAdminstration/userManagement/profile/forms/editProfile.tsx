@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import HeaderTabs from "../../../../headerTabs";
 import { Row, Col, Container } from "react-bootstrap";
 import CountryList from "../../../../../globals/country";
+import timeZone from "../../../../../globals/timeZone/timeZone";
 import PageTitle from "../../../../../widgets/pageTitle";
-import { postData } from "../../../../../adapters/coreservices";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
@@ -18,7 +18,6 @@ import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
-import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import { pagination } from "../../../../../utils/pagination";
 import { getData, putData } from "../../../../../adapters/coreservices";
 
@@ -48,7 +47,8 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
-  genderType: Yup.string().required("Gender is required"),
+  // genderType: Yup.string().required("Gender is required"),
+  timeZone: Yup.string().required("Time Zone is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
 
@@ -79,6 +79,7 @@ const EditUserProfile = () => {
     userLastName: "",
     parentsMobile: "",
     userFirstName: "",
+    timeZone:"Asia/Kolkata",
   };
   const [initialValues, setInitialvalues] = useState(initialFormValues);
 
@@ -99,7 +100,6 @@ const EditUserProfile = () => {
   // handle Form CRUD operations === >>>
   const handleFormData = (values: {}, { setSubmitting, resetForm }: any) => {
     setSubmitting(true);
-    console.log(values);
     putData(`/${currentInstitute}/users/${userid}`, values)
     .then((res: any) => {
       if ((res.data !== "", res.status === 200)) {
@@ -109,12 +109,12 @@ const EditUserProfile = () => {
       }
     })
     .catch((err: any) => {
-        console.log(err);
+        console.log(err.response.data.message);
         if (err.response.status === 400) {
           setSubmitting(false);
           setShowAlert(true);
           setAlertMsg({
-            message: 'Failed update profile.',
+            message: err.response.data.message,
             alertBoxColor: "danger",
           });
         }
@@ -267,6 +267,26 @@ const EditUserProfile = () => {
                   </Col>
 
                   <Col sm={6} lg={4}>
+                      <FieldLabel
+                        htmlfor="timeZone"
+                        labelText="Time Zone"
+                        required="required"
+                        star="*"
+                      />
+                      <FieldTypeSelect
+                        name="timeZone"
+                        options={timeZone}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                        selectDefaultLabel={"Time Zone"}
+                      />
+                      <FieldErrorMessage
+                        errors={errors.timeZone}
+                        touched={touched.timeZone}
+                      />
+                    </Col>
+
+                  <Col sm={6} lg={4}>
                     <FieldLabel htmlfor="bloodGroup" labelText="Blood Group" />
                     <FieldTypeText
                       name="bloodGroup"
@@ -296,7 +316,7 @@ const EditUserProfile = () => {
                   <Col sm={6} lg={4}>
                     <FieldLabel
                       htmlfor="motherName"
-                      labelText="Mother's Name"
+                      labelText="Mother's Name123"
                     />
                     <FieldTypeText
                       name="motherName"

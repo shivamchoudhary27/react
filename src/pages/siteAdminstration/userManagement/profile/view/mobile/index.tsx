@@ -65,7 +65,7 @@ const Mobile = (props: Props) => {
                   </Button>
                 </div>
 
-                <div className="col-md-8">
+                <div className="col-md-8  ">
                   <ul className="profile-menu-data">
                     <li>
                       <label>First Name</label>
@@ -108,6 +108,12 @@ const Mobile = (props: Props) => {
                       {props.commonProps.searchCountryNameById(
                         props.commonProps.user.userCountry
                       )}
+                    </li>
+                    <li>
+                      <label>time Zone</label>
+                      {props.commonProps.user.timeZone !== null
+                        ? props.commonProps.user.timeZone
+                        : "--"}
                     </li>
                     <li>
                       <label>Blood Group</label>
