@@ -52,7 +52,7 @@ const userFormSchema = Yup.object({
     )
     .trim()
     .required("Last name is required"),
-  timeZone: Yup.string().required("Time Zone is required"),
+  timezone: Yup.string().required("Time Zone is required"),
   userCountry: Yup.string().required("Country is required"),
   // genderType: Yup.string().required("Gender is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
@@ -79,7 +79,7 @@ const EditProfile = (props: Props) => {
     userLastName: userProfileInfo?.userLastName,
     parentsMobile: userProfileInfo?.parentsMobile,
     userFirstName: userProfileInfo?.userFirstName,
-    timeZone: userProfileInfo?.timeZone || "Asia/Kolkata",
+    timezone: userProfileInfo?.timezone || "Asia/Kolkata",
   };
 
   // console.log(userProfileInfo.userId)
@@ -113,7 +113,11 @@ const EditProfile = (props: Props) => {
             message: err.response.data.message,
             alertBoxColor: "danger",
           });
-        }
+        }else{
+          setAlertMsg({
+          message: err.response.data.message,
+          alertBoxColor: "danger",
+        });}
       });
   };
 
@@ -276,21 +280,21 @@ const EditProfile = (props: Props) => {
 
                     <Col sm={6} lg={4}>
                       <FieldLabel
-                        htmlfor="timeZone"
+                        htmlfor="timezone"
                         labelText="Time Zone"
                         required="required"
                         star="*"
                       />
                       <FieldTypeSelect
-                        name="timeZone"
+                        name="timezone"
                         options={timeZone}
                         setcurrentvalue={setValues}
                         currentformvalue={values}
                         selectDefaultLabel={"Time Zone"}
                       />
                       <FieldErrorMessage
-                        errors={errors.timeZone}
-                        touched={touched.timeZone}
+                        errors={errors.timezone}
+                        touched={touched.timezone}
                       />
                     </Col>
 

@@ -51,14 +51,18 @@ const EditPicture = ({
     })
     .catch((err: any) => {
         console.log(err);
-        if (err.response.status === 404) {
+        if (err.response.status === 500) {
             setSubmitting(false);
             setShowAlert(true);
             setAlertMsg({
                 message: `${err.response.data.message}`,
                 alertBoxColor: "danger",
             });
-        }
+        }else{
+          setAlertMsg({
+          message: err.response.data.message,
+          alertBoxColor: "danger",
+        });}
     });
   };
 
@@ -113,13 +117,26 @@ const EditPicture = ({
                 message: `${err.response.data.message}`,
                 alertBoxColor: "danger",
             });
-        }
+        }else{
+          setAlertMsg({
+          message: err.response.data.message,
+          alertBoxColor: "danger",
+        });}
         setRemoveStatus(false);
     });
   }
 
   return (
     <React.Fragment>
+      
+      <TimerAlertBox
+        alertMsg={alertMsg.message}
+        className="mt-3"
+        variant={alertMsg.alertBoxColor}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+      />
+
       { userobj.files !== undefined && userobj.files.length > 0 &&
         <React.Fragment>
           <div className="user-picture-form">
@@ -191,13 +208,7 @@ const EditPicture = ({
           </Form>
         )}
       </Formik>
-      <TimerAlertBox
-        alertMsg={alertMsg.message}
-        className="mt-3"
-        variant={alertMsg.alertBoxColor}
-        setShowAlert={setShowAlert}
-        showAlert={showAlert}
-      />
+     
     </React.Fragment>
   );
 };

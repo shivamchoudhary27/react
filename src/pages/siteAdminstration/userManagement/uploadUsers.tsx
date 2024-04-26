@@ -65,14 +65,17 @@ const UploadNewUsers = ({
           downloadUnuploadedUsersCSV(dummyData); // Download sample CSV file
         }
       })
-      .catch((err: any) => {
-        setSubmitting(false);
-        setShowAlert(true);
-        setAlertMsg({
-          message: "File upload failed! Please try again.",
-          alertBoxColor: "danger",
-        });
-      });
+     .catch((err: any) => {
+        console.log(err);
+        if (err && err.response && err.response.status === 400) {
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "File upload failed! Please try again.",
+            alertBoxColor: "danger",
+          });
+        }
+    });
   };
 
   const onHideModal = () => {

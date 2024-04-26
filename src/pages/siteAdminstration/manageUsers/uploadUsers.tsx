@@ -66,13 +66,16 @@ const UploadUsersEnrollment = ({
         }
       })
       .catch((err: any) => {
-        setSubmitting(false);
-        setShowAlert(true);
-        setAlertMsg({
-          message: "File upload failed! Please try again.",
-          alertBoxColor: "danger",
-        });
-      });
+        if (err && err.response && err.response.status === 400) {
+          console.log(err)
+          setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: "File upload failed! Please try again.",
+            alertBoxColor: "danger",
+          });
+        }
+    });
   };
 
   const onHideModal = () => {

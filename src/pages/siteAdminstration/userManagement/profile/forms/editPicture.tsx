@@ -47,7 +47,11 @@ const EditPicture = ({
                 message: `${err.response.data.message}`,
                 alertBoxColor: "danger",
             });
-        }
+        }else{
+          setAlertMsg({
+          message: err.response.data.message,
+          alertBoxColor: "danger",
+        });}
     });
   };
 
