@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import SelectCell from "./selectCell";
-import FieldTypeText from "../../../widgets/formInputFields/formTextField";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import SelectCell from "../selectCell";
+import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import AssessmentButtons from "./assessmentButtons";
 
 type Props = {};

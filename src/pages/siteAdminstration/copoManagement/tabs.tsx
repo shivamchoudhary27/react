@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Tab, Tabs } from "react-bootstrap";
-import DefineCos from "./defineCos";
+import DefineCos from "./defineCos/defineCos";
 import LevelThreshold from "./levelThreshold";
-import LevelThreshold2 from "./levelThreshold2";
-import MappingTable from "./mappingTable";
-import AssessmentTable from "./assessmentTable";
-import AttainmentTable from "./attainmentTable";
+import LevelThreshold2 from "./levelThreshold2/levelThreshold2";
+import MappingTable from "./mappingCosPos/mappingTable";
+import AssessmentTable from "./assessmentCos/assessmentTable";
+import AttainmentTable from "./attainmentCourse/attainmentTable";
 
 type Props = {};
 
@@ -31,7 +31,8 @@ const TabsList = (props: Props) => {
     {
       eventKey: "setlevel1",
       title: "Set level threshold for CO's",
-      contentsRender: <LevelThreshold />,
+      contentsRender: <LevelThreshold 
+      setActiveTab = {setActiveTab}/>,
     },
     {
       eventKey: "setlevel2",
@@ -89,7 +90,7 @@ const TabsList = (props: Props) => {
      
     <Tabs
       activeKey={activeTab}
-      onSelect={(index) => setActiveTab(index as number)}
+      onSelect={(index) => setActiveTab(index as unknown as number)}
       id="uncontrolled-tab-example"
       className="tabStep-indicator desk-copo-tabs"
     >

@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import { Table,} from "react-bootstrap";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import CounterCell from "./counterCell";
+import { Table} from "react-bootstrap";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import CounterCell from "../counterCell";
 
 type Props = {};
 
@@ -12,32 +12,98 @@ const tableColumn = [
     accessor: "courseOutcomes",
   },
   {
-    Header: "Target Set(%)",
-    accessor: "targetSet",
-  },
-  {
-    Header: "Level 0 (Below)",
+    Header: "PO1",
     // accessor: "value",
     Cell: ({ row }: any) => (
       <CounterCell rowValue={row.original.value} />
     ),
   },
   {
-    Header: "Level 1 (Below and Above)",
+    Header: "PO2",
     // accessor: "value",
     Cell: ({ row }: any) => (
       <CounterCell rowValue={row.original.value} />
     ),
   },
   {
-    Header: "Level 2 (Between)",
+    Header: "PO3",
     // accessor: "value",
     Cell: ({ row }: any) => (
       <CounterCell rowValue={row.original.value} />
     ),
   },
   {
-    Header: "Level 3 (Above)",
+    Header: "PO4",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO5",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO6",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO7",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO8",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO9",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO10",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO11",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PO12",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PSO1",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "PSO2",
     // accessor: "value",
     Cell: ({ row }: any) => (
       <CounterCell rowValue={row.original.value} />
@@ -45,7 +111,7 @@ const tableColumn = [
   },
 ];
 
-const LevelThreshold2 = (props: Props) => {
+const MappingTable = (props: Props) => {
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => tableData, [tableData]);
@@ -111,19 +177,16 @@ const LevelThreshold2 = (props: Props) => {
   );
 };
 
-export default LevelThreshold2;
+export default MappingTable;
 
 const tableData = [
   {
     courseOutcomes: "AIT_CO 1",
-    targetSet: 60
   },
   {
     courseOutcomes: "AIT_CO 2",
-    targetSet: 60
   },
   {
     courseOutcomes: "AIT_CO 3",
-    targetSet: 60
   },
 ];

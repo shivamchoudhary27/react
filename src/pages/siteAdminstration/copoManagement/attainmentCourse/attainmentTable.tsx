@@ -1,51 +1,38 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import { Table, ButtonGroup, Button } from "react-bootstrap";
-import CustomButton from "../../../widgets/formInputFields/buttons";
+import { Table } from "react-bootstrap";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import SelectCell from "../selectCell";
+import AssessmentButtons from "../assessmentCos/assessmentButtons";
 
 type Props = {};
 
 const tableColumn = [
   {
-    Header: "SNo.",
-    Cell: ({ row }: any) => <p>{row.index + 1}</p>,
-  },
-  {
     Header: "Course Outcomes",
     accessor: "courseOutcomes",
   },
   {
-    Header: "After successful completion of the course student will be able to",
-    accessor: "courseCompletion",
+    Header: "Assessment in %",
+    // accessor: "value",
+    Cell: ({ row }: any) => <SelectCell name="" />,
   },
   {
-    Header: "Target Set(%)",
+    Header: "Average Assessment",
     // accessor: "value",
-    Cell: ({ row }: any) => (
-      <form>
-        <ButtonGroup aria-label="Basic" size="sm" className="minusplus-btngroup">
-          <Button variant="primary">
-            <i className="fa-solid fa-minus"></i>
-          </Button>
-          <input
-            type="text"
-            value={row.original.value}
-            onChange={(e) => {
-              row.original.value = e.target.value;
-            }}
-            placeholder="0%"
-            style={{ width: "70px" }}
-          />
-          <Button variant="primary">
-            <i className="fa-solid fa-plus"></i>
-          </Button>
-        </ButtonGroup>
-      </form>
-    ),
+    Cell: ({ row }: any) => <SelectCell name="" />,
+  },
+  {
+    Header: "Target Set",
+    accessor: "targetSet",
+  },
+  {
+    Header: "Attainment Level",
+    accessor: "attainmentLevel",
   },
 ];
 
-const LevelThreshold = (props: Props) => {
+const AttainmentTable = (props: Props) => {
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => tableData, [tableData]);
@@ -94,6 +81,8 @@ const LevelThreshold = (props: Props) => {
         )} */}
       </div>
 
+      <AssessmentButtons />
+
       <div className="modal-buttons">
         <CustomButton
           type="submit"
@@ -111,19 +100,22 @@ const LevelThreshold = (props: Props) => {
   );
 };
 
-export default LevelThreshold;
+export default AttainmentTable;
 
 const tableData = [
   {
     courseOutcomes: "AIT_CO 1",
-    courseCompletion: "Identify the user mashup in rich internet application",
+    targetSet: 60,
+    attainmentLevel: 3,
   },
   {
     courseOutcomes: "AIT_CO 2",
-    courseCompletion: "",
+    targetSet: 60,
+    attainmentLevel: 3,
   },
   {
     courseOutcomes: "AIT_CO 3",
-    courseCompletion: "",
+    targetSet: 60,
+    attainmentLevel: 3,
   },
 ];
