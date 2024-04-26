@@ -24,7 +24,7 @@ const ViewUserProfile = () => {
     userLastName: "--",
     userFirstName: "--",
     parentsMobile: "--",
-    timeZone:"--"
+    timezone:"--"
   });
   const dummyData = {
     items: [],

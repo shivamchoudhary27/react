@@ -22,7 +22,7 @@ const EditUserProfile = () => {
     userLastName: "",
     parentsMobile: "",
     userFirstName: "",
-    timeZone:"Asia/Kolkata",
+    timezone:"Asia/Kolkata",
   };
 
   const currentInstitute = useSelector(

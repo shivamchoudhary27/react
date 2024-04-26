@@ -133,26 +133,6 @@ const RepliesForm = (props: Props) => {
         </Modal.Header>
         <Modal.Body>
           {props.repliesAction !== "reply" ? (
-            // <>
-            //   {props.apiStatus === "finished" &&
-            //   props.getAllComment.length === 0 ? (
-            //     <Errordiv
-            //       msg="No comments available!"
-            //       cstate
-            //       className="mt-3"
-            //     />
-            //   ) : props.apiStatus === "started" &&
-            //     props.getAllComment.length === 0 ? (
-            //     <p>Loading.....</p>
-            //   ) : (
-            //     <MessagesView
-            //       apiStatus={props.apiStatus}
-            //       customClass="chat-reverse"
-            //       getAllComment={props.getAllComment}
-            //       selectedTopicId={props.selectedTopicId}
-            //     />
-            //   )}
-            // </>
             <>
             {props.apiStatus === "finished" &&
             props.getAllComment.length === 0 ? (

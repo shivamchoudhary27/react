@@ -44,7 +44,7 @@ const userFormSchema = Yup.object({
     .trim()
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
-  // timeZone: Yup.string().required("Time Zone is required"),
+  // timezone: Yup.string().required("Time Zone is required"),
   // genderType: Yup.string().required("Gender is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
@@ -203,21 +203,21 @@ const FormData = (props: Props) => {
 
               <Col sm={6} lg={4}>
                       <FieldLabel
-                        htmlfor="timeZone"
+                        htmlfor="timezone"
                         labelText="Time Zone"
                         required="required"
                         star="*"
                       />
                       <FieldTypeSelect
-                        name="timeZone"
+                        name="timezone"
                         options={timeZone}
                         setcurrentvalue={setValues}
                         currentformvalue={values}
                         // selectDefaultLabel={"Time Zone"}
                       />
                       <FieldErrorMessage
-                        errors={errors.timeZone}
-                        touched={touched.timeZone}
+                        errors={errors.timezone}
+                        touched={touched.timezone}
                       />
                     </Col>
 

@@ -143,7 +143,7 @@ const Browser = (props: Props) => {
                   </li>
                   <li>
                       <label>Time Zone</label>
-                      {props.commonProps.user.timeZone}
+                      {props.commonProps.user.timezone}
                     </li>
                   <li>
                     <label>Blood Group</label>

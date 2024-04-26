@@ -48,7 +48,7 @@ const userFormSchema = Yup.object({
     .required("Last name is required"),
   userCountry: Yup.string().required("Country is required"),
   // genderType: Yup.string().required("Gender is required"),
-  timeZone: Yup.string().required("Time Zone is required"),
+  timezone: Yup.string().required("Time Zone is required"),
   // mobile: Yup.number().required('Mobile nuber is required'),
 });
 
@@ -79,7 +79,7 @@ const EditUserProfile = () => {
     userLastName: "",
     parentsMobile: "",
     userFirstName: "",
-    timeZone:"Asia/Kolkata",
+    timezone:"Asia/Kolkata",
   };
   const [initialValues, setInitialvalues] = useState(initialFormValues);
 
@@ -117,7 +117,11 @@ const EditUserProfile = () => {
             message: err.response.data.message,
             alertBoxColor: "danger",
           });
-        }
+        }else{
+          setAlertMsg({
+          message: err.response.data.message,
+          alertBoxColor: "danger",
+        });}
     });
   };
 
@@ -268,21 +272,21 @@ const EditUserProfile = () => {
 
                   <Col sm={6} lg={4}>
                       <FieldLabel
-                        htmlfor="timeZone"
+                        htmlfor="timezone"
                         labelText="Time Zone"
                         required="required"
                         star="*"
                       />
                       <FieldTypeSelect
-                        name="timeZone"
+                        name="timezone"
                         options={timeZone}
                         setcurrentvalue={setValues}
                         currentformvalue={values}
                         selectDefaultLabel={"Time Zone"}
                       />
                       <FieldErrorMessage
-                        errors={errors.timeZone}
-                        touched={touched.timeZone}
+                        errors={errors.timezone}
+                        touched={touched.timezone}
                       />
                     </Col>
 

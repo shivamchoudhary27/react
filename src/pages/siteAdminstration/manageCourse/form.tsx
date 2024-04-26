@@ -10,7 +10,7 @@ import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
-import { addMonths, format, getMonth, getDate, getYear } from "date-fns";
+import {format} from "date-fns";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import { getData, postData, putData } from "../../../adapters/microservices";
@@ -41,15 +41,7 @@ const formSchema = Yup.object().shape({
         },
       });
     }),
-  // Comment BY AKSHAY ALKAMA SIR Review
-  // enrollmentCapacity: Yup.number()
-  //   .integer("Must be an integer")
-  //   .positive("Must be a positive integer")
-  //   .min(0, "Must be greater than or equal to 0")
-  //   .when("type", {
-  //     is: "minor",
-  //     then: Yup.number().required("Enrollment capacity is required"),
-  //   }),
+
 
   enrollmentCapacity: Yup.number().when("type", {
     is: "minor",
@@ -79,9 +71,6 @@ const CourseModal = ({
     // pageSize: pagination.PERPAGE,
     pageSize: 100,
   });
-
-  const [currentUTC, setCurrentUTC] = useState('');
-
   
 
   const [initValues, setInitValues] = useState({
@@ -177,27 +166,31 @@ const CourseModal = ({
   }, [categorieslist]);
 
   const getCurrentMonth = (currentDate) => {
-    return format(currentDate, "yyyy-MM-dd");
+    return format(currentDate, "yyyy-MM-dd'T'HH:mm:ss");
   };
-                                             // Comment BY AKSHAY ALKAMA SIR Review
-  // const getNextMonth = (currentDate) => {
-  //   const endDate = addMonths(currentDate, 1);
-  //   return format(endDate, "yyyy-MM-dd");
+
+
+  // const initialDateFormatHandler = (inputDate: string) => {
+  //   const date = new Date(inputDate);
+  //   const day = date.getDate().toString().padStart(2, "0");
+  //   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
+  //   const year = date.getFullYear();
+
+  //   return `${year}-${month}-${day}`;
   // };
 
-  // const dateFormatHandlers = (date: string) => {
-  //   const [year, month, day] = date.split("-");
-  //   return `${day}-${month}-${year}`;
-  // };
 
   const initialDateFormatHandler = (inputDate: string) => {
     const date = new Date(inputDate);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
     const year = date.getFullYear();
-
-    return `${year}-${month}-${day}`;
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+  
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   };
+
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
@@ -212,7 +205,7 @@ const CourseModal = ({
 
     setSubmitting(true);
     let requestData = { ...values, category: { id: values.category } };
-    if (courseobj.id == 0) {
+    if (courseobj.id === 0) {
       const endPoint = `${programId}/course`;
       postData(endPoint, requestData)
         .then((res: any) => {
@@ -366,7 +359,7 @@ const CourseModal = ({
                     required="required"
                   />
                   <FieldTypeText
-                    type="date"
+                    type="datetime-local"
                     name="startDate"
                     min={new Date()}
                     placeholder="Start Date"
@@ -385,7 +378,7 @@ const CourseModal = ({
                     required="required"
                   />
                   <FieldTypeText
-                    type="date"
+                    type="datetime-local"
                     name="endDate"
                     placeholder="End Date"
                   />

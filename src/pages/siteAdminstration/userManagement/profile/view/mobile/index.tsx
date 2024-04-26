@@ -113,7 +113,7 @@ const Mobile = (props: Props) => {
                       <label>time Zone</label>
                       {props.commonProps.user.timeZone !== null
                         ? props.commonProps.user.timeZone
-                        : "--"}
+                        : "Asia/Kolkata"}
                     </li>
                     <li>
                       <label>Blood Group</label>
