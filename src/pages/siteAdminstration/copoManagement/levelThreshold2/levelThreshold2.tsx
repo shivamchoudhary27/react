@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import { Table } from "react-bootstrap";
-import CustomButton from "../../../widgets/formInputFields/buttons";
-import SelectCell from "./selectCell";
-import AssessmentButtons from "./assessmentButtons";
+import { Table,} from "react-bootstrap";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import CounterCell from "../counterCell";
 
 type Props = {};
 
@@ -13,26 +12,40 @@ const tableColumn = [
     accessor: "courseOutcomes",
   },
   {
-    Header: "Assessment in %",
-    // accessor: "value",
-    Cell: ({ row }: any) => <SelectCell name="" />,
-  },
-  {
-    Header: "Average Assessment",
-    // accessor: "value",
-    Cell: ({ row }: any) => <SelectCell name="" />,
-  },
-  {
-    Header: "Target Set",
+    Header: "Target Set(%)",
     accessor: "targetSet",
   },
   {
-    Header: "Attainment Level",
-    accessor: "attainmentLevel",
+    Header: "Level 0 (Below)",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "Level 1 (Below and Above)",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "Level 2 (Between)",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
+  },
+  {
+    Header: "Level 3 (Above)",
+    // accessor: "value",
+    Cell: ({ row }: any) => (
+      <CounterCell rowValue={row.original.value} />
+    ),
   },
 ];
 
-const AttainmentTable = (props: Props) => {
+const LevelThreshold2 = (props: Props) => {
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
   const data = useMemo(() => tableData, [tableData]);
@@ -81,8 +94,6 @@ const AttainmentTable = (props: Props) => {
         )} */}
       </div>
 
-      <AssessmentButtons />
-
       <div className="modal-buttons">
         <CustomButton
           type="submit"
@@ -100,22 +111,19 @@ const AttainmentTable = (props: Props) => {
   );
 };
 
-export default AttainmentTable;
+export default LevelThreshold2;
 
 const tableData = [
   {
     courseOutcomes: "AIT_CO 1",
-    targetSet: 60,
-    attainmentLevel: 3,
+    targetSet: 60
   },
   {
     courseOutcomes: "AIT_CO 2",
-    targetSet: 60,
-    attainmentLevel: 3,
+    targetSet: 60
   },
   {
     courseOutcomes: "AIT_CO 3",
-    targetSet: 60,
-    attainmentLevel: 3,
+    targetSet: 60
   },
 ];
