@@ -11,6 +11,9 @@ type Props = {
   courseDates: any;
   selectedMonth: any;
   updateTimetableDates: any;
+  dpt: any;
+  prg: any;
+  prgId: any;
 };
 
 const View = (props: Props) => {
@@ -22,6 +25,9 @@ const View = (props: Props) => {
     courseDates: props.courseDates,
     selectedMonth: props.selectedMonth,
     updateTimetableDates: props.updateTimetableDates,
+    dpt: props.dpt,
+  prg: props.prg,
+  prgId:  props.prgId,
 
   };
   return (

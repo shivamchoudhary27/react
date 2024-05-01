@@ -59,7 +59,6 @@ const PublishChangeRequest = () => {
         startDate: 0,
         endDate: 0,
       });
-
       useEffect(() => {
         getUrlParams(location, setUrlArg);
       }, []);
@@ -191,6 +190,7 @@ const PublishChangeRequest = () => {
           setSelectedMonth(e.target.value)
         }
       }
+
       return (
         <React.Fragment>
           {/* mobile and browser view component call */}
@@ -232,7 +232,7 @@ const PublishChangeRequest = () => {
                     <img src={endDateIcon} alt="End Date" />
                     <b>End Date: </b> {courseDates.endDate}
                   </div>
-                  {courseDates.startDate !== "--/--/----" &&
+                  {/* {courseDates.startDate !== "--/--/----" &&
                     courseDates.endDate !== "--/--/----" && (
                       <div>
                         <label htmlFor="month">Month:</label>
@@ -250,7 +250,7 @@ const PublishChangeRequest = () => {
                       ))}
                         </select>
                       </div>
-                    )}
+                    )} */}
                 </div>
                 <div className="slot-indicator">
                 <div className="me-1"><i className="fa-solid fa-envelope-circle-check"></i> Change Request</div>
@@ -279,28 +279,6 @@ const PublishChangeRequest = () => {
                       <i>No timeslots are available</i>
                     </div>
                   )}
-                  <div style={{ textAlign: "right" }}>
-                    <CustomButton
-                      type="submit"
-                      btnText="Final Publish"
-                      variant="primary"
-                      // disabled={isSubmitting}
-                    />
-                    
-                  </div>
-                  <div className="modal-buttons">
-                    <CustomButton
-                      type="submit"
-                      btnText="Submit Changes"
-                      variant="primary"
-                      // disabled={isSubmitting}
-                    />
-                    <CustomButton
-                      type="reset"
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
-                  </div>
                 </>
               )}
             </Container>

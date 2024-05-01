@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 type Props = {
   getCourseId: any;
   apiResponseData: any;
+  dpt: any;
+  prg: any;
+  prgId: any;
 };
 
 const MyTimetableFilter = (props: Props) => {
@@ -31,6 +34,7 @@ const MyTimetableFilter = (props: Props) => {
   });
   const [course, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState(0);
+  console.log(selectedCourse, 'selectedCourse')
 
   useEffect(() => {
     if (filterStatus.selectedValues.program > 0) {
@@ -110,7 +114,16 @@ const MyTimetableFilter = (props: Props) => {
           </div>
           <div>
             <Button variant="primary">Slot Preferences</Button>{" "}
-            <Button variant="primary" onClick={()=> navigate("/myChangeRequest")}>My Change Request</Button>
+            <Button
+              variant="primary"
+              onClick={() =>
+                navigate(
+                  `/myChangeRequest?dpt=${props.dpt}&prg=${props.prg}&prgId=${props.prgId}`
+                )
+              }
+            >
+              My Change Request
+            </Button>
           </div>
         </div>
       </Container>
