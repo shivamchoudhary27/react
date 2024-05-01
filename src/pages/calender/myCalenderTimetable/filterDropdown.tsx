@@ -184,7 +184,7 @@ const MyTimelineFilterDropdown = (props: Props) => {
 
   return (
     <React.Fragment>
-      <RenderFilterElements
+      {/* <RenderFilterElements
         component={"Department"}
         filterPacket={filters.filterData.departments}
         packetKeys={["id", "name"]}
@@ -199,7 +199,7 @@ const MyTimelineFilterDropdown = (props: Props) => {
         getFilterChange={getFilterChange}
         currentValue={filters.selectedValues.batchYear}
         filterDisable={false}
-      />
+      /> */}
       <RenderFilterElements
         component={"Program"}
         filterPacket={filters.filterData.programs}
@@ -208,14 +208,14 @@ const MyTimelineFilterDropdown = (props: Props) => {
         currentValue={filters.selectedValues.program}
         filterDisable={false}
       />
-      <RenderFilterElements
+      {/* <RenderFilterElements
         component={"Category"}
         filterPacket={filters.filterData.categories}
         packetKeys={["id", "name"]}
         getFilterChange={getFilterChange}
         currentValue={filters.selectedValues.category}
         filterDisable={filters.selectedValues.program === 0 ? true : false} // only enable when a single program is selected
-      />
+      /> */}
     </React.Fragment>
   );
 };

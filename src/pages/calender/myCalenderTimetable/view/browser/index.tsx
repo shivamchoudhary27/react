@@ -17,6 +17,9 @@ type Props = {
     courseDates: any;
     selectedMonth: any;
     updateTimetableDates: any;
+    dpt: any;
+    prg: any;
+    prgId: any;
   };
 };
 
@@ -39,6 +42,9 @@ const Browser = (props: Props) => {
             <MyTimetableFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
+              dpt={props.commonProps.dpt}
+              prg={props.commonProps.prg}
+              prgId={props.commonProps.prgId}
             />
             <MyTimetableDraftTable
              SlotData={props.commonProps.timeslots}

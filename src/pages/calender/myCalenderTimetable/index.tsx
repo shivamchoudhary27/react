@@ -57,18 +57,51 @@ const MyCalenderTimetable = (props: Props) => {
     endDate: 0,
   });
 
+  console.log(urlArg)
+
   // call API to get courses list === >>>
+  // useEffect(() => {
+  //   let endPoint = `/${currentUserRole.id}/dashboard`;
+  //   getData(endPoint, {}).then((res: any) => {
+  //     if (res.data !== "" && res.status === 200) {
+  //       console.log(res.data, 'departments')
+  //       // console.log(res.data.programs, 'programs')
+  //       console.log(res.data.courses, 'courses')
+  //       setCoursesList(res.data.courses);
+  //       setApiResponseData(res.data);
+  //       if (res.data.length > 0) setCourseId(res.data.courses[0].id);
+  //     }
+  //   });
+  // }, [currentUserRole.id]);
+
   useEffect(() => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
     getData(endPoint, {}).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
-        console.log(res.data)
-        setCoursesList(res.data.courses);
-        setApiResponseData(res.data);
-        if (res.data.length > 0) setCourseId(res.data.courses[0].id);
+        // Accessing departments object from the response
+        console.log(res.data.departments, 'departments');
+        // Accessing programs array from the response
+        console.log(res.data.programs, 'programs');
+        
+        // Extracting department IDs and names
+        const departmentIds = Object.keys(res.data.departments);
+        // Extracting program names and IDs
+        const programNames = res.data.programs.map((program: any) => program.name);
+        const programIds = res.data.programs.map((program: any) => program.id);
+  
+        // Setting department IDs and program names and IDs in state
+        setUrlArg((prevUrlArg) => ({
+          ...prevUrlArg,
+          dpt: departmentIds[0], // Assuming you want to set the first department ID initially
+          prg: programNames[0], // Assuming you want to set the first program name initially
+          prgId: programIds[0] // Assuming you want to set the first program ID initially
+        }));
+  
+        // Your other logic...
       }
     });
   }, [currentUserRole.id]);
+  
 
   const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
@@ -138,7 +171,7 @@ const MyCalenderTimetable = (props: Props) => {
         });
     }
   }, [filters]);
-
+console.log(departmentTimeslots, 'departmentTimeslots')
   // calling API to get weekdays === >>
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
@@ -206,6 +239,9 @@ const MyCalenderTimetable = (props: Props) => {
     updateTimetableDates={updateTimetableDates}
     updateFacultyStatus={updateFacultyStatus}
     updateCourseDates={updateCourseDates}
+    dpt={urlArg.dpt}
+    prg={urlArg.prg}
+    prgId={urlArg.prgId}
      />
   )
 }
