@@ -6,6 +6,7 @@ import PageTitle from "../../../../../../widgets/pageTitle";
 import MobileHeader from "../../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../../newFooter/mobileFooter";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { useParams } from "react-router-dom";
 
 type Props = {
   commonProps: {
@@ -33,20 +34,21 @@ type Props = {
 
 
 const Mobile = (props: Props) => {
+  const { _, name } = useParams();
   return (
     <React.Fragment>
       <MobileHeader />
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Manage Program", path: "/manageprogram" },
-          { name: "Manage Courses", path: "" },
-        ]}
+          { name: "CO/PO Management", path: "/copomanagement" },
+          { name: "Configure Co/Po", path: "" },
+          ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="Manage Courses" gobacklink="/manageprogram" />
+            <PageTitle pageTitle={`${name}: Configure Co/Po`} gobacklink="/copomanagement" />
             {props.commonProps.coursePermission.canView && (
               <CourseTable
                 programId={props.commonProps.programId}

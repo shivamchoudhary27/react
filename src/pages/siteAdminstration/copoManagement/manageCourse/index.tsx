@@ -16,7 +16,7 @@ const CoPoCourseManagment = () => {
     pager: { totalElements: 0, totalPages: 0 },
   };
 
-  const { id, name } = useParams();
+  const { id } = useParams();
   const [categoryData, setCategoryData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
