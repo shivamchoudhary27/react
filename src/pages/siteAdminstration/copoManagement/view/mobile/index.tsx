@@ -18,12 +18,14 @@ const Mobile = (props: Props) => {
     <BreadcrumbComponent
       routes={[
         { name: "Site Administration", path: "/siteadmin" },
-        { name: "CO/PO Management", path: "/copoManagement" },
+          { name: "CO/PO Management", path: "/copoManagement" },
+          { name: "Configure Co/Po", path: "/copoManagement" },
+          { name: "Configure Co/Po Course", path: "/copomanagement" },
       ]}
     />
     <div className="contentarea-wrapper mt-3 mb-5">
       <Container fluid>
-          <PageTitle pageTitle="CO/PO Management" gobacklink="/siteadmin" />
+        <PageTitle pageTitle="Configure Co/Po Course" gobacklink="/siteadmin" />
           {/* <ProgramEnrollment/>         */}
           <TabsList />
         </Container>

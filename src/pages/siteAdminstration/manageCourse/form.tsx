@@ -165,20 +165,9 @@ const CourseModal = ({
     }
   }, [categorieslist]);
 
-  const getCurrentMonth = (currentDate) => {
+  const getCurrentMonth = (currentDate: Date) => {
     return format(currentDate, "yyyy-MM-dd'T'HH:mm:ss");
   };
-
-
-  // const initialDateFormatHandler = (inputDate: string) => {
-  //   const date = new Date(inputDate);
-  //   const day = date.getDate().toString().padStart(2, "0");
-  //   const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
-  //   const year = date.getFullYear();
-
-  //   return `${year}-${month}-${day}`;
-  // };
-
 
   const initialDateFormatHandler = (inputDate: string) => {
     const date = new Date(inputDate);
@@ -187,8 +176,9 @@ const CourseModal = ({
     const day = date.getDate().toString().padStart(2, "0");
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
-  
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   };
 
 

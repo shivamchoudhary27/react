@@ -8,6 +8,7 @@ import HeaderTabs from "../../../../../headerTabs";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BuildPagination from "../../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import { useParams } from "react-router";
 
 type Props = {
   commonProps: {
@@ -34,6 +35,7 @@ type Props = {
 };
 
 const Browser = (props: Props) => {
+  const { _, name } = useParams();
   return (
     <React.Fragment>
       <Header />
@@ -42,13 +44,13 @@ const Browser = (props: Props) => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "CO/PO Management", path: "/copomanagement" },
-          { name: "Configure Co/Po", path: "/copomanagement" },
+          { name: "Configure Co/Po", path: "" },
           ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="Configure Co/Po" gobacklink="/copomanagement" />
+            <PageTitle pageTitle={`${name}: Configure Co/Po`} gobacklink="/copomanagement" />
             {props.commonProps.coursePermission.canView && (
               <CourseTable
                 apiStatus={props.commonProps.apiStatus}

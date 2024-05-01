@@ -1,59 +1,115 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import { Table,} from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import CounterCell from "../counterCell";
 
-type Props = {};
+type Props = {
+  levelData: any;
+};
 
-const tableColumn = [
-  {
-    Header: "Course Outcomes",
-    accessor: "courseOutcomes",
-  },
-  {
-    Header: "Target Set(%)",
-    accessor: "targetSet",
-  },
-  {
-    Header: "Level 0 (Below)",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "Level 1 (Below and Above)",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "Level 2 (Between)",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "Level 3 (Above)",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-];
+const LevelThreshold2Table = (props: Props) => {
+  const tableColumn = [
+    {
+      Header: "Course Outcomes",
+      Cell: ({ row }: any) => (
+        <span>{`${row.original.abbreviation}_${row.original.suffixValue}`}</span>
+      ),
+    },
+    {
+      Header: "Target Set(%)",
+      accessor: "target",
+    },
+    {
+      Header: "Level 0 (Below)",
+      // accessor: "value",
+      Cell: ({ row }: any) => (
+        <CounterCell
+          rowValue={row.original.level_0_Target}
+          // counterHandler={counterHandler}
+          handleIncrement={handleIncrement}
+          handleDecrement={handleDecrement}
+        />
+      ),
+    },
+    {
+      Header: "Level 1 (Below and Above)",
+      // accessor: "value",
+      Cell: ({ row }: any) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+          }}
+        >
+          <CounterCell
+            rowValue={row.original.level_1_min_Target}
+            disableStatus={true}
+          />
+          <CounterCell rowValue={row.original.level_1_max_Target} />
+        </div>
+      ),
+    },
+    {
+      Header: "Level 2 (Between)",
+      // accessor: "value",
+      Cell: ({ row }: any) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+          }}
+        >
+          <CounterCell
+            rowValue={row.original.level_2_min_target}
+            disableStatus={true}
+          />
+          <CounterCell rowValue={row.original.level_2_max_target} />
+        </div>
+      ),
+    },
+    {
+      Header: "Level 3 (Above)",
+      // accessor: "value",
+      Cell: ({ row }: any) => (
+        <CounterCell rowValue={row.original.level_3_target} />
+      ),
+    },
+  ];
 
-const LevelThreshold2 = (props: Props) => {
   // react table custom variable decleration === >>>
   const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => tableData, [tableData]);
+  const data = useMemo(() => props.levelData, [props.levelData]);
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
     });
+  let count = 1;
+
+  const counterHandler = (val: any) => {
+    console.log(val);
+  };
+
+  const handleIncrement = () => {
+    // count = count + 1;
+    // setFieldValue(`target_${id}`, count);
+    // setTargetData((preVal) => ({
+    //   ...preVal,
+    //   [`target_${id}`]: count,
+    // }));
+  };
+
+  const handleDecrement = () => {
+    // count = count - 1;
+    // setFieldValue(`target_${id}`, count);
+    // setTargetData((preVal) => ({
+    //   ...preVal,
+    //   [`target_${id}`]: count,
+    // }));
+  };
 
   return (
     <React.Fragment>
@@ -111,19 +167,19 @@ const LevelThreshold2 = (props: Props) => {
   );
 };
 
-export default LevelThreshold2;
+export default LevelThreshold2Table;
 
 const tableData = [
   {
     courseOutcomes: "AIT_CO 1",
-    targetSet: 60
+    targetSet: 60,
   },
   {
     courseOutcomes: "AIT_CO 2",
-    targetSet: 60
+    targetSet: 60,
   },
   {
     courseOutcomes: "AIT_CO 3",
-    targetSet: 60
+    targetSet: 60,
   },
 ];
