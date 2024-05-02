@@ -166,7 +166,7 @@ const CourseModal = ({
   }, [categorieslist]);
 
   const getCurrentMonth = (currentDate: Date) => {
-    return format(currentDate, "yyyy-MM-dd'T'HH:mm:ss");
+    return format(currentDate, "yyyy-MM-dd'T'HH:mm");
   };
 
   const initialDateFormatHandler = (inputDate: string) => {
@@ -176,9 +176,11 @@ const CourseModal = ({
     const day = date.getDate().toString().padStart(2, "0");
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
-    const seconds = date.getSeconds().toString().padStart(2, "0");
+    // const seconds = date.getSeconds().toString().padStart(2, "0");
 
-    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+
+    // return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   };
 
 
