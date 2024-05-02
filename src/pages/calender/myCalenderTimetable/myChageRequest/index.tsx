@@ -19,6 +19,7 @@ import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
+
 import {
   getUrlParams,
   getMonthList,
@@ -48,16 +49,28 @@ const PublishChangeRequest = () => {
       const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
       const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
       const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+      const [programFilter, setProgramFilter] = useState([]);
+      const [selectedProgram, setSelectedProgram] = useState<number>(0);
       const currentInstitute = useSelector(
         (state: any) => state.globalFilters.currentInstitute
       );
+
+      const currentUserRole = useSelector(
+        (state) => state.globalFilters.currentUserRole
+      );
+
+    const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
+
+
+  console.log(urlArg)
+
       const [filters, setFilters] = useState({
         pageNumber: 0,
         pageSize: pagination.PERPAGE * 10,
         courseId: 0,
-        userId: 0,
         startDate: 0,
         endDate: 0,
+        userId: currentUserId.uid,
       });
       useEffect(() => {
         getUrlParams(location, setUrlArg);
@@ -74,6 +87,13 @@ const PublishChangeRequest = () => {
           );
         }
       }, [urlArg.dpt]);
+
+      useEffect(()=> {
+        setUrlArg((prevValue) => ({
+          ...prevValue, // Spread the previous state
+          prgId: selectedProgram // Update only the prgId property
+        }));
+      }, [selectedProgram])
     
       // passing arguments to get course workload data === >>
       useEffect(() => {
@@ -95,9 +115,25 @@ const PublishChangeRequest = () => {
         setFilters((previous: any) => ({
           ...previous,
           courseId: courseDates.courseId,
-          userId: 0,
+          userId: currentUserId.uid,
         }));
       }, [courseDates]);
+
+      // timetable call back function === >>>
+    useEffect(() =>{
+    getData(`/${currentInstitute}/programs/${currentUserRole.id}`, filters)
+      .then((result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          setProgramFilter(result.data);
+          const programData = result.data.map((prom: any) => ({ id: prom.id, name: prom.name }));
+
+        }
+        // setApiStatus("finished");
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+    }, []);
     
       // Calling Timetable API to set timetable data === >>
       useEffect(() => {
@@ -164,7 +200,8 @@ const PublishChangeRequest = () => {
       const updateFacultyStatus = (facultyId: any) => {
         setFilters((previous: any) => ({
           ...previous,
-          userId: facultyId,
+          // userId: facultyId,
+          userId: currentUserId.uid,
         }));
       };
     
@@ -221,6 +258,11 @@ const PublishChangeRequest = () => {
                 updateCourseDates={updateCourseDates}
                 setCoursesStatus={setCoursesStatus}
                 updateFacultyStatus={updateFacultyStatus}
+                programFilter={programFilter}
+                selectedProgram={selectedProgram}
+                setSelectedProgram={setSelectedProgram}
+
+                
               />
               <div className="d-flex justify-content-between align-items-center mt-4">
                 <div className="d-flex gap-4 dates-wrapper">

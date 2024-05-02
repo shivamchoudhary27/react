@@ -1,9 +1,9 @@
-import View from './view'
+import View from "./view";
 import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { pagination } from '../../../utils/pagination';
+import { useState, useEffect } from "react";
+import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
 import {
   getUrlParams,
@@ -15,9 +15,11 @@ import {
 } from "./local";
 import { courseDatesObj } from "./utils";
 
-type Props = {}
+type Props = {};
 
 const MyCalenderTimetable = (props: Props) => {
+  const [role, setRole] = useState([])
+  const [selectedCourse, setSelectedCourse] = useState(0);
   const [timeslots, setTimeslots] = useState([]);
   const [courseId, setCourseId] = useState<any>(0);
   const [coursesList, setCoursesList] = useState<any>([]);
@@ -42,7 +44,7 @@ const MyCalenderTimetable = (props: Props) => {
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
+  const [urlArg, setUrlArg] = useState({ dpt: 455, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
   const currentInstitute = useSelector(
@@ -57,51 +59,18 @@ const MyCalenderTimetable = (props: Props) => {
     endDate: 0,
   });
 
-  console.log(urlArg)
-
   // call API to get courses list === >>>
-  // useEffect(() => {
-  //   let endPoint = `/${currentUserRole.id}/dashboard`;
-  //   getData(endPoint, {}).then((res: any) => {
-  //     if (res.data !== "" && res.status === 200) {
-  //       console.log(res.data, 'departments')
-  //       // console.log(res.data.programs, 'programs')
-  //       console.log(res.data.courses, 'courses')
-  //       setCoursesList(res.data.courses);
-  //       setApiResponseData(res.data);
-  //       if (res.data.length > 0) setCourseId(res.data.courses[0].id);
-  //     }
-  //   });
-  // }, [currentUserRole.id]);
-
   useEffect(() => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
     getData(endPoint, {}).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
-        // Accessing departments object from the response
-        console.log(res.data.departments, 'departments');
-        // Accessing programs array from the response
-        console.log(res.data.programs, 'programs');
-        
-        // Extracting department IDs and names
-        const departmentIds = Object.keys(res.data.departments);
-        // Extracting program names and IDs
-        const programNames = res.data.programs.map((program: any) => program.name);
-        const programIds = res.data.programs.map((program: any) => program.id);
-  
-        // Setting department IDs and program names and IDs in state
-        setUrlArg((prevUrlArg) => ({
-          ...prevUrlArg,
-          dpt: departmentIds[0], // Assuming you want to set the first department ID initially
-          prg: programNames[0], // Assuming you want to set the first program name initially
-          prgId: programIds[0] // Assuming you want to set the first program ID initially
-        }));
-  
-        // Your other logic...
+        console.log(res.data.departments)
+        // setDepartmentId(res.data.courses);
+        setApiResponseData(res.data);
+        if (res.data.length > 0) setCourseId(res.data.courses[0].id);
       }
     });
   }, [currentUserRole.id]);
-  
 
   const getCourseId = (courseId: string | number) => {
     setCourseId(courseId);
@@ -112,7 +81,7 @@ const MyCalenderTimetable = (props: Props) => {
   }, []);
 
   //  passing arguments to get timeslot data === >>
-  useEffect(() => { 
+  useEffect(() => {
     if (urlArg.dpt > 0) {
       getTimeslotData(
         currentInstitute,
@@ -125,13 +94,13 @@ const MyCalenderTimetable = (props: Props) => {
 
   // passing arguments to get course workload data === >>
   useEffect(() => {
-    if (urlArg.prgId > 0) {  
+    if (urlArg.prgId > 0) {
       getCourseWorkloadtData(urlArg, setCoursesList);
     }
   }, [urlArg.prgId]);
 
   //  passing arguments to get course workload data === >>
-  useEffect(() => { 
+  useEffect(() => {
     if (coursesList.length > 0) {
       getSortedCategories(coursesList, setSortedCategories);
     }
@@ -139,7 +108,6 @@ const MyCalenderTimetable = (props: Props) => {
 
   // set filters === >>
   useEffect(() => {
-    // console.log(courseDates.courseId)
     setFilters((previous: any) => ({
       ...previous,
       courseId: courseDates.courseId,
@@ -171,7 +139,6 @@ const MyCalenderTimetable = (props: Props) => {
         });
     }
   }, [filters]);
-console.log(departmentTimeslots, 'departmentTimeslots')
   // calling API to get weekdays === >>
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
@@ -194,7 +161,6 @@ console.log(departmentTimeslots, 'departmentTimeslots')
   }, [departmentTimeslots]);
 
   useEffect(() => {
-    // console.log(departmentTimeslots)
     if (departmentTimeslots.items.length > 0) {
       getTableRenderTimeSlots(
         departmentTimeslots,
@@ -226,24 +192,24 @@ console.log(departmentTimeslots, 'departmentTimeslots')
     }));
   };
 
-  // console.log("apiResponseData-------", apiResponseData)
-
   return (
-    <View 
-    apiResponseData={apiResponseData} 
-    getCourseId={getCourseId}
-    timeslots={timeslots}
-    apiStatus={apiStatus}
-    courseDates={courseDates}
-    selectedMonth={selectedMonth}
-    updateTimetableDates={updateTimetableDates}
-    updateFacultyStatus={updateFacultyStatus}
-    updateCourseDates={updateCourseDates}
-    dpt={urlArg.dpt}
-    prg={urlArg.prg}
-    prgId={urlArg.prgId}
-     />
-  )
-}
+    <View
+      apiResponseData={apiResponseData}
+      getCourseId={getCourseId}
+      timeslots={timeslots}
+      apiStatus={apiStatus}
+      courseDates={courseDates}
+      selectedMonth={selectedMonth}
+      updateTimetableDates={updateTimetableDates}
+      updateFacultyStatus={updateFacultyStatus}
+      updateCourseDates={updateCourseDates}
+      setSelectedCourse= {setSelectedCourse}
+      selectedCourse={selectedCourse}
+      dpt={urlArg.dpt}
+      prg={urlArg.prg}
+      prgId={urlArg.prgId}
+    />
+  );
+};
 
-export default MyCalenderTimetable
+export default MyCalenderTimetable;

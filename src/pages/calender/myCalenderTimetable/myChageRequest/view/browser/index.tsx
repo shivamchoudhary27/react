@@ -36,10 +36,11 @@ const Browser = (props: Props) => {
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle pageTitle="My Change Request" gobacklink="/mytimetable" />
-            <MyTimetableFilter
+            {/* <MyTimetableFilter
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
-            />
+            /> */}
+            
             <MyChangeRequestTable
              SlotData={props.commonProps.timeslots}
              apiStatus={props.commonProps.apiStatus}

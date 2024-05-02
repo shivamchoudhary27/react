@@ -4,13 +4,15 @@ import Mobile from "./mobile";
 import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
-  getCourseId: any
+  getCourseId: any;
   apiResponseData: any;
   timeslots: any;
   apiStatus: any;
   courseDates: any;
   selectedMonth: any;
   updateTimetableDates: any;
+  setSelectedCourse: any;
+  selectedCourse: any;
   dpt: any;
   prg: any;
   prgId: any;
@@ -25,10 +27,11 @@ const View = (props: Props) => {
     courseDates: props.courseDates,
     selectedMonth: props.selectedMonth,
     updateTimetableDates: props.updateTimetableDates,
+    setSelectedCourse: props.setSelectedCourse,
+    selectedCourse: props.selectedCourse,
     dpt: props.dpt,
-  prg: props.prg,
-  prgId:  props.prgId,
-
+    prg: props.prg,
+    prgId: props.prgId,
   };
   return (
     <React.Fragment>
