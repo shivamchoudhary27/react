@@ -26,6 +26,7 @@ const Home = () => {
   const [allPrograms, setAllPrograms] = useState([]);
   const redirectUri = config.REDIRECT_URI;
   const oAuthUrl = `${config.OAUTH2_URL}/authorize?response_type=code&client_id=moodle&redirect_uri=${redirectUri}&scope=openid`;
+  const [showLoader, setShowLoader] = useState(true);
 
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
@@ -44,6 +45,7 @@ const Home = () => {
         }
       })
       .catch((err: any) => {
+        setShowLoader(true)
         console.log(err);
       });
   }, [filterUpdate]);
@@ -55,14 +57,24 @@ const Home = () => {
     height: "100vh",
   };
 
-  if(allPrograms && allPrograms?.length === 0) {
-    return (
-      <Container style={loaderStyle}>
-        <NewLoader />
-        <br />
-      </Container>
-    );
-  }
+  // if(allPrograms && allPrograms?.length === 0) {
+  //   return (
+  //     <Container style={loaderStyle}>
+  //       <NewLoader />
+  //       <br />
+  //     </Container>
+  //   );
+  // }
+
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoader(false); // Hide the loader after 3 seconds
+    }, 3000);
+
+    return () => clearTimeout(timer); // Clean up the timer
+  }, [showLoader]);
 
 return (
     <>
@@ -126,7 +138,13 @@ return (
         </div>
         <div className="courseswrapper">
           <Row className="landingprograms">
-          {allPrograms.length > 0 &&
+          {allPrograms && allPrograms.length === 0 ? (
+    showLoader ? (
+      <NewLoader /> // Show the loader for 3 seconds
+    ) : (
+      <div>loading Programs...</div> // Show this after the loader disappears
+    )
+  ) : (
             allPrograms.map((item: any, index: number) => (
               <Col key={item.id} xl={4} lg={4} md={6} sm={12}>
               <Link
@@ -171,9 +189,10 @@ return (
                 <div className="course-title">{item.name}</div>
               </div>
               </Link>
-              </Col>
-            ))}
-</Row>
+             </Col>
+            ))
+            )}
+          </Row>
 
         <div className="allcourses-btn">
           {/* <button onClick={() => navigate("/programlist")}>
