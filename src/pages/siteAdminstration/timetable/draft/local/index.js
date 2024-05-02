@@ -164,7 +164,7 @@ export const getRandomStatus = (weekend = false) => {
     var randomNumber = Math.random();
   
     return randomNumber < 0.5 ? 
-    {status: "booked", bookedDetais: "TUT SB B204"} 
+    {status: "draft", bookedDetais: "TUT SB B204"} 
     : 
     {status: "available"};
 }
@@ -274,11 +274,11 @@ const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters) 
         const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
         // console.log(x)
         // console.log(filteredData[0].sessionDate)
-        if(filteredData[0].status === null){
+        if(filteredData[0].status !== null){
             if(filteredData[0].status === "available"){
                 response = { status: "available" }
             }else if(x){  
-                response = { status: "booked", bookedDetais: filteredData[0].description }
+                response = { status: "draft", bookedDetais: filteredData[0].description }
             }else{
                 response = { status: "available" }
             }

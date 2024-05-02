@@ -119,7 +119,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
             return (
               // && format(date, 'dd-MM-yyyy') >= courseDates.startDate.replaceAll('/','-') && 'Available' + format(date, 'dd-MM-yyyy')
               <div> 
-                {currentColumns.status === "booked" &&
+                {currentColumns.status === "draft" &&
                   currentColumns.bookedDetais}
                 {currentColumns.status === "available" && "Available"}
                 {currentColumns.status === "weekend" && "Weekend"}  
