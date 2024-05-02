@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 type Props = {
   getCourseId: any;
   apiResponseData: any;
+  setSelectedCourse: any;
+  selectedCourse: any;
   dpt: any;
   prg: any;
   prgId: any;
@@ -33,8 +35,8 @@ const MyTimetableFilter = (props: Props) => {
     },
   });
   const [course, setCourses] = useState([]);
-  const [selectedCourse, setSelectedCourse] = useState(0);
-  console.log(selectedCourse, 'selectedCourse')
+  // const [selectedCourse, setSelectedCourse] = useState(0);
+  // console.log(selectedCourse, 'selectedCourse')
 
   useEffect(() => {
     if (filterStatus.selectedValues.program > 0) {
@@ -60,7 +62,7 @@ const MyTimetableFilter = (props: Props) => {
         uniqueProgramIds.has(item.programId)
       );
       if (filteredData.length > 0) {
-        setSelectedCourse(filteredData[0].idNumber);
+        props.setSelectedCourse(filteredData[0].idNumber);
       }
       setCourses(filteredData);
     }
@@ -70,10 +72,10 @@ const MyTimetableFilter = (props: Props) => {
   useEffect(() => {
     if (course.length > 0) {
       if (course[0].idNumber !== null) {
-        setSelectedCourse(course[0].idNumber);
+        props.setSelectedCourse(course[0].idNumber);
         props.getCourseId(course[0].idNumber);
       } else {
-        setSelectedCourse(-1);
+        props.setSelectedCourse(-1);
         props.getCourseId(-1);
       }
     }
@@ -85,11 +87,11 @@ const MyTimetableFilter = (props: Props) => {
 
   const getSelectedCourse = (value: any, component: string) => {
     if (value == -1) {
-      setSelectedCourse(-1);
+      props.setSelectedCourse(-1);
       props.getCourseId(-1);
       return "";
     }
-    setSelectedCourse(value);
+    props.setSelectedCourse(value);
     props.getCourseId(value);
   };
 
@@ -107,7 +109,7 @@ const MyTimetableFilter = (props: Props) => {
               filterPacket={course}
               packetKeys={["idNumber", "name"]}
               getFilterChange={getSelectedCourse}
-              currentValue={selectedCourse}
+              currentValue={props.selectedCourse}
               filterDisable={false}
               addAllOption={false}
             />
@@ -118,7 +120,7 @@ const MyTimetableFilter = (props: Props) => {
               variant="primary"
               onClick={() =>
                 navigate(
-                  `/myChangeRequest?dpt=${props.dpt}&prg=${props.prg}&prgId=${props.prgId}`
+                  `/myChangeRequest?dpt=${props.dpt}`
                 )
               }
             >

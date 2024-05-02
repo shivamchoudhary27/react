@@ -94,10 +94,10 @@ const MyTimelineFilterDropdown = (props: Props) => {
       category: 0,
     },
     filterData: {
-      departments: [],
-      batchYears: [],
+      departments: 0,
+      batchYears: 0,
       programs: [],
-      categories: [],
+      categories: 0,
     },
   });
 
@@ -179,8 +179,6 @@ const MyTimelineFilterDropdown = (props: Props) => {
       }));
     }
   };
-
-  //   console.log("userEnrolData----", userEnrolData);
 
   return (
     <React.Fragment>
