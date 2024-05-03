@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import WaveBottom from "../assets/images/background/bg-modal.svg";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+// import WaveBottom from "../../../../"
 import CustomButton from "../../../../widgets/formInputFields/buttons";
+import FieldLabel from "../../../../widgets/formInputFields/labels";
 
 type Props = {
   onHide: any;
-  isEnrolled: any;
-  isWaitlisted: any;
   modalShow: boolean;
-  minorcourseObj: any;
   toggleModalShow: any;
   updateAddRefresh: any;
 };
@@ -41,16 +40,78 @@ const ModalForm = (props: Props) => {
             showAlert={showAlert}
           />
           <div className="mb-3">
-            <span>Session: AJ - TUT - B113</span>
-            <span>Timeslot: Thursday (11:30 - 12:30)</span>
-            <span>Available Timeslot: Saturday (9:30 - 10:30)</span>
-            <span>Available Room:</span>
-            <span>
-              Reason: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Nulla quam velit, vulputate eu pharetra nec, mattis ac neque. Duis
-              vulputate commodo
-            </span>
+            <div>
+              <b>Session</b> : AJ - TUT - B113
+            </div>
+            <div>
+              <b>Timeslot</b>: Thursday (11:30 - 12:30)
+            </div>
+            <div>
+              <b>Available Timeslot</b>: Saturday (9:30 - 10:30)
+            </div>
           </div>
+          <div className="mb-3">
+            <FieldLabel
+              htmlfor="Timeslot"
+              labelText="Available Timeslot"
+              required="required"
+              star="*"
+            />
+            <select
+              className="form-select"
+              name="topicName"
+              // onChange={(e) => {
+              //   getCurrentValue(e);
+              //   handleChange(e);
+              // }}
+              // value={topicId}
+            >
+              <option value="">Select </option>
+            </select>
+          </div>
+          <div className="mb-3">
+            <FieldLabel
+              htmlfor="AvailableRoom"
+              labelText="Available Room"
+              required="required"
+              star="*"
+            />
+            <select
+              className="form-select"
+              name="topicName"
+              // onChange={(e) => {
+              //   getCurrentValue(e);
+              //   handleChange(e);
+              // }}
+              // value={topicId}
+            >
+              <option value="">Select </option>
+              {/* {props.selectedTopic.map((option: any, index: number) => (
+                      <option key={index} value={option.id}>
+                        {option.topicName}
+                      </option>
+                    ))} */}
+            </select>
+          </div>
+
+          <div className="mb-3">
+                  <FieldLabel
+                    // star="*"
+                    htmlfor="reason"
+                    labelText="Reason"
+                    // required="required"
+                  />
+                  <textarea
+                    name="reason"
+                    // component="textarea"
+                    placeholder="Type Here ..."
+                  />
+                  {/* <FieldErrorMessage
+                    errors={errors.query}
+                    touched={touched.query}
+                    // msgText="query is required"
+                  /> */}
+                </div>
 
           <div className="modal-buttons">
             <CustomButton

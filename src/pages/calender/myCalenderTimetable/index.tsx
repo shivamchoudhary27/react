@@ -44,7 +44,7 @@ const MyCalenderTimetable = (props: Props) => {
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
-  const [urlArg, setUrlArg] = useState({ dpt: 455, prg: "", prgId: 0 });
+  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
   const currentInstitute = useSelector(
@@ -64,10 +64,16 @@ const MyCalenderTimetable = (props: Props) => {
     let endPoint = `/${currentUserRole.id}/dashboard`;
     getData(endPoint, {}).then((res: any) => {
       if (res.data !== "" && res.status === 200) {
-        console.log(res.data.departments)
-        // setDepartmentId(res.data.courses);
         setApiResponseData(res.data);
         if (res.data.length > 0) setCourseId(res.data.courses[0].id);
+      setUrlArg((preValue: any) => ({
+          ...preValue,
+          dpt: Object.keys(res.data.departments)[0]
+        }));
+        setUrlArg((preValue: any) => ({
+          ...preValue,
+          prgId: res.data.programs[0].id
+        }));        
       }
     });
   }, [currentUserRole.id]);
@@ -205,9 +211,7 @@ const MyCalenderTimetable = (props: Props) => {
       updateCourseDates={updateCourseDates}
       setSelectedCourse= {setSelectedCourse}
       selectedCourse={selectedCourse}
-      dpt={urlArg.dpt}
-      prg={urlArg.prg}
-      prgId={urlArg.prgId}
+      setUrlArg={setUrlArg}
     />
   );
 };

@@ -30,6 +30,7 @@ import {
 } from "../local";
 import { courseDatesObj } from "../utils";
 import MyChangeRequestTable from "./table";
+import ModalForm from "../myChageRequest/form";
 
 const PublishChangeRequest = () => {
     const dummyData = {
@@ -49,8 +50,11 @@ const PublishChangeRequest = () => {
       const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
       const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
       const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-      const [programFilter, setProgramFilter] = useState([]);
+      const [programFilter, setProgramFilter] = useState({programs: [], departments : {} });
       const [selectedProgram, setSelectedProgram] = useState<number>(0);
+      const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
+      const [modalShow, setModalShow] = useState(false);
+
       const currentInstitute = useSelector(
         (state: any) => state.globalFilters.currentInstitute
       );
@@ -60,9 +64,6 @@ const PublishChangeRequest = () => {
       );
 
     const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
-
-
-  console.log(urlArg)
 
       const [filters, setFilters] = useState({
         pageNumber: 0,
@@ -91,9 +92,10 @@ const PublishChangeRequest = () => {
       useEffect(()=> {
         setUrlArg((prevValue) => ({
           ...prevValue, // Spread the previous state
-          prgId: selectedProgram // Update only the prgId property
+          prgId: selectedProgram,
+          dpt: selectedDepartment
         }));
-      }, [selectedProgram])
+      }, [selectedProgram, selectedDepartment])
     
       // passing arguments to get course workload data === >>
       useEffect(() => {
@@ -111,7 +113,6 @@ const PublishChangeRequest = () => {
     
       // set filters === >>
       useEffect(() => {
-        // console.log(courseDates.courseId)
         setFilters((previous: any) => ({
           ...previous,
           courseId: courseDates.courseId,
@@ -119,26 +120,26 @@ const PublishChangeRequest = () => {
         }));
       }, [courseDates]);
 
-      // timetable call back function === >>>
-    useEffect(() =>{
-    getData(`/${currentInstitute}/programs/${currentUserRole.id}`, filters)
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          setProgramFilter(result.data);
-          const programData = result.data.map((prom: any) => ({ id: prom.id, name: prom.name }));
-
+    // call API to get courses list === >>>
+    useEffect(() => {
+      let endPoint = `/${currentUserRole.id}/dashboard`;
+      getData(endPoint, {}).then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          setProgramFilter(prevState => ({
+            ...prevState,
+            programs: res.data.programs,
+            departments: res.data.departments
+          }));
+          setSelectedProgram(res.data.programs[0].id)
+          setSelectedDepartment(Object.keys(res.data.departments)[0]);
         }
-        // setApiStatus("finished");
-      })
-      .catch((err: any) => {
-        console.log(err);
       });
-    }, []);
+    }, [currentUserRole.id]);
     
       // Calling Timetable API to set timetable data === >>
       useEffect(() => {
         if (filters.courseId > 0 && filters.userId > 0 && filters) {
-          getData(`/${urlArg.prgId}/timetable`, filters)
+          getData(`/${urlArg.prgId}/timetable/userslots`, filters)
             .then((result: any) => {
               if (result.data !== "" && result.status === 200) {
                 result.data.items.map((item: any, index: number) => {
@@ -228,6 +229,11 @@ const PublishChangeRequest = () => {
         }
       }
 
+       // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
+
       return (
         <React.Fragment>
           {/* mobile and browser view component call */}
@@ -261,8 +267,13 @@ const PublishChangeRequest = () => {
                 programFilter={programFilter}
                 selectedProgram={selectedProgram}
                 setSelectedProgram={setSelectedProgram}
-
-                
+                selectedDepartment={selectedDepartment}
+                setSelectedDepartment={setSelectedDepartment}
+              />
+              <ModalForm
+               modalShow={modalShow}
+               toggleModalShow={toggleModalShow}
+               onHide={() => toggleModalShow(false)}
               />
               <div className="d-flex justify-content-between align-items-center mt-4">
                 <div className="d-flex gap-4 dates-wrapper">
@@ -274,25 +285,6 @@ const PublishChangeRequest = () => {
                     <img src={endDateIcon} alt="End Date" />
                     <b>End Date: </b> {courseDates.endDate}
                   </div>
-                  {/* {courseDates.startDate !== "--/--/----" &&
-                    courseDates.endDate !== "--/--/----" && (
-                      <div>
-                        <label htmlFor="month">Month:</label>
-                        <select
-                          className="form-select"
-                          name="workloadCourse"
-                          // value={monthList}
-                          onChange={handleMonthFilterChange}
-                        >
-                          <option value={0}>Select Month</option>
-                            {monthList.map((option, index) => (
-                            <option value={`${option.month}-${option.year}`} key={index}>
-                            {option.month}{" "}{option.year}
-                          </option>
-                      ))}
-                        </select>
-                      </div>
-                    )} */}
                 </div>
                 <div className="slot-indicator">
                 <div className="me-1"><i className="fa-solid fa-envelope-circle-check"></i> Change Request</div>
@@ -314,6 +306,8 @@ const PublishChangeRequest = () => {
                       courseDates={courseDates}
                       selectedMonth={selectedMonth}
                       updateTimetableDates={updateTimetableDates}
+                      toggleModalShow={toggleModalShow}
+                      onHide={() => toggleModalShow(false)}
                     />
                   )}
                   {apiStatus === "finished" && timeslots.length === 0 && (

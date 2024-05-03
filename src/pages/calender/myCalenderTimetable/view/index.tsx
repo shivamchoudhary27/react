@@ -13,9 +13,7 @@ type Props = {
   updateTimetableDates: any;
   setSelectedCourse: any;
   selectedCourse: any;
-  dpt: any;
-  prg: any;
-  prgId: any;
+  setUrlArg: any;
 };
 
 const View = (props: Props) => {
@@ -29,9 +27,7 @@ const View = (props: Props) => {
     updateTimetableDates: props.updateTimetableDates,
     setSelectedCourse: props.setSelectedCourse,
     selectedCourse: props.selectedCourse,
-    dpt: props.dpt,
-    prg: props.prg,
-    prgId: props.prgId,
+    setUrlArg: props.setUrlArg
   };
   return (
     <React.Fragment>

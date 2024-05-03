@@ -6,7 +6,7 @@ import { tableColumnTemplate } from "../utils";
 import React, { useMemo, useState, useEffect } from "react";
 import { addDays, format, startOfWeek, parse } from "date-fns";
 
-const MyChangeRequestTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, selectedMonth }: any) => {
+const MyChangeRequestTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, selectedMonth, toggleModalShow }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -42,6 +42,10 @@ const MyChangeRequestTable = ({ SlotData, apiStatus, courseDates, updateTimetabl
         endDate: format(renderWeek[6], 'dd-MM-yyyy'),
       });
 
+      const handleMassegeClick = () => {
+        toggleModalShow(true)
+      }
+
       const newWeekColumns = [
         {
           Header: "Time Slots",
@@ -61,8 +65,9 @@ const MyChangeRequestTable = ({ SlotData, apiStatus, courseDates, updateTimetabl
             );
             return (
               <div> 
-                {currentColumns.status === "booked" &&
-                  currentColumns.bookedDetais}
+                
+                {currentColumns.status === "draft" &&
+                  <div onClick={handleMassegeClick}><i className="fa-solid fa-envelope-circle-check"></i> {currentColumns.bookedDetais} </div>}
                 {currentColumns.status === "available" && "Available"}
                 {currentColumns.status === "weekend" && "Weekend"}
               </div>
@@ -79,34 +84,34 @@ const MyChangeRequestTable = ({ SlotData, apiStatus, courseDates, updateTimetabl
   }, [selectedMonth])
 
   // next 7 days week handler === >>
-  // const handleNextWeek = () => {
-  //   const nextWeekDates = calculateWeek(weekAmount + 7);
-  //   const nextWeekAvailable = isNextWeekAvailable(nextWeekDates, courseDates.endDateTimeStamp);
+  const handleNextWeek = () => {
+    const nextWeekDates = calculateWeek(weekAmount + 7);
+    const nextWeekAvailable = isNextWeekAvailable(nextWeekDates, courseDates.endDateTimeStamp);
 
-  //   // console.log(nextWeekDates)
+    // console.log(nextWeekDates)
 
-  //   if (nextWeekAvailable) {
-  //     setRenderWeek(nextWeekDates);
-  //     setWeekAmount((prevCount) => prevCount + 7);
-  //     setWeekNavs((previous) => ({...previous, prev: true}));
-  //   } else {
-  //     setWeekNavs((previous) => ({...previous, next: false}));
-  //   }
-  // };
+    if (nextWeekAvailable) {
+      setRenderWeek(nextWeekDates);
+      setWeekAmount((prevCount) => prevCount + 7);
+      setWeekNavs((previous) => ({...previous, prev: true}));
+    } else {
+      setWeekNavs((previous) => ({...previous, next: false}));
+    }
+  };
 
   // previous 7 days handler === >>
-  // const handlePreviousWeek = () => {
-  //   const previousWeekDates = calculateWeek(weekAmount - 7);
-  //   const previousWeekAvailable = isPreviousWeekAvailable(previousWeekDates, courseDates.startDateTimeStamp);
+  const handlePreviousWeek = () => {
+    const previousWeekDates = calculateWeek(weekAmount - 7);
+    const previousWeekAvailable = isPreviousWeekAvailable(previousWeekDates, courseDates.startDateTimeStamp);
 
-  //   if (previousWeekAvailable) {
-  //     setRenderWeek(previousWeekDates);
-  //     setWeekAmount((prevCount) => prevCount - 7);
-  //     setWeekNavs((previous) => ({...previous, next: true}));
-  //   } else {
-  //     setWeekNavs((previous) => ({...previous, prev: false}));
-  //   }
-  // };
+    if (previousWeekAvailable) {
+      setRenderWeek(previousWeekDates);
+      setWeekAmount((prevCount) => prevCount - 7);
+      setWeekNavs((previous) => ({...previous, next: true}));
+    } else {
+      setWeekNavs((previous) => ({...previous, prev: false}));
+    }
+  };
 
   // check the availability of next week === >>
   const isNextWeekAvailable = (nextWeekDates: any, endDate : number) => {
@@ -156,10 +161,10 @@ const MyChangeRequestTable = ({ SlotData, apiStatus, courseDates, updateTimetabl
   // console.log("renderWeek----", renderWeek)
   return (
     <React.Fragment>
-      {/* <div className="next-previousbuttons">
+      <div className="next-previousbuttons">
         {weekNavs.prev && <button type="button" onClick={handlePreviousWeek}>{`<`}</button>}
         {weekNavs.next && <button type="button" onClick={handleNextWeek}>{`>`}</button>}
-      </div> */}
+      </div>
       <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">
         <Table className="draft-table mb-0" {...getTableProps}>
           <thead>

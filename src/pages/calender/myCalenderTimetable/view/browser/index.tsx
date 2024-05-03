@@ -19,9 +19,7 @@ type Props = {
     updateTimetableDates: any;
     setSelectedCourse: any;
     selectedCourse: any;
-    dpt: any;
-    prg: any;
-    prgId: any;
+    setUrlArg: any;
   };
 };
 
@@ -46,9 +44,7 @@ const Browser = (props: Props) => {
               apiResponseData={props.commonProps.apiResponseData}
               setSelectedCourse={props.commonProps.setSelectedCourse}
               selectedCourse={props.commonProps.selectedCourse}
-              dpt={props.commonProps.dpt}
-              prg={props.commonProps.prg}
-              prgId={props.commonProps.prgId}
+              setUrlArg={props.commonProps.setUrlArg}
             />
             <MyTimetableDraftTable
              SlotData={props.commonProps.timeslots}

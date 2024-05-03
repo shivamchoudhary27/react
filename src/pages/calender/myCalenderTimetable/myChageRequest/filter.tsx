@@ -1,4 +1,3 @@
-
 import { useFormik } from "formik";
 import { format, parse, getTime } from "date-fns";
 import React, { useState, useEffect } from "react";
@@ -17,13 +16,14 @@ const ManageFilter = ({
   updateCourseDates,
   setCoursesStatus,
   updateFacultyStatus,
+  selectedDepartment,
+  setSelectedDepartment,
 }: any) => {
-    const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
-  // updateFacultyStatus (currentUserInfo.first_name + " " + currentUserInfo.last_name)
   const initialValues = {
     name: "",
-    faculty: "", 
+    faculty: "",
     workloadCourse: "",
   };
   const dummyData = {
@@ -36,11 +36,9 @@ const ManageFilter = ({
 
   const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
 
-
   useEffect(() => {
-    updateFacultyStatus (currentUserInfo.uid)
-  }, [currentUserInfo])
-  
+    updateFacultyStatus(currentUserInfo.uid);
+  }, [currentUserInfo]);
 
   useEffect(() => {
     if (coursesOnly.length === 0) setCoursesStatus(true);
@@ -78,6 +76,11 @@ const ManageFilter = ({
     },
   });
 
+  const handleDepartmentFilterChange = (e: any) => {
+    setSelectedDepartment(e.target.value);
+    handleCourseDates(parseInt(e.target.value));
+  };
+
   const handleProgramFilterChange = (e: any) => {
     setSelectedProgram(parseInt(e.target.value));
     handleCourseDates(parseInt(e.target.value));
@@ -91,7 +94,8 @@ const ManageFilter = ({
   const handleCourseDates = (courseId: number) => {
     let startDate = "--/--/----",
       endDate = "--/--/----";
-    let startDateTimeStamp, endDateTimeStamp = 0;
+    let startDateTimeStamp,
+      endDateTimeStamp = 0;
 
     const courseWithId = coursesOnly.find(
       (item: any) => item.courseid === courseId
@@ -125,10 +129,7 @@ const ManageFilter = ({
             return (
               <React.Fragment key={parentCategory.id}>
                 {parentCategory.haschild === true ? (
-                  <optgroup
-                    label={parentCategory.name}
-                    key={parentCategory.id}
-                  >
+                  <optgroup label={parentCategory.name} key={parentCategory.id}>
                     {handleChildrens(parentCategory, categories)}
                   </optgroup>
                 ) : (
@@ -159,7 +160,26 @@ const ManageFilter = ({
       <div className="filter-wrapper mt-2 input-styles">
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
           <Row className="g-2">
-          <Col>
+            <Col>
+              <label htmlFor="Department" hidden>
+                Department
+              </label>
+              <select
+                className="form-select"
+                name="department"
+                value={selectedDepartment}
+                onChange={handleDepartmentFilterChange}
+              >
+                <option value={0}>Select Department</option>
+                {Object.entries(programFilter.departments).map(([id, name]) => (
+                  <option value={id} key={id}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </Col>
+
+            <Col>
               <label htmlFor="Program" hidden>
                 Program
               </label>
@@ -170,14 +190,13 @@ const ManageFilter = ({
                 onChange={handleProgramFilterChange}
               >
                 <option value={0}>Select Program</option>
-                {programFilter.map((program: any) => (
+                {programFilter.programs.map((program: any) => (
                   <option value={program.id} key={program.id}>
                     {program.name}
                   </option>
                 ))}
               </select>
             </Col>
-            <Col>
             <Col>
               <label htmlFor="courses" hidden>
                 Courses
@@ -192,6 +211,7 @@ const ManageFilter = ({
                 {renderCourseOptions(workloadCourses)}
               </select>
             </Col>
+            <Col>
               <Button variant="primary" type="submit" className="me-2">
                 Filter
               </Button>

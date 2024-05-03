@@ -10,9 +10,7 @@ type Props = {
   apiResponseData: any;
   setSelectedCourse: any;
   selectedCourse: any;
-  dpt: any;
-  prg: any;
-  prgId: any;
+  setUrlArg: any;
 };
 
 const MyTimetableFilter = (props: Props) => {
@@ -35,8 +33,6 @@ const MyTimetableFilter = (props: Props) => {
     },
   });
   const [course, setCourses] = useState([]);
-  // const [selectedCourse, setSelectedCourse] = useState(0);
-  // console.log(selectedCourse, 'selectedCourse')
 
   useEffect(() => {
     if (filterStatus.selectedValues.program > 0) {
@@ -103,6 +99,7 @@ const MyTimetableFilter = (props: Props) => {
             <MyTimelineFilterDropdown
               apiResponseData={props.apiResponseData}
               updateCourses={updateCourses}
+              setUrlArg={props.setUrlArg}
             />
             <RenderFilterElements
               component={"Course"}
@@ -120,7 +117,7 @@ const MyTimetableFilter = (props: Props) => {
               variant="primary"
               onClick={() =>
                 navigate(
-                  `/myChangeRequest?dpt=${props.dpt}`
+                  `/myChangeRequest`
                 )
               }
             >
