@@ -9,11 +9,12 @@ import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import './../../style.scss';
 import "./../../mobileStyle.scss";
 import { BackgroundWaveBottomLeft, BackgroundWaveRight } from "../../../../../widgets/backgroundElements";
+import { useParams } from "react-router-dom";
 
 type Props = {};
 
 const Browser = (props: Props) => {
-
+  const { name } = useParams()
 
   return (
     <React.Fragment>
@@ -23,13 +24,13 @@ const Browser = (props: Props) => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "CO/PO Management", path: "/copoManagement" },
-          { name: "Configure Co/Po", path: "/copoManagement" },
-          { name: "Configure Co/Po Course", path: "/copomanagement" },
+          { name: "Configure Co/Po", path: `/copoManagement` },
+          { name: name, path: "/copomanagement" },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle="Configure Co/Po Course" gobacklink="/siteadmin" />
+          <PageTitle pageTitle={`${name}: Configure Co/Po Course`} gobacklink="/copoManagement" />
           <TabsList />
         </Container>
       </div>

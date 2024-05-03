@@ -83,15 +83,15 @@ const CourseTable = ({
             <>
                 <Link
                   className="action-icons"
-                  to={`/tabsList/${row.original.courseid}`}
+                  to={`/tabsList/${row.original.courseid}/${row.original.coursename}`}
                 >Configuration
                 </Link>
-                <Link
+                {/* <Link
                   className="action-icons"
                   to=""
                   // to={`/courseform/${programId}/${row.original.catid}/${row.original.courseid}`}
                 >Reset
-                </Link>
+                </Link> */}
                 </>
 
               )}

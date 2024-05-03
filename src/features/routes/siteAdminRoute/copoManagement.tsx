@@ -7,7 +7,7 @@ const CoPoManagementRoute = () => {
   return [
     <Route key='copomanagement' path='/copomanagement' element={<CoPoManagement />} />,
     <Route key='copoCourse' path='/copoCourse/:id/:name' element={<CoPoCourseManagment />} />,
-    <Route key='tabsList' path='/tabsList/:id' element={<CopoTabsList />} />,   
+    <Route key='tabsList' path='/tabsList/:id/:name' element={<CopoTabsList />} />,   
 
   ]
 }
