@@ -130,8 +130,6 @@ const AddCosModal = (props: Props) => {
     setStatusValue("");
   };
 
-  console.log(props.cosAbbreviation, "-------------")
-
   return (
     <React.Fragment>
       <Modal

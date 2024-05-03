@@ -12,7 +12,6 @@ type Props = {
 };
 
 const LevelThreshold = (props: Props) => {
-  console.log("inside page 2--------------")
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
@@ -43,7 +42,6 @@ const LevelThreshold = (props: Props) => {
     getData(`/${id}/courseoutcomes`, {})
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          console.log(res.data);
           setCosAbbreviation(res.data);
         }
       })
