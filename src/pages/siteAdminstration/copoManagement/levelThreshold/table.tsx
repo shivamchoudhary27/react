@@ -49,7 +49,7 @@ const LevelThresholdTable = (props: Props) => {
       accessor: "description",
     },
     {
-      Header: "Target Set   (%)",
+      Header: "Target Set (%)",
       accessor: "target",
       // Cell: ({ row }: any) => (
       //   <Formik
