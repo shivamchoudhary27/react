@@ -5,9 +5,7 @@ import { formattedDateTime } from "../../../lib/timestampConverter";
 import "./styles.scss";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import { BsArrowsFullscreen } from "react-icons/bs";
-import { BsFullscreenExit } from "react-icons/bs";
-
+import { BsArrowsFullscreen,BsFullscreenExit } from "react-icons/bs";
 
 type Props = {
   apiStatus: string;

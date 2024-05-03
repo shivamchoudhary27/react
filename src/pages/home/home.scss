@@ -239,6 +239,16 @@ height: 96vh;
   }
 }
 
+.landing-skeleton{
+  gap: 1rem;
+  div{
+    flex: 1;
+    div{
+      width: 100%;
+      border-radius: 1rem;
+    }
+  }
+}
 
 // ---------------- Program List -------------
 .program-catalogue { 

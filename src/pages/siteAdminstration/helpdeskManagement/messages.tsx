@@ -7,8 +7,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { Dropdown, DropdownButton  } from "react-bootstrap";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import "../../helpdesk/teacher/styles.scss";
-import { BsArrowsFullscreen } from "react-icons/bs";
-import { BsFullscreenExit } from "react-icons/bs";
+import { BsArrowsFullscreen,BsFullscreenExit } from "react-icons/bs";
 
 type Props = {
   apiStatus: string;

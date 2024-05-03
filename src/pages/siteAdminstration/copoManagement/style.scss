@@ -27,9 +27,9 @@
         background: transparent;
         border: none;
         box-shadow: none;
-        width: 70px;
+        width: 42px;
         text-align: center;
-        padding: 5px 15px;
+        padding: 5px;
     }
 }
 .tabStep-indicator {
@@ -74,12 +74,13 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: #ccc;
+    background-color: #99ceff;
     margin: 0px 4px;
   }
   
   .tab-circle.active {
     transform: scale(1.5);
+    background-color: #108bf4;
   }
   .mob-copo-tabs{
     display: none;
