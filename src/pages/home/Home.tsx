@@ -19,6 +19,7 @@ import ProgramDefaultImg from "../../assets/images/course-default.jpg"
 import NewLoader from "../../widgets/loader";
 import { ReactComponent as LandingBgLaptop } from "../../assets/images/laptop-video.svg";
 import {ReactComponent as LaptopBgMobile} from "../../assets/images/laptop-mobile.svg";
+import Skeleton from "react-loading-skeleton";
 
 
 const Home = () => {
@@ -50,32 +51,6 @@ const Home = () => {
       });
   }, [filterUpdate]);
 
-  const loaderStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-  };
-
-  // if(allPrograms && allPrograms?.length === 0) {
-  //   return (
-  //     <Container style={loaderStyle}>
-  //       <NewLoader />
-  //       <br />
-  //     </Container>
-  //   );
-  // }
-
-
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowLoader(false); // Hide the loader after 3 seconds
-    }, 3000);
-
-    return () => clearTimeout(timer); // Clean up the timer
-  }, [showLoader]);
-
 return (
     <>
      <div className="landing-page">
@@ -88,10 +63,9 @@ return (
                   <img src={SearchIcon} alt="logo" className="img img-fluid" />
                 </button> */}
           </div>
-      
       </div>
      <div className="landing-wrapper">
-       
+
         <Container fluid>
           <div className="landing-content mt-3">
             <img src={Butext} alt="Ballistic University" className="butext" />
@@ -110,7 +84,7 @@ return (
             <div>
             </div>
           </div>
-        </Container>  
+        </Container>
       </div>
       <div className="footer-links">
         <Container fluid>
@@ -139,10 +113,18 @@ return (
         <div className="courseswrapper">
           <Row className="landingprograms">
           {allPrograms && allPrograms.length === 0 ? (
-    showLoader ? (
-      <NewLoader /> // Show the loader for 3 seconds
-    ) : (
-      <div>loading Programs...</div> // Show this after the loader disappears
+  (
+    <div className="d-flex landing-skeleton">
+      <div>
+        <Skeleton height={"18rem"} />
+      </div>
+      <div>
+        <Skeleton height={"18rem"} />
+      </div>
+      <div>
+        <Skeleton height={"18rem"} />
+      </div>
+    </div>
     )
   ) : (
             allPrograms.map((item: any, index: number) => (
@@ -174,7 +156,7 @@ return (
                     <div>
                     <img src={BookIcon} alt="study mode" />
                       <span>{item.modeOfStudy}</span>
-                    
+
                     </div>
                     <div>
                     <img src={CapIcon} alt="program type" />
