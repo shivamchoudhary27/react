@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { getData, postData } from "../../../../adapters/microservices";
+import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
 
 type Props = {
   setActiveTab: any;
@@ -14,13 +15,14 @@ type Props = {
 // Formik Yup validation === >>>
 
 const validationSchema = Yup.object({
-  // abbreviation: Yup.string().required("Required"),
-  // abstact: Yup.string().required("Required"),
+  abbreviation: Yup.string().required("Abbreviation is required"),
+  abstact: Yup.string().required("Abstact is required"),
 });
 
 const DefineCos = (props: Props) => {
   const { id } = useParams();
   const [apiStatus, setApiStatus] = useState("");
+  const [apiStatus2, setApiStatus2] = useState("")
 
   const [initValues, setInitValues] = useState({
     // countOfCourseOutcomes: "",
@@ -53,14 +55,17 @@ const DefineCos = (props: Props) => {
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
     setSubmitting(true);
+    setApiStatus2("started")
     postData(`/${id}/courseoutcomes`, values)
       .then((result: any) => {
         if (result.data !== "" && result.status === 201) {
+          setApiStatus2("finished")
           props.setActiveTab(1);
         }
         setSubmitting(false);
       })
       .catch((err: any) => {
+        setApiStatus2("finished")
         console.log(err);
         // Handle error, maybe show an alert
       });
@@ -68,8 +73,8 @@ const DefineCos = (props: Props) => {
 
   return (
     <React.Fragment>
-      {apiStatus === "started" ? (
-        "Loading ..."
+      {apiStatus === "started" || apiStatus2 === "started" ? (
+        <RouterLadyLoader status={true} />
       ) : (
         <Formik
           initialValues={initValues}
