@@ -218,16 +218,26 @@ export const getMonthList = (courseData) => {
     const startDate = new Date(startTimestamp);
     const endDate = new Date(endTimestamp);
 
-    const months = [];
+    const monthsByYear = {};
 
     let currentDate = new Date(startDate); // Initialize with the start date
 
     // Iterate through months between start and end date
-    while (currentDate <= endDate) {    
-    months.push(currentDate.toLocaleString('default', { month: 'long' })); // Get month name
-    currentDate.setMonth(currentDate.getMonth() + 1); // Move to the next month
+    while (currentDate <= endDate) {
+        const monthName = currentDate.toLocaleString('default', { month: 'long' }); // Get month name
+        const year = currentDate.getFullYear(); // Get year
+        
+        // If the year doesn't exist in the object, create an empty array for it
+        if (!monthsByYear[year]) {
+            monthsByYear[year] = [];
+        }
+        
+        monthsByYear[year].push(monthName); // Push month name into array for the corresponding year
+        
+        // Move to the next month by creating a new Date object
+        currentDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
     }
-    return(months);
+    return monthsByYear;
 }
 
 // ========================================================
@@ -260,16 +270,18 @@ const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters) 
     let response = {};
     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
     const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
-
+// console.log(packet)
     if(filteredData.length > 0){
         const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
         // console.log(x)
         // console.log(filteredData[0].sessionDate)
-        if(filteredData[0].status !== null){
+       if(filteredData[0].status !== null){
             if(filteredData[0].status === "available"){
                 response = { status: "available" }
-            }else if(x){  
-                response = { status: "draft", bookedDetais: filteredData[0].description }
+            }else if(filteredData[0].status === "draft" && filteredData[0].bookingStatus === "not_available" && x){  
+                response = { status: "not_available"}
+            }else if(filteredData[0].status === "draft" && filteredData[0].bookingStatus === "booked" && x){  
+                response = { status: "draft", bookedDetais: filteredData[0].description, weekDay: filteredData[0].dayName}
             }else{
                 response = { status: "available" }
             }

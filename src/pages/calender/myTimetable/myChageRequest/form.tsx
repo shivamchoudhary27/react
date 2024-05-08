@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
-// import WaveBottom from "../../../../"
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 
@@ -10,7 +9,7 @@ type Props = {
   onHide: any;
   modalShow: boolean;
   toggleModalShow: any;
-  updateAddRefresh: any;
+  // updateAddRefresh: any;
 };
 
 const ModalForm = (props: Props) => {
@@ -45,9 +44,6 @@ const ModalForm = (props: Props) => {
             </div>
             <div>
               <b>Timeslot</b>: Thursday (11:30 - 12:30)
-            </div>
-            <div>
-              <b>Available Timeslot</b>: Saturday (9:30 - 10:30)
             </div>
           </div>
           <div className="mb-3">

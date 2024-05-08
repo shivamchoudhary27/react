@@ -1,87 +1,62 @@
-import View from "./view";
+import "../../style.scss"
 import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { pagination } from "../../../utils/pagination";
-import { getData } from "../../../adapters/microservices";
+import React, { useState, useEffect } from "react";
+import { pagination } from "../../../../utils/pagination";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getData } from "../../../../adapters/microservices";
 import {
   getUrlParams,
-  getMonthList,
   getTimeslotData,
   getSortedCategories,
   getCourseWorkloadtData,
   getTableRenderTimeSlots,
-} from "./local";
-import { courseDatesObj } from "./utils";
-
-type Props = {};
-
-const MyCalenderTimetable = (props: Props) => {
-  const [role, setRole] = useState([])
-  const [selectedCourse, setSelectedCourse] = useState(0);
-  const [timeslots, setTimeslots] = useState([]);
-  const [courseId, setCourseId] = useState<any>(0);
-  const [coursesList, setCoursesList] = useState<any>([]);
-  const [apiResponseData, setApiResponseData] = useState<any>({
-    departments: {},
-    courses: [],
-    programs: [],
-  });
-  const currentUserRole = useSelector(
-    (state: any) => state.globalFilters.currentUserRole
-  );
-
+} from "../local";
+import { courseDatesObj } from "../utils";
+// import ModalForm from "./form";
+import View from "./view";
+const PublishChangeRequest = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
   const location = useLocation();
+  const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
-  const [monthList, setMonthList] = useState<string[]>([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [handleMonthFilter, setHandleMonthFilter] = useState([])
   const [coursesStatus, setCoursesStatus] = useState(false);
+  const [coursesList, setCoursesList] = useState(dummyData);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+  const [programFilter, setProgramFilter] = useState({ programs: [], departments: {} });
+  const [selectedProgram, setSelectedProgram] = useState<number>(0);
+  const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
+  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
+
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
+
+  const currentUserRole = useSelector(
+    (state) => state.globalFilters.currentUserRole
+  );
+  const navigate = useNavigate();
+
+  const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
+
   const [filters, setFilters] = useState({
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
     courseId: 0,
-    userId: 0,
     startDate: 0,
     endDate: 0,
+    userId: currentUserId.uid,
   });
-
-  // call API to get courses list === >>>
-  useEffect(() => {
-    let endPoint = `/${currentUserRole.id}/dashboard`;
-    getData(endPoint, {}).then((res: any) => {
-      if (res.data !== "" && res.status === 200) {
-        setApiResponseData(res.data);
-        if (res.data.length > 0) setCourseId(res.data.courses[0].id);
-      setUrlArg((preValue: any) => ({
-          ...preValue,
-          dpt: Object.keys(res.data.departments)[0]
-        }));
-        setUrlArg((preValue: any) => ({
-          ...preValue,
-          prgId: res.data.programs[0].id
-        }));        
-      }
-    });
-  }, [currentUserRole.id]);
-
-  const getCourseId = (courseId: string | number) => {
-    setCourseId(courseId);
-  };
-
   useEffect(() => {
     getUrlParams(location, setUrlArg);
   }, []);
@@ -98,6 +73,14 @@ const MyCalenderTimetable = (props: Props) => {
     }
   }, [urlArg.dpt]);
 
+  useEffect(() => {
+    setUrlArg((prevValue) => ({
+      ...prevValue, // Spread the previous state
+      prgId: selectedProgram,
+      dpt: selectedDepartment
+    }));
+  }, [selectedProgram, selectedDepartment])
+
   // passing arguments to get course workload data === >>
   useEffect(() => {
     if (urlArg.prgId > 0) {
@@ -107,7 +90,7 @@ const MyCalenderTimetable = (props: Props) => {
 
   //  passing arguments to get course workload data === >>
   useEffect(() => {
-    if (coursesList.length > 0) {
+    if (coursesList.items.length > 0) {
       getSortedCategories(coursesList, setSortedCategories);
     }
   }, [coursesList.items]);
@@ -117,14 +100,30 @@ const MyCalenderTimetable = (props: Props) => {
     setFilters((previous: any) => ({
       ...previous,
       courseId: courseDates.courseId,
-      userId: 0,
+      userId: currentUserId.uid,
     }));
   }, [courseDates]);
+
+  // call API to get courses list === >>>
+  useEffect(() => {
+    let endPoint = `/${currentUserRole.id}/dashboard`;
+    getData(endPoint, {}).then((res: any) => {
+      if (res.data !== "" && res.status === 200) {
+        setProgramFilter(prevState => ({
+          ...prevState,
+          programs: res.data.programs,
+          departments: res.data.departments
+        }));
+        setSelectedProgram(res.data.programs[0].id)
+        setSelectedDepartment(Object.keys(res.data.departments)[0]);
+      }
+    });
+  }, [currentUserRole.id]);
 
   // Calling Timetable API to set timetable data === >>
   useEffect(() => {
     if (filters.courseId > 0 && filters.userId > 0 && filters) {
-      getData(`/${urlArg.prgId}/timetable`, filters)
+      getData(`/${urlArg.prgId}/timetable/userslots`, filters)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             result.data.items.map((item: any, index: number) => {
@@ -145,7 +144,7 @@ const MyCalenderTimetable = (props: Props) => {
         });
     }
   }, [filters]);
-  // calling API to get weekdays === >>
+
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
       getData(`/weekdays/${currentInstitute}`, {})
@@ -186,7 +185,8 @@ const MyCalenderTimetable = (props: Props) => {
   const updateFacultyStatus = (facultyId: any) => {
     setFilters((previous: any) => ({
       ...previous,
-      userId: facultyId,
+      // userId: facultyId,
+      userId: currentUserId.uid,
     }));
   };
 
@@ -198,22 +198,58 @@ const MyCalenderTimetable = (props: Props) => {
     }));
   };
 
+  // get Months between start & end timestamp === >>/////////////////-----------
+  // useEffect(() => {
+  //   if (courseDates !== "") {
+  //     const monthListArr = getMonthList(courseDates);
+  //     setMonthList(monthListArr);
+  //   }
+  // }, [courseDates]);
+
+  // handle month filter === >>
+  // const handleMonthFilterChange = (e: any) => {
+  //   if(e.type === "change"){
+  //     setHandleMonthFilter([e.target.value])
+  //   }
+  // }
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
   return (
-    <View
-      apiResponseData={apiResponseData}
-      getCourseId={getCourseId}
-      timeslots={timeslots}
-      apiStatus={apiStatus}
-      courseDates={courseDates}
-      selectedMonth={selectedMonth}
-      updateTimetableDates={updateTimetableDates}
-      updateFacultyStatus={updateFacultyStatus}
-      updateCourseDates={updateCourseDates}
-      setSelectedCourse= {setSelectedCourse}
-      selectedCourse={selectedCourse}
-      setUrlArg={setUrlArg}
-    />
+    <React.Fragment>
+      {/* mobile and browser view component call */}
+      <View
+        urlArg={urlArg}
+        timeslots={timeslots}
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        courseDates={courseDates}
+        coursesStatus={coursesStatus}
+        programFilter={programFilter}
+        // selectedMonth={selectedMonth}
+        // editHandlerById={editHandlerById}
+        selectedProgram={selectedProgram}
+        toggleModalShow={toggleModalShow}
+        // setSelectedMonth={setSelectedMonth}
+        sortedCategories={sortedCategories}
+        setCoursesStatus={setCoursesStatus}
+        updateCourseDates={updateCourseDates}
+        onHide={() => toggleModalShow(false)}
+        handleMonthFilter={handleMonthFilter}
+        ChangeFilterStatus={ChangeFilterStatus}
+        setSelectedProgram={setSelectedProgram}
+        selectedDepartment={selectedDepartment}
+        updateFacultyStatus={updateFacultyStatus}
+        setHandleMonthFilter={setHandleMonthFilter}
+        updateTimetableDates={updateTimetableDates}
+        setChangeFilterStatus={setChangeFilterStatus}
+        setSelectedDepartment={setSelectedDepartment}
+
+      />
+    </React.Fragment>
   );
 };
 
-export default MyCalenderTimetable;
+export default PublishChangeRequest;

@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom'
 const ReactBigCalendar = React.lazy(() => import('../../../pages/calender'))
 const TimeTable = React.lazy(() => import('../../../pages/siteAdminstration/timetable'))  
 const CalenderConfig = React.lazy(() => import('../../../pages/siteAdminstration/calenderConfig'))   
-const MyCalenderTimetable = React.lazy(() => import('../../../pages/calender/myCalenderTimetable'))
+const MyCalenderTimetable = React.lazy(() => import('../../../pages/calender/myTimetable'))
 
 const CalenderManagementRoute = () => {
   return [

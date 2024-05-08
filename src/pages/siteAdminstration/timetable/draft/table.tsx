@@ -3,11 +3,11 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "./utils";
 import React, { useMemo, useState, useEffect } from "react";
-import { addDays, format, startOfWeek, parse } from "date-fns";
+import { addDays, format, startOfWeek,} from "date-fns";
 import { formatDateWithDetails } from "../../../../lib/timestampConverter";
 import { FirstDayOfMonth } from "./utils";
 
-const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, handleMonthFilter,setChangeFilterStatus }: any) => {
+const DraftVersionTable = ({ SlotData, courseDates, updateTimetableDates, handleMonthFilter,setChangeFilterStatus }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -121,7 +121,9 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
               <div> 
                 {currentColumns.status === "draft" &&
                   currentColumns.bookedDetais}
-                {currentColumns.status === "available" && "Available"}
+                 {currentColumns.status === "not_available" && 
+                  currentColumns.bookedDetais}
+                {currentColumns.status === "available" && ""}
                 {currentColumns.status === "weekend" && "Weekend"}  
               </div>
             );
@@ -303,7 +305,7 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
                   <tr {...row.getRowProps()} key={index}>
                     <td>{row.original.timeSlot}</td>
                     {[...Array(breakSlotLength)].map((_, index: number) => (
-                      <td key={index} className="weekend">
+                      <td key={index} className="weekend" >
                         {row.original.breakType}
                       </td>
                     ))}
@@ -326,7 +328,6 @@ const DraftVersionTable = ({ SlotData, apiStatus, courseDates, updateTimetableDa
                           </td>
                         );
                       } else {
-                        // console.log(cell)
                         let cellValue = JSON.parse(cell.value);
                         if (cellValue.status !== "weekend") {
                           return (

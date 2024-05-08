@@ -1,25 +1,22 @@
 
-import "../../style.scss"
-import View from "./view";
+import "../style.scss"
 import Filters from "./filter";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
+import Header from "../../newHeader";
+import Footer from "../../newFooter";
 import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
-import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
-import { useLocation } from "react-router-dom";
+import { Button, Container } from "react-bootstrap";
+import HeaderTabs from "../../headerTabs";
+import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import PageTitle from "../../../../widgets/pageTitle";
-import Errordiv from "../../../../widgets/alert/errordiv";
-import { pagination } from "../../../../utils/pagination";
-import { getData } from "../../../../adapters/microservices";
-import TableSkeleton from "../../../../widgets/skeleton/table";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
-import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
-import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
-
+import PageTitle from "../../../widgets/pageTitle";
+import Errordiv from "../../../widgets/alert/errordiv";
+import { pagination } from "../../../utils/pagination";
+import { getData } from "../../../adapters/microservices";
+import TableSkeleton from "../../../widgets/skeleton/table";
+import BreadcrumbComponent from "../../../widgets/breadcrumb";
+import endDateIcon from "../../../../src/assets/images/icons/calender-enddate.svg";
+import startDateIcon from "../../../../src/assets/images/icons/calender-startdate.svg";
 import {
   getUrlParams,
   getMonthList,
@@ -27,12 +24,12 @@ import {
   getSortedCategories,
   getCourseWorkloadtData,
   getTableRenderTimeSlots,
-} from "../local";
-import { courseDatesObj } from "../utils";
+} from "./local";
+import { courseDatesObj } from "./utils";
 import MyChangeRequestTable from "./table";
-import ModalForm from "../myChageRequest/form";
-
-const PublishChangeRequest = () => {
+// import ModalForm from "./form";
+import View from "./view";
+const MyCalenderTimetable = () => {
     const dummyData = {
         items: [],
         pager: { totalElements: 0, totalPages: 0 },
@@ -40,7 +37,7 @@ const PublishChangeRequest = () => {
       const location = useLocation();
       const [timeslots, setTimeslots] = useState([]);
       const [apiStatus, setApiStatus] = useState("");
-      const [selectedMonth, setSelectedMonth] = useState("");
+      const [handleMonthFilter,setHandleMonthFilter]=useState([])
       const [monthList, setMonthList] = useState<string[]>([]);
       const [coursesStatus, setCoursesStatus] = useState(false);
       const [coursesList, setCoursesList] = useState(dummyData);
@@ -53,6 +50,7 @@ const PublishChangeRequest = () => {
       const [programFilter, setProgramFilter] = useState({programs: [], departments : {} });
       const [selectedProgram, setSelectedProgram] = useState<number>(0);
       const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
+      const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
       const [modalShow, setModalShow] = useState(false);
 
       const currentInstitute = useSelector(
@@ -62,6 +60,7 @@ const PublishChangeRequest = () => {
       const currentUserRole = useSelector(
         (state) => state.globalFilters.currentUserRole
       );
+      const navigate = useNavigate();
 
     const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
 
@@ -215,38 +214,56 @@ const PublishChangeRequest = () => {
       };
     
       // get Months between start & end timestamp === >>
-      useEffect(() => {
-        if (courseDates !== "") {
-          const monthListArr = getMonthList(courseDates);
-          setMonthList(monthListArr);
-        }
-      }, [courseDates]);
+      // useEffect(() => {
+      //   if (courseDates !== "") {
+      //     const monthListArr = getMonthList(courseDates);
+      //     setMonthList(monthListArr);
+      //   }
+      // }, [courseDates]);
     
       // handle month filter === >>
-      const handleMonthFilterChange = (e: any) => {
-        if(e.type === "change"){
-          setSelectedMonth(e.target.value)
-        }
-      }
+      // const handleMonthFilterChange = (e: any) => {
+      //   if(e.type === "change"){
+      //     setHandleMonthFilter([e.target.value])
+      //   }
+      // }
 
        // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
-
       return (
         <React.Fragment>
           {/* mobile and browser view component call */}
-          {/* <View
-            urlArg={urlArg}
-            apiStatus={apiStatus}
-            timeslots={timeslots}
-            courseDates={courseDates}
-            sortedCategories={sortedCategories}
-            updateCourseDates={updateCourseDates}
-          /> */}
+          <View
+        urlArg={urlArg}
+        timeslots={timeslots}
+        apiStatus={apiStatus}
+        modalShow={modalShow}
+        courseDates={courseDates}
+        coursesStatus={coursesStatus}
+        programFilter={programFilter}
+        // selectedMonth={selectedMonth}
+        // editHandlerById={editHandlerById}
+        selectedProgram={selectedProgram}
+        toggleModalShow={toggleModalShow}
+        // setSelectedMonth={setSelectedMonth}
+        sortedCategories={sortedCategories}
+        setCoursesStatus={setCoursesStatus}
+        updateCourseDates={updateCourseDates}
+        onHide={() => toggleModalShow(false)}
+        handleMonthFilter={handleMonthFilter}
+        setSelectedProgram={setSelectedProgram}
+        selectedDepartment={selectedDepartment}
+        updateFacultyStatus={updateFacultyStatus}
+        updateTimetableDates={updateTimetableDates}
+        setChangeFilterStatus={setChangeFilterStatus}
+        setSelectedDepartment={setSelectedDepartment}
+        handleMonthFilter={handleMonthFilter}
+        setHandleMonthFilter={setHandleMonthFilter}
+      />
     
-          <Header />
+          {/* <Header />
           <HeaderTabs activeTab="siteadmin" />
           <BreadcrumbComponent
             routes={[
@@ -269,29 +286,75 @@ const PublishChangeRequest = () => {
                 setSelectedProgram={setSelectedProgram}
                 selectedDepartment={selectedDepartment}
                 setSelectedDepartment={setSelectedDepartment}
-              />
-              <ModalForm
+              /> */}
+              {/* <ModalForm
                modalShow={modalShow}
                toggleModalShow={toggleModalShow}
                onHide={() => toggleModalShow(false)}
-              />
+              /> */}
+{/* 
               <div className="d-flex justify-content-between align-items-center mt-4">
-                <div className="d-flex gap-4 dates-wrapper">
-                  <div>
-                    <img src={startDateIcon} alt="start Date" />
-                    <b>Start Date:</b> {courseDates.startDate}
-                  </div>
-                  <div>
-                    <img src={endDateIcon} alt="End Date" />
-                    <b>End Date: </b> {courseDates.endDate}
-                  </div>
+            <div className="d-flex gap-4 dates-wrapper">
+              <div>
+                <img src={startDateIcon} alt="start Date" />
+                <b>Start Date:</b> {courseDates.startDate}
+              </div>
+              <div>
+                <img src={endDateIcon} alt="End Date" />
+                <b>End Date: </b> {courseDates.endDate}
+              </div>
+              {courseDates.startDate !== "--/--/----" &&
+                courseDates.endDate !== "--/--/----" && (
+                  <div> 
+                  <label htmlFor="month">Month:</label>
+                  <select
+                    className="form-select"
+                    name="workloadCourse"
+                    onChange={handleMonthFilterChange}
+                    // value={ChangeFilterStatus}
+                  > 
+                    <option value={0}>Select Month</option>
+                    {
+                      Object.entries(monthList).map(([year, months]: any) => (
+                        <optgroup label={year}>
+                          {
+                           months.isArray  && months.map((month: any, index: React.Key | null | undefined) => (
+                              <option
+                                value={`${month},${year}`}
+                                key={index}
+                                // Conditionally render selected option based on state
+                                selected={ChangeFilterStatus === `${month},${year}`}
+                              >
+                                {month}
+                              </option>
+                            ))
+                          }
+                      </optgroup> 
+                       ))
+                    } 
+                  </select> 
                 </div>
-                <div className="slot-indicator">
+                )}
+            </div> */}
+                {/* <div className="slot-indicator">
                 <div className="me-1"><i className="fa-solid fa-envelope-circle-check"></i> Change Request</div>
                   <div className="me-1 available">Available Slots</div>
                   <div className="me-1 booked">Not Available Slots</div>
                   <div className="me-1 weekend">Break/Weekend/Holiday</div>
-                </div>
+                </div> */}
+                 {/* <div>
+            <Button variant="primary">Slot Preferences</Button>{" "}
+            <Button
+              variant="primary"
+              onClick={() =>
+                navigate(
+                  `/myChangeRequest`
+                )
+              }
+            >
+              My Change Request
+            </Button>
+          </div>
               </div>
               {coursesStatus !== false && apiStatus === "finished" ? (
                 <Errordiv msg="No record available!" cstate className="mt-3" />
@@ -304,8 +367,10 @@ const PublishChangeRequest = () => {
                       SlotData={timeslots}
                       apiStatus={apiStatus}
                       courseDates={courseDates}
-                      selectedMonth={selectedMonth}
+                      // selectedMonth={selectedMonth}
+                      setChangeFilterStatus={setChangeFilterStatus}
                       updateTimetableDates={updateTimetableDates}
+                      handleMonthFilter={handleMonthFilter}
                       toggleModalShow={toggleModalShow}
                       onHide={() => toggleModalShow(false)}
                     />
@@ -319,9 +384,9 @@ const PublishChangeRequest = () => {
               )}
             </Container>
           </div>
-          <Footer />
+          <Footer /> */}
         </React.Fragment>
       );
     };
 
-export default PublishChangeRequest;
+export default MyCalenderTimetable;
