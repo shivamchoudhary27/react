@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { useParams } from "react-router-dom";
-import { Button, ButtonGroup, Table } from "react-bootstrap";
+import {
+  Alert,
+  AlertHeading,
+  Button,
+  ButtonGroup,
+  Table,
+} from "react-bootstrap";
 import { postData } from "../../../../adapters/microservices";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
+import * as Yup from "yup";
 
 const LevelThreshold2Table = ({
   levelData,
@@ -13,6 +21,11 @@ const LevelThreshold2Table = ({
   setInitialValue,
 }: any) => {
   const { id } = useParams();
+  const [apiStatus, setApiStatus] = useState("");
+  const [apiCatchError, setApiCatchError] = useState({
+    status: false,
+    msg: "",
+  });
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
     const formattedData = Object.entries(initialValues).reduce(
@@ -35,16 +48,25 @@ const LevelThreshold2Table = ({
     );
 
     // if (Object.keys(values).length !== 0) {
+    setApiStatus("started");
+    setApiCatchError({ status: false, msg: "" });
     postData(`/${id}/courseoutcome/level`, formattedData)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
+          setApiStatus("finished");
           setActiveTab(3);
-          // console.log(result);
+          setApiCatchError({ status: false, msg: "" });
         }
         setSubmitting(false);
       })
       .catch((err: any) => {
-        console.log(err);
+        setApiStatus("finished");
+        if (err.response.status === 500) {
+          setApiCatchError({
+            status: true,
+            msg: `${err.message}: ${err.response.data.errorCode}`,
+          });
+        }
         // Handle error, maybe show an alert
       });
     // }
@@ -53,442 +75,629 @@ const LevelThreshold2Table = ({
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={(values, action) => {
-        handleFormSubmit(values, action);
-      }}
-    >
-      {({ isSubmitting, errors, touched, handleChange }) => (
-        <Form>
-          <div className="table-responsive admin-table-wrapper copo-table mt-3">
-            <Table borderless striped>
-              <thead>
-                <tr>
-                  <th>Course Outcomes</th>
-                  <th>Target Set (%)</th>
-                  <th>Level 0 (Below)</th>
-                  <th>Level 1 (Above & Below)</th>
-                  <th>Level 2 (Between)</th>
-                  <th>Level 3 (Above)</th>
-                  {/* Add other table headers here */}
-                </tr>
-              </thead>
-              <tbody>
-                {levelData.map((item: { abbreviation: any; suffixValue: any; target: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; id: any; }, index: React.Key | null | undefined) => (
-                  <tr key={index}>
-                    <td>{`${item.abbreviation}_${item.suffixValue}`}</td>
-                    <td>{item.target}</td>
-                    <td>
-                      <ButtonGroup
-                        aria-label="Basic"
-                        size="sm"
-                        className="minusplus-btngroup"
-                      >
-                        <Button
-                          variant="primary"
-                          onClick={() =>
-                            {
-                              initialValues[`level_0_Target_${item.id}`] > 0 ?
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_0_Target_${item.id}`]: parseInt(
-                                  initialValues[`level_0_Target_${item.id}`] - 1
-                                ),
-                              })) : setErrorMsg({ status: true, message: "error occur" })
+    <>
+      {apiStatus !== "started" ? (
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, action) => {
+            handleFormSubmit(values, action);
+          }}
+        >
+          {({ isSubmitting, errors, touched, handleChange }) => (
+            <Form>
+              <div className="table-responsive admin-table-wrapper copo-table mt-3">
+                {apiCatchError.status && (
+                  <Alert
+                    key="danger"
+                    variant="danger"
+                    onClose={() => setApiCatchError({ status: false, msg: "" })}
+                    dismissible
+                  >
+                    {apiCatchError.msg}
+                  </Alert>
+                )}
+                <Table borderless striped>
+                  <thead>
+                    <tr>
+                      <th>Course Outcomes</th>
+                      <th>Target Set (%)</th>
+                      <th>Level 0 (Below)</th>
+                      <th>Level 1 (Above & Below)</th>
+                      <th>Level 2 (Between)</th>
+                      <th>Level 3 (Above)</th>
+                      {/* Add other table headers here */}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {levelData.map(
+                      (
+                        item: {
+                          abbreviation: any;
+                          suffixValue: any;
+                          target:
+                            | string
+                            | number
+                            | boolean
+                            | React.ReactElement<
+                                any,
+                                string | React.JSXElementConstructor<any>
+                              >
+                            | Iterable<React.ReactNode>
+                            | React.ReactPortal
+                            | null
+                            | undefined;
+                          id: any;
+                        },
+                        index: React.Key | null | undefined
+                      ) => (
+                        <tr key={index}>
+                          <td>{`${item.abbreviation}_${item.suffixValue}`}</td>
+                          <td>{item.target}</td>
+                          <td>
+                            {/* ================ level 0 button groups ================ */}
+                            <ButtonGroup
+                              aria-label="Basic"
+                              size="sm"
+                              className="minusplus-btngroup"
+                            >
+                              <Button
+                                variant="primary"
+                                onClick={() => {
+                                  // set decrement value for 0 level field === >>>
+                                  initialValues[`level_0_Target_${item.id}`] >
+                                    0 &&
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_0_Target_${item.id}`]: parseInt(
+                                        initialValues[
+                                          `level_0_Target_${item.id}`
+                                        ] - 1
+                                      ),
+                                    }));
 
-                              initialValues[`level_1_min_Target_${item.id}`] > 0 &&
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_1_min_Target_${item.id}`]: parseInt(
-                                  initialValues[`level_1_min_Target_${item.id}`] - 1
-                                ),
-                              }));
-                            }
-                          }
-                        >
-                          <i className="fa-solid fa-minus"></i>
-                        </Button>
-                        <Field
-                          min={0}
-                          max={initialValues[`level_1_max_Target_${item.id}`] - 1}
-                          type="number"
-                          placeholder={`level_0_Target_${item.id}`}
-                          name={`level_0_Target_${item.id}`}
-                          onChange={(e: { target: { value: any } }) => {
-                            handleChange(e);
-                            setInitialValue((prevState: any) => ({
-                              ...prevState,
-                              [`level_0_Target_${item.id}`]: parseInt(
-                                e.target.value
-                              ),
-                            }));
+                                  // set decrement value for 0 level parallel field level 1 min === >>>
+                                  initialValues[
+                                    `level_1_min_Target_${item.id}`
+                                  ] > 0 &&
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_1_min_Target_${item.id}`]:
+                                        parseInt(
+                                          initialValues[
+                                            `level_1_min_Target_${item.id}`
+                                          ] - 1
+                                        ),
+                                    }));
 
-                            setInitialValue((prevState: any) => ({
-                              ...prevState,
-                              [`level_1_min_Target_${item.id}`]: parseInt(
-                                e.target.value
-                              ),
-                            }));
-                          }}
-                          value={initialValues[`level_0_Target_${item.id}`]}
-                        />
+                                  // set alert message on min decrement === >>>
+                                  initialValues[`level_0_Target_${item.id}`] <=
+                                    0 &&
+                                    alert(
+                                      "level 0 min value must be greater than or equal to 0"
+                                    );
+                                }}
+                              >
+                                <i className="fa-solid fa-minus"></i>
+                              </Button>
+                              <Field
+                                min={0}
+                                max={
+                                  initialValues[
+                                    `level_1_max_Target_${item.id}`
+                                  ] - 1
+                                }
+                                type="number"
+                                placeholder={`level_0_Target_${item.id}`}
+                                name={`level_0_Target_${item.id}`}
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_0_Target_${item.id}`]: parseInt(
+                                      e.target.value
+                                    ),
+                                  }));
 
-                        <Button variant="primary">
-                          <i
-                            className="fa-solid fa-plus"
-                            onClick={() => 
-                              {
-                                initialValues[`level_0_Target_${item.id}`] < initialValues[`level_1_max_Target_${item.id}`] -1 && 
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_0_Target_${item.id}`]: parseInt(
-                                    initialValues[`level_0_Target_${item.id}`] + 1
-                                  ),
-                                }));
-  
-                                initialValues[`level_1_min_Target_${item.id}`] < initialValues[`level_1_max_Target_${item.id}`]-1 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_1_min_Target_${item.id}`]: parseInt(
-                                    initialValues[`level_1_min_Target_${item.id}`] + 1
-                                  ),
-                                }));
-                              }
-                          }
-                          ></i>
-                        </Button>
-                      </ButtonGroup>
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_1_min_Target_${item.id}`]: parseInt(
+                                      e.target.value
+                                    ),
+                                  }));
+                                }}
+                                value={
+                                  initialValues[`level_0_Target_${item.id}`]
+                                }
+                              />
 
+                              <Button variant="primary">
+                                <i
+                                  className="fa-solid fa-plus"
+                                  onClick={() => {
+                                    // set increment value for 0 level field === >>>
+                                    initialValues[`level_0_Target_${item.id}`] <
+                                      initialValues[
+                                        `level_1_max_Target_${item.id}`
+                                      ] -
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_0_Target_${item.id}`]: parseInt(
+                                          initialValues[
+                                            `level_0_Target_${item.id}`
+                                          ] + 1
+                                        ),
+                                      }));
 
-                      <FieldErrorMessage
-                        errors={errors[`level_0_Target_${item.id}`]}
-                        touched={touched[`level_0_Target_${item.id}`]}
-                      />
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <ButtonGroup
-                          aria-label="Basic"
-                          size="sm"
-                          className="minusplus-btngroup"
-                        >
-                          <Button
-                            variant="primary"
-                            onClick={() => 
-                              {
-                                initialValues[`level_1_max_Target_${item.id}`] > initialValues[`level_0_Target_${item.id}`]+1 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_1_max_Target_${item.id}`]: parseInt(
-                                    initialValues[`level_1_max_Target_${item.id}`] - 1
-                                  ),
-                                }));
-  
-                                initialValues[`level_2_min_target_${item.id}`] > initialValues[`level_0_Target_${item.id}`]+1 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_2_min_target_${item.id}`]: parseInt(
-                                    initialValues[`level_2_min_target_${item.id}`] - 1
-                                  ),
-                                }));
-                              }
-                          }
-                          >
-                            <i className="fa-solid fa-minus"></i>
-                          </Button>
-                          <Field
-                            min={initialValues[`level_1_min_Target_${item.id}`] + 1}
-                            max={initialValues[`level_2_max_target_${item.id}`] - 1}
-                            type="number"
-                            name={`level_1_max_Target_${item.id}`}
-                            placeholder={`level_1_max_Target_${item.id}`}
-                            onChange={(e: { target: { value: any } }) => {
-                              handleChange(e);
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_1_max_Target_${item.id}`]: parseInt(
-                                  e.target.value
-                                ),
-                              }));
+                                    // set increment value for 0 level parallel field level 1 min === >>>
+                                    initialValues[
+                                      `level_1_min_Target_${item.id}`
+                                    ] <
+                                      initialValues[
+                                        `level_1_max_Target_${item.id}`
+                                      ] -
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_1_min_Target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_1_min_Target_${item.id}`
+                                            ] + 1
+                                          ),
+                                      }));
 
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_2_min_target_${item.id}`]: parseInt(
-                                  e.target.value
-                                ),
-                              }));
-                            }}
-                            value={
-                              initialValues[`level_1_max_Target_${item.id}`]
-                            }
-                          />
-                          <Button variant="primary"
-                            onClick={() => 
-                              {
-                                initialValues[`level_1_max_Target_${item.id}`] < initialValues[`level_2_max_target_${item.id}`] -1 && 
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_1_max_Target_${item.id}`]: parseInt(
-                                    initialValues[`level_1_max_Target_${item.id}`] + 1
-                                  ),
-                                }));
-  
-                                initialValues[`level_2_min_target_${item.id}`] < initialValues[`level_2_max_target_${item.id}`]-1 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_2_min_target_${item.id}`]: parseInt(
-                                    initialValues[`level_2_min_target_${item.id}`] + 1
-                                  ),
-                                }));
-                              }
-                          }
-                          >
-                            <i className="fa-solid fa-plus"></i>
-                          </Button>
-                        </ButtonGroup>
-                        <FieldErrorMessage
-                          errors={errors[`level_1_max_Target_${item.id}`]}
-                          touched={touched[`level_1_max_Target_${item.id}`]}
-                        />
+                                    initialValues[
+                                      `level_0_Target_${item.id}`
+                                    ] >=
+                                      initialValues[
+                                        `level_1_max_Target_${item.id}`
+                                      ] -
+                                        1 &&
+                                      alert(
+                                        "Level 0 value must be less than Level 1 max value"
+                                      );
+                                  }}
+                                ></i>
+                              </Button>
+                            </ButtonGroup>
+                            <FieldErrorMessage
+                              errors={errors[`level_0_Target_${item.id}`]}
+                              touched={touched[`level_0_Target_${item.id}`]}
+                            />
+                            {/* ================ level 0 button groups end ================ */}
+                          </td>
+                          <td>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              {/* ================ level 1 button groups (above) ================ */}
+                              <ButtonGroup
+                                aria-label="Basic"
+                                size="sm"
+                                className="minusplus-btngroup"
+                              >
+                                <Button
+                                  variant="primary"
+                                  onClick={() => {
+                                    // set decrement value for 1 level max field === >>>
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] >
+                                      initialValues[
+                                        `level_0_Target_${item.id}`
+                                      ] +
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_1_max_Target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_1_max_Target_${item.id}`
+                                            ] - 1
+                                          ),
+                                      }));
 
-                        <ButtonGroup
-                          aria-label="Basic"
-                          size="sm"
-                          className="minusplus-btngroup"
-                        >
-                          <Button
-                            variant="primary"
-                            disabled
-                          >
-                            <i className="fa-solid fa-minus"></i>
-                          </Button>
-                          <Field
-                            disabled
-                            type="number"
-                            name={`level_1_min_Target_${item.id}`}
-                            placeholder={`level_1_min_Target_${item.id}`}
-                            onChange={(e: { target: { value: any } }) => {
-                              handleChange(e);
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_1_min_Target_${item.id}`]: parseInt(
-                                  e.target.value
-                                ),
-                              }));
-                            }}
-                            value={
-                              initialValues[`level_1_min_Target_${item.id}`]
-                            }
-                          />
-                          <Button variant="primary" disabled>
-                            <i className="fa-solid fa-plus"></i>
-                          </Button>
-                        </ButtonGroup>
-                        <FieldErrorMessage
-                          errors={errors[`level_1_min_Target_${item.id}`]}
-                          touched={touched[`level_1_min_Target_${item.id}`]}
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <ButtonGroup
-                          aria-label="Basic"
-                          size="sm"
-                          className="minusplus-btngroup"
-                        >
-                          <Button
-                            variant="primary"
-                            disabled
-                          >
-                            <i className="fa-solid fa-minus"></i>
-                          </Button>
-                          <Field
-                          disabled
-                            type="number"
-                            name={`level_2_min_target_${item.id}`}
-                            placeholder={`level_2_min_target_${item.id}`}
-                            onChange={(e: { target: { value: any } }) => {
-                              handleChange(e);
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_2_min_target_${item.id}`]: parseInt(
-                                  e.target.value
-                                ),
-                              }));
-                            }}
-                            value={
-                              initialValues[`level_2_min_target_${item.id}`]
-                            }
-                          />
-                          <Button variant="primary" disabled>
-                            <i className="fa-solid fa-plus"></i>
-                          </Button>
-                        </ButtonGroup>
-                        <FieldErrorMessage
-                          errors={errors[`level_2_min_target_${item.id}`]}
-                          touched={touched[`level_2_min_target_${item.id}`]}
-                        />
+                                    // set decrement value for 1 level max parallel field level 2 min === >>>
+                                    initialValues[
+                                      `level_2_min_target_${item.id}`
+                                    ] >
+                                      initialValues[
+                                        `level_0_Target_${item.id}`
+                                      ] +
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_2_min_target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_2_min_target_${item.id}`
+                                            ] - 1
+                                          ),
+                                      }));
 
-                        <ButtonGroup
-                          aria-label="Basic"
-                          size="sm"
-                          className="minusplus-btngroup"
-                        >
-                          <Button
-                            variant="primary"
-                            onClick={() => 
-                              {
-                                initialValues[`level_2_max_target_${item.id}`] > initialValues[`level_1_max_Target_${item.id}`]+1 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_2_max_target_${item.id}`]: parseInt(
-                                    initialValues[`level_2_max_target_${item.id}`] - 1
-                                  ),
-                                }));
-  
-                                initialValues[`level_3_target_${item.id}`] > initialValues[`level_1_max_Target_${item.id}`]+1 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_3_target_${item.id}`]: parseInt(
-                                    initialValues[`level_3_target_${item.id}`] - 1
-                                  ),
-                                }));
-                              }
-                          }
-                          >
-                            <i className="fa-solid fa-minus"></i>
-                          </Button>
-                          <Field
-                            min={initialValues[`level_1_max_Target_${item.id}`] + 1}
-                            max={100}
-                            type="number"
-                            name={`level_2_max_target_${item.id}`}
-                            placeholder={`level_2_max_target_${item.id}`}
-                            onChange={(e: { target: { value: any } }) => {
-                              handleChange(e);
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_2_max_target_${item.id}`]: parseInt(
-                                  e.target.value
-                                ),
-                              }));
+                                    // set alert on min decrement === >>>
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] <=
+                                      initialValues[
+                                        `level_0_Target_${item.id}`
+                                      ] +
+                                        1 &&
+                                      alert(
+                                        "Level 1 max value must be greater than level 0 value"
+                                      );
+                                  }}
+                                >
+                                  <i className="fa-solid fa-minus"></i>
+                                </Button>
+                                <Field
+                                  min={
+                                    initialValues[
+                                      `level_1_min_Target_${item.id}`
+                                    ] + 1
+                                  }
+                                  max={
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ] - 1
+                                  }
+                                  type="number"
+                                  name={`level_1_max_Target_${item.id}`}
+                                  placeholder={`level_1_max_Target_${item.id}`}
+                                  onChange={(e: { target: { value: any } }) => {
+                                    handleChange(e);
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_1_max_Target_${item.id}`]:
+                                        parseInt(e.target.value),
+                                    }));
 
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`level_3_target_${item.id}`]: parseInt(
-                                  e.target.value
-                                ),
-                              }));
-                            }}
-                            value={
-                              initialValues[`level_2_max_target_${item.id}`]
-                            }
-                          />
-                          <Button variant="primary"
-                            onClick={() => 
-                              {
-                                initialValues[`level_2_max_target_${item.id}`] < 100 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_2_max_target_${item.id}`]: parseInt(
-                                    initialValues[`level_2_max_target_${item.id}`] + 1
-                                  ),
-                                }));
-  
-                                initialValues[`level_3_target_${item.id}`] < 100 &&
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`level_3_target_${item.id}`]: parseInt(
-                                    initialValues[`level_3_target_${item.id}`] + 1
-                                  ),
-                                }));
-                              }
-                          }
-                          >
-                            <i className="fa-solid fa-plus"></i>
-                          </Button>
-                        </ButtonGroup>
-                        <FieldErrorMessage
-                          errors={errors[`level_2_max_target_${item.id}`]}
-                          touched={touched[`level_2_max_target_${item.id}`]}
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <ButtonGroup
-                        aria-label="Basic"
-                        size="sm"
-                        className="minusplus-btngroup"
-                      >
-                        <Button
-                          disabled
-                          variant="primary"
-                        >
-                          <i className="fa-solid fa-minus"></i>
-                        </Button>
-                        <Field
-                        disabled
-                          type="number"
-                          name={`level_3_target_${item.id}`}
-                          placeholder={`level_3_target_${item.id}`}
-                          onChange={(e: { target: { value: any } }) => {
-                            handleChange(e);
-                            setInitialValue((prevState: any) => ({
-                              ...prevState,
-                              [`level_3_target_${item.id}`]: parseInt(
-                                e.target.value
-                              ),
-                            }));
-                          }}
-                          value={initialValues[`level_3_target_${item.id}`]}
-                        />
-                        <Button variant="primary" disabled>
-                          <i className="fa-solid fa-plus"></i>
-                        </Button>
-                      </ButtonGroup>
-                      <FieldErrorMessage
-                        errors={errors[`level_3_target_${item.id}`]}
-                        touched={touched[`level_3_target_${item.id}`]}
-                      />
-                    </td>
-                    {/* Add other table cells here */}
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_2_min_target_${item.id}`]:
+                                        parseInt(e.target.value),
+                                    }));
+                                  }}
+                                  value={
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ]
+                                  }
+                                />
+                                <Button
+                                  variant="primary"
+                                  onClick={() => {
+                                    // set increment value for 1 level max field === >>>
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] <
+                                      initialValues[
+                                        `level_2_max_target_${item.id}`
+                                      ] -
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_1_max_Target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_1_max_Target_${item.id}`
+                                            ] + 1
+                                          ),
+                                      }));
 
-          <div className="modal-buttons">
-            <CustomButton
-              type="submit"
-              variant="primary"
-              disabled={isSubmitting}
-              btnText="Save & Continue"
-            />
-            {/* <CustomButton
-              type="reset"
-              btnText="Reset"
-              variant="outline-secondary"
-              disabled={isSubmitting}
-            /> */}
-          </div>
-        </Form>
+                                    // set increment value for 1 level max parallel field level 2 max === >>>
+                                    initialValues[
+                                      `level_2_min_target_${item.id}`
+                                    ] <
+                                      initialValues[
+                                        `level_2_max_target_${item.id}`
+                                      ] -
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_2_min_target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_2_min_target_${item.id}`
+                                            ] + 1
+                                          ),
+                                      }));
+
+                                    // set alert message on max increment === >>
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] >=
+                                      initialValues[
+                                        `level_2_max_target_${item.id}`
+                                      ] -
+                                        1 &&
+                                      alert(
+                                        "Level 1 max value must be less than level 2 max value"
+                                      );
+                                  }}
+                                >
+                                  <i className="fa-solid fa-plus"></i>
+                                </Button>
+                              </ButtonGroup>
+                              {/* ================ level 1 button groups end ================ */}
+
+                              {/* ================ level 1 button groups (below) ================ */}
+                              <ButtonGroup
+                                aria-label="Basic"
+                                size="sm"
+                                className="minusplus-btngroup"
+                              >
+                                <Button variant="primary" disabled>
+                                  <i className="fa-solid fa-minus"></i>
+                                </Button>
+                                <Field
+                                  disabled
+                                  type="number"
+                                  name={`level_1_min_Target_${item.id}`}
+                                  placeholder={`level_1_min_Target_${item.id}`}
+                                  onChange={(e: { target: { value: any } }) => {
+                                    handleChange(e);
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_1_min_Target_${item.id}`]:
+                                        parseInt(e.target.value),
+                                    }));
+                                  }}
+                                  value={
+                                    initialValues[
+                                      `level_1_min_Target_${item.id}`
+                                    ]
+                                  }
+                                />
+                                <Button variant="primary" disabled>
+                                  <i className="fa-solid fa-plus"></i>
+                                </Button>
+                              </ButtonGroup>
+                              {/* ================ level 1 button groups end ================ */}
+                            </div>
+                          </td>
+                          <td>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              {/* ================ level 2 button groups (below) ================ */}
+                              <ButtonGroup
+                                aria-label="Basic"
+                                size="sm"
+                                className="minusplus-btngroup"
+                              >
+                                <Button variant="primary" disabled>
+                                  <i className="fa-solid fa-minus"></i>
+                                </Button>
+                                <Field
+                                  disabled
+                                  type="number"
+                                  name={`level_2_min_target_${item.id}`}
+                                  placeholder={`level_2_min_target_${item.id}`}
+                                  onChange={(e: { target: { value: any } }) => {
+                                    handleChange(e);
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_2_min_target_${item.id}`]:
+                                        parseInt(e.target.value),
+                                    }));
+                                  }}
+                                  value={
+                                    initialValues[
+                                      `level_2_min_target_${item.id}`
+                                    ]
+                                  }
+                                />
+                                <Button variant="primary" disabled>
+                                  <i className="fa-solid fa-plus"></i>
+                                </Button>
+                              </ButtonGroup>
+                              {/* ================ level 2 button groups end ================ */}
+
+                              {/* ================ level 2 button groups (above) ================ */}
+                              <ButtonGroup
+                                aria-label="Basic"
+                                size="sm"
+                                className="minusplus-btngroup"
+                              >
+                                <Button
+                                  variant="primary"
+                                  onClick={() => {
+                                    // set decrement value for 2 level max field === >>>
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ] >
+                                      initialValues[
+                                        `level_1_max_Target_${item.id}`
+                                      ] +
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_2_max_target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_2_max_target_${item.id}`
+                                            ] - 1
+                                          ),
+                                      }));
+
+                                    // set decrement value for 2 level max parallel field level 3 === >>>
+                                    initialValues[`level_3_target_${item.id}`] >
+                                      initialValues[
+                                        `level_1_max_Target_${item.id}`
+                                      ] +
+                                        1 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_3_target_${item.id}`]: parseInt(
+                                          initialValues[
+                                            `level_3_target_${item.id}`
+                                          ] - 1
+                                        ),
+                                      }));
+
+                                    // set alert message on min decrement === >>>
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ] <=
+                                      initialValues[
+                                        `level_1_max_Target_${item.id}`
+                                      ] +
+                                        1 &&
+                                      alert(
+                                        "level 2 max value must be greater than level 1 min value"
+                                      );
+                                  }}
+                                >
+                                  <i className="fa-solid fa-minus"></i>
+                                </Button>
+                                <Field
+                                  min={
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] + 1
+                                  }
+                                  max={100}
+                                  type="number"
+                                  name={`level_2_max_target_${item.id}`}
+                                  placeholder={`level_2_max_target_${item.id}`}
+                                  onChange={(e: { target: { value: any } }) => {
+                                    handleChange(e);
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_2_max_target_${item.id}`]:
+                                        parseInt(e.target.value),
+                                    }));
+
+                                    setInitialValue((prevState: any) => ({
+                                      ...prevState,
+                                      [`level_3_target_${item.id}`]: parseInt(
+                                        e.target.value
+                                      ),
+                                    }));
+                                  }}
+                                  value={
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ]
+                                  }
+                                />
+                                <Button
+                                  variant="primary"
+                                  onClick={() => {
+                                    // set increment value for 2 level max field === >>>
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ] < 100 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_2_max_target_${item.id}`]:
+                                          parseInt(
+                                            initialValues[
+                                              `level_2_max_target_${item.id}`
+                                            ] + 1
+                                          ),
+                                      }));
+
+                                    // set increment value for 2 level max parallel field level 3 === >>>
+                                    initialValues[`level_3_target_${item.id}`] <
+                                      100 &&
+                                      setInitialValue((prevState: any) => ({
+                                        ...prevState,
+                                        [`level_3_target_${item.id}`]: parseInt(
+                                          initialValues[
+                                            `level_3_target_${item.id}`
+                                          ] + 1
+                                        ),
+                                      }));
+
+                                    // set alert message on max increment === >>
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ] >= 100 &&
+                                      alert(
+                                        "Level 2 & level 3 max value is less than or equal to 100"
+                                      );
+                                  }}
+                                >
+                                  <i className="fa-solid fa-plus"></i>
+                                </Button>
+                              </ButtonGroup>
+                              {/* ================ level 2 button groups end ================ */}
+                            </div>
+                          </td>
+                          <td>
+                            {/* ================ level 3 button groups ================ */}
+                            <ButtonGroup
+                              aria-label="Basic"
+                              size="sm"
+                              className="minusplus-btngroup"
+                            >
+                              <Button disabled variant="primary">
+                                <i className="fa-solid fa-minus"></i>
+                              </Button>
+                              <Field
+                                disabled
+                                type="number"
+                                name={`level_3_target_${item.id}`}
+                                placeholder={`level_3_target_${item.id}`}
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_3_target_${item.id}`]: parseInt(
+                                      e.target.value
+                                    ),
+                                  }));
+                                }}
+                                value={
+                                  initialValues[`level_3_target_${item.id}`]
+                                }
+                              />
+                              <Button variant="primary" disabled>
+                                <i className="fa-solid fa-plus"></i>
+                              </Button>
+                            </ButtonGroup>
+                            {/* ================ level 3 button groups end ================ */}
+                          </td>
+                          {/* Add other table cells here */}
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </Table>
+              </div>
+
+              <div className="modal-buttons">
+                <CustomButton
+                  type="submit"
+                  variant="primary"
+                  disabled={isSubmitting}
+                  btnText="Save & Continue"
+                />
+                {/* <CustomButton
+                  type="reset"
+                  btnText="Reset"
+                  variant="outline-secondary"
+                  disabled={isSubmitting}
+                /> */}
+              </div>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <RouterLadyLoader status={true} />
       )}
-    </Formik>
+    </>
   );
 };
 

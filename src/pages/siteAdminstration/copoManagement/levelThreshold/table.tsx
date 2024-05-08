@@ -21,11 +21,11 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 type Props = {
   apiStatus: string;
   allCourseOutcome: any;
-  refreshOnDeleteToggle: any
-  setActiveTab: any
-  toggleModalShow: any
-  refreshToggle: any
-  editHandlerById: any,
+  refreshOnDeleteToggle: any;
+  setActiveTab: any;
+  toggleModalShow: any;
+  refreshToggle: any;
+  editHandlerById: any;
 };
 
 const LevelThresholdTable = (props: Props) => {
@@ -42,7 +42,9 @@ const LevelThresholdTable = (props: Props) => {
     {
       Header: "Course Outcomes",
       // accessor: "suffixValue",
-      Cell: ({ row }: any) => row.original.abbreviation + "_" + row.original.suffixValue},
+      Cell: ({ row }: any) =>
+        row.original.abbreviation + "_" + row.original.suffixValue,
+    },
     {
       Header:
         "After successful completion of the course student will be able to",
@@ -51,71 +53,6 @@ const LevelThresholdTable = (props: Props) => {
     {
       Header: "Target Set (%)",
       accessor: "target",
-      // Cell: ({ row }: any) => (
-      //   <Formik
-      //     initialValues={props.allCourseOutcome.reduce((acc, item, index) => {
-      //       let key = "target_" + item.id;
-      //       if (!acc[key]) {
-      //         acc[key] = 0;
-      //       }
-      //       acc[key] += item.target;
-      //       return acc;
-      //     }, {})}
-      //     // validationSchema={queryFormSchema}
-      //     onSubmit={(values, action) => {
-      //       // handleFormSubmit(values, action);
-      //       console.log(values)
-      //     }}
-      //   >
-      //     {({ isSubmitting, values, setFieldValue }) => (
-      //       <Form>
-      //         <ButtonGroup
-      //           aria-label="Basic"
-      //           size="sm"
-      //           className="minusplus-btngroup"
-      //         >
-      //           <Button
-      //             variant="primary"
-      //             onClick={() =>
-      //               handleDecrement(
-      //                 row.original.id,
-      //                 row.original.target,
-      //                 // values[`target_${row.original.id}`],
-      //                 setFieldValue
-      //               )
-      //             }
-      //           >
-      //             <i className="fa-solid fa-minus"></i>
-      //           </Button>
-      //           <input
-      //             type="text"
-      //             name={`target_${row.original.id}`}
-      //             value={values[`target_${row.original.id}`]}
-      //             // value={row.original.target}
-      //             // onChange={(e) => {
-      //             // }}
-      //             disabled
-      //             placeholder="0%"
-      //           />
-      //           <Button
-      //             variant="primary"
-      //             onClick={() =>
-      //               handleIncrement(
-      //                 row.original.id,
-      //                 row.original.target,
-      //                 // values[`target_${row.original.id}`],
-      //                 setFieldValue
-      //               )
-      //             }
-      //             // onClick={() => setFieldValue(`target_${row.original.id}`, row.original.target+1)}
-      //           >
-      //             <i className="fa-solid fa-plus"></i>
-      //           </Button>
-      //         </ButtonGroup>
-      //       </Form>
-      //     )}
-      //   </Formik>
-      // ),
     },
     {
       Header: "Actions",
@@ -154,10 +91,11 @@ const LevelThresholdTable = (props: Props) => {
               <img
                 src={deleteIcon}
                 alt="Delete"
-                onClick={() =>
-                  // row.original.totalPrograms < 1
-                     deleteHandler(row.original.id)
-                    // : null
+                onClick={
+                  () =>
+                    // row.original.totalPrograms < 1
+                    deleteHandler(row.original.id)
+                  // : null
                 }
               />
             </Link>
@@ -183,7 +121,7 @@ const LevelThresholdTable = (props: Props) => {
   //   setFieldValue(`target_${id}`, count);
   //   setTargetData(preVal => ({
   //     ...preVal,
-  //     [`target_${id}`] : count 
+  //     [`target_${id}`] : count
   //   }))
   // };
 
@@ -192,7 +130,7 @@ const LevelThresholdTable = (props: Props) => {
   //   setFieldValue(`target_${id}`, count);
   //   setTargetData(preVal => ({
   //     ...preVal,
-  //     [`target_${id}`] : count 
+  //     [`target_${id}`] : count
   //   }))
   // };
 
@@ -217,7 +155,7 @@ const LevelThresholdTable = (props: Props) => {
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: res.data
+              text: res.data,
             });
           } else if (res.status === 500) {
             // setShowAlert(true);
@@ -290,12 +228,14 @@ const LevelThresholdTable = (props: Props) => {
             })}
           </tbody>
         </Table>
-        {props.apiStatus === "started" && props.allCourseOutcome.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )}
-        {props.apiStatus === "finished" && props.allCourseOutcome.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="mt-3" />
-        )}
+        {props.apiStatus === "started" &&
+          props.allCourseOutcome.length === 0 && (
+            <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+          )}
+        {props.apiStatus === "finished" &&
+          props.allCourseOutcome.length === 0 && (
+            <Errordiv msg="No record found!" cstate className="mt-3" />
+          )}
         <DeleteAlert
           show={showDeleteModal}
           modalHeading="Course Outcome"
@@ -323,18 +263,3 @@ const LevelThresholdTable = (props: Props) => {
 };
 
 export default LevelThresholdTable;
-
-const tableData = [
-  {
-    courseOutcomes: "AIT_CO 1",
-    courseCompletion: "Identify the user mashup in rich internet application",
-  },
-  {
-    courseOutcomes: "AIT_CO 2",
-    courseCompletion: "",
-  },
-  {
-    courseOutcomes: "AIT_CO 3",
-    courseCompletion: "",
-  },
-];
