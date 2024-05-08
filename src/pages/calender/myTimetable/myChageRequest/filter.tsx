@@ -1,26 +1,33 @@
 import { useFormik } from "formik";
+import { getMonthList } from "../local";
+import { useSelector } from "react-redux";
 import { format, parse, getTime } from "date-fns";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
-import { renderCourse, handleChildrens } from "../utils";
+import { renderCourse, handleChildrens, courseDatesObj } from "../utils";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import { courseDatesObj } from "../utils";
-import { useSelector } from "react-redux";
+import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
+import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
 
 const ManageFilter = ({
+  courseDates,
   programFilter,
   workloadCourses,
   selectedProgram,
-  setSelectedProgram,
-  ids,
-  updateCourseDates,
   setCoursesStatus,
-  updateFacultyStatus,
+  // setSelectedMonth,
+  updateCourseDates,
+  setSelectedProgram,
   selectedDepartment,
+  updateFacultyStatus,
   setSelectedDepartment,
-}: any) => {
-  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  ChangeFilterStatus,
+  // handleMonthFilter,
+  setHandleMonthFilter,
+  setChangeFilterStatus
 
+}: any) => {
+  
   const initialValues = {
     name: "",
     faculty: "",
@@ -30,10 +37,12 @@ const ManageFilter = ({
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-
   const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
-
+  const [monthList, setMonthList] = useState({});
+  
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
+  
   const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
 
   useEffect(() => {
@@ -67,7 +76,6 @@ const ManageFilter = ({
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      console.log(values);
     },
     onReset: () => {
       setSelectedProgram(0);
@@ -120,6 +128,23 @@ const ManageFilter = ({
     const dateObject = parse(dateString, "dd/MM/yyyy", new Date());
     return getTime(dateObject);
   };
+
+  // handle month filter === >>
+  const handleMonthFilterChange = (e: any) => {
+    if (e.type === "change") {
+      // setSelectedMonth(e.target.value);
+      setChangeFilterStatus(e.target.value)
+      setHandleMonthFilter([e.target.value])
+    }
+  };
+
+  // get Months between start & end timestamp === >>
+  useEffect(() => {
+    if (courseDates !== "") {
+      const monthListArr = getMonthList(courseDates);
+      setMonthList(monthListArr);
+    }
+  }, [courseDates]);
 
   const renderCourseOptions = (categories: any) => {
     return (
@@ -225,6 +250,60 @@ const ManageFilter = ({
             </Col>
           </Row>
         </form>
+        </div>
+        <div className="d-flex justify-content-between align-items-center mt-4">
+          <div className="d-flex gap-4 dates-wrapper">
+            <div>
+              <img src={startDateIcon} alt="start Date" />
+              <b>Start Date:</b> {courseDates.startDate}
+            </div>
+            <div>
+              <img src={endDateIcon} alt="End Date" />
+              <b>End Date: </b> {courseDates.endDate}
+            </div>
+            {courseDates.startDate !== "--/--/----" &&
+              courseDates.endDate !== "--/--/----" && (
+                <div>
+                  <label htmlFor="month">Month:</label>
+                  <select
+                    className="form-select"
+                    name="workloadCourse"
+                    onChange={handleMonthFilterChange}
+                    // value={ChangeFilterStatus}
+                  >
+                    <option value={0}>Select Month</option>
+                    {
+                      Object.entries(monthList).map(([year, months]: any) => (
+                        <optgroup label={year} key={year}>
+                          {
+                            months.map((month: any, index: React.Key | null | undefined) => (
+                              <option
+                                value={`${month},${year}`}
+                                key={index}
+                                // Conditionally render selected option based on state
+                                selected={ChangeFilterStatus === `${month},${year}`}
+                              >
+                                {month}
+                              </option>
+                            ))
+                          }
+                      </optgroup>
+                      ))
+                    }
+                  </select>
+                </div>
+              )}
+          </div>
+
+          <div className="slot-indicator">
+            <div className="me-1">
+              <i className="fa-solid fa-envelope-circle-check"></i> Change
+              Request
+            </div>
+            <div className="me-1 available">Available Slots</div>
+            <div className="me-1 booked">Not Available Slots</div>
+            <div className="me-1 weekend">Break/Weekend/Holiday</div>
+          </div>
       </div>
     </React.Fragment>
   );

@@ -9,7 +9,7 @@ import ManageTimesSlot from "../../../pages/siteAdminstration/timetable/timesSlo
 import ManageCoursesWorkLoad from "../../../pages/siteAdminstration/timetable/manageCoursesWorkLoad";
 import WeeklyDraftVersion from "../../../pages/siteAdminstration/timetable/draft";
 import PublishChangeRequest from "../../../pages/siteAdminstration/timetable/draft/publishChangeRequest";
-import MyChangeRequest from "../../../pages/calender/myCalenderTimetable/myChageRequest";
+import MyChangeRequest from "../../../pages/calender/myTimetable/myChageRequest";
 
 const TimetableManagementRoute = () => {
   return [

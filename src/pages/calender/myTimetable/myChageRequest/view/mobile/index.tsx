@@ -1,15 +1,15 @@
 import React from "react";
 import { Container } from "react-bootstrap";
 import MyTimetableFilter from "../../filter";
-import MyTimetableDraftTable from "../../table";
-import PageTitle from "../../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import MobileHeader from "../../../../newHeader/mobileHeader";
-import MobileFooter from "../../../../newFooter/mobileFooter";
+import MyChangeRequestTable from "../../table";
+import PageTitle from "../../../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import MobileHeader from "../../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../../newFooter/mobileFooter";
 
 type Props = {
   commonProps: {
-    getCourseId: any
+    getCourseId: any;
     apiResponseData: any;
     timeslots: any;
     apiStatus: any;
@@ -38,18 +38,13 @@ const Mobile = (props: Props) => {
               getCourseId={props.commonProps.getCourseId}
               apiResponseData={props.commonProps.apiResponseData}
             />
-            <MyTimetableDraftTable
-             SlotData={props.commonProps.timeslots}
-             apiStatus={props.commonProps.apiStatus}
-             courseDates={props.commonProps.courseDates}
-             selectedMonth={props.commonProps.selectedMonth}
-             updateTimetableDates={props.commonProps.updateTimetableDates}
-                />
-            {/* <BuildPagination
-              totalpages={props.commonProps.timeslotListPage}
-              activepage={props.commonProps.filterUpdate}
-              getrequestedpage={props.commonProps.newPageRequest}
-            /> */}
+            <MyChangeRequestTable
+              SlotData={props.commonProps.timeslots}
+              apiStatus={props.commonProps.apiStatus}
+              courseDates={props.commonProps.courseDates}
+              selectedMonth={props.commonProps.selectedMonth}
+              updateTimetableDates={props.commonProps.updateTimetableDates}
+            />
           </Container>
         </div>
       </div>
