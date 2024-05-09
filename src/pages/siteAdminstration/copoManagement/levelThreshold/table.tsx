@@ -6,6 +6,7 @@ import {
   Button,
   OverlayTrigger,
   Tooltip as BsTooltip,
+  Alert,
 } from "react-bootstrap";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { Formik, Form, FormikHelpers, Field } from "formik";
@@ -26,13 +27,15 @@ type Props = {
   toggleModalShow: any;
   refreshToggle: any;
   editHandlerById: any;
+  courseoutcomesApiCatchError: any
+  setCourseoutcomesApiCatchError: any
 };
 
 const LevelThresholdTable = (props: Props) => {
   const [deleteId, setDeleteId] = useState<number>(0);
   const [onDeleteAction, setOnDeleteAction] = useState<string>("");
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
-  const { id } = useParams();
+  const { cid } = useParams();
 
   const tableColumn = [
     {
@@ -143,7 +146,7 @@ const LevelThresholdTable = (props: Props) => {
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {
-      let endPoint: string = `/${id}/courseoutcomes/${deleteId}`;
+      let endPoint: string = `/${cid}/courseoutcomes/${deleteId}`;
       deleteData(endPoint)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
@@ -199,6 +202,16 @@ const LevelThresholdTable = (props: Props) => {
 
   return (
     <React.Fragment>
+      {props.courseoutcomesApiCatchError.status && (
+        <Alert
+          key="danger"
+          variant="danger"
+          onClose={() => props.setCourseoutcomesApiCatchError({ status: false, msg: "" })}
+          dismissible
+        >
+          {props.courseoutcomesApiCatchError.msg}
+        </Alert>
+      )}
       <div className="table-responsive admin-table-wrapper copo-table mt-3">
         <Table borderless striped {...getTableProps}>
           <thead>

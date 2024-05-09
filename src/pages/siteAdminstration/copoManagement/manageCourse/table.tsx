@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Table, } from "react-bootstrap";
 import { useTable } from "react-table";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { getLatestWeightForCategory } from "./utils";
 import {
@@ -35,6 +35,8 @@ const CourseTable = ({
   editHandlerById,
   apiStatus,
 }: any) => {
+  const {id, name} = useParams()
+  
   const tableColumn = [
     {
       Header: "Categories",
@@ -83,7 +85,7 @@ const CourseTable = ({
             <>
                 <Link
                   className="action-icons"
-                  to={`/tabsList/${row.original.courseid}/${row.original.coursename}`}
+                  to={`/tabsList/${id}/${name}/${row.original.courseid}/${row.original.coursename}`}
                 >Configuration
                 </Link>
                 {/* <Link

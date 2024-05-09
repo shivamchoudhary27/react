@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom";
 type Props = {};
 
 const Browser = (props: Props) => {
-  const { name } = useParams()
+  const { id, name, cid, cname } = useParams()
 
   return (
     <React.Fragment>
@@ -24,13 +24,13 @@ const Browser = (props: Props) => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "CO/PO Management", path: "/copoManagement" },
-          { name: "Configure Co/Po", path: `/copoManagement` },
-          { name: name, path: "/copomanagement" },
+          { name: name, path: `/copoCourse/${id}/${name}`},
+          { name: cname, path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
-          <PageTitle pageTitle={`${name}: Configure Co/Po Course`} gobacklink="/copoManagement" />
+          <PageTitle pageTitle={`${cname}: Configure Co/Po Course`} gobacklink={`/copoCourse/${id}/${name}`} />
           <TabsList />
         </Container>
       </div>

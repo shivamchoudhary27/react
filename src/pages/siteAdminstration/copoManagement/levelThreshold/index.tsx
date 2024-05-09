@@ -16,7 +16,7 @@ const LevelThreshold = (props: Props) => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const { id } = useParams();
+  const { cid } = useParams();
   const [modalShow, setModalShow] = useState(false);
   const [allCourseOutcome, setAllCourseOutcome] = useState(dummyData);
   const [cosAbbreviation, setCosAbbreviation] = useState({
@@ -37,9 +37,13 @@ const LevelThreshold = (props: Props) => {
     description: "",
   });
   const [apiCallTrack, setApiCallTrack] = useState();
+  const [courseoutcomesApiCatchError, setCourseoutcomesApiCatchError] = useState({
+    status: false,
+    msg: "",
+  });
 
   useEffect(() => {
-    getData(`/${id}/courseoutcomes`, {})
+    getData(`/${cid}/courseoutcomes`, {})
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCosAbbreviation(res.data);
@@ -52,7 +56,7 @@ const LevelThreshold = (props: Props) => {
 
   useEffect(() => {
     setApiStatus("started");
-    getData(`/${id}/courseoutcomes/getall`, filterUpdate)
+    getData(`/${cid}/courseoutcomes/getall`, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setAllCourseOutcome(res.data);
@@ -62,13 +66,16 @@ const LevelThreshold = (props: Props) => {
       .catch((err: any) => {
         console.log(err);
         setApiStatus("finished");
+        if (err.response.status === 404) {
+          setCourseoutcomesApiCatchError({ status: true, msg: `${err.response.data.errorCode}: ${err.response.data.message}` });
+        }
       });
-  }, [id, refreshData]);
+  }, [cid, refreshData]);
 
   // Refresh api call on delete
   useEffect(() => {
     if (refreshOnDelete) {
-      getData(`/${id}/courseoutcomes/getall`, filterUpdate)
+      getData(`/${cid}/courseoutcomes/getall`, filterUpdate)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             setAllCourseOutcome(res.data);
@@ -122,6 +129,8 @@ const LevelThreshold = (props: Props) => {
         toggleModalShow={toggleModalShow}
         refreshToggle={refreshToggle}
         editHandlerById={editHandlerById}
+        courseoutcomesApiCatchError={courseoutcomesApiCatchError}
+        setCourseoutcomesApiCatchError={setCourseoutcomesApiCatchError}
       />
 
       <div className="my-3">

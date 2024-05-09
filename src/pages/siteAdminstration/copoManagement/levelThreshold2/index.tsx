@@ -13,7 +13,7 @@ const LevelThreshold2 = (props: Props) => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const { id } = useParams();
+  const { cid } = useParams();
   const [modalShow, setModalShow] = useState(false);
   const [allCourseOutcome, setAllCourseOutcome] = useState(dummyData);
   const [levelData, setLevelData] = useState(dummyData);
@@ -31,9 +31,15 @@ const LevelThreshold2 = (props: Props) => {
     description: "",
   });
   const [initialValues, setInitialValue] = useState({});
+  const [levelApiStatus, setLevelApiStatus] = useState("");
+  const [levelApiCatchError, setLevelApiCatchError] = useState({
+    status: false,
+    msg: "",
+  });
 
   useEffect(() => {
-    getData(`/${id}/courseoutcome/level`, filterUpdate)
+    setLevelApiStatus("started")
+    getData(`/${cid}/courseoutcome/level`, filterUpdate)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setLevelData(res.data);
@@ -55,9 +61,14 @@ const LevelThreshold2 = (props: Props) => {
           }, {});
           setInitialValue(initialData);
         }
+        setLevelApiStatus("finished")
       })
       .catch((err: any) => {
+        setLevelApiStatus("finished")
         console.log(err);
+        if (err.response.status === 404) {
+          setLevelApiCatchError({ status: true, msg: `${err.response.data.errorCode}: ${err.response.data.message}` });
+        }
       });
   }, [props.setActiveTab]);
 
@@ -68,6 +79,8 @@ const LevelThreshold2 = (props: Props) => {
         setActiveTab={props.setActiveTab}
         initialValues={initialValues}
         setInitialValue={setInitialValue}
+        levelApiStatus={levelApiStatus}
+        levelApiCatchError={levelApiCatchError}
       />
     </div>
   );

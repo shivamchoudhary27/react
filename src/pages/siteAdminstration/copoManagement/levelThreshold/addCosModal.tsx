@@ -31,7 +31,7 @@ const Schema = Yup.object({
 });
 
 const AddCosModal = (props: Props) => {
-  const { id } = useParams();
+  const { cid } = useParams();
   const [statusValue, setStatusValue] = useState("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertMsg, setAlertMsg] = useState({
@@ -53,7 +53,7 @@ const AddCosModal = (props: Props) => {
   const handleFormSubmit = (values: any, action: any) => {
     action.setSubmitting(true);
     if (props.outcomeObj.id === 0) {
-      postData(`/${id}/courseoutcomes/add`, values)
+      postData(`/${cid}/courseoutcomes/add`, values)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             action.setSubmitting(false);
@@ -86,7 +86,7 @@ const AddCosModal = (props: Props) => {
         ...values,
         id: props.outcomeObj.id,
       };
-      putData(`/${id}/courseoutcomes`, newValues)
+      putData(`/${cid}/courseoutcomes`, newValues)
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             action.setSubmitting(false);

@@ -3,7 +3,7 @@ import { Tab, Tabs } from "react-bootstrap";
 import DefineCos from "./defineCos/defineCos";
 import LevelThreshold from "./levelThreshold";
 import LevelThreshold2 from "./levelThreshold2";
-import MappingTable from "./mappingCosPos/mappingTable";
+import MappingCOsPOsPSOs from "./mappingCosPos";
 import AssessmentTable from "./assessmentCos/assessmentTable";
 import AttainmentTable from "./attainmentCourse/attainmentTable";
 
@@ -43,7 +43,7 @@ const TabsList = (props: Props) => {
     {
       eventKey: "mapping",
       title: "Mapping of CO's to PO's and PSO's",
-      contentsRender: <MappingTable />,
+      contentsRender: <MappingCOsPOsPSOs setActiveTab={setActiveTab} />,
     },
     {
       eventKey: "assessment",

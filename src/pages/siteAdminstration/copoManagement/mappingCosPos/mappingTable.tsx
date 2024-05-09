@@ -1,192 +1,134 @@
-import React, { useMemo } from "react";
-import { useTable } from "react-table";
-import { Table} from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Formik, Form, Field } from "formik";
+import { useParams } from "react-router-dom";
+import {
+  Alert,
+  AlertHeading,
+  Button,
+  ButtonGroup,
+  Table,
+} from "react-bootstrap";
+import { postData } from "../../../../adapters/microservices";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
-import CounterCell from "../counterCell";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
+import * as Yup from "yup";
+import SelectCell from "../selectCell";
 
-type Props = {};
+const initialValues = {};
 
-const tableColumn = [
-  {
-    Header: "Course Outcomes",
-    accessor: "courseOutcomes",
-  },
-  {
-    Header: "PO1",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO2",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO3",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO4",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO5",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO6",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO7",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO8",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO9",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO10",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO11",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PO12",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PSO1",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-  {
-    Header: "PSO2",
-    // accessor: "value",
-    Cell: ({ row }: any) => (
-      <CounterCell rowValue={row.original.value} />
-    ),
-  },
-];
-
-const MappingTable = (props: Props) => {
-  // react table custom variable decleration === >>>
-  const columns = useMemo(() => tableColumn, []);
-  const data = useMemo(() => tableData, [tableData]);
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    });
+const MappingTable = ({ setActiveTab }: any) => {
+  const options = [
+    { value: "level0", label: "level 0" },
+    { value: "level1", label: "level 1" },
+    { value: "level2", label: "level 2" },
+    { value: "level3", label: "level 3" },
+    // Add more options as needed
+  ];
 
   return (
-    <React.Fragment>
-      <div className="table-responsive admin-table-wrapper copo-table mt-3">
-        <Table borderless striped {...getTableProps}>
-          <thead>
-            {headerGroups.map((headerGroup, index) => (
-              <tr {...headerGroup.getHeaderGroupProps()} key={index}>
-                {headerGroup.headers.map((column, index) => (
-                  <th {...column.getHeaderProps()} key={index}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-
-          <tbody {...getTableBodyProps}>
-            {rows.map((row, index) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()} key={index}>
-                  {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>
-                      {cell.render("Cell")}
+    <>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values, action) => {
+          // console.log(values, action);
+          setActiveTab(4)
+        }}
+      >
+        {({ isSubmitting, errors, touched, handleChange }) => (
+          <Form>
+            <div className="table-responsive admin-table-wrapper copo-table mt-3">
+              <Table borderless striped>
+                <thead>
+                  <tr>
+                    <th>Course Outcomes</th>
+                    <th>PO1</th>
+                    <th>PO2</th>
+                    <th>PO3</th>
+                    <th>PO4</th>
+                    <th>PO5</th>
+                    <th>PO6</th>
+                    <th>PO7</th>
+                    <th>PO8</th>
+                    <th>PO9</th>
+                    <th>PO10</th>
+                    <th>PO11</th>
+                    <th>PO12</th>
+                    <th>PSO1</th>
+                    <th>PSO2</th>
+                    {/* Add other table headers here */}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
                     </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-        {/* {apiStatus === "started" && departmentData.length === 0 && (
-          <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        )}
-        {apiStatus === "finished" && departmentData.length === 0 && (
-          <Errordiv msg="No record found!" cstate className="mt-3" />
-        )} */}
-      </div>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    <td>
+                      <SelectCell name="name1" options={options} />
+                    </td>
+                    {/* Add other table cells here */}
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
 
-      <div className="modal-buttons">
-        <CustomButton
-          type="submit"
-          variant="primary"
-          // isSubmitting={isSubmitting}
-          btnText="Save & Continue"
-        />{" "}
-        <CustomButton
-          type="reset"
-          btnText="Reset"
-          variant="outline-secondary"
-        />
-      </div>
-    </React.Fragment>
+            <div className="modal-buttons">
+              <CustomButton
+                type="submit"
+                variant="primary"
+                disabled={isSubmitting}
+                btnText="Save & Continue"
+              />
+              {/* <CustomButton
+                  type="reset"
+                  btnText="Reset"
+                  variant="outline-secondary"
+                  disabled={isSubmitting}
+                /> */}
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </>
   );
 };
 
 export default MappingTable;
-
-const tableData = [
-  {
-    courseOutcomes: "AIT_CO 1",
-  },
-  {
-    courseOutcomes: "AIT_CO 2",
-  },
-  {
-    courseOutcomes: "AIT_CO 3",
-  },
-];
