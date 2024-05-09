@@ -1,36 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  Alert,
-  AlertHeading,
-  Button,
-  ButtonGroup,
-  Table,
-} from "react-bootstrap";
+import { Formik, Form, Field } from "formik";
+import Errordiv from "../../../../widgets/alert/errordiv";
 import { postData } from "../../../../adapters/microservices";
+import TableSkeleton from "../../../../widgets/skeleton/table";
+import { Alert, Table, Button, ButtonGroup } from "react-bootstrap";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
-import * as Yup from "yup";
 
 const LevelThreshold2Table = ({
   levelData,
   setActiveTab,
   initialValues,
   setInitialValue,
+  levelApiStatus,
+  levelApiCatchError,
 }: any) => {
-  const { id } = useParams();
+  const { cid } = useParams();
   const [apiStatus, setApiStatus] = useState("");
+  const [alertErrorMsg, setAlertErrorMsg] = useState({
+    status: false,
+    msg: "",
+  });
   const [apiCatchError, setApiCatchError] = useState({
     status: false,
     msg: "",
   });
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
-    const formattedData = Object.entries(initialValues).reduce(
-      (acc, [key, value]) => {
-        if (value !== undefined) {
+    const formattedData = Object.entries(initialValues)
+      .reduce((acc, [key, value]) => {
+        if (
+          value !== undefined &&
+          value !== null &&
+          Object.values(value).every((v) => v !== null)
+        ) {
           const value_id = key.split("_").pop();
           const keyVal = key.substring(0, key.lastIndexOf("_"));
           const index = acc.findIndex(
@@ -43,14 +48,15 @@ const LevelThreshold2Table = ({
           }
         }
         return acc;
-      },
-      []
-    );
+      }, [])
+      .filter((obj) => {
+        const { id, target, ...rest }: any = obj;
+        return Object.keys(rest).length !== 0;
+      });
 
-    // if (Object.keys(values).length !== 0) {
     setApiStatus("started");
     setApiCatchError({ status: false, msg: "" });
-    postData(`/${id}/courseoutcome/level`, formattedData)
+    postData(`/${cid}/courseoutcome/level`, formattedData)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setApiStatus("finished");
@@ -69,13 +75,31 @@ const LevelThreshold2Table = ({
         }
         // Handle error, maybe show an alert
       });
-    // }
-
     setSubmitting(false);
   };
 
   return (
     <>
+      {levelApiCatchError.status && (
+        <Alert
+          key="danger"
+          variant="danger"
+          onClose={() => setApiCatchError({ status: false, msg: "" })}
+          dismissible
+        >
+          {levelApiCatchError.msg}
+        </Alert>
+      )}
+      {alertErrorMsg.status && (
+        <Alert
+          key="danger"
+          variant="danger"
+          onClose={() => setAlertErrorMsg({ status: false, msg: "" })}
+          dismissible
+        >
+          {alertErrorMsg.msg}
+        </Alert>
+      )}
       {apiStatus !== "started" ? (
         <Formik
           initialValues={initialValues}
@@ -171,10 +195,18 @@ const LevelThreshold2Table = ({
 
                                   // set alert message on min decrement === >>>
                                   initialValues[`level_0_Target_${item.id}`] <=
-                                    0 &&
-                                    alert(
-                                      "level 0 min value must be greater than or equal to 0"
-                                    );
+                                  0
+                                    ? // alert(
+                                      //   "level 0 min value must be greater than or equal to 0"
+                                      // );
+                                      setAlertErrorMsg({
+                                        status: true,
+                                        msg: "Level 0 min value must be greater than or equal to 0",
+                                      })
+                                    : setAlertErrorMsg({
+                                        status: false,
+                                        msg: "",
+                                      });
                                 }}
                               >
                                 <i className="fa-solid fa-minus"></i>
@@ -247,16 +279,25 @@ const LevelThreshold2Table = ({
                                           ),
                                       }));
 
+                                    // set alert message on max increment === >>>
                                     initialValues[
                                       `level_0_Target_${item.id}`
                                     ] >=
-                                      initialValues[
-                                        `level_1_max_Target_${item.id}`
-                                      ] -
-                                        1 &&
-                                      alert(
-                                        "Level 0 value must be less than Level 1 max value"
-                                      );
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] -
+                                      1
+                                      ? // alert(
+                                        //   "Level 0 value must be less than Level 1 max value"
+                                        // );
+                                        setAlertErrorMsg({
+                                          status: true,
+                                          msg: "Level 0 value must be less than Level 1 max value",
+                                        })
+                                      : setAlertErrorMsg({
+                                          status: false,
+                                          msg: "",
+                                        });
                                   }}
                                 ></i>
                               </Button>
@@ -327,10 +368,18 @@ const LevelThreshold2Table = ({
                                       initialValues[
                                         `level_0_Target_${item.id}`
                                       ] +
-                                        1 &&
-                                      alert(
-                                        "Level 1 max value must be greater than level 0 value"
-                                      );
+                                        1 ?
+                                      // alert(
+                                      //   "Level 1 max value must be greater than level 0 value"
+                                      // );
+                                      setAlertErrorMsg({
+                                        status: true,
+                                        msg: "Level 1 min value must be greater than level 0 value",
+                                      })
+                                    : setAlertErrorMsg({
+                                        status: false,
+                                        msg: "",
+                                      });
                                   }}
                                 >
                                   <i className="fa-solid fa-minus"></i>
@@ -415,10 +464,18 @@ const LevelThreshold2Table = ({
                                       initialValues[
                                         `level_2_max_target_${item.id}`
                                       ] -
-                                        1 &&
-                                      alert(
-                                        "Level 1 max value must be less than level 2 max value"
-                                      );
+                                        1 ?
+                                      // alert(
+                                      //   "Level 1 max value must be less than level 2 max value"
+                                      // );
+                                      setAlertErrorMsg({
+                                        status: true,
+                                        msg: "Level 1 max value must be less than level 2 max value",
+                                      })
+                                    : setAlertErrorMsg({
+                                        status: false,
+                                        msg: "",
+                                      });
                                   }}
                                 >
                                   <i className="fa-solid fa-plus"></i>
@@ -552,10 +609,18 @@ const LevelThreshold2Table = ({
                                       initialValues[
                                         `level_1_max_Target_${item.id}`
                                       ] +
-                                        1 &&
-                                      alert(
-                                        "level 2 max value must be greater than level 1 min value"
-                                      );
+                                        1 ?
+                                      // alert(
+                                      //   "level 2 max value must be greater than level 1 min value"
+                                      // );
+                                      setAlertErrorMsg({
+                                        status: true,
+                                        msg: "level 2 max value must be greater than level 1 max value",
+                                      })
+                                    : setAlertErrorMsg({
+                                        status: false,
+                                        msg: "",
+                                      });
                                   }}
                                 >
                                   <i className="fa-solid fa-minus"></i>
@@ -623,10 +688,18 @@ const LevelThreshold2Table = ({
                                     // set alert message on max increment === >>
                                     initialValues[
                                       `level_2_max_target_${item.id}`
-                                    ] >= 100 &&
-                                      alert(
-                                        "Level 2 & level 3 max value is less than or equal to 100"
-                                      );
+                                    ] >= 100 ?
+                                      // alert(
+                                      //   "Level 2 & level 3 max value is less than or equal to 100"
+                                      // );
+                                      setAlertErrorMsg({
+                                        status: true,
+                                        msg: "Level 2 & level 3 max value is less than or equal to 100",
+                                      })
+                                    : setAlertErrorMsg({
+                                        status: false,
+                                        msg: "",
+                                      });
                                   }}
                                 >
                                   <i className="fa-solid fa-plus"></i>
@@ -675,6 +748,12 @@ const LevelThreshold2Table = ({
                     )}
                   </tbody>
                 </Table>
+                {levelApiStatus === "started" && levelData.length === 0 && (
+                  <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+                )}
+                {levelApiStatus === "finished" && levelData.length === 0 && (
+                  <Errordiv msg="No record found!" cstate className="mt-3" />
+                )}
               </div>
 
               <div className="modal-buttons">

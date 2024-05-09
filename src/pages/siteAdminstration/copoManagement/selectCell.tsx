@@ -3,20 +3,21 @@ import { Formik, Form, Field } from "formik";
 
 type Props = {
     name: string
+    options: any
 };
 
 const initialValues = {
   selectedOption: null,
 };
 
-const options = [
+const customOptions = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
   { value: "option3", label: "Option 3" },
   // Add more options as needed
 ];
 
-const SelectCell = ({ name }: Props) => {
+const SelectCell = ({ name, options = customOptions }: Props) => {
   const handleSubmit = (values: any) => {
     // Handle form submission here
     console.log("Selected option:", values.selectedOption);

@@ -44,7 +44,7 @@ const Browser = (props: Props) => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "CO/PO Management", path: "/copomanagement" },
-          { name: "Configure Co/Po", path: "" },
+          { name: name, path: "" },
           ]}
       />
       <div className="contentarea-wrapper mb-wraper">

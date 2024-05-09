@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
-import { Col } from "react-bootstrap";
+import { Alert, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { getData, postData } from "../../../../adapters/microservices";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
@@ -20,9 +20,13 @@ const validationSchema = Yup.object({
 });
 
 const DefineCos = (props: Props) => {
-  const { id } = useParams();
+  const { cid } = useParams();
   const [apiStatus, setApiStatus] = useState("");
-  const [apiStatus2, setApiStatus2] = useState("")
+  const [apiStatus2, setApiStatus2] = useState("");
+  const [apiCatchError, setApiCatchError] = useState({
+    status: false,
+    msg: "",
+  });
 
   const [initValues, setInitValues] = useState({
     // countOfCourseOutcomes: "",
@@ -32,11 +36,11 @@ const DefineCos = (props: Props) => {
 
   useEffect(() => {
     getInitialValueApi();
-  }, [id]);
+  }, [cid]);
 
   const getInitialValueApi = () => {
     setApiStatus("started");
-    getData(`/${id}/courseoutcomes`, {})
+    getData(`/${cid}/courseoutcomes`, {})
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           // setInitData(res.data);
@@ -50,22 +54,25 @@ const DefineCos = (props: Props) => {
       .catch((err: any) => {
         setApiStatus("finished");
         console.log(err);
+        if (err.response.status === 404) {
+          setApiCatchError({ status: true, msg: `${err.response.data.errorCode}: ${err.response.data.message}` });
+        }
       });
   };
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
     setSubmitting(true);
-    setApiStatus2("started")
-    postData(`/${id}/courseoutcomes`, values)
+    setApiStatus2("started");
+    postData(`/${cid}/courseoutcomes`, values)
       .then((result: any) => {
         if (result.data !== "" && result.status === 201) {
-          setApiStatus2("finished")
+          setApiStatus2("finished");
           props.setActiveTab(1);
         }
         setSubmitting(false);
       })
       .catch((err: any) => {
-        setApiStatus2("finished")
+        setApiStatus2("finished");
         console.log(err);
         // Handle error, maybe show an alert
       });
@@ -73,6 +80,16 @@ const DefineCos = (props: Props) => {
 
   return (
     <React.Fragment>
+      {apiCatchError.status && (
+        <Alert
+          key="danger"
+          variant="danger"
+          onClose={() => setApiCatchError({ status: false, msg: "" })}
+          dismissible
+        >
+          {apiCatchError.msg}
+        </Alert>
+      )}
       {apiStatus === "started" || apiStatus2 === "started" ? (
         <RouterLadyLoader status={true} />
       ) : (
