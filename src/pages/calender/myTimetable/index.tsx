@@ -30,212 +30,195 @@ import MyChangeRequestTable from "./table";
 // import ModalForm from "./form";
 import View from "./view";
 const MyCalenderTimetable = () => {
-    const dummyData = {
-        items: [],
-        pager: { totalElements: 0, totalPages: 0 },
-      };
-      const location = useLocation();
-      const [timeslots, setTimeslots] = useState([]);
-      const [apiStatus, setApiStatus] = useState("");
-      const [handleMonthFilter,setHandleMonthFilter]=useState([])
-      const [monthList, setMonthList] = useState<string[]>([]);
-      const [coursesStatus, setCoursesStatus] = useState(false);
-      const [coursesList, setCoursesList] = useState(dummyData);
-      const [weekendTimeslots, setWeekendTimeslots] = useState([]);
-      const [timetableData, setTimetableData] = useState(dummyData);
-      const [sortedCategories, setSortedCategories] = useState<any>([]);
-      const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
-      const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
-      const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-      const [programFilter, setProgramFilter] = useState({programs: [], departments : {} });
-      const [selectedProgram, setSelectedProgram] = useState<number>(0);
-      const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
-      const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
-      const [modalShow, setModalShow] = useState(false);
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const location = useLocation();
+  const [timeslots, setTimeslots] = useState([]);
+  const [apiStatus, setApiStatus] = useState("");
+  const [handleMonthFilter, setHandleMonthFilter] = useState([])
+  const [monthList, setMonthList] = useState<string[]>([]);
+  const [coursesStatus, setCoursesStatus] = useState(false);
+  const [coursesList, setCoursesList] = useState(dummyData);
+  const [weekendTimeslots, setWeekendTimeslots] = useState([]);
+  const [timetableData, setTimetableData] = useState(dummyData);
+  const [sortedCategories, setSortedCategories] = useState<any>([]);
+  const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
+  const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
+  const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+  const [programFilter, setProgramFilter] = useState({ programs: [], departments: {} });
+  const [selectedProgram, setSelectedProgram] = useState<number>(0);
+  const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
+  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
+  const [modalShow, setModalShow] = useState(false);
 
-      const currentInstitute = useSelector(
-        (state: any) => state.globalFilters.currentInstitute
+  const currentInstitute = useSelector(
+    (state: any) => state.globalFilters.currentInstitute
+  );
+
+  const currentUserRole = useSelector(
+    (state) => state.globalFilters.currentUserRole
+  );
+  const navigate = useNavigate();
+
+  const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
+
+  const [filters, setFilters] = useState({
+    pageNumber: 0,
+    pageSize: pagination.PERPAGE * 10,
+    courseId: 0,
+    startDate: 0,
+    endDate: 0,
+    userId: 0,
+  });
+  useEffect(() => {
+    getUrlParams(location, setUrlArg);
+  }, []);
+
+  //  passing arguments to get timeslot data === >>
+  useEffect(() => {
+    if (urlArg.dpt > 0) {
+      getTimeslotData(
+        currentInstitute,
+        urlArg,
+        setDepartmentTimeslots,
+        setApiStatus
       );
+    }
+  }, [urlArg.dpt]);
 
-      const currentUserRole = useSelector(
-        (state) => state.globalFilters.currentUserRole
+  useEffect(() => {
+    setUrlArg((prevValue) => ({
+      ...prevValue, // Spread the previous state
+      prgId: selectedProgram,
+      dpt: selectedDepartment
+    }));
+  }, [selectedProgram, selectedDepartment])
+
+  // passing arguments to get course workload data === >>
+  useEffect(() => {
+    if (urlArg.prgId > 0) {
+      getCourseWorkloadtData(urlArg, setCoursesList);
+    }
+  }, [urlArg.prgId]);
+
+  //  passing arguments to get course workload data === >>
+  useEffect(() => {
+    if (coursesList.items.length > 0) {
+      getSortedCategories(coursesList, setSortedCategories);
+    }
+  }, [coursesList.items]);
+
+  // set filters === >>
+  useEffect(() => {
+    setFilters((previous: any) => ({
+      ...previous,
+      courseId: courseDates.courseId,
+      userId: currentUserId.uid,
+    }));
+  }, [courseDates]);
+
+  // call API to get courses list === >>>
+  useEffect(() => {
+    let endPoint = `/${currentUserRole.id}/dashboard`;
+    getData(endPoint, {}).then((res: any) => {
+      if (res.data !== "" && res.status === 200) {
+        setProgramFilter(prevState => ({
+          ...prevState,
+          programs: res.data.programs,
+          departments: res.data.departments
+        }));
+        setSelectedProgram(res.data.programs[0].id)
+        setSelectedDepartment(Object.keys(res.data.departments)[0]);
+      }
+    });
+  }, [currentUserRole.id]);
+
+  // Calling Timetable API to set timetable data === >>
+  useEffect(() => {
+    if (filters.courseId > 0 && filters.userId > 0 && filters) {
+      getData(`/${urlArg.prgId}/timetable/userslots`, filters)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            result.data.items.map((item: any, index: number) => {
+              const inputDate = parse(
+                item.sessionDate,
+                "dd-MM-yyyy",
+                new Date()
+              );
+              const dayName = format(inputDate, "EEEE");
+              result.data.items[index].dayName = dayName;
+            });
+
+            setTimetableData(result.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    if (departmentTimeslots.items.length > 0) {
+      getData(`/weekdays/${currentInstitute}`, {})
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            const filteredData = res.data.filter(
+              (item: any) =>
+                item.departmentId === departmentTimeslots.items[0].departmentId
+            );
+            if (filteredData[0].weekDays.length > 0) {
+              setWeekendTimeslots(filteredData[0].weekDays);
+            }
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [departmentTimeslots]);
+
+  useEffect(() => {
+    if (departmentTimeslots.items.length > 0) {
+      getTableRenderTimeSlots(
+        departmentTimeslots,
+        timetableData,
+        setTimeslots,
+        weekendTimeslots,
+        courseDates,
+        filters
       );
-      const navigate = useNavigate();
+    }
+  }, [departmentTimeslots, timetableData, filters]);
 
-    const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
+  const updateCourseDates = (courseDates: any) => {
+    setCourseDates(courseDates);
+  };
 
-      const [filters, setFilters] = useState({
-        pageNumber: 0,
-        pageSize: pagination.PERPAGE * 10,
-        courseId: 0,
-        startDate: 0,
-        endDate: 0,
-        userId: currentUserId.uid,
-      });
-      useEffect(() => {
-        getUrlParams(location, setUrlArg);
-      }, []);
-          
-      //  passing arguments to get timeslot data === >>
-      useEffect(() => { 
-        if (urlArg.dpt > 0) {
-          getTimeslotData(
-            currentInstitute,
-            urlArg,
-            setDepartmentTimeslots,
-            setApiStatus
-          );
-        }
-      }, [urlArg.dpt]);
+  const updateFacultyStatus = (facultyId: any) => {
+    setFilters((previous: any) => ({
+      ...previous,
+      // userId: facultyId,
+      userId: currentUserId.uid,
+    }));
+  };
 
-      useEffect(()=> {
-        setUrlArg((prevValue) => ({
-          ...prevValue, // Spread the previous state
-          prgId: selectedProgram,
-          dpt: selectedDepartment
-        }));
-      }, [selectedProgram, selectedDepartment])
-    
-      // passing arguments to get course workload data === >>
-      useEffect(() => {
-        if (urlArg.prgId > 0) {  
-          getCourseWorkloadtData(urlArg, setCoursesList);
-        }
-      }, [urlArg.prgId]);
-    
-      //  passing arguments to get course workload data === >>
-      useEffect(() => { 
-        if (coursesList.items.length > 0) {
-          getSortedCategories(coursesList, setSortedCategories);
-        }
-      }, [coursesList.items]);
-    
-      // set filters === >>
-      useEffect(() => {
-        setFilters((previous: any) => ({
-          ...previous,
-          courseId: courseDates.courseId,
-          userId: currentUserId.uid,
-        }));
-      }, [courseDates]);
-
-    // call API to get courses list === >>>
-    useEffect(() => {
-      let endPoint = `/${currentUserRole.id}/dashboard`;
-      getData(endPoint, {}).then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          setProgramFilter(prevState => ({
-            ...prevState,
-            programs: res.data.programs,
-            departments: res.data.departments
-          }));
-          setSelectedProgram(res.data.programs[0].id)
-          setSelectedDepartment(Object.keys(res.data.departments)[0]);
-        }
-      });
-    }, [currentUserRole.id]);
-    
-      // Calling Timetable API to set timetable data === >>
-      useEffect(() => {
-        if (filters.courseId > 0 && filters.userId > 0 && filters) {
-          getData(`/${urlArg.prgId}/timetable/userslots`, filters)
-            .then((result: any) => {
-              if (result.data !== "" && result.status === 200) {
-                result.data.items.map((item: any, index: number) => {
-                  const inputDate = parse(
-                    item.sessionDate,
-                    "dd-MM-yyyy",
-                    new Date()
-                  );
-                  const dayName = format(inputDate, "EEEE");
-                  result.data.items[index].dayName = dayName;
-                });
-    
-                setTimetableData(result.data);
-              }
-            })
-            .catch((err: any) => {
-              console.log(err);
-            });
-        }
-      }, [filters]);
-    
-      useEffect(() => {
-        if (departmentTimeslots.items.length > 0) {
-          getData(`/weekdays/${currentInstitute}`, {})
-            .then((res: any) => {
-              if (res.data !== "" && res.status === 200) {
-                const filteredData = res.data.filter(
-                  (item: any) =>
-                    item.departmentId === departmentTimeslots.items[0].departmentId
-                );
-                if (filteredData[0].weekDays.length > 0) {
-                  setWeekendTimeslots(filteredData[0].weekDays);
-                }
-              }
-            })
-            .catch((err: any) => {
-              console.log(err);
-            });
-        }
-      }, [departmentTimeslots]);
-    
-      useEffect(() => {
-        if (departmentTimeslots.items.length > 0) {
-          getTableRenderTimeSlots(
-            departmentTimeslots,
-            timetableData,
-            setTimeslots,
-            weekendTimeslots,
-            courseDates,
-            filters
-          );
-        }
-      }, [departmentTimeslots, timetableData, filters]);
-    
-      const updateCourseDates = (courseDates: any) => {
-        setCourseDates(courseDates);
-      };
-    
-      const updateFacultyStatus = (facultyId: any) => {
-        setFilters((previous: any) => ({
-          ...previous,
-          // userId: facultyId,
-          userId: currentUserId.uid,
-        }));
-      };
-    
-      const updateTimetableDates = (weekDates: any) => {
-        setFilters((previous: any) => ({
-          ...previous,
-          startDate: weekDates.startDate,
-          endDate: weekDates.endDate,
-        }));
-      };
-    
-      // get Months between start & end timestamp === >>
-      // useEffect(() => {
-      //   if (courseDates !== "") {
-      //     const monthListArr = getMonthList(courseDates);
-      //     setMonthList(monthListArr);
-      //   }
-      // }, [courseDates]);
-    
-      // handle month filter === >>
-      // const handleMonthFilterChange = (e: any) => {
-      //   if(e.type === "change"){
-      //     setHandleMonthFilter([e.target.value])
-      //   }
-      // }
-
-       // handle modal hide & show functionality === >>>
+  const updateTimetableDates = (weekDates: any) => {
+    setFilters((previous: any) => ({
+      ...previous,
+      startDate: weekDates.startDate,
+      endDate: weekDates.endDate,
+    }));
+  };
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
-      return (
-        <React.Fragment>
-          {/* mobile and browser view component call */}
-          <View
+  return (
+    <React.Fragment>
+      {/* mobile and browser view component call */}
+      <View
         urlArg={urlArg}
         timeslots={timeslots}
         apiStatus={apiStatus}
@@ -262,131 +245,8 @@ const MyCalenderTimetable = () => {
         handleMonthFilter={handleMonthFilter}
         setHandleMonthFilter={setHandleMonthFilter}
       />
-    
-          {/* <Header />
-          <HeaderTabs activeTab="siteadmin" />
-          <BreadcrumbComponent
-            routes={[
-              { name: "Dashboard", path: "/dashboard" },
-              { name: "Calender", path: "/calender" },
-              { name: "My Change Request", path: "" },
-            ]}
-          />
-          <div className="contentarea-wrapper mt-3 mb-5">
-            <Container fluid>
-              <PageTitle pageTitle="My Change Request" gobacklink="/mytimetable" />
-              <Filters
-                workloadCourses={sortedCategories}
-                ids={urlArg}
-                updateCourseDates={updateCourseDates}
-                setCoursesStatus={setCoursesStatus}
-                updateFacultyStatus={updateFacultyStatus}
-                programFilter={programFilter}
-                selectedProgram={selectedProgram}
-                setSelectedProgram={setSelectedProgram}
-                selectedDepartment={selectedDepartment}
-                setSelectedDepartment={setSelectedDepartment}
-              /> */}
-              {/* <ModalForm
-               modalShow={modalShow}
-               toggleModalShow={toggleModalShow}
-               onHide={() => toggleModalShow(false)}
-              /> */}
-{/* 
-              <div className="d-flex justify-content-between align-items-center mt-4">
-            <div className="d-flex gap-4 dates-wrapper">
-              <div>
-                <img src={startDateIcon} alt="start Date" />
-                <b>Start Date:</b> {courseDates.startDate}
-              </div>
-              <div>
-                <img src={endDateIcon} alt="End Date" />
-                <b>End Date: </b> {courseDates.endDate}
-              </div>
-              {courseDates.startDate !== "--/--/----" &&
-                courseDates.endDate !== "--/--/----" && (
-                  <div> 
-                  <label htmlFor="month">Month:</label>
-                  <select
-                    className="form-select"
-                    name="workloadCourse"
-                    onChange={handleMonthFilterChange}
-                    // value={ChangeFilterStatus}
-                  > 
-                    <option value={0}>Select Month</option>
-                    {
-                      Object.entries(monthList).map(([year, months]: any) => (
-                        <optgroup label={year}>
-                          {
-                           months.isArray  && months.map((month: any, index: React.Key | null | undefined) => (
-                              <option
-                                value={`${month},${year}`}
-                                key={index}
-                                // Conditionally render selected option based on state
-                                selected={ChangeFilterStatus === `${month},${year}`}
-                              >
-                                {month}
-                              </option>
-                            ))
-                          }
-                      </optgroup> 
-                       ))
-                    } 
-                  </select> 
-                </div>
-                )}
-            </div> */}
-                {/* <div className="slot-indicator">
-                <div className="me-1"><i className="fa-solid fa-envelope-circle-check"></i> Change Request</div>
-                  <div className="me-1 available">Available Slots</div>
-                  <div className="me-1 booked">Not Available Slots</div>
-                  <div className="me-1 weekend">Break/Weekend/Holiday</div>
-                </div> */}
-                 {/* <div>
-            <Button variant="primary">Slot Preferences</Button>{" "}
-            <Button
-              variant="primary"
-              onClick={() =>
-                navigate(
-                  `/myChangeRequest`
-                )
-              }
-            >
-              My Change Request
-            </Button>
-          </div>
-              </div>
-              {coursesStatus !== false && apiStatus === "finished" ? (
-                <Errordiv msg="No record available!" cstate className="mt-3" />
-              ) : coursesStatus !== false && apiStatus === "started" ? (
-                <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-              ) : (
-                <>
-                  {apiStatus === "finished" && timeslots.length > 0 && (
-                    <MyChangeRequestTable
-                      SlotData={timeslots}
-                      apiStatus={apiStatus}
-                      courseDates={courseDates}
-                      // selectedMonth={selectedMonth}
-                      setChangeFilterStatus={setChangeFilterStatus}
-                      updateTimetableDates={updateTimetableDates}
-                      handleMonthFilter={handleMonthFilter}
-                      toggleModalShow={toggleModalShow}
-                      onHide={() => toggleModalShow(false)}
-                    />
-                  )}
-                  {apiStatus === "finished" && timeslots.length === 0 && (
-                    <div>
-                      <i>No timeslots are available</i>
-                    </div>
-                  )}
-                </>
-              )}
-            </Container>
-          </div>
-          <Footer /> */}
-        </React.Fragment>
-      );
-    };
+    </React.Fragment>
+  );
+};
 
 export default MyCalenderTimetable;

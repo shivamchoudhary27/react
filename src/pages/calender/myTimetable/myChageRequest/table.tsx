@@ -4,12 +4,12 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "../utils";
 import React, { useMemo, useState, useEffect } from "react";
-import { addDays, format, startOfWeek, parse } from "date-fns";
+import { addDays, format, startOfWeek } from "date-fns";
 import { FirstDayOfMonth } from "../utils";
 import { formatDateWithDetails } from "../../../../lib/timestampConverter";
 
 
-const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, toggleModalShow, handleMonthFilter, setChangeFilterStatus }: any) => {
+const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateTimetableDates, toggleModalShow, handleMonthFilter, setChangeFilterStatus }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -23,8 +23,8 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({ next: true, prev: true });
 
-  const handleMassegeClick = (weekday, description) => {
-    console.log(weekday, "--", description, "---")
+  const handleMassegeClick = (weekday: any, description: any, timeSlotId: any, sessionDate: any, slotDetailId: any,changeRequestId:any) => {
+    getModalFormData(weekday, description, timeSlotId, sessionDate, slotDetailId,changeRequestId)
     toggleModalShow(true)
   }
 
@@ -49,12 +49,10 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
         return 0; // Default case, return 0 if input is not a valid day of the week
     }
   }
-
   useEffect(() => {
     let month = 0;
     let year = 0;
     const monthYearString = handleMonthFilter[0];
-    console.log(monthYearString)
     if (monthYearString) {
       [month, year] = monthYearString.split(',');
     }
@@ -130,13 +128,13 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
               <div>
                 {currentColumns.status === "draft" &&
                   <div >
-                    {/* <i className="fa-solid fa-envelope-circle-check"></i> */}
                     {currentColumns.bookedDetais}
-                    {/* {currentColumns.weekDay} */}
                   </div>}
-                 { currentColumns.status === "changeRequest"  &&  <i className="fa-solid fa-envelope-circle-check"></i>}
-                {currentColumns.status === "not_available" &&
-                  currentColumns.bookedDetais}
+                {currentColumns.status === "changeRequest" && <div >
+                  <i className="fa-solid fa-envelope-circle-check"></i>
+                  {currentColumns.bookedDetais}
+                </div>}
+                {currentColumns.status === "not_available" && ""}
                 {currentColumns.status === "available" && ""}
                 {currentColumns.status === "weekend" && "Weekend"}
               </div>
@@ -178,7 +176,6 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
     const firstDate = previousWeekDates[0];
     const monthYearString = firstDate.toLocaleString('default', { month: 'long', year: 'numeric' });
     const formattedDate = monthYearString.replace(/\s+/g, ',')
-    console.log(formattedDate)
     setChangeFilterStatus(formattedDate)
 
     if (previousWeekAvailable) {
@@ -238,7 +235,7 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
   }
 
 
-  const checkDateDifference = (startDateString, endDateString) => {
+  const checkDateDifference = (startDateString: string | number | Date, endDateString: string | number | Date) => {
     const startDate = new Date(startDateString);
     const endDate = new Date(endDateString);
 
@@ -267,7 +264,7 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
   // Assuming formatDateWithDetails() is defined properly and courseDates is provided
   const areoButton = checkDateDifference(formatDateWithDetails(courseDates.startDate), formatDateWithDetails(courseDates.endDate))
 
-  function countWeekendStatus(obj) {
+  function countWeekendStatus(obj: { [x: string]: string; hasOwnProperty: (arg0: string) => any; }) {
     let count = 0;
     for (let day in obj) {
       if (obj.hasOwnProperty(day) && obj[day] === '{"status":"weekend"}') {
@@ -336,9 +333,9 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell: any, index: number) => {
+                    // if (cell.column.id === "timeSlot") { console.log(cell.value,'--------timeslote')}
                     if (row.index > 0) {
                       if (cell.column.id === "timeSlot") {
-                        console.log(cell.value, '--------timeslote')
                         return (
                           <td
                             {...cell.getCellProps()}
@@ -350,14 +347,13 @@ const MyChangeRequestTable = ({ SlotData, courseDates, updateTimetableDates, tog
                         );
                       } else {
                         let cellValue = JSON.parse(cell.value);
-                        console.log(cell.value)
                         if (cellValue.status !== "weekend") {
                           return (
                             <td
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
-                              onClick={cellValue.status === "draft" ? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais) : undefined}
+                              onClick={cellValue.status === "draft" || "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId) : undefined}
                               style={{ cursor: cellValue.status === "draft" ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}

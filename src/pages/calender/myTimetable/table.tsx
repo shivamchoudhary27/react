@@ -53,7 +53,6 @@ const MyTimetableDraftTable = ({ SlotData, courseDates, updateTimetableDates, to
     let month = 0;
     let year = 0;
     const monthYearString = handleMonthFilter[0];
-    console.log(monthYearString)
     if (monthYearString) {
       [month, year] = monthYearString.split(',');
     }
@@ -127,10 +126,8 @@ const MyTimetableDraftTable = ({ SlotData, courseDates, updateTimetableDates, to
             return (
 
               <div> 
-              {currentColumns.status === "draft" &&
-                  <div onClick={handleMassegeClick}><i className="fa-solid fa-envelope-circle-check"></i> {currentColumns.bookedDetais} </div>}
-                {currentColumns.status === "not_available" && 
-                currentColumns.bookedDetais}
+              {currentColumns.status === "draft" && <div > {currentColumns.bookedDetais} </div>}
+                {currentColumns.status === "not_available" && ""}
               {currentColumns.status === "available" && ""}
               {currentColumns.status === "weekend" && "Weekend"}  
             </div>
@@ -172,7 +169,6 @@ const handleNextWeek = () => {
     const firstDate = previousWeekDates[0];
     const monthYearString = firstDate.toLocaleString('default', { month: 'long', year: 'numeric' });
     const formattedDate = monthYearString.replace(/\s+/g, ',')
-    console.log(formattedDate)
     setChangeFilterStatus(formattedDate)
 
     if (previousWeekAvailable) {
@@ -271,7 +267,6 @@ const handleNextWeek = () => {
     return count;
   }
   
-  // console.log("renderWeek----", renderWeek)
   return (
     <React.Fragment>
       <div className="next-previousbuttons">

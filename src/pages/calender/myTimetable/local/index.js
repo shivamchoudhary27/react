@@ -181,19 +181,17 @@ export const getTableRenderTimeSlots = (departmentTimeslots, timetableData, setT
 
       return timeA - timeB;
     });
-
     sortedTimeSlots.map((item) => {
-        // console.log("sortedTimeSlots-----", timetableData.items)
         let currentPacket = {
             timeSlot: `${item.startTime} - ${item.endTime}`,
             breakTime: false,
-            monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items, weekendTimeslots, courseDates, filters),   //JSON.stringify(getRandomStatus()),
-            tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
-            wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
-            thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
-            friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
-            saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus()),
-            sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items, weekendTimeslots, courseDates, filters),//JSON.stringify(getRandomStatus(true)),
+            monday: getTimeSlotDayData(item.id, 'Monday', timetableData.items, weekendTimeslots, courseDates, filters,),   //JSON.stringify(getRandomStatus()),
+            tuesday: getTimeSlotDayData(item.id, 'Tuesday', timetableData.items, weekendTimeslots, courseDates, filters,),//JSON.stringify(getRandomStatus()),
+            wednesday: getTimeSlotDayData(item.id, 'Wednesday', timetableData.items, weekendTimeslots, courseDates, filters,),//JSON.stringify(getRandomStatus()),
+            thursday: getTimeSlotDayData(item.id, 'Thursday', timetableData.items, weekendTimeslots, courseDates, filters,),//JSON.stringify(getRandomStatus()),
+            friday: getTimeSlotDayData(item.id, 'Friday', timetableData.items, weekendTimeslots, courseDates, filters,),//JSON.stringify(getRandomStatus()),
+            saturday: getTimeSlotDayData(item.id, 'Saturday', timetableData.items, weekendTimeslots, courseDates, filters,),//JSON.stringify(getRandomStatus()),
+            sunday: getTimeSlotDayData(item.id, 'Sunday', timetableData.items, weekendTimeslots, courseDates, filters,),//JSON.stringify(getRandomStatus(true)),
         };
         
         // console.log(item)
@@ -266,22 +264,24 @@ const checkSessionDatesIsWithinRange = (filters, sessionDate) => {
 // ========================================================
 //       set data according to timeslot & day === >>
 // ========================================================
-const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters) => {
+const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters, timeslots) => {
     let response = {};
     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
+    // const filteredTime = timeslots.filter(item => item.id === slotId && item.dayName === day && item.startTime );
     const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
-// console.log(packet)
+    // console.log(filteredData)
     if(filteredData.length > 0){
         const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
         // console.log(x)
-        // console.log(filteredData[0].sessionDate)
-       if(filteredData[0].status !== null){
+        if(filteredData[0].status !== null){
             if(filteredData[0].status === "available"){
                 response = { status: "available" }
             }else if(filteredData[0].status === "draft" && filteredData[0].bookingStatus === "not_available" && x){  
                 response = { status: "not_available"}
             }else if(filteredData[0].status === "draft" && filteredData[0].bookingStatus === "booked" && x){  
-                response = { status: "draft", bookedDetais: filteredData[0].description, weekDay: filteredData[0].dayName}
+                response = { status: "draft", bookedDetais: filteredData[0].description, weekDay: filteredData[0].dayName, timeSlotId:filteredData[0].timeSlotId, sessionDate:filteredData[0].sessionDate, slotDetailId:filteredData[0].timeTableSlotDetailId}
+            }else if(filteredData[0].status === "change-request" && filteredData[0].bookingStatus === "booked" && x){  
+                response = { status: "changeRequest", bookedDetais: filteredData[0].description, weekDay: filteredData[0].dayName, timeSlotId:filteredData[0].timeSlotId, sessionDate:filteredData[0].sessionDate, slotDetailId:filteredData[0].timeTableSlotDetailId, changeRequestId:filteredData[0].changeRequestId}
             }else{
                 response = { status: "available" }
             }
