@@ -201,7 +201,7 @@ const LevelThreshold2Table = ({
                                       // );
                                       setAlertErrorMsg({
                                         status: true,
-                                        msg: "Level 0 min value must be greater than or equal to 0",
+                                        msg: "Level 0 below value must be greater than or equal to 0",
                                       })
                                     : setAlertErrorMsg({
                                         status: false,
@@ -219,7 +219,7 @@ const LevelThreshold2Table = ({
                                   ] - 1
                                 }
                                 type="number"
-                                placeholder={`level_0_Target_${item.id}`}
+                                placeholder={0}
                                 name={`level_0_Target_${item.id}`}
                                 onChange={(e: { target: { value: any } }) => {
                                   handleChange(e);
@@ -292,7 +292,7 @@ const LevelThreshold2Table = ({
                                         // );
                                         setAlertErrorMsg({
                                           status: true,
-                                          msg: "Level 0 value must be less than Level 1 max value",
+                                          msg: "Level 0 above value must be less than Level 1 below value",
                                         })
                                       : setAlertErrorMsg({
                                           status: false,
@@ -359,21 +359,19 @@ const LevelThreshold2Table = ({
                                     initialValues[
                                       `level_1_max_Target_${item.id}`
                                     ] <=
-                                      initialValues[
-                                        `level_0_Target_${item.id}`
-                                      ] +
-                                        1 ?
-                                      // alert(
-                                      //   "Level 1 max value must be greater than level 0 value"
-                                      // );
-                                      setAlertErrorMsg({
-                                        status: true,
-                                        msg: "Level 1 min value must be greater than level 0 value",
-                                      })
-                                    : setAlertErrorMsg({
-                                        status: false,
-                                        msg: "",
-                                      });
+                                    initialValues[`level_0_Target_${item.id}`] +
+                                      1
+                                      ? // alert(
+                                        //   "Level 1 max value must be greater than level 0 value"
+                                        // );
+                                        setAlertErrorMsg({
+                                          status: true,
+                                          msg: "Level 1 below value must be greater than level 0 above value",
+                                        })
+                                      : setAlertErrorMsg({
+                                          status: false,
+                                          msg: "",
+                                        });
                                   }}
                                 >
                                   <i className="fa-solid fa-minus"></i>
@@ -391,7 +389,7 @@ const LevelThreshold2Table = ({
                                   }
                                   type="number"
                                   name={`level_1_max_Target_${item.id}`}
-                                  placeholder={`level_1_max_Target_${item.id}`}
+                                  placeholder={0}
                                   onChange={(e: { target: { value: any } }) => {
                                     handleChange(e);
                                     setInitialValue((prevState: any) => ({
@@ -455,21 +453,21 @@ const LevelThreshold2Table = ({
                                     initialValues[
                                       `level_1_max_Target_${item.id}`
                                     ] >=
-                                      initialValues[
-                                        `level_2_max_target_${item.id}`
-                                      ] -
-                                        1 ?
-                                      // alert(
-                                      //   "Level 1 max value must be less than level 2 max value"
-                                      // );
-                                      setAlertErrorMsg({
-                                        status: true,
-                                        msg: "Level 1 max value must be less than level 2 max value",
-                                      })
-                                    : setAlertErrorMsg({
-                                        status: false,
-                                        msg: "",
-                                      });
+                                    initialValues[
+                                      `level_2_max_target_${item.id}`
+                                    ] -
+                                      1
+                                      ? // alert(
+                                        //   "Level 1 max value must be less than level 2 max value"
+                                        // );
+                                        setAlertErrorMsg({
+                                          status: true,
+                                          msg: "Level 1 above value must be less than level 2 below value",
+                                        })
+                                      : setAlertErrorMsg({
+                                          status: false,
+                                          msg: "",
+                                        });
                                   }}
                                 >
                                   <i className="fa-solid fa-plus"></i>
@@ -478,74 +476,74 @@ const LevelThreshold2Table = ({
                               {/* ================ level 1 button groups end ================ */}
 
                               {/* ================ level 1 button groups (below) ================ */}
-                              <ButtonGroup
+                              {/* <ButtonGroup
                                 aria-label="Basic"
                                 size="sm"
                                 className="minusplus-btngroup"
-                              >
-                                <Button variant="primary" disabled>
+                              > */}
+                              {/* <Button variant="primary" disabled>
                                   <i className="fa-solid fa-minus"></i>
-                                </Button>
-                                <Field
-                                  disabled
-                                  type="number"
-                                  name={`level_1_min_Target_${item.id}`}
-                                  placeholder={`level_1_min_Target_${item.id}`}
-                                  onChange={(e: { target: { value: any } }) => {
-                                    handleChange(e);
-                                    setInitialValue((prevState: any) => ({
-                                      ...prevState,
-                                      [`level_1_min_Target_${item.id}`]:
-                                        parseInt(e.target.value),
-                                    }));
-                                  }}
-                                  value={
-                                    initialValues[
-                                      `level_1_min_Target_${item.id}`
-                                    ]
-                                  }
-                                />
-                                <Button variant="primary" disabled>
+                                </Button> */}
+                              <Field
+                                disabled
+                                className="form-control"
+                                type="number"
+                                name={`level_1_min_Target_${item.id}`}
+                                placeholder={0}
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_1_min_Target_${item.id}`]: parseInt(
+                                      e.target.value
+                                    ),
+                                  }));
+                                }}
+                                value={
+                                  initialValues[`level_1_min_Target_${item.id}`]
+                                }
+                              />
+                              {/* <Button variant="primary" disabled>
                                   <i className="fa-solid fa-plus"></i>
-                                </Button>
-                              </ButtonGroup>
+                                </Button> */}
+                              {/* </ButtonGroup> */}
                               {/* ================ level 1 button groups end ================ */}
                             </div>
                           </td>
                           <td>
                           <div className="d-flex align-items-center gap-2">
                               {/* ================ level 2 button groups (below) ================ */}
-                              <ButtonGroup
+                              {/* <ButtonGroup
                                 aria-label="Basic"
                                 size="sm"
                                 className="minusplus-btngroup"
-                              >
-                                <Button variant="primary" disabled>
+                              > */}
+                              {/* <Button variant="primary" disabled>
                                   <i className="fa-solid fa-minus"></i>
-                                </Button>
-                                <Field
-                                  disabled
-                                  type="number"
-                                  name={`level_2_min_target_${item.id}`}
-                                  placeholder={`level_2_min_target_${item.id}`}
-                                  onChange={(e: { target: { value: any } }) => {
-                                    handleChange(e);
-                                    setInitialValue((prevState: any) => ({
-                                      ...prevState,
-                                      [`level_2_min_target_${item.id}`]:
-                                        parseInt(e.target.value),
-                                    }));
-                                  }}
-                                  value={
-                                    initialValues[
-                                      `level_2_min_target_${item.id}`
-                                    ]
-                                  }
-                                />
-                                <Button variant="primary" disabled>
+                                </Button> */}
+                              <Field
+                                disabled
+                                className="form-control"
+                                type="number"
+                                name={`level_2_min_target_${item.id}`}
+                                placeholder={0}
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_2_min_target_${item.id}`]: parseInt(
+                                      e.target.value
+                                    ),
+                                  }));
+                                }}
+                                value={
+                                  initialValues[`level_2_min_target_${item.id}`]
+                                }
+                              />
+                              {/* <Button variant="primary" disabled>
                                   <i className="fa-solid fa-plus"></i>
-                                </Button>
-                              </ButtonGroup>
+                                </Button> */}
+                              {/* </ButtonGroup> */}
                               {/* ================ level 2 button groups end ================ */}
 
                               {/* ================ level 2 button groups (above) ================ */}
@@ -594,21 +592,21 @@ const LevelThreshold2Table = ({
                                     initialValues[
                                       `level_2_max_target_${item.id}`
                                     ] <=
-                                      initialValues[
-                                        `level_1_max_Target_${item.id}`
-                                      ] +
-                                        1 ?
-                                      // alert(
-                                      //   "level 2 max value must be greater than level 1 min value"
-                                      // );
-                                      setAlertErrorMsg({
-                                        status: true,
-                                        msg: "level 2 max value must be greater than level 1 max value",
-                                      })
-                                    : setAlertErrorMsg({
-                                        status: false,
-                                        msg: "",
-                                      });
+                                    initialValues[
+                                      `level_1_max_Target_${item.id}`
+                                    ] +
+                                      1
+                                      ? // alert(
+                                        //   "level 2 max value must be greater than level 1 min value"
+                                        // );
+                                        setAlertErrorMsg({
+                                          status: true,
+                                          msg: "Level 2 below value must be greater than level 1 above value",
+                                        })
+                                      : setAlertErrorMsg({
+                                          status: false,
+                                          msg: "",
+                                        });
                                   }}
                                 >
                                   <i className="fa-solid fa-minus"></i>
@@ -622,7 +620,7 @@ const LevelThreshold2Table = ({
                                   max={100}
                                   type="number"
                                   name={`level_2_max_target_${item.id}`}
-                                  placeholder={`level_2_max_target_${item.id}`}
+                                  placeholder={0}
                                   onChange={(e: { target: { value: any } }) => {
                                     handleChange(e);
                                     setInitialValue((prevState: any) => ({
@@ -676,18 +674,18 @@ const LevelThreshold2Table = ({
                                     // set alert message on max increment === >>
                                     initialValues[
                                       `level_2_max_target_${item.id}`
-                                    ] >= 100 ?
-                                      // alert(
-                                      //   "Level 2 & level 3 max value is less than or equal to 100"
-                                      // );
-                                      setAlertErrorMsg({
-                                        status: true,
-                                        msg: "Level 2 & level 3 max value is less than or equal to 100",
-                                      })
-                                    : setAlertErrorMsg({
-                                        status: false,
-                                        msg: "",
-                                      });
+                                    ] >= 100
+                                      ? // alert(
+                                        //   "Level 2 & level 3 max value is less than or equal to 100"
+                                        // );
+                                        setAlertErrorMsg({
+                                          status: true,
+                                          msg: "Level 2 above value must be less than or equal to 100",
+                                        })
+                                      : setAlertErrorMsg({
+                                          status: false,
+                                          msg: "",
+                                        });
                                   }}
                                 >
                                   <i className="fa-solid fa-plus"></i>
@@ -698,36 +696,35 @@ const LevelThreshold2Table = ({
                           </td>
                           <td>
                             {/* ================ level 3 button groups ================ */}
-                            <ButtonGroup
+                            {/* <ButtonGroup
                               aria-label="Basic"
                               size="sm"
                               className="minusplus-btngroup"
-                            >
-                              <Button disabled variant="primary">
+                            > */}
+                            {/* <Button disabled variant="primary">
                                 <i className="fa-solid fa-minus"></i>
-                              </Button>
-                              <Field
-                                disabled
-                                type="number"
-                                name={`level_3_target_${item.id}`}
-                                placeholder={`level_3_target_${item.id}`}
-                                onChange={(e: { target: { value: any } }) => {
-                                  handleChange(e);
-                                  setInitialValue((prevState: any) => ({
-                                    ...prevState,
-                                    [`level_3_target_${item.id}`]: parseInt(
-                                      e.target.value
-                                    ),
-                                  }));
-                                }}
-                                value={
-                                  initialValues[`level_3_target_${item.id}`]
-                                }
-                              />
-                              <Button variant="primary" disabled>
+                              </Button> */}
+                            <Field
+                              disabled
+                              className="form-control"
+                              type="number"
+                              name={`level_3_target_${item.id}`}
+                              placeholder={0}
+                              onChange={(e: { target: { value: any } }) => {
+                                handleChange(e);
+                                setInitialValue((prevState: any) => ({
+                                  ...prevState,
+                                  [`level_3_target_${item.id}`]: parseInt(
+                                    e.target.value
+                                  ),
+                                }));
+                              }}
+                              value={initialValues[`level_3_target_${item.id}`]}
+                            />
+                            {/* <Button variant="primary" disabled>
                                 <i className="fa-solid fa-plus"></i>
-                              </Button>
-                            </ButtonGroup>
+                              </Button> */}
+                            {/* </ButtonGroup> */}
                             {/* ================ level 3 button groups end ================ */}
                           </td>
                           {/* Add other table cells here */}
@@ -751,12 +748,6 @@ const LevelThreshold2Table = ({
                   disabled={isSubmitting}
                   btnText="Save & Continue"
                 />
-                {/* <CustomButton
-                  type="reset"
-                  btnText="Reset"
-                  variant="outline-secondary"
-                  disabled={isSubmitting}
-                /> */}
               </div>
             </Form>
           )}

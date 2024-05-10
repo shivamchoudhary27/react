@@ -6,6 +6,7 @@ import LevelThreshold2 from "./levelThreshold2";
 import MappingCOsPOsPSOs from "./mappingCosPos";
 import AssessmentTable from "./assessmentCos/assessmentTable";
 import AttainmentTable from "./attainmentCourse/attainmentTable";
+import AssessmentForCOs from "./assessmentCos";
 
 type Props = {};
 
@@ -48,7 +49,7 @@ const TabsList = (props: Props) => {
     {
       eventKey: "assessment",
       title: "Select Assessment for CO's(Direct)",
-      contentsRender: <AssessmentTable />,
+      contentsRender: <AssessmentForCOs setActiveTab={setActiveTab} />,
     },
     {
       eventKey: "attainment",

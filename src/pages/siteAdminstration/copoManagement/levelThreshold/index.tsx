@@ -139,7 +139,6 @@ const LevelThreshold = (props: Props) => {
           type="button"
           onClick={() => addCosHandler()}
           className="me-2"
-          size="sm"
         >
           <i className="fa-solid fa-plus"></i> Add CO's
         </Button>
