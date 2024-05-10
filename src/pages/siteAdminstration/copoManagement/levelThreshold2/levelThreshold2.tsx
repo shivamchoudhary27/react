@@ -309,13 +309,7 @@ const LevelThreshold2Table = ({
                             {/* ================ level 0 button groups end ================ */}
                           </td>
                           <td>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
+                            <div className="d-flex align-items-center gap-2">
                               {/* ================ level 1 button groups (above) ================ */}
                               <ButtonGroup
                                 aria-label="Basic"
@@ -519,13 +513,7 @@ const LevelThreshold2Table = ({
                             </div>
                           </td>
                           <td>
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
+                          <div className="d-flex align-items-center gap-2">
                               {/* ================ level 2 button groups (below) ================ */}
                               <ButtonGroup
                                 aria-label="Basic"

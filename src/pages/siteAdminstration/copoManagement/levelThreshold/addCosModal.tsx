@@ -166,9 +166,9 @@ const AddCosModal = (props: Props) => {
                     htmlfor="suffixValue"
                     labelText="Suffix Value"
                     required="required"
-                    // star="*"
+                    star="*"
                   />
-                  <label htmlFor="" className="d-flex programModalInput">
+                  <label htmlFor="" className="d-flex programModalInput align-items-center gap-2">
                     {props.cosAbbreviation !== undefined &&
                       props.cosAbbreviation}
                     <Field
@@ -189,7 +189,7 @@ const AddCosModal = (props: Props) => {
                     htmlfor="description"
                     labelText="Description"
                     required="required"
-                    // star="*"
+                    star="*"
                   />
                   <FieldTypeText
                     id=""
@@ -208,7 +208,7 @@ const AddCosModal = (props: Props) => {
                     htmlfor="target"
                     labelText="Target"
                     required="required"
-                    // star="*"
+                    star="*"
                   />
                   <FieldTypeText
                     id=""

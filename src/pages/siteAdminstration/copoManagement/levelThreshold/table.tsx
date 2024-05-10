@@ -60,7 +60,7 @@ const LevelThresholdTable = (props: Props) => {
     {
       Header: "Actions",
       Cell: ({ row }: any) => (
-        <span className="d-flex align-items-center justify-content-evenly">
+        <span className="d-flex align-items-center gap-4">
           <OverlayTrigger
             placement="top"
             overlay={<BsTooltip>Update Course Outcomes</BsTooltip>}

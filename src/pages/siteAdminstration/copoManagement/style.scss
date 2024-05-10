@@ -41,6 +41,14 @@
     input[type=number] {
         -moz-appearance: textfield; /* Firefox */
     }
+    //disable input style
+    // input:disabled {
+    //   background: #d2d2d2;
+    // }
+    button:disabled {
+      background: #979797;
+    }
+
 }
 .tabStep-indicator {
     li {
@@ -95,4 +103,3 @@
   .mob-copo-tabs{
     display: none;
   }
-  

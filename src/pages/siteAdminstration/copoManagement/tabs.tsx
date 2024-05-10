@@ -32,7 +32,7 @@ const TabsList = (props: Props) => {
     },
     {
       eventKey: "setlevel1",
-      title: "Set taget level of CO's",
+      title: "Set target level of CO's",
       contentsRender: <LevelThreshold setActiveTab={setActiveTab} />,
     },
     {
