@@ -17,15 +17,17 @@ type Props = {
     timeslots: any;
     apiStatus: any;
     courseDates: any;
-    editHandlerById: any;
     coursesStatus: any;
+    modalFormData:any;
     selectedMonth: any;
     programFilter: any;
     selectedProgram: any;
     toggleModalShow: any;
+    editHandlerById: any;
     setSelectedMonth: any;
     sortedCategories: any;
     setCoursesStatus: any;
+    getModalFormData:any
     updateCourseDates: any;
     handleMonthFilter: any;
     setSelectedProgram: any;
@@ -82,6 +84,8 @@ type Props = {
               onHide={props.commonProps.onHide}
               modalShow={props.commonProps.modalShow}
               toggleModalShow={props.commonProps.toggleModalShow}
+              urlArg={props.commonProps.urlArg}
+              modalFormData={props.commonProps.modalFormData}
             />
 
             <MyChangeRequestTable
@@ -93,6 +97,7 @@ type Props = {
               coursesStatus={props.commonProps.coursesStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
+              getModalFormData={props.commonProps.getModalFormData}
               handleMonthFilter={props.commonProps.handleMonthFilter}
               updateTimetableDates={props.commonProps.updateTimetableDates}
               setChangeFilterStatus={props.commonProps.setChangeFilterStatus}

@@ -57,7 +57,7 @@ const Browser = (props: Props) => {
           <Container fluid>
             <PageTitle
               pageTitle="My Timetable"
-              gobacklink="/mytimetable"
+              gobacklink="/calender"
             />
             <Filters
               ids={props.commonProps.urlArg}

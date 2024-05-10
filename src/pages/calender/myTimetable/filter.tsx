@@ -41,7 +41,7 @@ const ManageFilter = ({
   const navigate = useNavigate();
   const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
-  const [monthList, setMonthList] = useState<string[]>([]);
+  const [monthList, setMonthList] = useState([]);
   
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
   
@@ -180,7 +180,6 @@ const ManageFilter = ({
       </React.Fragment>
     );
   };
-  console.log(ChangeFilterStatus, "-----------changeFilterStatus")
 
   return (
     <React.Fragment>
@@ -285,7 +284,7 @@ const ManageFilter = ({
                     className="form-select"
                     name="workloadCourse"
                     onChange={handleMonthFilterChange}
-                    value={ChangeFilterStatus}
+                    // value={ChangeFilterStatus}
                   >
                     <option value={0}>Select Month</option>
                     {Object.entries(monthList).map(([year, months]: any) => (

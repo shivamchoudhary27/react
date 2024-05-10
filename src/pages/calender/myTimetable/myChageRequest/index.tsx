@@ -3,7 +3,7 @@ import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 import { getData } from "../../../../adapters/microservices";
 import {
   getUrlParams,
@@ -37,7 +37,14 @@ const PublishChangeRequest = () => {
   const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
   const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
-
+  const [modalFormData, setModalFormData]= useState({
+    weekday:"",
+    description:"",
+    timeSlotId:0,
+    sessionDate:"",
+    slotDetailId:0,
+    changeRequestId:0,
+  })
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
@@ -45,9 +52,19 @@ const PublishChangeRequest = () => {
   const currentUserRole = useSelector(
     (state) => state.globalFilters.currentUserRole
   );
-  const navigate = useNavigate();
 
   const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
+
+  const getModalFormData = (weekday: any, description: any,timeSlotId: any,sessionDate: any, slotDetailId:any, changeRequestId:any) => { 
+    setModalFormData({
+      weekday:weekday,
+      description:description,
+      timeSlotId:timeSlotId,
+      sessionDate:sessionDate,
+      slotDetailId:slotDetailId,
+      changeRequestId:changeRequestId,
+    })
+   }
 
   const [filters, setFilters] = useState({
     pageNumber: 0,
@@ -231,6 +248,8 @@ const PublishChangeRequest = () => {
         // selectedMonth={selectedMonth}
         // editHandlerById={editHandlerById}
         selectedProgram={selectedProgram}
+        getModalFormData={getModalFormData}
+        modalFormData={modalFormData}
         toggleModalShow={toggleModalShow}
         // setSelectedMonth={setSelectedMonth}
         sortedCategories={sortedCategories}

@@ -22,6 +22,8 @@ type Props = {
   updateCourseDates: any;
   handleMonthFilter: any;
   setSelectedProgram: any;
+  getModalFormData:any;
+  modalFormData:any;
   selectedDepartment: any;
   ChangeFilterStatus: any;
   updateFacultyStatus: any;
@@ -40,11 +42,13 @@ const View = (props: Props) => {
     modalShow: props.modalShow,
     courseDates: props.courseDates,
     programFilter: props.programFilter,
+    modalFormData:props.modalFormData,
     coursesStatus: props.coursesStatus,
     selectedMonth: props.selectedMonth,
     toggleModalShow: props.toggleModalShow,
     editHandlerById: props.editHandlerById,
     selectedProgram: props.selectedProgram,
+    getModalFormData:props.getModalFormData,
     sortedCategories: props.sortedCategories,
     setCoursesStatus: props.setCoursesStatus,
     setSelectedMonth: props.setSelectedMonth,
