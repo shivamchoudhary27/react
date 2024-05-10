@@ -19,8 +19,6 @@ const ProgramEnrollTable = ({
 
 const { handleTableSorting } = useTableSorting();
 
-const triggerType = isMobile ? 'focus' : 'hover';
-
 const tableColumn = [
   {
     Header: (
@@ -160,7 +158,6 @@ const tableColumn = [
       <OverlayTrigger
       placement="top"
       overlay={<BsTooltip>Show Courses</BsTooltip>}
-      trigger={triggerType}
      >
      <Link className="action-icons"
       to={`/copoCourse/${row.original.id}/${row.original.name}`}
