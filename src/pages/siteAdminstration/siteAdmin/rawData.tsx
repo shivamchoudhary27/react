@@ -54,7 +54,7 @@ export const AdminRawData = [
       enabled: true,
     },
     {
-      title: "Institute <br>Management",
+      title: "Ballistic <br>Gate Bridge",
       image: institutemanagement,
       link: "/institute",
       classname: "institute-management",
