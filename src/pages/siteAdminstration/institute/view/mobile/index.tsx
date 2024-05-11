@@ -44,14 +44,14 @@ const Mobile = (props: Props) => {
       <BreadcrumbComponent
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
-          { name: "Institute Management", path: "" },
+          { name: "Ballistic Gate Bridge", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
             <PageTitle
-              pageTitle="Institute Management"
+              pageTitle="Ballistic Gate Bridge"
               gobacklink="/siteadmin"
             />
             <Filter
