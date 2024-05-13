@@ -38,7 +38,11 @@ type Props = {
     updateTimetableDates: any;
     setChangeFilterStatus: any;
     setSelectedDepartment: any;
-    
+    availableSlotdata: any;
+    availableRooms: any;
+    refreshToggle: any;
+    changeRequestData: any;
+    filteredTime: any;
 };
   };
 
@@ -85,7 +89,12 @@ type Props = {
               modalShow={props.commonProps.modalShow}
               toggleModalShow={props.commonProps.toggleModalShow}
               urlArg={props.commonProps.urlArg}
+              availableSlotdata={props.commonProps.availableSlotdata}
               modalFormData={props.commonProps.modalFormData}
+              availableRooms={props.commonProps.availableRooms}
+              updateAddRefresh={props.commonProps.refreshToggle}
+              changeRequestData={props.commonProps.changeRequestData}
+              filteredTime={props.commonProps.filteredTime}
             />
 
             <MyChangeRequestTable

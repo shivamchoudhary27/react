@@ -16,6 +16,7 @@ import singleUser from "../../../../assets/images/icons/single-user.svg";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
 import BottomLeftWave from "../../../../assets/images/background/bg-bottomleft.svg";
+import { useSelector } from "react-redux";
 
 type Props = {
   commonProps: {
@@ -36,6 +37,11 @@ const localizer = momentLocalizer(moment);
 
 const Browser = (props: Props) => {
   const navigate = useNavigate()
+
+    const currentUserRole = useSelector(
+      (state) => state.globalFilters.currentUserRole
+    );
+    
   return (
     <React.Fragment>
       <Header />
@@ -61,6 +67,7 @@ const Browser = (props: Props) => {
           <div className="d-flex align-items-center justify-content-end flex-wrap mitcomponet-heading">
             <div className="row program-filter">
               {/* =============== My Timeline Navigation ================ */}
+              {currentUserRole.shortName !== "student" && (
               <Button
                 variant="primary"
                 onClick={() => navigate(`/mytimetable`)}
@@ -68,6 +75,7 @@ const Browser = (props: Props) => {
               >
                 My Timetable
               </Button>
+              )}
             </div>
           </div>
           <Row>
