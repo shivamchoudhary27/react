@@ -24,6 +24,7 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
   const [weekNavs, setWeekNavs] = useState({ next: true, prev: true });
 
   const handleMassegeClick = (weekday: any, description: any, timeSlotId: any, sessionDate: any, slotDetailId: any,changeRequestId:any) => {
+    // console.log(timeSlotId, '=======')
     getModalFormData(weekday, description, timeSlotId, sessionDate, slotDetailId,changeRequestId)
     toggleModalShow(true)
   }
@@ -274,7 +275,6 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
     return count;
   }
 
-  // console.log("renderWeek----", renderWeek)
   return (
     <React.Fragment>
       <div className="next-previousbuttons">

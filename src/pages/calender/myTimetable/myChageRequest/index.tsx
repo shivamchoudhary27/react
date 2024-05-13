@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
 import { useLocation} from "react-router-dom";
 import { getData } from "../../../../adapters/microservices";
+
 import {
   getUrlParams,
   getTimeslotData,
@@ -37,6 +38,11 @@ const PublishChangeRequest = () => {
   const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
   const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
+  const [availableSlotdata, setAvailableSlots] = useState<any>({});
+  const [availableRooms, setAvailableRooms] = useState<any>([]);
+  const [changeRequestData, setChangeRequestData] = useState()
+  const [refreshData, setRefreshData] = useState<boolean>(false);
+  const [filteredTime, setFilteredTime] = useState([])
   const [modalFormData, setModalFormData]= useState({
     weekday:"",
     description:"",
@@ -182,6 +188,78 @@ const PublishChangeRequest = () => {
     }
   }, [departmentTimeslots]);
 
+
+// ========================================================
+useEffect(() => {
+  // setApiStatus("started");
+  if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
+  getData(`${urlArg.prgId}/timetable/availableslots?slotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,{})
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        // console.log(result.data)
+        setAvailableSlots(result.data);
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    })
+  }
+}, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
+
+useEffect(() => {
+  // setApiStatus("started");
+  if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
+  getData( `/${urlArg.prgId}/timetable/availablerooms?selectedSlotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,{})
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        // console.log(result.data)
+        setAvailableRooms(result.data);
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    })
+  }
+}, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
+
+useEffect(() => {
+  // setApiStatus("started");
+  if(urlArg.dpt > 0){ 
+  getData( `/${currentInstitute}/timetable/timeslot?departmentId=${urlArg.dpt}&pageNumber=0&pageSize=50`,{})
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        // console.log(result.data, "=========timetable")
+        const allTime = result.data.items || [];
+        setFilteredTime(
+          allTime.filter((timeSlot: any) => modalFormData.timeSlotId === timeSlot.id)
+        );
+
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    })
+  }
+}, [currentInstitute, modalFormData.slotDetailId,  modalShow]);
+
+useEffect(() => {
+  // setApiStatus("started");
+  if(modalFormData.changeRequestId > 0 ){ 
+  getData( `/${urlArg.prgId}/timetable/${modalFormData.changeRequestId}/change-request`,{})
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        setChangeRequestData(result.data);
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+    })
+  }
+}, [modalFormData.changeRequestId, urlArg.prgId, modalShow===true]);
+
+//  ==============================================================
+
+
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
       getTableRenderTimeSlots(
@@ -215,25 +293,16 @@ const PublishChangeRequest = () => {
     }));
   };
 
-  // get Months between start & end timestamp === >>/////////////////-----------
-  // useEffect(() => {
-  //   if (courseDates !== "") {
-  //     const monthListArr = getMonthList(courseDates);
-  //     setMonthList(monthListArr);
-  //   }
-  // }, [courseDates]);
-
-  // handle month filter === >>
-  // const handleMonthFilterChange = (e: any) => {
-  //   if(e.type === "change"){
-  //     setHandleMonthFilter([e.target.value])
-  //   }
-  // }
-
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
+
+   // handle to re-rendering  table === >>
+   const refreshToggle = (status: boolean) => {
+    setRefreshData(!refreshData);
+  };
+
   return (
     <React.Fragment>
       {/* mobile and browser view component call */}
@@ -245,8 +314,10 @@ const PublishChangeRequest = () => {
         courseDates={courseDates}
         coursesStatus={coursesStatus}
         programFilter={programFilter}
+        changeRequestData={changeRequestData}
         // selectedMonth={selectedMonth}
         // editHandlerById={editHandlerById}
+        refreshToggle={refreshToggle}
         selectedProgram={selectedProgram}
         getModalFormData={getModalFormData}
         modalFormData={modalFormData}
@@ -265,7 +336,9 @@ const PublishChangeRequest = () => {
         updateTimetableDates={updateTimetableDates}
         setChangeFilterStatus={setChangeFilterStatus}
         setSelectedDepartment={setSelectedDepartment}
-
+        availableSlotdata={availableSlotdata}
+        availableRooms={availableRooms}
+        filteredTime={filteredTime}
       />
     </React.Fragment>
   );

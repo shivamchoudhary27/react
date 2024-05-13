@@ -31,6 +31,11 @@ type Props = {
   updateTimetableDates: any;
   setChangeFilterStatus: any;
   setSelectedDepartment: any;
+  availableSlotdata: any;
+  availableRooms: any;
+  refreshToggle: any;
+  changeRequestData: any;
+  filteredTime: any;
 };
 
 const View = (props: Props) => {
@@ -41,6 +46,8 @@ const View = (props: Props) => {
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
     courseDates: props.courseDates,
+    changeRequestData: props.changeRequestData,
+    refreshToggle: props.refreshToggle,
     programFilter: props.programFilter,
     modalFormData:props.modalFormData,
     coursesStatus: props.coursesStatus,
@@ -62,6 +69,9 @@ const View = (props: Props) => {
     setHandleMonthFilter: props.setHandleMonthFilter,
     setChangeFilterStatus: props.setChangeFilterStatus,
     setSelectedDepartment: props.setSelectedDepartment,
+    availableSlotdata: props.availableSlotdata,
+    availableRooms: props.availableRooms,
+    filteredTime: props.filteredTime,
   };
 
   
