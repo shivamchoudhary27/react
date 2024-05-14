@@ -43,6 +43,7 @@ type Props = {
     refreshToggle: any;
     changeRequestData: any;
     filteredTime: any;
+    timetableData: any;
 };
   };
 
@@ -110,6 +111,7 @@ type Props = {
               handleMonthFilter={props.commonProps.handleMonthFilter}
               updateTimetableDates={props.commonProps.updateTimetableDates}
               setChangeFilterStatus={props.commonProps.setChangeFilterStatus}
+              changeRequestStatus={props.commonProps.timetableData}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}

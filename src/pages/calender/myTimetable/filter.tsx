@@ -197,9 +197,9 @@ const ManageFilter = ({
                 onChange={handleDepartmentFilterChange}
               >
                 <option value={0}>Select Department</option>
-                {Object.entries(programFilter.departments).map(([id, name]) => (
-                  <option value={id} key={id}>
-                    {name}
+                {programFilter.map((dptment: any) => (
+                  <option value={dptment.departmentId} key={dptment.departmentId}>
+                    {dptment.departmentName}
                   </option>
                 ))}
               </select>
@@ -216,9 +216,9 @@ const ManageFilter = ({
                 onChange={handleProgramFilterChange}
               >
                 <option value={0}>Select Program</option>
-                {programFilter.programs.map((program: any) => (
-                  <option value={program.id} key={program.id}>
-                    {program.name}
+                {programFilter.map((program: any) => (
+                  <option value={program.programId} key={program.programId}>
+                    {program.programName}
                   </option>
                 ))}
               </select>

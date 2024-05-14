@@ -1,3 +1,4 @@
+import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { useSelector } from "react-redux";
 import { Modal, Button } from "react-bootstrap";
@@ -8,11 +9,12 @@ import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 
 type Props = {
   onHide: () => void;
   modalShow: boolean;
-  toggleModalShow: () => void;
+  toggleModalShow:any;
   modalFormData: any;
   urlArg: any;
   availableSlotdata: any;
@@ -22,13 +24,16 @@ type Props = {
   filteredTime: any;
 };
 
-const ModalForm = (props: Props) => {
+  // Formik Yup validation === >>>
+  const validationSchema = Yup.object({
+    reason: Yup.string().required('Reason is required'),
+    classRoomId: Yup.number().required("classRoomId is requeired"),
+    timeSlotId: Yup.number().required("time slotId is requeired"),
+  });
 
+const ModalForm = (props: Props) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  // const [availableSlots, setAvailableSlots] = useState<any>({});
-  // const [availableRooms, setAvailableRooms] = useState<any>();
-  // const [filteredTime, setFilteredTime] = useState<any[]>([]);
   const [disableFeald, setDisableFeald] = useState(true);
   const [payload, setPayload] = useState({
     sessionDate: props.modalFormData?.sessionDate,
@@ -67,9 +72,9 @@ const ModalForm = (props: Props) => {
       const endPoint = `/${props.urlArg.prgId}/timetable/${props.modalFormData.slotDetailId}/change-request`;
       postData(endPoint, values)
         .then((res: any) => {
-          if (res.data != "" && res.status === 200) {
+          if (res.data != "" && res.status === 201) {
+            props.toggleModalShow(false)
             props.updateAddRefresh();
-            props.toggleModalShow(false);
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -134,11 +139,21 @@ useEffect(() => {
       classRoomId: 0,
       reason: "",
     });
+  }else if(props.modalShow === true && props.modalFormData.status !== "changeRequest") 
+  {
+    setDisableFeald(false)
+    setPayload({
+      sessionDate: props.modalFormData?.sessionDate,
+      timeSlotId: "",
+      classRoomId: 0,
+      reason: "",
+    });
   }
 },[props.modalShow])
 
  const handleReset = () => {
   // Reset form fields to initial values
+  if(props.modalFormData.status === "draft")
     setPayload({
       sessionDate: "",
       timeSlotId: "",
@@ -156,11 +171,22 @@ useEffect(() => {
     });
   }, [props.changeRequestData]);
 
+  const onHideModal = () => {
+    props.toggleModalShow(false)
+    props.updateAddRefresh();
+    setPayload({
+      sessionDate: "",
+      timeSlotId: "",
+      classRoomId: 0,
+      reason: "",
+    });
+  };
+
   return (
     <React.Fragment>
       <Modal
         centered
-        onHide={props.onHide}
+        onHide={onHideModal}
         show={props.modalShow}
         onExited={()=>handleReset()}
         aria-labelledby="contained-modal-title-vcenter"
@@ -181,16 +207,16 @@ useEffect(() => {
           />
           <Formik
             initialValues={payload}
-            // onSubmit={handleFormSubmit}
+            validationSchema={validationSchema}
             onSubmit={(values, action) => {
               handleFormSubmit(values, action);
             }}
           >
-            {({ isSubmitting, resetForm }) => (
+            {({ isSubmitting, resetForm, errors, touched }) => (
               <Form>
-                <Button onClick={handleEditClick}>edit</Button>
+                {props.modalFormData?.status === "changeRequest" && <Button onClick={handleEditClick}>edit</Button>}
+                <Button>delete</Button>
                 <div className="mb-3">
-
                   <div>
                     <b>Session</b> : {props.modalFormData.description}
                   </div>
@@ -278,20 +304,19 @@ useEffect(() => {
                     placeholder="Type Here ..."
                     disabled={disableFeald}
                   />
-                  <ErrorMessage
-                    name="reason"
-                    component="div"
-                    className="text-danger"
-                  />
+                  <FieldErrorMessage
+                    errors={errors.reason}
+                    touched={touched.reason}
+                      />
                 </div>
                 <div className="modal-buttons">
-                  <CustomButton
+               { disableFeald === false && <CustomButton
                     type="submit"
                     variant="primary"
                     // disabled={isSubmitting}
                     btnText="Submit"
-                  />
-                  <CustomButton
+                  />}
+                  { disableFeald === false && <CustomButton
                     type="button"
                     onClick={() => {
                       resetForm();
@@ -299,7 +324,7 @@ useEffect(() => {
                     }}
                     btnText="Reset"
                     variant="outline-secondary"
-                  />
+                  />} 
                 </div>
               </Form>
             )}

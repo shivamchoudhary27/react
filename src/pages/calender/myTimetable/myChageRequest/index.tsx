@@ -27,14 +27,15 @@ const PublishChangeRequest = () => {
   const [modalShow, setModalShow] = useState(false);
   const [handleMonthFilter, setHandleMonthFilter] = useState([])
   const [coursesStatus, setCoursesStatus] = useState(false);
-  const [coursesList, setCoursesList] = useState(dummyData);
+  const [coursesList, setCoursesList] = useState([]);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
+  const [changeRequestStatus, setChangeRequestStatus] = useState("")
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [programFilter, setProgramFilter] = useState({ programs: [], departments: {} });
+  const [programFilter, setProgramFilter] = useState({ programs: [], departments: [] });
   const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
   const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
@@ -50,18 +51,16 @@ const PublishChangeRequest = () => {
     sessionDate:"",
     slotDetailId:0,
     changeRequestId:0,
+    status:""
   })
+
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
 
-  const currentUserRole = useSelector(
-    (state) => state.globalFilters.currentUserRole
-  );
-
   const currentUserId = useSelector((state: any) => state.userInfo.userInfo);
 
-  const getModalFormData = (weekday: any, description: any,timeSlotId: any,sessionDate: any, slotDetailId:any, changeRequestId:any) => { 
+  const getModalFormData = (weekday: any, description: any,timeSlotId: any,sessionDate: any, slotDetailId:any, changeRequestId:any,status:any) => { 
     setModalFormData({
       weekday:weekday,
       description:description,
@@ -69,6 +68,7 @@ const PublishChangeRequest = () => {
       sessionDate:sessionDate,
       slotDetailId:slotDetailId,
       changeRequestId:changeRequestId,
+      status:status
     })
    }
 
@@ -80,6 +80,7 @@ const PublishChangeRequest = () => {
     endDate: 0,
     userId: currentUserId.uid,
   });
+
   useEffect(() => {
     getUrlParams(location, setUrlArg);
   }, []);
@@ -106,17 +107,17 @@ const PublishChangeRequest = () => {
 
   // passing arguments to get course workload data === >>
   useEffect(() => {
-    if (urlArg.prgId > 0) {
-      getCourseWorkloadtData(urlArg, setCoursesList);
+    if (currentInstitute > 0) {
+      getCourseWorkloadtData(currentInstitute, setCoursesList);
     }
-  }, [urlArg.prgId]);
+  }, [currentInstitute]);
 
   //  passing arguments to get course workload data === >>
   useEffect(() => {
-    if (coursesList.items.length > 0) {
-      getSortedCategories(coursesList, setSortedCategories);
+    if (coursesList.length > 0) {
+      getSortedCategories(urlArg ,coursesList, setSortedCategories);
     }
-  }, [coursesList.items]);
+  }, [coursesList]);
 
   // set filters === >>
   useEffect(() => {
@@ -126,22 +127,6 @@ const PublishChangeRequest = () => {
       userId: currentUserId.uid,
     }));
   }, [courseDates]);
-
-  // call API to get courses list === >>>
-  useEffect(() => {
-    let endPoint = `/${currentUserRole.id}/dashboard`;
-    getData(endPoint, {}).then((res: any) => {
-      if (res.data !== "" && res.status === 200) {
-        setProgramFilter(prevState => ({
-          ...prevState,
-          programs: res.data.programs,
-          departments: res.data.departments
-        }));
-        setSelectedProgram(res.data.programs[0].id)
-        setSelectedDepartment(Object.keys(res.data.departments)[0]);
-      }
-    });
-  }, [currentUserRole.id]);
 
   // Calling Timetable API to set timetable data === >>
   useEffect(() => {
@@ -188,15 +173,23 @@ const PublishChangeRequest = () => {
     }
   }, [departmentTimeslots]);
 
+  useEffect(()=> {
+    if(coursesList.length > 0){
+      coursesList.map((courses: any)=> {
+        setSelectedDepartment(courses.departmentId)
+        setSelectedProgram(courses.programId)
+      })
+    }
+  }, [coursesList])
 
-// ========================================================
+
+// ======================================================== >>
 useEffect(() => {
   // setApiStatus("started");
   if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
   getData(`${urlArg.prgId}/timetable/availableslots?slotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
-        // console.log(result.data)
         setAvailableSlots(result.data);
       }
     })
@@ -204,15 +197,13 @@ useEffect(() => {
       console.log(err);
     })
   }
-}, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
+}, [modalFormData.timeSlotId, modalFormData.slotDetailId, modalShow]);
 
 useEffect(() => {
-  // setApiStatus("started");
   if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
   getData( `/${urlArg.prgId}/timetable/availablerooms?selectedSlotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
-        // console.log(result.data)
         setAvailableRooms(result.data);
       }
     })
@@ -223,12 +214,10 @@ useEffect(() => {
 }, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
 
 useEffect(() => {
-  // setApiStatus("started");
   if(urlArg.dpt > 0){ 
   getData( `/${currentInstitute}/timetable/timeslot?departmentId=${urlArg.dpt}&pageNumber=0&pageSize=50`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
-        // console.log(result.data, "=========timetable")
         const allTime = result.data.items || [];
         setFilteredTime(
           allTime.filter((timeSlot: any) => modalFormData.timeSlotId === timeSlot.id)
@@ -243,7 +232,6 @@ useEffect(() => {
 }, [currentInstitute, modalFormData.slotDetailId,  modalShow]);
 
 useEffect(() => {
-  // setApiStatus("started");
   if(modalFormData.changeRequestId > 0 ){ 
   getData( `/${urlArg.prgId}/timetable/${modalFormData.changeRequestId}/change-request`,{})
     .then((result: any) => {
@@ -255,9 +243,9 @@ useEffect(() => {
       console.log(err);
     })
   }
-}, [modalFormData.changeRequestId, urlArg.prgId, modalShow===true]);
+}, [modalFormData.changeRequestId, urlArg.prgId]);
 
-//  ==============================================================
+//  ============================================================== >>
 
 
   useEffect(() => {
@@ -313,7 +301,7 @@ useEffect(() => {
         modalShow={modalShow}
         courseDates={courseDates}
         coursesStatus={coursesStatus}
-        programFilter={programFilter}
+        programFilter={coursesList}
         changeRequestData={changeRequestData}
         // selectedMonth={selectedMonth}
         // editHandlerById={editHandlerById}

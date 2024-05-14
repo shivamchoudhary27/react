@@ -36,6 +36,7 @@ type Props = {
   refreshToggle: any;
   changeRequestData: any;
   filteredTime: any;
+  timetableData: any;
 };
 
 const View = (props: Props) => {
@@ -72,6 +73,7 @@ const View = (props: Props) => {
     availableSlotdata: props.availableSlotdata,
     availableRooms: props.availableRooms,
     filteredTime: props.filteredTime,
+    timetableData: props.timetableData,
   };
 
   

@@ -1,9 +1,11 @@
+
 import { useFormik } from "formik";
 import { getMonthList } from "../local";
 import { useSelector } from "react-redux";
 import { format, parse, getTime } from "date-fns";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { renderCourse, handleChildrens, courseDatesObj } from "../utils";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
@@ -15,14 +17,14 @@ const ManageFilter = ({
   workloadCourses,
   selectedProgram,
   setCoursesStatus,
-  // setSelectedMonth,
+  setSelectedMonth,
   updateCourseDates,
   setSelectedProgram,
   selectedDepartment,
   updateFacultyStatus,
   setSelectedDepartment,
   ChangeFilterStatus,
-  // handleMonthFilter,
+  handleMonthFilter,
   setHandleMonthFilter,
   setChangeFilterStatus
 
@@ -37,9 +39,10 @@ const ManageFilter = ({
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
+  const navigate = useNavigate();
   const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
-  const [monthList, setMonthList] = useState({});
+  const [monthList, setMonthList] = useState([]);
   
   const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
   
@@ -133,7 +136,6 @@ const ManageFilter = ({
   const handleMonthFilterChange = (e: any) => {
     if (e.type === "change") {
       // setSelectedMonth(e.target.value);
-      setChangeFilterStatus(e.target.value)
       setHandleMonthFilter([e.target.value])
     }
   };
@@ -196,9 +198,9 @@ const ManageFilter = ({
                 onChange={handleDepartmentFilterChange}
               >
                 <option value={0}>Select Department</option>
-                {Object.entries(programFilter.departments).map(([id, name]) => (
-                  <option value={id} key={id}>
-                    {name}
+                {programFilter.map((dptment: any) => (
+                  <option value={dptment.departmentId} key={dptment.departmentId}>
+                    {dptment.departmentName}
                   </option>
                 ))}
               </select>
@@ -215,9 +217,9 @@ const ManageFilter = ({
                 onChange={handleProgramFilterChange}
               >
                 <option value={0}>Select Program</option>
-                {programFilter.programs.map((program: any) => (
-                  <option value={program.id} key={program.id}>
-                    {program.name}
+                {programFilter.map((program: any) => (
+                  <option value={program.programId} key={program.programId}>
+                    {program.programName}
                   </option>
                 ))}
               </select>
@@ -272,34 +274,35 @@ const ManageFilter = ({
                     // value={ChangeFilterStatus}
                   >
                     <option value={0}>Select Month</option>
-                    {
-                      Object.entries(monthList).map(([year, months]: any) => (
-                        <optgroup label={year} key={year}>
-                          {
-                            months.map((month: any, index: React.Key | null | undefined) => (
+                    {Object.entries(monthList).map(([year, months]: any) => (
+                      <optgroup label={year} key={year}>
+                        {Array.isArray(months) &&
+                          months.map(
+                            (
+                              month: any,
+                              index: React.Key | null | undefined
+                            ) => (
                               <option
                                 value={`${month},${year}`}
-                                key={index}
+                                key={`${year}-${index}`}
                                 // Conditionally render selected option based on state
-                                selected={ChangeFilterStatus === `${month},${year}`}
+                                selected={
+                                  ChangeFilterStatus === `${month},${year}`
+                                }
                               >
                                 {month}
                               </option>
-                            ))
-                          }
+                            )
+                          )}
                       </optgroup>
-                      ))
-                    }
+                    ))}
                   </select>
                 </div>
               )}
           </div>
 
           <div className="slot-indicator">
-            <div className="me-1">
-              <i className="fa-solid fa-envelope-circle-check"></i> Change
-              Request
-            </div>
+            <div className="me-1 available">Change Request</div>
             <div className="me-1 available">Available Slots</div>
             <div className="me-1 booked">Not Available Slots</div>
             <div className="me-1 weekend">Break/Weekend/Holiday</div>
