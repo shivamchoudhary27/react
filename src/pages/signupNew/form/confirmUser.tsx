@@ -34,7 +34,7 @@ const ConfirmUserForm = () => {
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$/,
         "Password must include lowercase, uppercase, number, and special character"
       )
-      .min(6, "Password must be at least 6 characters long"),
+      .min(8, "Password must be at least 6 characters long"),
     confirmPassword: Yup.string()
       .required("Please re-enter password that must match new password")
       .test("passwords-match", "Passwords must match", function (value) {
