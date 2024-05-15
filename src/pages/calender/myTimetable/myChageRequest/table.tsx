@@ -23,10 +23,9 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({ next: true, prev: true });
 
-  const handleMassegeClick = (weekday: any, description: any, timeSlotId: any, sessionDate: any, slotDetailId: any,changeRequestId:any) => {
-    // console.log(timeSlotId, '=======')
-    getModalFormData(weekday, description, timeSlotId, sessionDate, slotDetailId,changeRequestId)
-    toggleModalShow(true)
+  const handleMassegeClick = (weekday: any, description: any, timeSlotId: any, sessionDate: any, slotDetailId: any,changeRequestId:any,status:any) => {
+    getModalFormData(weekday, description, timeSlotId, sessionDate, slotDetailId,changeRequestId,status)
+      toggleModalShow(true)
   }
 
   function getMonday(dayOfWeek: number) {
@@ -333,7 +332,6 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell: any, index: number) => {
-                    // if (cell.column.id === "timeSlot") { console.log(cell.value,'--------timeslote')}
                     if (row.index > 0) {
                       if (cell.column.id === "timeSlot") {
                         return (
@@ -353,8 +351,8 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
-                              onClick={cellValue.status === "draft" || "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId) : undefined}
-                              style={{ cursor: cellValue.status === "draft" ? 'pointer' : 'default' }}
+                              onClick={cellValue.status !== "available"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : undefined}
+                              style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
                             </td>

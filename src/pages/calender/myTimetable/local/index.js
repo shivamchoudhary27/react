@@ -120,27 +120,35 @@ export const getTimeslotData = (currentInstitute, urlArg, setDepartmentTimeslots
 // ========================================================
 //             get course workload data === >>
 // ========================================================
-export const getCourseWorkloadtData = (urlArg, setCoursesList) => {
-    let endPoint = `${urlArg.prgId}/category/course/workloads`;
+export const getCourseWorkloadtData = (currentInstitute, setCoursesList) => {
+    let endPoint = `/${currentInstitute}/trp/user/programs`;
     makeGetDataRequest(
       endPoint,
-      { pageNumber: 0, pageSize: 100 },
-      setCoursesList
+    //   { pageNumber: 0, pageSize: 100 },
+      {},
+      setCoursesList,
     );
 }
 
 // ========================================================
 //        get list of sorted course categories === >>
 // ========================================================
-export const getSortedCategories = (coursesList, setSortedCategories) => {
-    const convertedResult = coursesList.items
+export const getSortedCategories = (urlArg ,coursesList, setSortedCategories) => {
+    const allCategories = coursesList?.reduce((accumulator, currentValue) => {
+        if (currentValue.programId === urlArg?.prgId || urlArg?.prgId === 0){
+        accumulator.push(...currentValue.categories);
+    }
+    return accumulator
+    }, []);
+    const convertedResult = allCategories
+    
         .filter((item) => item.parent === 0)
         .sort((a, b) => a.weight - b.weight)
         .reduce(
         (acc, item) => [
             ...acc,
             item,
-            ...getChildren(item, coursesList.items),
+            ...getChildren(item, coursesList),
         ],
         []  
         );

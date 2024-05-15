@@ -129,7 +129,7 @@ const TeacherAttendanceTable = (props: Props) => {
                     <td rowSpan={user.rowspan + 1}>{user.email}</td>
                     <td rowSpan={user.rowspan + 1}>
                       {PLEA.map((el) =>
-                        el in user.acronymcount ? user.acronymcount[el] : 0
+                        el in user.acronymcount ? user.acronymcount[el] + " " : 0 + " "
                       )}
                     </td>
                     <td rowSpan={user.rowspan + 1}>
@@ -167,7 +167,7 @@ const TeacherAttendanceTable = (props: Props) => {
                             ? groupedAttendances[user.userid][header] &&
                               (setAcronym =
                                 groupedAttendances[user.userid][header].shift())
-                              ? setAcronym["acronym"]
+                              ? <span className={setAcronym["acronym"]}>{setAcronym["acronym"]}</span>
                               : "-"
                             : "-"}
                         </td>
