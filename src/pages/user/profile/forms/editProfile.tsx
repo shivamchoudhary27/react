@@ -54,9 +54,41 @@ const userFormSchema = Yup.object({
     .required("Last name is required"),
   timezone: Yup.string().required("Time Zone is required"),
   userCountry: Yup.string().required("Country is required"),
-  // genderType: Yup.string().required("Gender is required"),
-  // mobile: Yup.number().required('Mobile nuber is required'),
+
+  mobile: Yup.string()
+  .nullable()
+  .matches(/^[0-9]+$/, "Only digits are allowed")
+  .min(10, "Mobile number must be at least 10 digits")
+  .max(15, "Mobile number must be at most 15 digits"),
+
+  parentsMobile: Yup.string().nullable()
+  .matches(/^[0-9]+$/, "Only digits are allowed")
+  .min(10, "Mobile number must be at least 10 digits")
+  .max(15, "Mobile number must be at most 15 digits"),
+
+  fatherName: Yup.string()
+  .nullable()
+  .matches(/^[A-Za-z]*$/, "Only alphabetic characters are allowed")
+  .trim(),
+
+  motherName: Yup.string()
+  .nullable()
+  .matches(/^[A-Za-z]*$/, "Only alphabetic characters are allowed")
+  .trim(),
+
+  parentEmail: Yup.string().nullable().email("Invalid email").required("Email is required"),
 });
+
+const bloodGroupOptions = [
+  { id: "A+", name: "A+" },
+  { id: "A-", name: "A-" },
+  { id: "B+", name: "B+" },
+  { id: "B-", name: "B-" },
+  { id: "AB+", name: "AB+" },
+  { id: "AB-", name: "AB-" },
+  { id: "O+", name: "O+" },
+  { id: "O-", name: "O-" },
+];
 
 const EditProfile = (props: Props) => {
   const navigate = useNavigate();
@@ -298,7 +330,7 @@ const EditProfile = (props: Props) => {
                       />
                     </Col>
 
-                    <Col sm={6} lg={4}>
+                    {/* <Col sm={6} lg={4}>
                       <FieldLabel
                         htmlfor="bloodGroup"
                         labelText="Blood Group"
@@ -306,6 +338,23 @@ const EditProfile = (props: Props) => {
                       <FieldTypeText
                         name="bloodGroup"
                         placeholder="Blood Group"
+                      />
+                      <FieldErrorMessage
+                        errors={errors.bloodGroup}
+                        touched={touched.bloodGroup}
+                      />
+                    </Col> */}
+                      <Col sm={6} lg={4}>
+                      <FieldLabel
+                        htmlFor="bloodGroup"
+                        labelText="Blood Group"
+                      />
+                      <FieldTypeSelect
+                        name="bloodGroup"
+                        options={bloodGroupOptions}
+                        setcurrentvalue={setValues}
+                        currentformvalue={values}
+                        selectDefaultLabel={"Select Blood Group"}
                       />
                       <FieldErrorMessage
                         errors={errors.bloodGroup}
