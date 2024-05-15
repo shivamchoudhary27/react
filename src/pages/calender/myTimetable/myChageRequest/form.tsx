@@ -10,11 +10,14 @@ import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import editIcon from "../../../../assets/images/icons/edit-action.svg";
+import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import { Link } from "react-router-dom";
 
 type Props = {
   onHide: () => void;
   modalShow: boolean;
-  toggleModalShow:any;
+  toggleModalShow: any;
   modalFormData: any;
   urlArg: any;
   availableSlotdata: any;
@@ -24,12 +27,12 @@ type Props = {
   filteredTime: any;
 };
 
-  // Formik Yup validation === >>>
-  const validationSchema = Yup.object({
-    reason: Yup.string().required('Reason is required'),
-    classRoomId: Yup.number().required("classRoomId is requeired"),
-    timeSlotId: Yup.number().required("time slotId is requeired"),
-  });
+// Formik Yup validation === >>>
+const validationSchema = Yup.object({
+  reason: Yup.string().required("Reason is required"),
+  classRoomId: Yup.number().required("classRoomId is requeired"),
+  timeSlotId: Yup.number().required("time slotId is requeired"),
+});
 
 const ModalForm = (props: Props) => {
   const [showAlert, setShowAlert] = useState(false);
@@ -73,7 +76,7 @@ const ModalForm = (props: Props) => {
       postData(endPoint, values)
         .then((res: any) => {
           if (res.data != "" && res.status === 201) {
-            props.toggleModalShow(false)
+            props.toggleModalShow(false);
             props.updateAddRefresh();
             Swal.fire({
               timer: 3000,
@@ -116,7 +119,6 @@ const ModalForm = (props: Props) => {
   const handleResetButton = () => {
     // Reset form fields to initial values
     if (disableFeald === false) {
-      
       setPayload({
         sessionDate: props.modalFormData?.sessionDate,
         timeSlotId: "",
@@ -130,37 +132,39 @@ const ModalForm = (props: Props) => {
     setDisableFeald(!disableFeald);
   };
 
-useEffect(() => {
-  if (props.modalShow === false) {
-    setDisableFeald(true)
-    setPayload({
-      sessionDate: "",
-      timeSlotId: "",
-      classRoomId: 0,
-      reason: "",
-    });
-  }else if(props.modalShow === true && props.modalFormData.status !== "changeRequest") 
-  {
-    setDisableFeald(false)
-    setPayload({
-      sessionDate: props.modalFormData?.sessionDate,
-      timeSlotId: "",
-      classRoomId: 0,
-      reason: "",
-    });
-  }
-},[props.modalShow])
+  useEffect(() => {
+    if (props.modalShow === false) {
+      setDisableFeald(true);
+      setPayload({
+        sessionDate: "",
+        timeSlotId: "",
+        classRoomId: 0,
+        reason: "",
+      });
+    } else if (
+      props.modalShow === true &&
+      props.modalFormData.status !== "changeRequest"
+    ) {
+      setDisableFeald(false);
+      setPayload({
+        sessionDate: props.modalFormData?.sessionDate,
+        timeSlotId: "",
+        classRoomId: 0,
+        reason: "",
+      });
+    }
+  }, [props.modalShow]);
 
- const handleReset = () => {
-  // Reset form fields to initial values
-  if(props.modalFormData.status === "draft")
-    setPayload({
-      sessionDate: "",
-      timeSlotId: "",
-      classRoomId: 0,
-      reason: "",
-    });
-  }
+  const handleReset = () => {
+    // Reset form fields to initial values
+    if (props.modalFormData.status === "draft")
+      setPayload({
+        sessionDate: "",
+        timeSlotId: "",
+        classRoomId: 0,
+        reason: "",
+      });
+  };
 
   useEffect(() => {
     setPayload({
@@ -172,7 +176,7 @@ useEffect(() => {
   }, [props.changeRequestData]);
 
   const onHideModal = () => {
-    props.toggleModalShow(false)
+    props.toggleModalShow(false);
     props.updateAddRefresh();
     setPayload({
       sessionDate: "",
@@ -188,7 +192,7 @@ useEffect(() => {
         centered
         onHide={onHideModal}
         show={props.modalShow}
-        onExited={()=>handleReset()}
+        onExited={() => handleReset()}
         aria-labelledby="contained-modal-title-vcenter"
         className="modal-design-wrapper"
       >
@@ -214,17 +218,31 @@ useEffect(() => {
           >
             {({ isSubmitting, resetForm, errors, touched }) => (
               <Form>
-                {props.modalFormData?.status === "changeRequest" && <Button onClick={handleEditClick}>edit</Button>}
-                <Button>delete</Button>
-                <div className="mb-3">
+                <div className="mb-3" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
-                    <b>Session</b> : {props.modalFormData.description}
+                    <div>
+                      <b>Session</b> : {props.modalFormData.description}
+                    </div>
+                    <div>
+                      <b>Timeslot</b>: {props.modalFormData?.weekday}{" "}
+                      {props.filteredTime.length > 0
+                        ? `(${props.filteredTime[0].startTime} - ${props.filteredTime[0].endTime})`
+                        : ""}
+                    </div>
                   </div>
                   <div>
-                    <b>Timeslot</b>: {props.modalFormData?.weekday}{" "}
-                    {props.filteredTime.length > 0
-                      ? `(${props.filteredTime[0].startTime} - ${props.filteredTime[0].endTime})`
-                      : ""}
+                    {props.modalFormData?.status === "changeRequest" && (
+                      <Link className="action-icons me-2" to="">
+                        <img
+                          src={editIcon}
+                          alt="Edit"
+                          onClick={handleEditClick}
+                        />
+                      </Link>
+                    )}
+                    <Link className="action-icons" to="">
+                      <img src={deleteIcon} alt="Delete" />
+                    </Link>
                   </div>
                 </div>
                 <div className="mb-3">
@@ -307,24 +325,28 @@ useEffect(() => {
                   <FieldErrorMessage
                     errors={errors.reason}
                     touched={touched.reason}
-                      />
+                  />
                 </div>
                 <div className="modal-buttons">
-               { disableFeald === false && <CustomButton
-                    type="submit"
-                    variant="primary"
-                    // disabled={isSubmitting}
-                    btnText="Submit"
-                  />}
-                  { disableFeald === false && <CustomButton
-                    type="button"
-                    onClick={() => {
-                      resetForm();
-                      handleResetButton();
-                    }}
-                    btnText="Reset"
-                    variant="outline-secondary"
-                  />} 
+                  {disableFeald === false && (
+                    <CustomButton
+                      type="submit"
+                      variant="primary"
+                      // disabled={isSubmitting}
+                      btnText="Submit"
+                    />
+                  )}
+                  {disableFeald === false && (
+                    <CustomButton
+                      type="button"
+                      onClick={() => {
+                        resetForm();
+                        handleResetButton();
+                      }}
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  )}
                 </div>
               </Form>
             )}

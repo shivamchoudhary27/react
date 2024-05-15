@@ -302,7 +302,7 @@ const ManageFilter = ({
           </div>
 
           <div className="slot-indicator">
-            <div className="me-1 available">Change Request</div>
+            <div className="me-1 available"><i className="fa-solid fa-envelope-circle-check me-1"></i>Change Request</div>
             <div className="me-1 available">Available Slots</div>
             <div className="me-1 booked">Not Available Slots</div>
             <div className="me-1 weekend">Break/Weekend/Holiday</div>
