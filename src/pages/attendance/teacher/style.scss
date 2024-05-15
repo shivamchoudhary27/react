@@ -56,14 +56,46 @@
 
 // table data dynamic color
 .P{
-  color: green
+  // color: green
+  background-color: rgb(194, 244, 194);
+  color: green;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .L{
-  color: #fd8709
+  // color: #fd8709
+  background-color: #f4d8ba;
+  color: #fd8709;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .E{
-  color: #5578E0
+  // color: #5578E0
+  background-color: #d0dcfa;
+  color: #5578E0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .A{
-  color: #e00b0b
+  // color: #e00b0b
+  background-color: #f7cdcd;
+  color: #e00b0b;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
