@@ -486,7 +486,7 @@ const LevelThreshold2Table = ({
                                 </Button> */}
                               <Field
                                 disabled
-                                className="form-control"
+                                className="form-control copo-input"
                                 type="number"
                                 name={`level_1_min_Target_${item.id}`}
                                 placeholder={0}
@@ -523,7 +523,7 @@ const LevelThreshold2Table = ({
                                 </Button> */}
                               <Field
                                 disabled
-                                className="form-control"
+                                className="form-control copo-input"
                                 type="number"
                                 name={`level_2_min_target_${item.id}`}
                                 placeholder={0}
@@ -706,7 +706,7 @@ const LevelThreshold2Table = ({
                               </Button> */}
                             <Field
                               disabled
-                              className="form-control"
+                              className="form-control copo-input"
                               type="number"
                               name={`level_3_target_${item.id}`}
                               placeholder={0}
