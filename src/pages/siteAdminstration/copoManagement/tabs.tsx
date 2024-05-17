@@ -12,6 +12,7 @@ type Props = {};
 
 const TabsList = (props: Props) => {
   const [activeTab, setActiveTab] = useState<number>(0); // State to manage active tab index
+  const [refreshTab, setRefreshTab] = useState(false);
 
   const handleNextTab = () => {
     setActiveTab((prevTab) =>
@@ -23,6 +24,10 @@ const TabsList = (props: Props) => {
     setActiveTab((prevTab) =>
       prevTab === 0 ? tabsListData.length - 1 : prevTab - 1
     ); // Move to the previous tab
+  };
+
+  const tabRefreshToggle = () => {
+    setRefreshTab(!refreshTab);
   };
 
   const tabsListData = [
@@ -44,7 +49,13 @@ const TabsList = (props: Props) => {
     {
       eventKey: "mapping",
       title: "Mapping of CO's to PO's and PSO's",
-      contentsRender: <MappingCOsPOsPSOs setActiveTab={setActiveTab} />,
+      contentsRender: (
+        <MappingCOsPOsPSOs
+          refreshTab={refreshTab}
+          setActiveTab={setActiveTab}
+          tabRefreshToggle={tabRefreshToggle}
+        />
+      ),
     },
     {
       eventKey: "assessment",
