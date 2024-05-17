@@ -7,7 +7,7 @@ import UserContext from "../../features/context/user/user";
 import "./style.scss";
 import { useNavigate, Link, NavLink } from "react-router-dom";
 // import logo from "../../assets/images/logo.png";
-import logo from "../../assets/images/medicaltheme.png";
+import logo from "../../assets/images/logo.png";
 import searchIcon from "../../assets/images/icons/search-icon.svg";
 import catalogueIcon from "../../assets/images/icons/catalogue.svg";
 import InstituteFilter from "../siteAdminstration/institute/instituteGlobalFilter";
