@@ -16,16 +16,29 @@ import * as Yup from "yup";
 import SelectCell from "../selectCell";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import AssessmentButtons from "./assessmentButtons";
+import Swal from "sweetalert2";
 
-const initialValues = {};
+const AssessmentTable = ({
+  setActiveTab,
+  assessmentData,
+  refreshToggle,
+  initialValues,
+  setInitialValue,
+}: any) => {
 
-const AssessmentTable = ({ setActiveTab }: any) => {
+  const { cid } = useParams();
+  const [apiStatus, setApiStatus] = useState("");
   const [testColumns, setTestColumns] = useState(["Test-1", "Test-2"]); // Initial Test columns
   const [iaColumns, setIaColumns] = useState(["IA-1", "IA-2"]); // Initial IA columns
   const [labColumns, setLabColumns] = useState(["LAB-1 %"]); // Initial LAB columns
   const [reachMaxColumnMsg, setReachMaxColumnMsg] = useState({
     status: false,
     msg: "",
+  });
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertMsg, setAlertMsg] = useState({
+    message: "",
+    alertBoxColor: "",
   });
 
   const quizOptions = [
@@ -136,6 +149,54 @@ const AssessmentTable = ({ setActiveTab }: any) => {
     setReachMaxColumnMsg({ status: false, msg: "" });
   };
 
+  const handleFormSubmit = (values: any, action: any) => {
+    // setActiveTab(5);
+    action.setSubmitting(true);
+    postData(`/${cid}/assessment/mapping`, initialValues)
+      .then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          action.setSubmitting(false);
+          // props.toggleModalShow(false);
+          refreshToggle();
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "assessment added successfully",
+          });
+        }
+        // Reset the form after a successful submission
+        action.resetForm();
+      })
+      .catch((error: any) => {
+        action.setSubmitting(false);
+        setShowAlert(true);
+        setAlertMsg({
+          message: error.response.data.message,
+          alertBoxColor: "danger",
+        });
+      });
+  };
+
+  const handleChangeEseMark = (e: any, id: any) => {
+    const { value } = e.target;
+    // Create a copy of initialValues
+    const updatedValues = [...initialValues];
+
+    // Find the index of the item with the matching id
+    const index = updatedValues.findIndex((item) => item.id === id);
+
+    // If the item is found, update its eseMark value
+    if (index !== -1) {
+      updatedValues[index].eseMark = value;
+
+      // Update the state with the modified array
+      setInitialValue(updatedValues);
+    }
+  };
   return (
     <>
       {reachMaxColumnMsg.status && (
@@ -151,10 +212,11 @@ const AssessmentTable = ({ setActiveTab }: any) => {
       <Formik
         initialValues={initialValues}
         onSubmit={(values, action) => {
-          setActiveTab(5);
+          //   setActiveTab(5);
+          handleFormSubmit(values, action);
         }}
       >
-        {({ isSubmitting, errors, touched, handleChange }) => (
+        {({ isSubmitting }) => (
           <Form>
             <div className="table-responsive admin-table-wrapper copo-table mt-3">
               <Table borderless striped>
@@ -244,9 +306,9 @@ const AssessmentTable = ({ setActiveTab }: any) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableData.map((item) => (
+                  {assessmentData.map((assessment: any, index: number) => (
                     <tr>
-                      <td>{item.courseOutcomes}</td>
+                      <td>{`${assessment.abbreviation}_${assessment.suffixValue}`}</td>
                       {/* ===== Test column data ===== */}
                       {testColumns.map((column) => (
                         <td key={column}>
@@ -269,13 +331,16 @@ const AssessmentTable = ({ setActiveTab }: any) => {
                       ))}
                       <td>
                         <Field
-                          type="text"
+                          type="number"
                           placeholder="ESE %"
-                          name="ese"
+                          name="eseMark"
                           className="form-control"
+                          key={index}
+                          value={assessment.eseMark}
+                          onChange={(e: any) => handleChangeEseMark(e, assessment.id)}
                         />
                       </td>
-                      <td>{item.average}</td>
+                      <td>{assessment.average}</td>
                       {/* Add other table cells here */}
                     </tr>
                   ))}
@@ -305,17 +370,17 @@ const AssessmentTable = ({ setActiveTab }: any) => {
 
 export default AssessmentTable;
 
-const tableData = [
-  {
-    courseOutcomes: "AIT_CO 1",
-    average: "88.86",
-  },
-  {
-    courseOutcomes: "AIT_CO 2",
-    average: "89.54",
-  },
-  {
-    courseOutcomes: "AIT_CO 3",
-    average: "78.63",
-  },
-];
+// const tableData = [
+//   {
+//     courseOutcomes: "AIT_CO 1",
+//     average: "88.86",
+//   },
+//   {
+//     courseOutcomes: "AIT_CO 2",
+//     average: "89.54",
+//   },
+//   {
+//     courseOutcomes: "AIT_CO 3",
+//     average: "78.63",
+//   },
+// ];
