@@ -1,10 +1,9 @@
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import { useSelector } from "react-redux";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import { postData } from "../../../../adapters/microservices";
+import { Formik, Form, Field } from "formik";
+import { postData, putData } from "../../../../adapters/microservices";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
@@ -27,79 +26,99 @@ type Props = {
   filteredTime: any;
 };
 
-// Formik Yup validation === >>>
-const validationSchema = Yup.object({
-  reason: Yup.string().required("Reason is required"),
-  classRoomId: Yup.number().required("classRoomId is requeired"),
-  timeSlotId: Yup.number().required("time slotId is requeired"),
+const validationSchema = Yup.object ({
+  reason: Yup.string()
+    .required("Reason is required")
+    .min(1, "Reason cannot be empty"),
+  classRoomId: Yup.number()
+    .required("Classroom is required")
+    .notOneOf([0], "Classroom is required"),
+  timeSlotId: Yup.number()
+    .required("Time slot is required")
+    .notOneOf([0], "Time slot is required"),
 });
 
 const ModalForm = (props: Props) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [disableFeald, setDisableFeald] = useState(true);
-  const [payload, setPayload] = useState({
-    sessionDate: props.modalFormData?.sessionDate,
-    timeSlotId: props.modalFormData?.timeSlotId,
+  const [initialValues, setInitialValues] = useState({
+    id: 0,
+    sessionDate: "",
+    timeSlotId: 0,
     classRoomId: 0,
     reason: "",
   });
-  const currentInstitute = useSelector(
-    (state: any) => state.globalFilters.currentInstitute
-  );
 
-  function handleTimeslotChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setPayload((prevValue: any) => ({
-      ...prevValue,
-      sessionDate: props.modalFormData?.sessionDate,
-      timeSlotId: event.target.value,
-    }));
-  }
+  // const currentInstitute = useSelector(
+  //   (state: any) => state.globalFilters.currentInstitute
+  // );
 
-  function handleRoomChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setPayload((prevValue: any) => ({
-      ...prevValue,
-      classRoomId: event.target.value,
-    }));
-  }
+  useEffect(() => {
+    setInitialValues({
+      id: props.changeRequestData?.id || 0,
+      sessionDate: props.modalFormData?.sessionDate || "",
+      timeSlotId: props.changeRequestData?.timeSlotId || 0,
+      classRoomId: props.changeRequestData?.classRoomId || 0,
+      reason: props.changeRequestData?.reason || "",
+    });
+  }, [props.changeRequestData]);
 
-  function handleResonChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setPayload((prevValue: any) => ({
-      ...prevValue,
-      reason: event.target.value,
-    }));
-  }
-
-  function handleFormSubmit(values: any, action: any) {
+  async function handleFormSubmit(values: any, action: any) {
     if (props.urlArg.prgId > 0) {
-      const endPoint = `/${props.urlArg.prgId}/timetable/${props.modalFormData.slotDetailId}/change-request`;
-      postData(endPoint, values)
-        .then((res: any) => {
-          if (res.data != "" && res.status === 201) {
-            props.toggleModalShow(false);
-            props.updateAddRefresh();
-            Swal.fire({
-              timer: 3000,
-              width: "25em",
-              color: "#666",
-              icon: "success",
-              background: "#e7eef5",
-              showConfirmButton: false,
-              text: "Faculty request successfully.",
-            });
-          }
-        })
-        .catch((err: any) => {
-          if (err.response.status === 500 || err.response.status === 400) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: err.response.data.message,
-              alertBoxColor: "danger",
-            });
-          }
-        });
+      let endPoint = "";
+      let method = "post";
+
+      if (props.modalFormData?.status !== "changeRequest") {
+        endPoint = `/${props.urlArg.prgId}/timetable/${props.modalFormData.slotDetailId}/change-request`;
+      } else {
+        endPoint = `/${props.urlArg.prgId}/timetable/${props.changeRequestData.id}/change-request`;
+        method = "put";
+      }
+      try {
+        const res =
+          method === "post"
+            ? await postData(endPoint, values)
+            : await putData(endPoint, values);
+
+        if ((res.data && res.status === 201) || 200) {
+          props.toggleModalShow(false);
+          props.updateAddRefresh();
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "Faculty request successfully.",
+          });
+        }
+      } catch (err: any) {
+        if (
+          err.response &&
+          (err.response.status === 500 || err.response.status === 400)
+        ) {
+          setShowAlert(true);
+          setAlertMsg({
+            message: err.response.data.message,
+            alertBoxColor: "danger",
+          });
+        }
+      }
     }
   }
+
+  const handleReset = (resetForm: any) => {
+    setInitialValues({
+      id: 0,
+      sessionDate: "",
+      timeSlotId: 0,
+      classRoomId: 0,
+      reason: "",
+    });
+    resetForm();
+  };
 
   function getDayOfWeek(dateString: string | number | Date) {
     const date = new Date(dateString);
@@ -116,18 +135,6 @@ const ModalForm = (props: Props) => {
     return weekdays[dayIndex];
   }
 
-  const handleResetButton = () => {
-    // Reset form fields to initial values
-    if (disableFeald === false) {
-      setPayload({
-        sessionDate: props.modalFormData?.sessionDate,
-        timeSlotId: "",
-        classRoomId: 0,
-        reason: "",
-      });
-    }
-  };
-
   const handleEditClick = () => {
     setDisableFeald(!disableFeald);
   };
@@ -135,55 +142,17 @@ const ModalForm = (props: Props) => {
   useEffect(() => {
     if (props.modalShow === false) {
       setDisableFeald(true);
-      setPayload({
-        sessionDate: "",
-        timeSlotId: "",
-        classRoomId: 0,
-        reason: "",
-      });
     } else if (
       props.modalShow === true &&
       props.modalFormData.status !== "changeRequest"
     ) {
       setDisableFeald(false);
-      setPayload({
-        sessionDate: props.modalFormData?.sessionDate,
-        timeSlotId: "",
-        classRoomId: 0,
-        reason: "",
-      });
     }
   }, [props.modalShow]);
-
-  const handleReset = () => {
-    // Reset form fields to initial values
-    if (props.modalFormData.status === "draft")
-      setPayload({
-        sessionDate: "",
-        timeSlotId: "",
-        classRoomId: 0,
-        reason: "",
-      });
-  };
-
-  useEffect(() => {
-    setPayload({
-      sessionDate: props.modalFormData?.sessionDate,
-      timeSlotId: props.changeRequestData?.timeSlotId,
-      classRoomId: props.changeRequestData?.classRoomId,
-      reason: props.changeRequestData?.reason,
-    });
-  }, [props.changeRequestData]);
 
   const onHideModal = () => {
     props.toggleModalShow(false);
     props.updateAddRefresh();
-    setPayload({
-      sessionDate: "",
-      timeSlotId: "",
-      classRoomId: 0,
-      reason: "",
-    });
   };
 
   return (
@@ -192,7 +161,7 @@ const ModalForm = (props: Props) => {
         centered
         onHide={onHideModal}
         show={props.modalShow}
-        onExited={() => handleReset()}
+        onExited={() => handleReset(() => {})}
         aria-labelledby="contained-modal-title-vcenter"
         className="modal-design-wrapper"
       >
@@ -210,7 +179,8 @@ const ModalForm = (props: Props) => {
             showAlert={showAlert}
           />
           <Formik
-            initialValues={payload}
+            enableReinitialize
+            initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values, action) => {
               handleFormSubmit(values, action);
@@ -218,7 +188,14 @@ const ModalForm = (props: Props) => {
           >
             {({ isSubmitting, resetForm, errors, touched }) => (
               <Form>
-                <div className="mb-3" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div
+                  className="mb-3"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   <div>
                     <div>
                       <b>Session</b> : {props.modalFormData.description}
@@ -247,21 +224,20 @@ const ModalForm = (props: Props) => {
                 </div>
                 <div className="mb-3">
                   <FieldLabel
-                    htmlFor="Timeslot"
+                    htmlFor="timeSlotId"
                     labelText="Available Timeslot"
                     required
                     star="*"
                   />
-                  <select
+                  <Field
+                    as="select"
                     className="form-select"
-                    name="Timeslot"
-                    onChange={(e) => {
-                      handleTimeslotChange(e);
-                    }}
-                    value={payload.timeSlotId}
+                    name="timeSlotId"
                     disabled={disableFeald}
                   >
-                    <option value="">Select</option>
+                    <option value="0" key={0}>
+                      Select
+                    </option>
                     {Object.keys(props.availableSlotdata).map((key) => (
                       <optgroup
                         label={`${key} (${getDayOfWeek(key)})`}
@@ -272,12 +248,16 @@ const ModalForm = (props: Props) => {
                             {`${item.startTime.slice(
                               0,
                               5
-                            )} ${item.endTime.slice(0, 5)}`}
+                            )} - ${item.endTime.slice(0, 5)}`}
                           </option>
                         ))}
                       </optgroup>
                     ))}
-                  </select>
+                  </Field>
+                  <FieldErrorMessage
+                    errors={errors.timeSlotId}
+                    touched={touched.timeSlotId}
+                  />
                 </div>
 
                 <div className="mb-3">
@@ -287,11 +267,10 @@ const ModalForm = (props: Props) => {
                     required
                     star="*"
                   />
-                  <select
+                  <Field
+                    as="select"
                     className="form-select"
                     name="classRoomId"
-                    onChange={handleRoomChange}
-                    value={payload.classRoomId}
                     disabled={disableFeald}
                   >
                     <option value="0" key={0}>
@@ -303,7 +282,11 @@ const ModalForm = (props: Props) => {
                           {item.name}
                         </option>
                       ))}
-                  </select>
+                  </Field>
+                  <FieldErrorMessage
+                    errors={errors.classRoomId}
+                    touched={touched.classRoomId}
+                  />
                 </div>
 
                 <div className="mb-3">
@@ -316,8 +299,6 @@ const ModalForm = (props: Props) => {
                   <Field
                     as="textarea"
                     name="reason"
-                    onChange={handleResonChange}
-                    value={payload.reason}
                     className="form-control"
                     placeholder="Type Here ..."
                     disabled={disableFeald}
@@ -329,23 +310,29 @@ const ModalForm = (props: Props) => {
                 </div>
                 <div className="modal-buttons">
                   {disableFeald === false && (
-                    <CustomButton
-                      type="submit"
-                      variant="primary"
-                      // disabled={isSubmitting}
-                      btnText="Submit"
-                    />
-                  )}
-                  {disableFeald === false && (
-                    <CustomButton
-                      type="button"
-                      onClick={() => {
-                        resetForm();
-                        handleResetButton();
-                      }}
-                      btnText="Reset"
-                      variant="outline-secondary"
-                    />
+                    <>
+                      {props.modalFormData?.status !== "changeRequest" ? (
+                        <CustomButton
+                          type="submit"
+                          variant="primary"
+                          btnText="Submit"
+                        />
+                      ) : (
+                        <CustomButton
+                          type="submit"
+                          variant="primary"
+                          btnText="Update"
+                        />
+                      )}
+                      <CustomButton
+                        type="button"
+                        onClick={() => {
+                          handleReset(resetForm);
+                        }}
+                        btnText="Reset"
+                        variant="outline-secondary"
+                      />
+                    </>
                   )}
                 </div>
               </Form>
