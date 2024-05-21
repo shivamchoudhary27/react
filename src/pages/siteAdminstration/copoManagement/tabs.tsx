@@ -7,6 +7,7 @@ import MappingCOsPOsPSOs from "./mappingCosPos";
 import AssessmentTable from "./assessmentCos/assessmentTable";
 import AttainmentTable from "./attainmentCourse/attainmentTable";
 import AssessmentForCOs from "./assessmentCos";
+import ViewCOsPOsPSOs from "./attainmentProgram/index";
 
 type Props = {};
 
@@ -66,6 +67,11 @@ const TabsList = (props: Props) => {
       eventKey: "attainment",
       title: "Attainment of Course Outcomes",
       contentsRender: <AttainmentTable />,
+    },
+    {
+      eventKey: "view",
+      title: "Attainment of Program Outcomes",
+      contentsRender: <ViewCOsPOsPSOs />,
     },
   ];
 

@@ -38,11 +38,12 @@ const refreshToggle = () => {
   return (
     <div>
       <AssessmentTable 
-        setActiveTab={props.setActiveTab} 
-        assessmentData={assessmentMappingData}
+        apiStatus={apiStatus}
         refreshToggle={refreshToggle}
         initialValues={initialValues}
         setInitialValue={setInitialValue}
+        setActiveTab={props.setActiveTab} 
+        assessmentData={assessmentMappingData}
          />
       <Alert variant="primary" className="mt-4">
         <strong>Note:</strong>

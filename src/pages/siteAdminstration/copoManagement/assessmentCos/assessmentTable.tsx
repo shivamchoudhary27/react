@@ -17,8 +17,11 @@ import SelectCell from "../selectCell";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import AssessmentButtons from "./assessmentButtons";
 import Swal from "sweetalert2";
+import Errordiv from "../../../../widgets/alert/errordiv";
+import TableSkeleton from "../../../../widgets/skeleton/table";
 
 const AssessmentTable = ({
+  apiStatus,
   setActiveTab,
   assessmentData,
   refreshToggle,
@@ -27,7 +30,6 @@ const AssessmentTable = ({
 }: any) => {
 
   const { cid } = useParams();
-  const [apiStatus, setApiStatus] = useState("");
   const [testColumns, setTestColumns] = useState(["Test-1", "Test-2"]); // Initial Test columns
   const [iaColumns, setIaColumns] = useState(["IA-1", "IA-2"]); // Initial IA columns
   const [labColumns, setLabColumns] = useState(["LAB-1 %"]); // Initial LAB columns
@@ -152,7 +154,7 @@ const AssessmentTable = ({
   const handleFormSubmit = (values: any, action: any) => {
     // setActiveTab(5);
     action.setSubmitting(true);
-    postData(`/${cid}/assessment/mapping`, initialValues)
+    postData(`/${cid}/assessment/mapping`, values)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           action.setSubmitting(false);
@@ -209,6 +211,7 @@ const AssessmentTable = ({
           {reachMaxColumnMsg.msg}
         </Alert>
       )}
+       {apiStatus !== "started" ? (
       <Formik
         initialValues={initialValues}
         onSubmit={(values, action) => {
@@ -340,12 +343,21 @@ const AssessmentTable = ({
                           onChange={(e: any) => handleChangeEseMark(e, assessment.id)}
                         />
                       </td>
-                      <td>{assessment.average}</td>
+                      <td>{tableData[index]?.average}</td>
                       {/* Add other table cells here */}
                     </tr>
                   ))}
                 </tbody>
               </Table>
+
+              {apiStatus === "started" &&
+                  assessmentData.length === 0 && (
+                    <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+                  )}
+                {apiStatus === "finished" &&
+                  assessmentData.length === 0 && (
+                    <Errordiv msg="No record found!" cstate className="mt-3" />
+                  )}
               <AssessmentButtons
                 addIaColumns={addIaColumns}
                 addLabColumns={addLabColumns}
@@ -364,23 +376,26 @@ const AssessmentTable = ({
           </Form>
         )}
       </Formik>
+      ) : (
+        <RouterLadyLoader status={true} />
+      )}
     </>
   );
 };
 
 export default AssessmentTable;
 
-// const tableData = [
-//   {
-//     courseOutcomes: "AIT_CO 1",
-//     average: "88.86",
-//   },
-//   {
-//     courseOutcomes: "AIT_CO 2",
-//     average: "89.54",
-//   },
-//   {
-//     courseOutcomes: "AIT_CO 3",
-//     average: "78.63",
-//   },
-// ];
+const tableData = [
+  {
+    courseOutcomes: "AIT_CO 1",
+    average: "88.86",
+  },
+  {
+    courseOutcomes: "AIT_CO 2",
+    average: "89.54",
+  },
+  {
+    courseOutcomes: "AIT_CO 3",
+    average: "78.63",
+  },
+];
