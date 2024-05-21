@@ -33,6 +33,7 @@ type Props = {
   setSelectedDepartment: any;
   availableSlotdata: any;
   availableRooms: any;
+  loader:any;
   refreshToggle: any;
   changeRequestData: any;
   filteredTime: any;
@@ -43,6 +44,7 @@ const View = (props: Props) => {
   const commonProps = {
     onHide: props.onHide,
     urlArg: props.urlArg,
+    loader:props.loader,
     timeslots: props.timeslots,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,

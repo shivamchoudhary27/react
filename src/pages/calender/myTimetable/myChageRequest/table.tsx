@@ -7,9 +7,10 @@ import React, { useMemo, useState, useEffect } from "react";
 import { addDays, format, startOfWeek } from "date-fns";
 import { FirstDayOfMonth } from "../utils";
 import { formatDateWithDetails } from "../../../../lib/timestampConverter";
+import NewLoader from "../../../../widgets/loader";
 
 
-const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateTimetableDates, toggleModalShow, handleMonthFilter, setChangeFilterStatus }: any) => {
+const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, updateTimetableDates, toggleModalShow, handleMonthFilter, setChangeFilterStatus }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -297,6 +298,8 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
         </button>
       </div>
       <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">
+      
+      {loader ? <NewLoader /> :
         <Table className="draft-table mb-0" {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -403,7 +406,7 @@ const MyChangeRequestTable = ({ getModalFormData, SlotData, courseDates, updateT
               );
             })}
           </tbody>
-        </Table>
+        </Table>}
       </div>
     </React.Fragment>
   );

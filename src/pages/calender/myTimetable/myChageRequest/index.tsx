@@ -30,12 +30,10 @@ const PublishChangeRequest = () => {
   const [coursesList, setCoursesList] = useState([]);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
-  const [changeRequestStatus, setChangeRequestStatus] = useState("")
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [programFilter, setProgramFilter] = useState({ programs: [], departments: [] });
   const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
   const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
@@ -44,6 +42,7 @@ const PublishChangeRequest = () => {
   const [changeRequestData, setChangeRequestData] = useState()
   const [refreshData, setRefreshData] = useState<boolean>(false);
   const [filteredTime, setFilteredTime] = useState([])
+  const [loader, setLoader] = useState(false);
   const [modalFormData, setModalFormData]= useState({
     weekday:"",
     description:"",
@@ -71,6 +70,7 @@ const PublishChangeRequest = () => {
       status:status
     })
    }
+   
 
   const [filters, setFilters] = useState({
     pageNumber: 0,
@@ -130,7 +130,7 @@ const PublishChangeRequest = () => {
 
   // Calling Timetable API to set timetable data === >>
   useEffect(() => {
-    if (filters.courseId > 0 && filters.userId > 0 && filters) {
+    if (filters.courseId > 0 && filters.userId > 0 && filters.startDate ) {
       getData(`/${urlArg.prgId}/timetable/userslots`, filters)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
@@ -139,9 +139,9 @@ const PublishChangeRequest = () => {
                 item.sessionDate,
                 "dd-MM-yyyy",
                 new Date()
-              );
-              const dayName = format(inputDate, "EEEE");
-              result.data.items[index].dayName = dayName;
+                );
+                const dayName = format(inputDate, "EEEE");
+                result.data.items[index].dayName = dayName;
             });
 
             setTimetableData(result.data);
@@ -151,7 +151,8 @@ const PublishChangeRequest = () => {
           console.log(err);
         });
     }
-  }, [filters]);
+  }, [filters, modalShow]);
+  console.log(filters)
 
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
@@ -161,10 +162,10 @@ const PublishChangeRequest = () => {
             const filteredData = res.data.filter(
               (item: any) =>
                 item.departmentId === departmentTimeslots.items[0].departmentId
-            );
-            if (filteredData[0].weekDays.length > 0) {
-              setWeekendTimeslots(filteredData[0].weekDays);
-            }
+                );
+                if (filteredData[0].weekDays.length > 0) {
+                  setWeekendTimeslots(filteredData[0].weekDays);
+                }
           }
         })
         .catch((err: any) => {
@@ -187,17 +188,19 @@ const PublishChangeRequest = () => {
 useEffect(() => {
   // setApiStatus("started");
   if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
+    setLoader(true);
   getData(`${urlArg.prgId}/timetable/availableslots?slotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
         setAvailableSlots(result.data);
+        setLoader(false);
       }
     })
     .catch((err: any) => {
       console.log(err);
     })
   }
-}, [modalFormData.timeSlotId, modalFormData.slotDetailId, modalShow]);
+}, [modalFormData.timeSlotId, modalFormData.slotDetailId,]);
 
 useEffect(() => {
   if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
@@ -211,28 +214,29 @@ useEffect(() => {
       console.log(err);
     })
   }
-}, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
+}, [modalFormData.timeSlotId, modalFormData.slotDetailId,modalShow]);
 
 useEffect(() => {
   if(urlArg.dpt > 0){ 
+    setLoader(true);
   getData( `/${currentInstitute}/timetable/timeslot?departmentId=${urlArg.dpt}&pageNumber=0&pageSize=50`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
+        setLoader(true);
         const allTime = result.data.items || [];
         setFilteredTime(
           allTime.filter((timeSlot: any) => modalFormData.timeSlotId === timeSlot.id)
         );
-
       }
     })
     .catch((err: any) => {
       console.log(err);
     })
   }
-}, [currentInstitute, modalFormData.slotDetailId,  modalShow]);
+}, [currentInstitute, modalFormData.slotDetailId,]);
 
 useEffect(() => {
-  if(modalFormData.changeRequestId > 0 ){ 
+  if(modalFormData.changeRequestId > 0 && modalShow === true){ 
   getData( `/${urlArg.prgId}/timetable/${modalFormData.changeRequestId}/change-request`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
@@ -243,7 +247,7 @@ useEffect(() => {
       console.log(err);
     })
   }
-}, [modalFormData.changeRequestId, urlArg.prgId]);
+}, [modalFormData.changeRequestId, urlArg.prgId,modalShow ]);
 
 //  ============================================================== >>
 
@@ -274,7 +278,7 @@ useEffect(() => {
   };
 
   const updateTimetableDates = (weekDates: any) => {
-    setFilters((previous: any) => ({
+     setFilters((previous: any) => ({
       ...previous,
       startDate: weekDates.startDate,
       endDate: weekDates.endDate,
@@ -297,20 +301,18 @@ useEffect(() => {
       <View
         urlArg={urlArg}
         timeslots={timeslots}
+        loader={loader}
         apiStatus={apiStatus}
         modalShow={modalShow}
         courseDates={courseDates}
         coursesStatus={coursesStatus}
         programFilter={coursesList}
         changeRequestData={changeRequestData}
-        // selectedMonth={selectedMonth}
-        // editHandlerById={editHandlerById}
         refreshToggle={refreshToggle}
         selectedProgram={selectedProgram}
         getModalFormData={getModalFormData}
         modalFormData={modalFormData}
         toggleModalShow={toggleModalShow}
-        // setSelectedMonth={setSelectedMonth}
         sortedCategories={sortedCategories}
         setCoursesStatus={setCoursesStatus}
         updateCourseDates={updateCourseDates}

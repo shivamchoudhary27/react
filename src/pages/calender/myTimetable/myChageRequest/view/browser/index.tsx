@@ -13,6 +13,7 @@ type Props = {
   commonProps: {
     urlArg: any;
     onHide: any;
+    loader:any;
     modalShow: any;
     timeslots: any;
     apiStatus: any;
@@ -100,9 +101,11 @@ type Props = {
 
             <MyChangeRequestTable
               onHide={props.commonProps.onHide}
+              loader={props.commonProps.loader}
               SlotData={props.commonProps.timeslots}
-              apiStatus={props.commonProps.apiStatus}
+              modalShow={props.commonProps.modalShow}
               courseDates={props.commonProps.courseDates}
+              apiStatus={props.commonProps.apiStatus}
               selectedMonth={props.commonProps.selectedMonth}
               coursesStatus={props.commonProps.coursesStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
