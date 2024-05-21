@@ -271,10 +271,11 @@ const MappingTable = ({
                     <tr>
                       <td></td>
                       {Object.values(posAverage).map((el: any) => (
-                        <td>{el}</td>
+                        <td>{el !== "" && el.toFixed(2)}</td>
                       ))}
                     </tr>
                   </tbody>
+                </Table>
                   {programoutcomeApiStatus === "started" &&
                     programOutcomes.length === 0 && (
                       <TableSkeleton numberOfRows={5} numberOfColumns={4} />
@@ -287,7 +288,6 @@ const MappingTable = ({
                         className="mt-3"
                       />
                     )}
-                </Table>
                 {/* <div className="my-3">
                   <Button
                     variant="primary"
