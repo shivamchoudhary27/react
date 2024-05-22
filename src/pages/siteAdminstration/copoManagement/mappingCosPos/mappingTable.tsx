@@ -269,7 +269,7 @@ const MappingTable = ({
                       </tr>
                     ))}
                     <tr>
-                      <td></td>
+                      <td>Average</td>
                       {Object.values(posAverage).map((el: any) => (
                         <td>{el !== "" && el.toFixed(2)}</td>
                       ))}
