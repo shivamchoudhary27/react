@@ -4,10 +4,9 @@ import DefineCos from "./defineCos/defineCos";
 import LevelThreshold from "./levelThreshold";
 import LevelThreshold2 from "./levelThreshold2";
 import MappingCOsPOsPSOs from "./mappingCosPos";
-import AssessmentTable from "./assessmentCos/assessmentTable";
-import AttainmentTable from "./attainmentCourse/attainmentTable";
 import AssessmentForCOs from "./assessmentCos";
 import ViewCOsPOsPSOs from "./attainmentProgram/index";
+import AttainmentCourseOutcome from "./attainmentCourse";
 
 type Props = {};
 
@@ -66,12 +65,12 @@ const TabsList = (props: Props) => {
     {
       eventKey: "attainment",
       title: "Attainment of Course Outcomes",
-      contentsRender: <AttainmentTable />,
+      contentsRender: <AttainmentCourseOutcome setActiveTab={setActiveTab} />,
     },
     {
       eventKey: "view",
       title: "Attainment of Program Outcomes",
-      contentsRender: <ViewCOsPOsPSOs />,
+      contentsRender: <ViewCOsPOsPSOs setActiveTab={setActiveTab}/>,
     },
   ];
 

@@ -5,8 +5,6 @@ import { getData } from "../../../../adapters/microservices";
 
 type Props = {
   setActiveTab: any;
-  refreshTab: boolean;
-  tabRefreshToggle: any;
 };
 
 const ViewCOsPOsPSOs = (props: Props) => {
@@ -27,14 +25,14 @@ const ViewCOsPOsPSOs = (props: Props) => {
         console.log(err)
         setCourseoutcomeApiStatus("finished");
       });
-  }, [props.setActiveTab, props.refreshTab]);
+  }, [props.setActiveTab]);
 
   return (
     <>
       <ViewTable
         setActiveTab={props.setActiveTab}
         programOutcomes={programOutcomes.items}
-        tabRefreshToggle={props.tabRefreshToggle}
+        // tabRefreshToggle={props.tabRefreshToggle}
         courseoutcomeApiStatus={courseoutcomeApiStatus}
       />
     </>
