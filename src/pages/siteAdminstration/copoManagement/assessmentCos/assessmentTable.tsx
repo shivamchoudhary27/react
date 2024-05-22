@@ -203,7 +203,7 @@ const AssessmentTable = ({
       postData(`/${cid}/assessment/mapping`, dataPacket)
         .then((res: { data: string; status: number }) => {
           if (res.data !== "" && res.status === 200) {
-            console.log(res.data);
+            setActiveTab(5)
             action.setSubmitting(false);
             refreshToggle();
           }
