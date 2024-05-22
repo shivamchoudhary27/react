@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikHelpers } from "formik";
 import { Link, useParams } from "react-router-dom";
 import {
   Alert,
@@ -28,10 +28,9 @@ const AssessmentTable = ({
   initialValues,
   setInitialValue,
 }: any) => {
-
   const { cid } = useParams();
-  const [testColumns, setTestColumns] = useState(["Test-1", "Test-2"]); // Initial Test columns
-  const [iaColumns, setIaColumns] = useState(["IA-1", "IA-2"]); // Initial IA columns
+  const [testColumns, setTestColumns] = useState(["Test-1"]); // Initial Test columns
+  const [iaColumns, setIaColumns] = useState(["IA-1"]); // Initial IA columns
   const [labColumns, setLabColumns] = useState(["LAB-1 %"]); // Initial LAB columns
   const [reachMaxColumnMsg, setReachMaxColumnMsg] = useState({
     status: false,
@@ -44,30 +43,27 @@ const AssessmentTable = ({
   });
 
   const quizOptions = [
-    { value: "test1", label: "Quiz 1" },
-    { value: "test2", label: "Quiz 2" },
-    { value: "test3", label: "Quiz 3" },
-    { value: "test4", label: "Quiz 4" },
-    { value: "test5", label: "Quiz 5" },
-    // Add more options as needed
+    { value: 1, label: "Quiz 1" },
+    { value: 2, label: "Quiz 2" },
+    { value: 3, label: "Quiz 3" },
+    { value: 4, label: "Quiz 4" },
+    { value: 5, label: "Quiz 5" },
   ];
 
   const iaOptions = [
-    { value: "ia1", label: "Quiz 1" },
-    { value: "ia2", label: "Quiz 2" },
-    { value: "ia3", label: "Quiz 3" },
-    { value: "ia4", label: "Quiz 4" },
-    { value: "ia5", label: "Quiz 5" },
-    // Add more options as needed
+    { value: 6, label: "Quiz 1" },
+    { value: 7, label: "Quiz 2" },
+    { value: 8, label: "Quiz 3" },
+    { value: 9, label: "Quiz 4" },
+    { value: 10, label: "Quiz 5" },
   ];
 
   const labOptions = [
-    { value: "lab1", label: "Assignment 1" },
-    { value: "lab2", label: "Assignment 2" },
-    { value: "lab3", label: "Assignment 3" },
-    { value: "lab4", label: "Assignment 4" },
-    { value: "lab5", label: "Assignment 5" },
-    // Add more options as needed
+    { value: 11, label: "Assignment 1" },
+    { value: 12, label: "Assignment 2" },
+    { value: 13, label: "Assignment 3" },
+    { value: 14, label: "Assignment 4" },
+    { value: 15, label: "Assignment 5" },
   ];
 
   const addTestColumns = () => {
@@ -77,7 +73,6 @@ const AssessmentTable = ({
       newTestColumns.push(`Test-${newColumnIndex}`);
       setTestColumns(newTestColumns);
     } else {
-      // Handle max limit reached
       setReachMaxColumnMsg({
         status: true,
         msg: "You have reached the maximum limit. You can't add more than 5 Test columns.",
@@ -89,7 +84,6 @@ const AssessmentTable = ({
     const newTestColumns = testColumns.filter(
       (_, index) => index !== indexToRemove
     );
-    // Update column names to maintain sequential numbering
     const updatedTestColumns = newTestColumns.map(
       (column, index) => `Test-${index + 1}`
     );
@@ -104,7 +98,6 @@ const AssessmentTable = ({
       newIaColumns.push(`IA-${newColumnIndex}`);
       setIaColumns(newIaColumns);
     } else {
-      // Handle max limit reached
       setReachMaxColumnMsg({
         status: true,
         msg: "You have reached the maximum limit. You can't add more than 5 IA columns.",
@@ -116,7 +109,6 @@ const AssessmentTable = ({
     const newIaColumns = iaColumns.filter(
       (_, index) => index !== indexToRemove
     );
-    // Update column names to maintain sequential numbering
     const updatedIaColumns = newIaColumns.map(
       (column, index) => `IA-${index + 1}`
     );
@@ -131,7 +123,6 @@ const AssessmentTable = ({
       newLabColumns.push(`LAB-${newColumnIndex} %`);
       setLabColumns(newLabColumns);
     } else {
-      // Handle max limit reached
       setReachMaxColumnMsg({
         status: true,
         msg: "You have reached the maximum limit. You can't add more than 5 LAB columns.",
@@ -143,7 +134,6 @@ const AssessmentTable = ({
     const newLabColumns = labColumns.filter(
       (_, index) => index !== indexToRemove
     );
-    // Update column names to maintain sequential numbering
     const updatedLabColumns = newLabColumns.map(
       (column, index) => `LAB-${index + 1} %`
     );
@@ -151,54 +141,85 @@ const AssessmentTable = ({
     setReachMaxColumnMsg({ status: false, msg: "" });
   };
 
-  const handleFormSubmit = (values: any, action: any) => {
-    // setActiveTab(5);
-    action.setSubmitting(true);
-    postData(`/${cid}/assessment/mapping`, values)
-      .then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          action.setSubmitting(false);
-          // props.toggleModalShow(false);
-          refreshToggle();
-          Swal.fire({
-            timer: 3000,
-            width: "25em",
-            color: "#666",
-            icon: "success",
-            background: "#e7eef5",
-            showConfirmButton: false,
-            text: "assessment added successfully",
-          });
-        }
-        // Reset the form after a successful submission
-        action.resetForm();
-      })
-      .catch((error: any) => {
-        action.setSubmitting(false);
-        setShowAlert(true);
-        setAlertMsg({
-          message: error.response.data.message,
-          alertBoxColor: "danger",
+  const handleFormSubmit = (
+    values: { [x: string]: any },
+    action: FormikHelpers<any>
+  ) => {
+    const formattedData = assessmentData.map(
+      (assessment: { id: any; abbreviation: any; suffixValue: any }) => {
+        const formattedAssessment = {
+          id: assessment.id,
+          abbreviation: assessment.abbreviation,
+          suffixValue: assessment.suffixValue,
+          eseMark: values[`eseMark_${assessment.id}`],
+          assements: [],
+        };
+
+        testColumns.forEach((column, index) => {
+          const key = `test_${assessment.id}_${index + 1}`;
+          if (values[key]) {
+            formattedAssessment.assements.push({
+              suffixValue: index + 1,
+              assessmentType: "test",
+              idNumber: values[key],
+            });
+          }
         });
-      });
-  };
 
-  const handleChangeEseMark = (e: any, id: any) => {
-    const { value } = e.target;
-    // Create a copy of initialValues
-    const updatedValues = [...initialValues];
+        iaColumns.forEach((column, index) => {
+          const key = `ia_${assessment.id}_${index + 1}`;
+          if (values[key]) {
+            formattedAssessment.assements.push({
+              suffixValue: index + 1,
+              assessmentType: "ia",
+              idNumber: values[key],
+            });
+          }
+        });
 
-    // Find the index of the item with the matching id
-    const index = updatedValues.findIndex((item) => item.id === id);
+        labColumns.forEach((column, index) => {
+          const key = `lab_${assessment.id}_${index + 1}`;
+          if (values[key]) {
+            formattedAssessment.assements.push({
+              suffixValue: index + 1,
+              assessmentType: "lab",
+              idNumber: values[key],
+            });
+          }
+        });
 
-    // If the item is found, update its eseMark value
-    if (index !== -1) {
-      updatedValues[index].eseMark = value;
+        if (formattedAssessment.assements.length > 0) {
+          return formattedAssessment;
+        }
+      }
+    );
 
-      // Update the state with the modified array
-      setInitialValue(updatedValues);
+    let dataPacket = formattedData.filter(
+      (data: undefined) => data !== undefined
+    );
+
+    if (Object.keys(values).length != 0) {
+      action.setSubmitting(true);
+      postData(`/${cid}/assessment/mapping`, dataPacket)
+        .then((res: { data: string; status: number }) => {
+          if (res.data !== "" && res.status === 200) {
+            console.log(res.data);
+            action.setSubmitting(false);
+            refreshToggle();
+          }
+          action.resetForm();
+        })
+        .catch((error: { response: { data: { message: any } } }) => {
+          action.setSubmitting(false);
+          setShowAlert(true);
+          setAlertMsg({
+            message: error.response.data.message,
+            alertBoxColor: "danger",
+          });
+        });
     }
   };
+
   return (
     <>
       {reachMaxColumnMsg.status && (
@@ -215,22 +236,20 @@ const AssessmentTable = ({
       <Formik
         initialValues={initialValues}
         onSubmit={(values, action) => {
-          //   setActiveTab(5);
           handleFormSubmit(values, action);
         }}
       >
-        {({ isSubmitting }) => (
+        {({ isSubmitting, handleChange, values }) => (
           <Form>
             <div className="table-responsive admin-table-wrapper copo-table mt-3">
               <Table borderless striped>
                 <thead>
                   <tr>
                     <th>Course Outcomes</th>
-                    {/* ===== Test column created ===== */}
                     {testColumns.map((column, index) => (
                       <th key={column}>
                         {column}{" "}
-                        {index >= 2 && (
+                        {index >= 1 && (
                           <OverlayTrigger
                             placement="top"
                             overlay={<BsTooltip>Delete Test Column</BsTooltip>}
@@ -240,23 +259,18 @@ const AssessmentTable = ({
                                 backgroundColor: "#f2f2f2",
                                 padding: "3px",
                               }}
+                              onClick={() => removeTestColumns(index)}
                             >
-                              <img
-                                src={deleteIcon}
-                                alt="Delete"
-                                onClick={() => removeTestColumns(index)}
-                              />
+                              <img src={deleteIcon} alt="Delete" />
                             </Button>
                           </OverlayTrigger>
                         )}
                       </th>
                     ))}
-
-                    {/* ===== IA column created ===== */}
                     {iaColumns.map((column, index) => (
                       <th key={column}>
                         {column}{" "}
-                        {index >= 2 && (
+                        {index >= 1 && (
                           <OverlayTrigger
                             placement="top"
                             overlay={<BsTooltip>Delete IA Column</BsTooltip>}
@@ -266,19 +280,14 @@ const AssessmentTable = ({
                                 backgroundColor: "#f2f2f2",
                                 padding: "3px",
                               }}
+                              onClick={() => removeIaColumns(index)}
                             >
-                              <img
-                                src={deleteIcon}
-                                alt="Delete"
-                                onClick={() => removeIaColumns(index)}
-                              />
+                              <img src={deleteIcon} alt="Delete" />
                             </Button>
                           </OverlayTrigger>
                         )}
                       </th>
                     ))}
-
-                    {/* ===== LAB column created ===== */}
                     {labColumns.map((column, index) => (
                       <th key={column}>
                         {column}{" "}
@@ -292,12 +301,9 @@ const AssessmentTable = ({
                                 backgroundColor: "#f2f2f2",
                                 padding: "3px",
                               }}
+                              onClick={() => removeLabColumns(index)}
                             >
-                              <img
-                                src={deleteIcon}
-                                alt="Delete"
-                                onClick={() => removeLabColumns(index)}
-                              />
+                              <img src={deleteIcon} alt="Delete" />
                             </Button>
                           </OverlayTrigger>
                         )}
@@ -305,48 +311,124 @@ const AssessmentTable = ({
                     ))}
                     <th>ESE %</th>
                     <th>Average Assessment %</th>
-                    {/* Add other table headers here */}
                   </tr>
                 </thead>
                 <tbody>
-                  {assessmentData.map((assessment: any, index: number) => (
-                    <tr>
-                      <td>{`${assessment.abbreviation}_${assessment.suffixValue}`}</td>
-                      {/* ===== Test column data ===== */}
-                      {testColumns.map((column) => (
-                        <td key={column}>
-                          <SelectCell name={column} options={quizOptions} />
+                  {assessmentData.map(
+                    (assessment: {
+                      id: React.Key | null | undefined;
+                      abbreviation: any;
+                      suffixValue: any;
+                    }) => (
+                      <tr key={assessment.id}>
+                        <td>{`${assessment.abbreviation}_${assessment.suffixValue}`}</td>
+                        {testColumns.map((column, index) => (
+                          <td key={column}>
+                            <Field
+                              as="select"
+                              name={`test_${assessment.id}_${index + 1}`}
+                              className="form-select"
+                              onChange={(e: { target: { value: any } }) => {
+                                handleChange(e);
+                                setInitialValue((prevState: any) => ({
+                                  ...prevState,
+                                  [`test_${assessment.id}_${index + 1}`]:
+                                    e.target.value,
+                                }));
+                              }}
+                            >
+                              <option value="">Select</option>
+                              {quizOptions.map((optionValue) => (
+                                <option
+                                  key={optionValue.value}
+                                  value={optionValue.value}
+                                  selected = {`test_${assessment.id}_${index + 1}`===`test_${assessment.id}_1`} 
+                                >
+                                  {optionValue.label}
+                                </option>
+                              ))}
+                            </Field>
+                          </td>
+                        ))}
+                        {iaColumns.map((column, index) => (
+                          <td key={column}>
+                            <Field
+                              as="select"
+                              name={`ia_${assessment.id}_${index + 1}`}
+                              className="form-select"
+                              onChange={(e: { target: { value: any } }) => {
+                                handleChange(e);
+                                setInitialValue((prevState: any) => ({
+                                  ...prevState,
+                                  [`ia_${assessment.id}_${index + 1}`]:
+                                    e.target.value,
+                                }));
+                              }}
+                            >
+                              <option value="">Select</option>
+                              {iaOptions.map((optionValue) => (
+                                <option
+                                  key={optionValue.value}
+                                  value={optionValue.value}
+                                  selected = {`ia_${assessment.id}_${index + 1}`==="ia_88_1"} 
+                                >
+                                  {optionValue.label}
+                                </option>
+                              ))}
+                            </Field>
+                          </td>
+                        ))}
+                        {labColumns.map((column, index) => (
+                          <td key={column}>
+                            <Field
+                              as="select"
+                              name={`lab_${assessment.id}_${index + 1}`}
+                              className="form-select"
+                              onChange={(e: { target: { value: any } }) => {
+                                handleChange(e);
+                                setInitialValue((prevState: any) => ({
+                                  ...prevState,
+                                  [`lab_${assessment.id}_${index + 1}`]:
+                                    e.target.value,
+                                }));
+                              }}
+                            >
+                              <option value="">Select</option>
+                              {labOptions.map((optionValue, index) => (
+                                <option
+                                  key={optionValue.value}
+                                  value={optionValue.value}
+                                  selected={
+                                    `lab_${assessment.id}_${index + 1}` ===
+                                    `lab_88_1`
+                                  }
+                                >
+                                  {optionValue.label}
+                                </option>
+                              ))}
+                            </Field>
+                          </td>
+                        ))}
+                        <td>
+                          <Field
+                            type="number"
+                            placeholder="ESE %"
+                            name={`eseMark_${assessment.id}`}
+                            className="form-control"
+                            onChange={(e: { target: { value: any } }) => {
+                              handleChange(e);
+                              setInitialValue((prevState: any) => ({
+                                ...prevState,
+                                [`eseMark_${assessment.id}`]: e.target.value,
+                              }));
+                            }}
+                            value={initialValues[`eseMark_${assessment.id}`]}
+                          />
                         </td>
-                      ))}
-
-                      {/* ===== IA column data ===== */}
-                      {iaColumns.map((column) => (
-                        <td key={column}>
-                          <SelectCell name={column} options={iaOptions} />
-                        </td>
-                      ))}
-
-                      {/* ===== LAB column data ===== */}
-                      {labColumns.map((column) => (
-                        <td key={column}>
-                          <SelectCell name={column} options={labOptions} />
-                        </td>
-                      ))}
-                      <td>
-                        <Field
-                          type="number"
-                          placeholder="ESE %"
-                          name="eseMark"
-                          className="form-control"
-                          key={index}
-                          value={assessment.eseMark}
-                          onChange={(e: any) => handleChangeEseMark(e, assessment.id)}
-                        />
-                      </td>
-                      <td>{tableData[index]?.average}</td>
-                      {/* Add other table cells here */}
-                    </tr>
-                  ))}
+                        <td></td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </Table>
 
@@ -384,18 +466,3 @@ const AssessmentTable = ({
 };
 
 export default AssessmentTable;
-
-const tableData = [
-  {
-    courseOutcomes: "AIT_CO 1",
-    average: "88.86",
-  },
-  {
-    courseOutcomes: "AIT_CO 2",
-    average: "89.54",
-  },
-  {
-    courseOutcomes: "AIT_CO 3",
-    average: "78.63",
-  },
-];
