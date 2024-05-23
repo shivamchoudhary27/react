@@ -8,6 +8,7 @@ import { Alert, Table, Button, ButtonGroup } from "react-bootstrap";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
+import Swal from "sweetalert2";
 
 const LevelThreshold2Table = ({
   levelData,
@@ -60,7 +61,18 @@ const LevelThreshold2Table = ({
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           setApiStatus("finished");
-          setActiveTab(3);
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "COs threshold level set successfully."
+          });
+          setTimeout(() => {
+            setActiveTab(3);
+          }, 3000)
           setApiCatchError({ status: false, msg: "" });
         }
         setSubmitting(false);

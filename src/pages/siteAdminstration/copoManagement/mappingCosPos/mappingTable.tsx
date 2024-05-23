@@ -19,6 +19,7 @@ import SelectCell from "../selectCell";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
+import Swal from "sweetalert2";
 
 // const initialValues = {};
 
@@ -136,7 +137,18 @@ const MappingTable = ({
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             setApiStatus("finished");
-            setActiveTab(4);
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "COs, POs & PSOs level are set and saved successfully.",
+            });
+            setTimeout(() => {
+              setActiveTab(4);
+            }, 3000);
             tabRefreshToggle();
             setApiCatchError({ status: false, msg: "" });
           }
@@ -180,7 +192,7 @@ const MappingTable = ({
           {apiCatchError.msg}
         </Alert>
       )}
-      {apiStatus !== "started" ? (
+      {programoutcomeApiStatus !== "started" ? (
         <Formik
           initialValues={{}}
           onSubmit={(values, action) => {
