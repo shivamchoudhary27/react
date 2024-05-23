@@ -1,10 +1,11 @@
 // import Filter from "./filters";
 import View from "./view";
-import { getData } from "../../adapters";
+import { getData } from "../../../adapters";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { getData as getCourses } from "../../adapters/microservices";
+import { getData as getCourses } from "../../../adapters/microservices";
 import "./style.scss";
+import { courseDatesObj } from "../../calender/myTimetable/utils";
 
 type Props = {};
 
@@ -14,6 +15,7 @@ const GradeBook = (props: Props) => {
   const [gradebookData, setGradebookData] = useState<any>(dummyData);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [apiStatus, setApiStatus] = useState("");
+  const [courseApiStatus, setCourseApiStatus] = useState("");
   const [courseId, setCourseId] = useState<any>(0);
   const currentUserRole = useSelector(
     (state) => state.globalFilters.currentUserRole
@@ -36,6 +38,7 @@ const GradeBook = (props: Props) => {
 
   useEffect(() => {
     if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
+      setCourseApiStatus("started");
       let endPoint = `/${currentUserRole.id}/dashboard`;
       getCourses(endPoint, {}).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
@@ -45,6 +48,7 @@ const GradeBook = (props: Props) => {
             setCourseId(0);
             setGradebookData(dummyData);
           }
+          setCourseApiStatus("finished");
         }
       });
     }
@@ -93,6 +97,8 @@ const GradeBook = (props: Props) => {
         apiData={apiData}
         courseId={courseId}
         apiStatus={apiStatus}
+        coursesList={coursesList}
+        courseApiStatus={courseApiStatus}
         currentUserRole={currentUserRole}
         gradebookData={gradebookData.tabledata}
         getCourseId={getCourseId}
