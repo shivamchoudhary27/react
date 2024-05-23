@@ -14,30 +14,32 @@ type Props = {
 };
 
 const courseStatusOptions = [
-  {id: 'inprogress', name: 'In Progress'},
-  {id: 'completed', name: 'Completed'},
-  {id: 'notstarted', name: 'Not Started'},
+  { id: "inprogress", name: "In Progress" },
+  { id: "completed", name: "Completed" },
+  { id: "notstarted", name: "Not Started" },
 ];
 
-const departmentOptions = (departments) => {
-  return Object.entries(departments).map(([id, name]) => ({
-    id: parseInt(id),
-    name
-  }));
-}
 
-const filterProgramOptions = (departmentId, allPrograms) => {
-  if (departmentId === 0) return allPrograms;
-  return allPrograms.filter(item => item.department.id === departmentId);
-}
+// comment by abhijit
+// const departmentOptions = (departments) => {
+//   return Object.entries(departments).map(([id, name]) => ({
+//     id: parseInt(id),
+//     name,
+//   }));
+// };
+
+// const filterProgramOptions = (departmentId, allPrograms) => {
+//   if (departmentId === 0) return allPrograms;
+//   return allPrograms.filter((item) => item.department.id === departmentId);
+// };
 
 const filterBatchYearPrograms = (batchYear, programs) => {
   const intBatchYear = parseInt(batchYear);
   if (intBatchYear === 0) {
     return programs;
   }
-  return programs.filter(item => item.batchYear === batchYear);
-}
+  return programs.filter((item) => item.batchYear === batchYear);
+};
 
 const batchYearOptions = (programs) => {
   const uniqueBatchYears = new Set();
@@ -52,21 +54,28 @@ const batchYearOptions = (programs) => {
     id: batchYear,
     name: batchYear,
   }));
-}
+};
 
 const categoriesOptions = (programId, coursePacket) => {
-  const filteredData = coursePacket.filter(item => item.programId === programId);
+  const filteredData = coursePacket.filter(
+    (item) => item.programId === programId
+  );
 
-  const categoriesData = filteredData.map(item => ({
+  const categoriesData = filteredData.map((item) => ({
     id: item.categoryId,
-    name: item.categoryName
+    name: item.categoryName,
   }));
-  const trimDuplicateCategories = Array.from(new Set(categoriesData.map(JSON.stringify))).map(JSON.parse);
+  const trimDuplicateCategories = Array.from(
+    new Set(categoriesData.map(JSON.stringify))
+  ).map(JSON.parse);
   return trimDuplicateCategories;
-}
+};
 
 const FilterProgramDropdownStudent = (props: Props) => {
-  const [userEnrolData, setUserEnrolData] = useState({programs: [], courses: []});
+  const [userEnrolData, setUserEnrolData] = useState({
+    programs: [],
+    courses: [],
+  });
   const [filters, setFilters] = useState({
     selectedValues: {
       // department: 0,
@@ -93,8 +102,8 @@ const FilterProgramDropdownStudent = (props: Props) => {
         ...prevFilterData.filterData,
         // departments: departmentPacket,
         programs: props.coursesList.programs,
-        batchYears: batchYearsPackets
-      }
+        batchYears: batchYearsPackets,
+      },
     }));
     // setting up the whole original packet to a react state
     setUserEnrolData(props.coursesList);
@@ -104,55 +113,66 @@ const FilterProgramDropdownStudent = (props: Props) => {
     props.updateCourses(filters);
   }, [filters]);
 
-  const getFilterChange = (value : any , component : any) => {
+  const getFilterChange = (value: any, component: any) => {
     let originalValue = value;
     value = parseInt(value);
 
-    
-    
-    if (component === 'Program') {
-
+    if (component === "Program") {
       let newCategories = categoriesOptions(value, userEnrolData.courses);
-      
-      setFilters((prevFilterData :any) => ({
-        selectedValues: {...prevFilterData.selectedValues, program: value, category: 0, status:0},
-        filterData: {...prevFilterData.filterData, categories: newCategories}
+
+      setFilters((prevFilterData: any) => ({
+        selectedValues: {
+          ...prevFilterData.selectedValues,
+          program: value,
+          category: 0,
+          status: 0,
+        },
+        filterData: { ...prevFilterData.filterData, categories: newCategories },
       }));
-
-    } else if (component === 'Department') {
-
+    } else if (component === "Department") {
       // let newPrograms = filterProgramOptions(value, userEnrolData.programs);
       // let newBatchYears = batchYearOptions(newPrograms);
-
       // setFilters((prevFilterData: any) => ({
       //   selectedValues: {...prevFilterData.selectedValues, department: value, program: 0, category: 0, batchYear: 0},
       //   filterData: {...prevFilterData.filterData, programs: newPrograms, batchYears: newBatchYears}
       // }));
-
-    } else if (component === 'Category') {
-
+    } else if (component === "Category") {
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, category: value, status:0}
-      }));    
-
-    } else if (component === 'Batch Year') {
-
-      let filteredPrograms = filterBatchYearPrograms(originalValue, userEnrolData.programs);
-      setFilters((prevFilterData: any) => ({
-        selectedValues: {...prevFilterData.selectedValues, batchYear: originalValue, program: 0, category: 0, status:0},
-        filterData: {...prevFilterData.filterData, programs: filteredPrograms}
+        selectedValues: {
+          ...prevFilterData.selectedValues,
+          category: value,
+          status: 0,
+        },
       }));
-    }
-
-    else if (component === 'Status') {
+    } else if (component === "Batch Year") {
+      let filteredPrograms = filterBatchYearPrograms(
+        originalValue,
+        userEnrolData.programs
+      );
+      setFilters((prevFilterData: any) => ({
+        selectedValues: {
+          ...prevFilterData.selectedValues,
+          batchYear: originalValue,
+          program: 0,
+          category: 0,
+          status: 0,
+        },
+        filterData: {
+          ...prevFilterData.filterData,
+          programs: filteredPrograms,
+        },
+      }));
+    } else if (component === "Status") {
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
-        selectedValues: {...prevFilterData.selectedValues, status: originalValue}
+        selectedValues: {
+          ...prevFilterData.selectedValues,
+          status: originalValue,
+        },
       }));
     }
-
-  }
+  };
 
   return (
     <React.Fragment>
@@ -203,10 +223,9 @@ const FilterProgramDropdownStudent = (props: Props) => {
 export default FilterProgramDropdownStudent;
 
 const RenderFilterElements = (props: any) => {
-  
   const handleFilterChange = (e: any) => {
     props.getFilterChange(e.target.value, props.component);
-  }
+  };
 
   return (
     <div className="col-auto">
@@ -218,15 +237,13 @@ const RenderFilterElements = (props: any) => {
         onChange={handleFilterChange}
         disabled={props.filterDisable}
       >
-        <option value={0}>All</option>        
-        {props.filterPacket.map(
-          (el: any) => (
-            <option key={el[props.packetKeys[0]]} value={el[props.packetKeys[0]]}>
-              {el[props.packetKeys[1]]}
-            </option>
-          )
-        )}
+        <option value={0}>All</option>
+        {props.filterPacket.map((el: any) => (
+          <option key={el[props.packetKeys[0]]} value={el[props.packetKeys[0]]}>
+            {el[props.packetKeys[1]]}
+          </option>
+        ))}
       </select>
     </div>
   );
-}
+};

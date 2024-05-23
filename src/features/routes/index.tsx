@@ -23,20 +23,21 @@ import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import HelpdeskManagementRoute from './siteAdminRoute/helpdeskManagementRoute';
 import PageNotFound from '../../pages/404';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
-import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';
+// import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';    not in use
 // import { Navigate, Outlet } from 'react-router-dom';
 import MinorCourse from '../../pages/minorCourses';
 import RouterLadyLoader from '../../globals/globalLazyLoader/routerLadyLoader';
 import Logout from '../../pages/logout';
 
 import ProgramSummary from "../../pages/home/programSummary";
-// import ProgramSummary from '../../pages/home/preview/index';
+// import ProgramSummary from '../../pages/home/preview/index';  
 import ProgramList from "../../pages/home/programList"
 // import UserWaitlistData from '../../pages/minorCourses/userWaitlistData'; //krishna
 import MailTempelateConfiguration from '../../pages/mailTempelateConfiguration';
 import UserWaitlist from '../../pages/siteAdminstration/enrolment/enrolUser/userWaitlist';
+import GradeTable from '../../pages/gradeBook/teacherGradeBook/studentViewGradebook/index';
 
-const GradeBook = React.lazy(() => import('../../pages/gradeBook'))
+const GradeBook = React.lazy(() => import('../../pages/gradeBook/mainIndex'))
 const Attendance = React.lazy(() => import('../../pages/attendance'))
 const UserProfile = React.lazy(() => import('../../pages/user/profile'))
 const DashboardNew = React.lazy(() => import('../../pages/dashboardNew'))
@@ -88,7 +89,7 @@ export default function NewCustomRoutes() {
             <Route path="/userwaitlist/:programid/:name/:courseid/:coursename" element={<UserWaitlist />} />
             <Route path='/gradebook' element={<GradeBook />} />
             <Route path='/teachergradebook' element={<TeacherGradebook />} />
-            <Route path='/studentgradeview' element={<SelectedStudentGrade />} />
+            <Route path='/studentgradeview/:courseId/:userId/:courseName' element={<GradeTable />} />
             <Route path="/mod/activity/:name/:instance" element={<ActivityPage />} />
             <Route path="/mod/video/report" element={<Report />} />
             <Route path="/mod/quiz/:courseid/:instance" element={<Startattempt />} />

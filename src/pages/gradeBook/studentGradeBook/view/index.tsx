@@ -8,17 +8,21 @@ type Props = {
   courseId: any;
   getCourseId: any;
   apiStatus: string;
+  courseApiStatus: string;
   gradebookData: any;
   updateCourses: any;
+  coursesList: any;
   currentUserRole: any;
-  statusfilter:any;
-  setStatusfilter:any;
+  statusfilter: any;
+  setStatusfilter: any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
     apiData: props.apiData,
     courseId: props.courseId,
+    coursesList: props.coursesList,
+    courseApiStatus: props.courseApiStatus,
     apiStatus: props.apiStatus,
     statusfilter: props.statusfilter,
     setStatusfilter: props.setStatusfilter,

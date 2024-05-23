@@ -1,23 +1,14 @@
 import React, { Suspense } from "react";
-// import GradeTable from "../../table";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
+// import GradeTable from "../../../studentGradeBook/index";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
 import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
+import HeaderTabs from "../../../../headerTabs";
 import HeirarchyFilter from "../../filtersNew";
-import PageTitle from "../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import BottomWave from "../../../../assets/images/background/bg-bottom.svg";
-
-const GradeTable = React.lazy(() => wait(2000).then(() => import("../../table")))
-
-const wait = (time: number | undefined) => {
-  return new Promise<void>(resolve => {
-    setTimeout(() => {
-      resolve()
-    }, time)
-  })
-}
+import PageTitle from "../../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import BottomWave from "../../../../../assets/images/background/bg-bottom.svg";
+import GradeTable from "../../table";
 
 type Props = {
   commonProps: {
@@ -25,11 +16,13 @@ type Props = {
     courseId: any;
     getCourseId: any;
     apiStatus: string;
+    coursesList: any;
     updateCourses: any;
+    courseApiStatus: any;
     gradebookData: any;
     currentUserRole: any;
-    setStatusfilter:any;
-    statusfilter:any;
+    setStatusfilter: any;
+    statusfilter: any;
   };
 };
 
@@ -60,17 +53,20 @@ const Browser = (props: Props) => {
           <Suspense fallback={<h3>Loading...</h3>}>
             <GradeTable
               courseId={props.commonProps.courseId}
-              coursesList={props.commonProps.apiData}
+              courseApiStatus={props.commonProps.courseApiStatus}
               apiStatus={props.commonProps.apiStatus}
+              coursesList={props.commonProps.coursesList}
               gradebookData={props.commonProps.gradebookData}
               currentUserRole={props.commonProps.currentUserRole}
-              statusfilter={props.commonProps.statusfilter.selectedValues.status}
+              statusfilter={
+                props.commonProps.statusfilter.selectedValues.status
+              }
             />
           </Suspense>
         </Container>
       </div>
       <Footer />
-      <div  className="bottom-bg">
+      <div className="bottom-bg">
         <img src={BottomWave} alt="bottom wave" />
       </div>
     </React.Fragment>
