@@ -1,21 +1,35 @@
 import React from "react";
+import Filters from "../../filter";
 import { Container } from "react-bootstrap";
-import MyTimetableFilter from "../../filter";
-import MyChangeRequestTable from "../../table";
+import MyTimetableDraftTable from "../../table";
 import PageTitle from "../../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
-    getCourseId: any;
-    apiResponseData: any;
+    urlArg: any;
+    onHide: any;
+    modalShow: any;
     timeslots: any;
     apiStatus: any;
     courseDates: any;
-    selectedMonth: any;
+    coursesStatus: any;
+    programFilter: any;
+    selectedProgram: any;
+    toggleModalShow: any;
+    sortedCategories: any;
+    setCoursesStatus: any;
+    updateCourseDates: any;
+    handleMonthFilter: any;
+    setSelectedProgram: any;
+    selectedDepartment: any;
+    setHandleMonthFilter:any;
+    updateFacultyStatus: any;
     updateTimetableDates: any;
+    setChangeFilterStatus: any;
+    setSelectedDepartment: any;
   };
 };
 
@@ -27,22 +41,40 @@ const Mobile = (props: Props) => {
         routes={[
           { name: "Dashboard", path: "/dashboard" },
           { name: "Calender", path: "/calender" },
-          { name: "My Timetable", path: "" },
+          { name: "My Change Request", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-            <PageTitle pageTitle="My Timetable" gobacklink="/calender" />
-            <MyTimetableFilter
-              getCourseId={props.commonProps.getCourseId}
-              apiResponseData={props.commonProps.apiResponseData}
+            <PageTitle
+              pageTitle="My Timetable"
+              gobacklink="/calender"
             />
-            <MyChangeRequestTable
+            <Filters
+              ids={props.commonProps.urlArg}
+              courseDates={props.commonProps.courseDates}
+              programFilter={props.commonProps.programFilter}
+              selectedProgram={props.commonProps.selectedProgram}
+              workloadCourses={props.commonProps.sortedCategories}
+              setCoursesStatus={props.commonProps.setCoursesStatus}
+              handleMonthFilter={props.commonProps.handleMonthFilter}
+              updateCourseDates={props.commonProps.updateCourseDates}
+              setSelectedProgram={props.commonProps.setSelectedProgram}
+              selectedDepartment={props.commonProps.selectedDepartment}
+              updateFacultyStatus={props.commonProps.updateFacultyStatus}
+              setHandleMonthFilter={props.commonProps.setHandleMonthFilter}
+              setSelectedDepartment={props.commonProps.setSelectedDepartment}
+            />
+            <MyTimetableDraftTable
+              onHide={props.commonProps.onHide}
               SlotData={props.commonProps.timeslots}
               apiStatus={props.commonProps.apiStatus}
               courseDates={props.commonProps.courseDates}
-              selectedMonth={props.commonProps.selectedMonth}
+              coursesStatus={props.commonProps.coursesStatus}
+              toggleModalShow={props.commonProps.toggleModalShow}
+              handleMonthFilter={props.commonProps.handleMonthFilter}
+              setChangeFilterStatus={props.commonProps.setChangeFilterStatus}
               updateTimetableDates={props.commonProps.updateTimetableDates}
             />
             {/* <BuildPagination

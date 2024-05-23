@@ -3,13 +3,12 @@ import View from "./view";
 import { courseDatesObj } from "./utils";
 import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
+import { useLocation} from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
-import { useLocation, useNavigate } from "react-router-dom";
 import {
   getUrlParams,
-  getMonthList,
   getTimeslotData,
   getSortedCategories,
   getCourseWorkloadtData,
@@ -23,20 +22,20 @@ const MyCalenderTimetable = () => {
   const location = useLocation();
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
-  const [handleMonthFilter, setHandleMonthFilter] = useState([]);
+  const [coursesList, setCoursesList] = useState([]);
   const [monthList, setMonthList] = useState<string[]>([]);
   const [coursesStatus, setCoursesStatus] = useState(false);
-  const [coursesList, setCoursesList] = useState([]);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
+  const [handleMonthFilter, setHandleMonthFilter] = useState([]);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [programFilter, setProgramFilter] = useState({
-    programs: [],
-    departments: [],
-  });
+  // const [programFilter, setProgramFilter] = useState({
+  //   programs: [],
+  //   departments: [],
+  // });
   const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
   const [ChangeFilterStatus, setChangeFilterStatus] = useState(0);

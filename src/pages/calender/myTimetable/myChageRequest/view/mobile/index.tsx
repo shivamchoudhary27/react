@@ -10,24 +10,30 @@ import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
+    loader:any;
     urlArg: any;
     onHide: any;
-    loader:any;
     modalShow: any;
     timeslots: any;
     apiStatus: any;
     courseDates: any;
-    coursesStatus: any;
+    filteredTime: any;
     modalFormData:any;
+    coursesStatus: any;
     selectedMonth: any;
     programFilter: any;
+    timetableData: any;
+    refreshToggle: any;
+    availableRooms: any;
     selectedProgram: any;
+    getModalFormData:any;
     toggleModalShow: any;
     editHandlerById: any;
     setSelectedMonth: any;
     sortedCategories: any;
     setCoursesStatus: any;
-    getModalFormData:any
+    availableSlotdata: any;
+    changeRequestData: any;
     updateCourseDates: any;
     handleMonthFilter: any;
     setSelectedProgram: any;
@@ -38,12 +44,6 @@ type Props = {
     updateTimetableDates: any;
     setChangeFilterStatus: any;
     setSelectedDepartment: any;
-    availableSlotdata: any;
-    availableRooms: any;
-    refreshToggle: any;
-    changeRequestData: any;
-    filteredTime: any;
-    timetableData: any;
   };
 };
 
@@ -55,17 +55,17 @@ const Mobile = (props: Props) => {
         routes={[
           { name: "Dashboard", path: "/dashboard" },
           { name: "Calender", path: "/calender" },
-          { name: "My Timetable", path: "" },
+          { name: "My Change Request", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mb-wraper">
         <div className="contentarea-wrapper mt-3 mb-5">
           <Container fluid>
-          <PageTitle
+            <PageTitle
               pageTitle="My Change Request"
               gobacklink="/mytimetable"
-            />            
-             <ManageFilter
+            />
+            <ManageFilter
               ids={props.commonProps.urlArg}
               courseDates={props.commonProps.courseDates}
               programFilter={props.commonProps.programFilter}
@@ -85,15 +85,15 @@ const Mobile = (props: Props) => {
             />
             <ModalForm
               onHide={props.commonProps.onHide}
-              modalShow={props.commonProps.modalShow}
-              toggleModalShow={props.commonProps.toggleModalShow}
               urlArg={props.commonProps.urlArg}
-              availableSlotdata={props.commonProps.availableSlotdata}
+              modalShow={props.commonProps.modalShow}
+              filteredTime={props.commonProps.filteredTime}
               modalFormData={props.commonProps.modalFormData}
               availableRooms={props.commonProps.availableRooms}
               updateAddRefresh={props.commonProps.refreshToggle}
+              toggleModalShow={props.commonProps.toggleModalShow}
+              availableSlotdata={props.commonProps.availableSlotdata}
               changeRequestData={props.commonProps.changeRequestData}
-              filteredTime={props.commonProps.filteredTime}
             />
 
             <MyChangeRequestTable
@@ -102,16 +102,15 @@ const Mobile = (props: Props) => {
               SlotData={props.commonProps.timeslots}
               modalShow={props.commonProps.modalShow}
               courseDates={props.commonProps.courseDates}
-              apiStatus={props.commonProps.apiStatus}
               selectedMonth={props.commonProps.selectedMonth}
               coursesStatus={props.commonProps.coursesStatus}
               toggleModalShow={props.commonProps.toggleModalShow}
               editHandlerById={props.commonProps.editHandlerById}
+              changeRequestStatus={props.commonProps.timetableData}
               getModalFormData={props.commonProps.getModalFormData}
               handleMonthFilter={props.commonProps.handleMonthFilter}
               updateTimetableDates={props.commonProps.updateTimetableDates}
               setChangeFilterStatus={props.commonProps.setChangeFilterStatus}
-              changeRequestStatus={props.commonProps.timetableData}
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}

@@ -1,9 +1,11 @@
 import "../../style.scss"
+import View from "./view";
 import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
+import { courseDatesObj } from "../utils";
+import { useLocation} from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { pagination } from "../../../../utils/pagination";
-import { useLocation} from "react-router-dom";
 import { getData } from "../../../../adapters/microservices";
 
 import {
@@ -13,36 +15,33 @@ import {
   getCourseWorkloadtData,
   getTableRenderTimeSlots,
 } from "../local";
-import { courseDatesObj } from "../utils";
-// import ModalForm from "./form";
-import View from "./view";
 const PublishChangeRequest = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
   const location = useLocation();
+  const [loader, setLoader] = useState(false);
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
-  const [handleMonthFilter, setHandleMonthFilter] = useState([])
-  const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState([]);
+  const [filteredTime, setFilteredTime] = useState([])
+  const [coursesStatus, setCoursesStatus] = useState(false);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
+  const [changeRequestData, setChangeRequestData] = useState();
+  const [handleMonthFilter, setHandleMonthFilter] = useState([])
+  const [availableRooms, setAvailableRooms] = useState<any>([]);
   const [timetableData, setTimetableData] = useState(dummyData);
+  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
+  const [refreshData, setRefreshData] = useState<boolean>(false);
+  const [availableSlotdata, setAvailableSlots] = useState<any>({});
   const [sortedCategories, setSortedCategories] = useState<any>([]);
+  const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
-  const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [selectedProgram, setSelectedProgram] = useState<number>(0);
   const [selectedDepartment, setSelectedDepartment] = useState<number>(0);
-  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
-  const [availableSlotdata, setAvailableSlots] = useState<any>({});
-  const [availableRooms, setAvailableRooms] = useState<any>([]);
-  const [changeRequestData, setChangeRequestData] = useState()
-  const [refreshData, setRefreshData] = useState<boolean>(false);
-  const [filteredTime, setFilteredTime] = useState([])
-  const [loader, setLoader] = useState(false);
+  const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
   const [modalFormData, setModalFormData]= useState({
     weekday:"",
     description:"",
@@ -131,6 +130,7 @@ const PublishChangeRequest = () => {
   // Calling Timetable API to set timetable data === >>
   useEffect(() => {
     if (filters.courseId > 0 && filters.userId > 0 && filters.startDate ) {
+      setApiStatus("started");
       getData(`/${urlArg.prgId}/timetable/userslots`, filters)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
@@ -146,13 +146,14 @@ const PublishChangeRequest = () => {
 
             setTimetableData(result.data);
           }
+          setApiStatus("finished");
         })
         .catch((err: any) => {
           console.log(err);
+          setApiStatus("finished");
         });
     }
   }, [filters, modalShow]);
-  console.log(filters)
 
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
@@ -188,12 +189,12 @@ const PublishChangeRequest = () => {
 useEffect(() => {
   // setApiStatus("started");
   if(modalFormData.timeSlotId > 0 && modalFormData.slotDetailId){ 
-    setLoader(true);
+    // setLoader(true);
   getData(`${urlArg.prgId}/timetable/availableslots?slotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,{})
     .then((result: any) => {
       if (result.data !== "" && result.status === 200) {
         setAvailableSlots(result.data);
-        setLoader(false);
+        // setLoader(false);
       }
     })
     .catch((err: any) => {
@@ -300,21 +301,24 @@ useEffect(() => {
       {/* mobile and browser view component call */}
       <View
         urlArg={urlArg}
-        timeslots={timeslots}
         loader={loader}
+        timeslots={timeslots}
         apiStatus={apiStatus}
         modalShow={modalShow}
         courseDates={courseDates}
-        coursesStatus={coursesStatus}
         programFilter={coursesList}
-        changeRequestData={changeRequestData}
+        filteredTime={filteredTime}
+        coursesStatus={coursesStatus}
         refreshToggle={refreshToggle}
-        selectedProgram={selectedProgram}
-        getModalFormData={getModalFormData}
         modalFormData={modalFormData}
+        availableRooms={availableRooms}
+        selectedProgram={selectedProgram}
         toggleModalShow={toggleModalShow}
+        getModalFormData={getModalFormData}
         sortedCategories={sortedCategories}
         setCoursesStatus={setCoursesStatus}
+        changeRequestData={changeRequestData}
+        availableSlotdata={availableSlotdata}
         updateCourseDates={updateCourseDates}
         onHide={() => toggleModalShow(false)}
         handleMonthFilter={handleMonthFilter}
@@ -326,9 +330,6 @@ useEffect(() => {
         updateTimetableDates={updateTimetableDates}
         setChangeFilterStatus={setChangeFilterStatus}
         setSelectedDepartment={setSelectedDepartment}
-        availableSlotdata={availableSlotdata}
-        availableRooms={availableRooms}
-        filteredTime={filteredTime}
       />
     </React.Fragment>
   );

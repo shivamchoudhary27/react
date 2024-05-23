@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import Header from "../../../newHeader";
 import Footer from "../../../newFooter";
+import { useSelector } from "react-redux";
 import HeaderTabs from "../../../headerTabs";
 import { hexToRGB } from "../../local/utils";
 import { useNavigate } from "react-router-dom";
@@ -16,7 +17,6 @@ import singleUser from "../../../../assets/images/icons/single-user.svg";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
 import BottomLeftWave from "../../../../assets/images/background/bg-bottomleft.svg";
-import { useSelector } from "react-redux";
 
 type Props = {
   commonProps: {
