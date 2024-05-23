@@ -142,6 +142,7 @@ const RenderFilterElements: React.FC<RenderFilterElementsProps> = ({
         onChange={handleFilterChange}
         disabled={filterDisable}
       >
+         {component === "status" && <option value={0}>All</option>}
         {filterPacket.map((el) => (
           <option key={el.id} value={el.id}>
             {el.firstname ? `${el.firstname} ${el.lastname}` : el.name}

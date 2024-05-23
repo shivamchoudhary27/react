@@ -10,11 +10,11 @@ import { pagination } from "../../../utils/pagination";
 type Props = {};
 
 const GradeBook = (props: Props) => {
-  const id = localStorage.getItem("userid");
   const dummyData = { tabledata: [] };
   const [gradebookData, setGradebookData] = useState<any>(dummyData);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [courseName, setCourseName] = useState<any>("");
+  const [courseApiStatus, setCourseApiStatus] = useState("");
   const [apiStatus, setApiStatus] = useState("");
   const [courseId, setCourseId] = useState<any>(0);
   const [StudentData, setStudentData] = useState([]);
@@ -43,6 +43,7 @@ const GradeBook = (props: Props) => {
 
   useEffect(() => {
     if (currentUserRole.id !== undefined && currentUserRole.id > 0) {
+      setCourseApiStatus("started");
       let endPoint = `/${currentUserRole.id}/dashboard`;
       getCourses(endPoint, {}).then((res: any) => {
         if (res.data !== "" && res.status === 200) {
@@ -52,6 +53,7 @@ const GradeBook = (props: Props) => {
             setCourseId(0);
             setGradebookData(dummyData);
           }
+          setCourseApiStatus("finished");
         }
       });
     }
@@ -121,11 +123,13 @@ const GradeBook = (props: Props) => {
         apiData={apiData}
         courseId={courseId}
         apiStatus={apiStatus}
+        coursesList={coursesList}
         currentUserRole={currentUserRole}
         gradebookData={gradebookData.tabledata}
         setApiStatus={setApiStatus}
         getCourseId={getCourseId}
         courseName={courseName}
+        courseApiStatus={courseApiStatus}
         updateCourses={updateCourses}
         statusfilter={statusfilter}
         setStatusfilter={setStatusfilter}

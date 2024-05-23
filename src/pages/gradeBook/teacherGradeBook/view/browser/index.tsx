@@ -24,6 +24,7 @@ type Props = {
     courseName: any;
     setStatusfilter: any;
     setStudentId: any;
+    courseApiStatus: any;
     statusfilter: any;
     studentId: any;
     filterUpdate: any;
@@ -62,8 +63,10 @@ const Browser = (props: Props) => {
             <AllStudentTable
               studentId={props.commonProps.studentId}
               StudentData={props.commonProps.StudentData}
+              courseApiStatus={props.commonProps.courseApiStatus}
               courseId={props.commonProps.courseId}
               courseName={props.commonProps.courseName}
+              coursesList={props.commonProps.coursesList}
               apiStatus={props.commonProps.apiStatus}
             />
           </Suspense>
