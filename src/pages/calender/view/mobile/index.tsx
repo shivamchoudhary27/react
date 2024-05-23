@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import "./mobileStyle.scss";
 import { hexToRGB } from "../../local/utils";
 import { useNavigate } from "react-router-dom";
 import CalendarFilters from "../../calendar_filter";
@@ -14,7 +15,6 @@ import multiUser from "../../../../assets/images/icons/multi-user.svg";
 import singleUser from "../../../../assets/images/icons/single-user.svg";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import eventsDate from "../../../../assets/images/icons/calendar-black.svg";
-import "./mobileStyle.scss";
 
 type Props = {
   commonProps: {
@@ -60,12 +60,12 @@ const navigate = useNavigate()
             <div className="d-flex align-items-center justify-content-end flex-wrap mitcomponet-heading">
               <div className="row program-filter">
                 {/* =============== My Timeline Navigation ================ */}
-                {/* <Button
+                <Button
                   variant="primary"
                   onClick={() => navigate("/mytimetable")}
                 >
                   My Timetable
-                </Button> */}
+                </Button>
               </div>
             </div>
             <Row>

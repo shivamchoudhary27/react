@@ -299,7 +299,7 @@ const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, 
       </div>
       <div className="table-responsive admin-table-wrapper draft-table-wrapper my-3 ">
       
-      {loader ? <NewLoader /> :
+      {/* {loader ? <NewLoader /> : */}
         <Table className="draft-table mb-0" {...getTableProps}>
           <thead>
             {headerGroups.map((headerGroup, index) => (
@@ -406,7 +406,8 @@ const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, 
               );
             })}
           </tbody>
-        </Table>}
+        </Table>
+        {/* } */}
       </div>
     </React.Fragment>
   );

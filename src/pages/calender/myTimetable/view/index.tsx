@@ -10,25 +10,21 @@ type Props = {
   timeslots: any;
   apiStatus: any;
   courseDates: any;
-  selectedMonth: any;
   coursesStatus: any;
   programFilter: any;
   selectedProgram: any;
   toggleModalShow: any;
   sortedCategories: any;
   setCoursesStatus: any;
-  setSelectedMonth: any;
   updateCourseDates: any;
   handleMonthFilter: any;
   setSelectedProgram: any;
   selectedDepartment: any;
   updateFacultyStatus: any;
+  setHandleMonthFilter:any;
   updateTimetableDates: any;
   setChangeFilterStatus: any;
   setSelectedDepartment: any;
-  editHandlerById: any;
-  handleMonthFilter: any;
-  setHandleMonthFilter:any;
 };
 
 const View = (props: Props) => {
@@ -39,25 +35,21 @@ const View = (props: Props) => {
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
     courseDates: props.courseDates,
-    editHandlerById: props.editHandlerById,
-    programFilter: props.programFilter,
     coursesStatus: props.coursesStatus,
-    selectedMonth: props.selectedMonth,
+    programFilter: props.programFilter,
     toggleModalShow: props.toggleModalShow,
     selectedProgram: props.selectedProgram,
     sortedCategories: props.sortedCategories,
     setCoursesStatus: props.setCoursesStatus,
-    setSelectedMonth: props.setSelectedMonth,
     updateCourseDates: props.updateCourseDates,
     handleMonthFilter: props.handleMonthFilter,
     selectedDepartment: props.selectedDepartment,
     setSelectedProgram: props.setSelectedProgram,
     updateFacultyStatus: props.updateFacultyStatus,
+    setHandleMonthFilter: props.setHandleMonthFilter,
     updateTimetableDates: props.updateTimetableDates,
     setChangeFilterStatus: props.setChangeFilterStatus,
     setSelectedDepartment: props.setSelectedDepartment,
-    handleMonthFilter: props.handleMonthFilter,
-    setHandleMonthFilter: props.setHandleMonthFilter,
   };
 
   

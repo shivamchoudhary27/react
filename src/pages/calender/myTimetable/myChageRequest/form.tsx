@@ -1,29 +1,29 @@
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import { Modal } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-import { postData, putData } from "../../../../adapters/microservices";
+import React, { useEffect, useState } from "react";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
-import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
+import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
-import { Link } from "react-router-dom";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import { deleteData, postData, putData } from "../../../../adapters/microservices";
 
 type Props = {
+  urlArg: any;
+  filteredTime: any;
+  modalFormData: any;
   onHide: () => void;
   modalShow: boolean;
-  toggleModalShow: any;
-  modalFormData: any;
-  urlArg: any;
-  availableSlotdata: any;
   availableRooms: any;
+  toggleModalShow: any;
   updateAddRefresh: any;
+  availableSlotdata: any;
   changeRequestData: any;
-  filteredTime: any;
 };
 
 const validationSchema = Yup.object ({
@@ -40,8 +40,8 @@ const validationSchema = Yup.object ({
 
 const ModalForm = (props: Props) => {
   const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [disableFeald, setDisableFeald] = useState(true);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [initialValues, setInitialValues] = useState({
     id: 0,
     sessionDate: "",
@@ -49,11 +49,7 @@ const ModalForm = (props: Props) => {
     classRoomId: 0,
     reason: "",
   });
-
-  // const currentInstitute = useSelector(
-  //   (state: any) => state.globalFilters.currentInstitute
-  // );
-
+  
   useEffect(() => {
     setInitialValues({
       id: props.changeRequestData?.id || 0,
@@ -106,6 +102,39 @@ const ModalForm = (props: Props) => {
           });
         }
       }
+    }
+  }
+
+  // ============call api remove change request for faculty ================>> 
+  const handleDeleteFacultyChangeRequest = () => {
+    if(props.modalFormData?.status === "changeRequest"){
+      deleteData(`/${props.urlArg.prgId}/timetable/${props.modalFormData.changeRequestId}/change-request`,{})
+        .then((res: any) => {
+          if (res.data != "" && res.status === 200) {
+            console.log(res.data)
+            props.toggleModalShow(false);
+            props.updateAddRefresh();
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Change Request successfully deleted.",
+            });
+          }
+        })
+        .catch((err: any) => {
+          console.log(err)
+          if (err.response.status === 500 || err.response.status === 404) {
+            setShowAlert(true);
+            setAlertMsg({
+              message: err.response.data.message,
+              alertBoxColor: "danger",
+            });
+          }
+        });
     }
   }
 
@@ -167,7 +196,8 @@ const ModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Change Request
+          {props.modalFormData?.status === "changeRequest" ? 
+            "Update Faculty Change Request" : "Change Request" }
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -209,6 +239,7 @@ const ModalForm = (props: Props) => {
                   </div>
                   <div>
                     {props.modalFormData?.status === "changeRequest" && (
+                      <>
                       <Link className="action-icons me-2" to="">
                         <img
                           src={editIcon}
@@ -216,10 +247,15 @@ const ModalForm = (props: Props) => {
                           onClick={handleEditClick}
                         />
                       </Link>
-                    )}
+                    
                     <Link className="action-icons" to="">
-                      <img src={deleteIcon} alt="Delete" />
+                      <img 
+                      src={deleteIcon} 
+                      alt="Delete" 
+                      onClick={handleDeleteFacultyChangeRequest} />
                     </Link>
+                    </>
+                    )}
                   </div>
                 </div>
                 <div className="mb-3">

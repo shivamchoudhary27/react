@@ -15,16 +15,13 @@ const ManageFilter = ({
   workloadCourses,
   selectedProgram,
   setCoursesStatus,
-  setSelectedMonth,
   updateCourseDates,
   setSelectedProgram,
   selectedDepartment,
-  updateFacultyStatus,
-  setSelectedDepartment,
   ChangeFilterStatus,
-  handleMonthFilter,
+  updateFacultyStatus,
   setHandleMonthFilter,
-  setChangeFilterStatus
+  setSelectedDepartment,
 
 }: any) => {
   
