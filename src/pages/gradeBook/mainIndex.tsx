@@ -12,12 +12,10 @@ const GradeBook = () => {
     <React.Fragment>
       {currentUserRole.shortName === "student" ? (
         <>
-          <div>StudentGradeBook</div>
           <StudentGradeBook />
         </>
       ) : (
         <>
-          <div>TeacherGradeBook</div>
           <TeacherGradeBook />
         </>
       )}

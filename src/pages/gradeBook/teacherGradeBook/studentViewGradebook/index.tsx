@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "react-bootstrap";
 import { useParams } from "react-router-dom";
-import GradeTable from "./table";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import HeaderTabs from "../../../headerTabs";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import PageTitle from "../../../../widgets/pageTitle";
-import BottomWave from "../../../../assets/images/background/bg-bottom.svg";
-import FilterProgramDropdownStudent from "../../teacherGradeBook/studentViewGradebook/filters";
 import { getPublicData } from "../../../../adapters";
+import View from "./view";
 
 type Props = {};
 
@@ -49,42 +41,17 @@ const StudentViewGradebook = (props: Props) => {
         });
     }
   }, [courseId]);
-
   return (
-    <>
-      <Header />
-      <HeaderTabs activeTab="gradebook" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Dashboard", path: "/dashboard" },
-          { name: "Gradebook", path: "/gradebook" },
-          { name: courseName, path: "" },
-        ]}
-      />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle={`Gradebook: ${courseName}`}
-            gobacklink="/gradebook"
-          />
-          <FilterProgramDropdownStudent
-            StudentData={studentData}
-            setStudentId={setStudentId}
-            userId={parseInt(userId)}
-            setstatusfilter={setStatusFilter}
-          />
-          <GradeTable
-            studentId={studentId}
-            statusfilter={statusFilter}
-            apiStatus={apiStatus}
-          />
-        </Container>
-      </div>
-      <Footer />
-      <div className="bottom-bg">
-        <img src={BottomWave} alt="bottom wave" />
-      </div>
-    </>
+    <View
+      StudentData={studentData}
+      setStudentId={setStudentId}
+      userId={parseInt(userId)}
+      setstatusfilter={setStatusFilter}
+      studentId={studentId}
+      statusfilter={statusFilter}
+      apiStatus={apiStatus}
+      courseName={courseName}
+    />
   );
 };
 

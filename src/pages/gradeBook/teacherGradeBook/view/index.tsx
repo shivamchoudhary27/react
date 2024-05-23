@@ -15,10 +15,12 @@ type Props = {
   currentUserRole: any;
   studentId: any;
   courseName: any;
+  courseApiStatus: string;
   statusfilter: any;
   setStatusfilter: any;
   setStudentId: any;
   newPageRequest: any;
+  coursesList:any;
   totalPages: any;
   filterUpdate: any;
 };
@@ -26,9 +28,11 @@ type Props = {
 const View = (props: Props) => {
   const commonProps = {
     apiData: props.apiData,
+    coursesList:props.coursesList,
     courseId: props.courseId,
     apiStatus: props.apiStatus,
     StudentData: props.StudentData,
+    courseApiStatus: props.courseApiStatus,
     setApiStatus: props.setApiStatus,
     studentId: props.studentId,
     courseName: props.courseName,

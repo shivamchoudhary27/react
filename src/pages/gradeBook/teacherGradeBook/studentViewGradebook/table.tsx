@@ -8,7 +8,6 @@ import { getData } from "../../../../adapters";
 
 type Props = {
   apiStatus: string;
-  coursesList: any;
   studentId: any;
   statusfilter: any;
 };
