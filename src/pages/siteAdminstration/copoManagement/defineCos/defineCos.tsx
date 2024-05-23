@@ -7,6 +7,7 @@ import { Alert, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { getData, postData } from "../../../../adapters/microservices";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
+import Swal from "sweetalert2";
 
 type Props = {
   setActiveTab: any;
@@ -43,7 +44,6 @@ const DefineCos = (props: Props) => {
     getData(`/${cid}/courseoutcomes`, {})
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          // setInitData(res.data);
           setInitValues({
             abbreviation: res.data.abbreviation,
             abstact: res.data.abstact,
@@ -55,26 +55,41 @@ const DefineCos = (props: Props) => {
         setApiStatus("finished");
         console.log(err);
         if (err.response.status === 404) {
-          setApiCatchError({ status: true, msg: `${err.response.data.errorCode}: ${err.response.data.message}` });
+          setApiCatchError({
+            status: true,
+            msg: `${err.response.data.errorCode}: ${err.response.data.message}`,
+          });
         }
       });
   };
 
   const handleFormSubmit = (values: any, { setSubmitting }: any) => {
     setSubmitting(true);
-    setApiStatus2("started");
     postData(`/${cid}/courseoutcomes`, values)
       .then((result: any) => {
         if (result.data !== "" && result.status === 201) {
-          setApiStatus2("finished");
-          props.setActiveTab(1);
+          Swal.fire({
+            timer: 3000,
+            width: "25em",
+            color: "#666",
+            icon: "success",
+            background: "#e7eef5",
+            showConfirmButton: false,
+            text: "COs defined and save successfully."
+          });
+          setTimeout(() => {
+            props.setActiveTab(1);
+          }, 3000)
         }
         setSubmitting(false);
       })
       .catch((err: any) => {
-        setApiStatus2("finished");
         console.log(err);
         // Handle error, maybe show an alert
+        setApiCatchError({
+          status: true,
+          msg: `${err.response.data.errorCode}: ${err.response.data.message}`,
+        });
       });
   };
 
@@ -90,7 +105,7 @@ const DefineCos = (props: Props) => {
           {apiCatchError.msg}
         </Alert>
       )}
-      {apiStatus === "started" || apiStatus2 === "started" ? (
+      {apiStatus === "started" ? (
         <RouterLadyLoader status={true} />
       ) : (
         <Formik
@@ -180,7 +195,7 @@ const DefineCos = (props: Props) => {
                   type="submit"
                   variant="primary"
                   isSubmitting={isSubmitting}
-                  btnText="Save & Continue"
+                  btnText={!isSubmitting ? "Save & Continue" : "Loading..."}
                 />{" "}
                 {/* <CustomButton
                 type="reset"
