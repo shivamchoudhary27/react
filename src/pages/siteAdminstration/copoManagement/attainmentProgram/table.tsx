@@ -112,7 +112,7 @@ const ViewTable = ({
                             );
                             return (
                               <td key={`${item.id}-${name}`}>
-                                {attainment ? attainment.attainmentlevel : ""}
+                                {attainment ? attainment.attainmentlevel : "-"}
                               </td>
                             );
                           })}
@@ -123,7 +123,7 @@ const ViewTable = ({
                       <tr>
                         <td>Average</td>
                         {averages.map((average, index) => (
-                          <td key={index}>{average}</td>
+                          <td key={index}>{average ? average : "-"}</td>
                         ))}
                       </tr>
                     )}
@@ -142,7 +142,7 @@ const ViewTable = ({
                 <CustomButton
                   type="submit"
                   variant="primary"
-                  disabled={isSubmitting}
+                  disabled={programOutcomes.length === 0}
                   btnText="Download"
                 />
               </div>

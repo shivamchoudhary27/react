@@ -32,9 +32,13 @@ const MappingTable = ({
   tabRefreshToggle,
 }: any) => {
   const { cid } = useParams();
-  const [poColumns, setPoColumns] = useState(["PO1", "PO2", "PO3"]); // Initial PO columns
-  const [programOutcomeObj, setProgramOutcomeObj] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
+  const [programOutcomeObj, setProgramOutcomeObj] = useState([]);
+  const [poColumns, setPoColumns] = useState(["PO1", "PO2", "PO3"]); // Initial PO columns
+  const [buttonClicked, setButtonClicked] = useState("");
+  const [isSubmittingSave, setIsSubmittingSave] = useState(false);
+  const [isSubmittingSaveAndContinue, setIsSubmittingSaveAndContinue] =
+    useState(false);
   const [reachMaxColumnMsg, setReachMaxColumnMsg] = useState({
     status: false,
     msg: "",
@@ -126,17 +130,17 @@ const MappingTable = ({
       return acc;
     }, []);
 
-    const isEmpty = (values: {}) => {
-      return Object.keys(values).length === 0;
-    };
-
-    if (!isEmpty(values)) {
-      setApiStatus("started");
-      setApiCatchError({ status: false, msg: "" });
-      postData(`/${cid}/programoutcome/level`, transformedData)
-        .then((res: any) => {
-          if (res.data !== "" && res.status === 200) {
-            setApiStatus("finished");
+    setApiStatus("started");
+    setApiCatchError({ status: false, msg: "" });
+    const submitAction =
+      buttonClicked === "save"
+        ? setIsSubmittingSave
+        : setIsSubmittingSaveAndContinue;
+    submitAction(true);
+    postData(`/${cid}/programoutcome/level`, transformedData)
+      .then((res: any) => {
+        if (res.data !== "" && res.status === 200) {
+          if (buttonClicked === "save") {
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -146,28 +150,36 @@ const MappingTable = ({
               showConfirmButton: false,
               text: "COs, POs & PSOs level are set and saved successfully.",
             });
+          } else if (buttonClicked === "saveAndContinue") {
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "COs, POs & PSOs level are set and saved successfully. Moving to the next step.",
+            });
             setTimeout(() => {
               setActiveTab(4);
             }, 3000);
-            tabRefreshToggle();
-            setApiCatchError({ status: false, msg: "" });
           }
-          action.setSubmitting(false);
-        })
-        .catch((err: any) => {
           setApiStatus("finished");
-          if (err.response.status === 500) {
-            setApiCatchError({
-              status: true,
-              msg: `${err.message}: ${err.response.data.errorCode}`,
-            });
-          }
-        });
-    } else {
-      setActiveTab(4);
-      tabRefreshToggle();
-    }
-    action.setSubmitting(false);
+          tabRefreshToggle();
+          setApiCatchError({ status: false, msg: "" });
+        }
+        submitAction(false);
+      })
+      .catch((err: any) => {
+        setApiStatus("finished");
+        if (err.response.status === 500) {
+          setApiCatchError({
+            status: true,
+            msg: `${err.message}: ${err.response.data.errorCode}`,
+          });
+        }
+        submitAction(false);
+      });
   };
 
   return (
@@ -276,30 +288,27 @@ const MappingTable = ({
                               </td>
                             ))
                         )}
-
                         {/* Add other table cells here */}
                       </tr>
                     ))}
-                    <tr>
-                      <td>Average</td>
-                      {Object.values(posAverage).map((el: any) => (
-                        <td>{el !== "" && el.toFixed(2)}</td>
-                      ))}
-                    </tr>
+                    {Object.keys(posAverage).length !== 0 && (
+                      <tr>
+                        <td>Average</td>
+                        {Object.values(posAverage).map((el: any) => (
+                          <td>{el !== "" ? el.toFixed(2) : "-"}</td>
+                        ))}
+                      </tr>
+                    )}
                   </tbody>
                 </Table>
-                  {programoutcomeApiStatus === "started" &&
-                    programOutcomes.length === 0 && (
-                      <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-                    )}
-                  {programoutcomeApiStatus === "finished" &&
-                    programOutcomes.length === 0 && (
-                      <Errordiv
-                        msg="No record found!"
-                        cstate
-                        className="mt-3"
-                      />
-                    )}
+                {programoutcomeApiStatus === "started" &&
+                  programOutcomes.length === 0 && (
+                    <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+                  )}
+                {programoutcomeApiStatus === "finished" &&
+                  programOutcomes.length === 0 && (
+                    <Errordiv msg="No record found!" cstate className="mt-3" />
+                  )}
                 {/* <div className="my-3">
                   <Button
                     variant="primary"
@@ -317,9 +326,23 @@ const MappingTable = ({
                 <CustomButton
                   type="submit"
                   variant="primary"
-                  disabled={isSubmitting}
-                  btnText="Save & Continue"
-                />
+                  isSubmitting={isSubmittingSave}
+                  disabled={programOutcomes.length === 0}
+                  onClick={() => setButtonClicked("save")}
+                  btnText={!isSubmittingSave ? "Save" : "Saving..."}
+                />{" "}
+                <CustomButton
+                  type="submit"
+                  variant="primary"
+                  disabled={programOutcomes.length === 0}
+                  isSubmitting={isSubmittingSaveAndContinue}
+                  onClick={() => setButtonClicked("saveAndContinue")}
+                  btnText={
+                    !isSubmittingSaveAndContinue
+                      ? "Save & Continue"
+                      : "Loading..."
+                  }
+                />{" "}
               </div>
             </Form>
           )}

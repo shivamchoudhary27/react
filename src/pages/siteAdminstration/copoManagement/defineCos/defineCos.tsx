@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
 import * as Yup from "yup";
+import Swal from "sweetalert2";
 import { Alert, Col } from "react-bootstrap";
 import { useParams } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import React, { useEffect, useState } from "react";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { getData, postData } from "../../../../adapters/microservices";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
-import Swal from "sweetalert2";
 
 type Props = {
   setActiveTab: any;
 };
 
 // Formik Yup validation === >>>
-
 const validationSchema = Yup.object({
   abbreviation: Yup.string().required("Abbreviation is required"),
   abstact: Yup.string().required("Abstact is required"),
@@ -23,14 +22,16 @@ const validationSchema = Yup.object({
 const DefineCos = (props: Props) => {
   const { cid } = useParams();
   const [apiStatus, setApiStatus] = useState("");
-  const [apiStatus2, setApiStatus2] = useState("");
+  const [buttonClicked, setButtonClicked] = useState("");
+  const [isSubmittingSave, setIsSubmittingSave] = useState(false);
+  const [isSubmittingSaveAndContinue, setIsSubmittingSaveAndContinue] =
+    useState(false);
   const [apiCatchError, setApiCatchError] = useState({
     status: false,
     msg: "",
   });
 
   const [initValues, setInitValues] = useState({
-    // countOfCourseOutcomes: "",
     abbreviation: "",
     abstact: "",
   });
@@ -63,33 +64,49 @@ const DefineCos = (props: Props) => {
       });
   };
 
-  const handleFormSubmit = (values: any, { setSubmitting }: any) => {
-    setSubmitting(true);
+  const handleFormSubmit = (values: any) => {
+    const submitAction =
+      buttonClicked === "save"
+        ? setIsSubmittingSave
+        : setIsSubmittingSaveAndContinue;
+    submitAction(true);
     postData(`/${cid}/courseoutcomes`, values)
       .then((result: any) => {
         if (result.data !== "" && result.status === 201) {
-          Swal.fire({
-            timer: 3000,
-            width: "25em",
-            color: "#666",
-            icon: "success",
-            background: "#e7eef5",
-            showConfirmButton: false,
-            text: "COs defined and save successfully."
-          });
-          setTimeout(() => {
-            props.setActiveTab(1);
-          }, 3000)
+          if (buttonClicked === "save") {
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Course outcomes defined and saved successfully.",
+            });
+          } else if (buttonClicked === "saveAndContinue") {
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Course outcomes defined successfully. Moving to the next step.",
+            });
+            setTimeout(() => {
+              props.setActiveTab(1);
+            }, 3000);
+          }
         }
-        setSubmitting(false);
+        submitAction(false);
       })
       .catch((err: any) => {
         console.log(err);
-        // Handle error, maybe show an alert
         setApiCatchError({
           status: true,
           msg: `${err.response.data.errorCode}: ${err.response.data.message}`,
         });
+        submitAction(false);
       });
   };
 
@@ -112,7 +129,7 @@ const DefineCos = (props: Props) => {
           initialValues={initValues}
           validationSchema={validationSchema}
           onSubmit={(values, action) => {
-            handleFormSubmit(values, action);
+            handleFormSubmit(values);
           }}
         >
           {({
@@ -125,22 +142,6 @@ const DefineCos = (props: Props) => {
           }) => (
             <Form>
               <div className="mb-3">
-                {/* <Col md={6}>
-                  <FieldLabel
-                    htmlfor="countOfCourseOutcomes"
-                    labelText="Number of CO's"
-                    required="required"
-                    star="*"
-                  />
-                  <FieldTypeText
-                    name="countOfCourseOutcomes"
-                    placeholder="Number of CO's"
-                  />
-                  <FieldErrorMessage
-                    errors={errors.countOfCourseOutcomes}
-                    touched={touched.countOfCourseOutcomes}
-                  />
-                </Col> */}
                 <Col md={12}>
                   <div className="mb-3">
                     <label htmlFor="abbreviation">Abbreviation *</label>
@@ -194,14 +195,23 @@ const DefineCos = (props: Props) => {
                 <CustomButton
                   type="submit"
                   variant="primary"
-                  isSubmitting={isSubmitting}
-                  btnText={!isSubmitting ? "Save & Continue" : "Loading..."}
+                  isSubmitting={isSubmittingSave}
+                  onClick={() => setButtonClicked("save")}
+                  btnText={!isSubmittingSave ? "Save" : "Saving..."}
+                  disabled={initValues.abbreviation === "" && initValues.abstact === ""}
                 />{" "}
-                {/* <CustomButton
-                type="reset"
-                btnText="Reset"
-                variant="outline-secondary"
-              /> */}
+                <CustomButton
+                  type="submit"
+                  variant="primary"
+                  isSubmitting={isSubmittingSaveAndContinue}
+                  onClick={() => setButtonClicked("saveAndContinue")}
+                  disabled={initValues.abbreviation === "" && initValues.abstact === ""}
+                  btnText={
+                    !isSubmittingSaveAndContinue
+                      ? "Save & Continue"
+                      : "Loading..."
+                  }
+                />{" "}
               </div>
             </Form>
           )}

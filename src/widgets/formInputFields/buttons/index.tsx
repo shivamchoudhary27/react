@@ -6,6 +6,7 @@ interface ICustomButton {
   isSubmitting?: boolean | undefined;
   btnText: string | undefined;
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
+  disabled?: any
 }
 
 const CustomButton: React.FunctionComponent<ICustomButton> = ({
@@ -14,13 +15,14 @@ const CustomButton: React.FunctionComponent<ICustomButton> = ({
   isSubmitting,
   btnText,
   onClick,
+  disabled
 }: ICustomButton) => {
   return (
     <Button
       variant={variant}
       type={type}
       onClick={onClick}
-      disabled={isSubmitting}
+      disabled={isSubmitting ? isSubmitting : disabled}
     >
       {btnText}
     </Button>
