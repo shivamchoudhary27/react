@@ -1,6 +1,17 @@
+import * as Yup from "yup";
+import Swal from "sweetalert2";
+import SelectCell from "../selectCell";
 import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, FormikHelpers } from "formik";
 import { Link, useParams } from "react-router-dom";
+import AssessmentButtons from "./assessmentButtons";
+import Errordiv from "../../../../widgets/alert/errordiv";
+import { Formik, Form, Field, FormikHelpers } from "formik";
+import { postData } from "../../../../adapters/microservices";
+import TableSkeleton from "../../../../widgets/skeleton/table";
+import CustomButton from "../../../../widgets/formInputFields/buttons";
+import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
 import {
   Alert,
   Table,
@@ -8,17 +19,6 @@ import {
   OverlayTrigger,
   Tooltip as BsTooltip,
 } from "react-bootstrap";
-import { postData } from "../../../../adapters/microservices";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
-import * as Yup from "yup";
-import SelectCell from "../selectCell";
-import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
-import AssessmentButtons from "./assessmentButtons";
-import Swal from "sweetalert2";
-import Errordiv from "../../../../widgets/alert/errordiv";
-import TableSkeleton from "../../../../widgets/skeleton/table";
 
 const AssessmentTable = ({
   apiStatus,
@@ -29,9 +29,13 @@ const AssessmentTable = ({
   setInitialValue,
 }: any) => {
   const { cid } = useParams();
-  const [testColumns, setTestColumns] = useState(["Test-1"]); // Initial Test columns
   const [iaColumns, setIaColumns] = useState(["IA-1"]); // Initial IA columns
   const [labColumns, setLabColumns] = useState(["LAB-1 %"]); // Initial LAB columns
+  const [testColumns, setTestColumns] = useState(["Test-1"]); // Initial Test columns
+  const [buttonClicked, setButtonClicked] = useState("");
+  const [isSubmittingSave, setIsSubmittingSave] = useState(false);
+  const [isSubmittingSaveAndContinue, setIsSubmittingSaveAndContinue] =
+    useState(false);
   const [reachMaxColumnMsg, setReachMaxColumnMsg] = useState({
     status: false,
     msg: "",
@@ -199,15 +203,41 @@ const AssessmentTable = ({
     );
 
     if (Object.keys(values).length != 0) {
-      action.setSubmitting(true);
+      const submitAction =
+        buttonClicked === "save"
+          ? setIsSubmittingSave
+          : setIsSubmittingSaveAndContinue;
+      submitAction(true);
       postData(`/${cid}/assessment/mapping`, dataPacket)
         .then((res: { data: string; status: number }) => {
           if (res.data !== "" && res.status === 200) {
-            setActiveTab(5)
-            action.setSubmitting(false);
+            if (buttonClicked === "save") {
+              Swal.fire({
+                timer: 3000,
+                width: "25em",
+                color: "#666",
+                icon: "success",
+                background: "#e7eef5",
+                showConfirmButton: false,
+                text: "Assessment for course outcomes (Direct) saved successfully.",
+              });
+            } else if (buttonClicked === "saveAndContinue") {
+              Swal.fire({
+                timer: 3000,
+                width: "25em",
+                color: "#666",
+                icon: "success",
+                background: "#e7eef5",
+                showConfirmButton: false,
+                text: "Assessment for course outcomes (Direct) saved successfully. Moving to the next step.",
+              });
+              setTimeout(() => {
+                setActiveTab(5);
+              }, 3000);
+            }
             refreshToggle();
           }
-          action.resetForm();
+          submitAction(false);
         })
         .catch((error: { response: { data: { message: any } } }) => {
           action.setSubmitting(false);
@@ -216,6 +246,7 @@ const AssessmentTable = ({
             message: error.response.data.message,
             alertBoxColor: "danger",
           });
+          submitAction(false);
         });
     }
   };
@@ -232,232 +263,253 @@ const AssessmentTable = ({
           {reachMaxColumnMsg.msg}
         </Alert>
       )}
-       {apiStatus !== "started" ? (
-      <Formik
-        initialValues={initialValues}
-        onSubmit={(values, action) => {
-          handleFormSubmit(values, action);
-        }}
-      >
-        {({ isSubmitting, handleChange, values }) => (
-          <Form>
-            <div className="table-responsive admin-table-wrapper copo-table mt-3">
-              <Table borderless striped>
-                <thead>
-                  <tr>
-                    <th>Course Outcomes</th>
-                    {testColumns.map((column, index) => (
-                      <th key={column}>
-                        {column}{" "}
-                        {index >= 1 && (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={<BsTooltip>Delete Test Column</BsTooltip>}
-                          >
-                            <Button
-                              style={{
-                                backgroundColor: "#f2f2f2",
-                                padding: "3px",
-                              }}
-                              onClick={() => removeTestColumns(index)}
+      {apiStatus !== "started" ? (
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, action) => {
+            handleFormSubmit(values, action);
+          }}
+        >
+          {({ isSubmitting, handleChange, values }) => (
+            <Form>
+              <div className="table-responsive admin-table-wrapper copo-table mt-3">
+                <Table borderless striped>
+                  <thead>
+                    <tr>
+                      <th>Course Outcomes</th>
+                      {testColumns.map((column, index) => (
+                        <th key={column}>
+                          {column}{" "}
+                          {index >= 1 && (
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={
+                                <BsTooltip>Delete Test Column</BsTooltip>
+                              }
                             >
-                              <img src={deleteIcon} alt="Delete" />
-                            </Button>
-                          </OverlayTrigger>
-                        )}
-                      </th>
-                    ))}
-                    {iaColumns.map((column, index) => (
-                      <th key={column}>
-                        {column}{" "}
-                        {index >= 1 && (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={<BsTooltip>Delete IA Column</BsTooltip>}
-                          >
-                            <Button
-                              style={{
-                                backgroundColor: "#f2f2f2",
-                                padding: "3px",
-                              }}
-                              onClick={() => removeIaColumns(index)}
+                              <Button
+                                style={{
+                                  backgroundColor: "#f2f2f2",
+                                  padding: "3px",
+                                }}
+                                onClick={() => removeTestColumns(index)}
+                              >
+                                <img src={deleteIcon} alt="Delete" />
+                              </Button>
+                            </OverlayTrigger>
+                          )}
+                        </th>
+                      ))}
+                      {iaColumns.map((column, index) => (
+                        <th key={column}>
+                          {column}{" "}
+                          {index >= 1 && (
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={<BsTooltip>Delete IA Column</BsTooltip>}
                             >
-                              <img src={deleteIcon} alt="Delete" />
-                            </Button>
-                          </OverlayTrigger>
-                        )}
-                      </th>
-                    ))}
-                    {labColumns.map((column, index) => (
-                      <th key={column}>
-                        {column}{" "}
-                        {index >= 1 && (
-                          <OverlayTrigger
-                            placement="top"
-                            overlay={<BsTooltip>Delete LAB Column</BsTooltip>}
-                          >
-                            <Button
-                              style={{
-                                backgroundColor: "#f2f2f2",
-                                padding: "3px",
-                              }}
-                              onClick={() => removeLabColumns(index)}
+                              <Button
+                                style={{
+                                  backgroundColor: "#f2f2f2",
+                                  padding: "3px",
+                                }}
+                                onClick={() => removeIaColumns(index)}
+                              >
+                                <img src={deleteIcon} alt="Delete" />
+                              </Button>
+                            </OverlayTrigger>
+                          )}
+                        </th>
+                      ))}
+                      {labColumns.map((column, index) => (
+                        <th key={column}>
+                          {column}{" "}
+                          {index >= 1 && (
+                            <OverlayTrigger
+                              placement="top"
+                              overlay={<BsTooltip>Delete LAB Column</BsTooltip>}
                             >
-                              <img src={deleteIcon} alt="Delete" />
-                            </Button>
-                          </OverlayTrigger>
-                        )}
-                      </th>
-                    ))}
-                    <th>ESE %</th>
-                    <th>Average Assessment %</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {assessmentData.map(
-                    (assessment: {
-                      id: React.Key | null | undefined;
-                      abbreviation: any;
-                      suffixValue: any;
-                    }) => (
-                      <tr key={assessment.id}>
-                        <td>{`${assessment.abbreviation}_${assessment.suffixValue}`}</td>
-                        {testColumns.map((column, index) => (
-                          <td key={column}>
+                              <Button
+                                style={{
+                                  backgroundColor: "#f2f2f2",
+                                  padding: "3px",
+                                }}
+                                onClick={() => removeLabColumns(index)}
+                              >
+                                <img src={deleteIcon} alt="Delete" />
+                              </Button>
+                            </OverlayTrigger>
+                          )}
+                        </th>
+                      ))}
+                      <th>ESE %</th>
+                      <th>Average Assessment %</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {assessmentData.map(
+                      (assessment: {
+                        id: React.Key | null | undefined;
+                        abbreviation: any;
+                        suffixValue: any;
+                      }) => (
+                        <tr key={assessment.id}>
+                          <td>{`${assessment.abbreviation}_${assessment.suffixValue}`}</td>
+                          {testColumns.map((column, index) => (
+                            <td key={column}>
+                              <Field
+                                as="select"
+                                name={`test_${assessment.id}_${index + 1}`}
+                                className="form-select"
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`test_${assessment.id}_${index + 1}`]:
+                                      e.target.value,
+                                  }));
+                                }}
+                              >
+                                <option value="">Select</option>
+                                {quizOptions.map((optionValue) => (
+                                  <option
+                                    key={optionValue.value}
+                                    value={optionValue.value}
+                                    selected={
+                                      `test_${assessment.id}_${index + 1}` ===
+                                      `test_${assessment.id}_1`
+                                    }
+                                  >
+                                    {optionValue.label}
+                                  </option>
+                                ))}
+                              </Field>
+                            </td>
+                          ))}
+                          {iaColumns.map((column, index) => (
+                            <td key={column}>
+                              <Field
+                                as="select"
+                                name={`ia_${assessment.id}_${index + 1}`}
+                                className="form-select"
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`ia_${assessment.id}_${index + 1}`]:
+                                      e.target.value,
+                                  }));
+                                }}
+                              >
+                                <option value="">Select</option>
+                                {iaOptions.map((optionValue) => (
+                                  <option
+                                    key={optionValue.value}
+                                    value={optionValue.value}
+                                    selected={
+                                      `ia_${assessment.id}_${index + 1}` ===
+                                      "ia_88_1"
+                                    }
+                                  >
+                                    {optionValue.label}
+                                  </option>
+                                ))}
+                              </Field>
+                            </td>
+                          ))}
+                          {labColumns.map((column, index) => (
+                            <td key={column}>
+                              <Field
+                                as="select"
+                                name={`lab_${assessment.id}_${index + 1}`}
+                                className="form-select"
+                                onChange={(e: { target: { value: any } }) => {
+                                  handleChange(e);
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`lab_${assessment.id}_${index + 1}`]:
+                                      e.target.value,
+                                  }));
+                                }}
+                              >
+                                <option value="">Select</option>
+                                {labOptions.map((optionValue, index) => (
+                                  <option
+                                    key={optionValue.value}
+                                    value={optionValue.value}
+                                    selected={
+                                      `lab_${assessment.id}_${index + 1}` ===
+                                      `lab_88_1`
+                                    }
+                                  >
+                                    {optionValue.label}
+                                  </option>
+                                ))}
+                              </Field>
+                            </td>
+                          ))}
+                          <td>
                             <Field
-                              as="select"
-                              name={`test_${assessment.id}_${index + 1}`}
-                              className="form-select"
+                              type="number"
+                              placeholder="ESE %"
+                              name={`eseMark_${assessment.id}`}
+                              className="form-control"
                               onChange={(e: { target: { value: any } }) => {
                                 handleChange(e);
                                 setInitialValue((prevState: any) => ({
                                   ...prevState,
-                                  [`test_${assessment.id}_${index + 1}`]:
-                                    e.target.value,
+                                  [`eseMark_${assessment.id}`]: e.target.value,
                                 }));
                               }}
-                            >
-                              <option value="">Select</option>
-                              {quizOptions.map((optionValue) => (
-                                <option
-                                  key={optionValue.value}
-                                  value={optionValue.value}
-                                  selected = {`test_${assessment.id}_${index + 1}`===`test_${assessment.id}_1`} 
-                                >
-                                  {optionValue.label}
-                                </option>
-                              ))}
-                            </Field>
+                              value={initialValues[`eseMark_${assessment.id}`]}
+                            />
                           </td>
-                        ))}
-                        {iaColumns.map((column, index) => (
-                          <td key={column}>
-                            <Field
-                              as="select"
-                              name={`ia_${assessment.id}_${index + 1}`}
-                              className="form-select"
-                              onChange={(e: { target: { value: any } }) => {
-                                handleChange(e);
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`ia_${assessment.id}_${index + 1}`]:
-                                    e.target.value,
-                                }));
-                              }}
-                            >
-                              <option value="">Select</option>
-                              {iaOptions.map((optionValue) => (
-                                <option
-                                  key={optionValue.value}
-                                  value={optionValue.value}
-                                  selected = {`ia_${assessment.id}_${index + 1}`==="ia_88_1"} 
-                                >
-                                  {optionValue.label}
-                                </option>
-                              ))}
-                            </Field>
-                          </td>
-                        ))}
-                        {labColumns.map((column, index) => (
-                          <td key={column}>
-                            <Field
-                              as="select"
-                              name={`lab_${assessment.id}_${index + 1}`}
-                              className="form-select"
-                              onChange={(e: { target: { value: any } }) => {
-                                handleChange(e);
-                                setInitialValue((prevState: any) => ({
-                                  ...prevState,
-                                  [`lab_${assessment.id}_${index + 1}`]:
-                                    e.target.value,
-                                }));
-                              }}
-                            >
-                              <option value="">Select</option>
-                              {labOptions.map((optionValue, index) => (
-                                <option
-                                  key={optionValue.value}
-                                  value={optionValue.value}
-                                  selected={
-                                    `lab_${assessment.id}_${index + 1}` ===
-                                    `lab_88_1`
-                                  }
-                                >
-                                  {optionValue.label}
-                                </option>
-                              ))}
-                            </Field>
-                          </td>
-                        ))}
-                        <td>
-                          <Field
-                            type="number"
-                            placeholder="ESE %"
-                            name={`eseMark_${assessment.id}`}
-                            className="form-control"
-                            onChange={(e: { target: { value: any } }) => {
-                              handleChange(e);
-                              setInitialValue((prevState: any) => ({
-                                ...prevState,
-                                [`eseMark_${assessment.id}`]: e.target.value,
-                              }));
-                            }}
-                            value={initialValues[`eseMark_${assessment.id}`]}
-                          />
-                        </td>
-                        <td></td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </Table>
+                          <td></td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </Table>
 
-              {apiStatus === "started" &&
-                  assessmentData.length === 0 && (
-                    <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-                  )}
-                {apiStatus === "finished" &&
-                  assessmentData.length === 0 && (
-                    <Errordiv msg="No record found!" cstate className="mt-3" />
-                  )}
-              <AssessmentButtons
-                addIaColumns={addIaColumns}
-                addLabColumns={addLabColumns}
-                addTestColumns={addTestColumns}
-              />
-            </div>
+                {apiStatus === "started" && assessmentData.length === 0 && (
+                  <TableSkeleton numberOfRows={5} numberOfColumns={4} />
+                )}
+                {apiStatus === "finished" && assessmentData.length === 0 && (
+                  <Errordiv msg="No record found!" cstate className="mt-3" />
+                )}
+                <AssessmentButtons
+                  addIaColumns={addIaColumns}
+                  addLabColumns={addLabColumns}
+                  addTestColumns={addTestColumns}
+                  assessmentData={assessmentData}
+                />
+              </div>
 
-            <div className="modal-buttons">
-              <CustomButton
-                type="submit"
-                variant="primary"
-                disabled={isSubmitting}
-                btnText="Save & Continue"
-              />
-            </div>
-          </Form>
-        )}
-      </Formik>
+              <div className="modal-buttons">
+                <CustomButton
+                  type="submit"
+                  variant="primary"
+                  isSubmitting={isSubmittingSave}
+                  disabled={assessmentData.length === 0}
+                  onClick={() => setButtonClicked("save")}
+                  btnText={!isSubmittingSave ? "Save" : "Saving..."}
+                />{" "}
+                <CustomButton
+                  type="submit"
+                  variant="primary"
+                  disabled={assessmentData.length === 0}
+                  isSubmitting={isSubmittingSaveAndContinue}
+                  onClick={() => setButtonClicked("saveAndContinue")}
+                  btnText={
+                    !isSubmittingSaveAndContinue
+                      ? "Save & Continue"
+                      : "Loading..."
+                  }
+                />{" "}
+              </div>
+            </Form>
+          )}
+        </Formik>
       ) : (
         <RouterLadyLoader status={true} />
       )}

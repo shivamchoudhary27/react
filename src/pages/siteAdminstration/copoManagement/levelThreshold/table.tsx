@@ -261,7 +261,7 @@ const LevelThresholdTable = (props: Props) => {
         <CustomButton
           type="submit"
           variant="primary"
-          // isSubmitting={isSubmitting}
+          disabled={props.allCourseOutcome.length === 0}
           onClick={() => props.setActiveTab(2)}
           btnText="Save & Continue"
         />{" "}

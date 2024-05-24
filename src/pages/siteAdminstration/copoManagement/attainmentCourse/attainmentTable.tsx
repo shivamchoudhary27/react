@@ -19,6 +19,10 @@ type Props = {
 
 const AttainmentTable = (props: Props) => {
   const { cid } = useParams();
+  const [buttonClicked, setButtonClicked] = useState("");
+  const [isSubmittingSave, setIsSubmittingSave] = useState(false);
+  const [isSubmittingSaveAndContinue, setIsSubmittingSaveAndContinue] =
+    useState(false);
   const [apiCatchError, setApiCatchError] = useState({
     status: false,
     msg: "",
@@ -46,26 +50,44 @@ const AttainmentTable = (props: Props) => {
       }
     });
 
+    const submitAction =
+      buttonClicked === "save"
+        ? setIsSubmittingSave
+        : setIsSubmittingSaveAndContinue;
+    submitAction(true);
     postData(`/${cid}/attainment/mapping`, result)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
-          Swal.fire({
-            timer: 3000,
-            width: "25em",
-            color: "#666",
-            icon: "success",
-            background: "#e7eef5",
-            showConfirmButton: false,
-            text: "Course outcome set successfully.",
-          });
-          setTimeout(() => {
-            props.setActiveTab(6);
-          }, 3000);
+          if (buttonClicked === "save") {
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Attainment of course outcomes saved successfully.",
+            });
+          } else if (buttonClicked === "saveAndContinue") {
+            Swal.fire({
+              timer: 3000,
+              width: "25em",
+              color: "#666",
+              icon: "success",
+              background: "#e7eef5",
+              showConfirmButton: false,
+              text: "Attainment of course outcomes saved successfully. Moving to the next step.",
+            });
+            setTimeout(() => {
+              props.setActiveTab(6);
+            }, 3000);
+          }
           setApiCatchError({
             status: false,
             msg: "",
           });
         }
+        submitAction(false);
       })
       .catch((err: any) => {
         console.log(err);
@@ -169,9 +191,23 @@ const AttainmentTable = (props: Props) => {
                 <CustomButton
                   type="submit"
                   variant="primary"
-                  disabled={isSubmitting}
-                  btnText="Save & Continue"
-                />
+                  isSubmitting={isSubmittingSave}
+                  disabled={props.courseAttainmentData.length === 0}
+                  onClick={() => setButtonClicked("save")}
+                  btnText={!isSubmittingSave ? "Save" : "Saving..."}
+                />{" "}
+                <CustomButton
+                  type="submit"
+                  variant="primary"
+                  isSubmitting={isSubmittingSaveAndContinue}
+                  disabled={props.courseAttainmentData.length === 0}
+                  onClick={() => setButtonClicked("saveAndContinue")}
+                  btnText={
+                    !isSubmittingSaveAndContinue
+                      ? "Save & Continue"
+                      : "Loading..."
+                  }
+                />{" "}
               </div>
             </Form>
           )}
