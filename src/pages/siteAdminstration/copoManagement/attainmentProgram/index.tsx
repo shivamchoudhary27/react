@@ -5,6 +5,8 @@ import { getData } from "../../../../adapters/microservices";
 
 type Props = {
   setActiveTab: any;
+  tabRefreshToggle:any
+  refreshTab:any
 };
 
 const ViewCOsPOsPSOs = (props: Props) => {
@@ -25,7 +27,7 @@ const ViewCOsPOsPSOs = (props: Props) => {
         console.log(err)
         setCourseoutcomeApiStatus("finished");
       });
-  }, [props.setActiveTab]);
+  }, [props.refreshTab]);
 
   return (
     <>

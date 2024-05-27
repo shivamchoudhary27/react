@@ -141,6 +141,7 @@ const MappingTable = ({
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           if (buttonClicked === "save") {
+            tabRefreshToggle();
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -151,6 +152,7 @@ const MappingTable = ({
               text: "COs, POs & PSOs level are set and saved successfully.",
             });
           } else if (buttonClicked === "saveAndContinue") {
+            tabRefreshToggle();
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -165,7 +167,6 @@ const MappingTable = ({
             }, 3000);
           }
           setApiStatus("finished");
-          tabRefreshToggle();
           setApiCatchError({ status: false, msg: "" });
         }
         submitAction(false);

@@ -215,7 +215,7 @@ const MappingCOsPOsPSOs = (props: Props) => {
         setProgramoutcomeApiStatus("finished")
         console.log(err);
       });
-  }, [props.setActiveTab, props.refreshTab]);
+  }, [props.refreshTab]);
 
   return (
     <MappingTable

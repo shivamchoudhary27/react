@@ -6,6 +6,8 @@ import { Alert } from "react-bootstrap";
 
 type Props = {
   setActiveTab: any;
+  tabRefreshToggle:any
+  refreshTab:any
 };
 
 const AttainmentCourseOutcome = (props: Props) => {
@@ -42,7 +44,7 @@ const AttainmentCourseOutcome = (props: Props) => {
         console.log(err);
         setCourseAttainmentApiStatus("finished");
       });
-  }, [props.setActiveTab]);
+  }, [props.refreshTab]);
 
   return (
     <div>

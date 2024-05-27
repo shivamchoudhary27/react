@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 
 type Props = {
   setActiveTab: any;
+  tabRefreshToggle:any
+  refreshTab:any
 };
 
 const AssessmentForCOs = (props: Props) => {
@@ -48,7 +50,7 @@ const AssessmentForCOs = (props: Props) => {
         setApiStatus("finished");
         console.log(err);
       });
-  }, []);
+  }, [props.refreshTab]);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);

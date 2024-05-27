@@ -6,6 +6,8 @@ import LevelThreshold2Table from "./levelThreshold2";
 
 type Props = {
   setActiveTab: any;
+  tabRefreshToggle:any
+  refreshTab:any
 };
 
 const LevelThreshold2 = (props: Props) => {
@@ -70,7 +72,7 @@ const LevelThreshold2 = (props: Props) => {
           setLevelApiCatchError({ status: true, msg: `${err.response.data.errorCode}: ${err.response.data.message}` });
         }
       });
-  }, [props.setActiveTab]);
+  }, [props.refreshTab]);
 
   return (
     <div>
