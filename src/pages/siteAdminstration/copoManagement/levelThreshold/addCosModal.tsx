@@ -21,6 +21,7 @@ type Props = {
   cosAbbreviation: any;
   refreshToggle: any;
   outcomeObj: any;
+  tabRefreshToggle: any
 };
 
 // Formik Yup validation === >>>
@@ -68,6 +69,7 @@ const AddCosModal = (props: Props) => {
               showConfirmButton: false,
               text: "Course outcome added successfully",
             });
+            props.tabRefreshToggle();
           }
           // Reset the form after a successful submission
           action.resetForm();
@@ -101,6 +103,7 @@ const AddCosModal = (props: Props) => {
               showConfirmButton: false,
               text: "Course outcome updated successfully",
             });
+            props.tabRefreshToggle()
           }
           // Reset the form after a successful submission
           action.resetForm();

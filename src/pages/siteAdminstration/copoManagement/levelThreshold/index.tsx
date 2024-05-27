@@ -9,6 +9,8 @@ import { isConditionalExpression } from "typescript";
 
 type Props = {
   setActiveTab: any;
+  tabRefreshToggle:any
+  refreshTab:any
 };
 
 const LevelThreshold = (props: Props) => {
@@ -129,6 +131,7 @@ const LevelThreshold = (props: Props) => {
         toggleModalShow={toggleModalShow}
         refreshToggle={refreshToggle}
         editHandlerById={editHandlerById}
+        tabRefreshToggle={props.tabRefreshToggle}
         courseoutcomesApiCatchError={courseoutcomesApiCatchError}
         setCourseoutcomesApiCatchError={setCourseoutcomesApiCatchError}
       />
@@ -138,7 +141,6 @@ const LevelThreshold = (props: Props) => {
           variant="primary"
           type="button"
           onClick={() => addCosHandler()}
-          disabled={allCourseOutcome.items.length === 0}
           className="me-2"
           size="sm"
         >
@@ -152,6 +154,7 @@ const LevelThreshold = (props: Props) => {
         refreshToggle={refreshToggle}
         toggleModalShow={toggleModalShow}
         onHide={() => toggleModalShow(false)}
+        tabRefreshToggle={props.tabRefreshToggle}
       />
     </React.Fragment>
   );

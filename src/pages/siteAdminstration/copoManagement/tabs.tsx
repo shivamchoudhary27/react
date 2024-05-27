@@ -39,12 +39,24 @@ const TabsList = (props: Props) => {
     {
       eventKey: "setlevel1",
       title: "Set target level of CO's",
-      contentsRender: <LevelThreshold setActiveTab={setActiveTab} />,
+      contentsRender: (
+        <LevelThreshold
+          setActiveTab={setActiveTab}
+          tabRefreshToggle={tabRefreshToggle}
+          refreshTab={refreshTab}
+        />
+      ),
     },
     {
       eventKey: "setlevel2",
       title: "Set level threshold for CO's",
-      contentsRender: <LevelThreshold2 setActiveTab={setActiveTab} />,
+      contentsRender: (
+        <LevelThreshold2
+          setActiveTab={setActiveTab}
+          tabRefreshToggle={tabRefreshToggle}
+          refreshTab={refreshTab}
+        />
+      ),
     },
     {
       eventKey: "mapping",
@@ -60,17 +72,35 @@ const TabsList = (props: Props) => {
     {
       eventKey: "assessment",
       title: "Select Assessment for CO's(Direct)",
-      contentsRender: <AssessmentForCOs setActiveTab={setActiveTab} />,
+      contentsRender: (
+        <AssessmentForCOs
+          setActiveTab={setActiveTab}
+          tabRefreshToggle={tabRefreshToggle}
+          refreshTab={refreshTab}
+        />
+      ),
     },
     {
       eventKey: "attainment",
       title: "Attainment of Course Outcomes",
-      contentsRender: <AttainmentCourseOutcome setActiveTab={setActiveTab} />,
+      contentsRender: (
+        <AttainmentCourseOutcome
+          setActiveTab={setActiveTab}
+          tabRefreshToggle={tabRefreshToggle}
+          refreshTab={refreshTab}
+        />
+      ),
     },
     {
       eventKey: "view",
       title: "Attainment of Program Outcomes",
-      contentsRender: <ViewCOsPOsPSOs setActiveTab={setActiveTab}/>,
+      contentsRender: (
+        <ViewCOsPOsPSOs
+          setActiveTab={setActiveTab}
+          tabRefreshToggle={tabRefreshToggle}
+          refreshTab={refreshTab}
+        />
+      ),
     },
   ];
 

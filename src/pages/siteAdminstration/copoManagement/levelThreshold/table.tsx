@@ -29,6 +29,7 @@ type Props = {
   editHandlerById: any;
   courseoutcomesApiCatchError: any
   setCourseoutcomesApiCatchError: any
+  tabRefreshToggle: any
 };
 
 const LevelThresholdTable = (props: Props) => {
@@ -160,6 +161,7 @@ const LevelThresholdTable = (props: Props) => {
               showConfirmButton: false,
               text: res.data,
             });
+            props.tabRefreshToggle();
           } else if (res.status === 500) {
             // setShowAlert(true);
             // setAlertMsg({
