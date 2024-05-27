@@ -10,6 +10,11 @@ type Props = {
   courseDates: any;
   sortedCategories: any;
   updateCourseDates: any;
+  getModalFormData: any;
+  toggleModalShow: any;
+  modalShow: any;
+  modalFormData: any;
+  onHide: any;
 };
 
 const View = (props: Props) => {
@@ -20,6 +25,11 @@ const View = (props: Props) => {
     courseDates: props.courseDates,
     sortedCategories: props.sortedCategories,
     updateCourseDates: props.updateCourseDates,
+    toggleModalShow: props.toggleModalShow,
+    getModalFormData: props.getModalFormData,
+    modalShow: props.getModalFormData,
+    modalFormData: props.modalFormData,
+    onHide: props.onHide,
   };
   return (
     <React.Fragment>

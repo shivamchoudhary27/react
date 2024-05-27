@@ -8,17 +8,15 @@ import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../headerTabs";
-import { useLocation, useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import PageTitle from "../../../../widgets/pageTitle";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import { pagination } from "../../../../utils/pagination";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getData } from "../../../../adapters/microservices";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
-import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
-import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
 import {
   getUrlParams,
   getMonthList,
@@ -28,6 +26,7 @@ import {
   getTableRenderTimeSlots,
 } from "./local";
 import { courseDatesObj } from "./utils";
+import ModalForm from "./form";
 
 const WeeklyDraftVersion = () => {
   const dummyData = {
@@ -39,16 +38,22 @@ const WeeklyDraftVersion = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [monthList, setMonthList] = useState({});
+  const [modalShow, setModalShow] = useState(false);
   const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState(dummyData);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
-  const [handleMonthFilter,setHandleMonthFilter]=useState([])
+  const [handleMonthFilter, setHandleMonthFilter] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
+  const [availableRooms, setAvailableRooms] = useState<any>([]);
+  const [filteredTime, setFilteredTime] = useState([]);
+  const [requestTimeSlot, setRequestTimeSlot] = useState([]);
+  const [availableSlotdata, setAvailableSlots] = useState<any>({});
+  const [changeRequestData, setChangeRequestData] = useState();
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0)
+  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0);
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
@@ -61,12 +66,42 @@ const WeeklyDraftVersion = () => {
     endDate: 0,
   });
 
+  const [modalFormData, setModalFormData] = useState({
+    weekday: "",
+    description: "",
+    timeSlotId: 0,
+    sessionDate: "",
+    slotDetailId: 0,
+    changeRequestId: 0,
+    status: "",
+  });
+
+  const getModalFormData = (
+    weekday: any,
+    description: any,
+    timeSlotId: any,
+    sessionDate: any,
+    slotDetailId: any,
+    changeRequestId: any,
+    status: any
+  ) => {
+    setModalFormData({
+      weekday: weekday,
+      description: description,
+      timeSlotId: timeSlotId,
+      sessionDate: sessionDate,
+      slotDetailId: slotDetailId,
+      changeRequestId: changeRequestId,
+      status: status,
+    });
+  };
+
   useEffect(() => {
     getUrlParams(location, setUrlArg);
   }, []);
 
   //  passing arguments to get timeslot data === >>
-  useEffect(() => { 
+  useEffect(() => {
     if (urlArg.dpt > 0) {
       getTimeslotData(
         currentInstitute,
@@ -79,13 +114,13 @@ const WeeklyDraftVersion = () => {
 
   // passing arguments to get course workload data === >>
   useEffect(() => {
-    if (urlArg.prgId > 0) {  
+    if (urlArg.prgId > 0) {
       getCourseWorkloadtData(urlArg, setCoursesList);
     }
   }, [urlArg.prgId]);
 
   //  passing arguments to get course workload data === >>
-  useEffect(() => { 
+  useEffect(() => {
     if (coursesList.items.length > 0) {
       getSortedCategories(coursesList, setSortedCategories);
     }
@@ -103,7 +138,7 @@ const WeeklyDraftVersion = () => {
   // Calling Timetable API to set timetable data === >>
   useEffect(() => {
     if (filters.courseId > 0 && filters.userId > 0 && filters) {
-      getData(`/${urlArg.prgId}/timetable`, filters)
+      getData(`/${urlArg.prgId}/timetable/userslots`, filters)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             result.data.items.map((item: any, index: number) => {
@@ -125,7 +160,7 @@ const WeeklyDraftVersion = () => {
     }
   }, [filters]);
 
-  // calling API to get weekdays === >>
+  // =========>> calling API to get weekdays <<========
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
       getData(`/weekdays/${currentInstitute}`, {})
@@ -145,6 +180,95 @@ const WeeklyDraftVersion = () => {
         });
     }
   }, [departmentTimeslots]);
+
+   // =========>> calling API to get availableslots <<========
+  useEffect(() => {
+    if (modalFormData.timeSlotId > 0 && modalFormData.slotDetailId) {
+      getData(
+        `${urlArg.prgId}/timetable/availableslots?slotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,
+        {}
+      )
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            setAvailableSlots(result.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
+
+// =========>> calling API to get timeslot <<========
+  useEffect(() => {
+    if (urlArg.dpt > 0) {
+      getData(
+        `/${currentInstitute}/timetable/timeslot?departmentId=${urlArg.dpt}&pageNumber=0&pageSize=50`,
+        {}
+      )
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            const allTime = result.data.items || [];
+            // let data = []
+            setFilteredTime(
+              allTime.filter(
+                (timeSlot: any) => modalFormData.timeSlotId === timeSlot.id
+              )
+            );
+            setRequestTimeSlot(
+              allTime.filter(
+                (timeSlot: any) => changeRequestData?.timeSlotId === timeSlot.id
+              )
+            );
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [currentInstitute, modalFormData.slotDetailId, changeRequestData]);
+
+  // =========>> calling API to get availablerooms <<========
+  useEffect(() => {
+    if (modalFormData.timeSlotId > 0 && modalFormData.slotDetailId) {
+      getData(
+        `/${urlArg.prgId}/timetable/availablerooms?selectedSlotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,
+        {}
+      )
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            const rooms = result.data;
+            setAvailableRooms(
+              rooms.filter(
+                (availableRoom: any) =>
+                  modalFormData.changeRequestId === availableRoom.id
+              )
+            );
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [modalFormData.timeSlotId, modalFormData.slotDetailId, modalShow]);
+
+  // =========>> calling API to get faculty change-request <<========
+  useEffect(() => {
+    if (modalFormData.changeRequestId > 0 && modalShow === true) {
+      getData(
+        `/${urlArg.prgId}/timetable/${modalFormData.changeRequestId}/change-request`,
+        {}
+      )
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            setChangeRequestData(result.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [modalFormData.changeRequestId, urlArg.prgId, modalShow]);
 
   useEffect(() => {
     if (departmentTimeslots.items.length > 0) {
@@ -185,13 +309,18 @@ const WeeklyDraftVersion = () => {
       setMonthList(monthListArr);
     }
   }, [courseDates]);
-  
-  // handle month filter === >>
-  const handleMonthFilterChange = (e: any) => {
-    if(e.type === "change"){
-      setHandleMonthFilter([e.target.value])
-    }
-  }
+
+  // // handle month filter === >>
+  // const handleMonthFilterChange = (e: any) => {
+  //   if(e.type === "change"){
+  //     setHandleMonthFilter([e.target.value])
+  //   }
+  // }
+
+  // handle modal hide & show functionality === >>>
+  const toggleModalShow = (status: boolean) => {
+    setModalShow(status);
+  };
 
   return (
     <React.Fragment>
@@ -221,61 +350,25 @@ const WeeklyDraftVersion = () => {
             gobacklink="/timetable"
           />
           <Filters
-            workloadCourses={sortedCategories}
             ids={urlArg}
-            updateCourseDates={updateCourseDates}
+            courseDates={courseDates}
+            workloadCourses={sortedCategories}
             setCoursesStatus={setCoursesStatus}
+            updateCourseDates={updateCourseDates}
             updateFacultyStatus={updateFacultyStatus}
           />
-          <div className="d-flex justify-content-between align-items-center mt-4">
-            <div className="d-flex gap-4 dates-wrapper">
-              <div>
-                <img src={startDateIcon} alt="start Date" />
-                <b>Start Date:</b> {courseDates.startDate}
-              </div>
-              <div>
-                <img src={endDateIcon} alt="End Date" />
-                <b>End Date: </b> {courseDates.endDate}
-              </div>
-              {courseDates.startDate !== "--/--/----" &&
-                courseDates.endDate !== "--/--/----" && (
-                  <div>
-                  <label htmlFor="month">Month:</label>
-                  <select
-                    className="form-select"
-                    name="workloadCourse"
-                    onChange={handleMonthFilterChange}
-                    // value={ChangeFilterStatus}
-                  >
-                    <option value={0}>Select Month</option>
-                    {
-                      Object.entries(monthList).map(([year, months]: any) => (
-                        <optgroup label={year}>
-                          {
-                            months.map((month: any, index: React.Key | null | undefined) => (
-                              <option
-                                value={`${month},${year}`}
-                                key={index}
-                                // Conditionally render selected option based on state
-                                selected={ChangeFilterStatus === `${month},${year}`}
-                              >
-                                {month}
-                              </option>
-                            ))
-                          }
-                      </optgroup>
-                      ))
-                    }
-                  </select>
-                </div>
-                )}
-            </div>
-            <div className="slot-indicator">
-              <div className="me-1 available">Available Slots</div>
-              <div className="me-1 booked">Not Available Slots</div>
-              <div className="me-1 weekend">Break/Weekend/Holiday</div>
-            </div>
-          </div>
+          <ModalForm
+            urlArg={urlArg}
+            modalShow={modalShow}
+            filteredTime={filteredTime}
+            modalFormData={modalFormData}
+            availableRooms={availableRooms}
+            toggleModalShow={toggleModalShow}
+            requestTimeSlot={requestTimeSlot}
+            onHide={() => toggleModalShow(false)}
+            changeRequestData={changeRequestData}
+          />
+
           {coursesStatus !== false && apiStatus === "finished" ? (
             <Errordiv msg="No record available!" cstate className="mt-3" />
           ) : coursesStatus !== false && apiStatus === "started" ? (
@@ -287,9 +380,12 @@ const WeeklyDraftVersion = () => {
                   SlotData={timeslots}
                   apiStatus={apiStatus}
                   courseDates={courseDates}
-                  updateTimetableDates={updateTimetableDates}
+                  toggleModalShow={toggleModalShow}
+                  getModalFormData={getModalFormData}
                   handleMonthFilter={handleMonthFilter}
-                  setChangeFilterStatus = {setChangeFilterStatus}
+                  setHandleMonthFilter={setHandleMonthFilter}
+                  updateTimetableDates={updateTimetableDates}
+                  setChangeFilterStatus={setChangeFilterStatus}
                 />
               )}
               {apiStatus === "finished" && timeslots.length === 0 && (
@@ -302,7 +398,11 @@ const WeeklyDraftVersion = () => {
                   type="submit"
                   btnText="Publish for change request"
                   variant="primary"
-                  onClick={()=> navigate(`/publishchange?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`)}
+                  onClick={() =>
+                    navigate(
+                      `/publishchange?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`
+                    )
+                  }
                 />
               </div>
               <div className="modal-buttons">

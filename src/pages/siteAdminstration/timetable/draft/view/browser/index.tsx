@@ -19,6 +19,12 @@ type Props = {
     courseDates: any;
     sortedCategories: any;
     updateCourseDates: any;
+    getModalFormData: any;
+    toggleModalShow: any;
+    modalShow: any;
+    modalFormData: any;
+    onHide: any;
+  
   };
 };
 

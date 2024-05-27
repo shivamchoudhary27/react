@@ -3,8 +3,10 @@ import { format, parse, getTime } from "date-fns";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { renderCourse, handleChildrens } from "./utils";
-import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 import { courseDatesObj } from "./utils";
+import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate.svg";
+import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
+import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
 
 const ManageFilter = ({
   workloadCourses,
@@ -12,8 +14,9 @@ const ManageFilter = ({
   updateCourseDates,
   setCoursesStatus,
   updateFacultyStatus,
+  courseDates,
+  setHandleMonthFilter,
 }: any) => {
-
   const initialValues = {
     name: "",
     faculty: "",
@@ -24,6 +27,7 @@ const ManageFilter = ({
   const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [selectedFaculty, setSelectedFaculty] = useState<number>(0);
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
+  const [monthList, setMonthList] = useState([]);
 
   useEffect(() => {
     if (coursesOnly.length === 0) setCoursesStatus(true);
@@ -39,8 +43,6 @@ const ManageFilter = ({
     }
   }, [workloadCourses]);
 
-  // console.log("selectedCourse----", selectedCourse)   
-
   useEffect(() => {
     if (selectedCourse > 0) {
       makeGetDataRequest(
@@ -54,7 +56,7 @@ const ManageFilter = ({
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (values) => {
-      console.log(values);
+      // console.log(values);
     },
     onReset: () => {
       setSelectedFaculty(0);
@@ -75,12 +77,15 @@ const ManageFilter = ({
   };
 
   const handleCourseDates = (courseId: number) => {
-    let startDate = "--/--/----", endDate = "--/--/----";
-    let startDateTimeStamp, endDateTimeStamp = 0;
+    let startDate = "--/--/----",
+      endDate = "--/--/----";
+    let startDateTimeStamp,
+      endDateTimeStamp = 0;
     let noneSelected = false;
 
-    
-    const courseWithId = coursesOnly.find((item: any) => item.courseid === courseId);
+    const courseWithId = coursesOnly.find(
+      (item: any) => item.courseid === courseId
+    );
     if (courseWithId) {
       startDate = format(new Date(courseWithId.startDate), "dd/MM/yyyy");
       endDate = format(new Date(courseWithId.endDate), "dd/MM/yyyy");
@@ -91,13 +96,28 @@ const ManageFilter = ({
       noneSelected = true;
     }
 
-    updateCourseDates({ startDate: startDate, endDate: endDate, startDateTimeStamp, endDateTimeStamp, noneSelected, courseId });
+    updateCourseDates({
+      startDate: startDate,
+      endDate: endDate,
+      startDateTimeStamp,
+      endDateTimeStamp,
+      noneSelected,
+      courseId,
+    });
   };
 
   const toTimestampConverter = (dateString: string) => {
-    const dateObject = parse(dateString, 'dd/MM/yyyy', new Date());
+    const dateObject = parse(dateString, "dd/MM/yyyy", new Date());
     return getTime(dateObject);
-  }
+  };
+
+  // handle month filter === >>
+  const handleMonthFilterChange = (e: any) => {
+    if (e.type === "change") {
+      // setSelectedMonth(e.target.value);
+      setHandleMonthFilter([e.target.value]);
+    }
+  };
 
   const renderCourseOptions = (categories: any) => {
     return (
@@ -186,6 +206,53 @@ const ManageFilter = ({
             </Col>
           </Row>
         </form>
+      </div>
+      <div className="d-flex justify-content-between align-items-center mt-4">
+        <div className="d-flex gap-4 dates-wrapper">
+          <div>
+            <img src={startDateIcon} alt="start Date" />
+            <b>Start Date:</b> {courseDates.startDate}
+          </div>
+          <div>
+            <img src={endDateIcon} alt="End Date" />
+            <b>End Date: </b> {courseDates.endDate}
+          </div>
+          {courseDates.startDate !== "--/--/----" &&
+            courseDates.endDate !== "--/--/----" && (
+              <div>
+                <label htmlFor="month">Month:</label>
+                <select
+                  className="form-select"
+                  name="workloadCourse"
+                  onChange={handleMonthFilterChange}
+                  // value={ChangeFilterStatus}
+                >
+                  <option value={0}>Select Month</option>
+                  {Object.entries(monthList).map(([year, months]: any) => (
+                    <optgroup label={year}>
+                      {months.map(
+                        (month: any, index: React.Key | null | undefined) => (
+                          <option
+                            value={`${month},${year}`}
+                            key={index}
+                            // Conditionally render selected option based on state
+                            selected={ChangeFilterStatus === `${month},${year}`}
+                          >
+                            {month}
+                          </option>
+                        )
+                      )}
+                    </optgroup>
+                  ))}
+                </select>
+              </div>
+            )}
+        </div>
+        <div className="slot-indicator">
+          <div className="me-1 available">Available Slots</div>
+          <div className="me-1 booked">Not Available Slots</div>
+          <div className="me-1 weekend">Break/Weekend/Holiday</div>
+        </div>
       </div>
     </React.Fragment>
   );

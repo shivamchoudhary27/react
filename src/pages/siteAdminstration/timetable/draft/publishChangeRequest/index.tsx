@@ -63,6 +63,7 @@ const PublishChangeRequest = () => {
       useEffect(() => {
         getUrlParams(location, setUrlArg);
       }, []);
+
           
       //  passing arguments to get timeslot data === >>
       useEffect(() => { 
@@ -246,7 +247,8 @@ const PublishChangeRequest = () => {
                           onChange={handleMonthFilterChange}
                         >
                           <option value={0}>Select Month</option>
-                            {monthList.map((option, index) => (
+                          
+                            {Array.isArray(monthList) && monthList.map((option, index) => (
                             <option value={`${option.month}-${option.year}`} key={index}>
                             {option.month}{" "}{option.year}
                           </option>

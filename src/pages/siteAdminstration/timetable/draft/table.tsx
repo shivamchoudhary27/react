@@ -1,13 +1,13 @@
 import "./style.scss";
 import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
-import { tableColumnTemplate } from "./utils";
-import React, { useMemo, useState, useEffect } from "react";
-import { addDays, format, startOfWeek,} from "date-fns";
-import { formatDateWithDetails } from "../../../../lib/timestampConverter";
 import { FirstDayOfMonth } from "./utils";
+import { tableColumnTemplate } from "./utils";
+import { addDays, format, startOfWeek,} from "date-fns";
+import React, { useMemo, useState, useEffect } from "react";
+import { formatDateWithDetails } from "../../../../lib/timestampConverter";
 
-const DraftVersionTable = ({ SlotData, courseDates, updateTimetableDates, handleMonthFilter,setChangeFilterStatus }: any) => {
+const DraftVersionTable = ({getModalFormData, toggleModalShow, SlotData, courseDates, updateTimetableDates, handleMonthFilter,setChangeFilterStatus }: any) => {
   const currentDate = new Date();
   const [weekAmount, setWeekAmount] = useState(0);
   const [tableColumn, setTableColumn] = useState(tableColumnTemplate);
@@ -20,7 +20,12 @@ const DraftVersionTable = ({ SlotData, courseDates, updateTimetableDates, handle
     });
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({ next: true, prev: true });
- 
+
+  const handleMassegeClick = (weekday: any, description: any, timeSlotId: any, sessionDate: any, slotDetailId: any,changeRequestId:any,status:any) => {
+    getModalFormData(weekday, description, timeSlotId, sessionDate, slotDetailId,changeRequestId,status)
+      toggleModalShow(true)
+  }
+
   function getMonday(dayOfWeek: number) {
 
     switch (dayOfWeek) {
@@ -121,6 +126,10 @@ const DraftVersionTable = ({ SlotData, courseDates, updateTimetableDates, handle
               <div> 
                 {currentColumns.status === "draft" &&
                   currentColumns.bookedDetais}
+                  {currentColumns.status === "changeRequest" && <div >
+                  <i className="fa-solid fa-envelope-circle-check"></i>
+                  {currentColumns.bookedDetais}
+                </div>}
                  {currentColumns.status === "not_available" && 
                   currentColumns.bookedDetais}
                 {currentColumns.status === "available" && ""}
@@ -335,6 +344,8 @@ const DraftVersionTable = ({ SlotData, courseDates, updateTimetableDates, handle
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
+                              onClick={cellValue.status === "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : undefined}
+                              style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
                             </td>
