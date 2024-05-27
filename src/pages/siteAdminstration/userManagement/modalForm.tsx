@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import "sweetalert2/src/sweetalert2.scss";
 import CountryList from "../../../globals/country";
-import { Formik, Form, ErrorMessage } from "formik";
+import { Formik, Form } from "formik";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import { postData, putData } from "../../../adapters/coreservices";
@@ -14,8 +14,6 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../widgets/formInputFields/formSelectField";
-import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
-// import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
 
 const AddUserModal = ({
   show,

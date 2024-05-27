@@ -1,19 +1,12 @@
 import * as Yup from "yup";
 import Swal from "sweetalert2";
 import React, { useState } from "react";
-import { Alert, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import "sweetalert2/src/sweetalert2.scss";
-import { Formik, Form, ErrorMessage } from "formik";
-import CountryList from "../../../../globals/country";
-import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import FieldLabel from "../../../../widgets/formInputFields/labels";
-import { postData, putData } from "../../../../adapters/coreservices";
+import { Formik, Form } from "formik";
+import { putData } from "../../../../adapters/coreservices";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
-import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
-import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
-import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField";
-import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import { useSelector } from "react-redux";
 
@@ -21,14 +14,12 @@ const UpdateUserModal = ({
   show,
   onHide,
   guestUserObj,
-  instituteList,
   togglemodalshow,
   updateAddRefresh,
   setGuestUserObj,
 }: any) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [checkedInstitute, setCheckedInstitute] = useState(false);
 
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
@@ -74,7 +65,7 @@ const UpdateUserModal = ({
   });
 
   // handle Form CRUD operations === >>>
-  const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {
+  const handleFormData = (values: any, { setSubmitting }: any) => {
     let instituteList: number[] = [];
     if (values.instituteIds !== undefined) {
       instituteList = Object.entries(values.instituteIds)
@@ -181,7 +172,7 @@ const UpdateUserModal = ({
               handleFormData(values, action);
             }}
           >
-            {({ errors, touched, isSubmitting, setValues, values }) => (
+            {({ isSubmitting, setValues, }) => (
               <Form>
                 {/* <div className="mb-3">
                   <FieldLabel

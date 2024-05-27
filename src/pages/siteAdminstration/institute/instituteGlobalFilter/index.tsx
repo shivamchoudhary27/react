@@ -44,7 +44,7 @@ const InstituteFilter = () => {
   }, [institutes]);
 
   const getCurrentValue = (e : any) => {
-    const selectedOption = e.target.options[e.target.selectedIndex];
+    // const selectedOption = e.target.options[e.target.selectedIndex];
     setSelectedValue(e.target.value);
     dispatch(globalFilterActions.currentInstitute(e.target.value))
     localStorage.setItem("institute", e.target.value);

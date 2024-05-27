@@ -31,7 +31,7 @@ const Curriculum = ({programId}: any) => {
 
     useEffect(() => {
         if (selectedProgram > 0 && programData.length > 0) {
-            const convertedResult = programData.filter(item => item.id == selectedProgram)
+            const convertedResult = programData.filter(item => item.id === selectedProgram)
             .sort((a,b) => a.weight - b.weight)
             .reduce((acc, item) => [...acc, item, ...getChildren(item, programData)], []);
             

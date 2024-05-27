@@ -10,8 +10,6 @@ import PageTitle from "../../../../../widgets/pageTitle";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import BuildPagination from "../../../../../widgets/pagination";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import BottomWave from "../../../../../assets/images/background/bg-bottom.svg";
-import bgLeft from "../../../../../assets/images/background/bg-admin-left.svg";
 import { BackgroundWaveBottomRight, BackgroundWaveTopLeft } from "../../../../../widgets/backgroundElements";
 
 

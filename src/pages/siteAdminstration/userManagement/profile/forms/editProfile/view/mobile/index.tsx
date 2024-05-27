@@ -1,7 +1,6 @@
 import React from "react";
 import FormData from "../../form";
 import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../../../../../headerTabs";
 import PageTitle from "../../../../../../../../widgets/pageTitle";
 import MobileFooter from "../../../../../../../newFooter/mobileFooter";
 import MobileHeader from "../../../../../../../newHeader/mobileHeader";

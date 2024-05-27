@@ -14,8 +14,7 @@ import BuildPagination from "../../../../widgets/pagination";
 import { getData } from "../../../../adapters/microservices";
 import BreadcrumbComponent from "../../../../widgets/breadcrumb";
 import { makeGetDataRequest } from "../../../../features/apiCalls/getdata";
-import View from "../view";
-import { BackgroundWaveBottomLeft, BackgroundWaveBottomRight, BackgroundWaveRight, BackgroundWaveTopLeft } from "../../../../widgets/backgroundElements";
+import {  BackgroundWaveBottomRight, BackgroundWaveTopLeft } from "../../../../widgets/backgroundElements";
 
 const ClassRoom = () => {
   const dummyData = {

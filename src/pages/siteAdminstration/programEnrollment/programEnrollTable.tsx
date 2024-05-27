@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { ProgramEnrollRawData } from "./rawData";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import TableSkeleton from "../../../widgets/skeleton/table";

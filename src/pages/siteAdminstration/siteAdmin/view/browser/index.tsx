@@ -5,9 +5,7 @@ import { Container } from "react-bootstrap";
 import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
-import bgRight from "../../../../../assets/images/background/bg-admin-right.svg";
-import bgLeft from "../../../../../assets/images/background/bg-admin-left.svg";
-import { BackgroundLeft, BackgroundRight, BackgroundWaveLeft, BackgroundWaveRight } from "../../../../../widgets/backgroundElements";
+import { BackgroundWaveLeft, BackgroundWaveRight } from "../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {

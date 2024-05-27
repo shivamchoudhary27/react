@@ -31,8 +31,6 @@ const generateValidationSchema = (workloadList: any) => {
 const SetPreferences = ({
   timeSlotList,
   workloadList,
-  togglemodalshow,
-  updateAddRefresh,
   currentInstitute,
 }: any) => {
   console.log("workloadList-----", workloadList);

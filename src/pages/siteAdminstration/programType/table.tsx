@@ -13,7 +13,7 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
-import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
+import { OverlayTrigger, Tooltip as BsTooltip } from "react-bootstrap";
 import "sweetalert2/src/sweetalert2.scss";
 import Swal from "sweetalert2";
 import {

@@ -21,7 +21,7 @@ const AddProgram = () => {
       let programsEndPoint = `/${instituteId}/programs`;
       getProgramData(programsEndPoint, filter).then((res: any) => {
         if (res.data.items !== "" && res.status === 200) {
-          let programData = res.data.items.find((obj: any) => obj.id == id);
+          let programData = res.data.items.find((obj: any) => obj.id === id);
           if (programData !== undefined) {
             let newSet = generateIinitialValues(programData);
             setCurrentProgram({ data: newSet, status: true, id: id });

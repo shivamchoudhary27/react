@@ -25,7 +25,7 @@ import {
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import {
   postData as postProgramData,
-  postData as postProgramImage,
+  // postData as postProgramImage,
   putData as updateProgramData,
   getData,
 } from "../../../../adapters/microservices";
@@ -84,12 +84,12 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
   const selectedDepartment = useSelector(
     (state) => state.globalFilters.currentDepartmentFilterId
   );
-  const [filterUpdate, setFilterUpdate] = useState<any>({
-    departmentId: selectedDepartment,
-    name: "",
-    pageNumber: 0,
-    pageSize: pagination.PERPAGE,
-  });
+  // const [filterUpdate, setFilterUpdate] = useState<any>({
+  //   departmentId: selectedDepartment,
+  //   name: "",
+  //   pageNumber: 0,
+  //   pageSize: pagination.PERPAGE,
+  // });
   const currentInstitute = useSelector(
     (state) => state.globalFilters.currentInstitute
   );
@@ -178,7 +178,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
     delete programValues?.file;
     let error_Msg = "";
 
-    if (programid == 0) {
+    if (programid === 0) {
       let endPoint = `/${instituteId}/programs`;
       actions.setSubmitting(true);
       postProgramData(endPoint, programValues)
@@ -266,14 +266,14 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
           if (result.data.items.length > 0) {
-            if (programid == 0) {
+            if (programid === 0) {
               actions.setErrors({
                 programCode:
                   "This program code is already used in other program",
               });
             } else {
               const filteredCode = result.data.items.filter((item: any) => {
-                return item.programCode === programCode && item.id != programid;
+                return item.programCode === programCode && item.id !== programid;
               });
               if (filteredCode.length > 0) {
                 actions.setErrors({
@@ -749,7 +749,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <div className="text-center">
                       <CustomButton
                         type="submit"
-                        btnText={programid == 0 ? "Submit" : "Update"}
+                        btnText={programid === 0 ? "Submit" : "Update"}
                         variant="primary"
                       />{" "}
                     </div>
@@ -757,7 +757,7 @@ const AddProgramForm = ({ initialformvalues, programid, instituteId }: any) => {
                     <LoadingButton
                       variant="primary"
                       btnText={
-                        programid.id == 0 ? "Submitting..." : "Updating..."
+                        programid.id === 0 ? "Submitting..." : "Updating..."
                       }
                       className="modal-buttons"
                     />

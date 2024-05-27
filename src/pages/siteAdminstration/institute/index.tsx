@@ -8,7 +8,6 @@ import {
   TypeUserObj,
   TypeModalShow,
   TypeUploadModalShow,
-  TypeFilteUpdate,
   TypeApiStatus,
 } from "./types/type";
 

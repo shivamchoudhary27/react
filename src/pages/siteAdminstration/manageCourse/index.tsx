@@ -2,14 +2,13 @@ import View from "./view";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {postData, getData as getCategoryData} from "../../../adapters/microservices/index";
+import { getData as getCategoryData} from "../../../adapters/microservices/index";
 import {
   getLatestWeightForCategory,
   updateCategoryLevels,
   getChildren,
 } from "./utils";
 import { setHasChildProp, resetManageCourseObj } from "./local";
-import { pagination } from "../../../utils/pagination";
 
 const CourseManagment = () => {
   const dummyData = {
@@ -17,7 +16,7 @@ const CourseManagment = () => {
     pager: { totalElements: 0, totalPages: 0 },
   };
 
-  const { id, name } = useParams();
+  const { id } = useParams();
   const [categoryData, setCategoryData] = useState(dummyData);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [parentWeight, setParentWeight] = useState<number>(0);
@@ -27,7 +26,6 @@ const CourseManagment = () => {
   const [formParent, setFormParent] = useState<number>(0);
   const [formWeight, setFormWeight] = useState<number>(0);
   const [apiStatus, setApiStatus] = useState("");
-  const [filesIds, setFilesIds] = useState([]);
   const [editCategory, setEditCategory] = useState<any>({
     id: 0,
     name: "",

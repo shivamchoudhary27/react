@@ -40,7 +40,7 @@ const AddUsersModal = ({
     roleId: usersdataobj.roleId === null ? 0 : usersdataobj.roleId,
   };
 
-  const { programid, userid } = useParams();
+  const { programid } = useParams();
   const parsedProgramid = parseInt(programid);
   const [showAlert, setShowAlert] = useState(false);
   const [roles, setRoles] = useState([]);

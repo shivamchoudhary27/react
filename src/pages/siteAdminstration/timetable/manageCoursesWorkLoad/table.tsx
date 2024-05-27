@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Table, Button } from "react-bootstrap";
 import ACTIONSLIST from "../../../../store/actions";
-import { getLatestWeightForCategory } from "./utils";
 import Errordiv from "../../../../widgets/alert/errordiv";
 import React, { useEffect, useMemo, useState } from "react";
 import { putData } from "../../../../adapters/microservices";

@@ -8,7 +8,6 @@ import Header from "../../../../newHeader";
 import HeaderTabs from "../../../../headerTabs";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import PageTitle from "../../../../../widgets/pageTitle";
-import UserFilter from "./filters";
 import ManageFilter from "./filters";
 import { pagination } from "../../../../../utils/pagination";
 import ModalForm from "./ModalForm";
@@ -17,8 +16,7 @@ import Footer from "../../../../newFooter";
 import { BackgroundWaveBottomLeft } from "../../../../../widgets/backgroundElements";
 
 const UserWaitlist = () => {
-  const navigate = useNavigate();
-  const { id ,name, programid,courseid, coursename  } = useParams();
+  const { name, programid,courseid, coursename  } = useParams();
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },

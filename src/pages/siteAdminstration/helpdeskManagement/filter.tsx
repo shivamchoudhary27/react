@@ -46,10 +46,10 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       e.target.value,
       selectedPublishedValue,
-      selectStartDateValue == ""
+      selectStartDateValue === ""
           ? selectStartDateValue
           : dateConverterToDYM(selectStartDateValue),
-          selectEndDateValue == ""
+          selectEndDateValue === ""
           ? selectEndDateValue
           : dateConverterToDYM(selectEndDateValue),
       selectProgram
@@ -61,10 +61,10 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       selectedTopicValue,
       e.target.value,
-      selectStartDateValue == ""
+      selectStartDateValue === ""
           ? selectStartDateValue
           : dateConverterToDYM(selectStartDateValue),
-          selectEndDateValue == ""
+          selectEndDateValue === ""
           ? selectEndDateValue
           : dateConverterToDYM(selectEndDateValue),
       selectProgram,
@@ -76,10 +76,10 @@ const Filter = (props: Props) => {
     props.updateTopicFilter(
       selectedTopicValue,
       selectedPublishedValue,
-      selectStartDateValue == ""
+      selectStartDateValue === ""
           ? selectStartDateValue
           : dateConverterToDYM(selectStartDateValue),
-          selectEndDateValue == ""
+          selectEndDateValue === ""
           ? selectEndDateValue
           : dateConverterToDYM(selectEndDateValue),
       e.target.value
@@ -98,7 +98,7 @@ const Filter = (props: Props) => {
         selectedTopicValue,
         selectedPublishedValue,
         convertedDate,
-        selectEndDateValue == ""
+        selectEndDateValue === ""
           ? selectEndDateValue
           : dateConverterToDYM(selectEndDateValue),
           selectProgram,
@@ -109,7 +109,7 @@ const Filter = (props: Props) => {
       props.updateTopicFilter(
         selectedTopicValue,
         selectedPublishedValue,
-        selectStartDateValue == ""
+        selectStartDateValue === ""
           ? selectStartDateValue
           : dateConverterToDYM(selectStartDateValue),
         convertedDate,

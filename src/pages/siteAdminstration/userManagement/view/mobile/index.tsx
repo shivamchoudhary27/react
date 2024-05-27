@@ -4,7 +4,6 @@ import AddUserModal from "../../modalForm";
 import { Container } from "react-bootstrap";
 import UserManagementTable from "../../table";
 import UploadNewUsers from "../../uploadUsers";
-import HeaderTabs from "../../../../headerTabs";
 import PageTitle from "../../../../../widgets/pageTitle";
 import Errordiv from "../../../../../widgets/alert/errordiv";
 import BuildPagination from "../../../../../widgets/pagination";
