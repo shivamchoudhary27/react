@@ -11,7 +11,6 @@ type Props = {
 };
 
 const WeekendSlot = (props: Props) => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
   const currentInstitute: number = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );

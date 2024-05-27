@@ -10,12 +10,8 @@ import React, { useMemo, useState, useEffect } from "react";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
-import editIcon from "../../../../assets/images/icons/edit-action.svg";
-import showIcon from "../../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import { searchCountryNameById } from "../../../../globals/getCountry";
-import { putData, deleteData } from "../../../../adapters/coreservices";
-import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
+import {  deleteData } from "../../../../adapters/coreservices";
 import { MdPersonRemove } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
 import { OverlayTrigger, Table, Tooltip as BsTooltip,Tooltip } from "react-bootstrap";     
@@ -275,30 +271,30 @@ const GuestUsersTable = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
   const [deleteId, setDeleteId] = useState(0);
-  const [forceRender, setForceRender] = useState(false);
+  // const [forceRender, setForceRender] = useState(false);
 
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
 
-  const toggleUserEnabled = (userPacket: any) => {
-    userPacket.enabled = !userPacket.enabled;
-    setForceRender((prevState) => !prevState);
-    let endPoint = `/users/all_users/${userPacket.userId}`;
-    putData(endPoint, userPacket)
-      .then((res: any) => {
-        setForceRender((prevState) => !prevState);
-      })
-      .catch((err: any) => {
-        dispatch({
-          type: ACTIONSLIST.mitGlobalAlert,
-          alertMsg: "Action failed due to some error",
-          status: true,
-        });
-        userPacket.enabled = !userPacket.enabled;
-        setForceRender((prevState) => !prevState);
-      });
-  };
+  // const toggleUserEnabled = (userPacket: any) => {
+  //   userPacket.enabled = !userPacket.enabled;
+  //   setForceRender((prevState) => !prevState);
+  //   let endPoint = `/users/all_users/${userPacket.userId}`;
+  //   putData(endPoint, userPacket)
+  //     .then((res: any) => {
+  //       setForceRender((prevState) => !prevState);
+  //     })
+  //     .catch((err: any) => {
+  //       dispatch({
+  //         type: ACTIONSLIST.mitGlobalAlert,
+  //         alertMsg: "Action failed due to some error",
+  //         status: true,
+  //       });
+  //       userPacket.enabled = !userPacket.enabled;
+  //       setForceRender((prevState) => !prevState);
+  //     });
+  // };
 
   useEffect(() => {
     if (onDeleteAction === "Yes") {

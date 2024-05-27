@@ -2,7 +2,6 @@ import "./style.scss";
 import View from "./view";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { pagination } from "../../../../utils/pagination";
 import { getData } from "../../../../adapters/microservices";
 
@@ -11,7 +10,6 @@ const TimesSlot = () => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const navigate = useNavigate();
   const [departmentList, setDepartmentList] = useState(dummyData);
   const [apiStatus, setApiStatus] = useState("");
   const selectedDepartment = useSelector(
@@ -47,26 +45,26 @@ const TimesSlot = () => {
     }
   }, [currentInstitute]);
 
-  // to update filters values in the main state filterUpdate
-  const updateClassroomFilterByDepartment = (departmentId: string) => {
-    setFilterUpdate({
-      ...filterUpdate,
-      departmentId: departmentId,
-      pageNumber: 0,
-    });
-  };
+  // to update filters values in the main state filterUpdate               //not in use
+  // const updateClassroomFilterByDepartment = (departmentId: string) => {
+  //   setFilterUpdate({
+  //     ...filterUpdate,
+  //     departmentId: departmentId,
+  //     pageNumber: 0,
+  //   });
+  // };
 
-  const updateInputFilters = (inputvalues: any) => {
-    setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
-  };
+  // const updateInputFilters = (inputvalues: any) => {
+  //   setFilterUpdate({ ...filterUpdate, name: inputvalues, pageNumber: 0 });
+  // };
 
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
-
-  const filterHandlerByDepartment = (val: string) => {
-    console.log(val);
-  };
+                                                            // not in use
+  // const filterHandlerByDepartment = (val: string) => {
+  //   console.log(val);
+  // };
 
   return (
     <View

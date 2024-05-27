@@ -88,7 +88,7 @@ export const generateProgramDataObject = (formData) => {
     programData.modeOfStudy = formData.modeOfStudy;
     programData.durationValue = formData.durationValue;
     programData.durationUnit = formData.durationUnit;
-    programData.batchYear = (formData.isBatchYearRequired) ? (formData.batchYear == "") ? 2023 : formData.batchYear : 0;
+    programData.batchYear = (formData.isBatchYearRequired) ? (formData.batchYear === "") ? 2023 : formData.batchYear : 0;
     programData.description = formData.description;
     programData.objective = formData.objective;
     programData.fullLifeTimeAccess = formData.fullLifeTimeAccess;
@@ -108,7 +108,7 @@ export const generateProgramDataObject = (formData) => {
 };
 
 const convertFormSubmittedTagsData = (tags) => {
-    const filteredArray = tags.filter(value => value != 0);  // to remove value zero
+    const filteredArray = tags.filter(value => value !== 0);  // to remove value zero
     const newArray = filteredArray.map(id => {
         return { id: parseInt(id) };
     });

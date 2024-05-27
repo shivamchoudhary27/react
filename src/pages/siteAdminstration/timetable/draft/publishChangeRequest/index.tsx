@@ -1,6 +1,5 @@
 
 import "../style.scss";
-import View from "./view";
 import Filters from "./filter";
 import Header from "../../../../newHeader";
 import Footer from "../../../../newFooter";

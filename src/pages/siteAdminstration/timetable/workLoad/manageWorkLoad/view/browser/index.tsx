@@ -6,7 +6,7 @@ import Footer from "../../../../../../newFooter";
 import HeaderTabs from "../../../../../../headerTabs";
 import PageTitle from "../../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
-import { BackgroundWaveBottomLeft, BackgroundWaveLeft, BackgroundWaveRight } from "../../../../../../../widgets/backgroundElements";
+import { BackgroundWaveBottomLeft, BackgroundWaveRight } from "../../../../../../../widgets/backgroundElements";
 
 type Props = {
   commonProps: {

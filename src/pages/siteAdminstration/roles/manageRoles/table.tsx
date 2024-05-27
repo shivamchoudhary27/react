@@ -3,8 +3,6 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
-import showIcon from "../../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../../assets/images/icons/hide-action.svg";
 import { deleteData, putData } from "../../../../adapters/coreservices";
 import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import { useDispatch } from "react-redux";
@@ -13,7 +11,7 @@ import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
 // import { putData } from "../../../../adapters/microservices";
-import { IUserData, IUserObj, IAlertMsg, IRoleTable } from "./types/interface";
+import { IUserObj, IAlertMsg, IRoleTable } from "./types/interface";
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
 import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
@@ -217,7 +215,7 @@ const RolesTable: React.FunctionComponent<IRoleTable> = ({
     contextType,
     published,
     idNumber,
-    shortName
+    shortName,
   }: IUserObj) => {
     setAddRoleModalShow(true);
     refreshOnDeleteToggle(true);

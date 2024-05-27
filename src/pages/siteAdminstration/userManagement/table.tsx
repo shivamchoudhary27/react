@@ -20,7 +20,6 @@ import deleteIcon from "../../../assets/images/icons/delete-action.svg";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
-import { isMobile } from 'react-device-detect';
 
 const UserManagementTable = ({
   userdata,

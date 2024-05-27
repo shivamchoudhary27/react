@@ -15,7 +15,6 @@ type Props = {
   minorCourseData: any;
   toggleModalShow: any;
   getUserModalInfo:any;
-  onHide:any
 };
 
 const UserWaitlistTable = (props: Props) => {

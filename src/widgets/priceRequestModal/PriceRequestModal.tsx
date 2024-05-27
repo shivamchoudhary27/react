@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import RequestImage from "../../assets/images/price-request.png";
 import MailIcon from "../../assets/images/icons/mail.svg";
 import WaveBottom from "../../assets/images/background/bg-modal.svg";

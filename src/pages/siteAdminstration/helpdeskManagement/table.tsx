@@ -11,8 +11,6 @@ import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
 import { OverlayTrigger, Table, Tooltip as BsTooltip } from "react-bootstrap";
 import deleteIcon from "../../../assets/images/icons/delete-action.svg";
-import { deleteData } from "../../../adapters/microservices";
-import Swal from "sweetalert2";
 
 type Props = {
   apiStatus: string;

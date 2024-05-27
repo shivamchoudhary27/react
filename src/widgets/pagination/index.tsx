@@ -31,7 +31,7 @@ const BuildPagination: React.FunctionComponent<IBuildPagination> = ({
   const renderPageNumbers = () => {
     const pageNumbers: any[] = [];
     // const maxVisiblePages: number = service != "core" ? 10 : 2;
-    const maxVisiblePages: number = service != "core" ? 10 : 200;
+    const maxVisiblePages: number = service !== "core" ? 10 : 200;
     const minVisiblePages: number = 5;
 
 

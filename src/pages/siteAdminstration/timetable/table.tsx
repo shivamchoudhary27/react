@@ -10,7 +10,7 @@ import manageCoursesIcon from "../../../assets/images/icons/manage-courses-actio
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
-import { OverlayTrigger, Table, Tooltip,Tooltip as BsTooltip } from "react-bootstrap";
+import { OverlayTrigger, Table,Tooltip as BsTooltip } from "react-bootstrap";
 
 
 // Actions btns styling === >>>

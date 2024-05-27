@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
@@ -18,7 +18,6 @@ import showIcon from "../../../assets/images/icons/show-action.svg";
 import hideIcon from "../../../assets/images/icons/hide-action.svg";
 import TableSkeleton from "../../../widgets/skeleton/table";
 import Errordiv from "../../../widgets/alert/errordiv";
-import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import DeleteAlert from "../../../widgets/alert/deleteAlert";
 import { useDispatch } from "react-redux";
 import { globalAlertActions } from "../../../store/slices/globalAlerts";

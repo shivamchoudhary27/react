@@ -30,29 +30,29 @@ const WeekendSlotModal = (props: Props) => {
   });
 
   // modal form contents skeleton === >>>
-  const CheckboxSkeleton = () => {
-    const arr = [];
-    for (let i = 0; i < 7; i++) {
-      arr.push(i);
-    }
-    return (
-      <SkeletonTheme baseColor="#F9F5F6" highlightColor="#ECF2FF">
-        {arr.map((el, i) => (
-          <div key={i}>
-            <div className="d-inline-block me-3">
-              <Skeleton width={22} height={22} />
-            </div>
-            <div className="d-inline-block">
-              <Skeleton count={1} width={150} height={22} />
-            </div>
-          </div>
-        ))}
-        <div className="my-3 text-center">
-          <Skeleton width={100} height={40} />
-        </div>
-      </SkeletonTheme>
-    );
-  };
+  // const CheckboxSkeleton = () => {
+  //   const arr = [];
+  //   for (let i = 0; i < 7; i++) {
+  //     arr.push(i);
+  //   }
+  //   return (
+  //     <SkeletonTheme baseColor="#F9F5F6" highlightColor="#ECF2FF">
+  //       {arr.map((el, i) => (
+  //         <div key={i}>
+  //           <div className="d-inline-block me-3">
+  //             <Skeleton width={22} height={22} />
+  //           </div>
+  //           <div className="d-inline-block">
+  //             <Skeleton count={1} width={150} height={22} />
+  //           </div>
+  //         </div>
+  //       ))}
+  //       <div className="my-3 text-center">
+  //         <Skeleton width={100} height={40} />
+  //       </div>
+  //     </SkeletonTheme>
+  //   );
+  // };
 
   // handle Form CRUD operations === >>>
   const handleFormData = (values: any, { setSubmitting, resetForm }: any) => {

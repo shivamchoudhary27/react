@@ -35,7 +35,7 @@ const RolesGlobalFilter = (props: Props) => {
         dispatch(globalFilterActions.currentUserRole({ id: highestPriorityRole.id, shortName: highestPriorityRole.shortName }))
         localStorage.setItem("currentUserRole", JSON.stringify({ id: highestPriorityRole.id, shortName: highestPriorityRole.shortName }));
       }
-      if (currentUserRole.id != 0) {
+      if (currentUserRole.id !== 0) {
         setSelectedValue(currentUserRole.id);
         localStorage.setItem("currentUserRole", JSON.stringify({ id: currentUserRole.id, shortName: currentUserRole.shortName }));
       }

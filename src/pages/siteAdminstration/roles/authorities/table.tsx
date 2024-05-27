@@ -1,8 +1,8 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { putData, deleteData as deleteDepartmentData } from "../../../../adapters/coreservices";
+import { deleteData as deleteDepartmentData } from "../../../../adapters/coreservices";
 import Table from "react-bootstrap/Table";
 import { useTable } from "react-table";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "sweetalert2/src/sweetalert2.scss";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
@@ -10,10 +10,6 @@ import DeleteAlert from "../../../../widgets/alert/deleteAlert";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
 import editIcon from "../../../../assets/images/icons/edit-action.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
-import showIcon from "../../../../assets/images/icons/show-action.svg";
-import hideIcon from "../../../../assets/images/icons/hide-action.svg";
-import programIcon from "../../../../assets/images/icons/manage-program-action.svg";
-import ACTIONSLIST from "../../../../store/actions";
 
 // Actions btns styling === >>>
 const actionsStyle = {
@@ -79,7 +75,6 @@ const DepartmentTable = ({
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [onDeleteAction, setOnDeleteAction] = useState("");
   const [deleteId, setDeleteId] = useState(0);
-  const [forceRender, setForceRender] = useState(false);
 
   // edit event handler === >>>
   const editHandler = ({ id, name, module }: any) => {

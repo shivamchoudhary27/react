@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Container} from "react-bootstrap";
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { Link } from 'react-router-dom';
 import './style.scss';

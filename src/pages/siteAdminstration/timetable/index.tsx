@@ -3,7 +3,6 @@ import View from "./view";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { pagination } from "../../../utils/pagination";
-import Errordiv from "../../../widgets/alert/errordiv";
 import { getData } from "../../../adapters/microservices";
 
 const TimeTable = () => {

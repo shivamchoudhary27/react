@@ -15,7 +15,6 @@ const ManageTimesSlot = () => {
   const { departmentId, name } = useParams();
   const [timeslotList, setTimeslotList] = useState(dummyData);
   const [departmentList, setDepartmentList] = useState(dummyData);
-  const [instituteSlotList, setInstituteSlotList] = useState([]);
   const [refreshOnDelete, setRefreshOnDelete] = useState(false);
   const [timeslotObj, setTimeslotObj] = useState({});
   const [refreshData, setRefreshData] = useState(true);

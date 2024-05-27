@@ -11,6 +11,8 @@ import CountryList from "../../../../../globals/country";
 import timeZone from "../../../../../globals/timeZone/timeZone";
 import PageTitle from "../../../../../widgets/pageTitle";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
+import { pagination } from "../../../../../utils/pagination";
+import { getData, putData } from "../../../../../adapters/coreservices";
 import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import FieldLabel from "../../../../../widgets/formInputFields/labels";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
@@ -18,8 +20,6 @@ import { LoadingButton } from "../../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessage";
 import FieldTypeSelect from "../../../../../widgets/formInputFields/formSelectField";
-import { pagination } from "../../../../../utils/pagination";
-import { getData, putData } from "../../../../../adapters/coreservices";
 
 // Formik Yup validation === >>>
 const userFormSchema = Yup.object({

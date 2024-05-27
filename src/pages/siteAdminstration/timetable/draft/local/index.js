@@ -308,7 +308,8 @@ const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters, 
     // console.log(filteredData)
     if(filteredData.length > 0){
         const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
-        // console.log(x)
+        console.log(x)
+        // console.log(filteredData[0])
         if(filteredData[0].status !== null){
             if(filteredData[0].status === "available"){
                 response = { status: "available" }

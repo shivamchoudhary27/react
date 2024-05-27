@@ -1,7 +1,7 @@
 import React from "react";
 
 const FieldErrorMessage = ({ errors, touched, msgText }: any) => {
-  const error = errors != undefined && errors.charAt(0).toUpperCase() + errors.slice(1);
+  const error = errors !== undefined && errors.charAt(0).toUpperCase() + errors.slice(1);
   return (
     <React.Fragment>
       {errors && touched ? (

@@ -90,10 +90,10 @@ const WorkLoad = () => {
   const refreshToggle = () => {
     setRefreshData(!refreshData);
   };
-
-  const refreshOnDeleteToggle = (value: boolean) => {
-    setRefreshOnDelete(value);
-  };
+                                                          //not in use
+  // const refreshOnDeleteToggle = (value: boolean) => {
+  //   setRefreshOnDelete(value);
+  // };
 
   // to update filters values in the main state filterUpdate
   const updateDepartmentFilter = (departmentId: string) => {
