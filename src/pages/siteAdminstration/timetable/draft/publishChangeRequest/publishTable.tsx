@@ -4,6 +4,7 @@ import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "../utils";
 import React, { useMemo, useState, useEffect } from "react";
 import { addDays, format, startOfWeek, parse } from "date-fns";
+import { useSelector } from "react-redux";
 
 const PublishedTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates, selectedMonth }: any) => {
   const currentDate = new Date();
@@ -18,6 +19,8 @@ const PublishedTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates
     });
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({next: true, prev: true});
+
+  const currentUserInfo = useSelector((state: any) => state.userInfo.userInfo);
 
   // render next week days === >>
   useEffect(() => {
@@ -59,11 +62,24 @@ const PublishedTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates
               row.original[format(date, "EEEE").toLowerCase()]
             );
             return (
+              // <div> 
+              //   {currentColumns.status === "booked" &&
+              //     currentColumns.bookedDetais}
+              //   {currentColumns.status === "available" && ""}
+              //   {currentColumns.status === "weekend" && "Weekend"}
+              // </div>
               <div> 
-                {currentColumns.status === "booked" &&
+                {currentColumns.status === "draft" &&
                   currentColumns.bookedDetais}
-                {currentColumns.status === "available" && "Available"}
-                {currentColumns.status === "weekend" && "Weekend"}
+                  {currentColumns.status === "changeRequest" && <div >
+                  <i className="fa-solid fa-envelope-circle-check"></i>
+                  {currentColumns.bookedDetais} <br />
+                  <b>{currentUserInfo.first_name} {currentUserInfo.last_name}</b>
+                </div>}
+                 {currentColumns.status === "not_available" && 
+                  currentColumns.bookedDetais}
+                {currentColumns.status === "available" && ""}
+                {currentColumns.status === "weekend" && "Weekend"}  
               </div>
             );
           },
@@ -81,8 +97,6 @@ const PublishedTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates
   const handleNextWeek = () => {
     const nextWeekDates = calculateWeek(weekAmount + 7);
     const nextWeekAvailable = isNextWeekAvailable(nextWeekDates, courseDates.endDateTimeStamp);
-
-    // console.log(nextWeekDates)
 
     if (nextWeekAvailable) {
       setRenderWeek(nextWeekDates);
@@ -152,7 +166,6 @@ const PublishedTable = ({ SlotData, apiStatus, courseDates, updateTimetableDates
     return weekDates; 
   }
   
-  // console.log("renderWeek----", renderWeek)
   return (
     <React.Fragment>
       <div className="next-previousbuttons">
