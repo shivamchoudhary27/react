@@ -95,7 +95,7 @@ const GradeTable = ({ statusfilter, apiStatus, studentId }: Props) => {
 
   const tableColumn = [
     {
-      Header: "Grade item",
+      Header: "Grade Item",
       Cell: ({ row }: any) => {
         const itemname = row.original.itemname;
         return itemname && itemname.content ? (
@@ -104,7 +104,7 @@ const GradeTable = ({ statusfilter, apiStatus, studentId }: Props) => {
       },
     },
     {
-      Header: "Calculated weight",
+      Header: "Calculated Weight",
       Cell: ({ row }: any) => {
         const weight = row.original.weight;
         return weight && weight.content ? (
@@ -149,7 +149,7 @@ const GradeTable = ({ statusfilter, apiStatus, studentId }: Props) => {
       },
     },
     {
-      Header: "Contribution to course total",
+      Header: "Contribution to Course total",
       Cell: ({ row }: any) => {
         const contributiontocoursetotal =
           row.original.contributiontocoursetotal;

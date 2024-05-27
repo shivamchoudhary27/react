@@ -14,17 +14,20 @@ import startDateIcon from "../../../../../../assets/images/icons/calender-startd
 type Props = {
   commonProps: {
     urlArg: any;
+    onHide: any;
     apiStatus: any;
     timeslots: any;
-    courseDates: any;
-    sortedCategories: any;
-    updateCourseDates: any;
-    getModalFormData: any;
-    toggleModalShow: any;
     modalShow: any;
+    courseDates: any;
     modalFormData: any;
-    onHide: any;
-  
+    toggleModalShow: any;
+    sortedCategories: any;
+    setCoursesStatus: any;
+    getModalFormData: any;
+    updateCourseDates: any;
+    updateFacultyStatus: any;
+    filteredTime: any;
+    
   };
 };
 
@@ -47,9 +50,24 @@ const Browser = (props: Props) => {
             gobacklink="/timetable"
           />
           <Filters
-            workloadCourses={props.commonProps.sortedCategories}
             ids={props.commonProps.urlArg}
+            courseDates={props.commonProps.courseDates}
+            workloadCourses={props.commonProps.sortedCategories}
+            setCoursesStatus={props.commonProps.setCoursesStatus}
             updateCourseDates={props.commonProps.updateCourseDates}
+            updateFacultyStatus={props.commonProps.updateFacultyStatus}
+          />
+
+          <ModalForm
+            urlArg={props.commonProps.urlArg}
+            modalShow={props.commonProps.modalShow}
+            filteredTime={props.commonProps.filteredTime}
+            modalFormData={props.commonProps.modalFormData}
+            availableRooms={props.commonProps.availableRooms}
+            toggleModalShow={props.commonProps.toggleModalShow}
+            requestTimeSlot={props.commonProps.requestTimeSlot}
+            onHide={props.commonProps.toggleModalShow}
+            changeRequestData={props.commonProps.changeRequestData}
           />
           <div className="d-flex justify-content-between align-items-center mt-4">
             <div className="d-flex gap-4 dates-wrapper">

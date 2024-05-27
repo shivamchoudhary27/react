@@ -1,24 +1,33 @@
 import React from "react";
-// import Filters from "../../../../filters";
+import Filters from "../../../filters";
 import { Container } from "react-bootstrap";
-import PublishedTable from "../../publishTable";
-import Header from "../../../../../../newHeader";
-import Footer from "../../../../../../newFooter";
-import HeaderTabs from "../../../../../../headerTabs";
-import PageTitle from "../../../../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
-import CustomButton from "../../../../../../../widgets/formInputFields/buttons";
+import DraftVersionTable from "../../table";
+import Header from "../../../../../newHeader";
+import Footer from "../../../../../newFooter";
+import HeaderTabs from "../../../../../headerTabs";
+import PageTitle from "../../../../../../widgets/pageTitle";
+import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import CustomButton from "../../../../../../widgets/formInputFields/buttons";
 import endDateIcon from "../../../../../../assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../../assets/images/icons/calender-startdate.svg";
 
 type Props = {
   commonProps: {
     urlArg: any;
+    onHide: any;
     apiStatus: any;
     timeslots: any;
+    modalShow: any;
     courseDates: any;
+    modalFormData: any;
+    toggleModalShow: any;
     sortedCategories: any;
+    setCoursesStatus: any;
+    getModalFormData: any;
     updateCourseDates: any;
+    updateFacultyStatus: any;
+    filteredTime: any;
+    
   };
 };
 
@@ -31,20 +40,35 @@ const Browser = (props: Props) => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "Timetable Management", path: "/timetable" },
-          { name: "Faculty Change Request", path: "" },
+          { name: "Draft Version", path: "" },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
-            pageTitle={`${props.commonProps.urlArg.prg} : Faculty Change Request`}
+            pageTitle={`${props.commonProps.urlArg.prg} : Draft Version`}
             gobacklink="/timetable"
           />
-          {/* <Filters
-            workloadCourses={props.commonProps.sortedCategories}
+          <Filters
             ids={props.commonProps.urlArg}
+            courseDates={props.commonProps.courseDates}
+            workloadCourses={props.commonProps.sortedCategories}
+            setCoursesStatus={props.commonProps.setCoursesStatus}
             updateCourseDates={props.commonProps.updateCourseDates}
-          /> */}
+            updateFacultyStatus={props.commonProps.updateFacultyStatus}
+          />
+
+          <ModalForm
+            urlArg={props.commonProps.urlArg}
+            modalShow={props.commonProps.modalShow}
+            filteredTime={props.commonProps.filteredTime}
+            modalFormData={props.commonProps.modalFormData}
+            availableRooms={props.commonProps.availableRooms}
+            toggleModalShow={props.commonProps.toggleModalShow}
+            requestTimeSlot={props.commonProps.requestTimeSlot}
+            onHide={props.commonProps.toggleModalShow}
+            changeRequestData={props.commonProps.changeRequestData}
+          />
           <div className="d-flex justify-content-between align-items-center mt-4">
             <div className="d-flex gap-4 dates-wrapper">
               <div>
@@ -67,7 +91,7 @@ const Browser = (props: Props) => {
           {props.commonProps.apiStatus === "finished" &&
             props.commonProps.timeslots.length > 0 && (
               <>
-                <PublishedTable
+                <DraftVersionTable
                   SlotData={props.commonProps.timeslots}
                   apiStatus={props.commonProps.apiStatus}
                   courseDates={props.commonProps.courseDates}

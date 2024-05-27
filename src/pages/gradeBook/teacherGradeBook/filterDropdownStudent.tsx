@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEventHandler } from "react";
+import React, { useState, useEffect } from "react";
 
 type Props = {
   StudentData?: any;
@@ -31,7 +31,7 @@ const FilterProgramDropdownStudent = (props: Props) => {
     let originalValue = value;
     value = parseInt(value);
     props.setStudentId(originalValue);
-    if (component === "student") {
+    if (component === "Student") {
       setFilters((prevFilterData: any) => ({
         ...prevFilterData,
         selectedValues: {
@@ -45,7 +45,7 @@ const FilterProgramDropdownStudent = (props: Props) => {
   return (
     <React.Fragment>
       <RenderFilterElements
-        component={"student"}
+        component={"Student"}
         filterPacket={studentDetails}
         packetKeys={["id", "name"]}
         getFilterChange={getFilterChange}
