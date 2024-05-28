@@ -51,14 +51,23 @@ const ModalForm = (props: Props) => {
   });
   
   useEffect(() => {
-    setInitialValues({
-      id: props.changeRequestData?.id || 0,
-      sessionDate: props.modalFormData?.sessionDate || "",
-      timeSlotId: props.changeRequestData?.timeSlotId || 0,
-      classRoomId: props.changeRequestData?.classRoomId || 0,
-      reason: props.changeRequestData?.reason || "",
-    });
-  }, [props.changeRequestData]);
+    if (props.modalFormData?.status === "changeRequest") {
+      setInitialValues({
+        id: props.changeRequestData?.id || 0,
+        sessionDate: props.modalFormData?.sessionDate || "",
+        timeSlotId: props.changeRequestData?.timeSlotId || 0,
+        classRoomId: props.changeRequestData?.classRoomId || 0,
+        reason: props.changeRequestData?.reason || "",
+      });
+    } else {
+      setInitialValues(prev => ({
+        ...prev,
+        sessionDate: props.modalFormData?.sessionDate || ""
+      }));
+    }
+  }, [props.modalFormData, props.changeRequestData]);
+  
+  
 
   async function handleFormSubmit(values: any, action: any) {
     if (props.urlArg.prgId > 0) {

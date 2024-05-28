@@ -1,58 +1,44 @@
 import "./style.scss";
-import Filters from "./filter";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
-import DraftVersionTable from "./table";
+import View from "./view";
 import { format, parse } from "date-fns";
+import { courseDatesObj } from "./utils";
 import { useSelector } from "react-redux";
-import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
 import React, { useState, useEffect } from "react";
-import PageTitle from "../../../../widgets/pageTitle";
-import Errordiv from "../../../../widgets/alert/errordiv";
 import { pagination } from "../../../../utils/pagination";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { getData } from "../../../../adapters/microservices";
-import TableSkeleton from "../../../../widgets/skeleton/table";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
 import {
   getUrlParams,
-  getMonthList,
   getTimeslotData,
   getSortedCategories,
   getCourseWorkloadtData,
   getTableRenderTimeSlots,
 } from "./local";
-import { courseDatesObj } from "./utils";
-import ModalForm from "./form";
 
 const WeeklyDraftVersion = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const navigate = useNavigate();
   const location = useLocation();
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
-  const [monthList, setMonthList] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [filteredTime, setFilteredTime] = useState([]);
+  const [refreshData, setRefreshData] = useState(true);
   const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState(dummyData);
+  const [requestTimeSlot, setRequestTimeSlot] = useState([]);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
-  const [handleMonthFilter, setHandleMonthFilter] = useState([]);
+  const [changeRequestData, setChangeRequestData] = useState();
   const [timetableData, setTimetableData] = useState(dummyData);
   const [availableRooms, setAvailableRooms] = useState<any>([]);
-  const [filteredTime, setFilteredTime] = useState([]);
-  const [requestTimeSlot, setRequestTimeSlot] = useState([]);
-  const [availableSlotdata, setAvailableSlots] = useState<any>({});
-  const [changeRequestData, setChangeRequestData] = useState();
+  const [handleMonthFilter, setHandleMonthFilter] = useState([]);
+  const [changeFilterStatus, setChangeFilterStatus] = useState(0);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
-  const [ChangeFilterStatus, setChangeFilterStatus] = useState(0);
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
@@ -180,24 +166,6 @@ const WeeklyDraftVersion = () => {
     }
   }, [departmentTimeslots]);
 
-   // =========>> calling API to get availableslots <<========
-  useEffect(() => {
-    if (modalFormData.timeSlotId > 0 && modalFormData.slotDetailId) {
-      getData(
-        `${urlArg.prgId}/timetable/availableslots?slotId=${modalFormData.timeSlotId}&sessionDate=${modalFormData.sessionDate}&slotDetailId=${modalFormData.slotDetailId}`,
-        {}
-      )
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-            setAvailableSlots(result.data);
-          }
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  }, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
-
 // =========>> calling API to get timeslot <<========
   useEffect(() => {
     if (urlArg.dpt > 0) {
@@ -240,7 +208,7 @@ const WeeklyDraftVersion = () => {
             setAvailableRooms(
               rooms.filter(
                 (availableRoom: any) =>
-                  modalFormData.changeRequestId === availableRoom.id
+                  changeRequestData?.classRoomId === availableRoom.id
               )
             );
           }
@@ -249,8 +217,9 @@ const WeeklyDraftVersion = () => {
           console.log(err);
         });
     }
-  }, [modalFormData.timeSlotId, modalFormData.slotDetailId, modalShow]);
+  }, [modalFormData.timeSlotId, modalFormData.slotDetailId, changeRequestData]);
 
+  console.log(changeRequestData)
   // =========>> calling API to get faculty change-request <<========
   useEffect(() => {
     if (modalFormData.changeRequestId > 0 && modalShow === true) {
@@ -301,132 +270,43 @@ const WeeklyDraftVersion = () => {
     }));
   };
 
-  // get Months between start & end timestamp === >>
-  useEffect(() => {
-    if (courseDates !== "") {
-      const monthListArr = getMonthList(courseDates);
-      setMonthList(monthListArr);
-    }
-  }, [courseDates]);
-
-  // // handle month filter === >>
-  // const handleMonthFilterChange = (e: any) => {
-  //   if(e.type === "change"){
-  //     setHandleMonthFilter([e.target.value])
-  //   }
-  // }
-
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
     setModalShow(status);
   };
 
+    // handle to re-rendering  table === >>
+    const refreshToggle = () => {
+      setRefreshData(!refreshData);
+    };
+
   return (
     <React.Fragment>
-      {/* mobile and browser view component call */}
-      {/* <View
+      <View
         urlArg={urlArg}
         apiStatus={apiStatus}
         timeslots={timeslots}
+        modalShow={modalShow}
         courseDates={courseDates}
+        filteredTime={filteredTime}
+        modalFormData={modalFormData}
+        refreshToggle={refreshToggle}
+        availableRooms={availableRooms}
+        requestTimeSlot={requestTimeSlot}
+        toggleModalShow={toggleModalShow}
+        setCoursesStatus={setCoursesStatus}
+        getModalFormData={getModalFormData}
         sortedCategories={sortedCategories}
+        handleMonthFilter={handleMonthFilter}
         updateCourseDates={updateCourseDates}
-
-         ids={urlArg}
-            setCoursesStatus={setCoursesStatus}
-            updateFacultyStatus={updateFacultyStatus}
-      /> */}
-
-      <Header />
-      <HeaderTabs activeTab="siteadmin" />
-      <BreadcrumbComponent
-        routes={[
-          { name: "Site Administration", path: "/siteadmin" },
-          { name: "Timetable Management", path: "/timetable" },
-          { name: "Draft Version", path: "" },
-        ]}
+        changeRequestData={changeRequestData}
+        onHide={() => toggleModalShow(false)}
+        changeFilterStatus={changeFilterStatus}
+        updateFacultyStatus={updateFacultyStatus}
+        setHandleMonthFilter={setHandleMonthFilter}
+        updateTimetableDates={updateTimetableDates}
+        setChangeFilterStatus={setChangeFilterStatus}
       />
-      <div className="contentarea-wrapper mt-3 mb-5">
-        <Container fluid>
-          <PageTitle
-            pageTitle={`${urlArg.prg} : Draft Version`}
-            gobacklink="/timetable"
-          />
-          <Filters
-            ids={urlArg}
-            courseDates={courseDates}
-            workloadCourses={sortedCategories}
-            setCoursesStatus={setCoursesStatus}
-            updateCourseDates={updateCourseDates}
-            updateFacultyStatus={updateFacultyStatus}
-            ChangeFilterStatus={ChangeFilterStatus}
-          />
-          <ModalForm
-            urlArg={urlArg}
-            modalShow={modalShow}
-            filteredTime={filteredTime}
-            modalFormData={modalFormData}
-            availableRooms={availableRooms}
-            toggleModalShow={toggleModalShow}
-            requestTimeSlot={requestTimeSlot}
-            onHide={() => toggleModalShow(false)}
-            changeRequestData={changeRequestData}
-          />
-
-          {coursesStatus !== false && apiStatus === "finished" ? (
-            <Errordiv msg="No record available!" cstate className="mt-3" />
-          ) : coursesStatus !== false && apiStatus === "started" ? (
-            <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-          ) : (
-            <>
-              {apiStatus === "finished" && timeslots.length > 0 && (
-                <DraftVersionTable
-                  SlotData={timeslots}
-                  apiStatus={apiStatus}
-                  courseDates={courseDates}
-                  toggleModalShow={toggleModalShow}
-                  getModalFormData={getModalFormData}
-                  handleMonthFilter={handleMonthFilter}
-                  setHandleMonthFilter={setHandleMonthFilter}
-                  updateTimetableDates={updateTimetableDates}
-                  setChangeFilterStatus={setChangeFilterStatus}
-                />
-              )}
-              {apiStatus === "finished" && timeslots.length === 0 && (
-                <div>
-                  <i>No timeslots are available</i>
-                </div>
-              )}
-              <div style={{ textAlign: "right" }}>
-                <CustomButton
-                  type="submit"
-                  btnText="Publish for change request"
-                  variant="primary"
-                  onClick={() =>
-                    navigate(
-                      `/facultyChange?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`
-                    )
-                  }
-                />
-              </div>
-              <div className="modal-buttons">
-                <CustomButton
-                  type="submit"
-                  btnText="Submit Changes"
-                  variant="primary"
-                  // disabled={isSubmitting}
-                />
-                <CustomButton
-                  type="reset"
-                  btnText="Reset"
-                  variant="outline-secondary"
-                />
-              </div>
-            </>
-          )}
-        </Container>
-      </div>
-      <Footer />
     </React.Fragment>
   );
 };
