@@ -263,7 +263,6 @@ const MappingTable = ({
                             </td>
                           ))} */}
                         <td>{`${item.abbreviation}_${item.suffixValue}`}</td>
-
                         {Object.entries(programOutcomeDtos).map(
                           ([key, value]: any, index: number) =>
                             parseInt(key) === item.id &&

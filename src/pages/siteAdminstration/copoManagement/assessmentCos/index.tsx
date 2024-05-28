@@ -19,6 +19,7 @@ const AssessmentForCOs = (props: Props) => {
   const [apiStatus, setApiStatus] = useState("");
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [assessmentMappingData, setAssessmentMappingData] = useState(dummyData);
+  const [assessmentMoodleData, setAssessmentMoodleData] = useState(dummyData);
   const [initialValues, setInitialValue] = useState({});
 
   useEffect(() => {
@@ -26,6 +27,7 @@ const AssessmentForCOs = (props: Props) => {
     getData(`/${cid}/assessment/mapping`, {})
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
+          setAssessmentMoodleData(res.data)
           setAssessmentMappingData(res.data);
           const initialData = res.data.items.reduce(
             (
@@ -65,6 +67,7 @@ const AssessmentForCOs = (props: Props) => {
         setInitialValue={setInitialValue}
         setActiveTab={props.setActiveTab} 
         assessmentData={assessmentMappingData.items}
+        assessmentMoodleData={assessmentMoodleData.moodleData}
          />
       <Alert variant="primary" className="mt-4">
         <strong>Note:</strong>
