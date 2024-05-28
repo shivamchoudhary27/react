@@ -1,21 +1,22 @@
 import "./style.scss";
+import View from "./view";
 import Filters from "./filter";
-import Header from "../../../newHeader";
-import Footer from "../../../newFooter";
+import Header from "../../../../newHeader";
+import Footer from "../../../../newFooter";
 import DraftVersionTable from "./table";
 import { format, parse } from "date-fns";
 import { useSelector } from "react-redux";
 import { Container } from "react-bootstrap";
-import HeaderTabs from "../../../headerTabs";
+import HeaderTabs from "../../../../headerTabs";
 import React, { useState, useEffect } from "react";
-import PageTitle from "../../../../widgets/pageTitle";
-import Errordiv from "../../../../widgets/alert/errordiv";
-import { pagination } from "../../../../utils/pagination";
+import PageTitle from "../../../../../widgets/pageTitle";
+import Errordiv from "../../../../../widgets/alert/errordiv";
+import { pagination } from "../../../../../utils/pagination";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getData } from "../../../../adapters/microservices";
-import TableSkeleton from "../../../../widgets/skeleton/table";
-import BreadcrumbComponent from "../../../../widgets/breadcrumb";
-import CustomButton from "../../../../widgets/formInputFields/buttons";
+import { getData } from "../../../../../adapters/microservices";
+import TableSkeleton from "../../../../../widgets/skeleton/table";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
+import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import {
   getUrlParams,
   getMonthList,
@@ -23,11 +24,11 @@ import {
   getSortedCategories,
   getCourseWorkloadtData,
   getTableRenderTimeSlots,
-} from "./local";
-import { courseDatesObj } from "./utils";
+} from "../local";
+import { courseDatesObj } from "../utils";
 import ModalForm from "./form";
 
-const WeeklyDraftVersion = () => {
+const FacultyChangeRequest = () => {
   const dummyData = {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
@@ -38,13 +39,14 @@ const WeeklyDraftVersion = () => {
   const [apiStatus, setApiStatus] = useState("");
   const [monthList, setMonthList] = useState({});
   const [modalShow, setModalShow] = useState(false);
+  const [filteredTime, setFilteredTime] = useState([]);
+  const [refreshData, setRefreshData] = useState(true);
   const [coursesStatus, setCoursesStatus] = useState(false);
   const [coursesList, setCoursesList] = useState(dummyData);
   const [weekendTimeslots, setWeekendTimeslots] = useState([]);
   const [handleMonthFilter, setHandleMonthFilter] = useState([]);
   const [timetableData, setTimetableData] = useState(dummyData);
   const [availableRooms, setAvailableRooms] = useState<any>([]);
-  const [filteredTime, setFilteredTime] = useState([]);
   const [requestTimeSlot, setRequestTimeSlot] = useState([]);
   const [availableSlotdata, setAvailableSlots] = useState<any>({});
   const [changeRequestData, setChangeRequestData] = useState();
@@ -180,7 +182,7 @@ const WeeklyDraftVersion = () => {
     }
   }, [departmentTimeslots]);
 
-   // =========>> calling API to get availableslots <<========
+  // =========>> calling API to get availableslots <<========
   useEffect(() => {
     if (modalFormData.timeSlotId > 0 && modalFormData.slotDetailId) {
       getData(
@@ -198,7 +200,7 @@ const WeeklyDraftVersion = () => {
     }
   }, [modalFormData.timeSlotId, modalFormData.slotDetailId]);
 
-// =========>> calling API to get timeslot <<========
+  // =========>> calling API to get timeslot <<========
   useEffect(() => {
     if (urlArg.dpt > 0) {
       getData(
@@ -240,7 +242,7 @@ const WeeklyDraftVersion = () => {
             setAvailableRooms(
               rooms.filter(
                 (availableRoom: any) =>
-                  modalFormData.changeRequestId === availableRoom.id
+                  changeRequestData?.classRoomId === availableRoom.id
               )
             );
           }
@@ -249,8 +251,10 @@ const WeeklyDraftVersion = () => {
           console.log(err);
         });
     }
-  }, [modalFormData.timeSlotId, modalFormData.slotDetailId, modalShow]);
+  }, [modalFormData.timeSlotId, modalFormData.slotDetailId, modalShow, changeRequestData]);
 
+  console.log( changeRequestData)
+  console.log(modalFormData)
   // =========>> calling API to get faculty change-request <<========
   useEffect(() => {
     if (modalFormData.changeRequestId > 0 && modalShow === true) {
@@ -321,6 +325,11 @@ const WeeklyDraftVersion = () => {
     setModalShow(status);
   };
 
+   // handle to re-rendering  table === >>
+   const refreshToggle = () => {
+    setRefreshData(!refreshData);
+  };
+
   return (
     <React.Fragment>
       {/* mobile and browser view component call */}
@@ -343,14 +352,17 @@ const WeeklyDraftVersion = () => {
         routes={[
           { name: "Site Administration", path: "/siteadmin" },
           { name: "Timetable Management", path: "/timetable" },
-          { name: "Draft Version", path: "" },
+          {
+            name: "Faculty Change Request",
+            path: `/draftversiondpt?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`,
+          },
         ]}
       />
       <div className="contentarea-wrapper mt-3 mb-5">
         <Container fluid>
           <PageTitle
-            pageTitle={`${urlArg.prg} : Draft Version`}
-            gobacklink="/timetable"
+            pageTitle={`${urlArg.prg} : Faculty Change Request`}
+            gobacklink={`/draftversion?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`}
           />
           <Filters
             ids={urlArg}
@@ -370,6 +382,7 @@ const WeeklyDraftVersion = () => {
             requestTimeSlot={requestTimeSlot}
             onHide={() => toggleModalShow(false)}
             changeRequestData={changeRequestData}
+            updateAddRefresh={refreshToggle}
           />
 
           {coursesStatus !== false && apiStatus === "finished" ? (
@@ -397,37 +410,34 @@ const WeeklyDraftVersion = () => {
                 </div>
               )}
               <div style={{ textAlign: "right" }}>
-                <CustomButton
-                  type="submit"
-                  btnText="Publish for change request"
-                  variant="primary"
-                  onClick={() =>
-                    navigate(
-                      `/facultyChange?dpt=${urlArg.dpt}&prgId=${urlArg.prgId}&prg=${urlArg.prg}`
-                    )
-                  }
-                />
-              </div>
-              <div className="modal-buttons">
-                <CustomButton
-                  type="submit"
-                  btnText="Submit Changes"
-                  variant="primary"
-                  // disabled={isSubmitting}
-                />
-                <CustomButton
-                  type="reset"
-                  btnText="Reset"
-                  variant="outline-secondary"
-                />
-              </div>
-            </>
-          )}
-        </Container>
-      </div>
+                    <CustomButton
+                      type="submit"
+                      btnText="Final Publish"
+                      variant="primary"
+                      // disabled={isSubmitting}
+                    />
+                    
+                  </div>
+                  <div className="modal-buttons">
+                    <CustomButton
+                      type="submit"
+                      btnText="Submit Changes"
+                      variant="primary"
+                      // disabled={isSubmitting}
+                    />
+                    <CustomButton
+                      type="reset"
+                      btnText="Reset"
+                      variant="outline-secondary"
+                    />
+                  </div>
+                </>
+              )}
+            </Container>
+          </div>
       <Footer />
     </React.Fragment>
   );
 };
 
-export default WeeklyDraftVersion;
+export default FacultyChangeRequest;

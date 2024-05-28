@@ -8,7 +8,7 @@ import ManageWorkLoad from "../../../pages/siteAdminstration/timetable/workLoad/
 import ManageTimesSlot from "../../../pages/siteAdminstration/timetable/timesSlot/manageTimeSlot";
 import ManageCoursesWorkLoad from "../../../pages/siteAdminstration/timetable/manageCoursesWorkLoad";
 import WeeklyDraftVersion from "../../../pages/siteAdminstration/timetable/draft";
-import PublishChangeRequest from "../../../pages/siteAdminstration/timetable/draft/publishChangeRequest";
+import FacultyChangeRequest from "../../../pages/siteAdminstration/timetable/draft/facultyChangeRequest";
 import MyChangeRequest from "../../../pages/calender/myTimetable/myChageRequest";
 
 const TimetableManagementRoute = () => {
@@ -26,7 +26,7 @@ const TimetableManagementRoute = () => {
       element={<ManageCoursesWorkLoad />}
     />,
     <Route path="/draftversion" key="draftversion" element={<WeeklyDraftVersion />} />,
-    <Route path="/publishchange" key="publishchange" element={<PublishChangeRequest />} />,
+    <Route path="/facultyChange" key="facultyChange" element={<FacultyChangeRequest />} />,
     <Route path="/myChangeRequest" key="myChangeRequest" element={<MyChangeRequest />} />,
   ];
 };

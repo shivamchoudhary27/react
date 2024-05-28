@@ -65,14 +65,14 @@ const FilterProgramDropdownStudent: React.FC<Props> = ({
   }, [StudentData]);
 
   const getFilterChange = (value: string, component: string) => {
-    if (component === "student") {
+    if (component === "Student") {
       const parsedValue = parseInt(value, 10);
       setStudentId(parsedValue);
       setFilters((prevFilters) => ({
         ...prevFilters,
         selectedValues: { ...prevFilters.selectedValues, student: parsedValue },
       }));
-    } else if (component === "status") {
+    } else if (component === "Status") {
       setstatusfilter(value);
       setFilters((prevFilters) => ({
         ...prevFilters,
@@ -86,7 +86,7 @@ const FilterProgramDropdownStudent: React.FC<Props> = ({
       <div className="mitcomponet-heading filter-wrapper">
         <div className="row program-filter">
           <RenderFilterElements
-            component="student"
+            component="Student"
             filterPacket={filters.filterData.student}
             packetKeys={["id", "firstname", "lastname"]}
             getFilterChange={getFilterChange}
@@ -94,7 +94,7 @@ const FilterProgramDropdownStudent: React.FC<Props> = ({
             filterDisable={false}
           />
           <RenderFilterElements
-            component="status"
+            component="Status"
             filterPacket={filters.filterData.status}
             packetKeys={["id", "name"]}
             getFilterChange={getFilterChange}
@@ -142,7 +142,7 @@ const RenderFilterElements: React.FC<RenderFilterElementsProps> = ({
         onChange={handleFilterChange}
         disabled={filterDisable}
       >
-         {component === "status" && <option value={0}>All</option>}
+         {component === "Status" && <option value={0}>All</option>}
         {filterPacket.map((el) => (
           <option key={el.id} value={el.id}>
             {el.firstname ? `${el.firstname} ${el.lastname}` : el.name}

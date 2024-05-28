@@ -1,14 +1,14 @@
 import React from "react";
-// import Filters from "../../../filters";
+import Filters from "../../../filters";
 import { Container } from "react-bootstrap";
-import PublishedTable from "../../publishTable";
-import PageTitle from "../../../../../../../widgets/pageTitle";
-import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
-import CustomButton from "../../../../../../../widgets/formInputFields/buttons";
+import DraftVersionTable from "../../table";
+import PageTitle from "../../../../../../widgets/pageTitle";
+import MobileHeader from "../../../../../newHeader/mobileHeader";
+import MobileFooter from "../../../../../newFooter/mobileFooter";
+import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import CustomButton from "../../../../../../widgets/formInputFields/buttons";
 import endDateIcon from "../../../../../../assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../../assets/images/icons/calender-startdate.svg";
-import MobileFooter from "../../../../../../newFooter/mobileFooter";
-import MobileHeader from "../../../../../../newHeader/mobileHeader";
 
 type Props = {
   commonProps: {
@@ -39,11 +39,11 @@ const Mobile = (props: Props) => {
               pageTitle={`${props.commonProps.urlArg.prg} : Draft Version`}
               gobacklink="/timetable"
             />
-            {/* <Filters
+            <Filters
               workloadCourses={props.commonProps.sortedCategories}
               ids={props.commonProps.urlArg}
               updateCourseDates={props.commonProps.updateCourseDates}
-            /> */}
+            />
             <div className="d-flex justify-content-between align-items-center mt-4">
               <div className="d-flex gap-4 dates-wrapper">
                 <div>
@@ -66,7 +66,7 @@ const Mobile = (props: Props) => {
             {props.commonProps.apiStatus === "finished" &&
               props.commonProps.timeslots.length > 0 && (
                 <>
-                  <PublishedTable
+                  <DraftVersionTable
                     SlotData={props.commonProps.timeslots}
                     apiStatus={props.commonProps.apiStatus}
                     courseDates={props.commonProps.courseDates}
