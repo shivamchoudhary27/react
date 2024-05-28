@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
 
 type Props = {
   urlArg: any;
@@ -10,7 +11,6 @@ type Props = {
   filteredTime: any;
   modalFormData: any;
   modalShow: boolean;
-  availableSlots: any;
   availableRooms: any;
   requestTimeSlot: any;
   toggleModalShow: any;
@@ -37,6 +37,7 @@ const ModalForm = (props: Props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        {props.requestTimeSlot.length > 0 ? (
           <div
             className="mb-3"
             style={{
@@ -44,7 +45,7 @@ const ModalForm = (props: Props) => {
               justifyContent: "space-between",
               alignItems: "center",
             }}
-          >
+          >  
             <div>
               <div>
                 <b>Session : </b>
@@ -60,7 +61,7 @@ const ModalForm = (props: Props) => {
                 {props.requestTimeSlot.length > 0 && (
                   <div>
                     {props.requestTimeSlot.map((slot: any) => (
-                      <div>
+                      <div key={slot.id}>
                         <b>Request TimeSlots :</b>
                         {slot.startTime}-{slot.endTime}
                       </div>
@@ -85,6 +86,7 @@ const ModalForm = (props: Props) => {
               </div>
             </div>
           </div>
+          ): <div><RouterLadyLoader status={true}/></div>}
           <div style={{ display: "flex", gap: "10px" }}>
             <CustomButton type="submit" variant="primary" btnText="Approve" />
 
@@ -93,7 +95,6 @@ const ModalForm = (props: Props) => {
               btnText="Cancel"
               variant="secondary"
               size="lg"
-              disabled
             />
           </div>
         </Modal.Body>

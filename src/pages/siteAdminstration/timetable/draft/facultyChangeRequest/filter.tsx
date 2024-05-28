@@ -1,20 +1,19 @@
 import { useFormik } from "formik";
+import { getMonthList } from "../local";
 import { format, parse, getTime } from "date-fns";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
-import { renderCourse, handleChildrens } from "../utils";
-import { courseDatesObj } from "../utils";
+import { renderCourse, handleChildrens, courseDatesObj } from "../utils";
+import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
 import endDateIcon from "../../../../../../src/assets/images/icons/calender-enddate.svg";
 import startDateIcon from "../../../../../../src/assets/images/icons/calender-startdate.svg";
-import { makeGetDataRequest } from "../../../../../features/apiCalls/getdata";
-
 const ManageFilter = ({
-  workloadCourses,
-  ids,
-  updateCourseDates,
-  setCoursesStatus,
-  updateFacultyStatus,
   courseDates,
+  workloadCourses,
+  setCoursesStatus,
+  updateCourseDates,
+  changeFilterStatus,
+  updateFacultyStatus,
   setHandleMonthFilter,
 }: any) => {
   const initialValues = {
@@ -22,12 +21,15 @@ const ManageFilter = ({
     faculty: "",
     workloadCourse: "",
   };
-  const dummyData = { items: [], pager: { totalElements: 0, totalPages: 0 } };
-  const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
+  const dummyData = {
+    items: [],
+    pager: { totalElements: 0, totalPages: 0 },
+  };
+  const [monthList, setMonthList] = useState([]);
+  const [coursesOnly, setCoursesOnly] = useState<any>([]);
   const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [selectedFaculty, setSelectedFaculty] = useState<number>(0);
-  const [coursesOnly, setCoursesOnly] = useState<any>([]);
-  const [monthList, setMonthList] = useState([]);
+  const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
 
   useEffect(() => {
     if (coursesOnly.length === 0) setCoursesStatus(true);
@@ -118,6 +120,14 @@ const ManageFilter = ({
       setHandleMonthFilter([e.target.value]);
     }
   };
+
+  // get Months between start & end timestamp === >>
+  useEffect(() => {
+    if (courseDates !== "") {
+      const monthListArr = getMonthList(courseDates);
+      setMonthList(monthListArr);
+    }
+  }, [courseDates]);
 
   const renderCourseOptions = (categories: any) => {
     return (
@@ -229,19 +239,22 @@ const ManageFilter = ({
                 >
                   <option value={0}>Select Month</option>
                   {Object.entries(monthList).map(([year, months]: any) => (
-                    <optgroup label={year}>
-                      {months.map(
-                        (month: any, index: React.Key | null | undefined) => (
-                          <option
-                            value={`${month},${year}`}
-                            key={index}
-                            // Conditionally render selected option based on state
-                            selected={ChangeFilterStatus === `${month},${year}`}
-                          >
-                            {month}
-                          </option>
-                        )
-                      )}
+                    <optgroup label={year} key={year}>
+                      {Array.isArray(months) &&
+                        months.map(
+                          (month: any, index: React.Key | null | undefined) => (
+                            <option
+                              value={`${month},${year}`}
+                              key={`${year}-${index}`}
+                              // Conditionally render selected option based on state
+                              selected={
+                                changeFilterStatus === `${month},${year}`
+                              }
+                            >
+                              {month}
+                            </option>
+                          )
+                        )}
                     </optgroup>
                   ))}
                 </select>

@@ -265,51 +265,14 @@ const checkSessionDatesIsWithinRange = (filters, sessionDate) => {
 // ========================================================
 //       set data according to timeslot & day === >>
 // ========================================================
-// const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters) => {
-//     let response = {};
-//     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
-//     const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
-//     if(filteredData.length > 0){
-//         // const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
-//         // console.log(x)
-//         // console.log(filteredData[0])
-//         if(filteredData[0].status !== null){
-//             if(filteredData[0].status === "available"){
-//                 response = { status: "available" }
-//             }else if(filteredData[0].status === "draft" && filteredData[0].bookingStatus === "not_available"){  
-//                 response = { status: "not_available", bookedDetais: filteredData[0].description }
-//             }else if(filteredData[0].status === "draft" && filteredData[0].bookingStatus === "booked"){  
-//                 response = { status: "draft", bookedDetais: filteredData[0].description }
-//             }else{
-//                 response = { status: "available" }
-//             }
-//         }
-//     }else{  
-//         if(courseDates.startDate === '--/--/----' && courseDates.endDate === '--/--/----'){
-//             response = { status: "" }
-//         }else{
-//             if(lowerCaseWeekdays.includes(day.toLowerCase())){
-//                 response = { status: "weekend" }
-//             }
-//             else{
-//                 response = { status: "available" }
-//             }
-//         }
-//     }
-    
-//     return JSON.stringify(response); 
-// }
 
 const getTimeSlotDayData = (slotId, day, packet, weekend, courseDates, filters, timeslots) => {
     let response = {};
     const filteredData = packet.filter(item => item.timeSlotId === slotId && item.dayName === day);
-    // const filteredTime = timeslots.filter(item => item.id === slotId && item.dayName === day && item.startTime );
     const lowerCaseWeekdays = weekend.map(day => day.toLowerCase());
-    // console.log(filteredData)
     if(filteredData.length > 0){
         const x = checkSessionDatesIsWithinRange(filters, filteredData[0].sessionDate)
-        console.log(x)
-        // console.log(filteredData[0])
+        // console.log(x)
         if(filteredData[0].status !== null){
             if(filteredData[0].status === "available"){
                 response = { status: "available" }

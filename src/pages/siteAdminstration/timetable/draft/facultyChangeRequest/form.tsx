@@ -6,6 +6,7 @@ import { postData } from "../../../../../adapters/microservices";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../../../assets/images/background/bg-modal.svg";
+import RouterLadyLoader from "../../../../../globals/globalLazyLoader/routerLadyLoader";
 
 type Props = {
   urlArg: any;
@@ -13,7 +14,6 @@ type Props = {
   filteredTime: any;
   modalFormData: any;
   modalShow: boolean;
-  availableSlots: any;
   availableRooms: any;
   requestTimeSlot: any;
   toggleModalShow: any;
@@ -111,6 +111,7 @@ const ModalForm = (props: Props) => {
             setShowAlert={setShowAlert}
             showAlert={showAlert}
           />
+          {props.requestTimeSlot.length > 0 ? (
           <div
             className="mb-3"
             style={{
@@ -134,7 +135,7 @@ const ModalForm = (props: Props) => {
                 {props.requestTimeSlot.length > 0 && (
                   <div>
                     {props.requestTimeSlot.map((slot: any) => (
-                      <div>
+                      <div key={slot.id}>
                         <b>Request TimeSlots :</b>
                         {slot.startTime}-{slot.endTime}
                       </div>
@@ -159,6 +160,7 @@ const ModalForm = (props: Props) => {
               </div>
             </div>
           </div>
+             ): <div><RouterLadyLoader status={true}/></div>}
           <div style={{ display: "flex", gap: "10px" }}>
             <CustomButton type="submit" variant="primary" btnText="Approve" onClick={handleChangeFacultyAccept}/>
 
