@@ -29,7 +29,7 @@ const Browser = (props: Props) => {
           <Container fluid>
             <PageTitle
               pageTitle={
-                props.commonProps.currentProgram.id === 0
+                props.commonProps.currentProgram.id == 0
                   ? "Add Program"
                   : "Update Program"
               }

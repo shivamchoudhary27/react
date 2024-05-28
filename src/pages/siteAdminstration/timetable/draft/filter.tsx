@@ -14,6 +14,7 @@ const ManageFilter = ({
   updateCourseDates,
   setCoursesStatus,
   updateFacultyStatus,
+  ChangeFilterStatus,
   courseDates,
   setHandleMonthFilter,
 }: any) => {
@@ -227,22 +228,28 @@ const ManageFilter = ({
                   onChange={handleMonthFilterChange}
                   // value={ChangeFilterStatus}
                 >
-                  <option value={0}>Select Month</option>
-                  {Object.entries(monthList).map(([year, months]: any) => (
-                    <optgroup label={year}>
-                      {months.map(
-                        (month: any, index: React.Key | null | undefined) => (
-                          <option
-                            value={`${month},${year}`}
-                            key={index}
-                            // Conditionally render selected option based on state
-                            selected={ChangeFilterStatus === `${month},${year}`}
-                          >
-                            {month}
-                          </option>
-                        )
-                      )}
-                    </optgroup>
+                 <option value={0}>Select Month</option>
+                    {Object.entries(monthList).map(([year, months]: any) => (
+                      <optgroup label={year} key={year}>
+                        {Array.isArray(months) &&
+                          months.map(
+                            (
+                              month: any,
+                              index: React.Key | null | undefined
+                            ) => (
+                              <option
+                                value={`${month},${year}`}
+                                key={`${year}-${index}`}
+                                // Conditionally render selected option based on state
+                                selected={
+                                  ChangeFilterStatus === `${month},${year}`
+                                }
+                              >
+                                {month}
+                              </option>
+                            )
+                          )}
+                      </optgroup>
                   ))}
                 </select>
               </div>

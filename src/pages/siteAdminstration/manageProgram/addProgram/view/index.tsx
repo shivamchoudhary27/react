@@ -13,6 +13,7 @@ const View = (props: Props) => {
     instituteId: props.instituteId,
     currentProgram: props.currentProgram,
   };
+
   return (
     <React.Fragment>
       {isMobile ? (
