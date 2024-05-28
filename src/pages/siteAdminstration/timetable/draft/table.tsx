@@ -127,7 +127,7 @@ const DraftVersionTable = ({getModalFormData, toggleModalShow, SlotData, courseD
                 {currentColumns.status === "draft" &&
                   currentColumns.bookedDetais}
                   {currentColumns.status === "changeRequest" && <div >
-                  <i className="fa-solid fa-envelope-circle-check"></i>
+                  {/* <i className="fa-solid fa-envelope-circle-check"></i> */}
                   {currentColumns.bookedDetais}
                 </div>}
                  {currentColumns.status === "not_available" && 
@@ -344,8 +344,8 @@ const DraftVersionTable = ({getModalFormData, toggleModalShow, SlotData, courseD
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
-                              onClick={cellValue.status === "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : undefined}
-                              style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
+                              // onClick={cellValue.status === "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : undefined}
+                              // stysetInitialValuesle={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
                             </td>

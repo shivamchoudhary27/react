@@ -359,6 +359,7 @@ const WeeklyDraftVersion = () => {
             setCoursesStatus={setCoursesStatus}
             updateCourseDates={updateCourseDates}
             updateFacultyStatus={updateFacultyStatus}
+            ChangeFilterStatus={ChangeFilterStatus}
           />
           <ModalForm
             urlArg={urlArg}

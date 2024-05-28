@@ -14,14 +14,14 @@ const AddProgram = () => {
     id: id,
   });
   const instituteId = useSelector((state: any) => state.globalFilters.currentInstitute);
-
+console.log(id)
   useEffect(() => {
-    if (instituteId !== undefined && instituteId > 0 && id !== undefined && id > 0) {
+    if (instituteId !== undefined && instituteId > 0 && id !== undefined && id > "0") {
       let filter = { Id: id, pageNumber: 0, pageSize: 1 };
       let programsEndPoint = `/${instituteId}/programs`;
       getProgramData(programsEndPoint, filter).then((res: any) => {
         if (res.data.items !== "" && res.status === 200) {
-          let programData = res.data.items.find((obj: any) => obj.id === id);
+          let programData = res.data.items.find((obj: any) => obj.id == id);
           if (programData !== undefined) {
             let newSet = generateIinitialValues(programData);
             setCurrentProgram({ data: newSet, status: true, id: id });
