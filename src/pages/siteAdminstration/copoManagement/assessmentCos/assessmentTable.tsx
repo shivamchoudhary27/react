@@ -23,10 +23,11 @@ import {
 const AssessmentTable = ({
   apiStatus,
   setActiveTab,
-  assessmentData,
   refreshToggle,
   initialValues,
+  assessmentData,
   setInitialValue,
+  assessmentMoodleData,
 }: any) => {
   const { cid } = useParams();
   const [iaColumns, setIaColumns] = useState(["IA-1"]); // Initial IA columns
@@ -432,19 +433,18 @@ const AssessmentTable = ({
                                   }));
                                 }}
                               >
-                                <option value="">Select</option>
-                                {labOptions.map((optionValue, index) => (
-                                  <option
-                                    key={optionValue.value}
-                                    value={optionValue.value}
-                                    selected={
-                                      `lab_${assessment.id}_${index + 1}` ===
-                                      `lab_88_1`
-                                    }
-                                  >
-                                    {optionValue.label}
-                                  </option>
-                                ))}
+                                <option value={0}>Select</option>
+                                {assessmentMoodleData.map((item: { coname: string; mod_assign: any[]; }) => {
+                                  const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
+                                  return isMatchingConame && item.mod_assign.map((el) => {
+                                    const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
+                                    return (
+                                      <option key={el.id} value={el.cmid} selected={isSelected}>
+                                        {el.name}
+                                      </option>
+                                    );
+                                  });
+                                })}
                               </Field>
                             </td>
                           ))}
