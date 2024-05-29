@@ -418,6 +418,7 @@ const AssessmentTable = ({
                               </Field>
                             </td>
                           ))}
+
                           {labColumns.map((column, index) => (
                             <td key={column}>
                               <Field
@@ -434,7 +435,7 @@ const AssessmentTable = ({
                                 }}
                               >
                                 <option value={0}>Select</option>
-                                {assessmentMoodleData.map((item: { coname: string; mod_assign: any[]; }) => {
+                                {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_assign: any[]; }) => {
                                   const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
                                   return isMatchingConame && item.mod_assign.map((el) => {
                                     const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
@@ -448,6 +449,7 @@ const AssessmentTable = ({
                               </Field>
                             </td>
                           ))}
+
                           <td>
                             <Field
                               type="number"
