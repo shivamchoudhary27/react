@@ -1,6 +1,6 @@
 import View from "./view";
-import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 import { pagination } from "../../../utils/pagination";
 import { getData } from "../../../adapters/microservices";
 
@@ -11,23 +11,23 @@ const TeacherHelpdesk = (props: Props) => {
     items: [],
     pager: { totalElements: 0, totalPages: 0 },
   };
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
-  const [modalShow, setModalShow] = useState(false);
   const [apiStatus, setApiStatus] = useState("");
-  const [getAllComment, setGetAllComment] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
   const [refreshData, setRefreshData] = useState(true);
+  const [getAllComment, setGetAllComment] = useState([]);
   const [enquiryData, setEnquiryData] = useState(dummyData);
   const [selectedTopicId, setSelectedTopicId] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState(dummyData);
   const [selectedProgram, setSelectedProgram] = useState(dummyData);
+  const [alertMsg, setAlertMsg] = useState({ message: "", alertBoxColor: "" });
   const [repliesModalShow, setRepliesModalShow] = useState({
     status: false,
     action: "",
     topicname: "",
-    dateValue: ""
+    dateValue: "",
   });
- 
+
   const [filterUpdate, setFilterUpdate] = useState<any>({
     topicId: "",
     topicName: "",
@@ -40,13 +40,14 @@ const TeacherHelpdesk = (props: Props) => {
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
-   
+
   // call api to get all enquiry === >>>
   useEffect(() => {
     setApiStatus("started");
     getData("/enquiry", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
+          console.log(result.data);
           setEnquiryData(result.data);
         }
         setApiStatus("finished");
@@ -55,24 +56,29 @@ const TeacherHelpdesk = (props: Props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [refreshData,filterUpdate]);
+  }, [refreshData, filterUpdate]);
 
   // call api to get all programs === >>>
   useEffect(() => {
-    setApiStatus("started");
-    getData(`/${currentInstitute}/programs`, {pageNumber: 0,
-      pageSize: pagination.PERPAGE})
-      .then((result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          setSelectedProgram(result.data);
-        }
-        setApiStatus("finished");
+    if (modalShow === true) {
+      setApiStatus("started");
+      getData(`/${currentInstitute}/programs`, {
+        pageNumber: 0,
+        pageSize: pagination.PERPAGE,
       })
-      .catch((err: any) => {
-        console.log(err);
-        setApiStatus("finished");
-      });
-  }, []);
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            console.log(result.data, "program");
+            setSelectedProgram(result.data);
+          }
+          setApiStatus("finished");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          setApiStatus("finished");
+        });
+    }
+  }, [modalShow]);
 
   const refreshToggle = () => {
     setRefreshData(!refreshData);
@@ -80,7 +86,7 @@ const TeacherHelpdesk = (props: Props) => {
 
   // call api to get all topics === >>>
   useEffect(() => {
-    // setApiStatus("started");
+    setApiStatus("started");
     getData("/topic", filterUpdate)
       .then((result: any) => {
         if (result.data !== "" && result.status === 200) {
@@ -92,11 +98,11 @@ const TeacherHelpdesk = (props: Props) => {
         console.log(err);
         setApiStatus("finished");
       });
-  }, [refreshData]);
+  }, [refreshData, filterUpdate]);
 
   useEffect(() => {
-    setApiStatus("started");
     if (selectedTopicId > 0) {
+      setApiStatus("started");
       getData(`/comment/${selectedTopicId}/allComment`, {})
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
@@ -109,8 +115,8 @@ const TeacherHelpdesk = (props: Props) => {
         })
         .catch((err: any) => {
           setApiStatus("finished");
-          if(err.response.status === 500){
-            setGetAllComment([])
+          if (err.response.status === 500) {
+            setGetAllComment([]);
             setAlertMsg({
               message: err.response.data.message,
               alertBoxColor: "alert-danger",
@@ -119,7 +125,6 @@ const TeacherHelpdesk = (props: Props) => {
         });
     }
   }, [selectedTopicId, selectedTopic, repliesModalShow.status]);
-
 
   // handle modal hide & show functionality === >>>
   const toggleModalShow = (status: boolean) => {
@@ -130,22 +135,30 @@ const TeacherHelpdesk = (props: Props) => {
     status,
     action,
     topicname,
-    dateValue
+    dateValue,
   }: {
     status: boolean;
     action: string;
-    topicname: string,
-    dateValue: any
+    topicname: string;
+    dateValue: any;
   }) => {
-    setRepliesModalShow({ status: status, action: action, topicname: topicname, dateValue: dateValue });
+    setRepliesModalShow({
+      status: status,
+      action: action,
+      topicname: topicname,
+      dateValue: dateValue,
+    });
   };
 
   const getSelectedTopicId = (id: number) => {
     setSelectedTopicId(id);
   };
 
-   // to update filters values in the main state filterUpdate
-  const updateTopicFilter = (topicId: string,published: string | undefined) => {
+  // to update filters values in the main state filterUpdate
+  const updateTopicFilter = (
+    topicId: string,
+    published: string | undefined
+  ) => {
     setFilterUpdate({
       ...filterUpdate,
       topicId: topicId,
@@ -153,7 +166,7 @@ const TeacherHelpdesk = (props: Props) => {
       published: published === "" ? undefined : published,
     });
   };
-  
+
   const newPageRequest = (pageRequest: number) => {
     setFilterUpdate({ ...filterUpdate, pageNumber: pageRequest });
   };
@@ -162,32 +175,32 @@ const TeacherHelpdesk = (props: Props) => {
     <View
       apiStatus={apiStatus}
       modalShow={modalShow}
-      filterUpdate={filterUpdate}
-      setFilterUpdate={setFilterUpdate}
-      selectedProgram={selectedProgram.items}
-      modalTitle={repliesModalShow.topicname}
-      modalTitleDate={repliesModalShow.dateValue}
       showAlert={showAlert}
-      setShowAlert={setShowAlert}
       alertMsg={setAlertMsg}
       setAlertMsg={setAlertMsg}
+      filterUpdate={filterUpdate}
+      setShowAlert={setShowAlert}
       refreshToggle={refreshToggle}
       getAllComment={getAllComment}
       newPageRequest={newPageRequest}
       enquiryData={enquiryData.items}
-      setGetAllComment={setGetAllComment}
       selectedTopicId={selectedTopicId}
       toggleModalShow={toggleModalShow}
+      setFilterUpdate={setFilterUpdate}
       selectedTopic={selectedTopic.items}
+      setGetAllComment={setGetAllComment}
       updateTopicFilter={updateTopicFilter}
       onHide={() => toggleModalShow(false)}
       getSelectedTopicId={getSelectedTopicId}
       repliesAction={repliesModalShow.action}
+      selectedProgram={selectedProgram.items}
+      modalTitle={repliesModalShow.topicname}
       totalPages={enquiryData.pager.totalPages}
       repliesModalShow={repliesModalShow.status}
+      modalTitleDate={repliesModalShow.dateValue}
       toggleRepliesModalShow={toggleRepliesModalShow}
       onRepliesHide={() =>
-        toggleRepliesModalShow({ status: false, action: "", topicname: "", dateValue: ''})
+        toggleRepliesModalShow({ status: false, action: "", topicname: "", dateValue: "" })
       }
     />
   );

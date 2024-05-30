@@ -1,28 +1,28 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import React, { useEffect, useState } from "react";
 import { FiltersLoadingBtn } from "../../../utils/filtersLoading";
 import { dateConverterToDYM } from "../../../lib/timestampConverter";
 import FilterButtonWrapper from "../../../widgets/filterButtonWrapper";
 
 type Props = {
+  apiStatus: string;
   selectedTopic: any;
   getAllProgram: any;
   updateTopicFilter: any;
-  apiStatus: string;
 };
 
 const Filter = (props: Props) => {
   const navigate = useNavigate();
+  const [endDateError, setEndDateError] = useState("");
   const [selectProgram, setSelectProgram] = useState("");
   const [selectedTopicValue, setSelectedTopicValue] = useState("");
-  const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
-  const [selectStartDateValue, setSelectStartDateValue] = useState("");
   const [selectEndDateValue, setSelectEndDateValue] = useState("");
-  const [endDateError, setEndDateError] = useState("");
+  const [selectStartDateValue, setSelectStartDateValue] = useState("");
+  const [selectedPublishedValue, setSelectedPublishedValue] = useState("");
 
   const formik = useFormik({
     initialValues: {

@@ -5,10 +5,16 @@ import { isMobile, isDesktop } from "react-device-detect";
 
 type Props = {
   onHide: any;
+  alertMsg:any;
   apiStatus: any;
+  showAlert: any;
+  modalTitle: any;
+  setAlertMsg:any;
   totalPages: any;
+  setShowAlert:any;
   enquiryData: any;
   filterUpdate: any;
+  modalTitleDate:any;
   repliesAction: any;
   selectedTopic: any;
   getAllComment: any;
@@ -16,52 +22,46 @@ type Props = {
   onRepliesHide: any;
   refreshToggle: any;
   newPageRequest: any;
+  setFilterUpdate: any;
   toggleModalShow: any;
   selectedTopicId: any;
   setGetAllComment:any;
+  selectedProgram: any;
   updateTopicFilter: any;
   getSelectedTopicId: any;
-  selectedProgram: any;
   repliesModalShow: boolean;
   toggleRepliesModalShow: any;
-  modalTitle: any
-  modalTitleDate:any
-  setFilterUpdate: any;
-  showAlert: any;
-  setShowAlert:any;
-  alertMsg:any;
-  setAlertMsg:any;
 };
 
 const View = (props: Props) => {
   const commonProps = {
     onHide: props.onHide,
+    alertMsg: props.alertMsg,
     apiStatus:props.apiStatus,
     modalShow: props.modalShow,
+    showAlert: props.showAlert,
+    modalTitle: props.modalTitle,
     totalPages: props.totalPages,
+    setAlertMs: props.setAlertMsg,
     enquiryData: props.enquiryData,
     filterUpdate: props.filterUpdate,
+    setShowAlert: props.setShowAlert,
     selectedTopic: props.selectedTopic,
     refreshToggle: props.refreshToggle,
     repliesAction: props.repliesAction,
     onRepliesHide: props.onRepliesHide,
     getAllComment: props.getAllComment,
     newPageRequest: props.newPageRequest,
+    modalTitleDate: props.modalTitleDate,
     setFilterUpdate: props.setFilterUpdate,
     toggleModalShow: props.toggleModalShow,
     selectedTopicId: props.selectedTopicId,
     selectedProgram: props.selectedProgram,
+    setGetAllComment:props.setGetAllComment,
     repliesModalShow: props.repliesModalShow,
     updateTopicFilter: props.updateTopicFilter,
     getSelectedTopicId: props.getSelectedTopicId,
     toggleRepliesModalShow: props.toggleRepliesModalShow,
-    modalTitle: props.modalTitle,
-    modalTitleDate: props.modalTitleDate,
-    setGetAllComment:props.setGetAllComment,
-    showAlert: props.showAlert,
-    setShowAlert: props.setShowAlert,
-    alertMsg: props.alertMsg,
-    setAlertMs: props.setAlertMsg,
   };
 
   return (
