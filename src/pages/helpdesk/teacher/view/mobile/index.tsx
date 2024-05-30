@@ -1,45 +1,45 @@
 import React from "react";
+import "./mobileStyle.scss";
 import Filter from "../../filter";
 import RepliesForm from "../../repliesForm";
 import { Container } from "react-bootstrap";
 import TeacherHelpdeskTable from "../../table";
 import NewRequestForm from "../../newRequestForm";
 import PageTitle from "../../../../../widgets/pageTitle";
-import BuildPagination from "../../../../../widgets/pagination";
-import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 import MobileHeader from "../../../../newHeader/mobileHeader";
 import MobileFooter from "../../../../newFooter/mobileFooter";
-import "./mobileStyle.scss";
+import BuildPagination from "../../../../../widgets/pagination";
+import BreadcrumbComponent from "../../../../../widgets/breadcrumb";
 
 type Props = {
   commonProps: {
     onHide: any;
+    alertMsg:any;
     apiStatus: any;
+    showAlert: any;
     totalPages: any;
+    modalTitle: any;
+    setAlertMsg:any;
     enquiryData: any;
+    setShowAlert:any;
     filterUpdate: any;
     onRepliesHide: any;
     modalShow: boolean;
     repliesAction: any;
     selectedTopic: any;
     getAllComment: any;
+    refreshToggle: any;
+    modalTitleDate: any;
     newPageRequest: any;
+    setGetAllComment:any;
     setFilterUpdate: any;
     selectedProgram: any;
-    refreshToggle: any;
     selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
-    modalTitle: any
-    modalTitleDate: any
-    setGetAllComment:any;
-    showAlert: any;
-    setShowAlert:any;
-    alertMsg:any;
-    setAlertMsg:any;
   };
 };
 
@@ -89,21 +89,21 @@ const Mobile = (props: Props) => {
         toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm
-        onHide={props.commonProps.onRepliesHide}
-        updateAddRefresh={props.commonProps.refreshToggle}
-        modalShow={props.commonProps.repliesModalShow}
-        repliesAction={props.commonProps.repliesAction}
-        getAllComment={props.commonProps.getAllComment}
-        selectedTopicId={props.commonProps.selectedTopicId}
-        toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
-        apiStatus={props.commonProps.apiStatus}
-        modalTitle={props.commonProps.modalTitle}
-        modalTitleDate={props.commonProps.modalTitleDate}
-        showAlert={props.commonProps.showAlert}
-        setShowAlert={props.commonProps.setShowAlert}
         alertMsg={props.commonProps.alertMsg}
+        showAlert={props.commonProps.showAlert}
+        apiStatus={props.commonProps.apiStatus}
+        onHide={props.commonProps.onRepliesHide}
+        modalTitle={props.commonProps.modalTitle}
         setAlertMsg={props.commonProps.setAlertMsg}
+        setShowAlert={props.commonProps.setShowAlert}
+        modalShow={props.commonProps.repliesModalShow}
+        getAllComment={props.commonProps.getAllComment}
+        repliesAction={props.commonProps.repliesAction}
+        modalTitleDate={props.commonProps.modalTitleDate}
+        updateAddRefresh={props.commonProps.refreshToggle}
+        selectedTopicId={props.commonProps.selectedTopicId}
         setGetAllComment={props.commonProps.setGetAllComment}
+        toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
       />
       <MobileFooter />
     </React.Fragment>

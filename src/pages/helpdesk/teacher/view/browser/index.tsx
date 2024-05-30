@@ -16,32 +16,32 @@ import bgLeft from "../../../../../assets/images/background/bg-admin-left.svg";
 type Props = {
   commonProps: {
     onHide: any;
+    alertMsg:any;
     apiStatus: any;
+    showAlert: any;
     totalPages: any;
+    modalTitle: any;
+    setAlertMsg:any;
     enquiryData: any;
+    setShowAlert:any;
     filterUpdate: any;
     onRepliesHide: any;
     modalShow: boolean;
     repliesAction: any;
     selectedTopic: any;
     getAllComment: any;
+    refreshToggle: any;
+    modalTitleDate: any;
     newPageRequest: any;
+    setGetAllComment:any;
     setFilterUpdate: any;
     selectedProgram: any;
-    refreshToggle: any;
     selectedTopicId: any;
     toggleModalShow: any;
     repliesModalShow: any;
     updateTopicFilter: any;
     getSelectedTopicId: any;
     toggleRepliesModalShow: any;
-    modalTitle: any;
-    modalTitleDate: any;
-    setGetAllComment:any;
-    showAlert: any;
-    setShowAlert:any;
-    alertMsg:any;
-    setAlertMsg:any;
   };
 };
 
@@ -93,21 +93,21 @@ const Browser = (props: Props) => {
         toggleModalShow={props.commonProps.toggleModalShow}
       />
       <RepliesForm
+        alertMsg={props.commonProps.alertMsg}
+        showAlert={props.commonProps.showAlert}
         apiStatus={props.commonProps.apiStatus}
         onHide={props.commonProps.onRepliesHide}
         modalTitle={props.commonProps.modalTitle}
+        setAlertMsg={props.commonProps.setAlertMsg}
+        setShowAlert={props.commonProps.setShowAlert}
         modalShow={props.commonProps.repliesModalShow}
-        repliesAction={props.commonProps.repliesAction}
         getAllComment={props.commonProps.getAllComment}
+        repliesAction={props.commonProps.repliesAction}
         modalTitleDate={props.commonProps.modalTitleDate}
         updateAddRefresh={props.commonProps.refreshToggle}
         selectedTopicId={props.commonProps.selectedTopicId}
-        toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
-        showAlert={props.commonProps.showAlert}
-        setShowAlert={props.commonProps.setShowAlert}
-        alertMsg={props.commonProps.alertMsg}
-        setAlertMsg={props.commonProps.setAlertMsg}
         setGetAllComment={props.commonProps.setGetAllComment}
+        toggleRepliesModalShow={props.commonProps.toggleRepliesModalShow}
       />
       <Footer />
       <div className="position-relative">
