@@ -99,7 +99,7 @@ const ModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-          approve change requests
+          Change Request Action
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -120,12 +120,13 @@ const ModalForm = (props: Props) => {
             }}
           >
             <div>
+              <div className="mb-3"><strong>Do you want to Approve or Reject?</strong></div>
               <div>
                 <b>Session : </b>
                 {props.modalFormData.description}
               </div>
               <div>
-                <b>Timeslot:</b> {props.modalFormData?.weekday}
+                <b>Timeslot :</b> {props.modalFormData?.weekday}{" "}
                 {props.filteredTime.length > 0
                   ? `(${props.filteredTime[0].startTime} - ${props.filteredTime[0].endTime})`
                   : ""}
@@ -135,8 +136,8 @@ const ModalForm = (props: Props) => {
                   <div>
                     {props.requestTimeSlot.map((slot: any) => (
                       <div key={slot.id}>
-                        <b>Request TimeSlots :</b>
-                        {slot.startTime}-{slot.endTime}
+                        <b>Requested TimeSlot : </b>{props.modalFormData?.weekday}{" "}
+                       ({slot.startTime}-{slot.endTime})
                       </div>
                     ))}
                   </div>
@@ -147,7 +148,7 @@ const ModalForm = (props: Props) => {
                   <div>
                     {props.availableRooms.map((room: any) => (
                       <div key={room.id}>
-                        <b>Request Rooms :</b>
+                        <b>Requested Room : </b>
                         {room.name}
                       </div>
                     ))}
