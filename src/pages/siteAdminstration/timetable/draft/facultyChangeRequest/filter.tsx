@@ -264,8 +264,27 @@ const ManageFilter = ({
             )}
         </div>
         <div className="slot-indicator">
-        <div className="me-1 available">Available Slots Change Request: {requestCount}</div>
-        <div className="me-1 available"><i className="fa-solid fa-envelope-circle-check me-1"></i>Change Request</div>
+          <div className="me-1 available d-flex">
+            <i className="fa-solid fa-envelope-circle-check me-1"></i>Change
+            Request
+            <div
+              style={{
+                backgroundColor: "#f7cdcd",
+                color: "#e00b0b",
+                width: "20px",
+                height: "20px",
+                marginLeft: "3px",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                textAlign: "center",
+                fontWeight: "450",
+              }}
+            >
+              <span>{requestCount}</span>
+            </div>
+          </div>
           <div className="me-1 available">Available Slots</div>
           <div className="me-1 booked">Not Available Slots</div>
           <div className="me-1 weekend">Break/Weekend/Holiday</div>
