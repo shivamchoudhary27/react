@@ -344,7 +344,7 @@ const DraftVersionTable = ({getModalFormData, toggleModalShow, SlotData, courseD
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
-                              onClick={cellValue.status === "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : undefined}
+                              onClick={cellValue.status === "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : null}
                               style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
@@ -373,6 +373,8 @@ const DraftVersionTable = ({getModalFormData, toggleModalShow, SlotData, courseD
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
+                              onClick={cellValue.status === "changeRequest"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : null}
+                              style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
                             </td>

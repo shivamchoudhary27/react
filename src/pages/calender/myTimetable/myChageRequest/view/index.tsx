@@ -38,6 +38,9 @@ type Props = {
   changeRequestData: any;
   filteredTime: any;
   timetableData: any;
+  confirmationForm: any;
+  toggleModalConfirmation: any;
+  toggle: any;
 };
 
 const View = (props: Props) => {
@@ -46,6 +49,9 @@ const View = (props: Props) => {
     urlArg: props.urlArg,
     loader:props.loader,
     timeslots: props.timeslots,
+    toggle: props.toggle,
+    confirmationForm: props.confirmationForm,
+    toggleModalConfirmation: props.toggleModalConfirmation,
     apiStatus: props.apiStatus,
     modalShow: props.modalShow,
     courseDates: props.courseDates,

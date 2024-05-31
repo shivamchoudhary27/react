@@ -14,12 +14,15 @@ type Props = {
   modalFormData: any;
   refreshToggle: any;
   availableRooms: any;
+  requestCount:any;
+  selectedCourse: any;
   toggleModalShow: any;
   requestTimeSlot: any;
   getModalFormData: any;
   sortedCategories: any;
   setCoursesStatus: any;
   updateCourseDates: any;
+  setSelectedCourse: any;
   handleMonthFilter: any;
   changeRequestData: any;
   changeFilterStatus: any;
@@ -38,9 +41,11 @@ const View = (props: Props) => {
     timeslots: props.timeslots,
     courseDates: props.courseDates,
     filteredTime: props.filteredTime,
+    requestCount:props.requestCount,
     refreshToggle: props.refreshToggle,
     modalFormData: props.modalFormData,
     availableRooms: props.availableRooms,
+    selectedCourse: props.selectedCourse,
     requestTimeSlot: props.requestTimeSlot,
     toggleModalShow: props.toggleModalShow,
     getModalFormData: props.getModalFormData,
@@ -48,6 +53,7 @@ const View = (props: Props) => {
     sortedCategories: props.sortedCategories,
     changeRequestData: props.changeRequestData,
     handleMonthFilter: props.handleMonthFilter,
+    setSelectedCourse: props.setSelectedCourse,
     updateCourseDates: props.updateCourseDates,
     changeFilterStatus: props.changeFilterStatus,
     updateFacultyStatus: props.updateFacultyStatus,

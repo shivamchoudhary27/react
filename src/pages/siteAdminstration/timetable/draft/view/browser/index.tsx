@@ -20,15 +20,18 @@ type Props = {
     modalShow: any;
     timeslots: any;
     courseDates: any;
+    requestCount:any;
     filteredTime: any;
     modalFormData: any;
     refreshToggle: any;
+    selectedCourse: any;
     availableRooms: any;
     toggleModalShow: any;
     requestTimeSlot: any;
     getModalFormData: any;
     sortedCategories: any;
     setCoursesStatus: any;
+    setSelectedCourse: any;
     updateCourseDates: any;
     handleMonthFilter: any;
     changeRequestData: any;
@@ -70,6 +73,9 @@ const Browser = (props: Props) => {
               updateFacultyStatus={props.commonProps.updateFacultyStatus}
               setHandleMonthFilter={props.commonProps.setHandleMonthFilter}
               setChangeFilterStatus={props.commonProps.setChangeFilterStatus}
+              selectedCourse={props.commonProps.selectedCourse}
+              requestCount={props.commonProps.requestCount}
+              setSelectedCourse={props.commonProps.setSelectedCourse}
             />
             <ModalForm
               urlArg={props.commonProps.urlArg}

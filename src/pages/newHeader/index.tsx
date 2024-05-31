@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import {Dropdown,Tooltip, OverlayTrigger} from "react-bootstrap";
+import {Dropdown} from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import NotificationOverlay from "../../widgets/notifications";
 import config from "../../utils/config";

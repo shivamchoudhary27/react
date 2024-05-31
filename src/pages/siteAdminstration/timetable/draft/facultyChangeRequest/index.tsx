@@ -33,12 +33,14 @@ const FacultyChangeRequest = () => {
   const [changeRequestData, setChangeRequestData] = useState();
   const [availableRooms, setAvailableRooms] = useState<any>([]);
   const [timetableData, setTimetableData] = useState(dummyData);
+  const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [handleMonthFilter, setHandleMonthFilter] = useState([]);
   const [changeFilterStatus, setChangeFilterStatus] = useState(0);
   const [sortedCategories, setSortedCategories] = useState<any>([]);
   const [urlArg, setUrlArg] = useState({ dpt: 0, prg: "", prgId: 0 });
   const [courseDates, setCourseDates] = useState<any>(courseDatesObj);
   const [departmentTimeslots, setDepartmentTimeslots] = useState(dummyData);
+  const [requestCount,setRequestCount] = useState(0)
   const currentInstitute = useSelector(
     (state: any) => state.globalFilters.currentInstitute
   );
@@ -46,7 +48,6 @@ const FacultyChangeRequest = () => {
     pageNumber: 0,
     pageSize: pagination.PERPAGE * 10,
     courseId: 0,
-    userId: 0,
     startDate: 0,
     endDate: 0,
   });
@@ -116,14 +117,13 @@ const FacultyChangeRequest = () => {
     setFilters((previous: any) => ({
       ...previous,
       courseId: courseDates.courseId,
-      userId: 0,
     }));
   }, [courseDates]);
 
   // Calling Timetable API to set timetable data === >>
   useEffect(() => {
-    if (filters.courseId > 0 && filters.userId > 0 && filters) {
-      getData(`/${urlArg.prgId}/timetable/userslots`, filters)
+    if (filters.courseId > 0 || filters.userId > 0 || selectedCourse || modalShow === false) {
+      getData(`/${urlArg.prgId}/timetable`, filters)
         .then((result: any) => {
           if (result.data !== "" && result.status === 200) {
             result.data.items.map((item: any, index: number) => {
@@ -143,7 +143,7 @@ const FacultyChangeRequest = () => {
           console.log(err);
         });
     }
-  }, [filters, modalShow]);
+  }, [filters, selectedCourse, modalShow]);
 
   // =========>> calling API to get weekdays <<========
   useEffect(() => {
@@ -194,6 +194,21 @@ const FacultyChangeRequest = () => {
         });
     }
   }, [currentInstitute, modalFormData.slotDetailId, changeRequestData]);
+
+
+  useEffect(() => {
+    if (filters.courseId > 0 || filters.userId > 0) {
+      getData(`/${urlArg.prgId}/timetable/count-of-open-request?${filters.courseId}`, filters)
+        .then((result: any) => {
+          if (result.data !== "" && result.status === 200) {
+            setRequestCount(result.data);
+          }
+        })
+        .catch((err: any) => {
+          console.log(err);
+        });
+    }
+  }, [filters]);
 
   // =========>> calling API to get availablerooms <<========
   useEffect(() => {
@@ -255,10 +270,17 @@ const FacultyChangeRequest = () => {
   };
 
   const updateFacultyStatus = (facultyId: any) => {
-    setFilters((previous: any) => ({
-      ...previous,
-      userId: facultyId,
-    }));
+    setFilters((previous: any) => {
+      if (facultyId !== 0) {
+        return {
+          ...previous,
+          userId: facultyId
+        };
+      } else {
+        const { userId, ...rest } = previous; // Destructure userId from previous
+        return rest; // Return the object without userId
+      }
+    });
   };
 
   const updateTimetableDates = (weekDates: any) => {
@@ -291,6 +313,7 @@ const FacultyChangeRequest = () => {
         modalFormData={modalFormData}
         refreshToggle={refreshToggle}
         availableRooms={availableRooms}
+        selectedCourse={selectedCourse}
         requestTimeSlot={requestTimeSlot}
         toggleModalShow={toggleModalShow}
         setCoursesStatus={setCoursesStatus}
@@ -305,6 +328,8 @@ const FacultyChangeRequest = () => {
         setHandleMonthFilter={setHandleMonthFilter}
         updateTimetableDates={updateTimetableDates}
         setChangeFilterStatus={setChangeFilterStatus}
+        setSelectedCourse={setSelectedCourse}
+        requestCount={requestCount}
       />
     </React.Fragment>
   );

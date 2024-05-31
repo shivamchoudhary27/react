@@ -99,8 +99,7 @@ const ModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Change Request : {currentUserInfo.first_name}{" "}
-            {currentUserInfo.last_name}
+          approve change requests
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

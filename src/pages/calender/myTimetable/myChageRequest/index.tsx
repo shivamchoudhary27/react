@@ -25,6 +25,7 @@ const PublishChangeRequest = () => {
   const [timeslots, setTimeslots] = useState([]);
   const [apiStatus, setApiStatus] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [confirmationForm, setConfirmationForm] = useState(false);
   const [coursesList, setCoursesList] = useState([]);
   const [filteredTime, setFilteredTime] = useState([])
   const [coursesStatus, setCoursesStatus] = useState(false);
@@ -291,6 +292,12 @@ useEffect(() => {
     setModalShow(status);
   };
 
+    // handle modal hide & show functionality === >>>
+    const toggleModalConfirmation = (status: boolean) => {
+      console.log(status)
+      setConfirmationForm(status);
+    };
+
    // handle to re-rendering  table === >>
    const refreshToggle = (status: boolean) => {
     setRefreshData(!refreshData);
@@ -330,6 +337,10 @@ useEffect(() => {
         updateTimetableDates={updateTimetableDates}
         setChangeFilterStatus={setChangeFilterStatus}
         setSelectedDepartment={setSelectedDepartment}
+        confirmationForm={confirmationForm}
+        toggleModalConfirmation={toggleModalConfirmation}
+        toggle={() => toggleModalConfirmation(false)}
+
       />
     </React.Fragment>
   );

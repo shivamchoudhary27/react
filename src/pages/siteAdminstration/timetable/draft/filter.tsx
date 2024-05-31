@@ -10,9 +10,12 @@ import endDateIcon from "../../../../../src/assets/images/icons/calender-enddate
 import startDateIcon from "../../../../../src/assets/images/icons/calender-startdate.svg";
 const ManageFilter = ({
   courseDates,
+  requestCount,
+  selectedCourse,
   workloadCourses,
   setCoursesStatus,
   updateCourseDates,
+  setSelectedCourse,
   changeFilterStatus,
   updateFacultyStatus,
   setHandleMonthFilter,
@@ -28,7 +31,6 @@ const ManageFilter = ({
   };
   const [monthList, setMonthList] = useState([]);
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
-  const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [selectedFaculty, setSelectedFaculty] = useState<number>(0);
   const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
 
@@ -194,7 +196,7 @@ const ManageFilter = ({
                 value={selectedFaculty}
                 onChange={handleFacultyFilterChange}
               >
-                <option value={0}>Select Faculty</option>
+                <option value={0}>All</option>
                 {courseFacultyData.items.map((faculty: any) => (
                   <option value={faculty.userId} key={faculty.userId}>
                     {faculty.userFirstName.charAt(0).toUpperCase() +
@@ -264,6 +266,7 @@ const ManageFilter = ({
             )}
         </div>
         <div className="slot-indicator">
+        <div className="me-1 available">Available Slots Change Request: {requestCount}</div>
           <div className="me-1 available">Available Slots</div>
           <div className="me-1 booked">Not Available Slots</div>
           <div className="me-1 weekend">Break/Weekend/Holiday</div>

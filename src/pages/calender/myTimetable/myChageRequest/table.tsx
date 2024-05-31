@@ -27,6 +27,7 @@ const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, 
   const handleMassegeClick = (weekday: any, description: any, timeSlotId: any, sessionDate: any, slotDetailId: any,changeRequestId:any,status:any) => {
     getModalFormData(weekday, description, timeSlotId, sessionDate, slotDetailId,changeRequestId,status)
       toggleModalShow(true)
+      
   }
 
   function getMonday(dayOfWeek: number) {
@@ -354,7 +355,7 @@ const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, 
                               {...cell.getCellProps()}
                               className={cellValue.status}
                               key={index}
-                              onClick={cellValue.status !== "available"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : undefined}
+                              onClick={cellValue.status !== "available"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : null}
                               style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
@@ -382,7 +383,9 @@ const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, 
                             <td
                               {...cell.getCellProps()}
                               className={cellValue.status}
-                              key={index}
+                              key={index} 
+                              onClick={cellValue.status !== "available"? () => handleMassegeClick(cellValue.weekDay, cellValue.bookedDetais, cellValue.timeSlotId, cellValue.sessionDate, cellValue.slotDetailId, cellValue.changeRequestId,cellValue.status) : null}
+                              style={{ cursor: cellValue.status !== "available"  ? 'pointer' : 'default' }}
                             >
                               {cell.render("Cell")}
                             </td>
@@ -392,6 +395,7 @@ const MyChangeRequestTable = ({ getModalFormData,loader, SlotData, courseDates, 
                             <td
                               {...cell.getCellProps()}
                               className={cellValue.status}
+                              onClick={cellValue.status !== "available"?null:null}
                               rowSpan={SlotData.length}
                               key={index}
                             >

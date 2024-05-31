@@ -9,10 +9,13 @@ import endDateIcon from "../../../../../../src/assets/images/icons/calender-endd
 import startDateIcon from "../../../../../../src/assets/images/icons/calender-startdate.svg";
 const ManageFilter = ({
   courseDates,
+  requestCount,
   workloadCourses,
   setCoursesStatus,
   updateCourseDates,
   changeFilterStatus,
+  selectedCourse,
+  setSelectedCourse,
   updateFacultyStatus,
   setHandleMonthFilter,
 }: any) => {
@@ -27,7 +30,6 @@ const ManageFilter = ({
   };
   const [monthList, setMonthList] = useState([]);
   const [coursesOnly, setCoursesOnly] = useState<any>([]);
-  const [selectedCourse, setSelectedCourse] = useState<number>(0);
   const [selectedFaculty, setSelectedFaculty] = useState<number>(0);
   const [courseFacultyData, setCourseFacultyData] = useState<any>(dummyData);
 
@@ -262,6 +264,8 @@ const ManageFilter = ({
             )}
         </div>
         <div className="slot-indicator">
+        <div className="me-1 available">Available Slots Change Request: {requestCount}</div>
+        <div className="me-1 available"><i className="fa-solid fa-envelope-circle-check me-1"></i>Change Request</div>
           <div className="me-1 available">Available Slots</div>
           <div className="me-1 booked">Not Available Slots</div>
           <div className="me-1 weekend">Break/Weekend/Holiday</div>
