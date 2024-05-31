@@ -46,7 +46,7 @@ const userFormSchema = Yup.object({
   userCountry: Yup.string().required("Country is required"),
   // timezone: Yup.string().required("Time Zone is required"),
   // genderType: Yup.string().required("Gender is required"),
-  // mobile: Yup.number().required('Mobile nuber is required'),
+  mobile: Yup.number().required('Mobile nuber is required'),
 });
 
 const FormData = (props: Props) => {
@@ -136,7 +136,7 @@ const FormData = (props: Props) => {
               </Col>
 
               <Col sm={6} lg={4}>
-                <FieldLabel htmlfor="mobile" labelText="Mobile" />
+                <FieldLabel htmlfor="mobile" labelText="Mobile" star="*"/>
                 <FieldTypeText name="mobile" placeholder="Mobile" />
                 <FieldErrorMessage
                   errors={errors.mobile}

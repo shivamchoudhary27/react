@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import { Modal } from "react-bootstrap";
+import { Modal,OverlayTrigger,Tooltip as BsTooltip  } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import React, { useEffect, useState } from "react";
@@ -24,6 +24,7 @@ type Props = {
   updateAddRefresh: any;
   availableSlotdata: any;
   changeRequestData: any;
+  toggleModalConfirmation: any;
 };
 
 const validationSchema = Yup.object ({
@@ -116,35 +117,8 @@ const ModalForm = (props: Props) => {
 
   // ============call api remove change request for faculty ================>> 
   const handleDeleteFacultyChangeRequest = () => {
-    if(props.modalFormData?.status === "changeRequest"){
-      deleteData(`/${props.urlArg.prgId}/timetable/${props.modalFormData.changeRequestId}/change-request`,{})
-        .then((res: any) => {
-          if (res.data != "" && res.status === 200) {
-            console.log(res.data)
-            props.toggleModalShow(false);
-            props.updateAddRefresh();
-            Swal.fire({
-              timer: 3000,
-              width: "25em",
-              color: "#666",
-              icon: "success",
-              background: "#e7eef5",
-              showConfirmButton: false,
-              text: "Change Request successfully deleted.",
-            });
-          }
-        })
-        .catch((err: any) => {
-          console.log(err)
-          if (err.response.status === 500 || err.response.status === 404) {
-            setShowAlert(true);
-            setAlertMsg({
-              message: err.response.data.message,
-              alertBoxColor: "danger",
-            });
-          }
-        });
-    }
+    props.toggleModalConfirmation(true)
+   
   }
 
   const handleReset = (resetForm: any) => {
@@ -206,7 +180,7 @@ const ModalForm = (props: Props) => {
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
           {props.modalFormData?.status === "changeRequest" ? 
-            "Update Faculty Change Request" : "Change Request" }
+            "Update Slot Change Request" : "Request for Slot Change" }
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -240,7 +214,7 @@ const ModalForm = (props: Props) => {
                       <b>Session</b> : {props.modalFormData.description}
                     </div>
                     <div>
-                      <b>Timeslot</b>: {props.modalFormData?.weekday}{" "}
+                      <b>Selected Timeslot</b>: {props.modalFormData?.weekday}{" "}
                       {props.filteredTime.length > 0
                         ? `(${props.filteredTime[0].startTime} - ${props.filteredTime[0].endTime})`
                         : ""}
@@ -249,6 +223,10 @@ const ModalForm = (props: Props) => {
                   <div>
                     {props.modalFormData?.status === "changeRequest" && (
                       <>
+                      <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-2">Edit Slot Change Request</BsTooltip>}
+                >
                       <Link className="action-icons me-2" to="">
                         <img
                           src={editIcon}
@@ -256,13 +234,18 @@ const ModalForm = (props: Props) => {
                           onClick={handleEditClick}
                         />
                       </Link>
-                    
+                      </OverlayTrigger>
+                      <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip id="button-tooltip-2">Delete Slot Change Request</BsTooltip>}
+                >
                     <Link className="action-icons" to="">
                       <img 
                       src={deleteIcon} 
                       alt="Delete" 
                       onClick={handleDeleteFacultyChangeRequest} />
                     </Link>
+                    </OverlayTrigger>
                     </>
                     )}
                   </div>
@@ -270,7 +253,7 @@ const ModalForm = (props: Props) => {
                 <div className="mb-3">
                   <FieldLabel
                     htmlFor="timeSlotId"
-                    labelText="Available Timeslot"
+                    labelText="Preferred Timeslot"
                     required
                     star="*"
                   />

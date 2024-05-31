@@ -8,6 +8,7 @@ import Footer from "../../../../../../newFooter";
 import HeaderTabs from "../../../../../../headerTabs";
 import PageTitle from "../../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../../widgets/breadcrumb";
+import ConfirmationForm from "../../../../../../calender/myTimetable/myChageRequest/confirmationForm";
 
 type Props = {
   commonProps: {
@@ -21,9 +22,12 @@ type Props = {
     modalFormData: any;
     refreshToggle: any;
     availableRooms: any;
+    selectedCourse: any;
     toggleModalShow: any;
     requestTimeSlot: any;
+    requestCount:any;
     getModalFormData: any;
+    setSelectedCourse: any;
     sortedCategories: any;
     setCoursesStatus: any;
     updateCourseDates: any;
@@ -62,12 +66,14 @@ const Browser = (props: Props) => {
             <ManageFilter
               ids={props.commonProps.urlArg}
               courseDates={props.commonProps.courseDates}
+              selectedCourse={props.commonProps.selectedCourse}
               workloadCourses={props.commonProps.sortedCategories}
               setCoursesStatus={props.commonProps.setCoursesStatus}
               updateCourseDates={props.commonProps.updateCourseDates}
+              setSelectedCourse={props.commonProps.setSelectedCourse}
               changeFilterStatus={props.commonProps.changeFilterStatus}
               updateFacultyStatus={props.commonProps.updateFacultyStatus}
-              setHandleMonthFilter={props.commonProps.setHandleMonthFilter}
+              requestCount={props.commonProps.requestCount}setHandleMonthFilter={props.commonProps.setHandleMonthFilter}
               setChangeFilterStatus={props.commonProps.setChangeFilterStatus}
             />
             <ModalForm

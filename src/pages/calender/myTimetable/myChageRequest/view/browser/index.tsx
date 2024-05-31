@@ -8,10 +8,11 @@ import MyChangeRequestTable from "../../table";
 import HeaderTabs from "../../../../../headerTabs";
 import PageTitle from "../../../../../../widgets/pageTitle";
 import BreadcrumbComponent from "../../../../../../widgets/breadcrumb";
+import ConfirmationForm from "../../confirmationForm";
 
 type Props = {
   commonProps: {
-    loader:any;
+    loader: any;
     urlArg: any;
     onHide: any;
     modalShow: any;
@@ -19,7 +20,7 @@ type Props = {
     apiStatus: any;
     courseDates: any;
     filteredTime: any;
-    modalFormData:any;
+    modalFormData: any;
     coursesStatus: any;
     selectedMonth: any;
     programFilter: any;
@@ -27,7 +28,7 @@ type Props = {
     refreshToggle: any;
     availableRooms: any;
     selectedProgram: any;
-    getModalFormData:any;
+    getModalFormData: any;
     toggleModalShow: any;
     editHandlerById: any;
     setSelectedMonth: any;
@@ -41,17 +42,21 @@ type Props = {
     ChangeFilterStatus: any;
     selectedDepartment: any;
     updateFacultyStatus: any;
-    setHandleMonthFilter:any;
+    setHandleMonthFilter: any;
     updateTimetableDates: any;
     setChangeFilterStatus: any;
     setSelectedDepartment: any;
-};
-  };
+    confirmationForm: any;
+    toggleModalConfirmation: any;
+    toggle: any;
 
-  
-  const Browser = (props: Props) => {
-    return (
-      <React.Fragment>
+  };
+};
+
+
+const Browser = (props: Props) => {
+  return (
+    <React.Fragment>
       <Header />
       <HeaderTabs activeTab="calender" />
       <BreadcrumbComponent
@@ -97,6 +102,7 @@ type Props = {
               toggleModalShow={props.commonProps.toggleModalShow}
               availableSlotdata={props.commonProps.availableSlotdata}
               changeRequestData={props.commonProps.changeRequestData}
+              toggleModalConfirmation={props.commonProps.toggleModalConfirmation}
             />
 
             <MyChangeRequestTable
@@ -114,6 +120,20 @@ type Props = {
               handleMonthFilter={props.commonProps.handleMonthFilter}
               updateTimetableDates={props.commonProps.updateTimetableDates}
               setChangeFilterStatus={props.commonProps.setChangeFilterStatus}
+            />
+
+            <ConfirmationForm
+              onHide={props.commonProps.toggle}
+              urlArg={props.commonProps.urlArg}
+              modalShow={props.commonProps.confirmationForm}
+              filteredTime={props.commonProps.filteredTime}
+              modalFormData={props.commonProps.modalFormData}
+              availableRooms={props.commonProps.availableRooms}
+              updateAddRefresh={props.commonProps.refreshToggle}
+              changeRequestData={props.commonProps.changeRequestData}
+              toggleModalConfirmation={props.commonProps.toggleModalConfirmation}
+              toggleModalShow={props.commonProps.toggleModalShow}
+
             />
             {/* <BuildPagination
               totalpages={props.commonProps.timeslotListPage}

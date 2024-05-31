@@ -4,7 +4,7 @@ import { useTable } from "react-table";
 import { Table } from "react-bootstrap";
 import { tableColumnTemplate } from "./utils";
 import React, { useMemo, useState, useEffect } from "react";
-import { addDays, format, startOfWeek, parse } from "date-fns";
+import { addDays, format, startOfWeek } from "date-fns";
 import { FirstDayOfMonth } from "./utils";
 import { formatDateWithDetails } from "../../../lib/timestampConverter";
 
@@ -22,6 +22,9 @@ const MyTimetableDraftTable = ({ SlotData, courseDates, updateTimetableDates, to
     });
   const [renderWeek, setRenderWeek] = useState<any>([]);
   const [weekNavs, setWeekNavs] = useState({next: true, prev: true});
+
+
+  console.log(SlotData,"SlotData")
 
   const handleMassegeClick = () => {
     toggleModalShow(true)
@@ -126,7 +129,7 @@ const MyTimetableDraftTable = ({ SlotData, courseDates, updateTimetableDates, to
             return (
 
               <div> 
-              {currentColumns.status === "draft" && <div > {currentColumns.bookedDetais} </div>}
+              {currentColumns.status !== "available" && <div > {currentColumns.bookedDetais} </div>}
                 {currentColumns.status === "not_available" && ""}
               {currentColumns.status === "available" && ""}
               {currentColumns.status === "weekend" && "Weekend"}  
@@ -266,6 +269,8 @@ const handleNextWeek = () => {
     }
     return count;
   }
+
+  console.log(renderWeek,"renderWeek")
   
   return (
     <React.Fragment>
