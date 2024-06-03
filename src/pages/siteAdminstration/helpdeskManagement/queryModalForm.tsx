@@ -6,6 +6,7 @@ import { deleteData } from "../../../adapters/microservices";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { capitalizeFirstWords } from "../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   onHide: any;
@@ -62,7 +63,7 @@ const QueryModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-              Query Delete Confirmation
+          {capitalizeFirstWords("Query Delete Confirmation")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

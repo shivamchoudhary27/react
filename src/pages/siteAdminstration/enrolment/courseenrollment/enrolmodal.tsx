@@ -15,6 +15,7 @@ import FieldMultiSelect from "../../../../widgets/formInputFields/multiSelect";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
 import Swal from "sweetalert2";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 // Formik Yup Validation === >>>
 const Schema = Yup.object({
@@ -161,7 +162,7 @@ const DiciplineModal = ({
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {formTitles.titleHeading}
+          {capitalizeFirstWords(formTitles.titleHeading)}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

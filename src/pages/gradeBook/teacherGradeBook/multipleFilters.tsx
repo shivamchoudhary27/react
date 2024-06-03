@@ -108,6 +108,7 @@ const MultipleFilters = (props: Props) => {
     },
   });
 
+  console.log(filters.selectedValues,"selectedValues")
   useEffect(() => {
     let departmentPacket = departmentOptions(props.userCoursesData.departments);
     let batchYearsPackets = batchYearOptions(props.userCoursesData.programs);

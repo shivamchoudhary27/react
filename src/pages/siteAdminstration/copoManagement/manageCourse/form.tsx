@@ -19,6 +19,7 @@ import FieldTypeSelect from "../../../../widgets/formInputFields/formSelectField
 import { uploadFile, addRemoveFileProperty } from "../../../../globals/storefile";
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 // Formik Yup validation === >>>
 const formSchema = Yup.object().shape({
@@ -258,7 +259,7 @@ const CourseModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {courseobj.id === 0 ? "Add Course" : "Update Course"}
+            {courseobj.id === 0 ? capitalizeFirstWords("Add Course") : capitalizeFirstWords("Update Course")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -11,6 +11,7 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 import { Link } from "react-router-dom";
 import { FaDownload } from "react-icons/fa6";
 import Swal from "sweetalert2";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -129,7 +130,7 @@ const UploadCourseUsersEnrollment = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Upload Users
+          {capitalizeFirstWords("Upload Users")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

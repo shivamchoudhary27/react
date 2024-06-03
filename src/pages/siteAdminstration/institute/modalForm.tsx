@@ -12,6 +12,7 @@ import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
+import { capitalizeFirstWords } from "../../../globals/titleCapitalize/capitalizeFirstWords";
 
 const AddUserModal = ({
   show,
@@ -125,7 +126,7 @@ const AddUserModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {userobj.id === 0 ? "Add Institute" : "Update Institute"}
+            {userobj.id === 0 ? capitalizeFirstWords("Add Institute") : capitalizeFirstWords("Update Institute")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

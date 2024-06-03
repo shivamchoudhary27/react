@@ -232,14 +232,14 @@ const FilterProgramDropdown = (props: Props) => {
         currentValue={filters.selectedValues.category}
         filterDisable={filters.selectedValues.program === 0 ? true : false} // only enable when a single program is selected
       />
-      <RenderFilterElements
+      {/* <RenderFilterElements
         component={"Status"}
         filterPacket={filters.filterData.status}
         packetKeys={["id", "name"]}
         getFilterChange={getFilterChange}
         currentValue={filters.selectedValues.status}
         filterDisable={false}
-      />
+      /> */}
     </React.Fragment>
   );
 };

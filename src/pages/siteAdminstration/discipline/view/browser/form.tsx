@@ -17,6 +17,7 @@ import {
   Type_AlertMsg,
   Type_FormTitles,
 } from "../../type/type";
+import { capitalizeFirstWords } from "../../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   commonProps: {
@@ -51,7 +52,7 @@ const BrowserDiciplineModal: React.FunctionComponent<Props> = ({
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          {commonProps.formTitles.titleHeading}
+          {capitalizeFirstWords(commonProps.formTitles.titleHeading)}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>

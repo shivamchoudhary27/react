@@ -10,6 +10,7 @@ import CustomButton from "../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeTextarea from "../../../widgets/formInputFields/formTextareaField";
+import { capitalizeFirstWords } from "../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   onHide: any;
@@ -92,7 +93,7 @@ const NewRequestForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            New Request
+          {capitalizeFirstWords("New Request")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

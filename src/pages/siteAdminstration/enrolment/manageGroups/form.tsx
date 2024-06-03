@@ -14,6 +14,7 @@ import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage"
 import FieldTypeTextarea from "../../../../widgets/formInputFields/formTextareaField";
 import Swal from "sweetalert2";
 import FieldTypeCheckbox from "../../../../widgets/formInputFields/formCheckboxField";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 // Formik Yup validation === >>>
 const Schema = Yup.object({
@@ -110,7 +111,7 @@ const GroupModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {groupObj.id === 0 ? "Add Group" : "Update Group"}
+            {groupObj.id === 0 ? capitalizeFirstWords("Add Group") : capitalizeFirstWords("Update Group")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

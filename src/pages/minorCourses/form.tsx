@@ -7,6 +7,7 @@ import { deleteData } from "../../adapters/microservices";
 import TimerAlertBox from "../../widgets/alert/timerAlert";
 import CustomButton from "../../widgets/formInputFields/buttons";
 import WaveBottom from "../../assets/images/background/bg-modal.svg";
+import { capitalizeFirstWords } from "../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   onHide: any;
@@ -166,12 +167,12 @@ const ModalForm = (props: Props) => {
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             {props.isEnrolled(props.minorcourseObj.id)
-              ? "Unenrollment Confirmation"
+              ? capitalizeFirstWords("Unenrollment Confirmation")
               : props.isWaitlisted(props.minorcourseObj.id)
-              ? "Remove Confirmation"
+              ? capitalizeFirstWords("Remove Confirmation")
               : props.minorcourseObj.remainingSeats === 0
-              ? "Waitlist Confirmation"
-              : "Enrollment Confirmation"}
+              ? capitalizeFirstWords("Waitlist Confirmation")
+              : capitalizeFirstWords("Enrollment Confirmation")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

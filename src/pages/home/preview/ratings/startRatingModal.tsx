@@ -3,6 +3,7 @@ import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import StarRating from "../../../../widgets/rating";
 import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 interface IProps {
   show: boolean;
@@ -33,7 +34,7 @@ const StartRatingModal: React.FunctionComponent<IProps> = ({
         className="modal-design-wrapper"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">Rating</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">{capitalizeFirstWords("Rating")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="starrating-modal">

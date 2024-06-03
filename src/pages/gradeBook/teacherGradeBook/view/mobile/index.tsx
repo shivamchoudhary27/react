@@ -32,6 +32,8 @@ type Props = {
   };
 };
 
+
+
 const Mobile = (props: Props) => {
   return (
     <React.Fragment>

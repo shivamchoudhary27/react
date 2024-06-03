@@ -3,7 +3,7 @@ import View from "./view";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { pagination } from "../../../utils/pagination";
-import { getData, postData } from "../../../adapters/microservices";
+import { getData } from "../../../adapters/microservices";
 
 const ManageProgram = () => {
   const dummyData = {
@@ -11,7 +11,7 @@ const ManageProgram = () => {
     pager: { totalElements: 0, totalPages: 0 },
     institute: 0,
   };
-  const [filesIds, setFilesIds] = useState([]);
+  // const [filesIds, setFilesIds] = useState([]);     Not in use Now
   const [apiStatus, setApiStatus] = useState("");
   const [refreshData, setRefreshData] = useState<boolean>(true);
   const [programData, setProgramData] = useState<any>(dummyData);
@@ -69,33 +69,33 @@ const ManageProgram = () => {
       getProgramData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshOnDelete]);
 
-  // ============================================================
-  //                      Set Files Ids
-  // ============================================================
-  useEffect(() => {
-    if (programData.items.length > 0) {
-      programData.items.map((item: any) => {
-        if (item.files.length > 0) {
-          item.files.forEach((fileId: any) => {
-            setFilesIds((prevFilesIds) => [...prevFilesIds, { id: fileId.id }]);
-          });
-        }
-      });
-    }
-  }, [programData]);
+  // ================================================================
+  //                      Set Files Ids  ||==-- Not in use Now --==||
+  // ================================================================
+  // useEffect(() => {
+  //   if (programData.items.length > 0) {
+  //     programData.items.map((item: any) => {
+  //       if (item.files.length > 0 && item.files !== undefined) {
+  //         item.files.forEach((fileId: any) => {
+  //           setFilesIds((prevFilesIds) => [...prevFilesIds, { id: fileId.id }]);
+  //         });
+  //       }
+  //     });
+  //   }
+  // }, [programData]);
 
-  useEffect(() => {
-    if (filesIds.length > 0) {
-      postData(`/files`, filesIds)
-        .then((result: any) => {
-          if (result.data !== "" && result.status === 200) {
-          }
-        })
-        .catch((err: any) => {
-          console.log(err);
-        });
-    }
-  }, [filesIds]);
+  // useEffect(() => {
+  //   if (filesIds.length > 0) {
+  //     postData(`/files`, filesIds)
+  //       .then((result: any) => {
+  //         if (result.data !== "" && result.status === 200) {
+  //         }
+  //       })
+  //       .catch((err: any) => {
+  //         console.log(err);
+  //       });
+  //   }
+  // }, [filesIds]);
   // ============================================================
   //                            End
   // ============================================================

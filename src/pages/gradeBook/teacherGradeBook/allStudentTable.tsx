@@ -39,7 +39,6 @@ const AllStudentTable = ({
   useEffect(() => {
     setStudentList(StudentData);
   }, [StudentData]);
-console.log(courseApiStatus)
   useEffect(() => {
     const filteredUser = StudentData.filter(
       (user) => user.user.id === studentId.toString()
@@ -122,11 +121,10 @@ console.log(courseApiStatus)
       {(apiStatus === "started" && studentList.length === 0) ||
         (courseApiStatus === "started" && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
-        ))}
-      {(apiStatus === "finished" && studentList.length === 0) ||
-        (courseApiStatus === "finished" && coursesList.length === 0 && (
+          ))}
+      {(apiStatus === "finished" && studentList.length === 0)  && (
           <Errordiv msg="No record found!" cstate className="mt-3" />
-        ))}
+        )}
     </div>
   );
 };

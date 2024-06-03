@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import Swal from "sweetalert2";
 import TimerAlertBox from "../../../../widgets/alert/timerAlert";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   onHide: any;
@@ -144,7 +145,7 @@ const AddCosModal = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.outcomeObj.id === 0 ? "Add CO's" : "Update CO's"}
+            {props.outcomeObj.id === 0 ? capitalizeFirstWords("Add CO's") : capitalizeFirstWords("Update CO's")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
