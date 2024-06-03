@@ -6,6 +6,7 @@ import { putData } from "../../../adapters/microservices";
 import FieldLabel from "../../../widgets/formInputFields/labels";
 import CustomButton from "../../../widgets/formInputFields/buttons";
 import WaveBottom from "../../../assets/images/background/bg-modal.svg";
+import { capitalizeFirstWords } from "../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   onHide: any;
@@ -72,7 +73,7 @@ const queryFormSchema = Yup.object({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Update Status
+          {capitalizeFirstWords("Update Status")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

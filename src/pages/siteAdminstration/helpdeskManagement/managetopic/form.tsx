@@ -13,6 +13,7 @@ import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import { LoadingButton } from "../../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 const ManageTopicModal = ({
   show,
@@ -113,7 +114,7 @@ const ManageTopicModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {topicObj.id === 0 ? "Add Topic" : "Update Topic"}
+            {topicObj.id === 0 ? capitalizeFirstWords("Add Topic") : capitalizeFirstWords("Update Topic")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

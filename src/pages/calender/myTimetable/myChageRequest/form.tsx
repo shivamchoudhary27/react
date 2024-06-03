@@ -12,6 +12,7 @@ import WaveBottom from "../../../../assets/images/background/bg-modal.svg";
 import deleteIcon from "../../../../assets/images/icons/delete-action.svg";
 import FieldErrorMessage from "../../../../widgets/formInputFields/errorMessage";
 import { deleteData, postData, putData } from "../../../../adapters/microservices";
+import { capitalizeFirstWords } from "../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   urlArg: any;
@@ -180,7 +181,7 @@ const ModalForm = (props: Props) => {
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
           {props.modalFormData?.status === "changeRequest" ? 
-            "Update Slot Change Request" : "Request for Slot Change" }
+            capitalizeFirstWords("update slot change request") : capitalizeFirstWords("request for slot change") }
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

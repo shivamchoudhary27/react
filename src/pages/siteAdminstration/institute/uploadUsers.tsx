@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { postData } from "../../../adapters/coreservices";
 import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import TimerAlertBox from "../../../widgets/alert/timerAlert";
+import { capitalizeFirstWords } from "../../../globals/titleCapitalize/capitalizeFirstWords";
 
 const validationSchema = Yup.object().shape({
   file: Yup.mixed().required("File is required"),
@@ -67,7 +68,7 @@ const UploadNewUsers = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Upload Users
+          {capitalizeFirstWords(" Upload Users")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

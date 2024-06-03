@@ -12,6 +12,7 @@ import { LoadingButton } from "../../../widgets/formInputFields/buttons";
 import FieldTypeText from "../../../widgets/formInputFields/formTextField";
 import FieldErrorMessage from "../../../widgets/formInputFields/errorMessage";
 import FieldTypeCheckbox from "../../../widgets/formInputFields/formCheckboxField";
+import { capitalizeFirstWords } from "../../../globals/titleCapitalize/capitalizeFirstWords";
 
 const Schema = Yup.object({
   instanceUrl: Yup.string()
@@ -86,7 +87,7 @@ const ConfigModal = ({
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Institute Configuration
+          {capitalizeFirstWords("Institute Configuration")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -11,6 +11,7 @@ import FieldErrorMessage from "../../../../../widgets/formInputFields/errorMessa
 import { Type_DepartmentObj, Type_AlertMsg, Type_FormTitles } from "../../type/type";
 import FieldTypeCheckbox from "../../../../../widgets/formInputFields/formCheckboxField";
 import FieldTypeTextarea from "../../../../../widgets/formInputFields/formTextareaField";
+import { capitalizeFirstWords } from "../../../../../globals/titleCapitalize/capitalizeFirstWords";
 
 type Props = {
   commonProps: {
@@ -39,7 +40,7 @@ const BrowserForm = ({ commonProps }: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {commonProps.formTitles.titleHeading}
+            {capitalizeFirstWords(commonProps.formTitles.titleHeading)}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

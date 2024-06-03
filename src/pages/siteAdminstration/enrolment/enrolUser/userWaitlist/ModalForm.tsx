@@ -6,6 +6,7 @@ import { postData } from "../../../../../adapters/microservices";
 import { deleteData } from  "../../../../../adapters/microservices";
 import TimerAlertBox from "../../../../../widgets/alert/timerAlert";
 import CustomButton from "../../../../../widgets/formInputFields/buttons";
+import { capitalizeFirstWords } from "../../../../../globals/titleCapitalize/capitalizeFirstWords";
 // import WaveBottom from "../../assets/images/background/bg-modal.svg";
 
 type Props = {
@@ -69,7 +70,7 @@ const ModalForm = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {"Enrollment Confirmation"}
+            {capitalizeFirstWords("Enrollment Confirmation")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
