@@ -256,7 +256,7 @@ const MappingTable = ({
                   </thead>
                   <tbody>
                     {programOutcomes.map((item: any, index: number) => (
-                      <tr key={item.id}>
+                      <tr key={index}>
                         {/* {poColumns.map((column) => (
                             <td key={column}>
                             <SelectCell name={column} options={options} />
