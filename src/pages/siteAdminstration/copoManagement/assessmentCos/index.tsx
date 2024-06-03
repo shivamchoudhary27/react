@@ -28,7 +28,10 @@ const AssessmentForCOs = (props: Props) => {
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setAssessmentMappingData(res.data);
-          setAssessmentMoodleData(res.data.moodleData)
+          if(res.data.moodleData !== null){
+            console.log(res.data)
+            setAssessmentMoodleData(res.data.moodleData)
+          }
           const initialData = res.data.items.reduce(
             (
               acc: { [x: string]: any },

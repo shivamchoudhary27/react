@@ -47,30 +47,7 @@ const AssessmentTable = ({
     alertBoxColor: "",
   });
 
-  const quizOptions = [
-    { value: 1, label: "Quiz 1" },
-    { value: 2, label: "Quiz 2" },
-    { value: 3, label: "Quiz 3" },
-    { value: 4, label: "Quiz 4" },
-    { value: 5, label: "Quiz 5" },
-  ];
-
-  const iaOptions = [
-    { value: 6, label: "Quiz 1" },
-    { value: 7, label: "Quiz 2" },
-    { value: 8, label: "Quiz 3" },
-    { value: 9, label: "Quiz 4" },
-    { value: 10, label: "Quiz 5" },
-  ];
-
-  const labOptions = [
-    { value: 11, label: "Assignment 1" },
-    { value: 12, label: "Assignment 2" },
-    { value: 13, label: "Assignment 3" },
-    { value: 14, label: "Assignment 4" },
-    { value: 15, label: "Assignment 5" },
-  ];
-
+  // add Test column === >>>
   const addTestColumns = () => {
     if (testColumns.length < 5) {
       const newTestColumns = [...testColumns];
@@ -85,6 +62,7 @@ const AssessmentTable = ({
     }
   };
 
+  // remove Test column === >>>
   const removeTestColumns = (indexToRemove: number) => {
     const newTestColumns = testColumns.filter(
       (_, index) => index !== indexToRemove
@@ -96,6 +74,7 @@ const AssessmentTable = ({
     setReachMaxColumnMsg({ status: false, msg: "" });
   };
 
+  // add IA column === >>>
   const addIaColumns = () => {
     if (iaColumns.length < 5) {
       const newIaColumns = [...iaColumns];
@@ -110,6 +89,7 @@ const AssessmentTable = ({
     }
   };
 
+  // remove IA column === >>>
   const removeIaColumns = (indexToRemove: number) => {
     const newIaColumns = iaColumns.filter(
       (_, index) => index !== indexToRemove
@@ -121,6 +101,7 @@ const AssessmentTable = ({
     setReachMaxColumnMsg({ status: false, msg: "" });
   };
 
+  // add lab column === >>>
   const addLabColumns = () => {
     if (labColumns.length < 5) {
       const newLabColumns = [...labColumns];
@@ -135,7 +116,10 @@ const AssessmentTable = ({
     }
   };
 
-  const removeLabColumns = (indexToRemove: number) => {
+  // remove lab column === >>>
+  const removeLabColumns = (indexToRemove: number, suffix: any) => {
+
+    console.log(indexToRemove)
     const newLabColumns = labColumns.filter(
       (_, index) => index !== indexToRemove
     );
@@ -335,7 +319,7 @@ const AssessmentTable = ({
                                   backgroundColor: "#f2f2f2",
                                   padding: "3px",
                                 }}
-                                onClick={() => removeLabColumns(index)}
+                                onClick={() => removeLabColumns(index,column)}
                               >
                                 <img src={deleteIcon} alt="Delete" />
                               </Button>
@@ -372,18 +356,39 @@ const AssessmentTable = ({
                                 }}
                               >
                                 <option value="">Select</option>
-                                {quizOptions.map((optionValue) => (
-                                  <option
-                                    key={optionValue.value}
-                                    value={optionValue.value}
-                                    selected={
-                                      `test_${assessment.id}_${index + 1}` ===
-                                      `test_${assessment.id}_1`
+                                {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_quiz: any[]; }) => {
+                                  const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
+                                  return isMatchingConame && item.mod_quiz !== undefined && item.mod_quiz.map((el) => {
+                                    const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
+                                    return (
+                                      <option key={el.id} value={el.cmid} selected={isSelected}>
+                                        {el.name}
+                                      </option>
+                                    );
+                                  });
+                                })}
+                                {/* {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_quiz: any[]; }) => {
+                                  const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
+                                  if (isMatchingConame) {
+                                    if (item.mod_quiz && item.mod_quiz.length > 0) {
+                                      return item.mod_quiz.map((el) => {
+                                        const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
+                                        return (
+                                          <option key={el.id} value={el.cmid} selected={isSelected}>
+                                            {el.name}
+                                          </option>
+                                        );
+                                      });
+                                    } else {
+                                      return (
+                                        <option key="no-data" disabled>
+                                          No data
+                                        </option>
+                                      );
                                     }
-                                  >
-                                    {optionValue.label}
-                                  </option>
-                                ))}
+                                  }
+                                  return null;
+                                })} */}
                               </Field>
                             </td>
                           ))}
@@ -403,18 +408,17 @@ const AssessmentTable = ({
                                 }}
                               >
                                 <option value="">Select</option>
-                                {iaOptions.map((optionValue) => (
-                                  <option
-                                    key={optionValue.value}
-                                    value={optionValue.value}
-                                    selected={
-                                      `ia_${assessment.id}_${index + 1}` ===
-                                      "ia_88_1"
-                                    }
-                                  >
-                                    {optionValue.label}
-                                  </option>
-                                ))}
+                                {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_quiz: any[]; }) => {
+                                  const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
+                                  return isMatchingConame && item.mod_quiz !== undefined && item.mod_quiz.map((el) => {
+                                    const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
+                                    return (
+                                      <option key={el.id} value={el.cmid} selected={isSelected}>
+                                        {el.name}
+                                      </option>
+                                    );
+                                  });
+                                })}
                               </Field>
                             </td>
                           ))}
@@ -437,7 +441,7 @@ const AssessmentTable = ({
                                 <option value={0}>Select</option>
                                 {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_assign: any[]; }) => {
                                   const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
-                                  return isMatchingConame && item.mod_assign.map((el) => {
+                                  return isMatchingConame && item.mod_assign !== undefined && item.mod_assign.map((el) => {
                                     const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
                                     return (
                                       <option key={el.id} value={el.cmid} selected={isSelected}>

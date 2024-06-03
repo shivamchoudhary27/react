@@ -147,7 +147,7 @@ const AttainmentTable = (props: Props) => {
                   <tbody>
                     {props.courseAttainmentData.map(
                       (item: any, index: number) => (
-                        <tr>
+                        <tr key={index}>
                           <td>{`${item.abbreviation}_${item.suffixValue}`}</td>
                           <td>{item.averageAssessmentDirect}</td>
                           <td>
