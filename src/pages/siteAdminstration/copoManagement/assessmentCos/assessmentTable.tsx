@@ -32,7 +32,6 @@ const AssessmentTable = ({
   const { cid } = useParams();
   const [iaColumns, setIaColumns] = useState(["IA-1"]); // Initial IA columns
   const [labColumns, setLabColumns] = useState(["LAB-1 %"]); // Initial LAB columns
-  const [testColumns, setTestColumns] = useState(["Test-1"]); // Initial Test columns
   const [buttonClicked, setButtonClicked] = useState("");
   const [isSubmittingSave, setIsSubmittingSave] = useState(false);
   const [isSubmittingSaveAndContinue, setIsSubmittingSaveAndContinue] =
@@ -46,33 +45,6 @@ const AssessmentTable = ({
     message: "",
     alertBoxColor: "",
   });
-
-  // add Test column === >>>
-  const addTestColumns = () => {
-    if (testColumns.length < 5) {
-      const newTestColumns = [...testColumns];
-      const newColumnIndex = newTestColumns.length + 1;
-      newTestColumns.push(`Test-${newColumnIndex}`);
-      setTestColumns(newTestColumns);
-    } else {
-      setReachMaxColumnMsg({
-        status: true,
-        msg: "You have reached the maximum limit. You can't add more than 5 Test columns.",
-      });
-    }
-  };
-
-  // remove Test column === >>>
-  const removeTestColumns = (indexToRemove: number) => {
-    const newTestColumns = testColumns.filter(
-      (_, index) => index !== indexToRemove
-    );
-    const updatedTestColumns = newTestColumns.map(
-      (column, index) => `Test-${index + 1}`
-    );
-    setTestColumns(updatedTestColumns);
-    setReachMaxColumnMsg({ status: false, msg: "" });
-  };
 
   // add IA column === >>>
   const addIaColumns = () => {
@@ -143,17 +115,6 @@ const AssessmentTable = ({
           eseMark: values[`eseMark_${assessment.id}`],
           assements: [],
         };
-
-        testColumns.forEach((column, index) => {
-          const key = `test_${assessment.id}_${index + 1}`;
-          if (values[key]) {
-            formattedAssessment.assements.push({
-              suffixValue: index + 1,
-              assessmentType: "test",
-              idNumber: values[key],
-            });
-          }
-        });
 
         iaColumns.forEach((column, index) => {
           const key = `ia_${assessment.id}_${index + 1}`;
@@ -262,29 +223,6 @@ const AssessmentTable = ({
                   <thead>
                     <tr>
                       <th>Course Outcomes</th>
-                      {testColumns.map((column, index) => (
-                        <th key={column}>
-                          {column}{" "}
-                          {index >= 1 && (
-                            <OverlayTrigger
-                              placement="top"
-                              overlay={
-                                <BsTooltip>Delete Test Column</BsTooltip>
-                              }
-                            >
-                              <Button
-                                style={{
-                                  backgroundColor: "#f2f2f2",
-                                  padding: "3px",
-                                }}
-                                onClick={() => removeTestColumns(index)}
-                              >
-                                <img src={deleteIcon} alt="Delete" />
-                              </Button>
-                            </OverlayTrigger>
-                          )}
-                        </th>
-                      ))}
                       {iaColumns.map((column, index) => (
                         <th key={column}>
                           {column}{" "}
@@ -340,58 +278,6 @@ const AssessmentTable = ({
                       }) => (
                         <tr key={assessment.id}>
                           <td>{`${assessment.abbreviation}_${assessment.suffixValue}`}</td>
-                          {testColumns.map((column, index) => (
-                            <td key={column}>
-                              <Field
-                                as="select"
-                                name={`test_${assessment.id}_${index + 1}`}
-                                className="form-select"
-                                onChange={(e: { target: { value: any } }) => {
-                                  handleChange(e);
-                                  setInitialValue((prevState: any) => ({
-                                    ...prevState,
-                                    [`test_${assessment.id}_${index + 1}`]:
-                                      e.target.value,
-                                  }));
-                                }}
-                              >
-                                <option value="">Select</option>
-                                {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_quiz: any[]; }) => {
-                                  const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
-                                  return isMatchingConame && item.mod_quiz !== undefined && item.mod_quiz.map((el) => {
-                                    const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
-                                    return (
-                                      <option key={el.id} value={el.cmid} selected={isSelected}>
-                                        {el.name}
-                                      </option>
-                                    );
-                                  });
-                                })}
-                                {/* {assessmentMoodleData.length > 0 && assessmentMoodleData.map((item: { coname: string; mod_quiz: any[]; }) => {
-                                  const isMatchingConame = `${assessment.abbreviation}${assessment.suffixValue}` === item.coname;
-                                  if (isMatchingConame) {
-                                    if (item.mod_quiz && item.mod_quiz.length > 0) {
-                                      return item.mod_quiz.map((el) => {
-                                        const isSelected = assessment.assements.some((assessmentItem: { idNumber: any; }) => assessmentItem.idNumber == el.cmid);
-                                        return (
-                                          <option key={el.id} value={el.cmid} selected={isSelected}>
-                                            {el.name}
-                                          </option>
-                                        );
-                                      });
-                                    } else {
-                                      return (
-                                        <option key="no-data" disabled>
-                                          No data
-                                        </option>
-                                      );
-                                    }
-                                  }
-                                  return null;
-                                })} */}
-                              </Field>
-                            </td>
-                          ))}
                           {iaColumns.map((column, index) => (
                             <td key={column}>
                               <Field
@@ -486,7 +372,6 @@ const AssessmentTable = ({
                 <AssessmentButtons
                   addIaColumns={addIaColumns}
                   addLabColumns={addLabColumns}
-                  addTestColumns={addTestColumns}
                   assessmentData={assessmentData}
                 />
               </div>
