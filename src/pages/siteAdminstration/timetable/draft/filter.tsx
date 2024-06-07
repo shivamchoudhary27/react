@@ -1,4 +1,3 @@
-
 import { useFormik } from "formik";
 import { getMonthList } from "./local";
 import { format, parse, getTime } from "date-fns";
@@ -169,109 +168,135 @@ const ManageFilter = ({
   return (
     <React.Fragment>
       <div>
-      <div className="filter-wrapper mt-2 input-styles">
-        <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
-          <Row className="g-2">
-            <Col>
-              <label htmlFor="courses" hidden>
-                Courses
-              </label>
-              <select
-                className="form-select"
-                name="workloadCourse"
-                value={selectedCourse}
-                onChange={handleCourseFilterChange}
-              >
-                <option value={0}>Select Course</option>
-                {renderCourseOptions(workloadCourses)}
-              </select>
-            </Col>
-            <Col>
-              <label htmlFor="faculty" hidden>
-                Faculty
-              </label>
-              <select
-                className="form-select"
-                name="faculty"
-                value={selectedFaculty}
-                onChange={handleFacultyFilterChange}
-              >
-                <option value={0}>All</option>
-                {courseFacultyData.items.map((faculty: any) => (
-                  <option value={faculty.userId} key={faculty.userId}>
-                    {faculty.userFirstName.charAt(0).toUpperCase() +
-                      faculty.userFirstName.slice(1)}{" "}
-                    {faculty.userLastName}
-                  </option>
-                ))}
-              </select>
-            </Col>
-            <Col>
-              <Button variant="primary" type="submit" className="me-2">
-                Filter
-              </Button>
-              <Button
-                variant="outline-secondary"
-                type="reset"
-                onClick={formik.handleReset}
-              >
-                Reset
-              </Button>
-            </Col>
-          </Row>
-        </form>
-      </div>
-      <div className="d-flex justify-content-between align-items-center mt-4">
-        <div className="d-flex gap-4 dates-wrapper">
-          <div>
-            <img src={startDateIcon} alt="start Date" />
-            <b>Start Date:</b> {courseDates.startDate}
-          </div>
-          <div>
-            <img src={endDateIcon} alt="End Date" />
-            <b>End Date: </b> {courseDates.endDate}
-          </div>
-          {courseDates.startDate !== "--/--/----" &&
-            courseDates.endDate !== "--/--/----" && (
-              <div>
-                <label htmlFor="month">Month:</label>
+        <div className="filter-wrapper mt-2 input-styles">
+          <form onSubmit={formik.handleSubmit} onReset={formik.handleReset}>
+            <Row className="g-2">
+              <Col>
+                <label htmlFor="courses" hidden>
+                  Courses
+                </label>
                 <select
                   className="form-select"
                   name="workloadCourse"
-                  onChange={handleMonthFilterChange}
-                  // value={ChangeFilterStatus}
+                  value={selectedCourse}
+                  onChange={handleCourseFilterChange}
                 >
-                  <option value={0}>Select Month</option>
-                  {Object.entries(monthList).map(([year, months]: any) => (
-                    <optgroup label={year} key={year}>
-                      {Array.isArray(months) &&
-                        months.map(
-                          (month: any, index: React.Key | null | undefined) => (
-                            <option
-                              value={`${month},${year}`}
-                              key={`${year}-${index}`}
-                              // Conditionally render selected option based on state
-                              selected={
-                                changeFilterStatus === `${month},${year}`
-                              }
-                            >
-                              {month}
-                            </option>
-                          )
-                        )}
-                    </optgroup>
+                  <option value={0}>Select Course</option>
+                  {renderCourseOptions(workloadCourses)}
+                </select>
+              </Col>
+              <Col>
+                <label htmlFor="faculty" hidden>
+                  Faculty
+                </label>
+                <select
+                  className="form-select"
+                  name="faculty"
+                  value={selectedFaculty}
+                  onChange={handleFacultyFilterChange}
+                >
+                  <option value={0}>All</option>
+                  {courseFacultyData.items.map((faculty: any) => (
+                    <option value={faculty.userId} key={faculty.userId}>
+                      {faculty.userFirstName.charAt(0).toUpperCase() +
+                        faculty.userFirstName.slice(1)}{" "}
+                      {faculty.userLastName}
+                    </option>
                   ))}
                 </select>
+              </Col>
+              <Col>
+                <Button variant="primary" type="submit" className="me-2">
+                  Filter
+                </Button>
+                <Button
+                  variant="outline-secondary"
+                  type="reset"
+                  onClick={formik.handleReset}
+                >
+                  Reset
+                </Button>
+              </Col>
+            </Row>
+          </form>
+        </div>
+        <div className="d-flex justify-content-between align-items-center mt-4">
+          <div className="d-flex gap-4 dates-wrapper">
+            <div>
+              <img src={startDateIcon} alt="start Date" />
+              <b>Start Date:</b> {courseDates.startDate}
+            </div>
+            <div>
+              <img src={endDateIcon} alt="End Date" />
+              <b>End Date: </b> {courseDates.endDate}
+            </div>
+            {courseDates.startDate !== "--/--/----" &&
+              courseDates.endDate !== "--/--/----" && (
+                <div>
+                  <label htmlFor="month">Month:</label>
+                  <select
+                    className="form-select"
+                    name="workloadCourse"
+                    onChange={handleMonthFilterChange}
+                    // value={ChangeFilterStatus}
+                  >
+                    <option value={0}>Select Month</option>
+                    {Object.entries(monthList).map(([year, months]: any) => (
+                      <optgroup label={year} key={year}>
+                        {Array.isArray(months) &&
+                          months.map(
+                            (
+                              month: any,
+                              index: React.Key | null | undefined
+                            ) => (
+                              <option
+                                value={`${month},${year}`}
+                                key={`${year}-${index}`}
+                                // Conditionally render selected option based on state
+                                selected={
+                                  changeFilterStatus === `${month},${year}`
+                                }
+                              >
+                                {month}
+                              </option>
+                            )
+                          )}
+                      </optgroup>
+                    ))}
+                  </select>
+                </div>
+              )}
+          </div>
+          <div className="slot-indicator">
+            <div className="me-1 available d-flex">
+              <i className="fa-solid fa-envelope-circle-check me-1"></i>Change
+              Request
+              <div
+                style={{
+                  backgroundColor: "#f7cdcd",
+                  color: "#e00b0b",
+                  width: "20px",
+                  height: "20px",
+                  marginLeft: "3px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  fontWeight: "450",
+                }}
+              >
+                <span>{requestCount}</span>
               </div>
-            )}
+            </div>
+            <div className="me-1 available">
+              Available Slots Change Request: {requestCount}
+            </div>
+            <div className="me-1 available">Available Slots</div>
+            <div className="me-1 booked">Not Available Slots</div>
+            <div className="me-1 weekend">Break/Weekend/Holiday</div>
+          </div>
         </div>
-        <div className="slot-indicator">
-        <div className="me-1 available">Available Slots Change Request: {requestCount}</div>
-          <div className="me-1 available">Available Slots</div>
-          <div className="me-1 booked">Not Available Slots</div>
-          <div className="me-1 weekend">Break/Weekend/Holiday</div>
-        </div>
-      </div>
       </div>
     </React.Fragment>
   );

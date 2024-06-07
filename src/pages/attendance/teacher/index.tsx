@@ -54,8 +54,8 @@ const TeacherAttendance = (props: Props) => {
   }, [currentUserRole.id]);
 
   useEffect(() => {
+    setApiStatus("started");
     if (courseId > 0) {
-      setApiStatus("started");
       const query = {
         wsfunction: "mod_attendance_get_attendance_sessions_report",
         userid: userid,
@@ -96,6 +96,8 @@ const TeacherAttendance = (props: Props) => {
           console.log(err);
           setApiStatus("finished");
         });
+    }else{
+      setApiStatus("finished");
     }
   }, [courseId]);
 
@@ -113,6 +115,8 @@ const TeacherAttendance = (props: Props) => {
     filterUpdate.pageNumber * filterUpdate.pageSize,
     filterUpdate.pageNumber * filterUpdate.pageSize + filterUpdate.pageSize
   );
+
+  console.log(apiStatus, 'status')
 
   return (
     <View

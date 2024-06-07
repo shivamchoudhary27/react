@@ -4,6 +4,7 @@ import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import {
   deleteData as deleteProgramData,
+  getData,
   putData,
 } from "../../../adapters/microservices";
 import TableSkeleton from "../../../widgets/skeleton/table";
@@ -33,6 +34,7 @@ const ManageTable = ({
   programPermissions,
   setFilterUpdate,
   filterUpdate,
+  refreshDepartmentData
 }: any) => {
 
 
@@ -335,21 +337,78 @@ const ManageTable = ({
     setOnDeleteAction("");
   }, [onDeleteAction]);
 
-  const toggleProgramPublished = (programPacket: any) => {
-    programPacket.published = !programPacket.published;
-    let endPoint = `/${currentInstitute}/programs/${programPacket.id}`;
-    putData(endPoint, programPacket)
-      .then((res: any) => {})
+  // const toggleProgramPublished = (programPacket: any) => {
+  //   programPacket.published = !programPacket.published;
+  //   let endPoint = `/${currentInstitute}/programs/${programPacket.id}`;
+  //   putData(endPoint, programPacket)
+  //     .then((res: any) => {})
+  //     .catch((err: any) => {
+  //       dispatch(
+  //         globalAlertActions.globalAlert({
+  //           alertMsg: "Action failed due to some error",
+  //           status: true,
+  //         })
+  //       );
+  //       programPacket.published = !programPacket.published;
+  //     });
+  // };
+
+  //=======>> call api single Program get and put <<=========
+  const toggleProgramPublished = (program: any) => {
+    // Optimistically update the UI
+    const originalPublished = program.published;
+    program.published = !originalPublished;
+    refreshDepartmentData(); // Update UI immediately
+  
+    // Fetch the current state and then update
+    getData(`/${currentInstitute}/programs`, {
+      Id: program.id,
+      pageNumber: 0,
+      pageSize: 1,
+    })
+      .then(async (result: any) => {
+        if (result.data !== "" && result.status === 200) {
+          let data = await result.data.items[0];
+          // Toggle the published status
+          data.published = !data.published;
+          let endPoint = `/${currentInstitute}/programs/${program.id}`;
+          putData(endPoint, data)
+            .then((res: any) => {
+              if (res.status !== 200) {
+                // Revert the optimistic update if the response is not successful
+                program.published = originalPublished;
+                refreshDepartmentData();
+                dispatch(
+                  globalAlertActions.globalAlert({
+                    alertMsg: "Action failed due to some error",
+                    status: true,
+                  })
+                );
+              }
+            })
+            .catch((err: any) => {
+              console.log(err);
+              // Revert the optimistic update in case of error
+              program.published = originalPublished;
+              refreshDepartmentData();
+              dispatch(
+                globalAlertActions.globalAlert({
+                  alertMsg: "Action failed due to some error",
+                  status: true,
+                })
+              );
+            });
+        }
+      })
       .catch((err: any) => {
-        dispatch(
-          globalAlertActions.globalAlert({
-            alertMsg: "Action failed due to some error",
-            status: true,
-          })
-        );
-        programPacket.published = !programPacket.published;
+        console.log(err);
+        // Revert the optimistic update in case of error
+        program.published = originalPublished;
+        refreshDepartmentData();
       });
   };
+  
+
 
   const deleteHandler = (id: number, instituteId: number) => {
     refreshOnDelete(false);
