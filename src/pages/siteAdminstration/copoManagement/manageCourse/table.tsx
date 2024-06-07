@@ -333,7 +333,7 @@ const CourseTable = ({
   return (
     <>
       <div className="table-responsive admin-table-wrapper mt-3">
-        <DragDropContext onDragEnd={(results) => handleDragEnd(results)}>
+        {/* <DragDropContext onDragEnd={(results) => handleDragEnd(results)}> */}
           <Table borderless striped {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup, index) => (
@@ -346,39 +346,39 @@ const CourseTable = ({
                 </tr>
               ))}
             </thead>
-            <Droppable droppableId="tbody">
-              {(provided, snapshot) => (
+            {/* <Droppable droppableId="tbody">
+              {(provided, snapshot) => ( */}
                 <tbody
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
+                  // ref={provided.innerRef}
+                  // {...provided.droppableProps}
                   {...getTableBodyProps()}
                 >
                   {rows.map((row, index) => {
                     prepareRow(row);
                     return (
-                      <Draggable
-                        draggableId={`drag-id-${row.id.toString()}`}
-                        index={index}
-                        key={row.id.toString()}
-                        isDragDisabled={
-                          row.original.courseid !== undefined ? false : true
-                        }
-                      >
-                        {(provided, snapshot) => (
+                      // <Draggable
+                      //   draggableId={`drag-id-${row.id.toString()}`}
+                      //   index={index}
+                      //   key={row.id.toString()}
+                      //   isDragDisabled={
+                      //     row.original.courseid !== undefined ? false : true
+                      //   }
+                      // >
+                        // {(provided, snapshot) => (
                           <tr
                             {...row.getRowProps()}
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            style={{
-                              ...provided.draggableProps.style,
-                              backgroundColor: snapshot.isDragging
-                                ? "papayawhip"
-                                : "white",
-                            }}
+                            // ref={provided.innerRef}
+                            // {...provided.draggableProps}
+                            // style={{
+                            //   ...provided.draggableProps.style,
+                            //   backgroundColor: snapshot.isDragging
+                            //     ? "papayawhip"
+                            //     : "white",
+                            // }}
                           >
                             {row.cells.map((cell, index) => (
                               <td
-                                {...provided.dragHandleProps}
+                                // {...provided.dragHandleProps}
                                 {...cell.getCellProps()}
                                 key={index}
                               >
@@ -386,16 +386,16 @@ const CourseTable = ({
                               </td>
                             ))}
                           </tr>
-                        )}
-                      </Draggable>
-                    );
+                        // )}
+                      // </Draggable>
+                    )
                   })}
-                  {provided.placeholder}
+                  {/* {provided.placeholder} */}
                 </tbody>
-              )}
-            </Droppable>
+              {/* )}
+            </Droppable> */}
           </Table>
-        </DragDropContext>
+        {/* </DragDropContext> */}
         {apiStatus === "started" && selectedData.length === 0 && (
           <TableSkeleton numberOfRows={5} numberOfColumns={4} />
         )}
