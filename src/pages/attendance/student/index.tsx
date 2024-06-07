@@ -52,6 +52,7 @@ const StudentAttendance = (props: Props) => {
 
   // call API to get student attendance report === >>
   useEffect(() => {
+    setApiStatus("started");
     if (courseId > 0) {
       const query = {
         wsfunction: "mod_attendance_get_attendance_sessions_report",
@@ -59,7 +60,6 @@ const StudentAttendance = (props: Props) => {
         courseid: courseId,
         role: currentUserRole.shortName,
       };
-      setApiStatus("started");
       getData(query)
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
@@ -77,6 +77,7 @@ const StudentAttendance = (props: Props) => {
           setApiStatus("finished");
         });
     } else {
+      setApiStatus("finished");
       console.log("course id must not be null---");
     }
   }, [courseId]);
