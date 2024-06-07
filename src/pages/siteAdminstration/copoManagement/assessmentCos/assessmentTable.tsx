@@ -430,7 +430,7 @@ const AssessmentTable = ({
                             }}
                           >
                             <option value="Select">Select</option>
-                            {assessmentMoodleData.map(
+                            {Array.isArray(assessmentMoodleData) && assessmentMoodleData.map(
                               (option: { coname: string; mod_quiz: any[] }) =>
                                 option.coname ===
                                   `${assessment.abbreviation}${assessment.suffixValue}` &&
@@ -477,7 +477,7 @@ const AssessmentTable = ({
                             }}
                           >
                             <option value="Select">Select</option>
-                            {assessmentMoodleData.map(
+                            {Array.isArray(assessmentMoodleData) && assessmentMoodleData.map(
                               (option: { coname: string; mod_assign: any[] }) =>
                                 option.coname ===
                                   `${assessment.abbreviation}${assessment.suffixValue}` &&
