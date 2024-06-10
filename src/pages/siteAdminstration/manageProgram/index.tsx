@@ -60,7 +60,7 @@ const ManageProgram = () => {
 
   // get programs API call === >>>
   useEffect(() => {
-    if (currentInstitute > 0)
+    if (currentInstitute > 0 || refreshData === true)
       getProgramData(`/${currentInstitute}/programs`, filterUpdate);
   }, [refreshData, filterUpdate, currentInstitute]);
 
