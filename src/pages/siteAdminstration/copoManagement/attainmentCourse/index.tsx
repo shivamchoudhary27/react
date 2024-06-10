@@ -6,16 +6,22 @@ import { Alert } from "react-bootstrap";
 
 type Props = {
   setActiveTab: any;
-  tabRefreshToggle:any
-  refreshTab:any
+  tabRefreshToggle: any;
+  refreshTab: any;
 };
 
 const AttainmentCourseOutcome = (props: Props) => {
   const { cid } = useParams();
-  const [courseAttainmentData, setCourseAttainmentData] = useState([]);
+  const dummyData = {
+    items: [],
+    moodleData: {},
+  };
+  const [courseAttainmentData, setCourseAttainmentData] = useState(dummyData);
+  const [courseAttainmentMoodleData, setCourseAttainmentMoodleData] = useState(
+    []
+  );
   const [courseAttainmentApiStatus, setCourseAttainmentApiStatus] =
     useState("");
-  const [initialValues, setInitialValue] = useState({});
 
   useEffect(() => {
     setCourseAttainmentApiStatus("started");
@@ -23,20 +29,9 @@ const AttainmentCourseOutcome = (props: Props) => {
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           setCourseAttainmentData(res.data);
-          const initialData = res.data.reduce(
-            (
-              acc: { [x: string]: any },
-              item: { [x: string]: any; id?: any }
-            ) => {
-              Object.keys(item).forEach((key) => {
-                const newKey = `${key}_${item.id}`;
-                acc[newKey] = item[key];
-              });
-              return acc;
-            },
-            {}
-          );
-          setInitialValue(initialData);
+          if (res.data.moodleData !== null) {
+            setCourseAttainmentMoodleData(res.data.moodleData);
+          }
         }
         setCourseAttainmentApiStatus("finished");
       })
@@ -49,11 +44,10 @@ const AttainmentCourseOutcome = (props: Props) => {
   return (
     <div>
       <AttainmentTable
-        initialValues={initialValues}
         setActiveTab={props.setActiveTab}
-        courseAttainmentData={courseAttainmentData}
+        courseAttainmentData={courseAttainmentData.items}
         courseAttainmentApiStatus={courseAttainmentApiStatus}
-        setInitialValue={setInitialValue}
+        courseAttainmentMoodleData={courseAttainmentMoodleData}
       />
       <Alert variant="primary" className="mt-4">
         <strong>Note:</strong>

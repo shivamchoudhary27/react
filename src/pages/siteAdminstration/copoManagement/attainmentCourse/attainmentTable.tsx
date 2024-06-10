@@ -6,15 +6,14 @@ import TableSkeleton from "../../../../widgets/skeleton/table";
 import CustomButton from "../../../../widgets/formInputFields/buttons";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 
 type Props = {
   setActiveTab: any;
-  initialValues: any;
-  setInitialValue: any;
   courseAttainmentData: any;
   courseAttainmentApiStatus: string;
+  courseAttainmentMoodleData: any;
 };
 
 const AttainmentTable = (props: Props) => {
@@ -27,35 +26,55 @@ const AttainmentTable = (props: Props) => {
     status: false,
     msg: "",
   });
+  const [initialValues, setInitialValues] = useState({});
+
+  //  // set initial values === >>>
+  useEffect(() => {
+    const initialData = props.courseAttainmentData.reduce(
+      (
+        acc: { [x: string]: any },
+        item: { id: any; feedbackIdNumber: any },
+        index: any
+      ) => {
+        const attainmentKey = `feedback_${item.id}_${index}`;
+        acc[attainmentKey] = item.feedbackIdNumber;
+        return acc;
+      },
+      {}
+    );
+    setInitialValues(initialData);
+  }, [props.courseAttainmentData]);
 
   const handleSubmit = (values: any, action: any) => {
-    const result: {
-      id: number;
-      abbreviation: any;
-      suffixValue: any;
-      feedbackIdNumber: any;
-    }[] = [];
-    const ids = [
-      ...new Set(Object.keys(values).map((key) => key.split("_")[1])),
-    ];
-
-    ids.forEach((id) => {
-      if (id) {
-        result.push({
-          id: Number(id),
-          abbreviation: values[`abbreviation_${id}`],
-          suffixValue: values[`suffixValue_${id}`],
-          feedbackIdNumber: values[`feedbackIdNumber_${id}`],
-        });
+    const formattedData = props.courseAttainmentData.map(
+      (
+        attainment: {
+          id: any;
+          target: any;
+          suffixValue: any;
+          abbreviation: any;
+          averageAssessmentDirect: any;
+        },
+        index: any
+      ) => {
+        const formattedAttainment = {
+          id: attainment.id,
+          target: attainment.target,
+          suffixValue: attainment.suffixValue,
+          abbreviation: attainment.abbreviation,
+          averageAssessmentDirect: attainment.averageAssessmentDirect,
+          feedbackIdNumber: initialValues[`feedback_${attainment.id}_${index}`],
+        };
+        return formattedAttainment;
       }
-    });
+    );
 
     const submitAction =
       buttonClicked === "save"
         ? setIsSubmittingSave
         : setIsSubmittingSaveAndContinue;
     submitAction(true);
-    postData(`/${cid}/attainment/mapping`, result)
+    postData(`/${cid}/attainment/mapping`, formattedData)
       .then((res: any) => {
         if (res.data !== "" && res.status === 200) {
           if (buttonClicked === "save") {
@@ -112,7 +131,7 @@ const AttainmentTable = (props: Props) => {
       )}
       {props.courseAttainmentApiStatus !== "started" ? (
         <Formik
-          initialValues={props.initialValues}
+          initialValues={initialValues}
           onSubmit={(values, action) => {
             handleSubmit(values, action);
           }}
@@ -153,21 +172,54 @@ const AttainmentTable = (props: Props) => {
                           <td>
                             <Field
                               as="select"
-                              name={`feedbackIdNumber_${item.id}`}
+                              name={`feedback_${item.id}_${index}`}
                               className="form-select"
                               onChange={(e: { target: { value: any } }) => {
                                 handleChange(e);
-                                props.setInitialValue((prevState: any) => ({
+                                setInitialValues((prevState: any) => ({
                                   ...prevState,
-                                  [`feedbackIdNumber_${item.id}`]:
+                                  [`feedback_${item.id}_${index}`]:
                                     e.target.value,
                                 }));
                               }}
                             >
                               <option value={0}>Select</option>
-                              <option value={1}>Feedback 1</option>
-                              <option value={2}>Feedback 2</option>
-                              <option value={3}>Feedback 3</option>
+                              {Array.isArray(
+                                props.courseAttainmentMoodleData
+                              ) &&
+                                props.courseAttainmentMoodleData.map(
+                                  (option, index: number) =>
+                                    option.coname !== "" &&
+                                    option.coname ===
+                                      `${item.abbreviation}${item.suffixValue}` &&
+                                    option.mod_feedback?.length > 0 &&
+                                    option.mod_feedback.map((feedback: any) => {
+                                      const selectedValue = Object.entries(
+                                        initialValues
+                                      ).find(
+                                        ([key, value]) =>
+                                          key === `feedback_${item.id}_${index}`
+                                      )?.[1];
+                                      return (
+                                        <>
+                                          {feedback.cmid !== null &&
+                                            feedback.name !== null && (
+                                              <option
+                                                key={feedback.cmid}
+                                                value={feedback.cmid}
+                                                selected={
+                                                  selectedValue == feedback.cmid
+                                                    ? true
+                                                    : false
+                                                }
+                                              >
+                                                {feedback.name}
+                                              </option>
+                                            )}
+                                        </>
+                                      );
+                                    })
+                                )}
                             </Field>
                           </td>
                           <td>{item.averageAssessment}</td>

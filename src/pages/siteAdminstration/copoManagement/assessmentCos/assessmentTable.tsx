@@ -199,10 +199,16 @@ const AssessmentTable = ({
   // set initial values === >>>
   useEffect(() => {
     const initialData = assessmentData.reduce(
-      (acc: { [x: string]: any }, item: { assements: any[]; id: any }) => {
-        item.assements.map((data) => {
-          const key = `${data.assessmentType}_${item.id}_${data.suffixValue}`;
-          acc[key] = data.idNumber;
+      (
+        acc: { [x: string]: any },
+        item: { assements: any[]; id: any; eseMark: any }
+      ) => {
+        item.assements.forEach((data) => {
+          const assessmentKey = `${data.assessmentType}_${item.id}_${data.suffixValue}`;
+          const eseMarkKey = `eseMark_${item.id}`;
+
+          acc[assessmentKey] = data.idNumber;
+          acc[eseMarkKey] = item.eseMark;
         });
         return acc;
       },
@@ -222,28 +228,28 @@ const AssessmentTable = ({
           id: assessment.id,
           abbreviation: assessment.abbreviation,
           suffixValue: assessment.suffixValue,
-          eseMark: values[`eseMark_${assessment.id}`],
+          eseMark: initialValues[`eseMark_${assessment.id}`],
           assements: [],
         };
 
         iaColumns.forEach((column, index) => {
           const key = `ia_${assessment.id}_${index + 1}`;
-          if (values[key]) {
+          if (initialValues[key]) {
             formattedAssessment.assements.push({
               suffixValue: index + 1,
               assessmentType: "ia",
-              idNumber: values[key],
+              idNumber: initialValues[key],
             });
           }
         });
 
         labs.forEach((column, index) => {
           const key = `lab_${assessment.id}_${index + 1}`;
-          if (values[key]) {
+          if (initialValues[key]) {
             formattedAssessment.assements.push({
               suffixValue: index + 1,
               assessmentType: "lab",
-              idNumber: values[key],
+              idNumber: initialValues[key],
             });
           }
         });
@@ -430,34 +436,41 @@ const AssessmentTable = ({
                             }}
                           >
                             <option value="Select">Select</option>
-                            {Array.isArray(assessmentMoodleData) && assessmentMoodleData.map(
-                              (option: { coname: string; mod_quiz: any[] }) =>
-                                option.coname ===
-                                  `${assessment.abbreviation}${assessment.suffixValue}` &&
-                                option.mod_quiz?.length > 0 &&
-                                option.mod_quiz.map((quiz) => {
-                                  // Check if the key exists in initialValues
-                                  const selectedValue = Object.entries(
-                                    initialValues
-                                  ).find(
-                                    ([key, value]) =>
-                                      key === `ia_${assessment.id}_${index + 1}`
-                                  )?.[1];
-                                  return (
-                                    <option
-                                      key={quiz.cmid}
-                                      value={quiz.cmid}
-                                      selected={
-                                        selectedValue == quiz.cmid
-                                          ? true
-                                          : false
-                                      }
-                                    >
-                                      {quiz.name}
-                                    </option>
-                                  );
-                                })
-                            )}
+                            {Array.isArray(assessmentMoodleData) &&
+                              assessmentMoodleData.map(
+                                (option: { coname: string; mod_quiz: any[] }) =>
+                                  option.coname !== "" && option.coname ===
+                                    `${assessment.abbreviation}${assessment.suffixValue}` &&
+                                  option.mod_quiz?.length > 0 &&
+                                  option.mod_quiz.map((quiz) => {
+                                    // Check if the key exists in initialValues
+                                    const selectedValue = Object.entries(
+                                      initialValues
+                                    ).find(
+                                      ([key, value]) =>
+                                        key ===
+                                        `ia_${assessment.id}_${index + 1}`
+                                    )?.[1];
+                                    return (
+                                      <>
+                                        {
+                                          quiz.cmid !== null && quiz.name !== null && 
+                                          <option
+                                            key={quiz.cmid}
+                                            value={quiz.cmid}
+                                            selected={
+                                              selectedValue == quiz.cmid
+                                                ? true
+                                                : false
+                                            }
+                                          >
+                                            {quiz.name}
+                                          </option>
+                                        }
+                                      </>
+                                    );
+                                  })
+                              )}
                           </Field>
                         </td>
                       ))}
@@ -477,39 +490,63 @@ const AssessmentTable = ({
                             }}
                           >
                             <option value="Select">Select</option>
-                            {Array.isArray(assessmentMoodleData) && assessmentMoodleData.map(
-                              (option: { coname: string; mod_assign: any[] }) =>
-                                option.coname ===
-                                  `${assessment.abbreviation}${assessment.suffixValue}` &&
-                                option.mod_assign?.length > 0 &&
-                                option.mod_assign.map((assign) => {
-                                  // Check if the key exists in initialValues
-                                  const selectedValue = Object.entries(
-                                    initialValues
-                                  ).find(
-                                    ([key, value]) =>
-                                      key ===
-                                      `lab_${assessment.id}_${index + 1}`
-                                  )?.[1];
-                                  return (
-                                    <option
-                                      key={assign.cmid}
-                                      value={assign.cmid}
-                                      selected={
-                                        selectedValue == assign.cmid
-                                          ? true
-                                          : false
-                                      }
-                                    >
-                                      {assign.name}
-                                    </option>
-                                  );
-                                })
-                            )}
+                            {Array.isArray(assessmentMoodleData) &&
+                              assessmentMoodleData.map(
+                                (option: {
+                                  coname: string;
+                                  mod_assign: any[];
+                                }) =>
+                                  option.coname ===
+                                    `${assessment.abbreviation}${assessment.suffixValue}` &&
+                                  option.mod_assign?.length > 0 &&
+                                  option.mod_assign.map((assign) => {
+                                    // Check if the key exists in initialValues
+                                    const selectedValue = Object.entries(
+                                      initialValues
+                                    ).find(
+                                      ([key, value]) =>
+                                        key ===
+                                        `lab_${assessment.id}_${index + 1}`
+                                    )?.[1];
+                                    return (
+                                      <>
+                                        {
+                                          assign.cmid !== null && assign.name !== null && 
+                                          <option
+                                            key={assign.cmid}
+                                            value={assign.cmid}
+                                            selected={
+                                              selectedValue == assign.cmid
+                                                ? true
+                                                : false
+                                            }
+                                          >
+                                            {assign.name}
+                                          </option>
+                                        }
+                                      </>
+                                    );
+                                  })
+                              )}
                           </Field>
                         </td>
                       ))}
-                      <td>{assessment.eseMark}</td>
+                      <td>
+                        <Field
+                          type="number"
+                          placeholder="ESE %"
+                          name={`eseMark_${assessment.id}`}
+                          className="form-control"
+                          onChange={(e: { target: { value: any } }) => {
+                            handleChange(e);
+                            setInitialValues((prevState: any) => ({
+                              ...prevState,
+                              [`eseMark_${assessment.id}`]: e.target.value,
+                            }));
+                          }}
+                          value={initialValues[`eseMark_${assessment.id}`]}
+                        />
+                      </td>
                       <td>{assessment.averageAssessmentDirect}</td>
                     </tr>
                   )
