@@ -1,5 +1,10 @@
 import { useMemo, useState, useEffect } from "react";
-import { OverlayTrigger, Table, Tooltip,Tooltip as BsTooltip } from "react-bootstrap";
+import {
+  OverlayTrigger,
+  Table,
+  Tooltip,
+  Tooltip as BsTooltip,
+} from "react-bootstrap";
 import { useTable } from "react-table";
 import { Link } from "react-router-dom";
 import {
@@ -24,7 +29,7 @@ import Swal from "sweetalert2";
 import { TbSortAscending, TbSortDescending } from "react-icons/tb";
 import { PiArrowsDownUpBold } from "react-icons/pi";
 import { useTableSorting } from "../../../globals/TableFilterShorting/TableFieldShorting";
-import { isMobile } from 'react-device-detect';
+import { isMobile } from "react-device-detect";
 
 const ManageTable = ({
   programData,
@@ -34,150 +39,162 @@ const ManageTable = ({
   programPermissions,
   setFilterUpdate,
   filterUpdate,
-  refreshDepartmentData
+  refreshDepartmentData,
 }: any) => {
-
-
   const { handleTableSorting } = useTableSorting();
 
   const tableColumn = [
     {
-      Header:(  
-      <div className="d-flex justify-content-evenly">
-      <span
-        onClick={() => handleTableSorting("name", setFilterUpdate)}
-      >
-       <span> Name </span>
-      <span>
-        {filterUpdate.sortBy === "name" &&
-        filterUpdate.sortOrder === "asc" ? (
-          <OverlayTrigger
-              placement="top"
-              overlay={<BsTooltip>Sorted by Name Ascending </BsTooltip>} 
-            >
-              <button className="btn btn-link text-white p-0" >
-                <TbSortAscending />
-                </button>
-            </OverlayTrigger>
-          ) : filterUpdate.sortBy === "name" &&
-          filterUpdate.sortOrder === "desc" ? (
-            <OverlayTrigger
-              placement="top"
-              overlay={<BsTooltip>Sorted by Name Descending </BsTooltip>}
-            ><button className="btn btn-link text-white p-0" >
-            <TbSortDescending />
-            </button>
-            </OverlayTrigger>
-            ) : (
-              <OverlayTrigger
-              placement="top"
-              overlay={<BsTooltip>Sort by Name Ascending </BsTooltip>}
-            >
-              <button className="btn btn-link text-white p-0" >
-              <PiArrowsDownUpBold />
-              </button>
-            </OverlayTrigger>
+      Header: (
+        <div className="d-flex justify-content-evenly">
+          <span onClick={() => handleTableSorting("name", setFilterUpdate)}>
+            <span> Name </span>
+            <span>
+              {filterUpdate.sortBy === "name" &&
+              filterUpdate.sortOrder === "asc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Name Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
+                  </button>
+                </OverlayTrigger>
+              ) : filterUpdate.sortBy === "name" &&
+                filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sorted by Name Descending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortDescending />
+                  </button>
+                </OverlayTrigger>
+              ) : (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Name Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
               )}
-      </span>
-              </span>
-    </div>
-  ),
+            </span>
+          </span>
+        </div>
+      ),
       accessor: "name",
       Cell: ({ row }: any) => (
         <OverlayTrigger
           placement="top"
           overlay={<Tooltip id="button-tooltip-2">Program preview</Tooltip>}
         >
-          <Link to={createPreviewLink(row.original.id, row.original.instituteId)} className="action-icons">
+          <Link
+            to={createPreviewLink(row.original.id, row.original.instituteId)}
+            className="action-icons"
+          >
             {row.original.name}
           </Link>
         </OverlayTrigger>
       ),
     },
     {
-      Header:(  
+      Header: (
         <div className="d-flex align-items-center">
-        <span
-          onClick={() => handleTableSorting("batchYear", setFilterUpdate)}
-        >
-         <span> Batch Year </span>
-        <span>
-          {filterUpdate.sortBy === "batchYear" &&
-          filterUpdate.sortOrder === "asc" ? (
-            <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Sorted by Batch Year Ascending </BsTooltip>} 
-              >
-                <button className="btn btn-link text-white p-0" >
-                  <TbSortAscending />
+          <span
+            onClick={() => handleTableSorting("batchYear", setFilterUpdate)}
+          >
+            <span> Batch Year </span>
+            <span>
+              {filterUpdate.sortBy === "batchYear" &&
+              filterUpdate.sortOrder === "asc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Batch Year Ascending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
                   </button>
-              </OverlayTrigger>
-            ) : filterUpdate.sortBy === "batchYear" &&
-            filterUpdate.sortOrder === "desc" ? (
-              <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Sorted by Batch Year Descending </BsTooltip>}
-              ><button className="btn btn-link text-white p-0" >
-              <TbSortDescending />
-              </button>
-              </OverlayTrigger>
+                </OverlayTrigger>
+              ) : filterUpdate.sortBy === "batchYear" &&
+                filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Batch Year Descending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortDescending />
+                  </button>
+                </OverlayTrigger>
               ) : (
                 <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Sort by Batch Year Ascending </BsTooltip>}
-              >
-                <button className="btn btn-link text-white p-0" >
-                <PiArrowsDownUpBold />
-                </button>
-              </OverlayTrigger>
-                )}
-        </span>
-                </span>
-      </div>
-    ),
+                  placement="top"
+                  overlay={<BsTooltip>Sort by Batch Year Ascending </BsTooltip>}
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
+              )}
+            </span>
+          </span>
+        </div>
+      ),
       accessor: "batchYear",
     },
     {
-      Header:(  
+      Header: (
         <div className="d-flex align-items-center">
-        <span
-          onClick={() => handleTableSorting("programCode", setFilterUpdate)}
-        >
-         <span> Program Code </span>
-        <span>
-          {filterUpdate.sortBy === "programCode" &&
-          filterUpdate.sortOrder === "asc" ? (
-            <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Sorted by Program Code Ascending </BsTooltip>} 
-              >
-                <button className="btn btn-link text-white p-0" >
-                  <TbSortAscending />
+          <span
+            onClick={() => handleTableSorting("programCode", setFilterUpdate)}
+          >
+            <span> Program Code </span>
+            <span>
+              {filterUpdate.sortBy === "programCode" &&
+              filterUpdate.sortOrder === "asc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Program Code Ascending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortAscending />
                   </button>
-              </OverlayTrigger>
-            ) : filterUpdate.sortBy === "programCode" &&
-            filterUpdate.sortOrder === "desc" ? (
-              <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Sorted by Program Code Descending </BsTooltip>}
-              ><button className="btn btn-link text-white p-0" >
-              <TbSortDescending />
-              </button>
-              </OverlayTrigger>
+                </OverlayTrigger>
+              ) : filterUpdate.sortBy === "programCode" &&
+                filterUpdate.sortOrder === "desc" ? (
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sorted by Program Code Descending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <TbSortDescending />
+                  </button>
+                </OverlayTrigger>
               ) : (
                 <OverlayTrigger
-                placement="top"
-                overlay={<BsTooltip>Sort by Program Code Ascending </BsTooltip>}
-              >
-                <button className="btn btn-link text-white p-0" >
-                <PiArrowsDownUpBold />
-                </button>
-              </OverlayTrigger>
-                )}
-        </span>
-                </span>
-      </div>
-    ),
+                  placement="top"
+                  overlay={
+                    <BsTooltip>Sort by Program Code Ascending </BsTooltip>
+                  }
+                >
+                  <button className="btn btn-link text-white p-0">
+                    <PiArrowsDownUpBold />
+                  </button>
+                </OverlayTrigger>
+              )}
+            </span>
+          </span>
+        </div>
+      ),
       accessor: "programCode",
       Cell: ({ value }: any) => value.toUpperCase(),
     },
@@ -185,15 +202,15 @@ const ManageTable = ({
       Header: "Manage Categories",
       Cell: ({ row }: any) => (
         <OverlayTrigger
-        placement="top"
-        overlay={<BsTooltip>Add/Update Categories</BsTooltip>}
-       >
-        <Link
-          className="action-icons"
-          to={`/managecategory/${row.original.id}/${row.original.name}`}
+          placement="top"
+          overlay={<BsTooltip>Add/Update Categories</BsTooltip>}
+        >
+          <Link
+            className="action-icons"
+            to={`/managecategory/${row.original.id}/${row.original.name}`}
           >
-          <img src={manageCategoryIcon} alt="Manage Categories" />
-        </Link>
+            <img src={manageCategoryIcon} alt="Manage Categories" />
+          </Link>
         </OverlayTrigger>
       ),
     },
@@ -202,16 +219,16 @@ const ManageTable = ({
       accessor: "manage_courses",
       Cell: ({ row }: any) => (
         <OverlayTrigger
-        placement="top"
-        overlay={<BsTooltip>Add/Update Courses</BsTooltip>}
-       >
-        <Link
-          className="action-icons"
-          to={`/managecourses/${row.original.id}/${row.original.name}`}
+          placement="top"
+          overlay={<BsTooltip>Add/Update Courses</BsTooltip>}
+        >
+          <Link
+            className="action-icons"
+            to={`/managecourses/${row.original.id}/${row.original.name}`}
           >
-          <img src={manageCoursesIcon} alt="Manage Courses" />
-        </Link>
-          </OverlayTrigger>
+            <img src={manageCoursesIcon} alt="Manage Courses" />
+          </Link>
+        </OverlayTrigger>
       ),
     },
     {
@@ -219,52 +236,52 @@ const ManageTable = ({
       Cell: ({ row }: any) => (
         <span className="d-flex justify-content-space-evenly">
           {programPermissions.canEdit && (
-                 <OverlayTrigger
-                 placement="top"
-                 overlay={<BsTooltip>Edit Program Details</BsTooltip>}
-                >
-            <Link
-              className="action-icons m-1"
-              to={createEditLink(row.original.id, row.original.instituteId)}
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Edit Program Details</BsTooltip>}
+            >
+              <Link
+                className="action-icons m-1"
+                to={createEditLink(row.original.id, row.original.instituteId)}
               >
-              <img src={editIcon} alt="Edit" />
-            </Link>
+                <img src={editIcon} alt="Edit" />
+              </Link>
             </OverlayTrigger>
           )}
           {programPermissions.canDelete && (
-               <OverlayTrigger
-                 placement="top"
-                 overlay={<BsTooltip>Delete Program</BsTooltip>}
-                >
-            <Link className="action-icons m-1" to="">
-              <img
-                src={deleteIcon}
-                alt="Delete"
-                onClick={() =>
-                  deleteHandler(row.original.id, row.original.instituteId)
-                }
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Delete Program</BsTooltip>}
+            >
+              <Link className="action-icons m-1" to="">
+                <img
+                  src={deleteIcon}
+                  alt="Delete"
+                  onClick={() =>
+                    deleteHandler(row.original.id, row.original.instituteId)
+                  }
                 />
-            </Link>
-              </OverlayTrigger>
+              </Link>
+            </OverlayTrigger>
           )}
           {programPermissions.canEdit && (
-             <OverlayTrigger
-             placement="top"
-             overlay={<BsTooltip>Hide/Unhide Program</BsTooltip>}
+            <OverlayTrigger
+              placement="top"
+              overlay={<BsTooltip>Hide/Unhide Program</BsTooltip>}
             >
-            <Link
-              className="action-icons m-1"
-              to=""
-              onClick={() => {
-                toggleProgramPublished(row.original);
-              }}
+              <Link
+                className="action-icons m-1"
+                to=""
+                onClick={() => {
+                  toggleProgramPublished(row.original);
+                }}
               >
-              <img
-                src={row.original.published !== false ? showIcon : hideIcon}
-                alt="Show"
+                <img
+                  src={row.original.published !== false ? showIcon : hideIcon}
+                  alt="Show"
                 />
-            </Link>
-              </OverlayTrigger>
+              </Link>
+            </OverlayTrigger>
           )}
         </span>
       ),
@@ -300,7 +317,7 @@ const ManageTable = ({
           if (res.data !== "" && res.status === 200) {
             refreshOnDelete(true);
             setShowAlert(true);
-            
+
             Swal.fire({
               timer: 3000,
               width: "25em",
@@ -308,7 +325,7 @@ const ManageTable = ({
               icon: "success",
               background: "#e7eef5",
               showConfirmButton: false,
-              text: "User has been successfully deleted"
+              text: "User has been successfully deleted",
             });
           } else if (res.status === 500) {
             setShowAlert(true);
@@ -354,41 +371,31 @@ const ManageTable = ({
   // };
 
   //=======>> call api single Program get and put <<=========
-  const toggleProgramPublished = (program: any) => {
-    // Optimistically update the UI
-    const originalPublished = program.published;
-    program.published = !originalPublished;
-    refreshDepartmentData(); // Update UI immediately
-  
-    // Fetch the current state and then update
-    getData(`/${currentInstitute}/programs`, {
-      Id: program.id,
-      pageNumber: 0,
-      pageSize: 1,
-    })
-      .then(async (result: any) => {
-        if (result.data !== "" && result.status === 200) {
-          let data = await result.data.items[0];
-          // Toggle the published status
-          data.published = !data.published;
-          let endPoint = `/${currentInstitute}/programs/${program.id}`;
-          putData(endPoint, data)
-            .then((res: any) => {
-              if (res.status !== 200) {
-                // Revert the optimistic update if the response is not successful
-                program.published = originalPublished;
-                refreshDepartmentData();
-                dispatch(
-                  globalAlertActions.globalAlert({
-                    alertMsg: "Action failed due to some error",
-                    status: true,
-                  })
-                );
-              }
-            })
-            .catch((err: any) => {
-              console.log(err);
-              // Revert the optimistic update in case of error
+ const toggleProgramPublished = (program: any) => {
+  // Optimistically update the UI
+  const originalPublished = program.published;
+  program.published = !originalPublished;
+  // refreshDepartmentData(); // Update UI immediately
+
+  // Fetch the current state and then update
+  getData(`/${currentInstitute}/programs`, {
+    Id: program.id,
+    pageNumber: 0,
+    pageSize: 1,
+  })
+    .then((result: any) => {
+      if (result.data !== "" && result.status === 200) {
+        let data = result.data.items[0];
+        // Toggle the published status
+        data.published = !data.published;
+        let endPoint = `/${currentInstitute}/programs/${program.id}`;
+        putData(endPoint, data)
+          .then((res: any) => {
+            if (res.data !== "" && res.status === 200) {
+              // Successfully updated on the server, no need to revert the optimistic update
+              refreshDepartmentData();
+            } else {
+              // Revert the optimistic update if the response is not successful
               program.published = originalPublished;
               refreshDepartmentData();
               dispatch(
@@ -397,17 +404,34 @@ const ManageTable = ({
                   status: true,
                 })
               );
-            });
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-        // Revert the optimistic update in case of error
+            }
+          })
+          .catch((err: any) => {
+            console.log(err);
+            // Revert the optimistic update in case of error
+            program.published = originalPublished;
+            refreshDepartmentData();
+            dispatch(
+              globalAlertActions.globalAlert({
+                alertMsg: "Action failed due to some error",
+                status: true,
+              })
+            );
+          });
+      } else {
+        console.log("GET request failed with status:", result.status);
+        // Revert the optimistic update if the GET request fails
         program.published = originalPublished;
         refreshDepartmentData();
-      });
-  };
-  
+      }
+    })
+    .catch((err: any) => {
+      console.log(err);
+      // Revert the optimistic update in case of error
+      program.published = originalPublished;
+      refreshDepartmentData();
+    });
+};
 
 
   const deleteHandler = (id: number, instituteId: number) => {
@@ -424,7 +448,7 @@ const ManageTable = ({
 
   return (
     <>
-    <TimerAlertBox
+      <TimerAlertBox
         alertMsg={alertMsg.message}
         className="mt-3"
         variant={alertMsg.alertBoxColor}
@@ -474,7 +498,6 @@ const ManageTable = ({
         deleteActionResponse={deleteActionResponse}
         modalHeading="Program"
       />
-      
     </>
   );
 };

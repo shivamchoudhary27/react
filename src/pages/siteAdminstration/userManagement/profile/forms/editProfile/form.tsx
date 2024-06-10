@@ -19,6 +19,37 @@ type Props = {
   initialValues: any;
 };
 // Formik Yup validation === >>>
+// const userFormSchema = Yup.object({
+//   userEmail: Yup.string().email("Invalid email").required("Email is required"),
+//   userFirstName: Yup.string()
+//     .min(3, "First name must be at least 1 characters")
+//     .test(
+//       "character-allowed",
+//       "Only specific characters are allowed",
+//       function (value: any) {
+//         return /^[A-Za-z]+$/.test(value);
+//       }
+//     )
+//     .trim()
+//     .required("First name is required"),
+//   userLastName: Yup.string()
+//     .min(1, "Last name must be at least 1 characters")
+//     .test(
+//       "character-allowed",
+//       "Only specific characters are allowed",
+//       function (value: any) {
+//         return /^[A-Za-z]+$/.test(value);
+//       }
+//     )
+//     .trim()
+//     .required("Last name is required"),
+//   userCountry: Yup.string().required("Country is required"),
+//   // timezone: Yup.string().required("Time Zone is required"),
+//   // genderType: Yup.string().required("Gender is required"),
+//   // mobile: Yup.number().required('Mobile nuber is required'),
+// });
+
+// Formik Yup validation === >>>
 const userFormSchema = Yup.object({
   userEmail: Yup.string().email("Invalid email").required("Email is required"),
   userFirstName: Yup.string()
@@ -43,11 +74,47 @@ const userFormSchema = Yup.object({
     )
     .trim()
     .required("Last name is required"),
+  timezone: Yup.string().required("Time Zone is required"),
   userCountry: Yup.string().required("Country is required"),
-  // timezone: Yup.string().required("Time Zone is required"),
-  // genderType: Yup.string().required("Gender is required"),
-  mobile: Yup.number().required('Mobile nuber is required'),
+
+  mobile: Yup.string()
+    .nullable()
+    .matches(/^[0-9]+$/, "Only digits are allowed")
+    .min(10, "Mobile number must be at least 10 digits")
+    .max(15, "Mobile number must be at most 15 digits"),
+
+  parentsMobile: Yup.string()
+    .nullable()
+    .matches(/^[0-9]+$/, "Only digits are allowed")
+    .min(10, "Mobile number must be at least 10 digits")
+    .max(15, "Mobile number must be at most 15 digits"),
+
+  fatherName: Yup.string()
+    .nullable()
+    .matches(/^[A-Za-z]*$/, "Only alphabetic characters are allowed")
+    .trim(),
+
+  motherName: Yup.string()
+    .nullable()
+    .matches(/^[A-Za-z]*$/, "Only alphabetic characters are allowed")
+    .trim(),
+
+  parentEmail: Yup.string()
+    .nullable()
+    .email("Invalid email")
+    .required("Email is required"),
 });
+
+const bloodGroupOptions = [
+  { id: "A+", name: "A+" },
+  { id: "A-", name: "A-" },
+  { id: "B+", name: "B+" },
+  { id: "B-", name: "B-" },
+  { id: "AB+", name: "AB+" },
+  { id: "AB-", name: "AB-" },
+  { id: "O+", name: "O+" },
+  { id: "O-", name: "O-" },
+];
 
 const FormData = (props: Props) => {
   const navigate = useNavigate();
@@ -68,7 +135,7 @@ const FormData = (props: Props) => {
         }
       })
       .catch((err: any) => {
-        console.log(err.response.data.message);
+        console.log(err);
         setSubmitting(false);
         if (err.response.status === 400) {
           setShowAlert(true);
@@ -136,7 +203,7 @@ const FormData = (props: Props) => {
               </Col>
 
               <Col sm={6} lg={4}>
-                <FieldLabel htmlfor="mobile" labelText="Mobile" star="*"/>
+                <FieldLabel htmlfor="mobile" labelText="Mobile" star="*" />
                 <FieldTypeText name="mobile" placeholder="Mobile" />
                 <FieldErrorMessage
                   errors={errors.mobile}
@@ -202,28 +269,35 @@ const FormData = (props: Props) => {
               </Col>
 
               <Col sm={6} lg={4}>
-                      <FieldLabel
-                        htmlfor="timezone"
-                        labelText="Time Zone"
-                        required="required"
-                        star="*"
-                      />
-                      <FieldTypeSelect
-                        name="timezone"
-                        options={timeZone}
-                        setcurrentvalue={setValues}
-                        currentformvalue={values}
-                        // selectDefaultLabel={"Time Zone"}
-                      />
-                      <FieldErrorMessage
-                        errors={errors.timezone}
-                        touched={touched.timezone}
-                      />
-                    </Col>
+                <FieldLabel
+                  htmlfor="timezone"
+                  labelText="Time Zone"
+                  required="required"
+                  star="*"
+                />
+                <FieldTypeSelect
+                  name="timezone"
+                  options={timeZone}
+                  setcurrentvalue={setValues}
+                  currentformvalue={values}
+                  // selectDefaultLabel={"Time Zone"}
+                />
+                <FieldErrorMessage
+                  errors={errors.timezone}
+                  touched={touched.timezone}
+                />
+              </Col>
 
               <Col sm={6} lg={4}>
                 <FieldLabel htmlfor="bloodGroup" labelText="Blood Group" />
-                <FieldTypeText name="bloodGroup" placeholder="Blood Group" />
+                {/* <FieldTypeText name="bloodGroup" placeholder="Blood Group" /> */}
+                <FieldTypeSelect
+                  name="bloodGroup"
+                  options={bloodGroupOptions}
+                  setcurrentvalue={setValues}
+                  currentformvalue={values}
+                  selectDefaultLabel={"Blood Group"}
+                />
                 <FieldErrorMessage
                   errors={errors.bloodGroup}
                   touched={touched.bloodGroup}
