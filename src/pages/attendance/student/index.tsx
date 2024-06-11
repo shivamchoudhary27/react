@@ -52,8 +52,8 @@ const StudentAttendance = (props: Props) => {
 
   // call API to get student attendance report === >>
   useEffect(() => {
-    setApiStatus("started");
     if (courseId > 0) {
+      setApiStatus("started");
       const query = {
         wsfunction: "mod_attendance_get_attendance_sessions_report",
         userid: userid,
@@ -73,13 +73,14 @@ const StudentAttendance = (props: Props) => {
           setApiStatus("finished");
         })
         .catch((err) => {
-          console.log(err);
           setApiStatus("finished");
+          console.log(err);
         });
-    } else {
-      setApiStatus("finished");
-      console.log("course id must not be null---");
     }
+    //  else {
+    //   // setApiStatus("finished");
+    //   console.log("course id must not be null---");
+    // }
   }, [courseId]);
 
   // calculate total points obtained and percentage === >>
@@ -122,7 +123,6 @@ const StudentAttendance = (props: Props) => {
     filterUpdate.pageNumber * filterUpdate.pageSize,
     filterUpdate.pageNumber * filterUpdate.pageSize + filterUpdate.pageSize
   );
-
   return (
     <View
       apiStatus={apiStatus}

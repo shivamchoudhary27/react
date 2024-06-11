@@ -96,9 +96,10 @@ const TeacherAttendance = (props: Props) => {
           console.log(err);
           setApiStatus("finished");
         });
-    }else{
-      setApiStatus("finished");
     }
+    // else{
+    //   setApiStatus("finished");
+    // }
   }, [courseId]);
 
   const getCourseId = (courseId: string | number) => {
@@ -115,9 +116,6 @@ const TeacherAttendance = (props: Props) => {
     filterUpdate.pageNumber * filterUpdate.pageSize,
     filterUpdate.pageNumber * filterUpdate.pageSize + filterUpdate.pageSize
   );
-
-  console.log(apiStatus, 'status')
-
   return (
     <View
       apiStatus={apiStatus}

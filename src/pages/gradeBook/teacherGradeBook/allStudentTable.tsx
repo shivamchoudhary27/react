@@ -35,7 +35,6 @@ const AllStudentTable = ({
   coursesList,
 }: Props) => {
   const [studentList, setStudentList] = useState<typeof StudentData>([]);
-
   useEffect(() => {
     setStudentList(StudentData);
   }, [StudentData]);
@@ -90,7 +89,9 @@ const AllStudentTable = ({
     });
 
   return (
-    <div className="table-responsive table-wrapper mt-3 mygradebook">
+    <React.Fragment>
+    {/* <div className="table-responsive table-wrapper mt-3 mygradebook"> */}
+    <div className="table-responsive admin-table-wrapper mt-3">
       <Table borderless striped {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup, index) => (
@@ -126,6 +127,7 @@ const AllStudentTable = ({
           <Errordiv msg="No record found!" cstate className="mt-3" />
         )}
     </div>
+    </React.Fragment>
   );
 };
 
