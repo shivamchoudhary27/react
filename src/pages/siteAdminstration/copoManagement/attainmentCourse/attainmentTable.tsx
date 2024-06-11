@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 
 type Props = {
   setActiveTab: any;
+  tabRefreshToggle: any
   courseAttainmentData: any;
   courseAttainmentApiStatus: string;
   courseAttainmentMoodleData: any;
@@ -36,7 +37,7 @@ const AttainmentTable = (props: Props) => {
         item: { id: any; feedbackIdNumber: any },
         index: any
       ) => {
-        const attainmentKey = `feedback_${item.id}_${index}`;
+        const attainmentKey = `feedback_${item.id}`;
         acc[attainmentKey] = item.feedbackIdNumber;
         return acc;
       },
@@ -63,58 +64,66 @@ const AttainmentTable = (props: Props) => {
           suffixValue: attainment.suffixValue,
           abbreviation: attainment.abbreviation,
           averageAssessmentDirect: attainment.averageAssessmentDirect,
-          feedbackIdNumber: initialValues[`feedback_${attainment.id}_${index}`],
+          feedbackIdNumber: initialValues[`feedback_${attainment.id}`],
         };
         return formattedAttainment;
       }
     );
 
-    const submitAction =
-      buttonClicked === "save"
-        ? setIsSubmittingSave
-        : setIsSubmittingSaveAndContinue;
-    submitAction(true);
-    postData(`/${cid}/attainment/mapping`, formattedData)
-      .then((res: any) => {
-        if (res.data !== "" && res.status === 200) {
-          if (buttonClicked === "save") {
-            Swal.fire({
-              timer: 3000,
-              width: "25em",
-              color: "#666",
-              icon: "success",
-              background: "#e7eef5",
-              showConfirmButton: false,
-              text: "Attainment of course outcomes saved successfully.",
+    if(Object.keys(values).length != 0){
+      const submitAction =
+        buttonClicked === "save"
+          ? setIsSubmittingSave
+          : setIsSubmittingSaveAndContinue;
+      submitAction(true);
+      postData(`/${cid}/attainment/mapping`, formattedData)
+        .then((res: any) => {
+          if (res.data !== "" && res.status === 200) {
+            if (buttonClicked === "save") {
+              props.tabRefreshToggle()
+              Swal.fire({
+                timer: 3000,
+                width: "25em",
+                color: "#666",
+                icon: "success",
+                background: "#e7eef5",
+                showConfirmButton: false,
+                text: "Attainment of course outcomes saved successfully.",
+              });
+            } else if (buttonClicked === "saveAndContinue") {
+              props.tabRefreshToggle()
+              Swal.fire({
+                timer: 3000,
+                width: "25em",
+                color: "#666",
+                icon: "success",
+                background: "#e7eef5",
+                showConfirmButton: false,
+                text: "Attainment of course outcomes saved successfully. Moving to the next step.",
+              });
+              setTimeout(() => {
+                props.setActiveTab(6);
+              }, 3000);
+            }
+            setApiCatchError({
+              status: false,
+              msg: "",
             });
-          } else if (buttonClicked === "saveAndContinue") {
-            Swal.fire({
-              timer: 3000,
-              width: "25em",
-              color: "#666",
-              icon: "success",
-              background: "#e7eef5",
-              showConfirmButton: false,
-              text: "Attainment of course outcomes saved successfully. Moving to the next step.",
-            });
-            setTimeout(() => {
-              props.setActiveTab(6);
-            }, 3000);
           }
+          submitAction(false);
+        })
+        .catch((err: any) => {
+          console.log(err);
           setApiCatchError({
-            status: false,
-            msg: "",
+            status: true,
+            msg: err.message,
           });
-        }
-        submitAction(false);
-      })
-      .catch((err: any) => {
-        console.log(err);
-        setApiCatchError({
-          status: true,
-          msg: err.message,
         });
-      });
+    }else{
+      if (buttonClicked === "saveAndContinue") {
+        props.setActiveTab(6);
+      }
+    }
   };
 
   return (
@@ -172,14 +181,13 @@ const AttainmentTable = (props: Props) => {
                           <td>
                             <Field
                               as="select"
-                              name={`feedback_${item.id}_${index}`}
+                              name={`feedback_${item.id}`}
                               className="form-select"
                               onChange={(e: { target: { value: any } }) => {
                                 handleChange(e);
                                 setInitialValues((prevState: any) => ({
                                   ...prevState,
-                                  [`feedback_${item.id}_${index}`]:
-                                    e.target.value,
+                                  [`feedback_${item.id}`]: e.target.value,
                                 }));
                               }}
                             >
@@ -198,8 +206,9 @@ const AttainmentTable = (props: Props) => {
                                         initialValues
                                       ).find(
                                         ([key, value]) =>
-                                          key === `feedback_${item.id}_${index}`
+                                          key === `feedback_${item.id}`
                                       )?.[1];
+
                                       return (
                                         <>
                                           {feedback.cmid !== null &&

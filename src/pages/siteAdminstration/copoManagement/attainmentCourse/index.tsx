@@ -5,9 +5,9 @@ import { useParams } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 
 type Props = {
+  refreshTab: any;
   setActiveTab: any;
   tabRefreshToggle: any;
-  refreshTab: any;
 };
 
 const AttainmentCourseOutcome = (props: Props) => {
@@ -45,6 +45,7 @@ const AttainmentCourseOutcome = (props: Props) => {
     <div>
       <AttainmentTable
         setActiveTab={props.setActiveTab}
+        tabRefreshToggle={props.tabRefreshToggle}
         courseAttainmentData={courseAttainmentData.items}
         courseAttainmentApiStatus={courseAttainmentApiStatus}
         courseAttainmentMoodleData={courseAttainmentMoodleData}
