@@ -25,6 +25,7 @@ const AssessmentTable = ({
   setActiveTab,
   refreshToggle,
   assessmentData,
+  tabRefreshToggle,
   assessmentMoodleData,
   highestLabSuffixValue,
   highestIaSuffixValue,
@@ -274,6 +275,7 @@ const AssessmentTable = ({
         .then((res: { data: string; status: number }) => {
           if (res.data !== "" && res.status === 200) {
             if (buttonClicked === "save") {
+              tabRefreshToggle()
               Swal.fire({
                 timer: 3000,
                 width: "25em",
@@ -284,6 +286,7 @@ const AssessmentTable = ({
                 text: "Assessment for course outcomes (Direct) saved successfully.",
               });
             } else if (buttonClicked === "saveAndContinue") {
+              tabRefreshToggle()
               Swal.fire({
                 timer: 3000,
                 width: "25em",

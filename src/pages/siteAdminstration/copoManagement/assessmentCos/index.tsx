@@ -103,6 +103,7 @@ const AssessmentForCOs = (props: Props) => {
         apiStatus={apiStatus}
         refreshToggle={refreshToggle}
         setActiveTab={props.setActiveTab}
+        tabRefreshToggle={props.tabRefreshToggle}
         assessmentMoodleData={assessmentMoodleData}
         highestIaSuffixValue={highestIaSuffixValue}
         assessmentData={assessmentMappingData.items}
