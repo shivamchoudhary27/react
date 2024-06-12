@@ -44,7 +44,7 @@ const GradeBook = (props: Props) => {
         if (res.data !== "" && res.status === 200) {
           setCoursesList(res.data.courses);
           setApiData(res.data);
-          if (res.data.courses.length == 0 && res.status === 200) {
+          if (res.data.courses.length === 0 && res.status === 200) {
             setCourseId(0);
             setGradebookData(dummyData);
           }
