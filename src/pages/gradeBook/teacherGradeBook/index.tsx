@@ -17,7 +17,7 @@ const GradeBook = (props: Props) => {
   const [courseApiStatus, setCourseApiStatus] = useState("");
   const [apiStatus, setApiStatus] = useState("");
   const [courseId, setCourseId] = useState<any>(0);
-  const [StudentData, setStudentData] = useState([]);
+  const [StudentData, setStudentData] = useState<any[]>([]);
   const [studentId, setStudentId] = useState<number>(0);
   const currentUserRole = useSelector(
     (state) => state.globalFilters.currentUserRole
@@ -75,7 +75,7 @@ const GradeBook = (props: Props) => {
       getData(query)
         .then((res) => {
           if (res.data !== "" && res.status === 200) {
-            setStudentData(res.data);
+            setStudentData(Array.isArray(res.data) ? res.data : []);
             setApiStatus("finished");
           }
         })
