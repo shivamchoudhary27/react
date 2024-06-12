@@ -14,6 +14,7 @@ import CustomButton from "../../../../widgets/formInputFields/buttons";
 import RouterLadyLoader from "../../../../globals/globalLazyLoader/routerLadyLoader";
 import TableSkeleton from "../../../../widgets/skeleton/table";
 import Errordiv from "../../../../widgets/alert/errordiv";
+import Swal from "sweetalert2";
 
 // const initialValues = {};
 
@@ -31,7 +32,7 @@ const ViewTable = ({
     status: false,
     msg: "",
   });
-
+  
   const numberOfPOs = 12;
   const numberOfPSOs = 2;
 
@@ -42,19 +43,92 @@ const ViewTable = ({
       (_, index) => `PSO${index + 1}`
     ),
   ];
-
+  
   const averages = outcomeNames.map((name) => {
     const attainmentLevels = programOutcomes
-      .flatMap((item: { programOutcomeDtos: any }) => item.programOutcomeDtos)
-      .filter((dto: { name: string }) => dto.name === name)
-      .map((dto: { average: any }) => dto.average);
-
+    .flatMap((item: { programOutcomeDtos: any }) => item.programOutcomeDtos)
+    .filter((dto: { name: string }) => dto.name === name)
+    .map((dto: { average: any }) => dto.average);
+    
     const sum = attainmentLevels.reduce((acc: any, curr: any) => acc + curr, 0);
     return attainmentLevels.length > 0
-      ? (sum / attainmentLevels.length).toFixed(2)
-      : "";
+    ? (sum / attainmentLevels.length).toFixed(2)
+    : "";
   });
+  
+  const CsvAttainment = programOutcomes.map((item:any) => item);
 
+  // Function to calculate averages
+  const calculateAverages = () => {
+    return outcomeNames.map((name) => {
+      const attainmentLevels = programOutcomes
+        .flatMap((item: { programOutcomeDtos: any }) => item.programOutcomeDtos)
+        .filter((dto: { name: string }) => dto.name === name)
+        .map((dto: { average: any }) => dto.average);
+
+      const sum = attainmentLevels.reduce((acc: any, curr: any) => acc + curr, 0);
+      return attainmentLevels.length > 0
+        ? (sum / attainmentLevels.length).toFixed(2)
+        : "";
+    });
+  };
+
+  // Calculate averages for CSV export
+  const averagesCsv = calculateAverages();
+
+  // Function to download CSV of unuploaded users
+  const downloadUnuploadedUsersCSV = (data:any) => {
+       // Define headers
+    const headers = ["Course Outcome", ...outcomeNames.map((name) => `${name}`)];
+
+    // Prepare rows for each course outcome
+    const rows = data.map((item) => {
+      const suffixValue = item.suffixValue;
+      const abbreviation = item.abbreviation;
+      const courseOutcome = `${abbreviation}-${suffixValue}`;
+
+      // Create a map of outcome names to their attainment levels
+      const outcomeMap = item.programOutcomeDtos.reduce((acc, outcome) => {
+        acc[outcome.name] = outcome.attainmentlevel;
+        return acc;
+      }, {});
+
+      // Prepare the row for the course outcome
+      return [
+        courseOutcome,
+        ...outcomeNames.map((name) => (outcomeMap[name] != null ? outcomeMap[name] : "-")),
+      ];
+    });
+
+    // Add the averages row
+    const averageRow = ["Average", ...averagesCsv.map((avg) => (avg !== "" ? avg : "-"))];
+    rows.push(averageRow);
+
+    // Combine headers and rows
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+
+    // Create a link element
+    const link = document.createElement("a");
+    link.setAttribute("href", encodeURI(csvContent));
+    link.setAttribute("download", "unsuccessful_upload_data.csv");
+
+    // Trigger the download
+    document.body.appendChild(link);
+    link.click();
+
+    Swal.fire({
+      timer: 3000,
+      width: "25em",
+      color: "#666",
+      icon: "success",
+      background: "#e7eef5",
+      showConfirmButton: false,
+      text: "Unsuccessful upload user list CSV file downloaded!",
+    });
+  };
+  
   return (
     <>
       {reachMaxColumnMsg.status && (
@@ -144,6 +218,9 @@ const ViewTable = ({
                   variant="primary"
                   disabled={programOutcomes.length === 0}
                   btnText="Download"
+                  onClick={() => {
+                    downloadUnuploadedUsersCSV(CsvAttainment);
+                  }}
                 />
               </div>
             </Form>

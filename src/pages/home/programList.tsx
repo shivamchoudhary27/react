@@ -24,15 +24,19 @@ import Errordiv from "../../widgets/alert/errordiv";
 import { isMobile } from "react-device-detect";
 import MobileFooter from "../newFooter/mobileFooter";
 import MobileHeader from "../newHeader/mobileHeader";
+// import { getData, postData } from "../../adapters/microservices";
 
 function ProgramList() {
-
   const [allPrograms, setAllPrograms] = useState([]);
+  const [filesIds, setFilesIds] = useState([])
+  const [filesData, setfilesData] = useState([])
 
   const [filterUpdate, setFilterUpdate] = useState<any>({
     pageNumber: 0,
     pageSize: pagination.PERPAGE,
   });
+
+
 
   const [dataFilter, setDataFilter] = useState<any>({
     departments: [],
@@ -117,39 +121,77 @@ function ProgramList() {
     }
   }, [filterUpdate, dataFilter]);
 
+
+  // ============================================================
+  //                      Set Files Ids
+  // ============================================================
+  
+  useEffect(() => {
+    let ids = [];
+    allPrograms.forEach((category) => {
+      if (category.files.length > 0) {
+        category.files.forEach((file) => {
+          ids.push({ id: file.id });
+        });
+      }
+    });
+    setFilesIds(ids);
+  }, [allPrograms]);
+
+  useEffect(() => {
+    if (filesIds.length > 0) {
+      axios.post(`${config.JAVA_API_URL}/public/files`, filesIds)
+        .then((result) => {
+          if (result.data !== "" && result.status === 200) {
+            setfilesData(result.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [filesIds]);
+  // ============================================================
+  //                            End
+  // ============================================================
+
   function renderDesktopHeader() {
     return (<div className="d-flex justify-content-between align-items-center">
-    <div className="logo-wrapper">
-      <Link to="/">
-        <img src={logo} alt="logo" className="img img-fluid" />
-      </Link>
-      <div className="login-btn programheader-login">
-        <a href={oAuthUrl}>
-          <Button variant="btn-lg rounded-pill px-4">Login</Button>
-        </a>
-        <Link to="/signupnew">
-          <Button variant="btn-lg rounded-pill px-4 m-3 signup">
-            Sign up
-          </Button>
+      <div className="logo-wrapper">
+        <Link to="/">
+          <img src={logo} alt="logo" className="img img-fluid" />
         </Link>
+        <div className="login-btn programheader-login">
+          <a href={oAuthUrl}>
+            <Button variant="btn-lg rounded-pill px-4">Login</Button>
+          </a>
+          <Link to="/signupnew">
+            <Button variant="btn-lg rounded-pill px-4 m-3 signup">
+              Sign up
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
-  </div>
     )
   }
 
-
+  const getFileUrl = (programId:number) => {
+    const file = filesData.find((file) => file.id === programId);
+    return file ? file.url : ProgramDefaultImg;
+  };
+  
   return (
     <>
       <div className="programcataloguepage">
         <div className="landing-wrapper programlist-wrapper">
           <div className={`landing-header h-auto ${isLoggedIn ? "p-0" : ""}`}>
-            {isMobile ? ( isLoggedIn ? <MobileHeader/> : renderDesktopHeader()
+            {isMobile ? (isLoggedIn ? <MobileHeader /> : renderDesktopHeader()
             ) : (
-              isLoggedIn ?  
-              <div className="bg-white">
-                <Header />
-              </div> : renderDesktopHeader()
+              isLoggedIn ?
+                <div className="bg-white">
+                  <Header />
+                </div> : renderDesktopHeader()
             )}
             <div className={`${isLoggedIn ? "my-md-4 px-md-5" : "mt-5"} programlist-title`}>
               <PageTitle pageTitle={`Programs`} gobacklink="/" />
@@ -177,89 +219,85 @@ function ProgramList() {
                       <br />
                     </Container>
                   ) : (
-                  <>
-                    {allPrograms && allPrograms?.length === 0 ? (
-                      <>
-                        <Errordiv
-                          msg="No record found!"
-                          cstate
-                          className="mt-2"
-                        />
-                      </>
-                    ) : (
-                      // Condition when allPrograms is either undefined or has a length greater than 0
-                      <Row>
-                        {currentPosts.map((program: any) => (
-                          <Col key={program.id} xl={4} lg={4} sm={6}>
-                            <div className="course-container mb-4">
-                              <Link
-                                key={program.id}
-                                to={{ pathname: `/programsummary/${program.id}` }}
-                              >
-                                <div className="course-image">
-                                  <Image
-                                    src={
-                                      program.files && program.files.length > 0
-                                        ? program.files[0].url
-                                        : ProgramDefaultImg
-                                    }
-                                    alt={program.name}
-                                    fluid
-                                    rounded
-                                  />
-                                  <div className="course-keypoints">
-                    <div>
-                    <img src={CalenderIcon} alt="batch year" />
-                      <span> {program.batchYear}</span>
-                    </div>
-                    <div>
-                     <img src={CardIcon} alt="program code" />
-                      <span>{program.programCode}</span>
-                    </div>
-                    <div>
-                     <img src={BuildingIcon} alt="department" />
-                      <span> {program.department.name}</span>
-                    </div>
-                    <div>
-                    <img src={BookIcon} alt="study mode" />
-                      <span>{program.modeOfStudy}</span>
-                    </div>
-                    <div>
-                    <img src={CapIcon} alt="program type" />
-                      <span> {program.programType.name}</span>
-                    </div>
-                    <div>
-                    <img src={ClockIcon} alt="duration" />
-                      <span> {program.durationValue}{" "} {program.durationUnit}</span>
-                    </div>
-                  </div>
-                                </div>
-                                <div className="course-title">{program.name}</div>
-                              </Link>
-                            </div>
-                          </Col>
-                        ))}
-                      </Row>
-                    )}
-                  </>)}
+                    <>
+                      {allPrograms && allPrograms?.length === 0 ? (
+                        <>
+                          <Errordiv
+                            msg="No record found!"
+                            cstate
+                            className="mt-2"
+                          />
+                        </>
+                      ) : (
+                        // Condition when allPrograms is either undefined or has a length greater than 0
+                        <Row>
+                          {currentPosts.map((program: any) => (
+                            <Col key={program.id} xl={4} lg={4} sm={6}>
+                              <div className="course-container mb-4">
+                                <Link
+                                  key={program.id}
+                                  to={{ pathname: `/programsummary/${program.id}` }}
+                                >
+                                  <div className="course-image">
+                                    <Image
+                                      src={getFileUrl(program.files[0]?.id)}
+                                      alt={program.name}
+                                      fluid
+                                      rounded
+                                    />
+                                    <div className="course-keypoints">
+                                      <div>
+                                        <img src={CalenderIcon} alt="batch year" />
+                                        <span> {program.batchYear}</span>
+                                      </div>
+                                      <div>
+                                        <img src={CardIcon} alt="program code" />
+                                        <span>{program.programCode}</span>
+                                      </div>
+                                      <div>
+                                        <img src={BuildingIcon} alt="department" />
+                                        <span> {program.department.name}</span>
+                                      </div>
+                                      <div>
+                                        <img src={BookIcon} alt="study mode" />
+                                        <span>{program.modeOfStudy}</span>
+                                      </div>
+                                      <div>
+                                        <img src={CapIcon} alt="program type" />
+                                        <span> {program.programType.name}</span>
+                                      </div>
+                                      <div>
+                                        <img src={ClockIcon} alt="duration" />
+                                        <span> {program.durationValue}{" "} {program.durationUnit}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="course-title">{program.name}</div>
+                                </Link>
+                              </div>
+                            </Col>
+                          ))}
+                        </Row>
+                      )}
+                    </>)}
                 </Col>
               </Row>
             </div>
           </div>
         </div>
-      <div className="programlist-pagination">
-      <BuildPagination
-          totalpages={totalPages}
-          getrequestedpage={newPageRequest}
-          activepage={filterUpdate.pageNumber}
-          service="core"
-        />
-      </div>
+        <div className="programlist-pagination">
+          <BuildPagination
+            totalpages={totalPages}
+            getrequestedpage={newPageRequest}
+            activepage={filterUpdate.pageNumber}
+            service="core"
+          />
+        </div>
 
-          {isMobile ? (
-          isLoggedIn ? <MobileFooter/> : <Footer/>
+        {isMobile ? (
+          isLoggedIn ? <MobileFooter /> : <Footer />
         ) : (
-          isLoggedIn ? <Footer/> : <Footer/>
+          isLoggedIn ? <Footer /> : <Footer />
         )}
         {/* <div className="position-relative">
           <img src={bgLeft} className="left-cicle" alt="left-cicle" />
