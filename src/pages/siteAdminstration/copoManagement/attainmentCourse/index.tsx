@@ -8,6 +8,8 @@ type Props = {
   refreshTab: any;
   setActiveTab: any;
   tabRefreshToggle: any;
+  activeTab: any;
+
 };
 
 const AttainmentCourseOutcome = (props: Props) => {
@@ -39,7 +41,7 @@ const AttainmentCourseOutcome = (props: Props) => {
         console.log(err);
         setCourseAttainmentApiStatus("finished");
       });
-  }, [props.refreshTab]);
+  }, [props.refreshTab, props.activeTab==5]);
 
   return (
     <div>

@@ -77,12 +77,12 @@ const ViewTable = ({
   const averagesCsv = calculateAverages();
 
   // Function to download CSV of unuploaded users
-  const downloadUnuploadedUsersCSV = (data:any) => {
+  const downloadCourseOutcomeCSV = (data:any) => {
        // Define headers
     const headers = ["Course Outcome", ...outcomeNames.map((name) => `${name}`)];
 
     // Prepare rows for each course outcome
-    const rows = data.map((item) => {
+    const rows = data.map((item: { suffixValue: any; abbreviation: any; programOutcomeDtos: any[]; }) => {
       const suffixValue = item.suffixValue;
       const abbreviation = item.abbreviation;
       const courseOutcome = `${abbreviation}-${suffixValue}`;
@@ -107,12 +107,12 @@ const ViewTable = ({
     // Combine headers and rows
     const csvContent =
       "data:text/csv;charset=utf-8," +
-      [headers.join(","), ...rows.map(row => row.join(","))].join("\n");
+      [headers.join(","), ...rows.map((row: any[]) => row.join(","))].join("\n");
 
     // Create a link element
     const link = document.createElement("a");
     link.setAttribute("href", encodeURI(csvContent));
-    link.setAttribute("download", "unsuccessful_upload_data.csv");
+    link.setAttribute("download", "Course_outcome_report.csv");
 
     // Trigger the download
     document.body.appendChild(link);
@@ -125,7 +125,7 @@ const ViewTable = ({
       icon: "success",
       background: "#e7eef5",
       showConfirmButton: false,
-      text: "Unsuccessful upload user list CSV file downloaded!",
+      text: "Course outcome report CSV file downloaded!",
     });
   };
   
@@ -219,7 +219,7 @@ const ViewTable = ({
                   disabled={programOutcomes.length === 0}
                   btnText="Download"
                   onClick={() => {
-                    downloadUnuploadedUsersCSV(CsvAttainment);
+                    downloadCourseOutcomeCSV(CsvAttainment);
                   }}
                 />
               </div>

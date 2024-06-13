@@ -7,6 +7,7 @@ type Props = {
   setActiveTab: any;
   tabRefreshToggle:any
   refreshTab:any
+  activeTab: any
 };
 
 const ViewCOsPOsPSOs = (props: Props) => {
@@ -27,7 +28,7 @@ const ViewCOsPOsPSOs = (props: Props) => {
         console.log(err)
         setCourseoutcomeApiStatus("finished");
       });
-  }, [props.refreshTab]);
+  }, [props.refreshTab, props.activeTab == 6]);
 
   return (
     <>

@@ -7,6 +7,7 @@ type Props = {
   setActiveTab: any;
   refreshTab: boolean;
   tabRefreshToggle: any;
+  activeTab: any
 };
 
 const MappingCOsPOsPSOs = (props: Props) => {
@@ -143,7 +144,7 @@ const MappingCOsPOsPSOs = (props: Props) => {
         setProgramoutcomeApiStatus("finished");
         console.log(err);
       });
-  }, [props.refreshTab]);
+  }, [props.refreshTab, props.activeTab == 3]);
 
   return (
     <MappingTable
