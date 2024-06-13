@@ -23,7 +23,7 @@ const HeaderTabs = ({activeTab} : any) => {
         (state: any) => state.authenticatedUser.permissions.menu
     );
 
-    const handleShowModal = () => setShowModal(true);
+    const handleShowModal = () => setShowModal(false); //change it for coming soon modal
     const handleCloseModal = () => setShowModal(false);
 
     return(
@@ -53,7 +53,7 @@ const HeaderTabs = ({activeTab} : any) => {
                     (menuPermission.performance.canView || authenticatedUserPermission.performance.canView)
                     &&
                     <Nav.Item as="li" onClick={handleShowModal}>
-                        <Link to="" className={activeTab === 'performance' ? 'active-tab' : ''}>
+                        <Link to="/performance" className={activeTab === 'performance' ? 'active-tab' : ''}>
                             <img src={performanceIcon} alt="Performance" />
                             <span>Performance</span>
                         </Link>             
