@@ -1,0 +1,30 @@
+.performance-card{
+    padding: 16px;
+    box-shadow: 0 2px 6px 0 rgba(13, 10, 44, 0.08);
+    border: 2px solid #f4f4f4;
+    border-radius: 10px;
+    .cardtitle{
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #f0f0f0;
+        h6{
+            font-weight: 400;
+            color: gray;
+        }
+        h5{
+            margin-bottom: 0;
+            font-weight: 600;
+        }
+    }
+    .chartnextprev-btn {
+        display: flex;
+        gap: 10px;
+        button{
+            background: rgb(219, 219, 219);
+            outline: none;
+            border: none;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 1rem;
+        }
+    }
+}

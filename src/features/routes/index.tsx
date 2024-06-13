@@ -21,6 +21,7 @@ import ProgramManagementRoute from './siteAdminRoute/programManagementRoute';
 import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import HelpdeskManagementRoute from './siteAdminRoute/helpdeskManagementRoute';
+import Performance from '../../pages/siteAdminstration/performance';
 import PageNotFound from '../../pages/404';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
 // import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';    not in use
@@ -77,11 +78,13 @@ export default function NewCustomRoutes() {
             {TimetableManagementRoute()}
             {HelpdeskManagementRoute()}
           
+
           <Route path='/programoverview' element={<ProgramOverview />} />
           <Route path="/profile" key="profile" element={<UserProfile />} />
           <Route path="/dashboard" key="dashboard" element={<DashboardNew />} />
           <Route path="/attendance" key="attendance" element={<Attendance />} />
           <Route path="/editprofile" key="editprofile" element={<EditProfile />} />
+          <Route path="/performance" key="performance" element={<Performance />} />
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}
