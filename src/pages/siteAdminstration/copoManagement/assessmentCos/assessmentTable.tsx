@@ -19,6 +19,7 @@ import {
   OverlayTrigger,
   Tooltip as BsTooltip,
 } from "react-bootstrap";
+import { AnyObject } from "yup/lib/types";
 
 const AssessmentTable = ({
   apiStatus,
@@ -42,6 +43,24 @@ const AssessmentTable = ({
     status: false,
     msg: "",
   });
+
+  // ESE field validation === >>>
+  const validationSchema = Yup.object(
+    assessmentData.reduce(
+      (
+        acc: { [x: string]: Yup.NumberSchema<number | null | undefined, AnyObject, number | null | undefined>; },
+        assessment: { id: any; }
+      ) => {
+        acc[`eseMark_${assessment.id}`] = Yup.number()
+          .nullable()
+          .integer("Only integer values are allowed.")
+          .min(0, "Only non-negative values are allowed.")
+          .typeError("Only digits are allowed.");
+        return acc;
+      },
+      {}
+    )
+  );
 
   // set max lab columns === >>>
   useEffect(() => {
@@ -275,7 +294,7 @@ const AssessmentTable = ({
         .then((res: { data: string; status: number }) => {
           if (res.data !== "" && res.status === 200) {
             if (buttonClicked === "save") {
-              tabRefreshToggle()
+              tabRefreshToggle();
               Swal.fire({
                 timer: 3000,
                 width: "25em",
@@ -286,7 +305,7 @@ const AssessmentTable = ({
                 text: "Assessment for course outcomes (Direct) saved successfully.",
               });
             } else if (buttonClicked === "saveAndContinue") {
-              tabRefreshToggle()
+              tabRefreshToggle();
               Swal.fire({
                 timer: 3000,
                 width: "25em",
@@ -334,11 +353,12 @@ const AssessmentTable = ({
       )}
       <Formik
         initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={(values, action) => {
           handleFormSubmit(values, action);
         }}
       >
-        {({ handleChange }) => (
+        {({ handleChange, errors, touched, setFieldValue }) => (
           <Form>
             <Table borderless striped>
               <thead>
@@ -442,7 +462,8 @@ const AssessmentTable = ({
                             {Array.isArray(assessmentMoodleData) &&
                               assessmentMoodleData.map(
                                 (option: { coname: string; mod_quiz: any[] }) =>
-                                  option.coname !== "" && option.coname ===
+                                  option.coname !== "" &&
+                                  option.coname ===
                                     `${assessment.abbreviation}${assessment.suffixValue}` &&
                                   option.mod_quiz?.length > 0 &&
                                   option.mod_quiz.map((quiz) => {
@@ -456,20 +477,20 @@ const AssessmentTable = ({
                                     )?.[1];
                                     return (
                                       <>
-                                        {
-                                          quiz.cmid !== null && quiz.name !== null && 
-                                          <option
-                                            key={quiz.cmid}
-                                            value={quiz.cmid}
-                                            selected={
-                                              selectedValue == quiz.cmid
-                                                ? true
-                                                : false
-                                            }
-                                          >
-                                            {quiz.name}
-                                          </option>
-                                        }
+                                        {quiz.cmid !== null &&
+                                          quiz.name !== null && (
+                                            <option
+                                              key={quiz.cmid}
+                                              value={quiz.cmid}
+                                              selected={
+                                                selectedValue == quiz.cmid
+                                                  ? true
+                                                  : false
+                                              }
+                                            >
+                                              {quiz.name}
+                                            </option>
+                                          )}
                                       </>
                                     );
                                   })
@@ -513,20 +534,20 @@ const AssessmentTable = ({
                                     )?.[1];
                                     return (
                                       <>
-                                        {
-                                          assign.cmid !== null && assign.name !== null && 
-                                          <option
-                                            key={assign.cmid}
-                                            value={assign.cmid}
-                                            selected={
-                                              selectedValue == assign.cmid
-                                                ? true
-                                                : false
-                                            }
-                                          >
-                                            {assign.name}
-                                          </option>
-                                        }
+                                        {assign.cmid !== null &&
+                                          assign.name !== null && (
+                                            <option
+                                              key={assign.cmid}
+                                              value={assign.cmid}
+                                              selected={
+                                                selectedValue == assign.cmid
+                                                  ? true
+                                                  : false
+                                              }
+                                            >
+                                              {assign.name}
+                                            </option>
+                                          )}
                                       </>
                                     );
                                   })
@@ -548,6 +569,10 @@ const AssessmentTable = ({
                             }));
                           }}
                           value={initialValues[`eseMark_${assessment.id}`]}
+                        />
+                        <FieldErrorMessage
+                          errors={errors[`eseMark_${assessment.id}`]}
+                          touched={touched[`eseMark_${assessment.id}`]}
                         />
                       </td>
                       <td>{assessment.averageAssessmentDirect}</td>
