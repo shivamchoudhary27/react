@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 
 type Props = {
   setActiveTab: any;
-  tabRefreshToggle: any
+  tabRefreshToggle: any;
   courseAttainmentData: any;
   courseAttainmentApiStatus: string;
   courseAttainmentMoodleData: any;
@@ -54,6 +54,7 @@ const AttainmentTable = (props: Props) => {
           target: any;
           suffixValue: any;
           abbreviation: any;
+          attainmentLevel: any;
           averageAssessmentDirect: any;
         },
         index: any
@@ -63,6 +64,7 @@ const AttainmentTable = (props: Props) => {
           target: attainment.target,
           suffixValue: attainment.suffixValue,
           abbreviation: attainment.abbreviation,
+          attainmentLevel: attainment.attainmentLevel,
           averageAssessmentDirect: attainment.averageAssessmentDirect,
           feedbackIdNumber: initialValues[`feedback_${attainment.id}`],
         };
@@ -70,7 +72,7 @@ const AttainmentTable = (props: Props) => {
       }
     );
 
-    if(Object.keys(values).length != 0){
+    if (Object.keys(values).length != 0) {
       const submitAction =
         buttonClicked === "save"
           ? setIsSubmittingSave
@@ -80,7 +82,7 @@ const AttainmentTable = (props: Props) => {
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             if (buttonClicked === "save") {
-              props.tabRefreshToggle()
+              // props.tabRefreshToggle()
               Swal.fire({
                 timer: 3000,
                 width: "25em",
@@ -91,7 +93,7 @@ const AttainmentTable = (props: Props) => {
                 text: "Attainment of course outcomes saved successfully.",
               });
             } else if (buttonClicked === "saveAndContinue") {
-              props.tabRefreshToggle()
+              props.tabRefreshToggle();
               Swal.fire({
                 timer: 3000,
                 width: "25em",
@@ -119,7 +121,7 @@ const AttainmentTable = (props: Props) => {
             msg: err.message,
           });
         });
-    }else{
+    } else {
       if (buttonClicked === "saveAndContinue") {
         props.setActiveTab(6);
       }

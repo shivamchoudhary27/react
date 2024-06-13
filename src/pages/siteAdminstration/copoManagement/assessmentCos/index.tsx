@@ -8,6 +8,7 @@ type Props = {
   setActiveTab: any;
   tabRefreshToggle: any;
   refreshTab: any;
+  activeTab: any
 };
 
 const AssessmentForCOs = (props: Props) => {
@@ -55,7 +56,7 @@ const AssessmentForCOs = (props: Props) => {
         setApiStatus("finished");
         console.log(err);
       });
-  }, [props.refreshTab, refreshData]);
+  }, [props.refreshTab, refreshData, props.activeTab == 4]);
 
   // calculate highest LAB suffix value === >
   useEffect(() => {

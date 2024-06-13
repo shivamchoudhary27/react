@@ -43,6 +43,7 @@ const TabsList = (props: Props) => {
         <LevelThreshold
           setActiveTab={setActiveTab}
           tabRefreshToggle={tabRefreshToggle}
+          activeTab={activeTab}
           refreshTab={refreshTab}
         />
       ),
@@ -55,6 +56,7 @@ const TabsList = (props: Props) => {
           setActiveTab={setActiveTab}
           tabRefreshToggle={tabRefreshToggle}
           refreshTab={refreshTab}
+          activeTab={activeTab}
         />
       ),
     },
@@ -66,6 +68,7 @@ const TabsList = (props: Props) => {
           refreshTab={refreshTab}
           setActiveTab={setActiveTab}
           tabRefreshToggle={tabRefreshToggle}
+          activeTab={activeTab}
         />
       ),
     },
@@ -77,6 +80,7 @@ const TabsList = (props: Props) => {
           setActiveTab={setActiveTab}
           tabRefreshToggle={tabRefreshToggle}
           refreshTab={refreshTab}
+          activeTab={activeTab}
         />
       ),
     },
@@ -88,6 +92,7 @@ const TabsList = (props: Props) => {
           setActiveTab={setActiveTab}
           tabRefreshToggle={tabRefreshToggle}
           refreshTab={refreshTab}
+          activeTab={activeTab}
         />
       ),
     },
@@ -99,6 +104,7 @@ const TabsList = (props: Props) => {
           setActiveTab={setActiveTab}
           tabRefreshToggle={tabRefreshToggle}
           refreshTab={refreshTab}
+          activeTab={activeTab}
         />
       ),
     },

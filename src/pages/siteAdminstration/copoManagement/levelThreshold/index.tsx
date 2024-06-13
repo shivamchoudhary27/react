@@ -11,6 +11,7 @@ type Props = {
   setActiveTab: any;
   tabRefreshToggle:any
   refreshTab:any
+  activeTab: any
 };
 
 const LevelThreshold = (props: Props) => {
@@ -54,7 +55,7 @@ const LevelThreshold = (props: Props) => {
       .catch((err: any) => {
         console.log(err);
       });
-  }, [props.setActiveTab]);
+  }, [props.activeTab === 1]);
 
   useEffect(() => {
     setApiStatus("started");
@@ -72,7 +73,7 @@ const LevelThreshold = (props: Props) => {
           setCourseoutcomesApiCatchError({ status: true, msg: `${err.response.data.errorCode}: ${err.response.data.message}` });
         }
       });
-  }, [cid, refreshData]);
+  }, [cid, refreshData, props.activeTab == 1]);
 
   // Refresh api call on delete
   useEffect(() => {
