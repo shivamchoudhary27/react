@@ -32,7 +32,7 @@ const ViewTable = ({
     status: false,
     msg: "",
   });
-  
+
   const numberOfPOs = 12;
   const numberOfPSOs = 2;
 
@@ -43,20 +43,20 @@ const ViewTable = ({
       (_, index) => `PSO${index + 1}`
     ),
   ];
-  
+
   const averages = outcomeNames.map((name) => {
     const attainmentLevels = programOutcomes
-    .flatMap((item: { programOutcomeDtos: any }) => item.programOutcomeDtos)
-    .filter((dto: { name: string }) => dto.name === name)
-    .map((dto: { average: any }) => dto.average);
-    
+      .flatMap((item: { programOutcomeDtos: any }) => item.programOutcomeDtos)
+      .filter((dto: { name: string }) => dto.name === name)
+      .map((dto: { average: any }) => dto.average);
+
     const sum = attainmentLevels.reduce((acc: any, curr: any) => acc + curr, 0);
     return attainmentLevels.length > 0
-    ? (sum / attainmentLevels.length).toFixed(2)
-    : "";
+      ? (sum / attainmentLevels.length).toFixed(2)
+      : "";
   });
-  
-  const CsvAttainment = programOutcomes.map((item:any) => item);
+
+  const CsvAttainment = programOutcomes.map((item: any) => item);
 
   // Function to calculate averages
   const calculateAverages = () => {
@@ -66,7 +66,10 @@ const ViewTable = ({
         .filter((dto: { name: string }) => dto.name === name)
         .map((dto: { average: any }) => dto.average);
 
-      const sum = attainmentLevels.reduce((acc: any, curr: any) => acc + curr, 0);
+      const sum = attainmentLevels.reduce(
+        (acc: any, curr: any) => acc + curr,
+        0
+      );
       return attainmentLevels.length > 0
         ? (sum / attainmentLevels.length).toFixed(2)
         : "";
@@ -77,37 +80,53 @@ const ViewTable = ({
   const averagesCsv = calculateAverages();
 
   // Function to download CSV of unuploaded users
-  const downloadCourseOutcomeCSV = (data:any) => {
-       // Define headers
-    const headers = ["Course Outcome", ...outcomeNames.map((name) => `${name}`)];
+  const downloadCourseOutcomeCSV = (data: any) => {
+    // Define headers
+    const headers = [
+      "Course Outcome",
+      ...outcomeNames.map((name) => `${name}`),
+    ];
 
     // Prepare rows for each course outcome
-    const rows = data.map((item: { suffixValue: any; abbreviation: any; programOutcomeDtos: any[]; }) => {
-      const suffixValue = item.suffixValue;
-      const abbreviation = item.abbreviation;
-      const courseOutcome = `${abbreviation}-${suffixValue}`;
+    const rows = data.map(
+      (item: {
+        suffixValue: any;
+        abbreviation: any;
+        programOutcomeDtos: any[];
+      }) => {
+        const suffixValue = item.suffixValue;
+        const abbreviation = item.abbreviation;
+        const courseOutcome = `${abbreviation}-${suffixValue}`;
 
-      // Create a map of outcome names to their attainment levels
-      const outcomeMap = item.programOutcomeDtos.reduce((acc, outcome) => {
-        acc[outcome.name] = outcome.attainmentlevel;
-        return acc;
-      }, {});
+        // Create a map of outcome names to their attainment levels
+        const outcomeMap = item.programOutcomeDtos.reduce((acc, outcome) => {
+          acc[outcome.name] = outcome.attainmentlevel;
+          return acc;
+        }, {});
 
-      // Prepare the row for the course outcome
-      return [
-        courseOutcome,
-        ...outcomeNames.map((name) => (outcomeMap[name] != null ? outcomeMap[name] : "-")),
-      ];
-    });
+        // Prepare the row for the course outcome
+        return [
+          courseOutcome,
+          ...outcomeNames.map((name) =>
+            outcomeMap[name] != null ? outcomeMap[name] : "-"
+          ),
+        ];
+      }
+    );
 
     // Add the averages row
-    const averageRow = ["Average", ...averagesCsv.map((avg) => (avg !== "" ? avg : "-"))];
+    const averageRow = [
+      "Average",
+      ...averagesCsv.map((avg) => (avg !== "" ? avg : "-")),
+    ];
     rows.push(averageRow);
 
     // Combine headers and rows
     const csvContent =
       "data:text/csv;charset=utf-8," +
-      [headers.join(","), ...rows.map((row: any[]) => row.join(","))].join("\n");
+      [headers.join(","), ...rows.map((row: any[]) => row.join(","))].join(
+        "\n"
+      );
 
     // Create a link element
     const link = document.createElement("a");
@@ -128,7 +147,7 @@ const ViewTable = ({
       text: "Course outcome report CSV file downloaded!",
     });
   };
-  
+
   return (
     <>
       {reachMaxColumnMsg.status && (
@@ -158,7 +177,7 @@ const ViewTable = ({
             // handleSubmit(values, action);
           }}
         >
-          {({ isSubmitting, handleChange }) => (
+          {({}) => (
             <Form>
               <div className="table-responsive admin-table-wrapper copo-table mt-3">
                 <Table borderless striped className="attandence-table">
@@ -186,7 +205,10 @@ const ViewTable = ({
                             );
                             return (
                               <td key={`${item.id}-${name}`}>
-                                {attainment ? attainment.attainmentlevel : "-"}
+                                {attainment !== undefined &&
+                                attainment.attainmentlevel !== null
+                                  ? `${attainment.attainmentlevel}/${attainment.requiredattainmentlevel}`
+                                  : "-"}
                               </td>
                             );
                           })}
@@ -197,7 +219,9 @@ const ViewTable = ({
                       <tr>
                         <td>Average</td>
                         {averages.map((average, index) => (
-                          <td key={index}>{average ? average : "-"}</td>
+                          <td key={index}>
+                            {average !== "" ? average : "0.00"}
+                          </td>
                         ))}
                       </tr>
                     )}
