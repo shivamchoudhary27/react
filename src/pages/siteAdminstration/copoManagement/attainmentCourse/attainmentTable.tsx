@@ -82,7 +82,7 @@ const AttainmentTable = (props: Props) => {
         .then((res: any) => {
           if (res.data !== "" && res.status === 200) {
             if (buttonClicked === "save") {
-              // props.tabRefreshToggle()
+              props.tabRefreshToggle()
               Swal.fire({
                 timer: 3000,
                 width: "25em",
