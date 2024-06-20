@@ -1,54 +1,68 @@
 import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
+  { name: 'Activity 1', value: 1200 },
+  { name: 'Activity 2', value: 3450 },
+  { name: 'Activity 3', value: 2000 },
+  { name: 'Activity 4', value: 1500 },
+  { name: 'Activity 5', value: 1000 },
 ];
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const COLORS = ['#7DAFE0', '#0A68C5', '#c2ddf7', '#b3cfea', '#e1eefb'];
 
 const MostVisitedActivity = () => {
-  const onPieEnter = (data, index) => {
-    // Example: console log the data of the hovered pie segment
-    console.log('Hovered over:', data[index]);
-  };
-
-  const onPieLeave = () => {
-    // Example: handle pie leave event
-    console.log('Mouse leave');
-  };
-
   return (
-    <>
-    <div style={{"width":"100%", "height":300}}>
-    <ResponsiveContainer >
-
-    <PieChart>
-      <Pie
-        data={data}
-        cx={320}
-        cy={260}
-        startAngle={180}
-        endAngle={0}
-        innerRadius={90}
-        outerRadius={150}
-        fill="#8884d8"
-        paddingAngle={5}
-        dataKey="value"
-        onMouseEnter={onPieEnter}
-        onMouseLeave={onPieLeave}
-        >
+    <div>
+      <div className='mt-3 d-flex justify-content-center gap-3 flex-wrap'>
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-      </Pie>
-    </PieChart>
-          </ResponsiveContainer>
+          <div key={`item-${index}`}>
+            <span
+              style={{
+                backgroundColor: COLORS[index]
+              }}
+              className='d-inline-block rounded-circle chart-legend'
+            />
+            {entry.name}
+          </div>
+        ))}
+      </div>
+      <ResponsiveContainer width="100%" height={400}>
+        <PieChart>
+          <Pie
+            data={data}
+            cx="50%"
+            cy="65%"
+            innerRadius="60%"
+            outerRadius="100%"
+            startAngle={180}
+            endAngle={0}
+            dataKey="value"
+            labelLine={false}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index]} />
+            ))}
+          </Pie>
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={{ fill: 'transparent' }}
+          />
+        </PieChart>
+      </ResponsiveContainer>
     </div>
-          </>
   );
+};
+
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="chart-tooltip">
+        <div>{`${payload[0].name}: ${payload[0].value}`}</div>
+      </div>
+    );
+  }
+  return null;
 };
 
 export default MostVisitedActivity;

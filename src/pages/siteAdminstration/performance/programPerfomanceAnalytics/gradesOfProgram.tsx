@@ -1,70 +1,79 @@
 import React from 'react';
-import { RadialBarChart, RadialBar, Legend, ResponsiveContainer } from 'recharts';
+import { RadialBarChart, RadialBar, ResponsiveContainer, Sector } from 'recharts';
 
 const data = [
   {
-    name: '18-24',
+    name: 'Program 1',
     uv: 31.47,
     pv: 2400,
-    fill: '#8884d8',
+    fill: '#7DAFE0',
   },
   {
-    name: '25-29',
+    name: 'Program 2',
     uv: 26.69,
     pv: 4567,
-    fill: '#83a6ed',
+    fill: '#458CD3',
   },
   {
-    name: '30-34',
+    name: 'Program 3',
     uv: 15.69,
     pv: 1398,
-    fill: '#8dd1e1',
+    fill: '#0A68C5',
   },
-  
 ];
 
-const style = {
-  top: '60%',
-  right: 90,
-  transform: 'translate(0, -50%)',
-  lineHeight: '34px',
-  fontSize: '30px'
+const renderCustomShape = (props) => {
+  const { cx, cy, startAngle, endAngle, innerRadius, outerRadius, fill } = props;
+  return (
+    <Sector
+      cx={cx}
+      cy={cy}
+      innerRadius={innerRadius}
+      outerRadius={outerRadius}
+      startAngle={startAngle}
+      endAngle={endAngle}
+      fill={fill}
+      cornerRadius={10}
+    />
+  );
 };
 
 const GradesOfProgram = () => {
   return (
-    <div style={{"width":"100%", "height":300}}>
-         <div style={{
-      position: 'absolute',
-      top:'40%',
-      left: '60%',
-      transform: 'translate(0%, -50%)',
-      textAlign: 'left',
-      fontSize: '22px'
-    }}>
-          Overall Average Grade <br /> <b>35.23%</b>
+    <div className='averagegrades-wrapper'>
+      <div className='averagegrades-legend'>
+        <div className="mb-4">
+          <div className='legend-lable'>Overall Average Grade</div>
+          <b className='average-grades'>35.23%</b>
         </div>
-      <ResponsiveContainer  >
+        {data.map((entry, index) => (
+          <div key={index} className='d-flex mb-2 gap-3 align-items-center'>
+            <div className="p-1 rounded-circle grade-color" style={{ backgroundColor: entry.fill }}></div>
+            <label className="programname">{entry.name}</label>
+            <div className="percentage">{entry.uv}%</div>
+          </div>
+        ))}
+      </div>
+      <ResponsiveContainer width="100%" height={300}>
         <RadialBarChart
           cx="30%"
           cy="50%"
           innerRadius="40%"
           outerRadius="100%"
-          barSize={20}
+          barSize={10}
           data={data}
-          >
+        >
           <RadialBar
             minAngle={15}
-            label={{ position: 'insideStart', fill: '#fff' }}
             background
             clockWise
             dataKey="uv"
-            />
-          <Legend iconSize={10} layout="vertical" verticalAlign="middle" wrapperStyle={style} />
+            shape={renderCustomShape}
+          />
         </RadialBarChart>
       </ResponsiveContainer>
     </div>
   );
-}
+};
 
 export default GradesOfProgram;

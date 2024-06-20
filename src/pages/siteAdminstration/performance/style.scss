@@ -1,8 +1,9 @@
 .performance-card{
     padding: 16px;
     box-shadow: 0 2px 6px 0 rgba(13, 10, 44, 0.08);
-    border: 2px solid #f4f4f4;
+    border: 1px solid #f4f4f4;
     border-radius: 10px;
+    max-height: 26rem;
     .cardtitle{
         padding-bottom: 1rem;
         border-bottom: 2px solid #f0f0f0;
@@ -19,7 +20,7 @@
         display: flex;
         gap: 10px;
         button{
-            background: rgb(219, 219, 219);
+            background: #F3F3F3;
             outline: none;
             border: none;
             width: 2.2rem;
@@ -27,4 +28,87 @@
             border-radius: 1rem;
         }
     }
+}
+
+// minicommon card / Instance Stats
+
+.instancestat-wrapper{
+    .card{
+        border-radius: 1rem;
+        background-color: #EBF3FB;
+        border: none;
+        .card-body{
+            padding: 15px;
+        }
+    }
+    .stat-icon{
+        background: white;
+        color: #0963bb;
+        font-size: 2.4rem;
+        height: 4rem;
+        width: 4rem;
+        text-align: center;
+    }
+    .stat-values {
+        span {
+            font-size: 24px;
+            font-weight: 600;
+         }
+         label{
+            font-weight: 400;
+         }
+    }
+}
+
+//popularprogram table
+
+.popularprogram-table{
+    table{
+        border: none;
+        background: none;
+        thead tr {
+            background: none;
+            th {
+                text-shadow: none;
+                color: #000;
+            }
+        }
+        td{
+            padding: 14px 0px;
+        }
+    }
+}
+
+// Average Grades of Program
+
+.averagegrades-wrapper{
+     .averagegrades-legend {
+        position: absolute;
+        top: 40%;
+        left: 60%;
+        .legend-lable {
+            font-weight: 400;
+            color: gray;
+        }
+        .average-grades{
+            font-weight: 600;
+            font-size: 26px;
+        }
+    }
+    .grade-color{
+        height:10px;
+        width:10px;
+    }
+}
+
+// most visited activity
+.chart-tooltip{
+    background: #ffffff;
+    padding: 5px;
+    border: 1px solid #ccc;
+}
+.chart-legend{
+    width:10px;
+    height:10px;
+    margin-right:5px;
 }

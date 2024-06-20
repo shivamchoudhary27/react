@@ -22,6 +22,7 @@ import ProgramEnrollmentRoute from './siteAdminRoute/programEnrollmentRoute';
 import CalenderManagementRoute from './siteAdminRoute/calenderManagementRoute';
 import HelpdeskManagementRoute from './siteAdminRoute/helpdeskManagementRoute';
 import Performance from '../../pages/siteAdminstration/performance';
+import Performancev2 from '../../pages/siteAdminstration/performance/teacher';
 import PageNotFound from '../../pages/404';
 import TeacherGradebook from '../../pages/teacherDashboard/gradebook/teacherGradebook';
 // import SelectedStudentGrade from '../../pages/teacherDashboard/gradebook/selectedStudent';    not in use
@@ -85,6 +86,7 @@ export default function NewCustomRoutes() {
           <Route path="/attendance" key="attendance" element={<Attendance />} />
           <Route path="/editprofile" key="editprofile" element={<EditProfile />} />
           <Route path="/performance" key="performance" element={<Performance />} />
+          <Route path="/performance2" key="performance" element={<Performancev2 />} />  {/* change this  */}
 
             {/* {StudentDashRoutes()} */}
             {/* {TeacherDashRoutes()} */}

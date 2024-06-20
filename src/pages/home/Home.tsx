@@ -93,7 +93,7 @@ return (
               Teaching Resources Planner Management{" "}
             </Col>
             <Col xs={12} md={4}>
-              NAAC Compliances
+              NAAC Compliance
             </Col>
             <Col xs={12} md={4}>
               Personal Learning Paths

@@ -217,7 +217,7 @@ const TeacherHelpdeskTable = (props: Props) => {
               )
             }
           >
-            {row.original.status !== "close" && "Reply"}
+            {row.original.status !== "Close" && "Reply"}
           </Link>
         );
       },
@@ -299,7 +299,7 @@ const TeacherHelpdeskTable = (props: Props) => {
               return (
                 <tr {...row.getRowProps()} key={index}>
                   {row.cells.map((cell, index) => (
-                    <td {...cell.getCellProps()} key={index}>
+                    <td {...cell.getCellProps()} key={index} className="text-titlecase">
                       {cell.render("Cell")}
                     </td>
                   ))}
