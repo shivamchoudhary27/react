@@ -458,7 +458,7 @@ const AssessmentTable = ({
                               }));
                             }}
                           >
-                            <option value="Select">Select</option>
+                            <option value={0}>Select</option>
                             {Array.isArray(assessmentMoodleData) &&
                               assessmentMoodleData.map(
                                 (option: { coname: string; mod_quiz: any[] }) =>
@@ -513,7 +513,7 @@ const AssessmentTable = ({
                               }));
                             }}
                           >
-                            <option value="Select">Select</option>
+                            <option value={0}>Select</option>
                             {Array.isArray(assessmentMoodleData) &&
                               assessmentMoodleData.map(
                                 (option: {

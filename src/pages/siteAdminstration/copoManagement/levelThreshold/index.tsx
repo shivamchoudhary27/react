@@ -55,7 +55,7 @@ const LevelThreshold = (props: Props) => {
       .catch((err: any) => {
         console.log(err);
       });
-  }, [props.activeTab === 1]);
+  }, [props.activeTab === "1"]);
 
   useEffect(() => {
     setApiStatus("started");

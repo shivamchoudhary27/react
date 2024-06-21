@@ -268,62 +268,57 @@ const LevelThreshold2Table = ({
                               value={initialValues[`level_0_Target_${item.id}`]}
                             />
 
-                            <Button variant="primary">
-                              <i
-                                className="fa-solid fa-plus"
-                                onClick={() => {
-                                  // set increment value for 0 level field === >>>
-                                  initialValues[`level_0_Target_${item.id}`] <
-                                    initialValues[
-                                      `level_1_max_Target_${item.id}`
-                                    ] -
-                                      1 &&
-                                    setInitialValue((prevState: any) => ({
-                                      ...prevState,
-                                      [`level_0_Target_${item.id}`]: parseInt(
-                                        initialValues[
-                                          `level_0_Target_${item.id}`
-                                        ] + 1
-                                      ),
-                                    }));
-
-                                  // set increment value for 0 level parallel field level 1 min === >>>
-                                  initialValues[
-                                    `level_1_min_Target_${item.id}`
-                                  ] <
-                                    initialValues[
-                                      `level_1_max_Target_${item.id}`
-                                    ] -
-                                      1 &&
-                                    setInitialValue((prevState: any) => ({
-                                      ...prevState,
-                                      [`level_1_min_Target_${item.id}`]:
-                                        parseInt(
-                                          initialValues[
-                                            `level_1_min_Target_${item.id}`
-                                          ] + 1
-                                        ),
-                                    }));
-
-                                  // set alert message on max increment === >>>
-                                  initialValues[`level_0_Target_${item.id}`] >=
+                            <Button
+                              variant="primary"
+                              onClick={() => {
+                                // set increment value for 0 level field === >>>
+                                initialValues[`level_0_Target_${item.id}`] <
                                   initialValues[
                                     `level_1_max_Target_${item.id}`
                                   ] -
-                                    1
-                                    ? // alert(
-                                      //   "Level 0 value must be less than Level 1 max value"
-                                      // );
-                                      setAlertErrorMsg({
-                                        status: true,
-                                        msg: "Level 0 above value must be less than Level 1 below value",
-                                      })
-                                    : setAlertErrorMsg({
-                                        status: false,
-                                        msg: "",
-                                      });
-                                }}
-                              ></i>
+                                    1 &&
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_0_Target_${item.id}`]: parseInt(
+                                      initialValues[
+                                        `level_0_Target_${item.id}`
+                                      ] + 1
+                                    ),
+                                  }));
+
+                                // set increment value for 0 level parallel field level 1 min === >>>
+                                initialValues[`level_1_min_Target_${item.id}`] <
+                                  initialValues[
+                                    `level_1_max_Target_${item.id}`
+                                  ] -
+                                    1 &&
+                                  setInitialValue((prevState: any) => ({
+                                    ...prevState,
+                                    [`level_1_min_Target_${item.id}`]: parseInt(
+                                      initialValues[
+                                        `level_1_min_Target_${item.id}`
+                                      ] + 1
+                                    ),
+                                  }));
+
+                                // set alert message on max increment === >>>
+                                initialValues[`level_0_Target_${item.id}`] >=
+                                initialValues[`level_1_max_Target_${item.id}`] -
+                                  1
+                                  ? // alert(
+                                    //   "Level 0 value must be less than Level 1 max value"
+                                    // );
+                                    setAlertErrorMsg({
+                                      status: true,
+                                      msg: "Level 0 above value must be less than Level 1 below value",
+                                    })
+                                  : setAlertErrorMsg({
+                                      status: false,
+                                      msg: "",
+                                    });
+                              }}
+                            >
+                              <i className="fa-solid fa-plus"></i>
                             </Button>
                           </ButtonGroup>
                           <FieldErrorMessage
