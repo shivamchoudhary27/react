@@ -22,7 +22,7 @@ type Props = {
   cosAbbreviation: any;
   refreshToggle: any;
   outcomeObj: any;
-  tabRefreshToggle: any
+  tabRefreshToggle: any;
 };
 
 // Formik Yup validation === >>>
@@ -76,15 +76,34 @@ const AddCosModal = (props: Props) => {
           action.resetForm();
         })
         .catch((error: any) => {
+          console.log(error);
           action.setSubmitting(false);
-          setShowAlert(true);
-          setAlertMsg({
-            message: error.response.data.message,
-            alertBoxColor: "danger",
-          });
+          if (error.response.status === 400) {
+            if (
+              error.response.data.target !== "" && error.response.data.target !== undefined &&
+              error.response.data.suffixValue !== "" && error.response.data.suffixValue !== undefined
+            ) {
+              setShowAlert(true);
+              setAlertMsg({
+                message: `${error.response.data.suffixValue} and ${error.response.data.target}`,
+                alertBoxColor: "danger",
+              });
+            } else if (error.response.data.target !== "" && error.response.data.target !== undefined) {
+              setShowAlert(true);
+              setAlertMsg({
+                message: error.response.data.target,
+                alertBoxColor: "danger",
+              });
+            } else if (error.response.data.suffixValue !== "" && error.response.data.suffixValue !== undefined) {
+              setShowAlert(true);
+              setAlertMsg({
+                message: error.response.data.suffixValue,
+                alertBoxColor: "danger",
+              });
+            }
+          }
         });
     } else {
-      console.log(values);
       let newValues = {
         ...values,
         id: props.outcomeObj.id,
@@ -104,7 +123,7 @@ const AddCosModal = (props: Props) => {
               showConfirmButton: false,
               text: "Course outcome updated successfully",
             });
-            props.tabRefreshToggle()
+            props.tabRefreshToggle();
           }
           // Reset the form after a successful submission
           action.resetForm();
@@ -145,7 +164,9 @@ const AddCosModal = (props: Props) => {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            {props.outcomeObj.id === 0 ? capitalizeFirstWords("Add CO's") : capitalizeFirstWords("Update CO's")}
+            {props.outcomeObj.id === 0
+              ? capitalizeFirstWords("Add CO's")
+              : capitalizeFirstWords("Update CO's")}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -166,13 +187,16 @@ const AddCosModal = (props: Props) => {
             {({ isSubmitting, errors, touched }) => (
               <Form>
                 <div className="mb-3">
-                <FieldLabel
+                  <FieldLabel
                     htmlfor="suffixValue"
                     labelText="Suffix Value"
                     required="required"
                     star="*"
                   />
-                  <label htmlFor="" className="d-flex programModalInput align-items-center gap-2">
+                  <label
+                    htmlFor=""
+                    className="d-flex programModalInput align-items-center gap-2"
+                  >
                     {props.cosAbbreviation !== undefined &&
                       props.cosAbbreviation}
                     <Field
